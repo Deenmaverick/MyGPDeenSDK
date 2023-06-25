@@ -59,7 +59,7 @@ object Deen {
         {
             val intent =
                 Intent(context, MainActivity::class.java)
-            intent.putExtra("destination",R.id.action_blankFragment_to_dashboardFragment)
+            intent.putExtra("destination",R.id.dashboardFragment)
             context.startActivity(intent)
         }
         else

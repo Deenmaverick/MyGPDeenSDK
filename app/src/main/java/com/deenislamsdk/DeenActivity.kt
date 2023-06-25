@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatButton
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.DeenAuthCallback
 
-class MainActivity : AppCompatActivity(),DeenAuthCallback {
+class DeenActivity : AppCompatActivity(),DeenAuthCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(),DeenAuthCallback {
         authBtn.setOnClickListener {
 
             if(msisdn.text.isNotEmpty()){
-                Deen.authDeen(this,msisdn.text.toString(),this@MainActivity)
+                Deen.authDeen(this,msisdn.text.toString(),this@DeenActivity)
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }
