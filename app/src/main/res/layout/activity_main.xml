@@ -19,6 +19,21 @@
         android:text="Authentication"
         android:textColor="@color/black" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/white"
+        android:text="Home"
+        android:textColor="@color/black" />
+
+
 
     <EditText
         android:id="@+id/phone_number"

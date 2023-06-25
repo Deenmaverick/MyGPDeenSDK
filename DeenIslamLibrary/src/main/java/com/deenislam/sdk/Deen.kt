@@ -1,10 +1,12 @@
 package com.deenislam.sdk
 
 import android.content.Context
+import android.content.Intent
 import androidx.annotation.Keep
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.repository.AuthenticateRepository
+import com.deenislam.sdk.views.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,9 +25,10 @@ object Deen {
     var token: String? = null
 
     @JvmStatic
-    fun authDeen(context: Context,msisdn:String)
+    fun authDeen(context: Context, msisdn:String, callback: DeenAuthCallback? = null)
     {
-        appContext = context
+        this.appContext = context
+        this.CallBackListener = callback
 
         scope.launch {
 
@@ -47,6 +50,21 @@ object Deen {
             }
 
         }
+    }
+
+    @JvmStatic
+    fun openDeen(context: Context)
+    {
+        if(token!=null)
+        {
+            val intent =
+                Intent(context, MainActivity::class.java)
+            intent.putExtra("destination",R.id.action_blankFragment_to_dashboardFragment)
+            context.startActivity(intent)
+        }
+        else
+            CallBackListener?.onAuthFailed()
+
     }
 
 }

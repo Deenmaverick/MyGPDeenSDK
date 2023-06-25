@@ -20,7 +20,6 @@ import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
@@ -36,11 +35,9 @@ import com.deenislam.sdk.views.more.MoreFragment
 import com.deenislam.sdk.views.prayertimes.PrayerTimesFragment
 import com.deenislam.sdk.views.quran.QuranFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
-class MainActivity : AppCompatActivity() {
+internal class MainActivity : AppCompatActivity() {
 
     private lateinit var navHostFragment:NavHostFragment
     private lateinit var navController:NavController

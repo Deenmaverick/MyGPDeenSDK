@@ -70,13 +70,15 @@ class AuthenticateRepository(
         val response = login(msisdn)
 
         val data = userPrefDao?.select()
-        if(data?.get(0) == null)
+        if(data == null)
         {
-            val data = UserPref(
-                language = "en",
-                location_setting = true
+
+            userPrefDao?.insert(
+                UserPref(
+                    language = "en",
+                    location_setting = true
+                )
             )
-            userPrefDao?.insert(data)
         }
 
         return processLoginResponse(response,msisdn)

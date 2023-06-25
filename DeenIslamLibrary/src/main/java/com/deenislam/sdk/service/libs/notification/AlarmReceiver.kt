@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.AssetFileDescriptor
 import android.media.AudioAttributes
+import android.media.AudioManager
 import android.media.MediaPlayer
+import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.deenislam.sdk.R
@@ -150,12 +152,19 @@ class AlarmReceiver : BroadcastReceiver() {
                 assetFileDescriptor.length
             )
         }
-       /* mMediaPlayer?.setAudioAttributes(
-            AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ALARM)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-        )*/
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mMediaPlayer?.setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build()
+            )
+        }
+        else
+            mMediaPlayer?.setAudioStreamType(AudioManager.STREAM_ALARM)
+
+
         mMediaPlayer?.prepare()
         mMediaPlayer?.setOnPreparedListener {
             it?.start()
