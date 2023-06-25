@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_8"
+    android:layout_marginBottom="1dp"
+    android:layout_marginStart="1dp"
+    android:layout_marginEnd="1dp"
+    app:cardCornerRadius="@dimen/space_8"
+    app:cardElevation="1dp"
+    style="@style/Widget.Material3.CardView.Elevated"
+    app:cardBackgroundColor="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/leftBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_15.5"
+            android:layout_marginBottom="@dimen/space_15.5"
+            android:layout_marginStart="@dimen/space_9"
+            android:layout_marginEnd="@dimen/space_19"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/prayerCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:button="@drawable/radio_button"
+                android:minHeight="0dp"
+                android:clickable="false"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/disableRadio"
+                android:visibility="gone"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/disable_radio"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/redDisableRadio"
+                android:visibility="gone"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/red_corss_radio"/>
+        </FrameLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/prayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintStart_toEndOf="@+id/leftBtn"
+            app:layout_constraintTop_toTopOf="@id/leftBtn"
+            app:layout_constraintBottom_toBottomOf="@id/leftBtn"
+            android:layout_marginStart="@dimen/space_8"
+            android:textColor="@color/txt_black"
+            android:text="Fajr"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/rightBtn"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_notifications_off"
+            android:layout_marginEnd="@dimen/space_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/leftBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/leftBtn"/>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/space_8"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintEnd_toStartOf="@+id/rightBtn"
+            app:layout_constraintTop_toTopOf="@id/rightBtn"
+            app:layout_constraintBottom_toBottomOf="@id/rightBtn"
+            android:textColor="@color/txt_ash"
+            android:text="0:00 - 0:00 AM"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icSun"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_sunset_fill"
+            app:layout_constraintStart_toEndOf="@+id/leftBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rightBtn"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

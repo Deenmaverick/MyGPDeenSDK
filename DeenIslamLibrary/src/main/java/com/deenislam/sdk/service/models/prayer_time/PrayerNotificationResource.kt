@@ -1,0 +1,14 @@
+package com.deenislam.sdk.service.models.prayer_time
+
+import com.deenislam.sdk.service.database.entity.PrayerNotification
+import java.util.ArrayList
+
+ interface PrayerNotificationResource
+{
+    data class notificationData(val data: PrayerNotification?): PrayerNotificationResource
+    data class setNotification(val value: Int,val data: ArrayList<PrayerNotification>):
+        PrayerNotificationResource
+    data class dateWiseNotificationData(val data: ArrayList<PrayerNotification>):
+        PrayerNotificationResource
+
+}

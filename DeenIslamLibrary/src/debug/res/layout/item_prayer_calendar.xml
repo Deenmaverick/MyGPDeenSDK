@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/itemlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DATE"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_8"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtfajr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="FAJR"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtdhuhr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DHUHR"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtasr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ASR"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtmaghrib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MAGHRIB"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtisha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ISHA"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_8"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/itemlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DATE"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_8"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fajr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="FAJR"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dhuhr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DHUHR"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/asr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ASR"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/maghrib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MAGHRIB"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/isha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ISHA"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginBottom="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_8"
+            android:textAppearance="@style/TextAppearance.font10"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

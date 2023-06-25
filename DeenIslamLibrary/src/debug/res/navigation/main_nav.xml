@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/blankFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.deenislam.sdk.views.dashboard.DashboardFragment"
+        android:label="DashboardFragment"/>
+    <fragment
+        android:id="@+id/quranFragment"
+        android:name="com.deenislam.sdk.views.quran.QuranFragment"
+        android:label="fragment_quran"
+        tools:layout="@layout/fragment_quran" />
+    <fragment
+        android:id="@+id/prayerTimesFragment"
+        android:name="com.deenislam.sdk.views.prayertimes.PrayerTimesFragment"
+        android:label="fragment_prayer_times"
+        tools:layout="@layout/fragment_prayer_times" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.deenislam.sdk.views.more.MoreFragment"
+        android:label="fragment_more"
+        tools:layout="@layout/fragment_more" />
+    <fragment
+        android:id="@+id/prayerCalendarFragment"
+        android:name="com.deenislam.sdk.views.prayertimes.PrayerCalendarFragment"
+        android:label="PrayerCalendarFragment" />
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="com.deenislam.sdk.views.start.BlankFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" >
+        <action
+            android:id="@+id/action_blankFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quranFavoriteFragment"
+        android:name="com.deenislam.sdk.views.quran.QuranFavoriteFragment"
+        android:label="fragment_quran_favorite"
+        tools:layout="@layout/fragment_quran_favorite" />
+    <fragment
+        android:id="@+id/tasbeehFragment"
+        android:name="com.deenislam.sdk.views.tasbeeh.TasbeehFragment"
+        android:label="fragment_tasbeeh"
+        tools:layout="@layout/fragment_tasbeeh" />
+    <fragment
+        android:id="@+id/alQuranFragment"
+        android:name="com.deenislam.sdk.views.quran.AlQuranFragment"
+        android:label="fragment_al_quran"
+        tools:layout="@layout/fragment_al_quran" >
+        <argument
+            android:name="surah"
+            app:argType="com.deenislam.sdk.service.network.response.quran.SurahListData" />
+    </fragment>
+
+</navigation>

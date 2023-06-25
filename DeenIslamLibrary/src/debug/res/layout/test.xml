@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".views.login.LoginFragment">
+
+    <com.deenislam.sdk.utils.HalfGaugeView
+        android:id="@+id/widget"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="228dp"
+        android:layout_height="228dp"/>
+
+
+</LinearLayout>

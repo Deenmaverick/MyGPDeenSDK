@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Deen Islam</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="oboarding_next">Next</string>
+    <string name="onboarding_arabic_lang">العربية</string>
+    <string name="oboarding_bangla_lang">বাংলা</string>
+    <string name="oboarding_location_txt">Location: Off</string>
+    <string name="onboarding_location_hint">Turn on location to get accurate information</string>
+    <string name="onboarding_location_titile">Location</string>
+    <string name="onboarding_language_title">Language (ভাষা)</string>
+    <string name="onboarding_language_select_hint">Select preferred language</string>
+    <string name="english">English</string>
+    <string name="bangla">বাংলা</string>
+    <string name="arabic">العربية</string>
+    <string name="select_location_option_name_onboarding">Select location</string>
+    <string name="favorite_features_title">Favorite Features</string>
+    <string name="onboarding_fav_menu_hint">Choose the favorite feature</string>
+    <string name="login_welcome_txt">Welcome to \n<b>Deen Islam</b></string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="remember">Remember</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="privacy_policy_txt_login"><![CDATA[T&C • Privacy policy]]></string>
+    <string name="assalamu_alaikum">Assalamu Alaikum</string>
+    <string name="sign_in_to_your_account">Sign in to your account</string>
+    <string name="ok_cap">OK</string>
+    <string name="default_image">default_image</string>
+    <string name="enter_country_name">Enter country name</string>
+    <string name="more">More</string>
+    <string name="prayer_times">Prayer Times</string>
+    <string name="al_quran">Al Quran</string>
+    <string name="home">Home</string>
+    <string name="oops_no_internet">Oops! No Internet</string>
+    <string name="no_internet_warning">Check your WiFi connection or Mobile data and try again.</string>
+    <string name="try_again">Try again</string>
+    <string name="sura">Sura</string>
+    <string name="juz">Juz</string>
+    <string name="my_quran">My Quran</string>
+    <string name="continue_reading">Continue reading</string>
+    <string name="empty_place">Empty place</string>
+    <string name="no_data_msg">There is no content, content will be add here, Insha’Allah</string>
+    <string name="download">Download</string>
+    <string name="snooze">Snooze</string>
+</resources>
