@@ -107,12 +107,14 @@ internal class Billboard() {
                             screenWidth -= 305
                             screenWidth = (screenWidth / 2)
 
-
+                            post {
                                 instance?.isAlreadyScrolled = true
                                 instance?.linearLayoutManager?.scrollToPositionWithOffset(
                                     2,
                                     screenWidth.dp
                                 )
+
+                            }
 
 
                         }
