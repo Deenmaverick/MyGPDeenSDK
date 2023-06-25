@@ -20,7 +20,7 @@ import com.deenislam.sdk.views.main.MainActivity
 import com.google.android.material.progressindicator.CircularProgressIndicator
 
 
-class MoreFragment : BaseRegularFragment(),MenuCallback {
+internal class MoreFragment : BaseRegularFragment(),MenuCallback {
 
     private val asyncprogressLayout: CircularProgressIndicator by lazy { requireView().findViewById(R.id.progress_circular) }
     private lateinit var menuRC: RecyclerView

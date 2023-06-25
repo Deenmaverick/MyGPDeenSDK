@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "userpref")
-data class UserPref(
+internal data class UserPref(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id", defaultValue = "1")

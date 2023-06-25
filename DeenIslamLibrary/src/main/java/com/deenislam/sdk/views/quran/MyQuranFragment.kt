@@ -15,7 +15,7 @@ import com.deenislam.sdk.views.adapters.quran.MyQuranCallback
 import com.deenislam.sdk.views.base.BaseRegularFragment
 
 
-class MyQuranFragment : BaseRegularFragment(), MyQuranCallback {
+internal class MyQuranFragment : BaseRegularFragment(), MyQuranCallback {
 
     private val  popularRC: RecyclerView by lazy { requireView().findViewById(R.id.surahListRC) }
     private val progressLayout:LinearLayout by lazy { requireView().findViewById(R.id.progressLayout) }

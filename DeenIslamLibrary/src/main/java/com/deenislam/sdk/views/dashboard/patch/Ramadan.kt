@@ -3,7 +3,7 @@ package com.deenislam.sdk.views.dashboard.patch;
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class Ramadan {
+internal class Ramadan {
 
     companion object
     {

@@ -7,7 +7,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.views.adapters.prayer_times.WidgetForbiddenTimes
 
-class ForbiddenTimes {
+internal class ForbiddenTimes {
 
     private var widgetForbiddenTimes:WidgetForbiddenTimes ? =null
     companion object

@@ -3,7 +3,7 @@ package com.deenislam.sdk.utils
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class RecylerPagerSnapHelper: PagerSnapHelper() {
+internal class RecylerPagerSnapHelper: PagerSnapHelper() {
 
     private var instance: PagerSnapHelper? = null
 

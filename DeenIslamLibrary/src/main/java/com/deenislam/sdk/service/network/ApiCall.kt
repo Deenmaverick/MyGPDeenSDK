@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
-interface ApiCall {
+internal interface ApiCall {
 
     suspend fun <T> makeApicall(
         apiCall: suspend () -> T

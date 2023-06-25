@@ -8,7 +8,7 @@ import com.deenislam.sdk.service.models.TasbeehResource
 import com.deenislam.sdk.service.repository.TasbeehRepository
 import kotlinx.coroutines.launch
 
-class TasbeehViewModel(
+internal class TasbeehViewModel(
     private val repository: TasbeehRepository
 ) : ViewModel() {
 

@@ -7,7 +7,7 @@ import com.deenislam.sdk.utils.RequestBodyMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
-class PrayerCalendarRespository(
+internal class PrayerCalendarRespository(
     private val deenService: DeenService?
 ):ApiCall {
 

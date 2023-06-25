@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.views.base.BaseViewHolder
 
-class RecentlyReadAdapter : RecyclerView.Adapter<BaseViewHolder>() {
+internal class RecentlyReadAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context)

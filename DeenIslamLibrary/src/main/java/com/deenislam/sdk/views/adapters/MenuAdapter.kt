@@ -18,7 +18,7 @@ import com.google.android.material.card.MaterialCardView
 
 private const val ONBOARDING_MENU = 1
 private const val DASHBOARD_MENU = 2
-class MenuAdapter(
+internal class MenuAdapter(
      private val menuList:ArrayList<MenuModel>,
      private val viewType: Int = 1,
      private val callback: favMenuCallback? = null,
@@ -137,13 +137,13 @@ class MenuAdapter(
 
 }
 
-interface favMenuCallback
+internal interface favMenuCallback
 {
     fun setFavmenu(menu:MenuModel)
     fun unsetFavmenu(menu:MenuModel)
 }
 
-interface MenuCallback
+internal interface MenuCallback
 {
     fun menuClicked(tag:String)
 }

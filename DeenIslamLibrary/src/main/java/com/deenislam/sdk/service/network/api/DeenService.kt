@@ -8,7 +8,7 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface DeenService {
+internal interface DeenService {
 
     @POST("PrayerTime/PrayerTimeDateWise")
     suspend fun prayerTime(@Body parm: RequestBody): PrayerTimesResponse

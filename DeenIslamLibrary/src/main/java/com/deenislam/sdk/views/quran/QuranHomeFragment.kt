@@ -16,7 +16,7 @@ import com.deenislam.sdk.views.adapters.quran.RecentlyReadAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.progressindicator.CircularProgressIndicator
 
-class QuranHomeFragment : BaseRegularFragment() {
+internal class QuranHomeFragment : BaseRegularFragment() {
 
     private val asyncprogressLayout: CircularProgressIndicator by lazy { requireView().findViewById(R.id.progress_circular) }
     private lateinit var recentRC: RecyclerView

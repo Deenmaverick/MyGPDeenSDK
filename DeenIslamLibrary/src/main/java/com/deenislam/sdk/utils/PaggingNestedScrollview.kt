@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import androidx.core.widget.NestedScrollView
 
 
-class PaggingNestedScrollview(context: Context, attrs: AttributeSet) : NestedScrollView(context, attrs) {
+internal class PaggingNestedScrollview(context: Context, attrs: AttributeSet) : NestedScrollView(context, attrs) {
 
     private var isScrollingEnabled = true
 

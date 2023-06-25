@@ -5,7 +5,7 @@ import android.content.res.AssetFileDescriptor
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 
-object AzanPlayer {
+internal object AzanPlayer {
 
     private var mMediaPlayer: MediaPlayer? = null
 

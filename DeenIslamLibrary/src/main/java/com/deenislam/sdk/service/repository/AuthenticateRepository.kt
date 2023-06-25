@@ -13,7 +13,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 
-class AuthenticateRepository(
+internal class AuthenticateRepository(
     private val authenticateService: AuthenticateService?,
     private val userPrefDao: UserPrefDao?
 ) : ApiCall {

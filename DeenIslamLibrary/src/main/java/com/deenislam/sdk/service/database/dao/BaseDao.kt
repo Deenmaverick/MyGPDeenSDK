@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Update
 import com.deenislam.sdk.service.database.entity.UserPref
 
-interface BaseDao<T> {
+internal interface BaseDao<T> {
 
     /**
      * Insert an object in the database.

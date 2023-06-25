@@ -22,7 +22,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class WidgetPrayerTimes(
+internal class WidgetPrayerTimes(
     private val callback: prayerTimeAdapterCallback?
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 

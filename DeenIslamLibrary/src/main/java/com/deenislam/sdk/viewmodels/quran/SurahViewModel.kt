@@ -10,7 +10,7 @@ import com.deenislam.sdk.service.network.response.quran.SurahList
 import com.deenislam.sdk.service.repository.quran.SurahRepository
 import kotlinx.coroutines.launch
 
-class SurahViewModel (
+internal class SurahViewModel (
     private val repository: SurahRepository
 ) : ViewModel() {
 

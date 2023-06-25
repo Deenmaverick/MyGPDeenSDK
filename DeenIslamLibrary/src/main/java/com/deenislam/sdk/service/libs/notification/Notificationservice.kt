@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Notificationservice:Service() {
+internal class Notificationservice:Service() {
 
     lateinit var prayerNotificationDao: PrayerNotificationDao
     private var mMediaPlayer: MediaPlayer? = null

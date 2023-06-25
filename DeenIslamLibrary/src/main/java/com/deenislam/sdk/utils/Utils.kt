@@ -466,7 +466,7 @@ fun TimeDiffForPrayerNew(fromTime:Long,toTime:Long,dayPlus:Int=0):String
     return "$hours:$mins:$secs"
 }
 
-fun getPrayerTimeName(data: PrayerTimesResponse,nowtime:Long):PrayerMomentRange {
+internal fun getPrayerTimeName(data: PrayerTimesResponse,nowtime:Long):PrayerMomentRange {
 
     val fajr = data.Data.Fajr.StringTimeToMillisecond()
     val ishrak = data.Data.Ishrak.StringTimeToMillisecond()
@@ -517,7 +517,7 @@ fun getPrayerTimeName(data: PrayerTimesResponse,nowtime:Long):PrayerMomentRange 
     }
 }
 
-fun findNextPrayer(timeArray: ArrayList<Long>, nowtime: Long):PrayerMomentRange
+internal fun findNextPrayer(timeArray: ArrayList<Long>, nowtime: Long):PrayerMomentRange
 {
 
     var temp = 0L

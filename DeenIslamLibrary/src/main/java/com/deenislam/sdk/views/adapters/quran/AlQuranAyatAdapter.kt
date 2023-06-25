@@ -12,7 +12,7 @@ import com.deenislam.sdk.service.network.response.quran.surah_details.Ayath
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 
-class AlQuranAyatAdapter(
+internal class AlQuranAyatAdapter(
     private val audioPlayerCallback: AudioPlayerCallback
 ) :  RecyclerView.Adapter<BaseViewHolder>() {
 

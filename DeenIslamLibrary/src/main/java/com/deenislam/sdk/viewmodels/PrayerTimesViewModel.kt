@@ -14,7 +14,7 @@ import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import kotlinx.coroutines.launch
 
 
-class PrayerTimesViewModel(
+internal class PrayerTimesViewModel(
     private val prayerTimesRepository: PrayerTimesRepository
 ):ViewModel() {
 

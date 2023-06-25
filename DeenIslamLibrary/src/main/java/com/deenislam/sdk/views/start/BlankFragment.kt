@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.deenislam.sdk.R
 import com.deenislam.sdk.views.base.BaseRegularFragment
 
-class BlankFragment : BaseRegularFragment() {
+internal class BlankFragment : BaseRegularFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

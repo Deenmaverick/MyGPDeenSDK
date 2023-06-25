@@ -6,7 +6,7 @@ import com.deenislam.sdk.service.database.entity.Tasbeeh
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class TasbeehRepository(
+internal class TasbeehRepository(
     private val tasbeehDao: TasbeehDao?,
     private val userPrefDao: UserPrefDao?
 ) {

@@ -25,7 +25,7 @@ import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialFadeThrough
 
 
-class QuranFragment : BaseRegularFragment(),actionCallback {
+internal class QuranFragment : BaseRegularFragment(),actionCallback {
 
     private val header:LinearLayout by lazy { requireView().findViewById(R.id.header) }
     private val _viewPager: ViewPager2 by lazy { requireView().findViewById(R.id.viewPager) }

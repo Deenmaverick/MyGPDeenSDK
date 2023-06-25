@@ -26,7 +26,7 @@ import kotlin.math.ceil
 
 private const val PRAYER_VIEW = 1
 private const val BILLBOARD_VIEW = 2
-class DashboardBillboardAdapter(
+internal class DashboardBillboardAdapter(
     private val callback: prayerTimeCallback? = null
 ) : RecyclerView.Adapter<BaseViewHolder>(){
 
@@ -304,7 +304,7 @@ class DashboardBillboardAdapter(
     }
 }
 
-interface prayerTimeCallback
+internal interface prayerTimeCallback
 {
     fun nextPrayerCountownFinish()
     fun allPrayerPage()

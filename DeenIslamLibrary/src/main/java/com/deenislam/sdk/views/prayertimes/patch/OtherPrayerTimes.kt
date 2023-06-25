@@ -10,7 +10,7 @@ import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesRespons
 import com.deenislam.sdk.views.adapters.prayer_times.WidgetOtherPrayerTimes
 import com.deenislam.sdk.views.adapters.prayer_times.prayerTimeAdapterCallback
 
-class OtherPrayerTimes {
+internal class OtherPrayerTimes {
 
     private var widgetOtherPrayerTimes:WidgetOtherPrayerTimes ? =null
 

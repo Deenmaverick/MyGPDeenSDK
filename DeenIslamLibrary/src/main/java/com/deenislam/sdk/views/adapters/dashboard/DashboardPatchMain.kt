@@ -23,7 +23,7 @@ const val TYPE_WIDGET5:Int = 5
 const val TYPE_WIDGET6:Int = 6
 const val TYPE_WIDGET7:Int = 7
 const val TYPE_WIDGET8:Int = 8
-class DashboardPatchAdapter(
+internal class DashboardPatchAdapter(
     private val callback: prayerTimeCallback? = null
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 

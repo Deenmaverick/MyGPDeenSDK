@@ -28,7 +28,7 @@ const val TYPE_WIDGET2:Int = 2
 const val TYPE_WIDGET3:Int = 3
 const val TYPE_WIDGET4:Int = 4
 const val TYPE_WIDGET5:Int = 5
-class PrayerTimesAdapter(
+internal class PrayerTimesAdapter(
     private val callback: prayerTimeAdapterCallback? = null,
     private var viewInflationListener: ViewInflationListener
 ) : RecyclerView.Adapter<BaseViewHolder>() {
@@ -313,7 +313,7 @@ class PrayerTimesAdapter(
 
 }
 
-interface prayerTimeAdapterCallback
+internal interface prayerTimeAdapterCallback
 {
     fun leftBtnClick()
     fun rightBtnClick()

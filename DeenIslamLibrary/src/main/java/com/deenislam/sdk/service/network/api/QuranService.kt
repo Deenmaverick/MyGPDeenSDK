@@ -6,7 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface QuranService {
+internal interface QuranService {
 
     @GET("chapters")
     suspend fun getSurahList(@Query("language") language: String,): SurahList

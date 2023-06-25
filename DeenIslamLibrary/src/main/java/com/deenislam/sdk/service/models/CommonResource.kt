@@ -6,7 +6,7 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.models.quran.AlQuranResource
 import com.deenislam.sdk.service.models.quran.SurahResource
 
- interface CommonResource
+internal interface CommonResource
 {
     object API_CALL_FAILED:CommonResource, PrayerTimeResource, PrayerCalendarResource, SurahResource,
         AlQuranResource

@@ -7,16 +7,18 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
 import com.deenislam.sdk.service.database.entity.PrayerNotification
+import com.deenislam.sdk.service.di.DatabaseProvider
+import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.runWhenReady
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
@@ -32,13 +34,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
+internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
     actionCallback,
 prayerTimeCallback{
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
-    private val prayerTimeViewModel by viewModels<PrayerTimesViewModel>({requireActivity()})
+    private lateinit var prayerTimeViewModel: PrayerTimesViewModel
 
     private val dashboardPatchMain:DashboardPatchAdapter by lazy { DashboardPatchAdapter(this@DashboardFragment) }
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
@@ -47,6 +49,15 @@ prayerTimeCallback{
     override fun OnCreate() {
         super.OnCreate()
         dashboardViewModel = DashboardViewModel()
+
+        val prayerTimesRepository = PrayerTimesRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao(),
+            prayerTimesDao = DatabaseProvider().getInstance().providePrayerTimesDao()
+
+        )
+
+        prayerTimeViewModel = PrayerTimesViewModel(prayerTimesRepository)
 
     }
 

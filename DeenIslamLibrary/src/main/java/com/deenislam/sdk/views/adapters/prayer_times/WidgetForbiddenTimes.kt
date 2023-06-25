@@ -15,7 +15,7 @@ import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.base.BaseViewHolder
 
-class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
+internal class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
 
     private var prayerData: PrayerTimesResponse? = null
 

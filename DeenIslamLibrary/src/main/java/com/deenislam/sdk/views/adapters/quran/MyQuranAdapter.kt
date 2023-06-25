@@ -11,7 +11,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 
-class MyQuranAdapter(
+internal class MyQuranAdapter(
     private val myQuranCallback: MyQuranCallback
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
@@ -75,7 +75,7 @@ class MyQuranAdapter(
     }
 }
 
-interface MyQuranCallback
+internal interface MyQuranCallback
 {
     fun menuClicked(position: Int)
 }

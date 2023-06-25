@@ -1,6 +1,6 @@
 package com.deenislam.sdk.service.models
 
-sealed interface AuthenticateResource
+internal sealed interface AuthenticateResource
 {
     data class loginFailed(val msg:String):AuthenticateResource
     object loginSuccess:AuthenticateResource

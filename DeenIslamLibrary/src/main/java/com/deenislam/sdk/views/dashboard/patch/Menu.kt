@@ -7,7 +7,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.views.adapters.MenuAdapter
 import com.deenislam.sdk.views.base.BaseMenu
 
-class Menu {
+internal class Menu {
 
     companion object
     {

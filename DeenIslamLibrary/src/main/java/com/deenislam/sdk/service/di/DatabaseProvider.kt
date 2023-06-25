@@ -11,7 +11,7 @@ import com.deenislam.sdk.service.database.dao.TasbeehDao
 import com.deenislam.sdk.service.database.dao.UserPrefDao
 import com.deenislam.sdk.utils.tryCatch
 
-class DatabaseProvider {
+internal class DatabaseProvider {
 
     private var databse:AppDatabase ? =null
     companion object {

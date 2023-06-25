@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class TranslatedName(
+internal data class TranslatedName(
     val language_name: String,
     val name: String
 ) : Parcelable

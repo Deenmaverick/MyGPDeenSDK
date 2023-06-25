@@ -12,7 +12,7 @@ import com.deenislam.sdk.service.repository.quran.AlQuranRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
-class AlQuranViewModel(
+internal class AlQuranViewModel(
     private val repository: AlQuranRepository
 ) : ViewModel() {
 

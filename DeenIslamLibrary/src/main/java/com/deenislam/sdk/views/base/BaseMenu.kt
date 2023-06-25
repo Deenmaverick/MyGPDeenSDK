@@ -4,7 +4,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.models.MenuModel
 import com.deenislam.sdk.utils.*
 
-class BaseMenu {
+internal class BaseMenu {
 
     companion object
     {

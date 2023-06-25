@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class WidgetOtherPrayerTimes(
+internal class WidgetOtherPrayerTimes(
     private val callback: prayerTimeAdapterCallback?
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 

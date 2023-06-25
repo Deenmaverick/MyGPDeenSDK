@@ -18,7 +18,7 @@ import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialSharedAxis
 
-class QuranFavoriteFragment : BaseRegularFragment(), otherFagmentActionCallback {
+internal class QuranFavoriteFragment : BaseRegularFragment(), otherFagmentActionCallback {
 
     private val viewmodel by viewModels<FavoriteViewModel>()
 

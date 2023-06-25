@@ -5,7 +5,7 @@ import androidx.room.Query
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 
 @Dao
-abstract class PrayerNotificationDao:BaseDao<PrayerNotification> {
+internal abstract class PrayerNotificationDao:BaseDao<PrayerNotification> {
 
     @Query("SELECT * from prayer_notification where date=:pdate and prayer_tag=:prayer_tag")
     abstract fun select(pdate:String,prayer_tag:String):List<PrayerNotification?>

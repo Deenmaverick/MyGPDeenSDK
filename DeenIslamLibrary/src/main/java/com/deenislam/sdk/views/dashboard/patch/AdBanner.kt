@@ -9,7 +9,7 @@ import com.deenislam.sdk.utils.DotsIndicatorDecoration
 import com.deenislam.sdk.utils.ViewPagerHorizontalRecyler
 import com.deenislam.sdk.views.adapters.CarouselAdapter
 
-class AdBanner {
+internal class AdBanner {
 
     companion object
     {

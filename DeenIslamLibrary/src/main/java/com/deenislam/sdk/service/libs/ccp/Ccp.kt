@@ -12,7 +12,7 @@ import com.deenislam.sdk.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 
-class Ccp {
+internal class Ccp {
 
     private var instance:Ccp ? =null
     private var dialog: Dialog? = null

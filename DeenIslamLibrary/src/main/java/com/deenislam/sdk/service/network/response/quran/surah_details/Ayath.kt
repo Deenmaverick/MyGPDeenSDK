@@ -1,6 +1,6 @@
 package com.deenislam.sdk.service.network.response.quran.surah_details
 
-data class Ayath(
+internal data class Ayath(
     val AyatOrder: Int,
     val ContentBaseUrl: String,
     val ContentUrl: String,

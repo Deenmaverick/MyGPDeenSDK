@@ -12,7 +12,7 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.res.use
 
 
-class AsyncViewStub @JvmOverloads constructor(
+internal class AsyncViewStub @JvmOverloads constructor(
     context: Context, set: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, set, defStyleAttr) {
     private val inflater: AsyncLayoutInflater by lazy { AsyncLayoutInflater(context) }

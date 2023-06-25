@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AlarmReceiver : BroadcastReceiver() {
+internal class AlarmReceiver : BroadcastReceiver() {
 
     lateinit var prayerNotificationDao: PrayerNotificationDao
     private var mMediaPlayer: MediaPlayer? = null

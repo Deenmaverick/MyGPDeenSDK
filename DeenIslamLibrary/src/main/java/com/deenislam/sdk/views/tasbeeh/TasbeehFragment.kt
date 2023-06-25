@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
+internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     private val duaListRC: RecyclerView by lazy { requireView().findViewById(R.id.duaList) }
     private val recentCountList:RecyclerView by lazy { requireView().findViewById(R.id.recentCountList) }

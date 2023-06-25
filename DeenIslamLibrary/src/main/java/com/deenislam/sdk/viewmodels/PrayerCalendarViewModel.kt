@@ -10,7 +10,7 @@ import com.deenislam.sdk.service.network.response.prayer_calendar.PrayerCalendar
 import com.deenislam.sdk.service.repository.PrayerCalendarRespository
 import kotlinx.coroutines.launch
 
-class PrayerCalendarViewModel (
+internal class PrayerCalendarViewModel (
     private val repository: PrayerCalendarRespository
 ) : ViewModel() {
 

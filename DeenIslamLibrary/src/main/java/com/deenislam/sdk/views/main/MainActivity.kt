@@ -69,7 +69,7 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_deen)
         instance = this
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
@@ -450,7 +450,7 @@ internal class MainActivity : AppCompatActivity() {
     }
 }
 
-interface actionCallback
+internal interface actionCallback
 {
     fun action1()
     fun action2()

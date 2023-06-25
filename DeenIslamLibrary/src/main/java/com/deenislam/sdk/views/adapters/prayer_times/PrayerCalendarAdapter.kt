@@ -15,7 +15,7 @@ import com.deenislam.sdk.views.base.BaseViewHolder
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PrayerCalendarAdapter(
+internal class PrayerCalendarAdapter(
     private val data: ArrayList<Data>
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =

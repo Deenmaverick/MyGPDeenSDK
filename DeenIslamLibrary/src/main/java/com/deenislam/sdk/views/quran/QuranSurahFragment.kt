@@ -24,7 +24,7 @@ import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-class QuranSurahFragment : BaseRegularFragment(),SurahCallback {
+internal class QuranSurahFragment : BaseRegularFragment(),SurahCallback {
 
     private lateinit var viewmodel:SurahViewModel
 

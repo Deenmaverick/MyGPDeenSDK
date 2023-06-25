@@ -6,7 +6,7 @@ import com.deenislam.sdk.utils.RequestBodyMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
-class AlQuranRepository(
+internal class AlQuranRepository(
     private val deenService: DeenService
 ): ApiCall {
 

@@ -37,7 +37,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 
-class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentActionCallback {
+internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
    private lateinit var viewmodel:PrayerCalendarViewModel
 

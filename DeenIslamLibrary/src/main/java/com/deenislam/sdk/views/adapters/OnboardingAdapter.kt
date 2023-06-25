@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class OnboardingAdapter(
+internal class OnboardingAdapter(
     fragmentManager: FragmentManager,
     lifecycle:Lifecycle,
     private val pageDestination: Array<Fragment>

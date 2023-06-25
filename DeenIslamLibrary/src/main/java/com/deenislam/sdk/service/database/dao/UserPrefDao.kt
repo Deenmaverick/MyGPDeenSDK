@@ -4,7 +4,7 @@ import androidx.room.*
 import com.deenislam.sdk.service.database.entity.UserPref
 
 @Dao
-abstract class UserPrefDao:BaseDao<UserPref> {
+internal abstract class UserPrefDao:BaseDao<UserPref> {
 
     @Query("SELECT * from userpref where id='1'")
     abstract fun select():List<UserPref?>

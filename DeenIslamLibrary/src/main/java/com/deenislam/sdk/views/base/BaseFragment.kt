@@ -23,7 +23,7 @@ import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 
-abstract class BaseFragment<VB:ViewBinding>(
+internal abstract class BaseFragment<VB:ViewBinding>(
     private val bindingInflater: (inflater:LayoutInflater)->VB
 ):Fragment() {
 

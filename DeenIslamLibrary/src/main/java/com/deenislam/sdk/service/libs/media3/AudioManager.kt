@@ -6,7 +6,7 @@ import android.media.MediaPlayer
 import android.util.Log
 import com.deenislam.sdk.R
 
-class AudioManager {
+internal class AudioManager {
 
     private var mediaPlayer: MediaPlayer?= null
     private var apAdapterCallback:APAdapterCallback ? = null

@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 
-class MainViewPagerAdapter(
+internal class MainViewPagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
     getFragments: ArrayList<Fragment>

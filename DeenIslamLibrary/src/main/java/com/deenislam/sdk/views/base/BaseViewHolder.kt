@@ -3,7 +3,7 @@ package com.deenislam.sdk.views.base
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+internal abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private var mCurrentPosition = 0
     private var view_type = 0

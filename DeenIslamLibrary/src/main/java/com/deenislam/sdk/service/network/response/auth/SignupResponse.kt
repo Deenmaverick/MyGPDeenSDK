@@ -1,6 +1,6 @@
 package com.deenislam.sdk.service.network.response.auth
 
-data class SignupResponse(
+internal data class SignupResponse(
     val Data: Any,
     val Message: String,
     val Success: Boolean,

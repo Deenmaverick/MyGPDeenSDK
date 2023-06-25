@@ -26,7 +26,7 @@ import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 
 
-abstract class BaseRegularFragment: Fragment() {
+internal abstract class BaseRegularFragment: Fragment() {
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
@@ -206,7 +206,7 @@ abstract class BaseRegularFragment: Fragment() {
     }
 }
 
-interface otherFagmentActionCallback
+internal interface otherFagmentActionCallback
 {
     fun action1()
     fun action2()

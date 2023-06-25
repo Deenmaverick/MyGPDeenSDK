@@ -1,5 +1,5 @@
 package com.deenislam.sdk.service.callback
 
-interface ViewInflationListener {
+internal interface ViewInflationListener {
     fun onAllViewsInflated()
 }

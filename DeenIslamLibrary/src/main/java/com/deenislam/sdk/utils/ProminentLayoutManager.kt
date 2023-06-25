@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class ProminentLayoutManager(
+internal class ProminentLayoutManager(
     context: Context,
     private val minScaleDistanceFactor: Float = 1.5f,
     private val scaleDownBy: Float = 0.5f

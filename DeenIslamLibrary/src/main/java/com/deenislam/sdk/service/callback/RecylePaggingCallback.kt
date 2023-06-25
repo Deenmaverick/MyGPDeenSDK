@@ -1,5 +1,5 @@
 package com.deenislam.sdk.service.callback
 
-interface RecylePaggingCallback {
+internal interface RecylePaggingCallback {
     fun nextPage(size: Int)
 }

@@ -1,6 +1,6 @@
 package com.deenislam.sdk.service.network.response.prayertimes
 
-data class Data(
+internal data class Data(
     val Asr: String,
     val Date: String,
     val Day: Int,

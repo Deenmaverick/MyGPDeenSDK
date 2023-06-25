@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.Math.abs
 
-class ViewPagerHorizontalRecyler {
+internal class ViewPagerHorizontalRecyler {
 
     private var instance: ViewPagerHorizontalRecyler? = null
 

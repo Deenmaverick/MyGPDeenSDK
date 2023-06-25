@@ -2,7 +2,7 @@ package com.deenislam.sdk.service.repository
 
 import com.deenislam.sdk.service.network.ApiCall
 
-abstract class BaseRepository:ApiCall {
+internal abstract class BaseRepository:ApiCall {
 
 
 }

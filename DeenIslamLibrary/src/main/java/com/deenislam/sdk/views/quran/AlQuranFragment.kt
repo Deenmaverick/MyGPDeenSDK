@@ -25,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAlQuranBinding::inflate),
+internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAlQuranBinding::inflate),
     AudioPlayerCallback, APAdapterCallback {
 
     private val alQuranAyatAdapter by lazy { AlQuranAyatAdapter(this@AlQuranFragment) }

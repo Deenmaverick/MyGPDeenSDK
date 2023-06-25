@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class SurahListData(
+internal data class SurahListData(
     val ContentBaseUrl: String,
     val ContentUrl: String,
     val Duration: String,

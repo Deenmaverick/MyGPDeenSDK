@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class NetworkProvider {
+internal class NetworkProvider {
 
     private var authInterceptor:AuthInterceptor ? =null
     private var okHttpClient:OkHttpClient ? =null

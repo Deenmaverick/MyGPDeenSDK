@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class NotificationPermission {
+internal class NotificationPermission {
 
     var hasNotificationPermissionGranted = false
 

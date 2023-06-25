@@ -4,7 +4,7 @@ import android.animation.ValueAnimator
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 
-class SlidePageTransformer : ViewPager2.PageTransformer {
+internal class SlidePageTransformer : ViewPager2.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
         //page.translationX = position * page.width

@@ -9,7 +9,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.Tasbeeh
 import com.deenislam.sdk.views.base.BaseViewHolder
 
-class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>() {
+internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     private val tasbeehData:ArrayList<Tasbeeh> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =

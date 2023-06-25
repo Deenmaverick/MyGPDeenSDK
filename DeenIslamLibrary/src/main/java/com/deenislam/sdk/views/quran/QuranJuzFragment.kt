@@ -13,7 +13,7 @@ import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.adapters.quran.QuranJuzAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 
-class QuranJuzFragment : BaseRegularFragment() {
+internal class QuranJuzFragment : BaseRegularFragment() {
 
     private val  popularRC: RecyclerView by lazy { requireView().findViewById(R.id.surahListRC) }
     private val progressLayout:LinearLayout by lazy { requireView().findViewById(R.id.progressLayout) }

@@ -22,7 +22,7 @@ import com.deenislam.sdk.service.database.entity.*
 
 )
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun UserPrefDAO(): UserPrefDao
     abstract fun FavMenuDAO():FavMenuDao

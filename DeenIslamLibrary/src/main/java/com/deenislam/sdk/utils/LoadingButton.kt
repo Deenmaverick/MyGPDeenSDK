@@ -9,7 +9,7 @@ import android.text.style.DynamicDrawableSpan
 import android.view.View
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 
-class LoadingButton {
+internal class LoadingButton {
 
     companion object
     {

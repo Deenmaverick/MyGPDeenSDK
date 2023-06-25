@@ -4,7 +4,7 @@ import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesRespons
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun getPrayerTimeTagWise(
+internal fun getPrayerTimeTagWise(
     prayer_tag: String,
     date: String,
     data: PrayerTimesResponse

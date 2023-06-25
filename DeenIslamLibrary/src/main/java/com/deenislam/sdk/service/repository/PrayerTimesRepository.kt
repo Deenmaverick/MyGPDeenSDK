@@ -25,7 +25,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
-class PrayerTimesRepository(
+internal class PrayerTimesRepository(
     private val deenService: DeenService?,
     private val prayerNotificationDao: PrayerNotificationDao?,
     private val prayerTimesDao: PrayerTimesDao?

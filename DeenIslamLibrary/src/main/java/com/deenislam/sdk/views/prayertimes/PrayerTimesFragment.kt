@@ -46,7 +46,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class PrayerTimesFragment : BaseRegularFragment(),
+internal class PrayerTimesFragment : BaseRegularFragment(),
     actionCallback,
     prayerTimeAdapterCallback,
     ViewInflationListener

@@ -9,7 +9,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.quran.SurahListData
 import com.deenislam.sdk.views.base.BaseViewHolder
 
-class SurahAdapter(
+internal class SurahAdapter(
     private val surahCallback: SurahCallback?=null
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -59,7 +59,7 @@ class SurahAdapter(
     }
 }
 
-interface SurahCallback
+internal interface SurahCallback
 {
     fun surahClick(surahListData: SurahListData)
 }

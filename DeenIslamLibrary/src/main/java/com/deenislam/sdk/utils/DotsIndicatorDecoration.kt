@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import org.jetbrains.annotations.NotNull
 
 
-class DotsIndicatorDecoration(
+internal class DotsIndicatorDecoration(
     radius: Int,
     padding: Int,
     indicatorHeight: Int,

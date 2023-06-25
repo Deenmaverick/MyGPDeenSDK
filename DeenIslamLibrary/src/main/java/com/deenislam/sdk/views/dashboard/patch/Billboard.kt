@@ -10,7 +10,7 @@ import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.adapters.dashboard.DashboardBillboardAdapter
 import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
 
-class Billboard() {
+internal class Billboard() {
 
     private var dashboardBillboardAdapter:DashboardBillboardAdapter ? =null
     private lateinit var  dashboardBillboard: RecyclerView

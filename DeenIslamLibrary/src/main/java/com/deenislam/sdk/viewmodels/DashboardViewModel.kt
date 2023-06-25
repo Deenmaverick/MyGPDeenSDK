@@ -1,4 +1,4 @@
 package com.deenislam.sdk.viewmodels
 
-class DashboardViewModel:BaseViewModel() {
+internal class DashboardViewModel:BaseViewModel() {
 }

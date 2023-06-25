@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.views.base.BaseViewHolder
 
-class CcpAdapter(
+internal class CcpAdapter(
     private val ccp_list:ArrayList<CcpModel>,
     private val callback:CcpAdapterCallback
 ): RecyclerView.Adapter<BaseViewHolder>(), Filterable {
@@ -82,7 +82,7 @@ class CcpAdapter(
     }
 }
 
-interface CcpAdapterCallback
+internal interface CcpAdapterCallback
 {
     fun selectedCountry(country:CcpModel)
 }

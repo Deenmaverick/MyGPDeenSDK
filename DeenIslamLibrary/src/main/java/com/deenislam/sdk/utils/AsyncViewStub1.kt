@@ -12,7 +12,7 @@ import android.widget.FrameLayout
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.res.use
 
-class AsyncViewStub1 @JvmOverloads constructor(
+internal class AsyncViewStub1 @JvmOverloads constructor(
     context: Context, set: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, set, defStyleAttr) {
     private var layoutRes = 0

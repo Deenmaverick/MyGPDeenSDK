@@ -13,7 +13,7 @@ import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton
 
-class TasbeehDuaAdapter(
+internal class TasbeehDuaAdapter(
     private val callback: tasbeehDuaCallback
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -102,7 +102,7 @@ class TasbeehDuaAdapter(
     }
 }
 
-interface tasbeehDuaCallback
+internal interface tasbeehDuaCallback
 {
     fun selectedDua(duaid:Int)
 }
