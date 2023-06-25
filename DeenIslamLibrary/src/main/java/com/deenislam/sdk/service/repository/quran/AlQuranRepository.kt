@@ -7,7 +7,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 internal class AlQuranRepository(
-    private val deenService: DeenService
+    private val deenService: DeenService?
 ): ApiCall {
 
     suspend fun fetchSurahdetails(surahID: Int, language: String, page: Int, contentCount: Int) = makeApicall {
@@ -19,7 +19,7 @@ internal class AlQuranRepository(
         body.put("contentCount",contentCount)
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
-        deenService.surahDetails(parm = requestBody)
+        deenService!!.surahDetails(parm = requestBody)
 
     }
 }

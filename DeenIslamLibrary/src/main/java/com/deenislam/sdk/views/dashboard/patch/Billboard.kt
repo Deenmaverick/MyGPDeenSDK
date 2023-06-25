@@ -92,6 +92,8 @@ internal class Billboard() {
 
                 instance?.dashboardBillboardAdapter?.update(data)
 
+              instance?.dashboardBillboardAdapter?.notifyDataSetChanged()
+
                     //if (!instance?.isAlreadyScrolled!!) {
 
                         instance?.dashboardBillboard?.apply {
@@ -112,7 +114,6 @@ internal class Billboard() {
                                     screenWidth.dp
                                 )
 
-                            post { instance?.dashboardBillboardAdapter?.notifyDataSetChanged() }
 
                         }
                    // }

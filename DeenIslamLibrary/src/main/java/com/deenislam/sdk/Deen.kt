@@ -16,7 +16,9 @@ import kotlinx.coroutines.withContext
 object Deen {
 
     private var scope = CoroutineScope(Dispatchers.IO)
-    private var  CallBackListener : DeenAuthCallback? =null
+
+    @JvmStatic
+    var  CallBackListener : DeenAuthCallback? =null
 
     @JvmStatic
     var appContext: Context? = null

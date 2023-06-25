@@ -4,16 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.deenislam.sdk.databinding.FragmentAlQuranBinding
+import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.libs.media3.APAdapterCallback
 import com.deenislam.sdk.service.libs.media3.AudioManager
 import com.deenislam.sdk.service.libs.media3.AudioPlayerCallback
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.quran.AlQuranResource
 import com.deenislam.sdk.service.network.response.quran.surah_details.Ayath
+import com.deenislam.sdk.service.repository.quran.AlQuranRepository
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
@@ -29,7 +30,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     AudioPlayerCallback, APAdapterCallback {
 
     private val alQuranAyatAdapter by lazy { AlQuranAyatAdapter(this@AlQuranFragment) }
-    private val alQuranViewModel by viewModels<AlQuranViewModel>()
+    private lateinit var alQuranViewModel:AlQuranViewModel
     private val surahDetailsData :ArrayList<Ayath> = arrayListOf()
     private val args:AlQuranFragmentArgs by navArgs()
 
@@ -48,6 +49,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         returnTransition = MaterialFadeThrough()
         exitTransition = MaterialFadeThrough()
 
+        val repository = AlQuranRepository(deenService = NetworkProvider().getInstance().provideDeenService())
+        alQuranViewModel = AlQuranViewModel(repository)
         Log.e("Alquran",args.surah.Name)
     }
 

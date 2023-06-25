@@ -1,10 +1,12 @@
 package com.deenislam.sdk.service.di;
 
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.service.network.AuthInterceptor
 import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.service.network.api.DeenService
 import com.deenislam.sdk.utils.BASE_AUTH_API_URL
 import com.deenislam.sdk.utils.BASE_DEEN_SERVICE_API_URL
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,8 +34,21 @@ internal class NetworkProvider {
         isAuthService:Boolean = false
     )
     {
-        if(instance?.authInterceptor==null)
-            instance?.authInterceptor = AuthInterceptor("dfasfd")
+        if(instance?.authInterceptor==null) {
+
+            val userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+            var acceessToken = ""
+
+
+                val userData = userPrefDao?.select()
+                if(userData?.isNotEmpty() == true && userData[0]?.token?.isNotEmpty() == true)
+                   acceessToken = userData[0]?.token.toString()
+
+            if(acceessToken.isEmpty())
+                Deen.CallBackListener?.onAuthFailed()
+
+            instance?.authInterceptor = AuthInterceptor(acceessToken)
+        }
 
         instance?.authInterceptor?.apply {
 

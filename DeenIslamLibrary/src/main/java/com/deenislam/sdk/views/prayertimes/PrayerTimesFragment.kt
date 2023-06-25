@@ -16,6 +16,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -103,7 +105,12 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             prayerTimesDao = DatabaseProvider().getInstance().providePrayerTimesDao()
 
         )
-        viewmodel = PrayerTimesViewModel(prayerTimesRepository)
+
+        val factory = VMFactory(prayerTimesRepository)
+        viewmodel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PrayerTimesViewModel::class.java]
     }
 
 
@@ -592,6 +599,13 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun onAllViewsInflated() {
         initObserver()
+    }
+
+    inner class VMFactory(
+        private val prayerTimesRepository : PrayerTimesRepository) : ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return PrayerTimesViewModel(prayerTimesRepository) as T
+        }
     }
 
 }

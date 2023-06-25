@@ -7,6 +7,8 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deenislam.sdk.R
@@ -57,7 +59,12 @@ prayerTimeCallback{
 
         )
 
-        prayerTimeViewModel = PrayerTimesViewModel(prayerTimesRepository)
+        val factory = VMFactory(prayerTimesRepository)
+        prayerTimeViewModel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PrayerTimesViewModel::class.java]
+
 
     }
 
@@ -302,6 +309,13 @@ prayerTimeCallback{
             }
             else
                 prayerTimeViewModel.getDateWisePrayerNotificationData(prayerdate)
+        }
+    }
+
+    inner class VMFactory(
+        private val prayerTimesRepository : PrayerTimesRepository) : ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return PrayerTimesViewModel(prayerTimesRepository) as T
         }
     }
 
