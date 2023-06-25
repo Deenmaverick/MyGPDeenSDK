@@ -189,13 +189,13 @@ class MainActivity : AppCompatActivity() {
 
      fun logout()
     {
-        lifecycleScope.launch(Dispatchers.Main)
+       /* lifecycleScope.launch(Dispatchers.Main)
         {
             instance?.toast("Session expired! Please login again.")
             clearAllInstance()
             dashboardComponent(false)
             stackNavigation(destination = R.id.loginFragment)
-        }
+        }*/
 
     }
 

@@ -7,16 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.quran.AlQuranResource
 import com.deenislam.sdk.service.network.ApiResource
-import com.deenislam.sdk.service.network.response.quran.surah_details.Ayath
 import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetails
 import com.deenislam.sdk.service.repository.quran.AlQuranRepository
 import com.google.gson.Gson
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class AlQuranViewModel @Inject constructor(
+class AlQuranViewModel(
     private val repository: AlQuranRepository
 ) : ViewModel() {
 

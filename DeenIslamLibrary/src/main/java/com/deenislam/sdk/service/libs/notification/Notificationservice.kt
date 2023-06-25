@@ -14,17 +14,13 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.dao.PrayerNotificationDao
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.utils.sendNotification
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class Notificationservice:Service() {
 
-    @Inject
     lateinit var prayerNotificationDao: PrayerNotificationDao
     private var mMediaPlayer: MediaPlayer? = null
 
@@ -152,12 +148,12 @@ class Notificationservice:Service() {
                 assetFileDescriptor.length
             )
         }
-        mMediaPlayer?.setAudioAttributes(
+      /*  mMediaPlayer?.setAudioAttributes(
             AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ALARM)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
-        )
+        )*/
         mMediaPlayer?.prepare()
         mMediaPlayer?.setOnPreparedListener {
             it?.start()

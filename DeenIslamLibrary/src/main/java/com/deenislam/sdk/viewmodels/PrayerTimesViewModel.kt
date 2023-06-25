@@ -27,7 +27,7 @@ class PrayerTimesViewModel(
     fun getPrayerTimes(localtion:String,language:String,requiredDate:String)
     {
         viewModelScope.launch {
-            processPrayerTimeResponse(prayerTimesRepository.getPrayerTimes(localtion,language,requiredDate))
+            processPrayerTimeResponse(prayerTimesRepository.getPrayerTimes(localtion,language,requiredDate) as ApiResource<PrayerTimesResponse>)
         }
     }
 
