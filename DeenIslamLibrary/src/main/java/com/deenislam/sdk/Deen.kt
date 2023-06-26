@@ -42,8 +42,6 @@ object Deen {
             withContext(Dispatchers.Main) {
 
                 if (token != null) {
-                    //val intent = Intent(context, MainActivity::class.java)
-                    //context.startActivity(intent)
                     CallBackListener?.onAuthSuccess()
 
                 } else {

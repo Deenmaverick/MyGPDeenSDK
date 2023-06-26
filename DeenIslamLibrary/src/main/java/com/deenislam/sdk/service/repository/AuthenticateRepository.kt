@@ -35,7 +35,7 @@ internal class AuthenticateRepository(
         {
             val data = userPrefDao?.select()
 
-            if (data?.isNotEmpty() == true) {
+            if (data?.isNotEmpty() == true || data?.size!!>0) {
                 data[0]?.token = token
                 data[0]?.refresh_token = refreshToken
                 data[0]?.username = username
@@ -74,7 +74,7 @@ internal class AuthenticateRepository(
 
 
         val data = userPrefDao?.select()
-        if(data?.isEmpty() == true)
+        if(data?.isEmpty() == true || data?.size!! <= 0)
         {
             userPrefDao?.insert(UserPref())
         }

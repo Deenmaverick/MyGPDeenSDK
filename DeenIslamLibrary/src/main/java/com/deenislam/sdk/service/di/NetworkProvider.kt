@@ -39,13 +39,9 @@ internal class NetworkProvider {
             val userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
             var acceessToken = ""
 
-
                 val userData = userPrefDao?.select()
                 if(userData?.isNotEmpty() == true && userData[0]?.token?.isNotEmpty() == true)
                    acceessToken = userData[0]?.token.toString()
-
-            if(acceessToken.isEmpty())
-                Deen.CallBackListener?.onAuthFailed()
 
             instance?.authInterceptor = AuthInterceptor(acceessToken)
         }
