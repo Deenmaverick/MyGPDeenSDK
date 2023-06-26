@@ -15,10 +15,8 @@ import kotlinx.coroutines.withContext
 @Keep
 object Deen {
 
-    private var scope = CoroutineScope(Dispatchers.IO)
-
     @JvmStatic
-    var  CallBackListener : DeenAuthCallback? =null
+    var  CallBackListener : DeenCallback? =null
 
     @JvmStatic
     var appContext: Context? = null
@@ -27,12 +25,12 @@ object Deen {
     var token: String? = null
 
     @JvmStatic
-    fun authDeen(context: Context, msisdn:String, callback: DeenAuthCallback? = null)
+    fun openDeen(context: Context, msisdn:String, callback: DeenCallback? = null)
     {
-        this.appContext = context
+        this.appContext = context.applicationContext
         this.CallBackListener = callback
 
-        scope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
 
             token = AuthenticateRepository(
                 authenticateService = NetworkProvider().getInstance().provideAuthService(),
@@ -42,6 +40,12 @@ object Deen {
             withContext(Dispatchers.Main) {
 
                 if (token != null) {
+
+                    val intent =
+                        Intent(context, MainActivity::class.java)
+                    intent.putExtra("destination",R.id.dashboardFragment)
+                    context.startActivity(intent)
+
                     CallBackListener?.onAuthSuccess()
 
                 } else {
@@ -52,24 +56,9 @@ object Deen {
         }
     }
 
-    @JvmStatic
-    fun openDeen(context: Context)
-    {
-        if(token!=null)
-        {
-            val intent =
-                Intent(context, MainActivity::class.java)
-            intent.putExtra("destination",R.id.dashboardFragment)
-            context.startActivity(intent)
-        }
-        else
-            CallBackListener?.onAuthFailed()
-
-    }
-
 }
 
-interface DeenAuthCallback
+interface DeenCallback
 {
     fun onAuthSuccess()
     fun onAuthFailed()
