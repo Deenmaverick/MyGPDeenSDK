@@ -96,62 +96,41 @@ internal class BaseMenu {
             if(it.size <=0) {
 
                 //Al Quran
-                it.add(MenuModel(R.drawable.ic_menu_quran_2,"Al Quran", MENU_AL_QURAN))
+                it.add(MenuModel(R.drawable.ic_menu_quran,"Al Quran", MENU_AL_QURAN))
 
                 //Ramadan time
-                it.add(MenuModel(R.drawable.ic_menu_ramadan,"Ramadan", MENU_RAMADAN))
-
-                //Daily Dua
-                it.add(MenuModel(R.drawable.ic_menu_dua_1,"Daily Dua", MENU_DUA))
-
-                //Hadith
-                it.add(MenuModel(R.drawable.ic_menu_islamic_book,"Hadith", MENU_HADITH))
-
-                //Zakat
-                it.add(MenuModel(R.drawable.ic_menu_zakat_2,"Zakat", MENU_ZAKAT))
-
-                //Digital Tasbih
-                it.add(MenuModel(R.drawable.ic_menu_digital_tasbih,"Digital Tasbeeh", MENU_DIGITAL_TASBEEH))
-
-                //Nearest Mosque
-                it.add(MenuModel(R.drawable.ic_menu_nearest_mosque,"Nearest Mosque", MENU_NEAREST_MOSQUE))
+                it.add(MenuModel(R.drawable.ic_menu_kabah,"Hajj & Umrah", MENU_HAJJ_AND_UMRAH))
 
                 //Prayer time
-                it.add(MenuModel(R.drawable.ic_menu_mosque_2,"Prayer Times", MENU_PRAYER_TIME))
+                it.add(MenuModel(R.drawable.ic_menu_prayer,"Prayer Times", MENU_PRAYER_TIME))
+
+                //Daily Dua
+                it.add(MenuModel(R.drawable.ic_ramadan,"Ramadan", MENU_RAMADAN))
+
+                //Hadith
+                it.add(MenuModel(R.drawable.ic_menu_hadith,"Hadith", MENU_HADITH))
+
+                //Daily Dua
+                it.add(MenuModel(R.drawable.ic_menu_dua,"Daily Dua", MENU_DUA))
 
                 //99 Name of allah
-                it.add(MenuModel(R.drawable.ic_allahu,"99 Names of Allah", MENU_99_NAME_OF_ALLAH))
+                it.add(MenuModel(R.drawable.ic_menu_99_name_of_allah,"99 Names of Allah", MENU_99_NAME_OF_ALLAH))
 
-                //Hajj
-                it.add(MenuModel(R.drawable.ic_menu_hajj,"Hajj", MENU_HAJJ))
+                //Zakat
+                it.add(MenuModel(R.drawable.ic_menu_zakat,"Zakat", MENU_ZAKAT))
 
-                //Quran Class
-                it.add(MenuModel(R.drawable.ic_menu_quran_class,"Quran Class", MENU_QURAN_CLASS))
-
-                //Podcast
-                it.add(MenuModel(R.drawable.ic_menu_podcast,"Podcast", MENU_PODCAST))
-
-
-                //Hajj Package
-                it.add(MenuModel(R.drawable.ic_menu_hajj_package,"Hajj Package", MENU_HAJJ_PACKAGE))
+                //Digital Tasbih
+                it.add(MenuModel(R.drawable.ic_menu_digital_tasbeeh,"Digital Tasbeeh", MENU_DIGITAL_TASBEEH))
 
                 //Prayer Learning
-                it.add(MenuModel(R.drawable.ic_menu_namaz_rules,"Prayer Learning", MENU_PRAYER_LEARNING))
+                it.add(MenuModel(R.drawable.ic_menu_learning,"Prayer Learning", MENU_LEARNING))
 
-                //Eid
-                it.add(MenuModel(R.drawable.ic_menu_eid_namaz,"EID", MENU_EID))
+                //Islamic Event
+                it.add(MenuModel(R.drawable.ic_menu_islamic_event,"Islamic Event", MENU_ISLAMIC_EVENT))
 
-                //Islamic Calendar
-                it.add(MenuModel(R.drawable.ic_menu_islamic_event,"Islamic Calendar", MENU_ISLAMIC_CALENDAR))
+                //Islamic Name
+                it.add(MenuModel(R.drawable.ic_menu_islamic_name,"Islamic Name", MENU_ISLAMIC_NAME))
 
-                //Live Video
-                it.add(MenuModel(R.drawable.ic_menu_live_video_2,"Live Video", MENU_LIVE_VIDEO))
-
-                //Islamic Jiggasa
-                it.add(MenuModel(R.drawable.ic_menu_question_answer,"Islamic Jiggasa", MENU_ISLAMIC_JIGGASA))
-
-                //Azan
-                it.add(MenuModel(R.drawable.ic_menu_azan,"Azan", MENU_ISLAMIC_JIGGASA))
 
             }
         }

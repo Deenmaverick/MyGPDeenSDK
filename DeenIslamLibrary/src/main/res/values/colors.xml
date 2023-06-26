@@ -27,5 +27,7 @@
     <color name="txt_orange">#F5922F</color>
     <color name="txt_gray">#656565</color>
     <color name="brand_teal">#4B878B</color>
+    <color name="stroke_card">#4EABE0</color>
+    <color name="stroke_card1">#F99941</color>
 
 </resources>

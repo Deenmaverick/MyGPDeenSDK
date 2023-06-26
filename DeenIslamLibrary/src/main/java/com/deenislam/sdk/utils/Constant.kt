@@ -29,6 +29,8 @@ const val MENU_ISLAMIC_CALENDAR = "IslamicCalendar"
 const val MENU_LIVE_VIDEO = "Live Video"
 const val MENU_ISLAMIC_JIGGASA = "IslamicJiggasa"
 const val MENU_AZAN = "Azan"
+const val MENU_ISLAMIC_EVENT = "IslamicEvent"
+const val MENU_ISLAMIC_NAME = "IslamicName"
 
 // :notifications-api
 const val ACTION_START_ALARM_LOOPER = "alarm.loopers.START"
