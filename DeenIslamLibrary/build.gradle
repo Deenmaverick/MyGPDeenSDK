@@ -72,9 +72,6 @@ dependencies {
     //Async layout inflater
     implementation 'androidx.asynclayoutinflater:asynclayoutinflater:1.0.0'
 
-    //facebook shimmer effect
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
-
     def media3_version = "1.0.2"
     implementation "androidx.media3:media3-exoplayer:$media3_version"
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"

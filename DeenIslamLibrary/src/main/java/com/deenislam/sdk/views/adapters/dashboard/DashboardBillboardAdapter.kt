@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.PrayerNotification
@@ -45,7 +46,6 @@ internal class DashboardBillboardAdapter(
     private lateinit var progressTxt:AppCompatTextView
     private lateinit var namazTask:LinearProgressIndicator
     private lateinit var prayerCheck:RadioButton
-    //private lateinit var shimmerContainer:ShimmerFrameLayout
     private lateinit var mainContainer:ConstraintLayout
 
     private var prayerData:PrayerTimesResponse ? = null
@@ -97,9 +97,9 @@ internal class DashboardBillboardAdapter(
                     nextPrayerTime = this.findViewById(R.id.nextPrayerTime)
                     allPrayer = this.findViewById(R.id.allPrayer)
                     prayerBG.setBackgroundColor(
-                        prayerBG.context.resources.getColor(
-                            R.color.black,
-                            prayerBG.context.theme
+                        ContextCompat.getColor(
+                            prayerBG.context,
+                            R.color.black
                         )
                     )
                     allPrayer.setOnClickListener {
@@ -166,9 +166,9 @@ internal class DashboardBillboardAdapter(
             //prayerBG.setBackgroundResource(R.drawable.isha)
             prayerTracker(false)
             prayerBG.setBackgroundColor(
-                prayerBG.context.resources.getColor(
-                    R.color.black,
-                    prayerBG.context.theme
+                ContextCompat.getColor(
+                    prayerBG.context,
+                    R.color.black
                 )
             )
 
@@ -205,10 +205,6 @@ internal class DashboardBillboardAdapter(
             }
         }
 
-      /*  //stop shimmer and show real view
-        shimmerContainer.stopShimmer()
-        shimmerContainer.visible(false)
-        mainContainer.visible(true)*/
     }
 
     private fun prayerTracker(bol:Boolean)
