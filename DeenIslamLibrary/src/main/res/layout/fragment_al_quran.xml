@@ -200,7 +200,7 @@
                 android:id="@+id/last_item_loading"
                 layout="@layout/item_quran_ayat_shimmer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:layout_marginStart="@dimen/space_12"
                 android:layout_marginEnd="@dimen/space_12"
                 android:layout_marginTop="@dimen/space_4"

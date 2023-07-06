@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView android:id="@+id/learnquranBtn1"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/space_12"
     android:layout_marginEnd="@dimen/space_12"
     android:layout_marginTop="@dimen/space_4"
