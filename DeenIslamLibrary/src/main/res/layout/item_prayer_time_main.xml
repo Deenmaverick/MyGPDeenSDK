@@ -32,8 +32,7 @@
                 android:layout_height="wrap_content"
                 android:minWidth="0dp"
                 android:button="@drawable/radio_button"
-                android:minHeight="0dp"
-                android:clickable="false" />
+                android:minHeight="0dp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/disableRadio"

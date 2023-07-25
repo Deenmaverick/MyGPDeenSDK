@@ -32,7 +32,6 @@ internal class WidgetPrayerTimes(
     private var todayDate: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context)
@@ -89,7 +88,7 @@ internal class WidgetPrayerTimes(
                     prayerNameArabic.text = "صلاة الفجْر"
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_sunrise_fill))
                     timeTxt.text = "${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                                    "${(prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.minus(60000L))?.MilliSecondToStringTime()?:"0:00"}"
+                            "${(prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.minus(60000L))?.MilliSecondToStringTime()?:"0:00"}"
 
                 }
                 2->
@@ -150,7 +149,6 @@ internal class WidgetPrayerTimes(
                     timeTxt.text = "${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
                             "${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}"
 
-
                 }
 
 
@@ -176,6 +174,11 @@ internal class WidgetPrayerTimes(
             else
                 (itemView.rootView as MaterialCardView).strokeWidth = 0
 
+            prayerCheck.setOnClickListener {
+                prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")
+                    ?.let { it1 -> callback?.prayerCheck("pt"+(position+1), it1) }
+            }
+
         }
     }
 
@@ -200,12 +203,12 @@ internal class WidgetPrayerTimes(
                     2->
                     {
                         if(NotificationPermission().getInstance().hasAlarm(rightBtn.context,it.id))
-                        rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_default))
+                            rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_default))
                     }
                     3->
                     {
                         if(NotificationPermission().getInstance().hasAlarm(rightBtn.context,it.id))
-                        rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_sound))
+                            rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_sound))
                     }
 
                 }
@@ -217,13 +220,19 @@ internal class WidgetPrayerTimes(
 
     private fun checkPrayerTracker(prayer_tag:String,view:RadioButton)
     {
-        val checkTrack = dateWisePrayerNotificationData?.indexOfFirst { it.isPrayed && it.prayer_tag == prayer_tag && it.prayer_tag.isNotEmpty() }
+        val checkTrack = dateWisePrayerNotificationData?.indexOfFirst {
+            it.isPrayed &&
+                    it.prayer_tag == prayer_tag &&
+                    it.prayer_tag.isNotEmpty() &&
+                    it.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))
 
-      /* if(checkTrack!=1)
-        Log.e("prayerNotificationData", Gson().toJson(dateWisePrayerNotificationData?.get(checkTrack!!)))
-*/
+        }
 
-            view.isChecked = (checkTrack!=null && checkTrack >=0 && prayer_tag.checkCompulsoryprayerByTag())
+        /* if(checkTrack!=1)
+          Log.e("prayerNotificationData", Gson().toJson(dateWisePrayerNotificationData?.get(checkTrack!!)))
+  */
+
+        view.isChecked = (checkTrack!=null && checkTrack >=0 && prayer_tag.checkCompulsoryprayerByTag())
 
     }
 

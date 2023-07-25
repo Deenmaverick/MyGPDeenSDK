@@ -4,8 +4,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -21,30 +19,34 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
+import com.deenislam.sdk.utils.MENU_PRAYER_TIME
 import com.deenislam.sdk.utils.runWhenReady
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
+import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
 import com.deenislam.sdk.views.base.BaseFragment
-import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 
 internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
-    actionCallback,
-prayerTimeCallback{
+    actionCallback, MenuCallback, prayerTimeCallback{
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
     private lateinit var prayerTimeViewModel: PrayerTimesViewModel
 
-    private val dashboardPatchMain:DashboardPatchAdapter by lazy { DashboardPatchAdapter(this@DashboardFragment) }
+    private val dashboardPatchMain:DashboardPatchAdapter by lazy { DashboardPatchAdapter(
+        callback = this@DashboardFragment,
+        menuCallback = this@DashboardFragment
+    ) }
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
 
@@ -94,7 +96,7 @@ prayerTimeCallback{
 
     override fun onResume() {
         super.onResume()
-        setupAction(R.drawable.ic_notification,R.drawable.ic_avatar,this@DashboardFragment,getString(R.string.app_name))
+        setupAction(R.drawable.ic_menu,0,this@DashboardFragment,getString(R.string.app_name))
 
       /*  if(MainActivity.instance?.bottomNavClicked == true)
             animateView()
@@ -109,28 +111,6 @@ prayerTimeCallback{
 
     }
 
-
-    private fun animateView()
-    {
-        val anim: Animation
-
-        if(MainActivity.instance?.childFragmentAnimForward == true)
-            anim = AnimationUtils.loadAnimation(requireContext(), R.anim.right_to_left)
-        else
-            anim = AnimationUtils.loadAnimation(requireContext(), R.anim.left_to_right)
-
-        requireView().startAnimation(anim)
-
-        anim?.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-            override fun onAnimationEnd(animation: Animation) {
-                loadPage()
-            }
-            override fun onAnimationRepeat(animation: Animation) {}
-        })
-
-        MainActivity.instance?.resetBottomNavClick()
-    }
 
 
   /* override fun setMenuVisibility(visible: Boolean) {
@@ -298,7 +278,7 @@ prayerTimeCallback{
     }
 
     override fun allPrayerPage() {
-        changeMainViewPager(2)
+        gotoFrag(R.id.prayerTimesFragment)
     }
 
     override fun prayerTask(momentName: String?) {
@@ -312,10 +292,22 @@ prayerTimeCallback{
         }
     }
 
+    override fun billboard_prayer_load_complete() {
+        prayerTimesResponse?.let { dashboardPatchMain.updatePrayerTime(it) }
+    }
+
     inner class VMFactory(
         private val prayerTimesRepository : PrayerTimesRepository) : ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return PrayerTimesViewModel(prayerTimesRepository) as T
+        }
+    }
+
+    override fun menuClicked(tag: String) {
+
+        when(tag)
+        {
+            MENU_PRAYER_TIME ->  gotoFrag(R.id.prayerTimesFragment)
         }
     }
 

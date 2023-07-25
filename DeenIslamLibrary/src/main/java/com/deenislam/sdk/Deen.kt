@@ -39,7 +39,7 @@ object Deen {
 
             withContext(Dispatchers.Main) {
 
-                if (token != null) {
+                if (token != null && token?.isNotEmpty() == true) {
 
                     val intent =
                         Intent(context, MainActivity::class.java)

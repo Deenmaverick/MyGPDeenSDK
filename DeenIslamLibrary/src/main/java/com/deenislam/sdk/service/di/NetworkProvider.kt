@@ -1,12 +1,13 @@
 package com.deenislam.sdk.service.di;
 
+import android.util.Log
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.service.network.AuthInterceptor
 import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.service.network.api.DeenService
 import com.deenislam.sdk.utils.BASE_AUTH_API_URL
 import com.deenislam.sdk.utils.BASE_DEEN_SERVICE_API_URL
-import kotlinx.coroutines.runBlocking
+import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,25 +41,34 @@ internal class NetworkProvider {
             var acceessToken = ""
 
                 val userData = userPrefDao?.select()
-                if(userData?.isNotEmpty() == true && userData[0]?.token?.isNotEmpty() == true)
-                   acceessToken = userData[0]?.token.toString()
 
-            instance?.authInterceptor = AuthInterceptor(acceessToken)
-        }
+            userData?.let {
 
-        instance?.authInterceptor?.apply {
+                Log.e("AUTH_DATA_1", Gson().toJson(it))
 
-            if(instance?.okHttpClient == null) {
+                acceessToken = if(it.isNotEmpty() && it[0]?.token?.isNotEmpty() == true)
+                    it[0]?.token.toString()
+                else
+                    Deen.token.toString()
+            }?.apply { acceessToken = Deen.token.toString() }
 
-                /*val loggingInterceptor = HttpLoggingInterceptor()
-                loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY*/
-                instance?.okHttpClient =
-                    OkHttpClient.Builder()
-                        //.addInterceptor(loggingInterceptor)
-                        .addInterceptor(this)
-                        .build()
+            if(acceessToken.isNotEmpty()) {
+                instance?.authInterceptor = AuthInterceptor(userPrefDao).apply {
+
+                    if (instance?.okHttpClient == null) {
+                        /*val loggingInterceptor = HttpLoggingInterceptor()
+                    loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY*/
+                        instance?.okHttpClient =
+                            OkHttpClient.Builder()
+                                //.addInterceptor(loggingInterceptor)
+                                .addInterceptor(this)
+                                .build()
+                    }
+                }
             }
+
         }
+
 
         if(instance?.deenService == null && isDeenService) {
             instance?.okHttpClient?.let {

@@ -88,7 +88,14 @@ internal class PrayerTimesViewModel(
     fun setPrayerTrack(date:String,prayer_tag: String,bol:Boolean)
     {
         viewModelScope.launch {
-            _prayerTimesNotification.value = PrayerNotificationResource.dateWiseNotificationData(prayerTimesRepository.setPrayerTrack(date=date,prayer_tag=prayer_tag,bol=bol) as ArrayList<PrayerNotification>)
+            _prayerTimesNotification.value = PrayerNotificationResource.dateWiseNotificationData(prayerTimesRepository.updatePrayerTrackAuto(date=date,prayer_tag=prayer_tag) as ArrayList<PrayerNotification>)
+        }
+    }
+
+    fun updatePrayerTrack(date:String,prayer_tag: String)
+    {
+        viewModelScope.launch {
+            _prayerTimesNotification.value = PrayerNotificationResource.dateWiseNotificationData(prayerTimesRepository.updatePrayerTrackAuto(date=date,prayer_tag=prayer_tag) as java.util.ArrayList<PrayerNotification>)
         }
     }
 

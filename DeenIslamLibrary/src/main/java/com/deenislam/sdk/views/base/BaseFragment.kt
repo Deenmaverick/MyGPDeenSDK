@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.isBottomNavFragment
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.views.main.MainActivity
@@ -33,6 +34,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     val binding:VB get() = _binding as VB
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
+    private var isOnlyback:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +45,11 @@ internal abstract class BaseFragment<VB:ViewBinding>(
             }
         onBackPressedCallback.isEnabled = true
 
+    }
 
+    fun isOnlyBack(bol:Boolean)
+    {
+        isOnlyback = bol
     }
 
 
@@ -51,7 +57,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     {
         fragmentViewModel.check_api_state()
     }
-     fun BASE_OBSERVE_API_CALL_STATE()
+    fun BASE_OBSERVE_API_CALL_STATE()
     {
         fragmentViewModel.isAPILoaded.observe(this)
         {
@@ -102,7 +108,14 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     }
 
     open fun onBackPress() {
-        findNavController().popBackStack()
+        if(!isOnlyback) {
+            findNavController().popBackStack().apply {
+                setupOtherFragment(false)
+            }
+        }
+        else
+            findNavController().popBackStack()
+
     }
 
     fun setupOtherFragment(bol:Boolean)
@@ -163,6 +176,11 @@ internal abstract class BaseFragment<VB:ViewBinding>(
             action2Btn.visible(false)
 
         actionCallback = callback
+
+        if(findNavController().currentDestination?.id?.isBottomNavFragment == false)
+            setupOtherFragment(true)
+        else
+            setupOtherFragment(false)
     }
 
     fun changeMainViewPager(page:Int)

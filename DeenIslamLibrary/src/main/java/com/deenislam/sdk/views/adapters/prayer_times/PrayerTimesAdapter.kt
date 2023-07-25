@@ -23,6 +23,7 @@ import com.deenislam.sdk.views.prayertimes.patch.PrayerTimes
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 const val TYPE_WIDGET1:Int = 1
 const val TYPE_WIDGET2:Int = 2
 const val TYPE_WIDGET3:Int = 3
@@ -65,7 +66,7 @@ internal class PrayerTimesAdapter(
             .inflate(R.layout.layout_async_match, parent, false)
 
         return   ViewHolder(
-           main_view
+            main_view
         )
     }
 
@@ -134,7 +135,7 @@ internal class PrayerTimesAdapter(
 
 
         if(prayerMomentRangeData?.MomentName == "Fajr")
-        prayerBG.setBackgroundResource(R.drawable.fajr)
+            prayerBG.setBackgroundResource(R.drawable.fajr)
         else if(prayerMomentRangeData?.MomentName == "Dhuhr")
             prayerBG.setBackgroundResource(R.drawable.dhuhr)
         else if(prayerMomentRangeData?.MomentName == "Asr")
@@ -144,7 +145,7 @@ internal class PrayerTimesAdapter(
         else if(prayerMomentRangeData?.MomentName == "Isha")
             prayerBG.setBackgroundResource(R.drawable.isha)
         else
-        prayerBG.setBackgroundColor(prayerBG.context.resources.getColor(R.color.black,prayerBG.context.theme))
+            prayerBG.setBackgroundColor(prayerBG.context.resources.getColor(R.color.black,prayerBG.context.theme))
 
         prayerMoment.text = prayerMomentRangeData?.MomentName
         prayerMomentRange.text = prayerMomentRangeData?.StartTime +" - " + prayerMomentRangeData?.EndTime
@@ -182,7 +183,7 @@ internal class PrayerTimesAdapter(
             return
 
         //val TodayDateTime = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault()).format(Date())
-       // val format = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.ENGLISH) // or you can add before dd/M/yyyy
+        // val format = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.ENGLISH) // or you can add before dd/M/yyyy
         //val newDate = format.parse(prayerData?.Data?.Date?.StringTimeToMillisecond("yyyy-MM-dd'T'HH:mm:ss")?.MilliSecondToStringTime("EEEE, dd MMMM yyyy"))
 
         val newDate = prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","EEEE, dd MMMM yyyy")
@@ -219,7 +220,7 @@ internal class PrayerTimesAdapter(
         prayerData?.let { ForbiddenTimes().getInstance().update(it) }
     }
 
-     private fun initView(main_view:View)
+    private fun initView(main_view:View)
     {
         if(initView)
             return
@@ -288,7 +289,7 @@ internal class PrayerTimesAdapter(
             super.onBind(position)
 
             if(!initView)
-            initView(itemView)
+                initView(itemView)
             else {
                 prayerList.forEach()
                 { widget_position ->
@@ -313,14 +314,15 @@ internal class PrayerTimesAdapter(
 
 }
 
-internal interface prayerTimeAdapterCallback
+interface prayerTimeAdapterCallback
 {
     fun leftBtnClick()
     fun rightBtnClick()
     fun nextPrayerCountownFinish()
     fun clickNotification(position: String)
-
     fun clickMonthlyCalendar()
+
+    fun prayerCheck(prayer_tag: String, date: String)
 
 
 }

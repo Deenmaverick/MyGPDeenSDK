@@ -48,10 +48,11 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     private val nodataLayout:NestedScrollView by lazy { requireView().findViewById(R.id.nodataLayout) }
     private val container:ConstraintLayout by lazy { requireView().findViewById(R.id.mainView) }
     override fun OnCreate() {
-
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        super.OnCreate()
+        isOnlyBack(true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 
         // init viewmodel
         val repository = PrayerCalendarRespository(NetworkProvider().getInstance().provideDeenService())
@@ -191,11 +192,6 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
 
 
     override fun action1() {
-    }
-
-    override fun onBackPress() {
-        super.onBackPress()
-        setupOtherFragment(false)
     }
 
     override fun action2() {

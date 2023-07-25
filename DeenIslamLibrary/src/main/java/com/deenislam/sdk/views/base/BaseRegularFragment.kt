@@ -20,21 +20,24 @@ import androidx.navigation.fragment.findNavController
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.isBottomNavFragment
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
+import com.deenislam.sdk.views.main.searchCallback
 
 
 internal abstract class BaseRegularFragment: Fragment() {
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
-    private val fragmentViewModel by viewModels<FragmentViewModel>()
+    private var isOnlyback:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         OnCreate()
+
     }
 
     override fun onResume() {
@@ -47,9 +50,22 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     }
 
-    open fun onBackPress() {
+    fun isOnlyBack(bol:Boolean)
+    {
+        isOnlyback = bol
+    }
 
-        findNavController().popBackStack()
+
+    open fun onBackPress() {
+        if(!isOnlyback) {
+            findNavController().popBackStack().apply {
+                setupOtherFragment(false)
+            }
+        }
+        else
+            findNavController().popBackStack()
+
+        Log.e("isOnlyback",isOnlyback.toString())
     }
 
     open fun OnCreate(){
@@ -60,28 +76,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         onBackPressedCallback.isEnabled = true
     }
 
-    fun BASE_CHECK_API_STATE()
-    {
-        fragmentViewModel.check_api_state()
-    }
 
-    open fun BASE_API_CALL_STATE()
-    {
-
-    }
-    fun BASE_OBSERVE_API_CALL_STATE()
-    {
-        fragmentViewModel.isAPILoaded.observe(this)
-        {
-
-            Log.e("isAPILoaded1",it.toString())
-            when(it)
-            {
-                true -> Unit
-                false -> BASE_API_CALL_STATE()
-            }
-        }
-    }
 
     fun gotoFrag(
         destination: Int,
@@ -89,11 +84,17 @@ internal abstract class BaseRegularFragment: Fragment() {
         navOptions: NavOptions? = null,
         navExtras: Navigator.Extras? = null
     ) {
-        val navController = findNavController()
 
+        val navController = findNavController()
         navController.navigate(destination, data, navOptions, navExtras)
+
     }
 
+
+    fun changeMainViewPager(page:Int)
+    {
+        (activity as MainActivity).setViewPager(page)
+    }
 
     fun gotoDashboard()
     {
@@ -107,7 +108,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupOtherFragment(bol:Boolean)
     {
-        (activity as MainActivity).setupOtherFragment(bol)
+        (requireActivity() as MainActivity).setupOtherFragment(bol)
     }
 
     fun setupActionForOtherFragment(action1:Int,action2:Int,callback: otherFagmentActionCallback?=null,actionnBartitle:String,backEnable:Boolean=true,view: View)
@@ -117,25 +118,25 @@ internal abstract class BaseRegularFragment: Fragment() {
         val btnBack:AppCompatImageView = view.findViewById(R.id.btnBack)
         val title:AppCompatTextView = view.findViewById(R.id.title)
 
-         if(backEnable)
-    {
-        btnBack.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.ic_back))
-        btnBack.visible(true)
-        btnBack.setOnClickListener {
-            onBackPress()
-        }
-        title.text = actionnBartitle
-        title.setTextColor(ContextCompat.getColor(title.context,R.color.txt_black_deep))
+        if(backEnable)
+        {
+            btnBack.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.ic_back))
+            btnBack.visible(true)
+            btnBack.setOnClickListener {
+                onBackPress()
+            }
+            title.text = actionnBartitle
+            title.setTextColor(ContextCompat.getColor(title.context,R.color.txt_black_deep))
 
-    }
-    else
-    {
-        (title.layoutParams as ConstraintLayout.LayoutParams).apply {
-            leftMargin=16.dp
         }
-        title.text = actionnBartitle
-        btnBack.visible(false)
-    }
+        else
+        {
+            (title.layoutParams as ConstraintLayout.LayoutParams).apply {
+                leftMargin=16.dp
+            }
+            title.text = actionnBartitle
+            btnBack.visible(false)
+        }
 
         if(action1>0) {
             action1Btn.setImageDrawable(AppCompatResources.getDrawable(view.context, action1))
@@ -158,6 +159,11 @@ internal abstract class BaseRegularFragment: Fragment() {
             action2Btn.visible(false)
 
         actionCallback = callback
+
+        if(findNavController().currentDestination?.id?.isBottomNavFragment == false)
+            setupOtherFragment(true)
+        else
+            setupOtherFragment(false)
     }
 
 
@@ -170,6 +176,16 @@ internal abstract class BaseRegularFragment: Fragment() {
     {
         (activity as MainActivity).setupActionbar(title,backEnable)
         (activity as MainActivity).setupActionbar(action1,action2,callback)
+    }
+
+    fun setupSearchbar(callback: searchCallback?=null)
+    {
+        (activity as MainActivity).setupSearchbar(callback)
+    }
+
+    fun hideSearchbar()
+    {
+        (activity as MainActivity).hideSearch()
     }
 
     fun setupAction(action1:Int,action2:Int,title:String,backEnable:Boolean=false)
@@ -206,7 +222,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     }
 }
 
-internal interface otherFagmentActionCallback
+interface otherFagmentActionCallback
 {
     fun action1()
     fun action2()

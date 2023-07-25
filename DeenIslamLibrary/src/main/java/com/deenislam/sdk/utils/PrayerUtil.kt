@@ -144,7 +144,7 @@ internal fun getPrayerTimeTagWise(
 fun get_prayer_name_by_tag(tag:String): String =
     when(tag)
     {
-        "pt1 "-> "Fajr"
+        "pt1"-> "Fajr"
         "pt2"-> "Sunrise"
 
         "pt3"-> "Dhuhr"
@@ -170,7 +170,7 @@ fun get_prayer_name_by_tag(tag:String): String =
 fun String.checkCompulsoryprayerByName():Boolean =
     when(this)
     {
-        "Fajr "-> true
+        "Fajr"-> true
 
         "Dhuhr"-> true
 

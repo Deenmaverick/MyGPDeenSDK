@@ -35,14 +35,17 @@ internal class AuthenticateRepository(
         {
             val data = userPrefDao?.select()
 
-            if (data?.isNotEmpty() == true || data?.size!!>0) {
-                data[0]?.token = token
-                data[0]?.refresh_token = refreshToken
-                data[0]?.username = username
-                userPrefDao?.update(data)
-            } else {
-                0
-            }
+            data?.let {
+                if (it.isNotEmpty()) {
+                    it[0]?.token = token
+                    it[0]?.refresh_token = refreshToken
+                    it[0]?.username = username
+                    userPrefDao?.update(it)
+                } else {
+                    0
+                }
+            }?:0
+
         }
 
     private suspend fun processLoginResponse(response: ApiResource<LoginResponse?>, msisdn: String): String?
@@ -54,7 +57,7 @@ internal class AuthenticateRepository(
             {
                 response.value?.Data?.let {
 
-                        if(storeToken(it.JWT,msisdn,it.RefreshToken.Token) !=0)
+                        if(storeToken(it.JWT,msisdn,it.RefreshToken.Token) > 0)
                             return it.JWT
                         else
                         {
@@ -72,11 +75,14 @@ internal class AuthenticateRepository(
     {
         val response = login(msisdn)
 
-
         val data = userPrefDao?.select()
-        if(data?.isEmpty() == true || data?.size!! <= 0)
-        {
-            userPrefDao?.insert(UserPref())
+
+        data?.let {
+            Log.e("AUTH_DATA",Gson().toJson(it))
+            if(it.isEmpty())
+            {
+                userPrefDao?.insert(UserPref())
+            }
         }
 
         return processLoginResponse(response,msisdn)

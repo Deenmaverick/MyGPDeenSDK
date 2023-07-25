@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatRadioButton
@@ -38,10 +36,10 @@ import com.deenislam.sdk.views.adapters.prayer_times.MuezzinAdapter
 import com.deenislam.sdk.views.adapters.prayer_times.PrayerTimesAdapter
 import com.deenislam.sdk.views.adapters.prayer_times.prayerTimeAdapterCallback
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislam.sdk.views.main.MainActivity
-import com.deenislam.sdk.views.main.actionCallback
+import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -49,18 +47,18 @@ import java.util.*
 
 
 internal class PrayerTimesFragment : BaseRegularFragment(),
-    actionCallback,
+    otherFagmentActionCallback,
     prayerTimeAdapterCallback,
     ViewInflationListener
 {
 
-    private val prayerTimesAdapter:PrayerTimesAdapter by lazy { PrayerTimesAdapter(this@PrayerTimesFragment,this@PrayerTimesFragment) }
+    private lateinit var prayerTimesAdapter:PrayerTimesAdapter
 
-    private val prayerMain:RecyclerView by lazy { requireView().findViewById(R.id.prayerMain) }
-    private val progressLayout:LinearLayout by lazy { requireView().findViewById(R.id.progressLayout) }
-    private val no_internet_layout:NestedScrollView by lazy { requireView().findViewById(R.id.no_internet_layout)}
-    private val no_internet_retryBtn:MaterialButton by lazy { requireView().findViewById(R.id.no_internet_retry) }
-    private val mainContainer:ConstraintLayout by lazy { requireView().findViewById(R.id.container) }
+    private lateinit var prayerMain:RecyclerView
+    private lateinit var progressLayout:LinearLayout
+    private lateinit var no_internet_layout:NestedScrollView
+    private lateinit var no_internet_retryBtn:MaterialButton
+    private lateinit var mainContainer:ConstraintLayout
 
     private lateinit var dialog_okBtn:MaterialButton
     private lateinit var customAlertDialogView : View
@@ -68,7 +66,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     private lateinit var notificationDialog:AlertDialog
 
     private lateinit var viewmodel:PrayerTimesViewModel
-
 
     private var firstload:Int = 0
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
@@ -93,11 +90,12 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     private var muezzinAdapter: MuezzinAdapter ? =null
     private var isNotificationClicked:Boolean = false
 
-    private var shortAnimationDuration: Int = 0
-
-
     override fun OnCreate() {
         super.OnCreate()
+
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 
         val prayerTimesRepository = PrayerTimesRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
@@ -119,69 +117,26 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return layoutInflater.inflate(R.layout.fragment_prayer_times,container,false)
+
+        val mainview = layoutInflater.inflate(R.layout.fragment_prayer_times,container,false)
+
+        //init view
+        prayerMain = mainview.findViewById(R.id.prayerMain)
+        progressLayout = mainview.findViewById(R.id.progressLayout)
+        no_internet_layout = mainview.findViewById(R.id.no_internet_layout)
+        no_internet_retryBtn = no_internet_layout.findViewById(R.id.no_internet_retry)
+        mainContainer =  mainview.findViewById(R.id.container)
+
+        setupActionForOtherFragment(R.drawable.ic_calendar,0,this@PrayerTimesFragment,"Prayer Times",true,mainview)
+
+        return mainview
     }
 
 
- /*   override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        Log.e("onConfigurationChanged", "HELLO")
-    }
-*/
     override fun onResume() {
-     super.onResume()
-/*
-     if(MainActivity.instance?.bottomNavClicked == true)
-         animateView()
-     else*/
-         loadPage()
-
-
-     setupAction(
-         R.drawable.ic_calendar,
-         R.drawable.ic_settings,
-         this@PrayerTimesFragment,
-         "Prayer Times"
-     )
-
-
-    /* if (isNotificationClicked) {
-         NotificationPermission().getInstance().reCheckNotificationPermission(requireContext())
-
-         Log.e("isNotificationPermitted",
-             NotificationPermission().getInstance().isNotificationPermitted().toString()
-         )
-         if(NotificationPermission().getInstance().isNotificationPermitted()) {
-             updatePrayerNotificationDataOnly(pryaerNotificationData)
-             isNotificationClicked = false
-         }
-     }*/
-
- }
-
-    private fun animateView()
-    {
-        val anim: Animation
-
-        if(MainActivity.instance?.childFragmentAnimForward == true)
-         anim = AnimationUtils.loadAnimation(requireContext(), R.anim.right_to_left)
-        else
-            anim = AnimationUtils.loadAnimation(requireContext(), R.anim.left_to_right)
-
-        requireView().startAnimation(anim)
-
-        anim?.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-            override fun onAnimationEnd(animation: Animation) {
-                loadPage()
-            }
-            override fun onAnimationRepeat(animation: Animation) {}
-        })
-
-        MainActivity.instance?.resetBottomNavClick()
+        super.onResume()
+        loadPage()
     }
-
-
     /*override fun setMenuVisibility(visible: Boolean) {
         super.setMenuVisibility(visible)
         if (visible) {
@@ -196,7 +151,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
      fun loadDataAPI(retry:Boolean=false)
     {
-
         if((no_internet_layout.isVisible && retry) || (!no_internet_layout.isVisible && retry && !progressLayout.isVisible) || (progressLayout.isVisible && firstload == 1)) {
             loadingState()
             lifecycleScope.launch {
@@ -205,11 +159,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         }
     }
 
-   /* override fun BASE_API_CALL_STATE() {
-        super.BASE_API_CALL_STATE()
-        loadDataAPI()
-
-    }*/
 
     private fun initObserver()
     {
@@ -268,13 +217,9 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     fun loadPage()
     {
-        if(firstload != 0)
-            return
-        firstload = 1
 
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(no_internet_layout, 10F)
-
 
         // notification dialog setup
         setupNotificationView()
@@ -283,32 +228,21 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         val linearLayoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
 
+        prayerTimesAdapter = PrayerTimesAdapter(this@PrayerTimesFragment,this@PrayerTimesFragment)
         prayerMain.apply {
             adapter = prayerTimesAdapter
             layoutManager = linearLayoutManager
             isNestedScrollingEnabled = false
-           // overScrollMode = View.OVER_SCROLL_NEVER
-            //post {
-                //base fragment livedata
-              /*  BASE_OBSERVE_API_CALL_STATE()
-
-                initObserver()
-
-                lifecycleScope.launch {
-                    BASE_CHECK_API_STATE()
-                }*/
-                //initObserver()
-               /* if(prayerTimesResponse==null)
-                    loadDataAPI()
-                else
-                    noInternetState()*/
-           // }
+           post {
+               if(firstload == 0)
+                   loadDataAPI()
+               firstload = 1
+           }
         }
 
         no_internet_retryBtn.setOnClickListener {
             loadDataAPI(true)
         }
-
     }
 
     private fun setupNotificationView()
@@ -363,9 +297,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         }
     }
 
-    override fun onBackPress() {
-       activity?.moveTaskToBack(true)
-    }
 
     private fun viewState(data: ArrayList<PrayerNotification>)
     {
@@ -429,7 +360,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun action1() {
-        gotoFrag(R.id.prayerCalendarFragment)
+        gotoFrag(R.id.action_prayerTimesFragment_to_prayerCalendarFragment)
     }
 
     override fun action2() {
@@ -594,7 +525,15 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun clickMonthlyCalendar() {
-        gotoFrag(R.id.prayerCalendarFragment)
+        gotoFrag(R.id.action_prayerTimesFragment_to_prayerCalendarFragment)
+    }
+
+    override fun prayerCheck(prayer_tag: String, date: String) {
+
+        lifecycleScope.launch {
+            viewmodel.updatePrayerTrack(date = date,prayer_tag=prayer_tag)
+        }
+
     }
 
     override fun onAllViewsInflated() {

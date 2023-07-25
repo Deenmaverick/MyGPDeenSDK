@@ -35,6 +35,7 @@ import com.deenislam.sdk.views.more.MoreFragment
 import com.deenislam.sdk.views.prayertimes.PrayerTimesFragment
 import com.deenislam.sdk.views.quran.QuranFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.textfield.TextInputEditText
 
 
 internal class MainActivity : AppCompatActivity() {
@@ -44,9 +45,17 @@ internal class MainActivity : AppCompatActivity() {
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
     private var actionCallback:actionCallback ? =null
+    private var searchCallback:searchCallback ? =null
 
     private val _viewPager: ViewPager2 by lazy { findViewById(R.id.viewPager) }
     private val frameContainerView: FragmentContainerView by lazy { findViewById(R.id.fragmentContainerView) }
+
+
+    private val searchbar:ConstraintLayout by lazy { findViewById(R.id.searchbar) }
+    private val searchBackBtn:AppCompatImageView by lazy { searchbar.findViewById(R.id.btnBack) }
+    private val searchInput: TextInputEditText by lazy { searchbar.findViewById(R.id.search_input) }
+
+
     private val actionbar:ConstraintLayout by lazy { findViewById(R.id.actionbar) }
     private val action1Btn:AppCompatImageView by lazy { actionbar.findViewById(R.id.action1) }
     private val action2Btn:AppCompatImageView by lazy { actionbar.findViewById(R.id.action2) }
@@ -165,7 +174,7 @@ internal class MainActivity : AppCompatActivity() {
      fun dashboardComponent(bol:Boolean)
     {
         _viewPager.visible(bol)
-        bottom_navigation.visible(bol)
+        //bottom_navigation.visible(bol)
         actionbar.visible(bol)
         if (bol) {
             setupActionbar(getString(R.string.app_name))
@@ -181,7 +190,7 @@ internal class MainActivity : AppCompatActivity() {
         _viewPager.visible(!bol)
         frameContainerView.visible(bol)
         actionbar.visible(!bol)
-        bottom_navigation.visible(!bol)
+       // bottom_navigation.visible(!bol)
     }
 
      fun logout()
@@ -204,9 +213,9 @@ internal class MainActivity : AppCompatActivity() {
 
             mPageDestination = arrayListOf(
                 DashboardFragment(),
-                QuranFragment(),
+                /*QuranFragment(),
                 PrayerTimesFragment(),
-                MoreFragment()
+                MoreFragment()*/
             )
 
             mainViewPagerAdapter = MainViewPagerAdapter(
@@ -218,9 +227,9 @@ internal class MainActivity : AppCompatActivity() {
 
         _viewPager.apply {
                 adapter = mainViewPagerAdapter
-                isUserInputEnabled = true
+                isUserInputEnabled = false
                 overScrollMode = View.OVER_SCROLL_NEVER
-                offscreenPageLimit = 4
+                offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
                 reduceDragSensitivity(2)
                 //setPageTransformer(SlidePageTransformer())
             }
@@ -398,6 +407,20 @@ internal class MainActivity : AppCompatActivity() {
         actionCallback = callback
     }
 
+    fun setupSearchbar(callback: searchCallback?)
+    {
+        searchCallback = callback
+        actionbar.hide()
+        searchbar.show()
+    }
+
+    fun hideSearch()
+    {
+        searchCallback = null
+        actionbar.show()
+        searchbar.hide()
+    }
+
     fun setupActionbar(action1:Int,action2:Int)
     {
         if(action1>0) {
@@ -418,7 +441,7 @@ internal class MainActivity : AppCompatActivity() {
 
     fun showBottomNav(bol:Boolean)
     {
-        bottom_navigation.visible(bol)
+       // bottom_navigation.visible(bol)
     }
 
     private fun navigateDestination(destination:Int)
@@ -454,4 +477,9 @@ internal interface actionCallback
 {
     fun action1()
     fun action2()
+}
+interface searchCallback
+{
+    fun searchBack()
+    fun searchSubmit(query: String)
 }

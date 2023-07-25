@@ -46,6 +46,7 @@ internal class DashboardBillboardAdapter(
     private lateinit var progressTxt:AppCompatTextView
     private lateinit var namazTask:LinearProgressIndicator
     private lateinit var prayerCheck:RadioButton
+    //private lateinit var shimmerContainer:ShimmerFrameLayout
     private lateinit var mainContainer:ConstraintLayout
 
     private var prayerData:PrayerTimesResponse ? = null
@@ -97,14 +98,17 @@ internal class DashboardBillboardAdapter(
                     nextPrayerTime = this.findViewById(R.id.nextPrayerTime)
                     allPrayer = this.findViewById(R.id.allPrayer)
                     prayerBG.setBackgroundColor(
-                        ContextCompat.getColor(
-                            prayerBG.context,
-                            R.color.black
+                        prayerBG.context.resources.getColor(
+                            R.color.black,
+                            prayerBG.context.theme
                         )
                     )
                     allPrayer.setOnClickListener {
                         callback?.allPrayerPage()
                     }
+
+                    callback?.billboard_prayer_load_complete()
+
 
                 }
 
@@ -141,14 +145,14 @@ internal class DashboardBillboardAdapter(
         val get_prayer_tag = get_prayer_tag_by_name(prayerMomentRangeData?.MomentName.toString())
 
         val checkTrack = prayerNotificationData?.indexOfFirst {
-                it.isPrayed
-                && it.prayer_tag == get_prayer_tag
-                        && it.prayer_tag.isNotEmpty()
-                && get_prayer_tag.checkCompulsoryprayerByTag() }
+            it.isPrayed
+                    && it.prayer_tag == get_prayer_tag
+                    && it.prayer_tag.isNotEmpty()
+                    && get_prayer_tag.checkCompulsoryprayerByTag() }
 
         Log.e("prayerNotificationData", prayerMomentRangeData?.MomentName.toString()+" "+get_prayer_tag+" "+checkTrack+" "+Gson().toJson(prayerNotificationData))
 
-        prayerCheck.isEnabled = !(checkTrack!=null && checkTrack >=0)
+        //prayerCheck.isEnabled = !(checkTrack!=null && checkTrack >=0)
         prayerCheck.isChecked = (checkTrack!=null && checkTrack >=0)
 
 
@@ -166,9 +170,9 @@ internal class DashboardBillboardAdapter(
             //prayerBG.setBackgroundResource(R.drawable.isha)
             prayerTracker(false)
             prayerBG.setBackgroundColor(
-                ContextCompat.getColor(
-                    prayerBG.context,
-                    R.color.black
+                prayerBG.context.resources.getColor(
+                    R.color.black,
+                    prayerBG.context.theme
                 )
             )
 
@@ -205,6 +209,10 @@ internal class DashboardBillboardAdapter(
             }
         }
 
+        /*  //stop shimmer and show real view
+          shimmerContainer.stopShimmer()
+          shimmerContainer.visible(false)
+          mainContainer.visible(true)*/
     }
 
     private fun prayerTracker(bol:Boolean)
@@ -220,10 +228,20 @@ internal class DashboardBillboardAdapter(
         var count = 0
         prayerNotificationData?.let {
             it.forEach {
-                if(it.isPrayed && get_prayer_name_by_tag(it.prayer_tag).isNotEmpty() && it.prayer_tag.checkCompulsoryprayerByTag())
+                    it1->
+                if(it1.isPrayed &&
+                    get_prayer_name_by_tag(it1.prayer_tag).isNotEmpty() &&
+                    it1.prayer_tag.checkCompulsoryprayerByTag() &&
+                    it1.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))
+
+                ) {
+
+                    Log.e("getCompletedPrayerCount",it1.prayer_tag)
                     count++
+                }
             }
         }
+
 
         return  count
     }
@@ -261,7 +279,7 @@ internal class DashboardBillboardAdapter(
         }
     }
 
-   inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
+    internal inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
         override fun onBind(position: Int, viewtype: Int) {
             super.onBind(position, viewtype)
@@ -300,10 +318,12 @@ internal class DashboardBillboardAdapter(
     }
 }
 
-internal interface prayerTimeCallback
+interface prayerTimeCallback
 {
     fun nextPrayerCountownFinish()
     fun allPrayerPage()
 
     fun prayerTask(momentName: String?)
+
+    fun billboard_prayer_load_complete()
 }

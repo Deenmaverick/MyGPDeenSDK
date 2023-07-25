@@ -192,4 +192,12 @@ internal class PrayerTimesRepository(
             getDateWiseNotificationData(date)
         }
 
+    suspend fun updatePrayerTrackAuto(date:String,prayer_tag: String) =
+        withContext(Dispatchers.IO)
+        {
+            val data = getNotificationData(date = date,prayer_tag = prayer_tag)
+            prayerNotificationDao?.update(pdate =date,prayer_tag=prayer_tag,bol= data?.isPrayed != true)
+            getDateWiseNotificationData(date)
+        }
+
 }
