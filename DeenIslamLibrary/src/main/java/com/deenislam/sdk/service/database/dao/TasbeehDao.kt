@@ -5,7 +5,7 @@ import androidx.room.Query
 import com.deenislam.sdk.service.database.entity.Tasbeeh
 
 @Dao
-internal abstract class TasbeehDao:BaseDao<Tasbeeh> {
+internal abstract class TasbeehDao: BaseDao<Tasbeeh> {
 
     @Query("SELECT * from tasbeeh where id=:duaid")
     abstract fun select(duaid:Int):List<Tasbeeh>

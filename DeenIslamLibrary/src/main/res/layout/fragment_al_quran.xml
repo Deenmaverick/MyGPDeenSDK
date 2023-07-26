@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -85,7 +86,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_14"
                     android:layout_gravity="center"
-                    android:drawableEnd="@drawable/ic_dropdown"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/card_bg_deep_teal" />
@@ -125,6 +125,7 @@
                     android:textColor="@color/brand_teal" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ruku"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -134,9 +135,6 @@
 
             </LinearLayout>
 
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -145,20 +143,16 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/space_12"
+        android:layout_marginBottom="64dp"
+        android:paddingBottom="@dimen/space_8"
         android:fillViewport="true"
         android:overScrollMode="never"
-        android:orientation="vertical"
         android:clipToPadding="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <LinearLayout
                 android:id="@+id/bismillahLy"
@@ -183,9 +177,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ayatList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:layout_marginTop="@dimen/space_16"
                 android:nestedScrollingEnabled="false"
                 android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -197,10 +190,11 @@
             </androidx.recyclerview.widget.RecyclerView>
 
             <include
+                android:visibility="gone"
                 android:id="@+id/last_item_loading"
                 layout="@layout/item_quran_ayat_shimmer"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_12"
                 android:layout_marginEnd="@dimen/space_12"
                 android:layout_marginTop="@dimen/space_4"
@@ -210,10 +204,37 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ayatList"/>
 
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:visibility="gone"
+                android:id="@+id/last_item_loading_progress"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="@dimen/space_12"
+                android:layout_marginEnd="@dimen/space_12"
+                android:layout_marginTop="@dimen/space_4"
+                app:indicatorSize="@dimen/space_24"
+                app:trackThickness="2dp"
+                android:indeterminate="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ayatList"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/bottomPlayerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/container">
+
+        <include
+            android:id="@+id/bottomPlayer"
+            layout="@layout/layout_bottom_player" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <include
         android:id="@+id/progressLayout"
@@ -236,6 +257,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionbar" />
 
+    <View
+        android:id="@+id/dimView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="#80000000"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <include
         android:id="@+id/no_internet_layout"
         layout="@layout/no_internet"
@@ -246,6 +280,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionbar" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

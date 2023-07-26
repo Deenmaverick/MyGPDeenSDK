@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView android:id="@+id/learnquranBtn1"
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/quranCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/space_12"
@@ -29,11 +30,27 @@
             android:layout_marginStart="@dimen/space_12"
             android:layout_marginEnd="@dimen/space_12"
             android:text="ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢"
+            android:fontFamily="@font/kfgqpc_uthmanic_script_hafs_regular"
             android:textAppearance="@style/TextAppearance.font24"
             android:textColor="@color/txt_black_deep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/transliteration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginStart="@dimen/space_12"
+            android:layout_marginEnd="@dimen/space_12"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ayatArabic"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ayatBn"
@@ -46,13 +63,12 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/txt_black_deep"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ayatArabic"
+            app:layout_constraintTop_toBottomOf="@+id/transliteration"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ayatEn"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginStart="@dimen/space_12"
@@ -60,6 +76,7 @@
             android:text="2. All praise is for Allah—Lord of all worlds,1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/txt_black_deep"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ayatBn"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -79,10 +96,9 @@
             android:id="@+id/surayAyat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_12.5"
+            android:padding="@dimen/space_4"
             android:layout_marginStart="@dimen/space_12"
             android:layout_marginEnd="@dimen/space_12"
-            android:layout_marginBottom="@dimen/space_12.5"
             android:text="1:1"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/txt_ash"
@@ -142,17 +158,28 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnPlay"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_8"
-            android:layout_marginBottom="@dimen/space_8"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="@dimen/space_8"
             app:tint="@color/txt_ash"
             android:src="@drawable/ic_quran_play_fill"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnTafseer"
             app:layout_constraintTop_toBottomOf="@id/border"/>
 
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:visibility="gone"
+            android:id="@+id/playLoading"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:padding="@dimen/space_8"
+            app:indicatorSize="18dp"
+            app:trackThickness="2dp"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnTafseer"
+            app:layout_constraintTop_toBottomOf="@id/border"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

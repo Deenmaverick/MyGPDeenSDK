@@ -9,6 +9,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.utils.prepareStubView
+import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.views.dashboard.patch.AdBanner
 import com.deenislam.sdk.views.dashboard.patch.Billboard
@@ -24,7 +25,8 @@ const val TYPE_WIDGET6:Int = 6
 const val TYPE_WIDGET7:Int = 7
 const val TYPE_WIDGET8:Int = 8
 internal class DashboardPatchAdapter(
-    private val callback: prayerTimeCallback? = null
+    private val callback: prayerTimeCallback? = null,
+    private val menuCallback:MenuCallback ? =null
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -68,7 +70,7 @@ internal class DashboardPatchAdapter(
                 TYPE_WIDGET3 -> {
 
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.dashboard_inc_menu) {
-                        Menu().getInstance().load(this, null)
+                        Menu().getInstance().load(this, null,menuCallback)
                     }
                 }
 

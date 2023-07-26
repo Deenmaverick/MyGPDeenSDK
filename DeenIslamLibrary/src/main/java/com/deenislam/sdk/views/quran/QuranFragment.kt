@@ -1,39 +1,37 @@
 package com.deenislam.sdk.views.quran
 
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.R
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislam.sdk.views.main.MainActivity
-import com.deenislam.sdk.views.main.actionCallback
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 
 
-internal class QuranFragment : BaseRegularFragment(),actionCallback {
+internal class QuranFragment : BaseRegularFragment() {
 
-    private val header:LinearLayout by lazy { requireView().findViewById(R.id.header) }
-    private val _viewPager: ViewPager2 by lazy { requireView().findViewById(R.id.viewPager) }
+    private lateinit var actionbar:ConstraintLayout
+    private lateinit var header:LinearLayout
+    private lateinit var _viewPager: ViewPager2
 
-    private val surahBtn:MaterialButton by lazy { requireView().findViewById(R.id.surahBtn) }
-    private val juzBtn:MaterialButton by lazy { requireView().findViewById(R.id.juzBtn) }
-    private val myquranBtn:MaterialButton by lazy { requireView().findViewById(R.id.myquranBtn) }
-    private val quranHomeBtn:AppCompatImageView by lazy { requireView().findViewById(R.id.quranHomeBtn) }
+    private lateinit var surahBtn:MaterialButton
+    private lateinit var juzBtn:MaterialButton
+    private lateinit var myquranBtn:MaterialButton
+    private lateinit var quranHomeBtn:AppCompatImageView
 
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
@@ -42,22 +40,50 @@ internal class QuranFragment : BaseRegularFragment(),actionCallback {
     private var firstload:Int = 0
 
 
+    override fun OnCreate() {
+        super.OnCreate()
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return layoutInflater.inflate(R.layout.fragment_quran,container,false)
+
+        val mainview = layoutInflater.inflate(R.layout.fragment_quran,container,false)
+
+        // init view
+        actionbar = mainview.findViewById(R.id.actionbar)
+        header = mainview.findViewById(R.id.header)
+        _viewPager = mainview.findViewById(R.id.viewPager)
+        surahBtn = mainview.findViewById(R.id.surahBtn)
+        juzBtn = mainview.findViewById(R.id.juzBtn)
+        myquranBtn = mainview.findViewById(R.id.myquranBtn)
+        quranHomeBtn = mainview.findViewById(R.id.quranHomeBtn)
+
+        setupActionForOtherFragment(0,0,null,"Al Quran",true,mainview)
+
+
+        return mainview
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         header.post {
-
             val param = _viewPager.layoutParams as ViewGroup.MarginLayoutParams
-            param.topMargin = header.height
+            param.topMargin = _viewPager.marginTop+ header.height
+            _viewPager.layoutParams = param
+        }
 
+        actionbar.post {
+            val param = _viewPager.layoutParams as ViewGroup.MarginLayoutParams
+            param.topMargin = _viewPager.marginTop+ actionbar.height
             _viewPager.layoutParams = param
         }
 
@@ -77,80 +103,33 @@ internal class QuranFragment : BaseRegularFragment(),actionCallback {
             changeViewPagerPos(3)
         }
 
-    }
-
-  /*  override fun setMenuVisibility(visible: Boolean) {
-        super.setMenuVisibility(visible)
-        if (visible) {
-            initView()
-        }
-    }*/
-
-    override fun onResume() {
-        super.onResume()
-
-        /*if(MainActivity.instance?.bottomNavClicked == true)
-            animateView()
-        else*/
-            initView()
-        setupAction(R.drawable.ic_search,R.drawable.ic_settings,this@QuranFragment,"AL Quran")
-
-    }
-
-    private fun animateView()
-    {
-        val anim: Animation
-
-        if(MainActivity.instance?.childFragmentAnimForward == true)
-            anim = AnimationUtils.loadAnimation(requireContext(), R.anim.right_to_left)
-        else
-            anim = AnimationUtils.loadAnimation(requireContext(), R.anim.left_to_right)
-
-        requireView().startAnimation(anim)
-
-        anim?.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-            override fun onAnimationEnd(animation: Animation) {
-                initView()
-            }
-            override fun onAnimationRepeat(animation: Animation) {}
-        })
-
-        MainActivity.instance?.resetBottomNavClick()
-    }
-
-    private fun initView()
-    {
-        if(firstload != 0)
-            return
-        firstload = 1
-
         initViewPager()
-
     }
 
     private fun initViewPager()
     {
 
         mPageDestination = arrayListOf(
-            QuranHomeFragment(),
-            QuranSurahFragment(),
-            QuranJuzFragment(),
-            MyQuranFragment()
+            QuranHomeFragment(actionbar),
+            QuranSurahFragment(actionbar),
+            QuranJuzFragment(actionbar),
+            MyQuranFragment(actionbar)
         )
 
         mainViewPagerAdapter = MainViewPagerAdapter(
-            fragmentManager = getChildFragmentManager(),
+            fragmentManager = childFragmentManager,
             lifecycle = lifecycle,
             mPageDestination
         )
 
         _viewPager.apply {
             adapter = mainViewPagerAdapter
-            isNestedScrollingEnabled = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                isNestedScrollingEnabled = false
+            }
             isUserInputEnabled = false
             overScrollMode = View.OVER_SCROLL_NEVER
-            offscreenPageLimit = 1
+            offscreenPageLimit = 4
         }
 
         if (_viewPager.getChildAt(0) is RecyclerView) {
@@ -169,20 +148,20 @@ internal class QuranFragment : BaseRegularFragment(),actionCallback {
                     0-> quranHomeBtn.setImageDrawable(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_quran_verse))
                     1->
                     {
-                        surahBtn.backgroundTintList = ColorStateList.valueOf(requireContext().resources.getColor(R.color.primary,requireContext().theme))
-                        surahBtn.setTextColor(requireContext().resources.getColor(R.color.white,requireContext().theme))
+                        surahBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
+                        surahBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                     }
 
                     2->
                     {
-                        juzBtn.backgroundTintList = ColorStateList.valueOf(requireContext().resources.getColor(R.color.primary,requireContext().theme))
-                        juzBtn.setTextColor(requireContext().resources.getColor(R.color.white,requireContext().theme))
+                        juzBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
+                        juzBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                     }
 
                     3->
                     {
-                        myquranBtn.backgroundTintList = ColorStateList.valueOf(requireContext().resources.getColor(R.color.primary,requireContext().theme))
-                        myquranBtn.setTextColor(requireContext().resources.getColor(R.color.white,requireContext().theme))
+                        myquranBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
+                        myquranBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                     }
                 }
 
@@ -195,14 +174,14 @@ internal class QuranFragment : BaseRegularFragment(),actionCallback {
 
         quranHomeBtn.setImageDrawable(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_quran_verse_inactive))
 
-        surahBtn.backgroundTintList = ColorStateList.valueOf(requireContext().resources.getColor(R.color.white,requireContext().theme))
-        surahBtn.setTextColor(requireContext().resources.getColor(R.color.txt_ash,requireContext().theme))
+        surahBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
+        surahBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
-        juzBtn.backgroundTintList = ColorStateList.valueOf(requireContext().resources.getColor(R.color.white,requireContext().theme))
-        juzBtn.setTextColor(requireContext().resources.getColor(R.color.txt_ash,requireContext().theme))
+        juzBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
+        juzBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
-        myquranBtn.backgroundTintList = ColorStateList.valueOf(requireContext().resources.getColor(R.color.white,requireContext().theme))
-        myquranBtn.setTextColor(requireContext().resources.getColor(R.color.txt_ash,requireContext().theme))
+        myquranBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
+        myquranBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
 
     }
@@ -211,14 +190,6 @@ internal class QuranFragment : BaseRegularFragment(),actionCallback {
     {
         if(pos!=viewPagerPosition)
             _viewPager.setCurrentItem(pos,true)
-    }
-
-    override fun action1() {
-
-    }
-
-    override fun action2() {
-
     }
 
 }

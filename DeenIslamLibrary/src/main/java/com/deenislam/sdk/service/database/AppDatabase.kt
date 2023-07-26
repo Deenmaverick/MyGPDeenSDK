@@ -12,9 +12,10 @@ import com.deenislam.sdk.service.database.entity.*
         FavoriteMenu::class,
         PrayerNotification::class,
         PrayerTimes::class,
-        Tasbeeh::class
+        Tasbeeh::class,
+        PlayerSettingPref::class
                ],
-    version = 15,
+    version = 16,
     /*autoMigrations = [
         AutoMigration(from = 1, to = 8),
                      ],*/
@@ -29,4 +30,5 @@ internal abstract class AppDatabase : RoomDatabase() {
     abstract fun PrayerNotificationDAO():PrayerNotificationDao
     abstract fun PrayerTimesDAO():PrayerTimesDao
     abstract fun TasbeehDao():TasbeehDao
+    abstract fun PlayerSettingDao():PlayerSettingDao
 }

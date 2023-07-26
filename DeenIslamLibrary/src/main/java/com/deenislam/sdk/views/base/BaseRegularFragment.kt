@@ -111,7 +111,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         (requireActivity() as MainActivity).setupOtherFragment(bol)
     }
 
-    fun setupActionForOtherFragment(action1:Int,action2:Int,callback: otherFagmentActionCallback?=null,actionnBartitle:String,backEnable:Boolean=true,view: View)
+    fun setupActionForOtherFragment(action1:Int,action2:Int,callback: otherFagmentActionCallback?=null,actionnBartitle:String,backEnable:Boolean=true,view: View,isBackIcon:Boolean = false)
     {
         val action1Btn:AppCompatImageView = view.findViewById(R.id.action1)
         val action2Btn:AppCompatImageView = view.findViewById(R.id.action2)
@@ -135,7 +135,7 @@ internal abstract class BaseRegularFragment: Fragment() {
                 leftMargin=16.dp
             }
             title.text = actionnBartitle
-            btnBack.visible(false)
+            btnBack.visible(isBackIcon)
         }
 
         if(action1>0) {

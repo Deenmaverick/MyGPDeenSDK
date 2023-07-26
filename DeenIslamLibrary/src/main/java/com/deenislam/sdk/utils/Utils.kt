@@ -355,9 +355,6 @@ val Int.isBottomNavFragment: Boolean
        when(this)
            {
                R.id.dashboardFragment -> true
-               R.id.quranFragment -> true
-               R.id.prayerTimesFragment -> true
-               R.id.moreFragment -> true
                else -> false
            }
 

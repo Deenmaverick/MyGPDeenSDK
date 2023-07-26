@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "tasbeeh")
-internal data class Tasbeeh(
+data class Tasbeeh(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id", defaultValue = "0")

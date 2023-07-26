@@ -61,7 +61,22 @@
         tools:layout="@layout/fragment_al_quran" >
         <argument
             android:name="surah"
-            app:argType="com.deenislam.sdk.service.network.response.quran.SurahListData" />
+            app:argType="com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="suraList"
+            app:argType="com.deenislam.sdk.service.network.response.quran.qurannew.surah.SurahList" />
+        <argument
+            android:name="juz"
+            app:argType="com.deenislam.sdk.service.network.response.quran.juz.Juz"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="juzList"
+            app:argType="com.deenislam.sdk.service.network.response.quran.juz.JuzResponse"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
 </navigation>

@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".views.login.LoginFragment"
     android:background="@color/background">
+
+    <include
+        android:id="@+id/actionbar"
+        layout="@layout/layout_actionbar_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -101,311 +116,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/downloadLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_16"
-            android:layout_marginTop="@dimen/space_8"
-            android:layout_marginBottom="1dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="1dp"
-            app:layout_constraintEnd_toStartOf="@+id/favLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileLayout"
-            app:strokeWidth="0dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/download_gradiant"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtdownload"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:text="Downloads"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/white"
-                    app:layout_constraintTop_toTopOf="@id/ic_download"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:text="25 Downloads"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/white_70"
-                    app:layout_constraintTop_toBottomOf="@+id/txtdownload"
-                    app:layout_constraintBottom_toBottomOf="@id/ic_download"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_download"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:layout_marginTop="@dimen/space_19"
-                    android:layout_marginBottom="@dimen/space_19"
-                    android:src="@drawable/ic_download"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/favLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_16"
-            android:layout_marginBottom="1dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/downloadLayout"
-            app:layout_constraintTop_toTopOf="@+id/downloadLayout"
-            app:strokeWidth="0dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/favorite_gradiant"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtfav"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:text="Favorites"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/white"
-                    app:layout_constraintTop_toTopOf="@id/ic_love"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:text="20 Favorites"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/white_70"
-                    app:layout_constraintTop_toBottomOf="@+id/txtfav"
-                    app:layout_constraintBottom_toBottomOf="@id/ic_love"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_love"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:layout_marginTop="@dimen/space_19"
-                    android:layout_marginBottom="@dimen/space_19"
-                    android:src="@drawable/ic_love"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/prayerTrackerLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_16"
-            android:layout_marginTop="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_8"
-            android:layout_marginBottom="1dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="1dp"
-            app:strokeColor="@color/stroke_card"
-            app:cardBackgroundColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/favLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/downloadLayout"
-            app:strokeWidth="1dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ptTxt"
-                    android:layout_width="80dp"
-                    android:layout_height="34dp"
-                    android:layout_marginStart="@dimen/space_12"
-                    android:text="Prayer Tracker"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/txt_black_deep"
-                    app:layout_constraintTop_toTopOf="@id/prayerTrackerCount"
-                    app:layout_constraintBottom_toBottomOf="@+id/waktTxt"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/prayerTrackerCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3"
-                    android:textAppearance="@style/TextAppearance.font24"
-                    android:textColor="@color/primary"
-                    android:layout_marginBottom="@dimen/space_19"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/waktTxt"
-                    app:layout_constraintEnd_toEndOf="@id/waktTxt"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/waktTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Waqt"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/txt_ash"
-                    android:layout_marginEnd="@dimen/space_21"
-                    android:layout_marginBottom="@dimen/space_19"
-                    app:layout_constraintTop_toBottomOf="@+id/prayerTrackerCount"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/fastingTrackerLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_16"
-            android:layout_marginBottom="1dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="1dp"
-            app:strokeColor="@color/stroke_card1"
-            app:cardBackgroundColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/prayerTrackerLayout"
-            app:layout_constraintTop_toTopOf="@+id/prayerTrackerLayout"
-            app:strokeWidth="1dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ftTxt"
-                    android:layout_width="80dp"
-                    android:layout_height="34dp"
-                    android:layout_marginStart="@dimen/space_12"
-                    android:text="Fasting Tracker"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/txt_black_deep"
-                    app:layout_constraintTop_toTopOf="@id/ftCountTxt"
-                    app:layout_constraintBottom_toBottomOf="@+id/ftDayTxt"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ftCountTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10"
-                    android:textAppearance="@style/TextAppearance.font24"
-                    android:textColor="@color/primary"
-                    android:layout_marginBottom="@dimen/space_19"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/ftDayTxt"
-                    app:layout_constraintEnd_toEndOf="@id/ftDayTxt"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ftDayTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Days"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/txt_ash"
-                    android:layout_marginEnd="@dimen/space_21"
-                    android:layout_marginBottom="@dimen/space_19"
-                    app:layout_constraintTop_toBottomOf="@+id/ftCountTxt"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_goneMarginTop="@dimen/space_16"
-            android:layout_marginStart="@dimen/space_16"
-            android:layout_marginTop="@dimen/space_16"
-            android:text="Categories"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/prayerTrackerLayout" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/menuLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.Material3.CardView.Elevated"
-            app:cardBackgroundColor="@color/card_bg"
-            android:layout_marginStart="@dimen/space_16"
-            android:layout_marginTop="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_16"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="1dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtCategory">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/menuRC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_12"
-                android:layout_marginEnd="@dimen/space_12"
-                android:layout_gravity="center"
-                android:nestedScrollingEnabled="false"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="4"
-                tools:listitem="@layout/item_menu_list_dashboard"
-                android:layout_marginTop="@dimen/space_8"
-                android:layout_marginBottom="@dimen/space_8"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/premiumLayout"
@@ -418,7 +129,7 @@
             app:cardElevation="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menuLayout"
+            app:layout_constraintTop_toBottomOf="@+id/profileLayout"
             app:strokeWidth="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -482,7 +193,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/givingStarLayout"
+            android:id="@+id/settingLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_16"
@@ -502,7 +213,7 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_star"
+                    android:id="@+id/ic_setting"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="@dimen/space_12"
@@ -510,24 +221,23 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/ic_star"/>
+                    android:src="@drawable/ic_settings"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/giveRatingTxt"
+                    android:id="@+id/title1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_12"
                     android:layout_marginTop="@dimen/sapce_20"
                     android:layout_marginBottom="@dimen/sapce_20"
-                    android:text="Give us rating"
+                    android:text="Settings"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/txt_black_deep"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ic_star" />
+                    app:layout_constraintStart_toEndOf="@id/ic_setting" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/rating_right_arrow"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="@dimen/space_12"
@@ -543,7 +253,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/shareLayout"
+            android:id="@+id/contactLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_16"
@@ -554,7 +264,7 @@
             app:cardBackgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/givingStarLayout"
+            app:layout_constraintTop_toBottomOf="@+id/settingLayout"
             app:strokeWidth="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -563,7 +273,7 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_share"
+                    android:id="@+id/ic_contact"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="@dimen/space_12"
@@ -571,7 +281,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/ic_share"/>
+                    android:src="@drawable/ic_contact"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -579,12 +289,12 @@
                     android:layout_marginStart="@dimen/space_12"
                     android:layout_marginTop="@dimen/sapce_20"
                     android:layout_marginBottom="@dimen/sapce_20"
-                    android:text="Share the app"
+                    android:text="Contact us"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/txt_black_deep"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ic_share" />
+                    app:layout_constraintStart_toEndOf="@id/ic_contact" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="32dp"
@@ -601,9 +311,70 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/termsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginBottom="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_10"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contactLayout"
+            app:strokeWidth="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ic_info"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_12"
+                    android:layout_gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:src="@drawable/ic_info_circle"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_12"
+                    android:layout_marginTop="@dimen/sapce_20"
+                    android:layout_marginBottom="@dimen/sapce_20"
+                    android:text="Terms of use"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/txt_black_deep"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ic_info" />
+
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="@dimen/space_12"
+                    android:layout_gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/right_arrow"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/updateLayout"
+            android:id="@+id/privacyLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_16"
@@ -616,7 +387,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shareLayout"
+            app:layout_constraintTop_toBottomOf="@+id/termsLayout"
             app:strokeWidth="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -625,7 +396,7 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_refresh"
+                    android:id="@+id/ic_privacy"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="@dimen/space_12"
@@ -633,33 +404,21 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/ic_refresh"/>
+                    android:src="@drawable/ic_privacy_policy"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/updateTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_12"
-                    android:layout_marginTop="@dimen/space_12"
-                    android:text="Check for update"
+                    android:layout_marginTop="@dimen/sapce_20"
+                    android:layout_marginBottom="@dimen/sapce_20"
+                    android:text="Privacy policy"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/txt_black_deep"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ic_refresh" />
-
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/space_12"
-                    android:textAlignment="center"
-                    android:text="Current version 1.0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/txt_ash"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/updateTxt"
-                    app:layout_constraintStart_toStartOf="@+id/updateTxt" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ic_privacy" />
+
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -680,4 +439,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

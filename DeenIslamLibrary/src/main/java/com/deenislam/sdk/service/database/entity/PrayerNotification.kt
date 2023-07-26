@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "prayer_notification")
-internal data class PrayerNotification(
+data class PrayerNotification(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id", defaultValue = "0")

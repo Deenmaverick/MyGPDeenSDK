@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "fav_menu")
-internal data class FavoriteMenu(
+data class FavoriteMenu(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id:Int,

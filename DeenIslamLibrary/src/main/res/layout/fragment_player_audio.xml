@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:overScrollMode="never"
+    android:scrollbars="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.quran.quranplayer.PlayerAudioFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:paddingStart="@dimen/space_16"
+    android:paddingEnd="@dimen/space_16"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <FrameLayout
+        android:id="@+id/autoScrollLy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_4"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auto Scroll"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintTop_toBottomOf="@+id/fontLayout"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/autoScrollSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:minHeight="15dp"
+            android:checked="true"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:thumbTint="@color/white"
+            app:trackDecorationTint="@android:color/transparent" />
+
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/autoPlayLy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_4"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/autoScrollLy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auto Play Next"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintTop_toBottomOf="@+id/fontLayout"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/autoPlaySwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:minHeight="15dp"
+            android:checked="true"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:thumbTint="@color/white"
+            app:trackDecorationTint="@android:color/transparent" />
+
+
+
+    </FrameLayout>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ArabicFontTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_16"
+        android:text="Recitation"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/txt_ash"
+        app:layout_constraintTop_toBottomOf="@+id/autoPlayLy"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_15.5"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ArabicFontTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AbdulBaset AbdulSamad"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/primary"
+            app:layout_constraintTop_toBottomOf="@+id/fontLayout"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:checked="true"
+            android:layout_gravity="end"
+            android:button="@drawable/radio_button"
+            android:minHeight="0dp"
+            android:clickable="false"/>
+
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

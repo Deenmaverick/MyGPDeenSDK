@@ -3,17 +3,21 @@ package com.deenislam.sdk.views.adapters.quran;
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.network.response.quran.SurahListData
+import com.deenislam.sdk.service.callback.SurahCallback
+import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class SurahAdapter(
     private val surahCallback: SurahCallback?=null
-) : RecyclerView.Adapter<BaseViewHolder>() {
+) : RecyclerView.Adapter<BaseViewHolder>(), Filterable {
 
-    private val surahList: ArrayList<SurahListData> = arrayListOf()
+    private val surahList: ArrayList<Chapter> = arrayListOf()
+    private var surahFilter : List<Chapter> = surahList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
@@ -21,14 +25,15 @@ internal class SurahAdapter(
                 .inflate(R.layout.item_quran_popular_surah, parent, false)
         )
 
-    fun update(data: List<SurahListData>)
+    fun update(data: List<Chapter>)
     {
         surahList.clear()
         surahList.addAll(data)
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = surahList.size
+    override fun getItemCount(): Int = surahFilter.size
+
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)
@@ -46,22 +51,48 @@ internal class SurahAdapter(
 
             val surahPost = position+1
 
-            surahCount.text = surahList[position].SurahNo.toString()
-            surahName.text = surahList[position].Name
+            surahCount.text = surahFilter[position].id.toString()
+            surahName.text = surahFilter[position].name_simple
             arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
-            surahSub.text = "${surahList[position].NameMeaning} • ${surahList[position].TotalAyat} Ayahs"
+            surahSub.text = "${surahFilter[position].translated_name.name} • ${surahFilter[position].verses_count} Ayahs"
 
             itemView.setOnClickListener {
-                surahCallback?.surahClick(surahList[position])
+                surahCallback?.surahClick(surahFilter[position])
             }
 
         }
     }
-}
 
-internal interface SurahCallback
-{
-    fun surahClick(surahListData: SurahListData)
+    override fun getFilter(): Filter {
+        return object : Filter() {
+
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint?.toString() ?: ""
+                if (charString.isEmpty()) surahFilter = surahList else {
+                    val filteredList = ArrayList<Chapter>()
+                    surahList
+                        .filter {
+                            (it.name_simple.lowercase().contains(constraint.toString().lowercase()))
+
+                        }
+                        .forEach { filteredList.add(it) }
+                    surahFilter = filteredList
+
+                }
+                return FilterResults().apply { values = surahFilter }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                surahFilter = if (results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<Chapter>
+
+                notifyDataSetChanged()
+            }
+        }
+    }
 }
 
 

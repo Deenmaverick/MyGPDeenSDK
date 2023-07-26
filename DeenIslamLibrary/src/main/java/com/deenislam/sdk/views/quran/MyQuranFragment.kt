@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,9 @@ import com.deenislam.sdk.views.adapters.quran.MyQuranCallback
 import com.deenislam.sdk.views.base.BaseRegularFragment
 
 
-internal class MyQuranFragment : BaseRegularFragment(), MyQuranCallback {
+internal class MyQuranFragment(
+    private val actionbar: ConstraintLayout
+) : BaseRegularFragment(), MyQuranCallback {
 
     private val  popularRC: RecyclerView by lazy { requireView().findViewById(R.id.surahListRC) }
     private val progressLayout:LinearLayout by lazy { requireView().findViewById(R.id.progressLayout) }
@@ -39,6 +42,14 @@ internal class MyQuranFragment : BaseRegularFragment(), MyQuranCallback {
 
     }
 
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        if (menuVisible)
+        {
+            setupActionForOtherFragment(0,0,null,"Al Quran",true,actionbar)
+
+        }
+    }
 
     override fun onResume() {
         super.onResume()

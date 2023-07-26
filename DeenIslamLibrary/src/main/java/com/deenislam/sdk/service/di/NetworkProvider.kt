@@ -5,8 +5,10 @@ import com.deenislam.sdk.Deen
 import com.deenislam.sdk.service.network.AuthInterceptor
 import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.service.network.api.DeenService
+import com.deenislam.sdk.service.network.api.QuranService
 import com.deenislam.sdk.utils.BASE_AUTH_API_URL
 import com.deenislam.sdk.utils.BASE_DEEN_SERVICE_API_URL
+import com.deenislam.sdk.utils.BASE_QURAN_API_URL
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -17,6 +19,7 @@ internal class NetworkProvider {
     private var authInterceptor:AuthInterceptor ? =null
     private var okHttpClient:OkHttpClient ? =null
     private var deenService:DeenService ? = null
+    private var quranService:QuranService ? = null
     private var authService:AuthenticateService ? = null
 
     companion object {
@@ -32,7 +35,8 @@ internal class NetworkProvider {
 
     private fun initInstance(
         isDeenService:Boolean = false,
-        isAuthService:Boolean = false
+        isAuthService:Boolean = false,
+        isQuranService:Boolean = false
     )
     {
         if(instance?.authInterceptor==null) {
@@ -92,9 +96,19 @@ internal class NetworkProvider {
 
         if(instance?.deenService == null && isDeenService) {
             instance?.okHttpClient?.let {
-                deenService = buildAPI(
+                instance?.deenService = buildAPI(
                     api = DeenService::class.java,
                     baseUrl = BASE_DEEN_SERVICE_API_URL,
+                    okHttpClient = it
+                )
+            }
+        }
+
+        if(instance?.quranService == null && isQuranService) {
+            instance?.okHttpClient?.let {
+                instance?.quranService = buildAPI(
+                    api = QuranService::class.java,
+                    baseUrl = BASE_QURAN_API_URL,
                     okHttpClient = it
                 )
             }
@@ -121,6 +135,11 @@ internal class NetworkProvider {
     fun provideDeenService(): DeenService? {
         initInstance(isDeenService = true)
         return instance?.deenService
+    }
+
+    fun provideQuranService(): QuranService? {
+        initInstance(isQuranService = true)
+        return instance?.quranService
     }
 
     fun provideAuthService(): AuthenticateService? {

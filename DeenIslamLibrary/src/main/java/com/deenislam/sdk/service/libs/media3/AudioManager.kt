@@ -4,57 +4,74 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.util.Log
-import com.deenislam.sdk.R
 
 internal class AudioManager {
 
     private var mediaPlayer: MediaPlayer?= null
     private var apAdapterCallback:APAdapterCallback ? = null
+    private var onlineAudio:Boolean = false
 
     companion object {
         var instance: AudioManager? = null
     }
 
     fun getInstance(): AudioManager {
-        if (instance == null)
+        if (instance == null) {
+            Log.e("AudioManager","getInstance")
             instance = AudioManager()
+        }
 
         return instance as AudioManager
     }
 
     fun setupAdapterResponseCallback(apAdapterCallback: APAdapterCallback)
     {
-        Log.e("setupAdapterResponseCallback","ok")
         instance?.apAdapterCallback = apAdapterCallback
     }
 
-    fun playAudioFromUrl(url:String,position:Int = -1)
+    fun playAudioFromUrl(url:String, position:Int = -1)
     {
+        Log.e("playAudioFromUrl",url+" "+position)
         try {
-
             releasePlayer()
 
-                instance?.mediaPlayer = MediaPlayer().apply {
-                    setAudioAttributes(
-                        AudioAttributes.Builder()
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .build()
-                    )
-                    setDataSource(url)
-                    prepare()
+            if(instance?.mediaPlayer == null)
+                instance?.mediaPlayer = MediaPlayer()
+
+            instance?.mediaPlayer?.apply {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+                )
+                setDataSource(url)
+                prepareAsync()
+            }
+
+
+            // instance?.mediaPlayer?.prepareAsync()
+
+            instance?.mediaPlayer?.setOnPreparedListener {
+                Log.e("MymediaPlayer","setOnPreparedListener")
+                if(instance?.mediaPlayer?.isPlaying==false) {
+                    if (position >= 0)
+                        instance?.apAdapterCallback?.isPlaying(position, instance?.mediaPlayer?.duration)
+                    instance?.mediaPlayer?.start()
+
                 }
+            }
+
+            instance?.mediaPlayer?.setOnCompletionListener {
+
+                completePlaying(position)
+            }
+
+
         }
         catch (e:Exception)
         {
-            Log.e("playAudioFromUrl",url)
-            releasePlayer()
-        }
-
-        instance?.mediaPlayer?.setOnPreparedListener {
-            instance?.mediaPlayer?.start()
-            if(position>=0)
-                apAdapterCallback?.isPlaying(position)
+            releasePlayer(position)
         }
 
     }
@@ -75,12 +92,28 @@ internal class AudioManager {
         }
     }
 
-     fun releasePlayer(position:Int=-1)
+    fun releasePlayer(position:Int=-1,crash:Boolean=false)
+    {
+        instance?.mediaPlayer?.reset()
+        //instance?.mediaPlayer?.release()
+        //instance?.mediaPlayer = null
+        if(position>=0) {
+            if(!crash)
+                instance?.apAdapterCallback?.isPause(position)
+            else
+                instance?.apAdapterCallback?.isStop(position)
+        }
+
+        //Log.e("MymediaPlayer","release")
+    }
+
+
+    fun completePlaying(position:Int=-1)
     {
         instance?.mediaPlayer?.release()
         instance?.mediaPlayer = null
         if(position>=0)
-            apAdapterCallback?.isStop(position)
+            instance?.apAdapterCallback?.isComplete(position)
     }
 
     fun pauseMediaPlayer(position:Int = -1)
@@ -88,7 +121,15 @@ internal class AudioManager {
         instance?.mediaPlayer?.pause()
 
         if(position>=0)
-            apAdapterCallback?.isPause(position)
+            instance?.apAdapterCallback?.isPause(position)
+    }
+
+    fun stopMediaPlayer(position:Int = -1)
+    {
+        instance?.mediaPlayer?.stop()
+
+        if(position>=0)
+            instance?.apAdapterCallback?.isStop(position)
     }
 
     fun startMediaPlayer(position:Int = -1)
@@ -96,7 +137,7 @@ internal class AudioManager {
         instance?.mediaPlayer?.start()
 
         if(position>=0)
-            apAdapterCallback?.isPlaying()
+            instance?.apAdapterCallback?.isPlaying(duration = instance?.mediaPlayer?.duration)
     }
 
 }

@@ -101,7 +101,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             deenService = NetworkProvider().getInstance().provideDeenService(),
             prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao(),
             prayerTimesDao = DatabaseProvider().getInstance().providePrayerTimesDao()
-
         )
 
         val factory = VMFactory(prayerTimesRepository)

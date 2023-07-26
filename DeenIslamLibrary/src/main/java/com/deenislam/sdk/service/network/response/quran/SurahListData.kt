@@ -1,10 +1,10 @@
-package com.deenislam.sdk.service.network.response.quran
+package com.deenislam.service.network.response.quran
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-internal data class SurahListData(
+data class SurahListData(
     val ContentBaseUrl: String,
     val ContentUrl: String,
     val Duration: String,

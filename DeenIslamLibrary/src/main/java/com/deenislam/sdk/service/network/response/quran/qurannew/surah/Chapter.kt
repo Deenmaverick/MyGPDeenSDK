@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-internal data class Chapter(
+data class Chapter(
     val bismillah_pre: Boolean,
     val id: Int,
     val name_arabic: String,

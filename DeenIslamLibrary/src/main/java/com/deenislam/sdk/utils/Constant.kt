@@ -3,6 +3,8 @@ package com.deenislam.sdk.utils
 const val BASE_AUTH_API_URL = "https://devapi.deenislamic.com/api/"
 const val BASE_DEEN_SERVICE_API_URL = "https://devservices.deenislamic.com/api/"
 const val BASE_QURAN_API_URL = "https://api.quran.com/api/v4/"
+const val BASE_CONTENT_URL_SGP = "https://islamic-content.sgp1.digitaloceanspaces.com/Content/"
+const val BASE_QURAN_VERSE_AUDIO_URL = "https://verses.quran.com/"
 const val MENU_HAJJ_AND_UMRAH = "HajjUmrah"
 const val MENU_PRAYER_TIME= "prayerTime"
 const val MENU_AL_QURAN = "ALQuran"

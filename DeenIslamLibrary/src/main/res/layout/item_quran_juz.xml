@@ -56,30 +56,45 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/surahSub"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginStart="@dimen/space_9"
             android:layout_marginBottom="@dimen/space_10"
+            android:layout_marginEnd="@dimen/space_10"
             android:text="Al-Fatihah • Al-Baqarah"
-            android:gravity="center"
-            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/txt_ash"
+            app:layout_constraintEnd_toStartOf="@+id/playBtn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/juz"
             app:layout_constraintStart_toEndOf="@id/surahCount"
             />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/playBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_play_fill"
+            android:src="@drawable/ic_next"
             android:layout_marginEnd="@dimen/space_12"
+            android:tint="@color/txt_black_deep"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:visibility="gone"
+            android:id="@+id/playLoading"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:padding="@dimen/space_8"
+            app:indicatorSize="18dp"
+            app:trackThickness="2dp"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

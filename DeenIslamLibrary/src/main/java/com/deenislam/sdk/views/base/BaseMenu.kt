@@ -66,20 +66,16 @@ internal class BaseMenu {
 
                 //Al Quran
                 it.add(MenuModel(R.drawable.ic_menu_quran,"Al Quran", MENU_AL_QURAN))
-                //Hajj & Umrah
-                it.add(MenuModel(R.drawable.ic_menu_kabah,"Hajj & Umrah", MENU_HAJJ_AND_UMRAH))
-                //Prayer time
-                it.add(MenuModel(R.drawable.ic_menu_prayer,"Prayer Times", MENU_PRAYER_TIME))
-                //Ramadan time
-                it.add(MenuModel(R.drawable.ic_menu_calander,"Ramadan", MENU_RAMADAN))
                 //Hadith
                 it.add(MenuModel(R.drawable.ic_menu_hadith,"Hadith", MENU_HADITH))
+                //Prayer time
+                it.add(MenuModel(R.drawable.ic_menu_prayer,"Prayer Times", MENU_PRAYER_TIME))
                 //Daily Dua
                 it.add(MenuModel(R.drawable.ic_menu_dua,"Daily Dua", MENU_DUA))
-                //99 Name of allah
-                it.add(MenuModel(R.drawable.ic_menu_99_name_of_allah,"99 Names of Allah", MENU_99_NAME_OF_ALLAH))
                 //Zakat
                 it.add(MenuModel(R.drawable.ic_menu_zakat,"Zakat", MENU_ZAKAT))
+                //Digital Tasbih
+                it.add(MenuModel(R.drawable.ic_menu_digital_tasbeeh,"Digital Tasbeeh", MENU_DIGITAL_TASBEEH))
 
             }
         }

@@ -13,5 +13,5 @@ internal interface CommonResource
 
     object LOADING:CommonResource
     object EMPTY:CommonResource, PrayerCalendarResource, PrayerTimeResource,
-        PrayerNotificationResource, AlQuranResource
+        PrayerNotificationResource, AlQuranResource, SurahResource
 }

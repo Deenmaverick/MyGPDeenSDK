@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.views.adapters.MenuAdapter
+import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.base.BaseMenu
 
 internal class Menu {
@@ -23,14 +24,14 @@ internal class Menu {
         return instance as Menu
     }
 
-    fun load(widget: View, viewPool: RecyclerView.RecycledViewPool?) {
+    fun load(widget: View, viewPool: RecyclerView.RecycledViewPool?, menuCallback: MenuCallback?) {
 
         val dashboardRecycleMenu:RecyclerView = widget.findViewById(R.id.dashboard_recycle_menu)
 
             val menu = BaseMenu().getInstance().getDashboardMenu()
 
             dashboardRecycleMenu.apply {
-                    adapter = MenuAdapter(menu,2)
+                    adapter = MenuAdapter(menu,2, menuCallback = menuCallback)
                     viewPool?.let { setRecycledViewPool(it) }
                 }
 

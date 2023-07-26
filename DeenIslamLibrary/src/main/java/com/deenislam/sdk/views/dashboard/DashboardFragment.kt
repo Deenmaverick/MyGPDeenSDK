@@ -19,6 +19,7 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
+import com.deenislam.sdk.utils.MENU_AL_QURAN
 import com.deenislam.sdk.utils.MENU_PRAYER_TIME
 import com.deenislam.sdk.utils.runWhenReady
 import com.deenislam.sdk.utils.visible
@@ -90,37 +91,21 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
         prayerTimesResponse?.let { updatePrayerAdapterOnly(it) }
     }
 
     override fun onResume() {
         super.onResume()
-        setupAction(R.drawable.ic_menu,0,this@DashboardFragment,getString(R.string.app_name))
-
-      /*  if(MainActivity.instance?.bottomNavClicked == true)
-            animateView()
-        else*/
             loadPage()
-
-      /*  BASE_OBSERVE_API_CALL_STATE()
-
-        lifecycleScope.launch {
-            BASE_CHECK_API_STATE()
-        }*/
-
     }
 
-
-
-  /* override fun setMenuVisibility(visible: Boolean) {
-        super.setMenuVisibility(visible)
-        if (visible) {
-            loadPage()
-            //initObserver()
-
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        if(menuVisible)
+        {
+            setupAction(R.drawable.ic_menu,0,this@DashboardFragment,getString(R.string.app_name))
         }
-    }*/
+    }
 
     fun loadDataAPI()
     {
@@ -266,6 +251,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     override fun action1() {
 
+        gotoFrag(R.id.moreFragment)
     }
 
     override fun action2() {
@@ -308,6 +294,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         when(tag)
         {
             MENU_PRAYER_TIME ->  gotoFrag(R.id.prayerTimesFragment)
+            MENU_AL_QURAN -> gotoFrag(R.id.quranFragment)
         }
     }
 

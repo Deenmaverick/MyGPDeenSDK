@@ -2,8 +2,8 @@ package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.prayer_calendar.PrayerCalendarResponse
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
-import com.deenislam.sdk.service.network.response.quran.SurahList
 import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetails
+import com.deenislam.sdk.service.network.response.quran.SurahList
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST
