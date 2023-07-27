@@ -10,6 +10,7 @@ import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -247,11 +248,11 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     private fun activeRadioText(view:AppCompatTextView)
     {
-        countRadio1Txt.setTextColor(requireContext().resources.getColor(R.color.txt_ash,requireContext().theme))
-        countRadio2Txt.setTextColor(requireContext().resources.getColor(R.color.txt_ash,requireContext().theme))
-        countRadio3Txt.setTextColor(requireContext().resources.getColor(R.color.txt_ash,requireContext().theme))
-        countRadio4Txt.setTextColor(requireContext().resources.getColor(R.color.txt_ash,requireContext().theme))
-        view.setTextColor(requireContext().resources.getColor(R.color.primary,requireContext().theme))
+        countRadio1Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        countRadio2Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        countRadio3Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        countRadio4Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        view.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
     }
 
     private fun updateCountView(count:Int)
