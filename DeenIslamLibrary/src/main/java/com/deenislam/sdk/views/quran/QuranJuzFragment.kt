@@ -93,13 +93,16 @@ internal class QuranJuzFragment(
         return mainview
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupActionForOtherFragment(0,0,null,"Al Quran",true,actionbar)
+
+    }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
         if(menuVisible)
         {
-            setupActionForOtherFragment(0,0,null,"Al Quran",true,actionbar)
-
             if(firstload == 0)
                 loadAPI()
             firstload = 1
@@ -231,7 +234,7 @@ internal class QuranJuzFragment(
             putParcelable("juzList", JuzResponse(juzs = juzList))
             putParcelable("suraList", SurahList(chapters = surahList))
         }
-        gotoFrag(R.id.alQuranFragment,data = bundle)
+        gotoFrag(R.id.action_quranFragment_to_alQuranFragment,data = bundle)
     }
 
     inner class VMFactory(

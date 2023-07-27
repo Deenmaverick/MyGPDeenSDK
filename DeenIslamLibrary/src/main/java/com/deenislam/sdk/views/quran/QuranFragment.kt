@@ -30,7 +30,7 @@ internal class QuranFragment : BaseRegularFragment() {
 
     private lateinit var surahBtn:MaterialButton
     private lateinit var juzBtn:MaterialButton
-    private lateinit var myquranBtn:MaterialButton
+    //private lateinit var myquranBtn:MaterialButton
     private lateinit var quranHomeBtn:AppCompatImageView
 
     private lateinit var mPageDestination: ArrayList<Fragment>
@@ -63,11 +63,10 @@ internal class QuranFragment : BaseRegularFragment() {
         _viewPager = mainview.findViewById(R.id.viewPager)
         surahBtn = mainview.findViewById(R.id.surahBtn)
         juzBtn = mainview.findViewById(R.id.juzBtn)
-        myquranBtn = mainview.findViewById(R.id.myquranBtn)
+        //myquranBtn = mainview.findViewById(R.id.myquranBtn)
         quranHomeBtn = mainview.findViewById(R.id.quranHomeBtn)
 
-        setupActionForOtherFragment(0,0,null,"Al Quran",true,mainview)
-
+        setupActionForOtherFragment(0,0,null,"Al Quran",true,actionbar)
 
         return mainview
     }
@@ -99,21 +98,20 @@ internal class QuranFragment : BaseRegularFragment() {
             changeViewPagerPos(2)
         }
 
-        myquranBtn.setOnClickListener {
+      /*  myquranBtn.setOnClickListener {
             changeViewPagerPos(3)
-        }
+        }*/
 
         initViewPager()
     }
 
     private fun initViewPager()
     {
-
         mPageDestination = arrayListOf(
             QuranHomeFragment(actionbar),
             QuranSurahFragment(actionbar),
             QuranJuzFragment(actionbar),
-            MyQuranFragment(actionbar)
+            //MyQuranFragment(actionbar)
         )
 
         mainViewPagerAdapter = MainViewPagerAdapter(
@@ -129,7 +127,7 @@ internal class QuranFragment : BaseRegularFragment() {
             }
             isUserInputEnabled = false
             overScrollMode = View.OVER_SCROLL_NEVER
-            offscreenPageLimit = 4
+            offscreenPageLimit = 3
         }
 
         if (_viewPager.getChildAt(0) is RecyclerView) {
@@ -158,11 +156,11 @@ internal class QuranFragment : BaseRegularFragment() {
                         juzBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                     }
 
-                    3->
+                  /*  3->
                     {
                         myquranBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
                         myquranBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
-                    }
+                    }*/
                 }
 
             }
@@ -180,9 +178,9 @@ internal class QuranFragment : BaseRegularFragment() {
         juzBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
         juzBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
-        myquranBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
+      /*  myquranBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
         myquranBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-
+*/
 
     }
 

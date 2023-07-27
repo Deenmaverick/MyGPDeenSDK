@@ -1,7 +1,10 @@
 package com.deenislam.sdk.utils
 
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import coil.load
+import com.deenislam.sdk.R
 
 internal inline fun <T : View> prepareStubView(
     stub: AsyncViewStub,
@@ -17,5 +20,19 @@ internal inline fun <T : View> prepareStubView(
         stub.inflate(AsyncLayoutInflater.OnInflateFinishedListener { view, _, _ ->
             (view as? T)?.prepareBlock()
         })
+    }
+}
+
+fun AppCompatImageView.imageLoad(
+    url:String,
+    ic_small:Boolean=false,
+    ic_medium:Boolean=false,
+    ic_large:Boolean=false
+)
+{
+    this.load(url)
+    {
+        if(ic_small)
+            error(R.drawable.ic_small_download_empty)
     }
 }

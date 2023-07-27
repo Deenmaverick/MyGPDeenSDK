@@ -13,7 +13,14 @@
         android:id="@+id/quranFragment"
         android:name="com.deenislam.sdk.views.quran.QuranFragment"
         android:label="fragment_quran"
-        tools:layout="@layout/fragment_quran" />
+        tools:layout="@layout/fragment_quran" >
+        <action
+            android:id="@+id/action_quranFragment_to_alQuranFragment"
+            app:destination="@id/alQuranFragment"
+            app:popUpTo="@id/quranFragment"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true" />
+    </fragment>
     <fragment
         android:id="@+id/prayerTimesFragment"
         android:name="com.deenislam.sdk.views.prayertimes.PrayerTimesFragment"
@@ -77,6 +84,92 @@
             app:argType="com.deenislam.sdk.service.network.response.quran.juz.JuzResponse"
             app:nullable="true"
             android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/hadithFragment"
+        android:name="com.deenislam.sdk.views.hadith.HadithFragment"
+        android:label="HadithFragment" >
+        <action
+            android:id="@+id/action_hadithFragment_to_hadithChapterFragment"
+            app:destination="@id/hadithChapterFragment"
+            app:popUpTo="@id/hadithFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/hadithPreviewFragment"
+        android:name="com.deenislam.sdk.views.hadith.HadithPreviewFragment"
+        android:label="HadithPreviewFragment" >
+        <argument
+            android:name="bookname"
+            app:argType="string" />
+        <argument
+            android:name="chapter"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/hadithChapterFragment"
+        android:name="com.deenislam.sdk.views.hadith.HadithChapterFragment"
+        android:label="fragment_hadith_chapter"
+        tools:layout="@layout/fragment_hadith_chapter" >
+        <argument
+            android:name="collectionName"
+            app:argType="string" />
+        <argument
+            android:name="pageTitile"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_hadithChapterFragment_to_hadithPreviewFragment"
+            app:destination="@id/hadithPreviewFragment"
+            app:popUpTo="@id/hadithChapterFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/dailyDuaFragment"
+        android:name="com.deenislam.sdk.views.dailydua.DailyDuaFragment"
+        android:label="DailyDuaFragment" >
+        <action
+            android:id="@+id/action_dailyDuaFragment_to_allDuaPreviewFragment"
+            app:destination="@id/allDuaPreviewFragment"
+            app:popUpTo="@id/dailyDuaFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/allDuaPreviewFragment"
+        android:name="com.deenislam.sdk.views.dailydua.AllDuaPreviewFragment"
+        android:label="AllDuaPreviewFragment" >
+        <argument
+            android:name="category"
+            app:argType="integer" />
+        <argument
+            android:name="catName"
+            app:argType="string" />
+        <argument
+            android:name="duaID"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/zakatCalculatorFragment"
+        android:name="com.deenislam.sdk.views.zakat.ZakatCalculatorFragment"
+        android:label="ZakatCalculatorFragment" >
+        <argument
+            android:name="zakatData"
+            app:argType="com.deenislam.sdk.service.network.response.zakat.Data"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/zakatFragment"
+        android:name="com.deenislam.sdk.views.zakat.ZakatFragment"
+        android:label="ZakatFragment" >
+        <action
+            android:id="@+id/action_zakatFragment_to_zakatCalculatorFragment"
+            app:destination="@id/zakatCalculatorFragment"
+            app:popUpTo="@id/zakatFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
 </navigation>

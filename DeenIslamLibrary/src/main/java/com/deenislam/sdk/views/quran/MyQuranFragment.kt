@@ -26,7 +26,6 @@ internal class MyQuranFragment(
     private var firstload:Int = 0
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

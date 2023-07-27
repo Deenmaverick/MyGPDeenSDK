@@ -53,6 +53,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 {
 
     private lateinit var prayerTimesAdapter:PrayerTimesAdapter
+    private var linearLayoutManager: LinearLayoutManager? = null
 
     private lateinit var prayerMain:RecyclerView
     private lateinit var progressLayout:LinearLayout
@@ -131,10 +132,26 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         return mainview
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadPage()
+    }
 
     override fun onResume() {
         super.onResume()
-        loadPage()
+        if (viewmodel.listState != null) {
+            linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewmodel.listState = linearLayoutManager?.onSaveInstanceState()
+    }
+
+    override fun onBackPress() {
+        super.onBackPress()
+        viewmodel.listState = null
     }
     /*override fun setMenuVisibility(visible: Boolean) {
         super.setMenuVisibility(visible)
@@ -223,8 +240,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         // notification dialog setup
         setupNotificationView()
 
-
-        val linearLayoutManager =
+         linearLayoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
 
         prayerTimesAdapter = PrayerTimesAdapter(this@PrayerTimesFragment,this@PrayerTimesFragment)

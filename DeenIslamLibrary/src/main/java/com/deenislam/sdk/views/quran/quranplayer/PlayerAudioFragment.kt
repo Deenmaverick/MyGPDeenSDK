@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
 import com.deenislam.sdk.service.models.quran.quranplayer.ThemeResource
+import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepository
+import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
 import com.google.android.material.materialswitch.MaterialSwitch
 import kotlinx.coroutines.launch
 
@@ -31,7 +35,12 @@ internal class PlayerAudioFragment : Fragment() {
         super.onCreate(savedInstanceState)
         // init viewmodel
         val repository = PlayerControlRepository(DatabaseProvider().getInstance().providePlayerSettingDao())
-        viewmodel = PlayerControlViewModel(repository)
+
+        val factory = VMFactory(repository)
+        viewmodel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PlayerControlViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -104,6 +113,14 @@ internal class PlayerAudioFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    inner class VMFactory(
+        private val repository: PlayerControlRepository
+    ) : ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return PlayerControlViewModel(repository) as T
         }
     }
 

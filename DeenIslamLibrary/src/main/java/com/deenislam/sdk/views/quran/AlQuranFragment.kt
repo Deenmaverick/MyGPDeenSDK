@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -106,8 +108,12 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     private var isSurahMode:Boolean = true
 
     override fun OnCreate() {
+        isOnlyBack(true)
+
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+
         surahListData = args.surah
         quranJuz = args.juz
         quranJuzList = args.juzList
@@ -125,7 +131,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         )
         alQuranViewModel = AlQuranViewModel(repository)
         val repository1 = PlayerControlRepository(DatabaseProvider().getInstance().providePlayerSettingDao())
-        playerControlViewModel = PlayerControlViewModel(repository1)
+        val factory = VMFactory(repository1)
+        playerControlViewModel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PlayerControlViewModel::class.java]
 
     }
 
@@ -724,7 +734,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             AudioManager().getInstance().releasePlayer()
         }.apply {
             super.onBackPress()
-            setupOtherFragment(false)
         }
     }
 
@@ -902,4 +911,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             setupReadinMode()
     }
 
+    inner class VMFactory(
+        private val repository: PlayerControlRepository
+    ) : ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return PlayerControlViewModel(repository) as T
+        }
+    }
 }

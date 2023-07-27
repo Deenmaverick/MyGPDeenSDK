@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.DatabaseProvider
@@ -34,7 +36,12 @@ internal class PlayerThemeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         // init viewmodel
         val repository = PlayerControlRepository(DatabaseProvider().getInstance().providePlayerSettingDao())
-        viewmodel = PlayerControlViewModel(repository)
+
+        val factory = VMFactory(repository)
+        viewmodel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PlayerControlViewModel::class.java]
 
     }
 
@@ -141,6 +148,14 @@ internal class PlayerThemeFragment : Fragment() {
 
         if(!updateSettingCall)
             fontControl.value = value
+    }
+
+    inner class VMFactory(
+        private val repository: PlayerControlRepository
+    ) : ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return PlayerControlViewModel(repository) as T
+        }
     }
 
 }

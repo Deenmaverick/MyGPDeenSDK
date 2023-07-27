@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Deen Islam</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="oboarding_next">Next</string>
     <string name="onboarding_arabic_lang">العربية</string>
@@ -44,4 +43,13 @@
     <string name="no_data_msg">There is no content, content will be add here, Insha’Allah</string>
     <string name="download">Download</string>
     <string name="snooze">Snooze</string>
+    <string name="search">Search</string>
+
+    <!--Zakat Calculator Nisab-->
+    <string name="zakat_calculator_nisab_step1">Enter the Value of Nisab in your local currency. According to Sharia Law, Nisab is the minimum amount a person possesses for over a year in order to be obliged to pay Zakah. You can calculate nisab in terms of either Gold or Silver value. For Silver, the standard nisab is 21 ounces of silver (612.36 grams) or its equivalent in cash. For Gold, the standard nisab is 3 ounces of gold (87.48 grams) or its cash equivalent. (Note: check the value of gold and silver in your local currency)</string>
+    <string name="zakat_calculator_nisab_step2">In the next step, add the quantity of Gold and silver that you have possessed for more then a year and its price per 10 gram in your local currency. Each type (in Carats) of Gold you possess must be added separately as their values are different.</string>
+    <string name="zakat_calculator_nisab_step3">In this step, add the values of Cash, Properties and stocks in your possession for more then a year as Zakat is applicable on them as well.</string>
+    <string name="zakat_calculator_nisab_step4">In this final step, you need to add your debts and liabilities, the payments that are due on you and debts that you have to give. These amounts are subtracted from your assets/possessions in the final calculation to determine the Zakah obligatory on you.</string>
+    <string name="zakat_calculator_nisab_step5">After completion of the steps above, a summary appears which tells you whether you are eligible to pay Zakat and, if you are, the zakat that you have to pay appears. The payable zakat is 2.5% of your overall possessions. You will also have the option to Save the summary to keep a record.</string>
+
 </resources>

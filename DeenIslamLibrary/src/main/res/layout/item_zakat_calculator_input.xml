@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/learnquranBtn1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/white"
+    app:layout_constraintEnd_toStartOf="@+id/learnquranBtn2"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
+    app:strokeWidth="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/space_12"
+        android:layout_marginEnd="@dimen/space_12"
+        android:layout_marginBottom="@dimen/space_12">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_12"
+            android:text="Titile"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/card_bg_deep_teal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ic_right"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:tint="@color/txt_gray"
+            android:src="@drawable/ic_info_circle"
+            android:layout_marginTop="@dimen/space_12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Input 1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintEnd_toStartOf="@+id/input1"
+            app:layout_constraintTop_toTopOf="@+id/input1"
+            app:layout_constraintBottom_toBottomOf="@+id/input1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:hint=" 0.00"
+                android:drawablePadding="@dimen/space_8"
+                android:paddingStart="8dp"
+                android:drawableStart="@drawable/ic_taka"
+                android:background="@drawable/custom_input"
+                android:inputType="numberDecimal"
+                android:textColor="@color/txt_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title1"
+                app:layout_constraintTop_toBottomOf="@+id/heading"
+                tools:ignore="RtlSymmetry" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Input 2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintEnd_toStartOf="@+id/input2"
+            app:layout_constraintBottom_toBottomOf="@+id/input2"
+            app:layout_constraintTop_toTopOf="@+id/input2"
+             app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:drawablePadding="@dimen/space_8"
+                android:drawableStart="@drawable/ic_taka"
+                android:layout_marginTop="@dimen/space_12"
+                android:background="@drawable/custom_input"
+                android:hint=" 0.00"
+                android:inputType="numberDecimal"
+                android:textColor="@color/txt_black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title1"
+                app:layout_constraintTop_toBottomOf="@+id/input1"
+                tools:ignore="RtlSymmetry" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/title3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Input 3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintEnd_toStartOf="@+id/input3"
+            app:layout_constraintBottom_toBottomOf="@+id/input3"
+            app:layout_constraintTop_toTopOf="@+id/input3"
+            app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:visibility="gone"
+            android:id="@+id/input3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:drawablePadding="@dimen/space_8"
+            android:drawableStart="@drawable/ic_taka"
+            android:layout_marginTop="@dimen/space_12"
+            android:background="@drawable/custom_input"
+            android:hint=" 0.00"
+            android:inputType="numberDecimal"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/title3"
+            app:layout_constraintTop_toBottomOf="@+id/input2"
+            tools:ignore="RtlSymmetry" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/title4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Input 4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_ash"
+            app:layout_constraintEnd_toStartOf="@+id/input4"
+            app:layout_constraintBottom_toBottomOf="@+id/input4"
+            app:layout_constraintTop_toTopOf="@+id/input4"
+            app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:visibility="gone"
+            android:id="@+id/input4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:drawablePadding="@dimen/space_8"
+            android:drawableStart="@drawable/ic_taka"
+            android:layout_marginTop="@dimen/space_12"
+            android:background="@drawable/custom_input"
+            android:hint=" 0.00"
+            android:inputType="numberDecimal"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/title4"
+            app:layout_constraintTop_toBottomOf="@+id/input3"
+            tools:ignore="RtlSymmetry" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -19,9 +19,9 @@ internal class MainViewPagerAdapter(
     }
 
 
-    override fun getItemId(position: Int): Long {
+   /* override fun getItemId(position: Int): Long {
             return pageDestination[position].hashCode().toLong()
-    }
+    }*/
 
 
 

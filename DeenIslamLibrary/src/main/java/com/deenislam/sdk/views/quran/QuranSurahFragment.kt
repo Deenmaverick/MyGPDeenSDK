@@ -12,6 +12,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
@@ -47,6 +48,7 @@ internal class QuranSurahFragment(
     private lateinit var surahAdapter:SurahAdapter
     private var firstload:Int = 0
 
+    private var linearLayoutManager: LinearLayoutManager? = null
     private var surahList: List<Chapter> = arrayListOf()
 
     override fun OnCreate() {
@@ -83,11 +85,15 @@ internal class QuranSurahFragment(
     override fun onResume() {
         super.onResume()
         setupActionForOtherFragment(R.drawable.ic_search,0,this@QuranSurahFragment,"Al Quran",true,actionbar)
+        if (viewmodel.listState != null) {
+            linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
+        }
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("onViewCreated","SURAH")
         initView()
     }
 
@@ -105,9 +111,15 @@ internal class QuranSurahFragment(
     override fun onPause() {
         super.onPause()
         surahAdapter.filter.filter("")
+        actionbar.show()
         hideSearchbar()
         requireContext().hideKeyboard(requireView())
-        setupAction(0,0,null,"AL Quran")
+        viewmodel.listState = linearLayoutManager?.onSaveInstanceState()
+    }
+
+    override fun onBackPress() {
+        super.onBackPress()
+        viewmodel.listState = null
     }
 
     private fun initView()
@@ -117,8 +129,10 @@ internal class QuranSurahFragment(
         ViewCompat.setTranslationZ(no_internet_layout, 10F)
 
         surahAdapter = SurahAdapter(this@QuranSurahFragment)
+        linearLayoutManager = LinearLayoutManager(requireContext())
         surahListRC.apply {
             adapter = surahAdapter
+            layoutManager = linearLayoutManager
             overScrollMode = View.OVER_SCROLL_NEVER
             post {
                 initObserver()
@@ -162,6 +176,7 @@ internal class QuranSurahFragment(
 
     }
 
+
     private fun noInternetState()
     {
         progressLayout.hide()
@@ -176,18 +191,21 @@ internal class QuranSurahFragment(
         }
 
         surahAdapter.filter.filter("")
+        actionbar.show()
         hideSearchbar()
         hideKeyboard()
 
-        gotoFrag(R.id.alQuranFragment,data = bundle)
+        gotoFrag(R.id.action_quranFragment_to_alQuranFragment,data = bundle)
     }
 
 
 
     override fun action1() {
 
-        if(surahList.isNotEmpty())
+        if(surahList.isNotEmpty()) {
+            actionbar.visibility = View.INVISIBLE
             setupSearchbar(this@QuranSurahFragment)
+        }
         //dialog_select_surah()
     }
 
@@ -197,6 +215,7 @@ internal class QuranSurahFragment(
 
     override fun searchBack() {
         requireContext().hideKeyboard(requireView())
+        actionbar.show()
         hideSearchbar()
         surahAdapter.filter.filter("")
     }

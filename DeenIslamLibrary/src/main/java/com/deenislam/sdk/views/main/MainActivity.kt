@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
@@ -111,6 +112,24 @@ internal class MainActivity : AppCompatActivity() {
 
         action2Btn.setOnClickListener {
             actionCallback?.action2()
+        }
+
+        searchBackBtn.setOnClickListener {
+            searchCallback?.searchBack()
+        }
+
+        searchInput.setOnTouchListener { v, event ->
+            val DRAWABLE_RIGHT = 2
+
+            if (event.action == MotionEvent.ACTION_UP) {
+                if (event.rawX >= (searchInput.right - searchInput.compoundDrawables[DRAWABLE_RIGHT].bounds.width())) {
+                    // Right drawable clicked
+                    // Add your desired action here
+                    searchCallback?.searchSubmit(searchInput.text.toString())
+                    return@setOnTouchListener true
+                }
+            }
+            false
         }
 
     }
@@ -417,7 +436,7 @@ internal class MainActivity : AppCompatActivity() {
     fun hideSearch()
     {
         searchCallback = null
-        actionbar.show()
+        //actionbar.show()
         searchbar.hide()
     }
 

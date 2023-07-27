@@ -1,7 +1,6 @@
 package com.deenislam.sdk.views.quran
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -155,21 +154,22 @@ internal class QuranHomeFragment(
 
     private fun viewState(data: List<Chapter>)
     {
-
         surahList.clear()
-        data.forEach {
+        surahList.addAll(data)
 
+        val filterSurahList: ArrayList<Chapter> = arrayListOf()
+        data.forEach {
             when(it.id)
             {
-                1 -> surahList.add(it)
-                36 -> surahList.add(it)
-                67 -> surahList.add(it)
-                112 -> surahList.add(it)
-                103 -> surahList.add(it)
+                1 -> filterSurahList.add(it)
+                36 -> filterSurahList.add(it)
+                67 -> filterSurahList.add(it)
+                112 -> filterSurahList.add(it)
+                103 -> filterSurahList.add(it)
             }
         }
 
-        popularSurahAdapter.update(surahList)
+        popularSurahAdapter.update(filterSurahList)
         popularRC.post {
             progressLayout.visible(false)
             no_internet_layout.visible(false)
@@ -190,7 +190,7 @@ internal class QuranHomeFragment(
             putParcelable("suraList", SurahList(chapters = surahList))
         }
 
-        gotoFrag(R.id.alQuranFragment,data = bundle)
+        gotoFrag(R.id.action_quranFragment_to_alQuranFragment,data = bundle)
     }
 
     inner class VMFactory(

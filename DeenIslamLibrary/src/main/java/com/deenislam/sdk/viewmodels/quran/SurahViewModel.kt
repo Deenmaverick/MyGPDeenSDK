@@ -1,5 +1,6 @@
 package com.deenislam.sdk.viewmodels.quran;
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,7 @@ internal class SurahViewModel (
     private val _surahlist:MutableLiveData<SurahResource> = MutableLiveData()
     val surahlist:MutableLiveData<SurahResource> get() = _surahlist
 
+    var listState: Parcelable? = null
     fun getSurahList(language:String)
     {
         viewModelScope.launch {

@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.dashboard
 
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,7 +21,11 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.MENU_AL_QURAN
+import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
+import com.deenislam.sdk.utils.MENU_DUA
+import com.deenislam.sdk.utils.MENU_HADITH
 import com.deenislam.sdk.utils.MENU_PRAYER_TIME
+import com.deenislam.sdk.utils.MENU_ZAKAT
 import com.deenislam.sdk.utils.runWhenReady
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
@@ -221,7 +226,9 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
         binding.dashboardMain.apply {
                 adapter = dashboardPatchMain
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 isNestedScrollingEnabled = false
+            }
                 layoutManager = linearLayoutManager
                 //overScrollMode = View.OVER_SCROLL_NEVER
                 post {
@@ -295,6 +302,10 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         {
             MENU_PRAYER_TIME ->  gotoFrag(R.id.prayerTimesFragment)
             MENU_AL_QURAN -> gotoFrag(R.id.quranFragment)
+            MENU_HADITH -> gotoFrag(R.id.hadithFragment)
+            MENU_DUA -> gotoFrag(R.id.dailyDuaFragment)
+            MENU_ZAKAT -> gotoFrag(R.id.zakatFragment)
+            MENU_DIGITAL_TASBEEH -> gotoFrag(R.id.tasbeehFragment)
         }
     }
 

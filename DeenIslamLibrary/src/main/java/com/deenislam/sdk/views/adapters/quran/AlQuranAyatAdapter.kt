@@ -229,7 +229,7 @@ internal class AlQuranAyatAdapter(
                         ayatArabic += " " + it.text
                         //wordToHighlight = it.text
                         if (!it.transliteration.text.isNullOrEmpty()) {
-                            transliteration =  it.transliteration.text +" " + transliteration
+                            transliteration +=  it.transliteration.text +" "
                         }
                     }
 

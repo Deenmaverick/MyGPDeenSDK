@@ -7,7 +7,9 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.DynamicDrawableSpan
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.deenislam.sdk.R
 
 internal class LoadingButton {
 
@@ -52,9 +54,10 @@ internal class LoadingButton {
         return instance as LoadingButton
     }
 
-    fun loader(button: View): SpannableString? {
-        instance?.progressDrawable?.start()
+    fun loader(button: View,color:Int= R.color.white): SpannableString? {
 
+        instance?.progressDrawable?.setColorSchemeColors(ContextCompat.getColor(button.context,color))
+        instance?.progressDrawable?.start()
         instance?.callback = object : Drawable.Callback {
             override fun unscheduleDrawable(who: Drawable, what: Runnable) {
             }

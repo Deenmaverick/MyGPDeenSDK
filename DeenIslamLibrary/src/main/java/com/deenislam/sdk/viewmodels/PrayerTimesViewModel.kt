@@ -1,5 +1,6 @@
 package com.deenislam.sdk.viewmodels
 
+import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,8 @@ internal class PrayerTimesViewModel(
 
     private val _prayerTimesNotification:MutableLiveData<PrayerNotificationResource> = MutableLiveData()
     val prayerTimesNotification:MutableLiveData<PrayerNotificationResource> get() = _prayerTimesNotification
+
+    var listState: Parcelable? = null
 
     fun getPrayerTimes(localtion:String,language:String,requiredDate:String)
     {
