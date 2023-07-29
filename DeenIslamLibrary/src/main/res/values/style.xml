@@ -94,4 +94,8 @@
         <item name="colorControlActivated">@color/primary</item>
     </style>
 
+    <declare-styleable name="AspectRatioImageView">
+        <attr name="imageAspectRatio" format="float"/>
+    </declare-styleable>
+
 </resources>

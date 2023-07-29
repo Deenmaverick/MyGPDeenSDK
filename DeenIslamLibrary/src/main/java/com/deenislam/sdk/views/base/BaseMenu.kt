@@ -76,6 +76,10 @@ internal class BaseMenu {
                 it.add(MenuModel(R.drawable.ic_menu_zakat,"Zakat", MENU_ZAKAT))
                 //Digital Tasbih
                 it.add(MenuModel(R.drawable.ic_menu_digital_tasbeeh,"Digital Tasbeeh", MENU_DIGITAL_TASBEEH))
+                //Qibla Compass
+                it.add(MenuModel(R.drawable.ic_menu_compass,"Qibla Compass", MENU_QIBLA_COMPASS))
+                //Islamic Name
+                it.add(MenuModel(R.drawable.ic_menu_islamic_name,"Islamic Name", MENU_ISLAMIC_NAME))
 
             }
         }

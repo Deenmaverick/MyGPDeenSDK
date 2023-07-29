@@ -33,6 +33,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isOnlyback:Boolean = false
+    private var isBackPressed:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,8 +56,11 @@ internal abstract class BaseRegularFragment: Fragment() {
         isOnlyback = bol
     }
 
+    fun isBackPressed():Boolean = isBackPressed
+
 
     open fun onBackPress() {
+        this.isBackPressed = true
         if(!isOnlyback) {
             findNavController().popBackStack().apply {
                 setupOtherFragment(false)

@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatRadioButton
@@ -14,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -51,7 +54,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     prayerTimeAdapterCallback,
     ViewInflationListener
 {
-
     private lateinit var prayerTimesAdapter:PrayerTimesAdapter
     private var linearLayoutManager: LinearLayoutManager? = null
 
@@ -93,7 +95,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun OnCreate() {
         super.OnCreate()
-
+        NotificationPermission().getInstance().setupLauncher(this,requireContext(),true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -117,7 +119,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val mainview = layoutInflater.inflate(R.layout.fragment_prayer_times,container,false)
 
         //init view
@@ -132,6 +133,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         return mainview
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadPage()
@@ -139,38 +141,41 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun onResume() {
         super.onResume()
+
         if (viewmodel.listState != null) {
             linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
+        }
+
+        if (isNotificationClicked) {
+            NotificationPermission().getInstance().reCheckNotificationPermission(requireContext())
+
+            Log.e("isNotificationPermitted",
+                NotificationPermission().getInstance().isNotificationPermitted().toString()
+            )
+            if(NotificationPermission().getInstance().isNotificationPermitted() && pryaerNotificationData.size>0) {
+                updatePrayerNotificationDataOnly(pryaerNotificationData)
+                isNotificationClicked = false
+            }
         }
     }
 
     override fun onPause() {
         super.onPause()
+        if(!isBackPressed())
         viewmodel.listState = linearLayoutManager?.onSaveInstanceState()
     }
 
-    override fun onBackPress() {
-        super.onBackPress()
-        viewmodel.listState = null
-    }
-    /*override fun setMenuVisibility(visible: Boolean) {
-        super.setMenuVisibility(visible)
-        if (visible) {
-           *//* BASE_OBSERVE_API_CALL_STATE()
-            lifecycleScope.launch {
-                BASE_CHECK_API_STATE()
-            }
-*//*
 
-        }
-    }*/
 
-     fun loadDataAPI(retry:Boolean=false)
+
+    fun loadDataAPI(retry:Boolean=false)
     {
+
         if((no_internet_layout.isVisible && retry) || (!no_internet_layout.isVisible && retry && !progressLayout.isVisible) || (progressLayout.isVisible && firstload == 1)) {
             loadingState()
             lifecycleScope.launch {
                 viewmodel.getPrayerTimes("Dhaka", "bn", prayerdate)
+                viewmodel.getDateWisePrayerNotificationData(prayerdate)
             }
         }
     }
@@ -180,21 +185,21 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     {
         viewmodel.prayerTimes.observe(viewLifecycleOwner)
         {
-           when(it)
+            when(it)
             {
                 is PrayerTimeResource.postPrayerTime ->
                 {
                     prayerTimesResponse = it.data
-                        viewState(arrayListOf())
-                   /* lifecycleScope.launch {
-                        viewmodel.getDateWisePrayerNotificationData(prayerdate)
-                    }*/
+                    viewState(arrayListOf())
+                    /* lifecycleScope.launch {
+                         viewmodel.getDateWisePrayerNotificationData(prayerdate)
+                     }*/
                 }
                 CommonResource.API_CALL_FAILED -> noInternetState()
                 PrayerTimeResource.prayerTimeEmpty -> callPrayerAPIDateWise(prayerdate)
 
-               CommonResource.EMPTY -> Unit
-           }
+                CommonResource.EMPTY -> Unit
+            }
         }
 
         viewmodel.prayerTimesNotification.observe(viewLifecycleOwner)
@@ -233,14 +238,13 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     fun loadPage()
     {
-
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(no_internet_layout, 10F)
 
         // notification dialog setup
         setupNotificationView()
 
-         linearLayoutManager =
+        linearLayoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
 
         prayerTimesAdapter = PrayerTimesAdapter(this@PrayerTimesFragment,this@PrayerTimesFragment)
@@ -248,16 +252,17 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             adapter = prayerTimesAdapter
             layoutManager = linearLayoutManager
             isNestedScrollingEnabled = false
-           post {
-               if(firstload == 0)
-                   loadDataAPI()
-               firstload = 1
-           }
+            post {
+                if(firstload == 0)
+                    loadDataAPI()
+                firstload = 1
+            }
         }
 
         no_internet_retryBtn.setOnClickListener {
             loadDataAPI(true)
         }
+
     }
 
     private fun setupNotificationView()
@@ -309,32 +314,42 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         loadingState()
         lifecycleScope.launch {
             viewmodel.getPrayerTimes("Dhaka", "bn", date)
+            viewmodel.getDateWisePrayerNotificationData(date)
         }
     }
+
+    override fun onBackPress() {
+        Log.e("onBackPress","STATE")
+        viewmodel.listState = null
+        super.onBackPress()
+    }
+
 
 
     private fun viewState(data: ArrayList<PrayerNotification>)
     {
 
-        Log.e("viewState",Gson().toJson(prayerTimesResponse))
+        if (data.size>0) {
+            pryaerNotificationData = data
+            Log.e("viewState",Gson().toJson(pryaerNotificationData))
+        }
 
 
-        pryaerNotificationData = data
-       /* lifecycleScope.launch {
-            viewmodel.clearLiveData()
-        }*/
+        /* lifecycleScope.launch {
+             viewmodel.clearLiveData()
+         }*/
 
-       /* lifecycleScope.launch {
-            viewmodel.cachePrayerTime(prayerdate,data.Data)
-        }*/
+        /* lifecycleScope.launch {
+             viewmodel.cachePrayerTime(prayerdate,data.Data)
+         }*/
 
         //prayerTimesResponse = data
-      /*  if(firstUpdate)
-            return
-        firstUpdate = true*/
+        /*  if(firstUpdate)
+              return
+          firstUpdate = true*/
         prayerTimesResponse?.let {
             //prayerTimesAdapter.notifyDataSetChanged()
-            prayerTimesAdapter.updateData(it,data)
+            prayerTimesAdapter.updateData(it,pryaerNotificationData)
             prayerMain.runWhenReady {
                 progressLayout.visible(false)
                 no_internet_layout.visible(false)
@@ -356,9 +371,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     private fun updatePrayerNotificationDataOnly(data: ArrayList<PrayerNotification>)
     {
         prayerTimesAdapter.updateNotificationData(data)
-        prayerMain.post {
-            prayerTimesAdapter.notifyDataSetChanged()
-        }
     }
 
     private fun loadingState()
@@ -375,7 +387,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun action1() {
-        gotoFrag(R.id.action_prayerTimesFragment_to_prayerCalendarFragment)
+        gotoFrag(R.id.prayerCalendarFragment)
     }
 
     override fun action2() {
@@ -392,7 +404,9 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH) // or you can add before dd/M/yyyy
         val newDate = format.parse(prayerdate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
-        newDate?.let {callPrayerAPIDateWise(format.format(it))}
+        newDate?.let {
+            callPrayerAPIDateWise(format.format(it))
+        }
     }
 
     override fun nextPrayerCountownFinish() {
@@ -455,7 +469,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         clearNotificationRadioBtn()
 
         if(data!=null && NotificationPermission().getInstance().hasAlarm(requireContext(),data.id))
-         {
+        {
             notification_state = data.state
             when(data.state)
             {
@@ -540,15 +554,13 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun clickMonthlyCalendar() {
-        gotoFrag(R.id.action_prayerTimesFragment_to_prayerCalendarFragment)
+        gotoFrag(R.id.prayerCalendarFragment)
     }
 
     override fun prayerCheck(prayer_tag: String, date: String) {
-
         lifecycleScope.launch {
             viewmodel.updatePrayerTrack(date = date,prayer_tag=prayer_tag)
         }
-
     }
 
     override fun onAllViewsInflated() {
@@ -561,5 +573,4 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             return PrayerTimesViewModel(prayerTimesRepository) as T
         }
     }
-
 }

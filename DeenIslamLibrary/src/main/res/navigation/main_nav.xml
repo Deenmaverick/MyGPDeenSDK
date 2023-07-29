@@ -171,5 +171,9 @@
             app:popUpTo="@id/zakatFragment"
             app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/compassFragment"
+        android:name="com.deenislam.sdk.views.compass.CompassFragment"
+        android:label="CompassFragment" />
 
 </navigation>

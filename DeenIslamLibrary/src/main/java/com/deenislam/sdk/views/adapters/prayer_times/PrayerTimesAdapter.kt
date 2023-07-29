@@ -106,6 +106,7 @@ internal class PrayerTimesAdapter(
     fun updateNotificationData(Notificationdata: ArrayList<PrayerNotification>?)
     {
         dateWisePrayerNotificationData = Notificationdata
+        notifyDataSetChanged()
     }
 
 

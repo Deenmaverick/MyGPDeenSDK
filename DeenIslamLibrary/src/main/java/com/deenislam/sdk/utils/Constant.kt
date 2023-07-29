@@ -23,6 +23,7 @@ const val MENU_DONATION = "Donation"
 const val MENU_99_NAME_OF_ALLAH = "99NameOfAllah"
 const val MENU_ZAKAT = "Zakat"
 const val MENU_DIGITAL_TASBEEH = "DigitalTasbeeh"
+const val MENU_QIBLA_COMPASS = "QiblaCompass"
 const val MENU_NEAREST_MOSQUE = "NearestMosque"
 const val MENU_HAJJ = "Hajj"
 const val MENU_QURAN_CLASS = "QuranClass"
@@ -39,3 +40,7 @@ const val MENU_ISLAMIC_NAME = "IslamicName"
 
 // :notifications-api
 const val ACTION_START_ALARM_LOOPER = "alarm.loopers.START"
+// makkah location
+const val MAKKAH_LATITUDE = 21.4204009
+const val MAKKAH_LONGITUDE = 39.8257354
+

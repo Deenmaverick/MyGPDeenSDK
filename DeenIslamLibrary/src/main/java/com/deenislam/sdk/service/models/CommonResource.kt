@@ -17,5 +17,5 @@ internal interface CommonResource
         ZakatResource
 
     object ACTION_API_CALL_FAILED:CommonResource, DailyDuaResource
-    object CLEAR:CommonResource, ZakatResource
+    object CLEAR:CommonResource, ZakatResource, PrayerNotificationResource
 }

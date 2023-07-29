@@ -102,4 +102,9 @@ internal class PrayerTimesViewModel(
         }
     }
 
+    fun clearPrayerNotificationLiveData()
+    {
+        _prayerTimesNotification.value = CommonResource.CLEAR
+    }
+
 }

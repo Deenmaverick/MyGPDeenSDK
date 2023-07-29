@@ -20,14 +20,7 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
-import com.deenislam.sdk.utils.MENU_AL_QURAN
-import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
-import com.deenislam.sdk.utils.MENU_DUA
-import com.deenislam.sdk.utils.MENU_HADITH
-import com.deenislam.sdk.utils.MENU_PRAYER_TIME
-import com.deenislam.sdk.utils.MENU_ZAKAT
-import com.deenislam.sdk.utils.runWhenReady
-import com.deenislam.sdk.utils.visible
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.DashboardViewModel
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislam.sdk.views.adapters.MenuCallback
@@ -306,6 +299,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             MENU_DUA -> gotoFrag(R.id.dailyDuaFragment)
             MENU_ZAKAT -> gotoFrag(R.id.zakatFragment)
             MENU_DIGITAL_TASBEEH -> gotoFrag(R.id.tasbeehFragment)
+            MENU_QIBLA_COMPASS -> gotoFrag(R.id.compassFragment)
         }
     }
 

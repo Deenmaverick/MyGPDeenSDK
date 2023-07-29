@@ -39,41 +39,41 @@ internal class PrayerTimesRepository(
             PrayerTimesResponse(Data = prayerTimeData[0], Message = "Success", Success = true, TotalData = 1)
 
         else {*/
-            val body = JSONObject()
-            body.put("location", localtion)
-            body.put("language", language)
-            body.put("requiredDate", requiredDate)
+        val body = JSONObject()
+        body.put("location", localtion)
+        body.put("language", language)
+        body.put("requiredDate", requiredDate)
 
-            val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
-            deenService?.prayerTime(parm = requestBody)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.prayerTime(parm = requestBody)
         //}
     }
 
     suspend fun getNotificationData(date:String,prayer_tag:String) =
         withContext(Dispatchers.IO)
-       {
-           try {
+        {
+            try {
 
-               var prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
+                var prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
 
-               if(prayerNotificationData?.isNotEmpty() == true)
-                   prayerNotificationData[0]
-               else
-               {
-                   prayerNotificationDao?.insert(PrayerNotification(date = date, prayer_tag = prayer_tag, id = 0))
-                   prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
+                if(prayerNotificationData?.isNotEmpty() == true)
+                    prayerNotificationData[0]
+                else
+                {
+                    prayerNotificationDao?.insert(PrayerNotification(date = date, prayer_tag = prayer_tag, id = 0))
+                    prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
 
-                   if(prayerNotificationData?.isNotEmpty() == true)
-                       prayerNotificationData[0]
-                   else null
-               }
+                    if(prayerNotificationData?.isNotEmpty() == true)
+                        prayerNotificationData[0]
+                    else null
+                }
 
-           }
-           catch (e:Exception)
-           {
-               null
-           }
-       }
+            }
+            catch (e:Exception)
+            {
+                null
+            }
+        }
 
     suspend fun updatePrayerNotification(
         date: String,
@@ -86,7 +86,7 @@ internal class PrayerTimesRepository(
         {
             try {
 
-                if(prayerNotificationDao?.update(date,prayer_tag,state) !=0 ) {
+                if(prayerNotificationDao?.update(date,prayer_tag,state) !=0) {
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)
                     if(getNotificationData?.isNotEmpty() == true)
                     {
@@ -104,7 +104,7 @@ internal class PrayerTimesRepository(
                                 return@withContext  1
                             }
                             else
-                            return@withContext 2
+                                return@withContext 2
                         } else 0
                     }
                     else 0
@@ -129,7 +129,7 @@ internal class PrayerTimesRepository(
                 Deen.appContext,
                 reqcode,
                 notifyIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
             )
 
         val alarmManager = Deen.appContext?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -171,7 +171,7 @@ internal class PrayerTimesRepository(
 
                 }catch (e:java.lang.Exception)
                 {
-                   false
+                    false
                 }
             }
             else
@@ -191,6 +191,7 @@ internal class PrayerTimesRepository(
             prayerNotificationDao?.update(pdate =date,prayer_tag=prayer_tag,bol=bol)
             getDateWiseNotificationData(date)
         }
+
 
     suspend fun updatePrayerTrackAuto(date:String,prayer_tag: String) =
         withContext(Dispatchers.IO)
