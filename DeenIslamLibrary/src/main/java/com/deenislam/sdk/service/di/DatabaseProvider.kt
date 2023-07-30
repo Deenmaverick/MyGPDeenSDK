@@ -19,14 +19,14 @@ internal class DatabaseProvider {
         var instance: DatabaseProvider? = null
     }
 
-    val MIGRATION_TEST: Migration = object : Migration(15, 16) {
+    val MIGRATION_TEST: Migration = object : Migration(16, 17) {
         override fun migrate(database: SupportSQLiteDatabase) {
             // Since we didn't alter the table, there's nothing else to do here.
 
             // userpref
             database.execSQL("CREATE TABLE IF NOT EXISTS `userpref` (" +
                     "`id` INTEGER NOT NULL DEFAULT 1," +
-                    " `language` TEXT NOT NULL DEFAULT 'en'," +
+                    " `language` TEXT NOT NULL DEFAULT 'bn'," +
                     " `location_setting` INTEGER NOT NULL DEFAULT 0," +
                     " `token` TEXT DEFAULT ''," +
                     "`username` TEXT DEFAULT ''," +
@@ -38,7 +38,7 @@ internal class DatabaseProvider {
             verify_all_userpref_col(database)
             database.execSQL("CREATE TABLE IF NOT EXISTS `userpref_new` (" +
                     "`id` INTEGER NOT NULL DEFAULT 1," +
-                    " `language` TEXT NOT NULL DEFAULT 'en'," +
+                    " `language` TEXT NOT NULL DEFAULT 'bn'," +
                     " `location_setting` INTEGER NOT NULL DEFAULT 0," +
                     " `token` TEXT DEFAULT ''," +
                     "`username` TEXT DEFAULT ''," +

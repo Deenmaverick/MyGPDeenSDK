@@ -166,8 +166,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
 
-
-
     fun loadDataAPI(retry:Boolean=false)
     {
 

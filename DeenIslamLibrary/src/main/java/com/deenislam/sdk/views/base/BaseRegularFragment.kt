@@ -1,7 +1,9 @@
 package com.deenislam.sdk.views.base
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -12,20 +14,20 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.AsyncViewStub
+import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.isBottomNavFragment
 import com.deenislam.sdk.utils.visible
-import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
+import java.util.Locale
 
 
 internal abstract class BaseRegularFragment: Fragment() {
@@ -35,8 +37,37 @@ internal abstract class BaseRegularFragment: Fragment() {
     private var isOnlyback:Boolean = false
     private var isBackPressed:Boolean = false
 
+    private lateinit var localContextBn: Context
+    private lateinit var localContextEn: Context
+    lateinit var localInflaterBn: LayoutInflater
+    private lateinit var localInflaterEn: LayoutInflater
+
+    lateinit var localContext:Context
+    lateinit var localInflater: LayoutInflater
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if(Deen.language == "en")
+        {
+            Log.e("language","en")
+            localContextEn = LocaleUtil.createLocaleContext(requireContext(), Locale(""))
+            localInflaterEn = layoutInflater.cloneInContext(localContextEn)
+
+            localContext = localContextEn
+            localInflater = localInflaterEn
+        }
+        else
+        {
+            Log.e("language","bn")
+            localContextBn = LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
+            localInflaterBn = layoutInflater.cloneInContext(localContextBn)
+
+            localContext = localContextBn
+            localInflater = localInflaterBn
+        }
+
         OnCreate()
 
     }

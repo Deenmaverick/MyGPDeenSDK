@@ -45,11 +45,82 @@
     <string name="snooze">Snooze</string>
     <string name="search">Search</string>
 
+    <!--Counting-->
+    <string name="count1">01</string>
+    <string name="count2">02</string>
+    <string name="count3">03</string>
+    <string name="count4">04</string>
+    <string name="count5">05</string>
+    <string name="count6">06</string>
+    <string name="count7">07</string>
+
     <!--Zakat Calculator Nisab-->
     <string name="zakat_calculator_nisab_step1">Enter the Value of Nisab in your local currency. According to Sharia Law, Nisab is the minimum amount a person possesses for over a year in order to be obliged to pay Zakah. You can calculate nisab in terms of either Gold or Silver value. For Silver, the standard nisab is 21 ounces of silver (612.36 grams) or its equivalent in cash. For Gold, the standard nisab is 3 ounces of gold (87.48 grams) or its cash equivalent. (Note: check the value of gold and silver in your local currency)</string>
     <string name="zakat_calculator_nisab_step2">In the next step, add the quantity of Gold and silver that you have possessed for more then a year and its price per 10 gram in your local currency. Each type (in Carats) of Gold you possess must be added separately as their values are different.</string>
     <string name="zakat_calculator_nisab_step3">In this step, add the values of Cash, Properties and stocks in your possession for more then a year as Zakat is applicable on them as well.</string>
     <string name="zakat_calculator_nisab_step4">In this final step, you need to add your debts and liabilities, the payments that are due on you and debts that you have to give. These amounts are subtracted from your assets/possessions in the final calculation to determine the Zakah obligatory on you.</string>
     <string name="zakat_calculator_nisab_step5">After completion of the steps above, a summary appears which tells you whether you are eligible to pay Zakat and, if you are, the zakat that you have to pay appears. The payable zakat is 2.5% of your overall possessions. You will also have the option to Save the summary to keep a record.</string>
+
+    <string name="zakah_home_faq1_title">What is Zakat?</string>
+    <string name="zakah_home_faq1_content"></string>
+    <string name="zakah_home_faq2_title">What is Nisab?</string>
+    <string name="zakah_home_faq2_content"></string>
+    <string name="zakah_home_faq3_title">What are the conditions for Zakat?</string>
+    <string name="zakah_home_faq3_content"></string>
+    <string name="zakah_home_faq4_title">Being debt free</string>
+    <string name="zakah_home_faq4_content"></string>
+    <string name="zakah_home_faq5_title">Zakat distribution sector</string>
+    <string name="zakah_home_faq5_content"></string>
+    <string name="language">Language</string>
+    <string name="setting_language_txt">English</string>
+
+    <!--Billboard-->
+
+    <string name="billboard_have_you_prayed">Have you prayed %1$s?</string>
+    <string name="it_s_time_for">It’s time for</string>
+    <string name="billboard_next_prayer">Next prayer: %1$s</string>
+    <string name="billboard_all_prayers">All Prayers</string>
+    <string name="hadith">Hadith</string>
+    <string name="categories">Categories</string>
+    <string name="favorite">Favorite</string>
+    <string name="all_dua">All Dua</string>
+    <string name="today_s">Today\'s</string>
+    <string name="zakat">Zakat</string>
+    <string name="saved">Saved</string>
+    <string name="learn_about_zakat">Learn about Zakat</string>
+    <string name="new_calculation">New Calculation</string>
+    <string name="total_assets">Total assets</string>
+    <string name="zakat_payable">Zakat Payable</string>
+    <string name="pay_zakat">Pay Zakat</string>
+    <string name="nisab">Nisab</string>
+    <string name="property">Property</string>
+    <string name="liabilities">Liabilities</string>
+    <string name="summery">Summery</string>
+    <string name="choose_nisab">Choose Nisab</string>
+    <string name="gold">Gold</string>
+    <string name="silver">Silver</string>
+    <string name="bangladeshi_taka_bdt">Bangladeshi Taka (BDT)</string>
+    <string name="how_much_is_nisab_for_zakat_2023">How much is Nisab for Zakat 2023</string>
+    <string name="silver_the_value_of_612_36g_of_silver">Silver – the value of 612.36g of silver</string>
+    <string name="gold_the_value_of_87_48g_of_gold">Gold – the value of 87.48g of gold</string>
+    <string name="how_to_calculate_zakat">How to calculate Zakat</string>
+    <string name="start_calculation">Start Calculation</string>
+    <string name="enter_the_amount_of_all_your_possessions_during_the_lunar_year">Enter the amount of all your possessions during the lunar year:</string>
+    <string name="calculate">Calculate</string>
+    <string name="debts_amp_liabilities"><![CDATA[Debts & Liabilities]]></string>
+    <string name="payable_zakat_2_5">Payable Zakat (2.5%)</string>
+    <string name="save_the_calculation">Save the Calculation</string>
+    <string name="donate_zakat">Donate Zakat</string>
+    <string name="target">TARGET</string>
+    <string name="tasbeeh_today_s">TODAY’S:</string>
+    <string name="tasbeeh_total">TOTAL:</string>
+    <string name="none">None</string>
+    <string name="recent_counts">Recent counts</string>
+    <string name="no_recent_count_available">No recent count available</string>
+    <string name="the_distance_from_kaaba_is_unknown">The distance from Kaaba is unknown</string>
+    <string name="calibrate_your_phone">Calibrate your phone</string>
+    <string name="tilt_and_move_your_phone_3_times_like_this">Tilt and move your phone 3 times like this:</string>
+    <string name="compass_accuracy">Compass accuracy:</string>
+    <string name="done">Done</string>
 
 </resources>

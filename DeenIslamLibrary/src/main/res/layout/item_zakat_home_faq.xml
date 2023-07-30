@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView android:id="@+id/learnquranBtn1"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/learnquranBtn1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
     app:cardBackgroundColor="@color/white"
-    app:layout_constraintEnd_toStartOf="@+id/learnquranBtn2"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
-    app:strokeWidth="0dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,19 +29,19 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textStyle="bold"
             android:textColor="@color/card_checkbox_bg"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/name"
+            android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_8"
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginBottom="@dimen/space_8"
-            android:text="What is Zakat?"
+            android:text="@string/zakah_home_faq1_title"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/txt_black_deep"
@@ -59,9 +58,22 @@
             android:layout_marginEnd="@dimen/space_12"
             android:tint="@color/txt_black_deep"
             android:src="@drawable/ic_plus_new"
-            app:layout_constraintBottom_toBottomOf="@id/name"
+            app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/name" />
+            app:layout_constraintTop_toTopOf="@id/title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_12"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintStart_toStartOf="@id/countTxt"
+            app:layout_constraintTop_toBottomOf="@id/countTxt"
+            app:layout_constraintEnd_toEndOf="@+id/ic_right"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

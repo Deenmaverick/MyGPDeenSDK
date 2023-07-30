@@ -1,6 +1,8 @@
 package com.deenislam.sdk.views.base
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,18 +18,29 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.isBottomNavFragment
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
+import java.util.Locale
 
 internal abstract class BaseFragment<VB:ViewBinding>(
     private val bindingInflater: (inflater:LayoutInflater)->VB
 ):Fragment() {
 
+    private lateinit var localContextBn: Context
+    private lateinit var localContextEn: Context
+    private lateinit var localInflaterBn: LayoutInflater
+    private lateinit var localInflaterEn: LayoutInflater
+
+    lateinit var localContext:Context
+    lateinit var localInflater: LayoutInflater
+    
     private val fragmentViewModel by viewModels<FragmentViewModel>()
 
     private var _binding:VB ? = null
@@ -38,6 +51,26 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if(Deen.language == "en")
+        {
+            Log.e("language","en")
+            localContextEn = LocaleUtil.createLocaleContext(requireContext(), Locale(""))
+            localInflaterEn = layoutInflater.cloneInContext(localContextEn)
+
+            localContext = localContextEn
+            localInflater = localInflaterEn
+        }
+        else
+        {
+            Log.e("language","bn")
+            localContextBn = LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
+            localInflaterBn = layoutInflater.cloneInContext(localContextBn)
+
+            localContext = localContextBn
+            localInflater = localInflaterBn
+        }
+
         OnCreate()
         onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {

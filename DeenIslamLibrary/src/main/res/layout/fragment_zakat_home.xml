@@ -12,17 +12,17 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:background="@color/background"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:fillViewport="true"
-        android:paddingBottom="@dimen/m3_bottom_nav_min_height"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/newCaculateBtn">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/space_16">
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_16"
-        android:text="Learn about Zakat"
+        android:text="@string/learn_about_zakat"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/txt_black_deep"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +98,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/faq3" />
 
+            <include
+                android:id="@+id/faq5"
+                layout="@layout/item_zakat_home_faq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq4"/>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -112,7 +126,7 @@
         android:insetBottom="0dp"
         android:paddingTop="@dimen/space_12.5"
         android:paddingBottom="@dimen/space_12.5"
-        android:text="New Calculation"
+        android:text="@string/new_calculation"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/white"
         app:cornerRadius="8dp"

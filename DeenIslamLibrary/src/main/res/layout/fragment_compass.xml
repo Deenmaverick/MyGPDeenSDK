@@ -101,7 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_4"
-        android:text="The distance from Kaaba is unknown"
+        android:text="@string/the_distance_from_kaaba_is_unknown"
         android:elevation="@dimen/space_4"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

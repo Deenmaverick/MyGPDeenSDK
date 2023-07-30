@@ -36,7 +36,13 @@
         android:id="@+id/moreFragment"
         android:name="com.deenislam.sdk.views.more.MoreFragment"
         android:label="fragment_more"
-        tools:layout="@layout/fragment_more" />
+        tools:layout="@layout/fragment_more" >
+        <action
+            android:id="@+id/action_moreFragment_to_settingFragment"
+            app:destination="@id/settingFragment"
+            app:popUpTo="@id/moreFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/prayerCalendarFragment"
         android:name="com.deenislam.sdk.views.prayertimes.PrayerCalendarFragment"
@@ -175,5 +181,10 @@
         android:id="@+id/compassFragment"
         android:name="com.deenislam.sdk.views.compass.CompassFragment"
         android:label="CompassFragment" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.deenislam.sdk.views.more.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 
 </navigation>

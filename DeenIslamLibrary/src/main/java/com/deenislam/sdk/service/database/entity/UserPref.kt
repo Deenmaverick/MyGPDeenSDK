@@ -11,8 +11,8 @@ data class UserPref(
     @ColumnInfo(name = "id", defaultValue = "1")
     val id:Int = 1,
 
-    @ColumnInfo(name = "language", defaultValue = "en")
-    val language:String = "en",
+    @ColumnInfo(name = "language", defaultValue = "bn")
+    var language:String = "bn",
 
     @ColumnInfo(name = "location_setting", defaultValue = "0")
     val location_setting:Boolean = false,

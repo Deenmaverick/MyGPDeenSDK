@@ -28,7 +28,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/txt_black_deep"
                 android:layout_marginTop="@dimen/space_16"
-                android:text="Enter the amount of all your possessions during the lunar year:"
+                android:text="@string/enter_the_amount_of_all_your_possessions_during_the_lunar_year"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -90,7 +90,7 @@
             android:layout_marginEnd="@dimen/space_16"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="Calculate"
+            android:text="@string/calculate"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
             app:cornerRadius="8dp" />

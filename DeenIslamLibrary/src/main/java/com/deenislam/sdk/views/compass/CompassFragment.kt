@@ -366,6 +366,8 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     override fun onSensorChanged(sensorEvent: SensorEvent?) {
 
+        Log.e("onSensorChanged","OK")
+
         val degree = Math.round(sensorEvent?.values!!.get(0))
         compassDial.rotation = -degree.toFloat()
 
@@ -436,8 +438,5 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
             dialog?.dismiss()
         }
     }
-
-
-
 
 }

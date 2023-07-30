@@ -37,6 +37,7 @@ import com.deenislam.sdk.views.prayertimes.PrayerTimesFragment
 import com.deenislam.sdk.views.quran.QuranFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
+import java.util.Locale
 
 
 internal class MainActivity : AppCompatActivity() {
@@ -133,6 +134,14 @@ internal class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun attachBaseContext(newBase: Context) {
+        // replace "bn" with the desired locale
+        val locale = Locale("bn")
+        val context: Context = ContextWrapper.wrap(newBase, locale)
+        super.attachBaseContext(context)
+    }
+
 
     fun getInstance():MainActivity
     {

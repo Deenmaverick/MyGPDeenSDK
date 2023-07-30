@@ -7,9 +7,22 @@ import android.view.ViewGroup
 import com.deenislam.sdk.R
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.MaterialSharedAxis
 
 internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
+
+    private lateinit var settingLayout:MaterialCardView
+
+
+    override fun OnCreate() {
+        super.OnCreate()
+
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,6 +30,9 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         savedInstanceState: Bundle?
     ): View? {
         val mainview = layoutInflater.inflate(R.layout.fragment_more,container,false)
+
+        //init view
+        settingLayout = mainview.findViewById(R.id.settingLayout)
 
         setupActionForOtherFragment(
             action1 = R.drawable.ic_close,
@@ -32,15 +48,13 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     }
 
 
-    override fun OnCreate() {
-        super.OnCreate()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-
+        settingLayout.setOnClickListener {
+            gotoFrag(R.id.action_moreFragment_to_settingFragment)
+        }
     }
-
 
     override fun action1() {
         onBackPress()
