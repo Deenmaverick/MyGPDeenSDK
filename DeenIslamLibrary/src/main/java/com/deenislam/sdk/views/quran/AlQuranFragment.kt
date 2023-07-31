@@ -40,8 +40,11 @@ import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
 import com.deenislam.sdk.service.repository.quran.AlQuranRepository
 import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepository
 import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.reduceDragSensitivity
 import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.surahNameLocale
+import com.deenislam.sdk.utils.surahOriginLocale
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.quran.AlQuranViewModel
 import com.deenislam.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
@@ -60,6 +63,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -117,7 +121,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         surahListData = args.surah
         quranJuz = args.juz
         quranJuzList = args.juzList
-        pageTitle = surahListData?.name_simple?:"Juz (Para) ${quranJuz?.juz_number}"
+        pageTitle = surahListData?.name_simple?.surahNameLocale()?:
+                localContext.resources.getString(R.string.quran_para_adapter_title,quranJuz?.juz_number.toString().numberLocale())
+
         totalVerseCount = surahListData?.verses_count?:quranJuz?.verses_count?:0
 
         if(surahListData!=null)
@@ -378,10 +384,10 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         // set header data
         if(!isSurahMode)
             binding.headerLayout.hide()
-        binding.surahOrigin.text = surahListData?.revelation_place
+        binding.surahOrigin.text = surahListData?.revelation_place?.surahOriginLocale()
         binding.surahName.text = pageTitle
         binding.nameMeaning.text = surahListData?.translated_name?.name
-        binding.ayatTotal.text = "Ayahs: ${totalVerseCount}"
+        binding.ayatTotal.text = localContext.resources.getString(R.string.quran_popular_surah_ayat,totalVerseCount.toString().numberLocale(),"")
     }
 
     private fun setupMiniPlayerData()
@@ -389,10 +395,10 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         totalVerseCount = surahListData?.verses_count?:quranJuz?.verses_count?:0
 
         binding.bottomPlayer.miniPlayer.surahTitile.text = pageTitle
-        binding.bottomPlayer.miniPlayer.surahAyat.text = "${totalVerseCount} Ayahs"
+        binding.bottomPlayer.miniPlayer.surahAyat.text = localContext.resources.getString(R.string.quran_popular_surah_ayat,totalVerseCount.toString().numberLocale(),"")
 
         binding.bottomPlayer.largePlayer.surahTitile.text = pageTitle
-        binding.bottomPlayer.largePlayer.surahAyat.text = "${totalVerseCount} Ayahs"
+        binding.bottomPlayer.largePlayer.surahAyat.text = localContext.resources.getString(R.string.quran_popular_surah_ayat,totalVerseCount.toString().numberLocale(),"")
 
 
         binding.bottomPlayer.largePlayer.playerProgress.setOnTouchListener { _, _ -> true }

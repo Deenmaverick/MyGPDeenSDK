@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Surah"
+                    android:text="@string/sura"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/brand_teal" />
 
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Ruku: --"
+                    android:text="@string/ruku"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/brand_teal" />
 

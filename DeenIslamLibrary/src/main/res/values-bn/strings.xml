@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Deen Islam</string>
+    <string name="app_name">দ্বীন</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="oboarding_next">Next</string>
     <string name="onboarding_arabic_lang">العربية</string>
@@ -29,14 +29,15 @@
     <string name="default_image">default_image</string>
     <string name="enter_country_name">Enter country name</string>
     <string name="more">More</string>
-    <string name="prayer_times">Prayer Times</string>
-    <string name="al_quran">Al Quran</string>
+    <string name="prayer_times">নানাজের সময়সূচী</string>
+    <string name="daily_dua">দোয়া</string>
+    <string name="al_quran">আল কোরআন</string>
     <string name="home">Home</string>
     <string name="oops_no_internet">Oops! No Internet</string>
     <string name="no_internet_warning">Check your WiFi connection or Mobile data and try again.</string>
     <string name="try_again">Try again</string>
-    <string name="sura">Sura</string>
-    <string name="juz">Juz</string>
+    <string name="sura">সুরা</string>
+    <string name="juz">পারা</string>
     <string name="my_quran">My Quran</string>
     <string name="continue_reading">Continue reading</string>
     <string name="empty_place">Empty place</string>
@@ -75,16 +76,19 @@
 
     <!--Billboard-->
 
-    <string name="billboard_have_you_prayed">Have you prayed %1$s?</string>
-    <string name="it_s_time_for">It’s time for</string>
-    <string name="billboard_next_prayer">Next prayer: %1$s</string>
-    <string name="billboard_all_prayers">All Prayers</string>
-    <string name="hadith">Hadith</string>
+    <string name="billboard_have_you_prayed">আপনি কি %1$s নামাজ পরেছেন?</string>
+    <string name="it_s_time_for">এখন সময়</string>
+    <string name="billboard_next_prayer">পরবর্তী নামাজ: %1$s</string>
+    <string name="billboard_all_prayers">সকল নামাজ</string>
+    <string name="hadith">হাদিস</string>
     <string name="categories">Categories</string>
     <string name="favorite">Favorite</string>
     <string name="all_dua">All Dua</string>
     <string name="today_s">Today\'s</string>
-    <string name="zakat">Zakat</string>
+    <string name="zakat">যাকাত</string>
+    <string name="digital_tasbeeh">তাসবীহ</string>
+    <string name="qibla_compass">কম্পাস</string>
+    <string name="islamic_name">ইসলামিক নাম</string>
     <string name="saved">Saved</string>
     <string name="learn_about_zakat">Learn about Zakat</string>
     <string name="new_calculation">New Calculation</string>
@@ -121,5 +125,27 @@
     <string name="tilt_and_move_your_phone_3_times_like_this">Tilt and move your phone 3 times like this:</string>
     <string name="compass_accuracy">Compass accuracy:</string>
     <string name="done">Done</string>
-
+    <string name="location">লোকেশন</string>
+    <string name="recently_read">সম্প্রতি পঠিত</string>
+    <string name="popular_sura">জনপ্রিয় সুরা</string>
+    <string name="quran_popular_surah_ayat">%1$s %2$s আয়াত</string>
+    <string name="quran_para_adapter_title">পারা %1$s</string>
+    <string name="ruku">রুকু: --</string>
+    <string name="theme">থিম</string>
+    <string name="audio">অডিও</string>
+    <string name="translation">অনুবাদ</string>
+    <string name="auto_scroll">অটো স্ক্রল</string>
+    <string name="auto_play_next">অটো প্লে নেক্সট</string>
+    <string name="recitation">আবৃত্তি</string>
+    <string name="abdulbaset_abdulsamad">আব্দুল বাসেত আব্দুল সামাদ</string>
+    <string name="font_size">ফন্ট সাইজ</string>
+    <string name="font__a">এ-</string>
+    <string name="font_a">এ+</string>
+    <string name="arabic_font">আরবি ফন্ট</string>
+    <string name="transliteration">অক্ষরীকরণ</string>
+    <string name="translation_font_size">অনুবাদ ফন্ট সাইজ</string>
+    <string name="default_txt">ডিফল্ট</string>
+    <string name="translation_by">অনুবাদক</string>
+    <string name="translation_language">অনুবাদের ভাষা</string>
+    <string name="monthly_calendar">মাসিক ক্যালেন্ডার</string>
 </resources>

@@ -3,6 +3,7 @@ package com.deenislam.sdk.viewmodels;
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.SettingResource
 import com.deenislam.sdk.service.repository.SettingRepository
 import kotlinx.coroutines.launch
@@ -22,22 +23,38 @@ internal  class SettingViewModel(
             if(response == null)
                 _settingLiveData.value = SettingResource.languageFailed
             else
-                _settingLiveData.value = SettingResource.languageData(response.language)
+                _settingLiveData.value = SettingResource.languageDataUpdate(response.language)
         }
     }
 
-    fun getLanguage()
+    fun updateLocationSetting(loc:Boolean)
     {
         viewModelScope.launch {
-            val response = repository.getLanguage()
+            val response = repository.updateLocationSetting(loc)
 
             if(response == null)
                 _settingLiveData.value = SettingResource.languageFailed
             else
-                _settingLiveData.value = SettingResource.languageData(response.language)
+                _settingLiveData.value = SettingResource.settingData(response)
+        }
+    }
+
+    fun getSetting()
+    {
+        viewModelScope.launch {
+            val response = repository.getSetting()
+
+            if(response == null)
+                _settingLiveData.value = SettingResource.languageFailed
+            else
+                _settingLiveData.value = SettingResource.settingData(response)
         }
 
     }
 
+    fun clear()
+    {
+        _settingLiveData.value = CommonResource.CLEAR
+    }
 
 }

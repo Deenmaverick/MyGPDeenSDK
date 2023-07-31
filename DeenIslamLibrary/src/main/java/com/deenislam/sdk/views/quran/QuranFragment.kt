@@ -55,7 +55,7 @@ internal class QuranFragment : BaseRegularFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val mainview = layoutInflater.inflate(R.layout.fragment_quran,container,false)
+        val mainview = localInflater.inflate(R.layout.fragment_quran,container,false)
 
         // init view
         actionbar = mainview.findViewById(R.id.actionbar)
@@ -66,7 +66,7 @@ internal class QuranFragment : BaseRegularFragment() {
         //myquranBtn = mainview.findViewById(R.id.myquranBtn)
         quranHomeBtn = mainview.findViewById(R.id.quranHomeBtn)
 
-        setupActionForOtherFragment(0,0,null,"Al Quran",true,actionbar)
+        setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
         return mainview
     }

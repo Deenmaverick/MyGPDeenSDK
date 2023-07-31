@@ -10,6 +10,7 @@ import android.widget.RadioButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.DatabaseProvider
@@ -21,8 +22,11 @@ import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.transition.MaterialSharedAxis
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallback {
 
@@ -34,6 +38,8 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
     private var enTitle:AppCompatTextView ? = null
     private var banglaRadioBtn:RadioButton ? = null
     private var englishRadioBtn:RadioButton ? = null
+    private lateinit var locationswitch: MaterialSwitch
+    private lateinit var currentLanguage:AppCompatTextView
 
     private var localLanguage = "bn"
 
@@ -49,6 +55,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
         // init viewmodel
         val repository = SettingRepository(userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao())
         viewmodel = SettingViewModel(repository)
+
     }
 
     override fun onCreateView(
@@ -56,10 +63,13 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val mainview = localInflaterBn.inflate(R.layout.fragment_setting,container,false)
+
+        val mainview = localInflater.inflate(R.layout.fragment_setting,container,false)
 
         //init view
         languageLayout = mainview.findViewById(R.id.languageLayout)
+        locationswitch = mainview.findViewById(R.id.locationswitch)
+        currentLanguage = mainview.findViewById(R.id.subTitle1)
         setupActionForOtherFragment(
             action1 = 0,
             action2 = 0,
@@ -78,12 +88,20 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
         initObserver()
 
         lifecycleScope.launch {
-            viewmodel.getLanguage()
+            viewmodel.getSetting()
         }
 
         languageLayout.setOnClickListener {
             showLanguiageDialog()
         }
+
+        locationswitch.setOnClickListener {
+
+           lifecycleScope.launch {
+               viewmodel.updateLocationSetting(!locationswitch.isChecked)
+           }
+        }
+
     }
 
     private fun initObserver()
@@ -93,10 +111,39 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
             when(it)
             {
                 is SettingResource.languageFailed -> requireContext().toast("Something went wrong")
-                is SettingResource.languageData -> {
-                    localLanguage = it.language
+                is SettingResource.settingData -> {
+
+                    localLanguage = if(it.data?.language == "en")
+                        "en"
+                    else
+                        "bn"
+
+
                     setupSettingDialogLanguage()
 
+                    locationswitch.isChecked = it.data?.location_setting == false
+
+                }
+
+                is SettingResource.languageDataUpdate ->
+                {
+                    localLanguage = if(it.language.toString() == "en")
+                        "en"
+                    else
+                        "bn"
+
+                    setupSettingDialogLanguage()
+                    lifecycleScope.launch {
+                        viewmodel.clear()
+                        withContext(Dispatchers.Main)
+                        {
+                            changeLanguage(localLanguage)
+                            dialog?.dismiss()
+                            val navController = findNavController()
+                            navController.popBackStack()
+                            navController.navigate(R.id.action_moreFragment_to_settingFragment)
+                        }
+                    }
                 }
             }
         }

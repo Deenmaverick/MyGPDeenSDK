@@ -98,9 +98,9 @@ internal class DashboardBillboardAdapter(
                     nextPrayerTime = this.findViewById(R.id.nextPrayerTime)
                     allPrayer = this.findViewById(R.id.allPrayer)
                     prayerBG.setBackgroundColor(
-                        prayerBG.context.resources.getColor(
+                        ContextCompat.getColor(
+                            prayerBG.context,
                             R.color.black,
-                            prayerBG.context.theme
                         )
                     )
                     allPrayer.setOnClickListener {
@@ -136,10 +136,12 @@ internal class DashboardBillboardAdapter(
         if(!this::allPrayer.isInitialized)
             return
 
+        val getContext = prayerBG.context
+
         val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.getDefault()).format(Date())
         val prayerMomentRangeData: PrayerMomentRange? =  prayerData?.let { getPrayerTimeName(it,currentTime.StringTimeToMillisecond("hh:mm:ss aa") /*getPrayerTimeName(it,"08:01:45 PM".StringTimeToMillisecond("hh:mm:ss aa") */ ) }
 
-        askingLy.text = "Have you prayed ${prayerMomentRangeData?.MomentName}?"
+        askingLy.text = getContext.resources.getString(R.string.billboard_have_you_prayed,prayerMomentRangeData?.MomentName?.prayerMomentLocale())
         prayerTracker(true)
 
         val get_prayer_tag = get_prayer_tag_by_name(prayerMomentRangeData?.MomentName.toString())
@@ -170,19 +172,18 @@ internal class DashboardBillboardAdapter(
             //prayerBG.setBackgroundResource(R.drawable.isha)
             prayerTracker(false)
             prayerBG.setBackgroundColor(
-                prayerBG.context.resources.getColor(
-                    R.color.black,
-                    prayerBG.context.theme
+                ContextCompat.getColor(getContext,
+                    R.color.black
                 )
             )
 
         }
-        progressTxt.text = "${getCompletedPrayerCount()}/5"
-        prayerMoment.text = prayerMomentRangeData?.MomentName
+        progressTxt.text = "${getCompletedPrayerCount()}/5".numberLocale()
+        prayerMoment.text = prayerMomentRangeData?.MomentName?.prayerMomentLocale()
         namazTask.progress = getCompletedPrayerCount()*20
-        prayerMomentRange.text = prayerMomentRangeData?.StartTime +" - " + prayerMomentRangeData?.EndTime
-        nextPrayerName.text = "Next prayer: "+prayerMomentRangeData?.NextPrayerName?:"--"
-        nextPrayerTime.text = "-00:00:00"
+        prayerMomentRange.text = prayerMomentRangeData?.StartTime?.timeLocale() +" - " + prayerMomentRangeData?.EndTime?.timeLocale()
+        nextPrayerName.text = getContext.resources.getString(R.string.billboard_next_prayer,prayerMomentRangeData?.NextPrayerName?.prayerMomentLocale()?:"--")
+        nextPrayerTime.text = "-00:00:00".timeLocale()
 
 
 
@@ -193,11 +194,11 @@ internal class DashboardBillboardAdapter(
 
         prayerMomentRangeData?.nextPrayerTimeCount?.let {
             if(it>0) {
-                nextPrayerTime.text = "-"+prayerMomentRangeData.nextPrayerTimeCount?.TimeDiffForPrayer()
+                nextPrayerTime.text = "-"+prayerMomentRangeData.nextPrayerTimeCount?.TimeDiffForPrayer().numberLocale()
                 countDownTimer?.cancel()
                 countDownTimer = object : CountDownTimer(it, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-                        nextPrayerTime.text = "-" + millisUntilFinished.TimeDiffForPrayer()
+                        nextPrayerTime.text = "-" + millisUntilFinished.TimeDiffForPrayer().numberLocale()
                     }
 
                     override fun onFinish() {

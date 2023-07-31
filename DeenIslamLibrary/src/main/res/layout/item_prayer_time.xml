@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_16"
             android:layout_marginTop="@dimen/space_13"
-            android:text="It’s time for"
+            android:text="@string/it_s_time_for"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monthly Calendar"
+                android:text="@string/monthly_calendar"
                 android:layout_gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"

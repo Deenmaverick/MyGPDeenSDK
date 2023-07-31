@@ -26,6 +26,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.utils.*
@@ -48,6 +49,8 @@ internal class MainActivity : AppCompatActivity() {
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
     private var actionCallback:actionCallback ? =null
     private var searchCallback:searchCallback ? =null
+
+    lateinit var localContext:Context
 
     private val _viewPager: ViewPager2 by lazy { findViewById(R.id.viewPager) }
     private val frameContainerView: FragmentContainerView by lazy { findViewById(R.id.fragmentContainerView) }
@@ -85,6 +88,7 @@ internal class MainActivity : AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
         frameContainerView.visible(true)
+        changeLanguage()
         //bottom_navigation.setupWithNavController(navController)
 
         // test notification
@@ -135,12 +139,22 @@ internal class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun attachBaseContext(newBase: Context) {
+
+    fun changeLanguage()
+    {
+        localContext = if (Deen.language == "en") {
+            LocaleUtil.createLocaleContext(this, Locale("en"))
+        } else {
+            LocaleUtil.createLocaleContext(this, Locale("bn"))
+        }
+    }
+
+   /* override fun attachBaseContext(newBase: Context) {
         // replace "bn" with the desired locale
-        val locale = Locale("bn")
+        val locale = Locale(getLanguage())
         val context: Context = ContextWrapper.wrap(newBase, locale)
         super.attachBaseContext(context)
-    }
+    }*/
 
 
     fun getInstance():MainActivity
@@ -205,7 +219,7 @@ internal class MainActivity : AppCompatActivity() {
         //bottom_navigation.visible(bol)
         actionbar.visible(bol)
         if (bol) {
-            setupActionbar(getString(R.string.app_name))
+            setupActionbar(localContext.resources.getString(R.string.app_name))
         }
 
         frameContainerView.post {
@@ -359,8 +373,8 @@ internal class MainActivity : AppCompatActivity() {
 
     fun setupActionbar(titile:String,backEnable:Boolean=false)
     {
-        if(titile.isEmpty() || titile == getString(R.string.app_name) && !backEnable) {
-            title.text = getString(R.string.app_name)
+        if(titile.isEmpty() || titile == localContext.resources.getString(R.string.app_name) && !backEnable) {
+            title.text = localContext.resources.getString(R.string.app_name)
             btnBack.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_logo))
             btnBack.visible(true)
 

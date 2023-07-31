@@ -84,7 +84,7 @@ internal class QuranSurahFragment(
 
     override fun onResume() {
         super.onResume()
-        setupActionForOtherFragment(R.drawable.ic_search,0,this@QuranSurahFragment,"Al Quran",true,actionbar)
+        setupActionForOtherFragment(R.drawable.ic_search,0,this@QuranSurahFragment,localContext.resources.getString(R.string.al_quran),true,actionbar)
         if (viewmodel.listState != null) {
             linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
         }
@@ -161,7 +161,7 @@ internal class QuranSurahFragment(
     private fun loadAPI()
     {
         lifecycleScope.launch {
-            viewmodel.getSurahList_Quran_Com("en")
+            viewmodel.getSurahList_Quran_Com(getLanguage())
         }
     }
 

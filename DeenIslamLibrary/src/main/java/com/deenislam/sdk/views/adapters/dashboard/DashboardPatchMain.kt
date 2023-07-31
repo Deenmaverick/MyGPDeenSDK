@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.prepareStubView
 import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.base.BaseViewHolder
@@ -45,7 +46,7 @@ internal class DashboardPatchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder
     {
-        val main_view = LayoutInflater.from(parent.context)
+        val main_view = LayoutInflater.from(parent.context.getLocalContext())
             .inflate(R.layout.layout_async_match, parent, false)
 
         rootview = main_view.findViewById(R.id.rootview)

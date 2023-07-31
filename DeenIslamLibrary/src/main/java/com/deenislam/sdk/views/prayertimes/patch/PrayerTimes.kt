@@ -31,7 +31,7 @@ internal class PrayerTimes {
     {
         val title:AppCompatTextView = view.findViewById(R.id.title)
         val prayerTimes:RecyclerView = view.findViewById(R.id.prayertime)
-        title.text = "Prayer Times"
+        title.text = view.context.resources.getString(R.string.prayer_times)
 
         instance?.widgetPrayerTimes = WidgetPrayerTimes(callback)
 

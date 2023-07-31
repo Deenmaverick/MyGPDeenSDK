@@ -46,7 +46,7 @@ object Deen {
                 {
                     language = SettingRepository(
                         userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
-                    ).getLanguage()?.language?:"bn"
+                    ).getSetting()?.language?:"bn"
 
                     Log.e("language1", language)
                 }

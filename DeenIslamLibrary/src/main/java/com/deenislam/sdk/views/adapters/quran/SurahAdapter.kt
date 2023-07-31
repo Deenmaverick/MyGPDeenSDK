@@ -7,9 +7,13 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
 import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
+import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.getSurahNameBn
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class SurahAdapter(
@@ -21,7 +25,7 @@ internal class SurahAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_quran_popular_surah, parent, false)
         )
 
@@ -51,10 +55,14 @@ internal class SurahAdapter(
 
             val surahPost = position+1
 
-            surahCount.text = surahFilter[position].id.toString()
-            surahName.text = surahFilter[position].name_simple
+            surahCount.text = surahFilter[position].id.toString().numberLocale()
+            surahName.text =
+                if(Deen.language == "bn") position.getSurahNameBn()
+                else
+                    surahList[position].name_simple
+
             arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
-            surahSub.text = "${surahFilter[position].translated_name.name} • ${surahFilter[position].verses_count} Ayahs"
+            surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahList[position].translated_name.name+" • ",surahList[position].verses_count.toString().numberLocale())
 
             itemView.setOnClickListener {
                 surahCallback?.surahClick(surahFilter[position])

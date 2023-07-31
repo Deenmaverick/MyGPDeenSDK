@@ -28,7 +28,7 @@ internal class Menu {
 
         val dashboardRecycleMenu:RecyclerView = widget.findViewById(R.id.dashboard_recycle_menu)
 
-            val menu = BaseMenu().getInstance().getDashboardMenu()
+            val menu = BaseMenu().getInstance().getDashboardMenu(widget.context)
 
             dashboardRecycleMenu.apply {
                     adapter = MenuAdapter(menu,2, menuCallback = menuCallback)

@@ -15,7 +15,7 @@ data class UserPref(
     var language:String = "bn",
 
     @ColumnInfo(name = "location_setting", defaultValue = "0")
-    val location_setting:Boolean = false,
+    var location_setting:Boolean = false,
 
     @ColumnInfo(name = "token", defaultValue = "")
     var token: String? = "",

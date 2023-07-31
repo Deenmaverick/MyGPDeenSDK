@@ -47,7 +47,7 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        val mainView = localInflater.inflate(R.layout.fragment_zakat_home,container,false)
+        val mainView = layoutInflater.inflate(R.layout.fragment_zakat_home,container,false)
 
         //init view
         newCaculateBtn = mainView.findViewById(R.id.newCaculateBtn)
@@ -90,41 +90,41 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
         }
 
         // setup faq 1
-        faq1Count.text = localContext.resources.getString(R.string.count1)
-        faq1Titile.text = localContext.resources.getString(R.string.zakah_home_faq1_title)
-        faq1Content.text = localContext.resources.getString(R.string.zakah_home_faq1_content)
+        faq1Count.text = resources.getString(R.string.count1)
+        faq1Titile.text = resources.getString(R.string.zakah_home_faq1_title)
+        faq1Content.text = resources.getString(R.string.zakah_home_faq1_content)
         faq1.setOnClickListener {
             faq1Content.visible(!faq1Content.isVisible)
         }
 
         // setup faq 2
-        faq2Count.text = localContext.resources.getString(R.string.count2)
-        faq2Titile.text = localContext.resources.getString(R.string.zakah_home_faq2_title)
-        faq2Content.text = localContext.resources.getString(R.string.zakah_home_faq2_content)
+        faq2Count.text = resources.getString(R.string.count2)
+        faq2Titile.text = resources.getString(R.string.zakah_home_faq2_title)
+        faq2Content.text = resources.getString(R.string.zakah_home_faq2_content)
         faq2.setOnClickListener {
             faq2Content.visible(!faq2Content.isVisible)
         }
 
         // setup faq 3
-        faq3Count.text = localContext.resources.getString(R.string.count3)
-        faq3Titile.text = localContext.resources.getString(R.string.zakah_home_faq3_title)
-        faq3Content.text = localContext.resources.getString(R.string.zakah_home_faq3_content)
+        faq3Count.text = resources.getString(R.string.count3)
+        faq3Titile.text = resources.getString(R.string.zakah_home_faq3_title)
+        faq3Content.text = resources.getString(R.string.zakah_home_faq3_content)
         faq3.setOnClickListener {
             faq3Content.visible(!faq3Content.isVisible)
         }
 
         // setup faq 4
-        faq4Count.text = localContext.resources.getString(R.string.count4)
-        faq4Titile.text = localContext.resources.getString(R.string.zakah_home_faq4_title)
-        faq4Content.text = localContext.resources.getString(R.string.zakah_home_faq4_content)
+        faq4Count.text = resources.getString(R.string.count4)
+        faq4Titile.text = resources.getString(R.string.zakah_home_faq4_title)
+        faq4Content.text = resources.getString(R.string.zakah_home_faq4_content)
         faq4.setOnClickListener {
             faq4Content.visible(!faq4Content.isVisible)
         }
 
         // setup faq 5
-        faq5Count.text = localContext.resources.getString(R.string.count5)
-        faq5Titile.text = localContext.resources.getString(R.string.zakah_home_faq5_title)
-        faq5Content.text = localContext.resources.getString(R.string.zakah_home_faq5_content)
+        faq5Count.text = resources.getString(R.string.count5)
+        faq5Titile.text = resources.getString(R.string.zakah_home_faq5_title)
+        faq5Content.text = resources.getString(R.string.zakah_home_faq5_content)
         faq5.setOnClickListener {
             faq5Content.visible(!faq5Content.isVisible)
         }

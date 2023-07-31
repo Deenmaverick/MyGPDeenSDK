@@ -6,9 +6,13 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.quran.juz.Juz
 import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
+import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.getSurahNameBn
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 
@@ -21,7 +25,7 @@ internal class QuranJuzAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_quran_juz, parent, false)
         )
 
@@ -55,8 +59,8 @@ internal class QuranJuzAdapter(
         override fun onBind(position: Int) {
             super.onBind(position)
 
-            surahCount.text = juzList[position].juz_number.toString()
-            juz.text = "Juz (Para) ${juzList[position].juz_number}"
+            surahCount.text = juzList[position].juz_number.toString().numberLocale()
+            juz.text = juz.context.resources.getString(R.string.quran_para_adapter_title,juzList[position].juz_number.toString().numberLocale())
 
             val verse_mapping = juzList[position].verse_mapping::class.java.declaredFields
             var suraSubTxt = ""
@@ -68,7 +72,13 @@ internal class QuranJuzAdapter(
                     val value = surah.get(juzList[position].verse_mapping)
 
                     if (value is String && value.isNotEmpty()) {
-                        suraSubTxt += "${surahList[surah.name.toInt()-1].name_simple} "
+                        suraSubTxt +=
+
+                            if(Deen.language == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
+                            else
+                                "${surahList[surah.name.toInt()-1].name_simple} "
+
+
                     }
                 }
             }

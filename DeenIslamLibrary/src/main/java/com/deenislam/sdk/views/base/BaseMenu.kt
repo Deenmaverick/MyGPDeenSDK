@@ -1,5 +1,6 @@
 package com.deenislam.sdk.views.base
 
+import android.content.Context
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.models.MenuModel
 import com.deenislam.sdk.utils.*
@@ -58,28 +59,28 @@ internal class BaseMenu {
 
     }
 
-    fun getDashboardMenu():ArrayList<MenuModel>
+    fun getDashboardMenu(context: Context):ArrayList<MenuModel>
     {
         instance?.DashboardmenuList?.let {
 
             if(it.size <=0) {
 
                 //Al Quran
-                it.add(MenuModel(R.drawable.ic_menu_quran,"Al Quran", MENU_AL_QURAN))
+                it.add(MenuModel(R.drawable.ic_menu_quran,context.resources.getString(R.string.al_quran), MENU_AL_QURAN))
                 //Hadith
-                it.add(MenuModel(R.drawable.ic_menu_hadith,"Hadith", MENU_HADITH))
+                it.add(MenuModel(R.drawable.ic_menu_hadith,context.resources.getString(R.string.hadith), MENU_HADITH))
                 //Prayer time
-                it.add(MenuModel(R.drawable.ic_menu_prayer,"Prayer Times", MENU_PRAYER_TIME))
+                it.add(MenuModel(R.drawable.ic_menu_prayer,context.resources.getString(R.string.prayer_times), MENU_PRAYER_TIME))
                 //Daily Dua
-                it.add(MenuModel(R.drawable.ic_menu_dua,"Daily Dua", MENU_DUA))
+                it.add(MenuModel(R.drawable.ic_menu_dua,context.resources.getString(R.string.daily_dua), MENU_DUA))
                 //Zakat
-                it.add(MenuModel(R.drawable.ic_menu_zakat,"Zakat", MENU_ZAKAT))
+                it.add(MenuModel(R.drawable.ic_menu_zakat,context.resources.getString(R.string.zakat), MENU_ZAKAT))
                 //Digital Tasbih
-                it.add(MenuModel(R.drawable.ic_menu_digital_tasbeeh,"Digital Tasbeeh", MENU_DIGITAL_TASBEEH))
+                it.add(MenuModel(R.drawable.ic_menu_digital_tasbeeh,context.resources.getString(R.string.digital_tasbeeh), MENU_DIGITAL_TASBEEH))
                 //Qibla Compass
-                it.add(MenuModel(R.drawable.ic_menu_compass,"Qibla Compass", MENU_QIBLA_COMPASS))
+                it.add(MenuModel(R.drawable.ic_menu_compass,context.resources.getString(R.string.qibla_compass), MENU_QIBLA_COMPASS))
                 //Islamic Name
-                it.add(MenuModel(R.drawable.ic_menu_islamic_name,"Islamic Name", MENU_ISLAMIC_NAME))
+                it.add(MenuModel(R.drawable.ic_menu_islamic_name,context.resources.getString(R.string.islamic_name), MENU_ISLAMIC_NAME))
 
             }
         }

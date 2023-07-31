@@ -16,10 +16,11 @@ import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.models.quran.quranplayer.ThemeResource
 import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepository
 import com.deenislam.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
+import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.slider.Slider
 import kotlinx.coroutines.launch
 
-internal class PlayerThemeFragment : Fragment() {
+internal class PlayerThemeFragment : BaseRegularFragment() {
 
     private lateinit var viewmodel: PlayerControlViewModel
 
@@ -50,7 +51,7 @@ internal class PlayerThemeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainview = inflater.inflate(R.layout.fragment_player_theme, container, false)
+        val mainview = localInflater.inflate(R.layout.fragment_player_theme, container, false)
 
         //init view
         fontControl = mainview.findViewById(R.id.fontControl)

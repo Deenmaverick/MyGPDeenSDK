@@ -15,10 +15,11 @@ import com.deenislam.sdk.service.models.quran.quranplayer.ThemeResource
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepository
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
+import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.materialswitch.MaterialSwitch
 import kotlinx.coroutines.launch
 
-internal class PlayerAudioFragment : Fragment() {
+internal class PlayerAudioFragment : BaseRegularFragment() {
 
     private lateinit var viewmodel:PlayerControlViewModel
 
@@ -48,7 +49,7 @@ internal class PlayerAudioFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        val mainview = inflater.inflate(R.layout.fragment_player_audio, container, false)
+        val mainview = localInflater.inflate(R.layout.fragment_player_audio, container, false)
 
         //init view
         autoScrollSwitch = mainview.findViewById(R.id.autoScrollSwitch)

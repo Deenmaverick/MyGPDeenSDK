@@ -80,7 +80,7 @@ internal class QuranJuzFragment(
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainview = inflater.inflate(R.layout.fragment_quran_surah, container, false)
+        val mainview = localInflater.inflate(R.layout.fragment_quran_surah, container, false)
 
         //init view
         juzRC = mainview.findViewById(R.id.surahListRC)
@@ -95,7 +95,7 @@ internal class QuranJuzFragment(
 
     override fun onResume() {
         super.onResume()
-        setupActionForOtherFragment(0,0,null,"Al Quran",true,actionbar)
+        setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
     }
 

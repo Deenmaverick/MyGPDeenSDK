@@ -61,7 +61,7 @@ internal class WidgetPrayerTimes(
         override fun onBind(position: Int) {
             super.onBind(position)
 
-            val prayerCheck: AppCompatRadioButton = itemView.findViewById(R.id.prayerCheck)
+            val prayerCheck: RadioButton = itemView.findViewById(R.id.prayerCheck)
             val disableRadio: AppCompatImageView = itemView.findViewById(R.id.disableRadio)
             val icSun: AppCompatImageView = itemView.findViewById(R.id.icSun)
             val prayerName: AppCompatTextView = itemView.findViewById(R.id.prayerName)

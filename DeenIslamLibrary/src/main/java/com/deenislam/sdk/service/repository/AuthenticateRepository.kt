@@ -23,7 +23,9 @@ internal class AuthenticateRepository(
     suspend fun login(username:String) = makeApicall {
 
         val body = JSONObject()
-        body.put("username",username)
+        body.put("msisdn",username)
+        body.put("client_id","")
+        body.put("client_secret","")
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
@@ -57,7 +59,7 @@ internal class AuthenticateRepository(
             {
                 response.value?.Data?.let {
 
-                        if(storeToken(it.JWT,msisdn,it.RefreshToken.Token) > 0)
+                        if(storeToken(it.JWT,msisdn,"") > 0)
                             return it.JWT
                         else
                         {

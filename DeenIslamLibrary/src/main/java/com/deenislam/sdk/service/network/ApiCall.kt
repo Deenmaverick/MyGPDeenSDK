@@ -18,7 +18,7 @@ internal interface ApiCall {
                 ApiResource.Success(apiCall.invoke())
             }catch (throwable:Throwable)
             {
-                Log.e("userPrefDao",throwable.toString())
+                Log.e("API_ERROR",throwable.toString())
                 when(throwable)
                 {
                     is HttpException ->

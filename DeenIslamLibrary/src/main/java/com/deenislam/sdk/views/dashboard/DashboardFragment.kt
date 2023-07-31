@@ -101,7 +101,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         super.setMenuVisibility(menuVisible)
         if(menuVisible)
         {
-            setupAction(R.drawable.ic_menu,0,this@DashboardFragment,getString(R.string.app_name))
+            setupAction(R.drawable.ic_menu,0,this@DashboardFragment,localContext.resources.getString(R.string.app_name))
         }
     }
 

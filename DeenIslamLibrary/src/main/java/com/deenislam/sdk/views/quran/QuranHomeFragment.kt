@@ -69,7 +69,7 @@ internal class QuranHomeFragment(
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainview = inflater.inflate(R.layout.fragment_quran_home, container, false)
+        val mainview = localInflater.inflate(R.layout.fragment_quran_home, container, false)
 
         //init view
         recentRC = mainview.findViewById(R.id.recentRC)
@@ -88,7 +88,7 @@ internal class QuranHomeFragment(
 
     override fun onResume() {
         super.onResume()
-        setupActionForOtherFragment(0,0,null,"Al Quran",true,actionbar)
+        setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
     }
 
@@ -130,7 +130,7 @@ internal class QuranHomeFragment(
     {
         loadingState()
         lifecycleScope.launch {
-            viewmodel.getSurahList_Quran_Com("en")
+            viewmodel.getSurahList_Quran_Com(getLanguage())
         }
     }
 

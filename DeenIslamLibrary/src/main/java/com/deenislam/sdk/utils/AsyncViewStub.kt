@@ -15,6 +15,8 @@ import androidx.core.content.res.use
 internal class AsyncViewStub @JvmOverloads constructor(
     context: Context, set: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, set, defStyleAttr) {
+
+
     private val inflater: AsyncLayoutInflater by lazy { AsyncLayoutInflater(context) }
 
     var inflatedId = NO_ID

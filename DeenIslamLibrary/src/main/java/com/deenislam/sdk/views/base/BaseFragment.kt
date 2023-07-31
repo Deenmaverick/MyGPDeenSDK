@@ -2,13 +2,13 @@ package com.deenislam.sdk.views.base
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -33,14 +33,9 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     private val bindingInflater: (inflater:LayoutInflater)->VB
 ):Fragment() {
 
-    private lateinit var localContextBn: Context
-    private lateinit var localContextEn: Context
-    private lateinit var localInflaterBn: LayoutInflater
-    private lateinit var localInflaterEn: LayoutInflater
-
     lateinit var localContext:Context
     lateinit var localInflater: LayoutInflater
-    
+
     private val fragmentViewModel by viewModels<FragmentViewModel>()
 
     private var _binding:VB ? = null
@@ -52,24 +47,17 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(Deen.language == "en")
-        {
-            Log.e("language","en")
-            localContextEn = LocaleUtil.createLocaleContext(requireContext(), Locale(""))
-            localInflaterEn = layoutInflater.cloneInContext(localContextEn)
-
-            localContext = localContextEn
-            localInflater = localInflaterEn
+        localContext = if (Deen.language == "en") {
+            LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
+        } else {
+            LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
         }
-        else
-        {
-            Log.e("language","bn")
-            localContextBn = LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
-            localInflaterBn = layoutInflater.cloneInContext(localContextBn)
 
-            localContext = localContextBn
-            localInflater = localInflaterBn
-        }
+
+        val themedContext = ContextThemeWrapper(localContext, R.style.Theme_DeenIslam) // Replace with your theme
+
+        localInflater = layoutInflater.cloneInContext(themedContext)
+
 
         OnCreate()
         onBackPressedCallback =
@@ -80,6 +68,17 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     }
 
+     fun getLanguage():String =
+        if(Deen.language == "en")
+            ""
+        else
+            "bn"
+
+    fun changeLanguage(language:String)
+    {
+        Deen.language = language
+        (activity as MainActivity).changeLanguage()
+    }
     fun isOnlyBack(bol:Boolean)
     {
         isOnlyback = bol
@@ -109,7 +108,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = bindingInflater.invoke(inflater)
+        _binding = bindingInflater.invoke(localInflater)
 
         if(_binding == null)
             throw java.lang.IllegalArgumentException("View cannot null")
@@ -161,7 +160,14 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         (activity as MainActivity).setupActionbar(action1,action2,callback)
     }
 
-    fun setupActionForOtherFragment(action1:Int,action2:Int,callback: otherFagmentActionCallback?=null,actionnBartitle:String,backEnable:Boolean=true,view: View)
+    fun setupActionForOtherFragment(
+        action1:Int,
+        action2:Int,
+        callback: otherFagmentActionCallback?=null,
+        actionnBartitle:String,
+        backEnable:Boolean=true,
+        view: View
+    )
     {
         val action1Btn: AppCompatImageView = view.findViewById(R.id.action1)
         val action2Btn: AppCompatImageView = view.findViewById(R.id.action2)

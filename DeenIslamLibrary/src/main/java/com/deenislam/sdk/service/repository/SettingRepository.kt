@@ -25,7 +25,23 @@ internal class SettingRepository(
         }
 
 
-    suspend fun getLanguage() =
+    suspend fun updateLocationSetting(loc:Boolean): UserPref? =
+        withContext(Dispatchers.IO)
+        {
+            val data = userPrefDao?.select()
+
+            data?.let {
+                if (it.isNotEmpty()) {
+                    it[0]?.location_setting = loc
+                    if(userPrefDao?.update(it)!=0)
+                        return@withContext userPrefDao?.select()?.get(0)
+                }
+            }
+            return@withContext data?.get(0)
+        }
+
+
+    suspend fun getSetting() =
         withContext(Dispatchers.IO)
         {
             val data = userPrefDao?.select()

@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ViewInflationListener
@@ -62,7 +63,7 @@ internal class PrayerTimesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder
     {
         initView = false
-        val main_view = LayoutInflater.from(parent.context)
+        val main_view = LayoutInflater.from(parent.context.getLocalContext())
             .inflate(R.layout.layout_async_match, parent, false)
 
         return   ViewHolder(
@@ -127,6 +128,8 @@ internal class PrayerTimesAdapter(
         if(!this::prayerBG.isInitialized)
             return
 
+        val getContext = prayerBG.context
+
         val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.getDefault()).format(Date())
 
 
@@ -146,21 +149,21 @@ internal class PrayerTimesAdapter(
         else if(prayerMomentRangeData?.MomentName == "Isha")
             prayerBG.setBackgroundResource(R.drawable.isha)
         else
-            prayerBG.setBackgroundColor(prayerBG.context.resources.getColor(R.color.black,prayerBG.context.theme))
+            prayerBG.setBackgroundColor(ContextCompat.getColor(getContext,R.color.black))
 
-        prayerMoment.text = prayerMomentRangeData?.MomentName
-        prayerMomentRange.text = prayerMomentRangeData?.StartTime +" - " + prayerMomentRangeData?.EndTime
-        nextPrayerName.text = "Next prayer: "+prayerMomentRangeData?.NextPrayerName?:"--"
-        nextPrayerTimeCount.text = "-00:00:00"
+        prayerMoment.text = prayerMomentRangeData?.MomentName?.prayerMomentLocale()
+        prayerMomentRange.text = prayerMomentRangeData?.StartTime?.timeLocale() +" - " + prayerMomentRangeData?.EndTime?.timeLocale()
+        nextPrayerName.text = getContext.resources.getString(R.string.billboard_next_prayer,prayerMomentRangeData?.NextPrayerName?.prayerMomentLocale()?:"--")
+        nextPrayerTimeCount.text = "-00:00:00".timeLocale()
 
         prayerMomentRangeData?.nextPrayerTimeCount?.let {
 
             if(it>0) {
-                nextPrayerTimeCount.text = "-"+prayerMomentRangeData?.nextPrayerTimeCount?.TimeDiffForPrayer()
+                nextPrayerTimeCount.text = "-"+prayerMomentRangeData?.nextPrayerTimeCount?.TimeDiffForPrayer()?.numberLocale()
                 countDownTimer?.cancel()
                 countDownTimer =object : CountDownTimer(it, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-                        nextPrayerTimeCount.text = "-"+millisUntilFinished.TimeDiffForPrayer()
+                        nextPrayerTimeCount.text = "-"+millisUntilFinished.TimeDiffForPrayer().numberLocale()
                     }
 
                     override fun onFinish() {

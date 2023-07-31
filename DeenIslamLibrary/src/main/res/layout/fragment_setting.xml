@@ -102,7 +102,7 @@
                 android:layout_marginStart="@dimen/space_12"
                 android:layout_marginTop="@dimen/space_16.5"
                 android:layout_marginBottom="@dimen/space_16.5"
-                android:text="Location"
+                android:text="@string/location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/txt_black_deep"
                 app:layout_constraintTop_toTopOf="parent"

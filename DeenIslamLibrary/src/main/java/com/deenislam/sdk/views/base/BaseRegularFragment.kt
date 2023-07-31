@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.base
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
@@ -20,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.AsyncViewStub
+import com.deenislam.sdk.utils.ContextWrapper
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.isBottomNavFragment
@@ -37,11 +40,6 @@ internal abstract class BaseRegularFragment: Fragment() {
     private var isOnlyback:Boolean = false
     private var isBackPressed:Boolean = false
 
-    private lateinit var localContextBn: Context
-    private lateinit var localContextEn: Context
-    lateinit var localInflaterBn: LayoutInflater
-    private lateinit var localInflaterEn: LayoutInflater
-
     lateinit var localContext:Context
     lateinit var localInflater: LayoutInflater
 
@@ -49,28 +47,31 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(Deen.language == "en")
-        {
-            Log.e("language","en")
-            localContextEn = LocaleUtil.createLocaleContext(requireContext(), Locale(""))
-            localInflaterEn = layoutInflater.cloneInContext(localContextEn)
-
-            localContext = localContextEn
-            localInflater = localInflaterEn
+        localContext = if (Deen.language == "en") {
+            LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
+        } else {
+            LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
         }
-        else
-        {
-            Log.e("language","bn")
-            localContextBn = LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
-            localInflaterBn = layoutInflater.cloneInContext(localContextBn)
 
-            localContext = localContextBn
-            localInflater = localInflaterBn
-        }
+       val themedContext = ContextThemeWrapper(localContext, R.style.Theme_DeenIslam) // Replace with your theme
+
+        localInflater = layoutInflater.cloneInContext(themedContext)
 
         OnCreate()
 
     }
+
+    fun changeLanguage(language:String)
+    {
+        Deen.language = language
+        (activity as MainActivity).changeLanguage()
+    }
+
+    fun getLanguage():String =
+        if(Deen.language == "en")
+            ""
+        else
+            "bn"
 
     override fun onResume() {
         super.onResume()
