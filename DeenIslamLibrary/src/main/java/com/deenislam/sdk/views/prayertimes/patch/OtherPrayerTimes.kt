@@ -29,7 +29,7 @@ internal class OtherPrayerTimes {
     {
         val title:AppCompatTextView = view.findViewById(R.id.title)
         val prayerTimes: RecyclerView = view.findViewById(R.id.prayertime)
-        title.text = "Other Prayers"
+        title.text = view.context.getString(R.string.other_prayers)
 
         instance?.widgetOtherPrayerTimes = WidgetOtherPrayerTimes(callback)
 

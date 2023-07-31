@@ -15,6 +15,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.models.quran.quranplayer.ThemeResource
 import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepository
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.slider.Slider
@@ -111,38 +112,38 @@ internal class PlayerThemeFragment : BaseRegularFragment() {
              0F ->
             {
                 ayatArabic.setTextSize(TypedValue.COMPLEX_UNIT_SP,24F)
-                defaultFontBtn.text = "Default"
+                defaultFontBtn.text = localContext.resources.getString(R.string.default_txt)
 
             }
 
             20F ->
             {
                 ayatArabic.setTextSize(TypedValue.COMPLEX_UNIT_SP,26F)
-                defaultFontBtn.text = "120%"
+                defaultFontBtn.text = "120%".numberLocale()
             }
 
             40F ->
             {
                 ayatArabic.setTextSize(TypedValue.COMPLEX_UNIT_SP,28F)
-                defaultFontBtn.text = "140%"
+                defaultFontBtn.text = "140%".numberLocale()
             }
 
             60F ->
             {
                 ayatArabic.setTextSize(TypedValue.COMPLEX_UNIT_SP,30F)
-                defaultFontBtn.text = "160%"
+                defaultFontBtn.text = "160%".numberLocale()
             }
 
             80F->
             {
                 ayatArabic.setTextSize(TypedValue.COMPLEX_UNIT_SP,32F)
-                defaultFontBtn.text = "180%"
+                defaultFontBtn.text = "180%".numberLocale()
             }
 
             100F ->
             {
                 ayatArabic.setTextSize(TypedValue.COMPLEX_UNIT_SP,34F)
-                defaultFontBtn.text = "200%"
+                defaultFontBtn.text = "200%".numberLocale()
             }
             else -> updateSettingCall = true
         }

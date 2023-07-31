@@ -10,9 +10,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
-import com.deenislam.sdk.utils.MilliSecondToStringTime
-import com.deenislam.sdk.utils.StringTimeToMillisecond
-import com.deenislam.sdk.utils.visible
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
@@ -21,7 +19,7 @@ internal class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_prayer_time_alt, parent, false)
         )
 
@@ -58,17 +56,17 @@ internal class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
             {
                 1->
                 {
-                    prayerName.text = "Sunrise"
-                    timeTxt.text = "${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}"
+                    prayerName.text = "Sunrise".prayerMomentLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
 
                 }
 
                 2->
                 {
-                    prayerName.text = "Midday"
-                    timeTxt.text = "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Juhr?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}"
+                    prayerName.text = "Midday".prayerMomentLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Juhr?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
 
                 }
 

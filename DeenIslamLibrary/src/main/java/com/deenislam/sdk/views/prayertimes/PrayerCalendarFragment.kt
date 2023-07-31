@@ -65,8 +65,8 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val mainView = layoutInflater.inflate(R.layout.fragment_prayer_calendar,container,false)
-        setupActionForOtherFragment(0,R.drawable.ic_share,this@PrayerCalendarFragment,"Prayer Calendar",true,mainView)
+        val mainView = localInflater.inflate(R.layout.fragment_prayer_calendar,container,false)
+        setupActionForOtherFragment(0,R.drawable.ic_share,this@PrayerCalendarFragment,localContext.getString(R.string.prayer_calendar),true,mainView)
 
         return mainView
     }

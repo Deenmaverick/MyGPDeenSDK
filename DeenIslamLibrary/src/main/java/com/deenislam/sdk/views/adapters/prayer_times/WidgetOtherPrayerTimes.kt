@@ -33,7 +33,7 @@ internal class WidgetOtherPrayerTimes(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_prayer_time_alt, parent, false)
         )
 
@@ -83,32 +83,32 @@ internal class WidgetOtherPrayerTimes(
             {
                 1->
                 {
-                    prayerName.text = "Tahajjud"
+                    prayerName.text = "Tahajjud".prayerMomentLocale()
 
-                    timeTxt.text = "${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}"
+                    timeTxt.text = ("${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
 
                 }
 
                 2->
                 {
-                    prayerName.text = "Suhoor (End)"
-                    timeTxt.text = "${prayerData?.Data?.Sehri?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"
+                    prayerName.text = "Suhoor (End)".prayerMomentLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Sehri?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 
                 3->
                 {
-                    prayerName.text = "Ishraq"
-                    timeTxt.text = "${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}"
+                    prayerName.text = "Ishraq".prayerMomentLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
 
                 }
 
                 4->
                 {
-                    prayerName.text = "Iftaar (Start)"
-                    timeTxt.text = "${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"
+                    prayerName.text = "Iftaar (Start)".prayerMomentLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
                 }
             }
 

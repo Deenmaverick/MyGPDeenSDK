@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.quran.juz.Juz
 import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
-import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class SelectSurahAdapter(
@@ -27,7 +26,7 @@ internal class SelectSurahAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_select_surah, parent, false)
         )
 
@@ -55,10 +54,9 @@ internal class SelectSurahAdapter(
 
                 val surahPost = surahFilter[position].id
 
-                surahCount.text = surahPost.toString()
-                surahName.text = surahFilter[position].name_simple
-                surahSub.text =
-                    "${surahFilter[position].translated_name.name} • ${surahFilter[position].verses_count} Ayahs"
+                surahCount.text = surahPost.toString().numberLocale()
+                surahName.text = surahFilter[position].name_simple.surahNameLocale()
+                surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahList[position].translated_name.name+" • ",surahList[position].verses_count.toString().numberLocale())
                 arbSurah.text =
                     "${if (surahPost < 10) 0 else ""}${if (surahPost < 100) 0 else ""}${surahPost}"
                 itemView.setOnClickListener {

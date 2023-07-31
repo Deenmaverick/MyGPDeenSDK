@@ -91,12 +91,12 @@ fun String.timeLocale():String
             '7' to '৭',
             '8' to '৮',
             '9' to '৯',
-            'A' to 'এ',
+           /* 'A' to 'এ',
             'a' to 'এ',
             'P' to "পি",
             'p' to "পি",
             'M' to "এম",
-            'm' to "এম",
+            'm' to "এম",*/
         )
 
         return this.map { ch -> numberMap[ch] ?: ch }.joinToString("")
@@ -118,7 +118,12 @@ fun String.prayerMomentLocale():String
            "Asr" -> "আসর"
            "Maghrib" -> "মাগরিব"
            "Isha" -> "এশা"
-           "Tahajjut" -> "তাহাজ্জুদ"
+           "Tahajjud" -> "তাহাজ্জুদ"
+           "Sunrise" ->  "সূর্যোদয়"
+           "Suhoor (End)" -> "সেহরি শেষ"
+           "Iftaar (Start)" -> "ইফতার শুরু"
+           "Midday" -> "মধ্যাহ্ন"
+
            else -> this
        }
 
@@ -380,4 +385,56 @@ fun String.surahOriginLocale():String =
     }
     else
         this
+
+fun Context.getString(id:Int):String = this.resources.getString(id)
+
+fun String.monthNameLocale(): String =
+
+     if(Deen.language == "bn") {
+
+        val englishMonths = listOf(
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        )
+
+        val bengaliMonths = listOf(
+            "জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন",
+            "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"
+        )
+
+         val regex = "\\b(${englishMonths.joinToString("|")})\\b".toRegex()
+
+          this.replace(regex) { result ->
+             val matchedMonth = result.value
+             val index = englishMonths.indexOf(matchedMonth)
+             if (index != -1) bengaliMonths[index] else matchedMonth
+         }
+
+     }
+    else this
+
+fun String.dayNameLocale(): String =
+
+    if(Deen.language == "bn") {
+
+        val englishDays = listOf(
+            "Sunday", "Monday", "Tuesday", "Wednesday",
+            "Thursday", "Friday", "Saturday"
+        )
+
+        val bengaliDays = listOf(
+            "রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার",
+            "বৃহস্পতিবার", "শুক্রবার", "শনিবার"
+        )
+
+
+        val regex = "\\b(${englishDays.joinToString("|")})\\b".toRegex()
+
+        this.replace(regex) { result ->
+            val matchedMonth = result.value
+            val index = englishDays.indexOf(matchedMonth)
+            if (index != -1) bengaliDays[index] else matchedMonth
+        }
+    }
+    else this
 

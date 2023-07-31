@@ -232,9 +232,9 @@ internal fun getPrayerTimeName(data: PrayerTimesResponse,nowtime:Long):PrayerMom
     Log.e("UTIL_PRAYER1",nowtime.toString()+" "+isha+" "+tahajjut+" "+ishrak+" ")
 
      if(nowtime>=isha &&  (tahajjut<nowtime && nowtime>0) || (nowtime<tahajjut && nowtime<0))
-        return PrayerMomentRange("Isha",isha.MilliSecondToStringTime(),tahajjut.minus(60000L).MilliSecondToStringTime(),"Tahajjut", PrayerRemainingTime(tahajjut,nowtime,if(nowtime>0)1 else 0))
+        return PrayerMomentRange("Isha",isha.MilliSecondToStringTime(),tahajjut.minus(60000L).MilliSecondToStringTime(),"Tahajjud", PrayerRemainingTime(tahajjut,nowtime,if(nowtime>0)1 else 0))
     else if(nowtime>=tahajjut && nowtime<fajr && nowtime<0)
-        return PrayerMomentRange("Tahajjut",tahajjut.MilliSecondToStringTime(),fajr.minus(60000L).MilliSecondToStringTime(),"Fajr",fajr-nowtime)
+        return PrayerMomentRange("Tahajjud",tahajjut.MilliSecondToStringTime(),fajr.minus(60000L).MilliSecondToStringTime(),"Fajr",fajr-nowtime)
     else if(nowtime>=fajr && nowtime<sunrise && nowtime<0)
         return PrayerMomentRange("Fajr",fajr.MilliSecondToStringTime(),sunrise.minus(60000L).MilliSecondToStringTime(),"Ishraq",sunrise-nowtime)
     else if(nowtime>=ishrak && nowtime<noon)
@@ -308,7 +308,7 @@ fun getPrayerNameByID(id:Int):String
         4-> "Asr"
         5-> "Maghrib"
         6-> "Isha"
-        7-> "Tahajjut"
+        7-> "Tahajjud"
         else -> "--"
     }
 }

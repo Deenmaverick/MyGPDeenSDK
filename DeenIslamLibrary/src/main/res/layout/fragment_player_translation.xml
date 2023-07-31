@@ -117,7 +117,7 @@
         android:id="@+id/fontPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="A-"
+        android:text="@string/font_a"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/txt_ash"
         app:layout_constraintTop_toTopOf="@+id/fontControl"

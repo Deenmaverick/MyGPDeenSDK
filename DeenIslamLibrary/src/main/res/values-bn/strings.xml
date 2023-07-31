@@ -29,7 +29,7 @@
     <string name="default_image">default_image</string>
     <string name="enter_country_name">Enter country name</string>
     <string name="more">More</string>
-    <string name="prayer_times">নানাজের সময়সূচী</string>
+    <string name="prayer_times">নামাজের সময়সূচী</string>
     <string name="daily_dua">দোয়া</string>
     <string name="al_quran">আল কোরআন</string>
     <string name="home">Home</string>
@@ -148,4 +148,11 @@
     <string name="translation_by">অনুবাদক</string>
     <string name="translation_language">অনুবাদের ভাষা</string>
     <string name="monthly_calendar">মাসিক ক্যালেন্ডার</string>
+    <string name="uthmanic_script_hafs_regular">উৎমানিক স্ক্রিপ্ট হাফস রেগুলার</string>
+    <string name="select_surah">সূরা নির্বাচন করুন</string>
+    <string name="select_juz_para">পারা নির্বাচন করুন</string>
+    <string name="search_surah">সূরা অনুসন্ধান করুন</string>
+    <string name="other_prayers">অন্যান্য নামাজ</string>
+    <string name="forbidden_time">নিষিদ্ধ সময়</string>
+    <string name="prayer_calendar">নামাজ ক্যালেন্ডার</string>
 </resources>

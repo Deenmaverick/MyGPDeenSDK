@@ -128,7 +128,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         no_internet_retryBtn = no_internet_layout.findViewById(R.id.no_internet_retry)
         mainContainer =  mainview.findViewById(R.id.container)
 
-        setupActionForOtherFragment(R.drawable.ic_calendar,0,this@PrayerTimesFragment,"Prayer Times",true,mainview)
+        setupActionForOtherFragment(R.drawable.ic_calendar,0,this@PrayerTimesFragment,localContext.getString(R.string.prayer_times),true,mainview)
 
         return mainview
     }

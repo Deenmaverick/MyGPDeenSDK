@@ -27,7 +27,7 @@ internal class ForbiddenTimes {
         val title: AppCompatTextView = view.findViewById(R.id.title)
         val prayerTimes: RecyclerView = view.findViewById(R.id.prayertime)
 
-        title.text = "Forbidden Time"
+        title.text = view.context.getString(R.string.forbidden_time)
 
         instance?.widgetForbiddenTimes = WidgetForbiddenTimes()
 

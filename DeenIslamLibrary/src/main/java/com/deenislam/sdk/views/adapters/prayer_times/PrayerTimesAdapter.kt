@@ -193,7 +193,7 @@ internal class PrayerTimesAdapter(
         val newDate = prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","EEEE, dd MMMM yyyy")
         //val newDate = format.parse(prayerData?.Data?.Date?.StringTimeToMillisecond("dd/MM/yyyy")?.MilliSecondToStringTime("EEEE, dd MMMM yyyy"))
 
-        dateTime.text = newDate
+        dateTime.text = newDate?.monthNameLocale()?.numberLocale()?.dayNameLocale()
         prayerData?.Data?.IslamicDate?.let {
             dateTimeArabic.text = it
 

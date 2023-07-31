@@ -54,8 +54,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginStart="@dimen/space_8"
-            android:textColor="@color/txt_black"
-            android:text="Fajr"/>
+            android:textColor="@color/txt_black" />
 
 
         <androidx.appcompat.widget.AppCompatImageView

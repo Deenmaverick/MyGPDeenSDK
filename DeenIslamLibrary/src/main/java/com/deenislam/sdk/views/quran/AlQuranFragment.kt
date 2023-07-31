@@ -612,8 +612,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     private fun dialog_select_surah()
     {
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialog_Rounded)
-        customAlertDialogView = LayoutInflater.from(context)
-            .inflate(R.layout.dialog_surah_list, null, false)
+        customAlertDialogView = localInflater.inflate(R.layout.dialog_surah_list, null, false)
 
         // Initialize and assign variable
         val searchLayout = customAlertDialogView.findViewById<TextInputLayout>(R.id.searchLayout)
@@ -623,9 +622,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         val title: AppCompatTextView = customAlertDialogView.findViewById(R.id.title)
 
         if (isSurahMode)
-            title.text = "Select Surah"
+            title.text = localContext.getString(R.string.select_surah)
         else
-            title.text = "Select Juz (Para)"
+            title.text = localContext.getString(R.string.select_juz_para)
 
         searchLayout.visible(isSurahMode)
 
