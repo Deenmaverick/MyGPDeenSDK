@@ -167,8 +167,8 @@
     <string name="unfavorite">আনফেভারিট</string>
     <string name="want_to_unfavorite">আনফেভারিট করতে চান?</string>
     <string name="do_you_want_to_remove_this_favorite">আপনি কি প্রিয় তালিকা থেকে এটি সরাতে চান?</string>
-    <string name="delete">মুছে দিন</string>
-    <string name="want_to_delete">মুছতে চান?</string>
+    <string name="delete">ডিলিট করুন</string>
+    <string name="want_to_delete">ডিলিট করতে চান?</string>
     <string name="do_you_want_to_remove_this_saved_history">আপনি কি এই সংরক্ষিত আইটেমটি সরাতে চান?</string>
     <string name="zakat_calculation">যাকাত হিসাব</string>
     <string name="step">ধাপ %1$s</string>
