@@ -107,6 +107,7 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
             android:id="@+id/btnMore"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -119,6 +120,7 @@
             app:layout_constraintTop_toBottomOf="@id/border"/>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
             android:id="@+id/btnDownload"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -132,6 +134,7 @@
 
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
             android:id="@+id/btnFav"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -144,6 +147,7 @@
             app:layout_constraintTop_toBottomOf="@id/border"/>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
             android:id="@+id/btnTafseer"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -161,6 +165,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_8"
             app:tint="@color/txt_ash"
             android:src="@drawable/ic_quran_play_fill"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -174,6 +179,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:padding="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_8"
             app:indicatorSize="18dp"
             app:trackThickness="2dp"
             android:indeterminate="true"

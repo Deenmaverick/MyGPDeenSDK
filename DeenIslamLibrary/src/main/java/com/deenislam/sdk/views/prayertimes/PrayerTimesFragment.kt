@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
@@ -95,7 +96,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun OnCreate() {
         super.OnCreate()
-        NotificationPermission().getInstance().setupLauncher(this,requireContext(),true)
+        NotificationPermission().getInstance().setupLauncher(this,localContext,true, activityContext = requireContext())
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -134,11 +135,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        loadPage()
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -157,6 +153,9 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 isNotificationClicked = false
             }
         }
+
+        if(prayerMain.isEmpty())
+            loadPage()
     }
 
     override fun onPause() {
@@ -236,6 +235,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     fun loadPage()
     {
+
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(no_internet_layout, 10F)
 
@@ -265,8 +265,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     private fun setupNotificationView()
     {
-        customAlertDialogView = LayoutInflater.from(requireContext())
-            .inflate(R.layout.dialog_prayer_notification, null, false)
+        customAlertDialogView = localInflater.inflate(R.layout.dialog_prayer_notification, null, false)
 
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.MaterialAlertDialog_rounded)
             .setView(customAlertDialogView)
@@ -311,7 +310,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         prayerdate = date
         loadingState()
         lifecycleScope.launch {
-            viewmodel.getPrayerTimes("Dhaka", "bn", date)
+            viewmodel.getPrayerTimes("Dhaka", getLanguage(), date)
             viewmodel.getDateWisePrayerNotificationData(date)
         }
     }
@@ -435,7 +434,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             adapter = muezzinAdapter
         }
         dialog_okBtn = customAlertDialogView.findViewById(R.id.okBtn)
-        notify_txtTitile.text = "Notification - $titile"
+        notify_txtTitile.text = localContext.getString(R.string.prayer_notification_title,titile)
         ViewCompat.setTranslationZ(notify_progressLayout, 10F)
         notify_progressLayout.visible(true)
 
@@ -504,43 +503,43 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             Log.e("Notification", position)
             when (position) {
                 "pt1" -> {
-                    initNotificationDialog("Fajr", position)
+                    initNotificationDialog(localContext.getString(R.string.fajr), position)
                 }
 
                 "pt2" -> {
-                    initNotificationDialog("Sunrise", position)
+                    initNotificationDialog(localContext.getString(R.string.sunrise), position)
                 }
 
                 "pt3" -> {
-                    initNotificationDialog("Dhuhr", position)
+                    initNotificationDialog(localContext.getString(R.string.dhuhr), position)
                 }
 
                 "pt4" -> {
-                    initNotificationDialog("Asr", position)
+                    initNotificationDialog(localContext.getString(R.string.asr), position)
                 }
 
                 "pt5" -> {
-                    initNotificationDialog("Maghrib", position)
+                    initNotificationDialog(localContext.getString(R.string.maghrib), position)
                 }
 
                 "pt6" -> {
-                    initNotificationDialog("Isha", position)
+                    initNotificationDialog(localContext.getString(R.string.isha), position)
                 }
 
                 "opt1" -> {
-                    initNotificationDialog("Tahajjud", position)
+                    initNotificationDialog(localContext.getString(R.string.tahajjud), position)
                 }
 
                 "opt2" -> {
-                    initNotificationDialog("Suhoor", position)
+                    initNotificationDialog(localContext.getString(R.string.suhoor), position)
                 }
 
                 "opt3" -> {
-                    initNotificationDialog("Ishraq", position)
+                    initNotificationDialog(localContext.getString(R.string.ishraq), position)
                 }
 
                 "opt4" -> {
-                    initNotificationDialog("Iftaar", position)
+                    initNotificationDialog(localContext.getString(R.string.iftaar), position)
                 }
 
             }

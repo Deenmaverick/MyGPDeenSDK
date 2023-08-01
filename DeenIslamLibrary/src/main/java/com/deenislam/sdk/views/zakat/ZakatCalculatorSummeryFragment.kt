@@ -10,13 +10,15 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ZakatCalculatorCallback
 import com.deenislam.sdk.utils.LoadingButton
 import com.deenislam.sdk.utils.hideKeyboard
+import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.zakat.ZakatCalculatorFragmentCallback
 import com.google.android.material.button.MaterialButton
 import java.text.DecimalFormat
 
 internal class ZakatCalculatorSummeryFragment(
     private val callback: ZakatCalculatorCallback
-): Fragment(), ZakatCalculatorFragmentCallback {
+): BaseRegularFragment(), ZakatCalculatorFragmentCallback {
 
     private lateinit var nextBtn:MaterialButton
     private lateinit var saveBtn:MaterialButton
@@ -30,7 +32,7 @@ internal class ZakatCalculatorSummeryFragment(
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainview = inflater.inflate(R.layout.fragment_zakat_calculator_summery, container, false)
+        val mainview = localInflater.inflate(R.layout.fragment_zakat_calculator_summery, container, false)
 
         //init view
         nextBtn = mainview.findViewById(R.id.nextBtn)
@@ -47,9 +49,9 @@ internal class ZakatCalculatorSummeryFragment(
 
         val decimalFormat = DecimalFormat("0.00")
 
-        payableAmount.text = "৳${decimalFormat.format(callback.getPayableZakat())}"
-        totalAssetsAmount.text = "৳${decimalFormat.format(callback.getTotalAssets())}"
-        debtAmount.text = "৳${decimalFormat.format(callback.getTotalDebts())}"
+        payableAmount.text = "৳${decimalFormat.format(callback.getPayableZakat())}".numberLocale()
+        totalAssetsAmount.text = "৳${decimalFormat.format(callback.getTotalAssets())}".numberLocale()
+        debtAmount.text = "৳${decimalFormat.format(callback.getTotalDebts())}".numberLocale()
 
         nextBtn.setOnClickListener {
             requireContext().hideKeyboard(requireView())
@@ -71,9 +73,9 @@ internal class ZakatCalculatorSummeryFragment(
         updateMode = callback.getUpdateMode()
 
         if(updateMode)
-            saveBtn.text = "Update the Calculation"
+            saveBtn.text = localContext.getString(R.string.update_the_calculation)
         else
-            saveBtn.text = "Save the Calculation"
+            saveBtn.text = localContext.getString(R.string.save_the_calculation)
     }
 
     override fun zakatAPIResponse(success: Boolean) {

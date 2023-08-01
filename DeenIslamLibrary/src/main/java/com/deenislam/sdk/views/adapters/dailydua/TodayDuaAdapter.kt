@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.dailydua.todaydua.Data
+import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.invisible
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton
@@ -21,8 +24,8 @@ internal class TodayDuaAdapter(
     private var todayDuaList:ArrayList<Data> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_quranic_dua, parent, false)
+            LayoutInflater.from(parent.context.getLocalContext())
+                .inflate(R.layout.item_dua_today, parent, false)
         )
 
     fun update(data: List<Data>)
@@ -47,11 +50,12 @@ internal class TodayDuaAdapter(
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
         private val banner:AppCompatImageView  = itemView.findViewById(R.id.banner)
-        private val duaCat:MaterialButton = itemView.findViewById(R.id.duaCat)
         private val arabicName:AppCompatTextView = itemView.findViewById(R.id.arabicName)
         private val duaTxt:AppCompatTextView = itemView.findViewById(R.id.duaTxt)
         private val duaSub:AppCompatTextView = itemView.findViewById(R.id.duaSub)
         private val favBtn:MaterialButton = itemView.findViewById(R.id.favBtn)
+        private val favshareBtn:MaterialButton = itemView.findViewById(R.id.favshareBtn)
+        private val surahInfo:AppCompatTextView = itemView.findViewById(R.id.surahInfo)
 
 
         override fun onBind(position: Int) {
@@ -59,14 +63,32 @@ internal class TodayDuaAdapter(
 
             val  duaData =  todayDuaList[position]
             banner.show()
+            favshareBtn.hide()
+            favBtn.hide()
+
             banner.load("${duaData.contentBaseUrl}/${duaData.ImageUrl}")
             {
                 //placeholder(R.drawable.placeholder_1_1)
             }
-            duaCat.text = duaData.Category
-            arabicName.text = duaData.TextInArabic
-            duaTxt.text = duaData.Pronunciation
-            duaSub.text = duaData.Text
+
+            if(duaData.TextInArabic.isEmpty())
+            {
+                arabicName.hide()
+            }
+            else {
+                arabicName.show()
+                arabicName.text = duaData.TextInArabic
+            }
+
+            if(duaData.Pronunciation.isEmpty())
+                duaTxt.hide()
+            else {
+                duaTxt.show()
+                duaTxt.text = duaData.Pronunciation
+            }
+
+            duaSub.text = duaData.Title
+            surahInfo.invisible()
 
             favBtn.setOnClickListener {
                 callback.favClick(duaData.IsFavorite,duaData.DuaId,position)

@@ -34,9 +34,7 @@ import com.deenislam.sdk.views.main.searchCallback
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-internal class QuranSurahFragment(
-    private val actionbar: ConstraintLayout
-) : BaseRegularFragment(), SurahCallback, otherFagmentActionCallback,
+internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, otherFagmentActionCallback,
     searchCallback {
 
     private lateinit var viewmodel:SurahViewModel
@@ -50,6 +48,8 @@ internal class QuranSurahFragment(
 
     private var linearLayoutManager: LinearLayoutManager? = null
     private var surahList: List<Chapter> = arrayListOf()
+
+    private lateinit var actionbar:ConstraintLayout
 
     override fun OnCreate() {
         super.OnCreate()
@@ -84,12 +84,17 @@ internal class QuranSurahFragment(
 
     override fun onResume() {
         super.onResume()
+
+        actionbar = (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+
         setupActionForOtherFragment(R.drawable.ic_search,0,this@QuranSurahFragment,localContext.resources.getString(R.string.al_quran),true,actionbar)
         if (viewmodel.listState != null) {
             linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
         }
 
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -105,6 +110,7 @@ internal class QuranSurahFragment(
             if(firstload == 0)
                 loadAPI()
             firstload = 1
+
         }
     }
 

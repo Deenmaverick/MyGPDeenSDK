@@ -46,7 +46,7 @@ internal class ZakatFragment : BaseRegularFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainView = layoutInflater.inflate(R.layout.fragment_zakat,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_zakat,container,false)
 
         //init view
         zakatBtn = mainView.findViewById(R.id.zakatBtn)
@@ -55,7 +55,7 @@ internal class ZakatFragment : BaseRegularFragment() {
         actionbar = mainView.findViewById(R.id.actionbar)
         header = mainView.findViewById(R.id.header)
 
-        setupActionForOtherFragment(0,0,null,"Zakat",true,mainView)
+        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.zakat),true,mainView)
         return mainView
     }
 
@@ -88,7 +88,7 @@ internal class ZakatFragment : BaseRegularFragment() {
                 isNestedScrollingEnabled = false
             }
             overScrollMode = View.OVER_SCROLL_NEVER
-            offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+            offscreenPageLimit = 2
             reduceDragSensitivity(2)
         }
 

@@ -25,7 +25,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 internal class QuranFragment : BaseRegularFragment() {
 
     private lateinit var actionbar:ConstraintLayout
-    private lateinit var header:LinearLayout
+    private lateinit var header:ConstraintLayout
     private lateinit var _viewPager: ViewPager2
 
     private lateinit var surahBtn:MaterialButton
@@ -108,9 +108,9 @@ internal class QuranFragment : BaseRegularFragment() {
     private fun initViewPager()
     {
         mPageDestination = arrayListOf(
-            QuranHomeFragment(actionbar),
-            QuranSurahFragment(actionbar),
-            QuranJuzFragment(actionbar),
+            QuranHomeFragment(),
+            QuranSurahFragment(),
+            QuranJuzFragment(),
             //MyQuranFragment(actionbar)
         )
 
@@ -166,6 +166,8 @@ internal class QuranFragment : BaseRegularFragment() {
             }
         })
     }
+
+    fun getActionbar():ConstraintLayout = actionbar
 
     private fun clearAllBtnSelection()
     {

@@ -78,7 +78,6 @@
                         android:id="@+id/countTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="00"
                         android:includeFontPadding="false"
                         android:layout_marginTop="@dimen/space_8"
                         android:textAppearance="@style/TextAppearance.font40"
@@ -92,7 +91,6 @@
                         android:id="@+id/targetCountTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="/33"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/gray"
                         app:layout_constraintBottom_toBottomOf="@id/countTxt"
@@ -116,7 +114,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_21"
-                        android:text="128"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/txt_black_deep"
                         app:layout_constraintTop_toBottomOf="@id/countTxt"
@@ -142,7 +139,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_4"
-                        android:text="1200"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/txt_black_deep"
                         app:layout_constraintTop_toBottomOf="@id/todaysTxt"
@@ -172,8 +168,7 @@
                                 android:id="@+id/countRadio1Txt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/space_4"
-                                android:text="33"
+                                android:text="৩৩"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                 android:textColor="@color/primary"
                                 app:layout_constraintTop_toTopOf="@+id/countRadio1"
@@ -190,8 +185,7 @@
                                 android:id="@+id/countRadio2Txt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/space_4"
-                                android:text="34"
+                                android:text="৩৪"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                 android:textColor="@color/txt_gray"/>
 
@@ -205,8 +199,7 @@
                                 android:id="@+id/countRadio3Txt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/space_4"
-                                android:text="99"
+                                android:text="৯৯"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                 android:textColor="@color/txt_gray"/>
 
@@ -221,7 +214,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/space_4"
-                                android:layout_marginStart="@dimen/space_4"
                                 android:text="@string/none"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                 android:textColor="@color/txt_gray"/>
@@ -320,4 +312,15 @@
       layout="@layout/tasbeeh_bottom_nav"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toTopOf="parent"/>
+
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_circle_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

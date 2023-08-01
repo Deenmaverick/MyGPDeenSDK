@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
@@ -21,6 +22,8 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerCalendarResource
 import com.deenislam.sdk.service.network.response.prayer_calendar.Data
 import com.deenislam.sdk.service.repository.PrayerCalendarRespository
 import com.deenislam.sdk.utils.CaptureScreen
+import com.deenislam.sdk.utils.monthNameLocale
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.PrayerCalendarViewModel
@@ -35,6 +38,9 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentActionCallback {
@@ -47,6 +53,10 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     private val no_internet_retryBtn: MaterialButton by lazy { requireView().findViewById(R.id.no_internet_retry) }
     private val nodataLayout:NestedScrollView by lazy { requireView().findViewById(R.id.nodataLayout) }
     private val container:ConstraintLayout by lazy { requireView().findViewById(R.id.mainView) }
+    private val dateTime:AppCompatTextView by lazy { requireView().findViewById(R.id.dateTime) }
+
+    private val currentDate = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(Date())
+
     override fun OnCreate() {
         super.OnCreate()
         isOnlyBack(true)
@@ -77,6 +87,8 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(no_internet_layout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)
+
+        dateTime.text = localContext.getString(R.string.prayer_calendar_date,currentDate).monthNameLocale().numberLocale()
 
         //init observer
         initObserver()

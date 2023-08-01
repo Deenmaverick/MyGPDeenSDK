@@ -39,6 +39,7 @@
         app:layout_constraintStart_toStartOf="@+id/surahTitile"/>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:visibility="gone"
         android:id="@+id/ic_fav"
         android:layout_width="24dp"
         android:layout_height="0dp"

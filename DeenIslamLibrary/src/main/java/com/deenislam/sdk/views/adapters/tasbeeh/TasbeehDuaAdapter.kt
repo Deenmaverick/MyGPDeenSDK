@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.Tasbeeh
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton
 
@@ -62,24 +65,28 @@ internal class TasbeehDuaAdapter(
             {
                 itemView.isEnabled = false
                 item_bg.setBackgroundResource(R.drawable.tasbeeh_dua_gradiant)
-                dhikrCount.setTextColor(dhikrCount.context.resources.getColor(R.color.white,dhikrCount.context.theme))
-                dhikrCount.backgroundTintList = ColorStateList.valueOf(dhikrCount.context.resources.getColor(R.color.border,dhikrCount.context.theme))
-                arabicName.setTextColor(dhikrCount.context.resources.getColor(R.color.white,dhikrCount.context.theme))
-                name.setTextColor(name.context.resources.getColor(R.color.white_70,name.context.theme))
+                dhikrCount.setTextColor(ContextCompat.getColor(name.context,R.color.white))
+                dhikrCount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(name.context,R.color.border))
+                arabicName.setTextColor(ContextCompat.getColor(name.context,R.color.white))
+                name.setTextColor(ContextCompat.getColor(name.context,R.color.white_70))
             }
             else
             {
                 itemView.isEnabled = true
                 item_bg.background = null
-                dhikrCount.setTextColor(dhikrCount.context.resources.getColor(R.color.card_checkbox_bg,dhikrCount.context.theme))
-                dhikrCount.backgroundTintList = ColorStateList.valueOf(dhikrCount.context.resources.getColor(R.color.card_bg,dhikrCount.context.theme))
-                arabicName.setTextColor(dhikrCount.context.resources.getColor(R.color.txt_black_deep,dhikrCount.context.theme))
-                name.setTextColor(name.context.resources.getColor(R.color.txt_ash,name.context.theme))
+                dhikrCount.setTextColor(ContextCompat.getColor(name.context,R.color.card_checkbox_bg))
+                dhikrCount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(name.context,R.color.card_bg))
+                arabicName.setTextColor(ContextCompat.getColor(name.context,R.color.txt_black_deep))
+                name.setTextColor(ContextCompat.getColor(name.context,R.color.txt_ash))
             }
 
-            dhikrCount.text = "Dhikr ${position+1}"
+            dhikrCount.text = dhikrCount.context.getString(R.string.tasbeeh_dhikir_count,(position+1).toString().numberLocale())
             arabicName.text = duaList[position].dua_arb
+
+            if(Deen.language == "en")
             name.text = duaList[position].dua
+            else
+                name.text = duaList[position].dua_bn
 
 
                 itemView.setOnClickListener {

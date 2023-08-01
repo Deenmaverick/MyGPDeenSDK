@@ -135,7 +135,7 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainView = layoutInflater.inflate(R.layout.fragment_zakat_calculator,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_zakat_calculator,container,false)
 
         //init view
         _viewPager = mainView.findViewById(R.id.viewPager)
@@ -147,7 +147,7 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
         header = mainView.findViewById(R.id.header)
 
 
-        setupActionForOtherFragment(0,0,null,"Zakat Calculation",true,mainView)
+        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.zakat_calculation),true,mainView)
         return mainView
     }
 

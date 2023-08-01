@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:layout_weight="10"
-            android:text="Notification off"
+            android:text="@string/notification_off"
             android:textColor="@color/txt_black_deep"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:layout_weight="10"
-            android:text="In-App Notification"
+            android:text="@string/in_app_notification"
             android:textColor="@color/txt_black_deep"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:layout_weight="10"
-            android:text="Notification Sound"
+            android:text="@string/notification_sound"
             android:textColor="@color/txt_black_deep"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

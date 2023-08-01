@@ -97,7 +97,6 @@
                         android:layout_marginTop="@dimen/space_8"
                         android:layout_marginStart="@dimen/space_8"
                         android:layout_marginEnd="@dimen/space_8"
-                        android:text="Calendar of May 2023"
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/primary"
@@ -111,7 +110,7 @@
                         android:layout_marginTop="@dimen/space_4"
                         android:layout_marginStart="@dimen/space_8"
                         android:layout_marginEnd="@dimen/space_8"
-                        android:text="Location: Dhaka"
+                        android:text="@string/location_dhaka"
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/txt_ash" />
@@ -125,7 +124,7 @@
                         android:layout_marginBottom="@dimen/space_8"
                         android:layout_marginStart="@dimen/space_8"
                         android:layout_marginEnd="@dimen/space_8"
-                        android:text="Islamic Foundation Bangladesh"
+                        android:text="@string/islamic_foundation_bangladesh"
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/txt_ash" />

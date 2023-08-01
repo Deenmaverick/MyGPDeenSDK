@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.isEmpty
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -56,7 +57,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
     ): View? {
         // Inflate the layout for this fragment
 
-        val mainView = layoutInflater.inflate(R.layout.fragment_daily_dua_page,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_daily_dua_page,container,false)
 
         //init view
 
@@ -69,12 +70,12 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         return mainView
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        loadpage()
+        if(listView.isEmpty())
+            loadpage()
     }
+
 
     private fun loadpage()
     {
@@ -107,7 +108,6 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
             }
         }
 
-
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
@@ -118,13 +118,14 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
                 loadApiData()
 
             firstload = true
+
         }
     }
 
     private fun loadApiData()
     {
         lifecycleScope.launch {
-            viewmodel.getDuaAllCategory("bn")
+            viewmodel.getDuaAllCategory(getLanguage())
         }
     }
 

@@ -62,7 +62,7 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(), DuaByCatCallback {
     ): View? {
         // Inflate the layout for this fragment
 
-        val mainView = layoutInflater.inflate(R.layout.fragment_all_dua_preview,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_all_dua_preview,container,false)
         //init view
         listView = mainView.findViewById(R.id.listView)
         setupActionForOtherFragment(0,0,null,args.catName,true,mainView)

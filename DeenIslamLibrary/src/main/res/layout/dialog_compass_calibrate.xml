@@ -82,7 +82,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/brand_error"
         android:textStyle="bold"
-        android:text="Low"
+        android:text="@string/low"
         app:layout_constraintTop_toBottomOf="@+id/ic_calibrate"
         app:layout_constraintStart_toEndOf="@+id/appCompatTextView3"
         app:layout_constraintEnd_toEndOf="parent"

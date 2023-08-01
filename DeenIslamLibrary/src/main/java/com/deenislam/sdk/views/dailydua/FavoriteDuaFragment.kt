@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.isEmpty
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,7 +65,7 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainView = layoutInflater.inflate(R.layout.fragment_daily_dua_page,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_daily_dua_page,container,false)
         //init view
 
         listView = mainView.findViewById(R.id.listView)
@@ -77,17 +78,24 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
         customAlertDialog?.setupDialog(
             callback = this@FavoriteDuaFragment,
             context = requireContext(),
-            btn1Text = "Cancel",
-            btn2Text = "Unfavorite",
-            titileText = "Want to unfavorite?",
-            subTitileText = "Do you want to remove this favorite?"
+            btn1Text = localContext.getString(R.string.cancel),
+            btn2Text = localContext.getString(R.string.unfavorite),
+            titileText = localContext.getString(R.string.want_to_unfavorite),
+            subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
         )
 
         return mainView
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(listView.isEmpty())
+            loadPage()
+    }
+
+    private fun loadPage()
+    {
 
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(noInternetLayout, 10F)
@@ -112,25 +120,22 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             }
         }
-
-
     }
+
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
         if(menuVisible)
         {
-            if(!firstload)
                 loadApiData()
 
-            firstload = true
         }
     }
 
     private fun loadApiData()
     {
         lifecycleScope.launch {
-            viewmodel.getFavDua("bn")
+            viewmodel.getFavDua(getLanguage())
         }
     }
 
@@ -167,6 +172,10 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
                             emptyState()
                     }
                     customAlertDialog?.dismissDialog()
+
+                    lifecycleScope.launch {
+                        viewmodel.clearFavDuaLiveData()
+                    }
                 }
             }
         }

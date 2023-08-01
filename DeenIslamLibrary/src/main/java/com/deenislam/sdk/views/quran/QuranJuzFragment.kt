@@ -34,9 +34,7 @@ import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-internal class QuranJuzFragment(
-    private val actionbar: ConstraintLayout
-) : BaseRegularFragment(), JuzCallback {
+internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
 
     private lateinit var  juzRC: RecyclerView
     private lateinit var progressLayout:LinearLayout
@@ -95,6 +93,8 @@ internal class QuranJuzFragment(
 
     override fun onResume() {
         super.onResume()
+        val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+
         setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
     }

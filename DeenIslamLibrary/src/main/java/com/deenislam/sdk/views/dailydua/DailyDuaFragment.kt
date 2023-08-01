@@ -23,7 +23,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 internal class DailyDuaFragment : BaseRegularFragment() {
 
     private lateinit var actionbar: ConstraintLayout
-    private lateinit var header: LinearLayout
+    private lateinit var header: ConstraintLayout
     private lateinit var _viewPager: ViewPager2
 
     private lateinit var allDuaBtn: MaterialButton
@@ -51,7 +51,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        val mainView = layoutInflater.inflate(R.layout.fragment_daily_dua,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_daily_dua,container,false)
 
         //init view
         actionbar = mainView.findViewById(R.id.actionbar)
@@ -62,7 +62,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         todayBtn = mainView.findViewById(R.id.todayBtn)
         favBtn = mainView.findViewById(R.id.favBtn)
 
-        setupActionForOtherFragment(0,0,null,"Daily Dua",true,mainView)
+        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.daily_dua),true,mainView)
 
         return mainView
     }
@@ -102,7 +102,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
                 isNestedScrollingEnabled = false
             }
             overScrollMode = View.OVER_SCROLL_NEVER
-            offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+            offscreenPageLimit = 3
             reduceDragSensitivity(2)
         }
 

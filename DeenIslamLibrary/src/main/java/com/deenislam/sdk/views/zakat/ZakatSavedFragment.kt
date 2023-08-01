@@ -59,7 +59,7 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainView = layoutInflater.inflate(R.layout.fragment_zakat_saved,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_zakat_saved,container,false)
         //init view
 
         listView = mainView.findViewById(R.id.listView)
@@ -72,10 +72,10 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
         customAlertDialog?.setupDialog(
             callback = this@ZakatSavedFragment,
             context = requireContext(),
-            btn1Text = "Cancel",
-            btn2Text = "Delete",
-            titileText = "Want to delete?",
-            subTitileText = "Do you want to remove this saved history?"
+            btn1Text = localContext.getString(R.string.cancel),
+            btn2Text = localContext.getString(R.string.delete),
+            titileText = localContext.getString(R.string.want_to_delete),
+            subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_saved_history)
         )
 
         return mainView
@@ -109,7 +109,7 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
     private fun loadApiData()
     {
         lifecycleScope.launch {
-            viewmodel.getSavedZakat("bn")
+            viewmodel.getSavedZakat(getLanguage())
         }
     }
 

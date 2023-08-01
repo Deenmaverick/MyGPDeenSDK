@@ -24,6 +24,7 @@ import com.deenislam.sdk.service.models.TasbeehResource
 import com.deenislam.sdk.service.repository.TasbeehRepository
 import com.deenislam.sdk.utils.HalfGaugeView
 import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.viewmodels.TasbeehViewModel
@@ -36,11 +37,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
@@ -54,6 +56,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
     private val countRadioGroup:RadioGroup by lazy { requireView().findViewById(R.id.countRadioGroup) }
     private val countView:HalfGaugeView by lazy { requireView().findViewById(R.id.countView) }
     private val norecentData:AppCompatTextView by lazy { requireView().findViewById(R.id.norecentData) }
+    private lateinit var progressLayout:LinearLayout
 
 
     private val countRadio1Txt:AppCompatTextView by lazy { requireView().findViewById(R.id.countRadio1Txt) }
@@ -86,9 +89,9 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
     private var track4Count:Int = 0
 
     override fun OnCreate() {
-        enterTransition = MaterialFadeThrough()
-        returnTransition = MaterialFadeThrough()
-        exitTransition = MaterialFadeThrough()
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 
         val repository = TasbeehRepository(
             tasbeehDao = DatabaseProvider().getInstance().provideTasbeehDao(),
@@ -102,19 +105,25 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         savedInstanceState: Bundle?
     ): View? {
 
-        val mainView = layoutInflater.inflate(R.layout.fragment_tasbeeh,container,false)
-        setupActionForOtherFragment(0,0,null,"Digital Tasbeeh",true,mainView)
-
+        val mainView = localInflater.inflate(R.layout.fragment_tasbeeh,container,false)
+        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.digital_tasbeeh),true,mainView)
+        progressLayout = mainView.findViewById(R.id.progressLayout)
         return mainView
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
+        loadpage()
+    }
+    private fun loadpage()
+    {
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.MaterialAlertDialog_rounded)
+        customAlertDialogView = localInflater.inflate(R.layout.dialog_tasbeeh_reset, null, false)
 
-        materialAlertDialogBuilder = MaterialAlertDialogBuilder(view.context,R.style.MaterialAlertDialog_rounded)
-        customAlertDialogView = LayoutInflater.from(view.context)
-            .inflate(R.layout.dialog_tasbeeh_reset, null, false)
-
+        countRadio1Txt.text = "33".numberLocale()
+        countRadio2Txt.text = "34".numberLocale()
+        countRadio3Txt.text = "99".numberLocale()
+        countTxt.text = "00".numberLocale()
 
         //init observer
         initObserver()
@@ -282,7 +291,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
             if(trackcount>targetCount && targetCount!=-1)
             {
                 countView.setProgress(100F)
-                countTxt.text = trackcount.toString()
+                countTxt.text = trackcount.toString().numberLocale()
                 targetCountTxt.text = "/${targetCount.toString()}"
             }
             else if(trackcount<targetCount && count!=-1)
@@ -292,12 +301,12 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
                     else if((trackcount.toFloat()*100)/targetCount<0)0F
                     else (trackcount.toFloat()*100)/targetCount
                 )
-                countTxt.text = trackcount.toString()
-                targetCountTxt.text = "/${targetCount.toString()}"
+                countTxt.text = trackcount.toString().numberLocale()
+                targetCountTxt.text = "/${targetCount}".numberLocale()
             }
             else {
                 countView.setProgress(100F)
-                countTxt.text = trackcount.toString()
+                countTxt.text = trackcount.toString().numberLocale()
                 targetCountTxt.text = "/∞"
             }
         }
@@ -362,16 +371,18 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         tasbeehdata = data
         countTxt.text = data.dua_count.toString()
         if(todayDate == data.date)
-        todaysCountTxt.text = data.daily_count.toString()
+        todaysCountTxt.text = data.daily_count.toString().numberLocale()
         else
-            todaysCountTxt.text = "0"
+            todaysCountTxt.text = "0".numberLocale()
 
-        totalCountTxt.text = data.dua_count.toString()
+        totalCountTxt.text = data.dua_count.toString().numberLocale()
 
         updateCountView(selectedCount)
 
         tasbeehDuaAdapter.update(data.id-1)
         duaListRC.smoothScrollToPosition(data.id-1)
+
+        progressLayout.hide()
 
     }
 
@@ -386,7 +397,5 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         track4Count = 0
         loadAPI(duaid)
     }
-
-
 
 }

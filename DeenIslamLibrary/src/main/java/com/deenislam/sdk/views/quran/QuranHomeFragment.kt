@@ -32,9 +32,7 @@ import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-internal class QuranHomeFragment(
-   private val actionbar: ConstraintLayout
-) : BaseRegularFragment(), SurahCallback {
+internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
 
     private lateinit var recentRC: RecyclerView
     private lateinit var popularRC: RecyclerView
@@ -88,6 +86,9 @@ internal class QuranHomeFragment(
 
     override fun onResume() {
         super.onResume()
+
+        val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+
         setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
     }

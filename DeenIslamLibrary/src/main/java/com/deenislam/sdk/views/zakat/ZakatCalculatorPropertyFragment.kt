@@ -2,6 +2,7 @@ package com.deenislam.sdk.views.zakat
 
 import android.os.Bundle
 import android.view.View
+import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentZakatCalculatorPropertyBinding
 import com.deenislam.sdk.service.callback.ZakatCalculatorCallback
 import com.deenislam.sdk.utils.hide
@@ -31,34 +32,34 @@ internal class ZakatCalculatorPropertyFragment(
         super.onViewCreated(view, savedInstanceState)
 
         // inputs
-        binding.inputPart1.heading.text = "Cash (Savings & Bank)"
-        binding.inputPart1.title1.text = "In Hands"
-        binding.inputPart1.title2.text = "In Bank Account"
+        binding.inputPart1.heading.text = localContext.getString(R.string.cash_savings_bank)
+        binding.inputPart1.title1.text = localContext.getString(R.string.in_hands)
+        binding.inputPart1.title2.text = localContext.getString(R.string.in_bank_account)
 
-        binding.inputPart2.heading.text = "Gold & Silver (Equivalent amount)"
-        binding.inputPart2.title1.text = "Gold"
-        binding.inputPart2.title2.text = "Silver"
+        binding.inputPart2.heading.text = localContext.getString(R.string.gold_silver_equivalent_amount)
+        binding.inputPart2.title1.text = localContext.getString(R.string.gold)
+        binding.inputPart2.title2.text = localContext.getString(R.string.silver)
 
-        binding.inputPart3.heading.text = "Investment"
-        binding.inputPart3.title1.text = "Stock Market"
-        binding.inputPart3.title2.text = "Other Investments"
+        binding.inputPart3.heading.text = localContext.getString(R.string.investment)
+        binding.inputPart3.title1.text = localContext.getString(R.string.stock_market)
+        binding.inputPart3.title2.text = localContext.getString(R.string.other_investments)
 
-        binding.inputPart4.heading.text = "Property"
-        binding.inputPart4.title1.text = "Property Value"
-        binding.inputPart4.title2.text = "House Rent"
+        binding.inputPart4.heading.text = localContext.getString(R.string.property)
+        binding.inputPart4.title1.text = localContext.getString(R.string.property_value)
+        binding.inputPart4.title2.text = localContext.getString(R.string.house_rent)
 
-        binding.inputPart5.heading.text = "Business"
-        binding.inputPart5.title1.text = "Cash in Business"
-        binding.inputPart5.title2.text = "Product"
+        binding.inputPart5.heading.text = localContext.getString(R.string.business)
+        binding.inputPart5.title1.text = localContext.getString(R.string.cash_in_business)
+        binding.inputPart5.title2.text = localContext.getString(R.string.product)
 
-        binding.inputPart6.heading.text = "Agriculture"
-        binding.inputPart6.title1.text = "Amount"
+        binding.inputPart6.heading.text = localContext.getString(R.string.agriculture)
+        binding.inputPart6.title1.text = localContext.getString(R.string.amount)
         binding.inputPart6.title2.hide()
         binding.inputPart6.input2.hide()
 
-        binding.inputPart7.heading.text = "Others"
-        binding.inputPart7.title1.text = "Pension"
-        binding.inputPart7.title2.text = "Other capital"
+        binding.inputPart7.heading.text = localContext.getString(R.string.others)
+        binding.inputPart7.title1.text = localContext.getString(R.string.pension)
+        binding.inputPart7.title2.text = localContext.getString(R.string.other_capital)
 
 
         binding.nextBtn.setOnClickListener {

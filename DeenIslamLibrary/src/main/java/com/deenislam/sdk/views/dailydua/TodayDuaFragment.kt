@@ -1,14 +1,13 @@
 package com.deenislam.sdk.views.dailydua
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.isEmpty
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,11 +23,12 @@ import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DailyDuaViewModel
 import com.deenislam.sdk.views.adapters.dailydua.TodayDuaAdapter
 import com.deenislam.sdk.views.adapters.dailydua.TodayDuaCallback
+import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
 
-internal class TodayDuaFragment : Fragment(), TodayDuaCallback {
+internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
 
     private lateinit var listView:RecyclerView
     private lateinit var progressLayout: LinearLayout
@@ -55,7 +55,7 @@ internal class TodayDuaFragment : Fragment(), TodayDuaCallback {
     ): View? {
         // Inflate the layout for this fragment
 
-        val mainView = layoutInflater.inflate(R.layout.fragment_daily_dua_page,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_daily_dua_page,container,false)
 
         //init view
 
@@ -69,10 +69,26 @@ internal class TodayDuaFragment : Fragment(), TodayDuaCallback {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        Log.e("TodayDua","onViewCreated")
         super.onViewCreated(view, savedInstanceState)
+        if(listView.isEmpty())
+            loadpage()
+    }
 
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        if(menuVisible)
+        {
+            if(!firstload)
+                loadApiData()
+
+            firstload = true
+
+
+        }
+    }
+
+    private fun loadpage()
+    {
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(noInternetLayout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)
@@ -94,25 +110,12 @@ internal class TodayDuaFragment : Fragment(), TodayDuaCallback {
         noInternetRetry.setOnClickListener {
             loadApiData()
         }
-
-
-    }
-
-    override fun setMenuVisibility(menuVisible: Boolean) {
-        super.setMenuVisibility(menuVisible)
-        if(menuVisible)
-        {
-            if(!firstload)
-                loadApiData()
-
-            firstload = true
-        }
     }
 
     private fun loadApiData()
     {
         lifecycleScope.launch {
-            viewmodel.getTodayDua("en")
+            viewmodel.getTodayDua(getLanguage())
         }
     }
 

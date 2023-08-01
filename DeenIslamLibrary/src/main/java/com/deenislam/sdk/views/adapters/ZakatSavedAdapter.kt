@@ -10,6 +10,10 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.formateDateTime
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.service.network.response.zakat.Data
+import com.deenislam.sdk.utils.dayNameLocale
+import com.deenislam.sdk.utils.monthNameLocale
+import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.timeLocale
 import com.google.android.material.button.MaterialButton
 
 internal class ZakatSavedAdapter(
@@ -57,10 +61,10 @@ internal class ZakatSavedAdapter(
             val timedate = data.EntryDate.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd MMMM, yyyy • hh:mm aa")
 
             val dateCardText = data.EntryDate.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd\nMMMM")
-            datetime.text = timedate
-            totalAssets.text = "৳${data.TotalAssets}"
-            payableZakat.text = "৳${data.ZakatPayable}"
-            dateCard.text = dateCardText
+            datetime.text = timedate.timeLocale().monthNameLocale()
+            totalAssets.text = "৳ ${data.TotalAssets}".numberLocale()
+            payableZakat.text = "৳ ${data.ZakatPayable}".numberLocale()
+            dateCard.text = dateCardText.timeLocale().monthNameLocale()
 
             itemView.setOnClickListener {
                 callback.viewCalculation(data)

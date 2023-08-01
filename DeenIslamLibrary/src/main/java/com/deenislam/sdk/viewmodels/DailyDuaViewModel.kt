@@ -160,5 +160,10 @@ internal class DailyDuaViewModel(
         }
     }
 
+    fun clearFavDuaLiveData()
+    {
+        _favDuaLiveData.value = CommonResource.CLEAR
+    }
+
 
 }

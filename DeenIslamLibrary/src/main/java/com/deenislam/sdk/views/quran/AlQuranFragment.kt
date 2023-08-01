@@ -150,7 +150,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun ON_CREATE_VIEW(root: View) {
         super.ON_CREATE_VIEW(root)
-        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading,this@AlQuranFragment,pageTitle,true,root)
+        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,root)
     }
 
     override fun onResume() {
@@ -706,7 +706,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         alQuranAyatAdapter.clear()
         alQuranAyatAdapter = AlQuranAyatAdapter(this@AlQuranFragment,isReadingMode)
         resetAyatList()
-        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_list_view,this@AlQuranFragment,pageTitle,true,requireView())
+        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_list_mode,this@AlQuranFragment,pageTitle,true,requireView())
 
         if(isSurahMode)
             loadApiData(pageNo,pageItemCount,surahListData?.id)
@@ -724,7 +724,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         alQuranAyatAdapter.clear()
         alQuranAyatAdapter = AlQuranAyatAdapter(this@AlQuranFragment)
         resetAyatList()
-        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading,this@AlQuranFragment,pageTitle,true,requireView())
+        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_list_mode,this@AlQuranFragment,pageTitle,true,requireView())
 
         if(isSurahMode)
             loadApiData(pageNo,pageItemCount,surahListData?.id)
@@ -774,7 +774,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         alQuranAyatAdapter.clear()
         surahListData = args.suraList.chapters[position]
         pageTitle = args.suraList.chapters[position].name_simple
-        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading,this@AlQuranFragment,pageTitle,true,requireView())
+        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,requireView())
         setupMiniPlayerData()
         setHeaderData()
         loadApiData(pageNo,pageItemCount,args.suraList.chapters[position].id)
@@ -789,7 +789,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         alQuranAyatAdapter.clear()
         quranJuz = quranJuzList?.juzs?.get(position)
         pageTitle = "Juz (Para) ${quranJuzList?.juzs?.get(position)?.juz_number}"
-        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading,this@AlQuranFragment,pageTitle,true,requireView())
+        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,requireView())
         setupMiniPlayerData()
         setHeaderData()
         loadApiData(pageNo,pageItemCount, juz_number = quranJuzList?.juzs?.get(position)?.juz_number)

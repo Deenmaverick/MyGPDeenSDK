@@ -27,6 +27,7 @@ import androidx.lifecycle.lifecycleScope
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.MAKKAH_LATITUDE
 import com.deenislam.sdk.utils.MAKKAH_LONGITUDE
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -64,7 +65,6 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         mSensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
     }
 
     override fun onCreateView(
@@ -72,7 +72,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainView = layoutInflater.inflate(R.layout.fragment_compass,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_compass,container,false)
 
         //init view
         locationTxt = mainView.findViewById(R.id.locationTxt)
@@ -81,12 +81,16 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         degreeTxt = mainView.findViewById(R.id.degreeTxt)
         distanceTxt = mainView.findViewById(R.id.distanceTxt)
 
-        setupActionForOtherFragment(0,0,null,"Qibla Compass",true,mainView)
+        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.qibla_compass),true,mainView)
         return mainView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        degreeTxt.text = localContext.getString(R.string.compass_degree_txt,"--")
+
         askLocationPermission(false)
         showCalibrateDialog()
     }
@@ -99,7 +103,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         val sdf = SimpleDateFormat("hh:mm aa", Locale.getDefault())
         val getTime =  sdf.format(currentTime)
 
-        locationTxt.text = "Time: $getTime, Location: ..."
+        locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),"...")
         if(bol) {
             locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val geocoder = Geocoder(requireContext(), Locale.getDefault())
@@ -136,18 +140,16 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                                         {
                                             val state = addresses[0].adminArea
 
-                                            locationTxt.text = "Time: $getTime, Location: $state"
+                                            locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),state)
                                             locationListener?.let {
                                                 locationManager?.removeUpdates(it)
                                             }
                                         }
 
-
                                     }
 
                                     override fun onError(errorMessage: String?) {
                                         super.onError(errorMessage)
-
                                     }
 
                                 })
@@ -165,7 +167,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                                     {
                                         val state = addresses[0].adminArea
 
-                                        locationTxt.text = "Time: $getTime, Location: $state"
+                                        locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),state)
                                         locationListener?.let {
                                             locationManager?.removeUpdates(it)
                                         }
@@ -216,16 +218,16 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     }
 
-    fun showSettingDialog(mContext: Context) {
-        MaterialAlertDialogBuilder(mContext, com.google.android.material.R.style.MaterialAlertDialog_Material3)
-            .setTitle("Location Permission")
-            .setMessage("Location permission is required to show accurate content, Please allow location permission from setting")
-            .setPositiveButton("Ok") { _, _ ->
+    fun showSettingDialog() {
+        MaterialAlertDialogBuilder(requireContext(), com.google.android.material.R.style.MaterialAlertDialog_Material3)
+            .setTitle(localContext.getString(R.string.location_permission))
+            .setMessage(localContext.getString(R.string.dialog_location_permission_context))
+            .setPositiveButton(localContext.getString(R.string.okay)) { _, _ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                intent.data = Uri.parse("package:${mContext.packageName}")
-                mContext.startActivity(intent)
+                intent.data = Uri.parse("package:${requireContext().packageName}")
+                requireContext().startActivity(intent)
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(localContext.getString(R.string.cancel), null)
             .show()
     }
 
@@ -241,7 +243,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
                 if(!initialCheck) {
 
-                    showSettingDialog(requireContext())
+                    showSettingDialog()
 
                 }
 
@@ -318,7 +320,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
             MAKKAH_LATITUDE,
             MAKKAH_LONGITUDE
         ).toDouble()
-        val distanceOfMakkah = "The distance from Kaaba is ${DecimalFormat("##.##").format(distance / 1000)} km"
+        val distanceOfMakkah = localContext.getString(R.string.compass_distance_of_makka,"${DecimalFormat("##.##").format(distance / 1000)}".numberLocale())
         distanceTxt.text = distanceOfMakkah
     }
 
@@ -373,7 +375,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
         //compassKaaba.rotation = -bearing?.toFloat()!!
 
-        val degreeTxt = "${degree.toString() + 0x00B0.toChar()} from the geographical north"
+        val degreeTxt = localContext.getString(R.string.compass_degree_txt,"${degree.toString() + 0x00B0.toChar()}".numberLocale())
 
         this.degreeTxt.text = degreeTxt
 
@@ -386,7 +388,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 // The sensor's accuracy is unreliable.
                 if(this::accuracy.isInitialized)
                 {
-                    accuracy.text = "Unreliable"
+                    accuracy.text = localContext.getString(R.string.unreliable)
                     accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.brand_error))
                 }
             }
@@ -394,7 +396,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 // The sensor's accuracy is low.
                 if(this::accuracy.isInitialized)
                 {
-                    accuracy.text = "Low"
+                    accuracy.text = localContext.getString(R.string.low)
                     accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.brand_error))
                 }
             }
@@ -402,7 +404,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 // The sensor's accuracy is medium.
                 if(this::accuracy.isInitialized)
                 {
-                    accuracy.text = "Medium"
+                    accuracy.text = localContext.getString(R.string.medium)
                     accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.yellow))
                 }
 
@@ -411,7 +413,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 // The sensor's accuracy is high.
                 if(this::accuracy.isInitialized)
                 {
-                    accuracy.text = "High"
+                    accuracy.text = localContext.getString(R.string.high)
                     accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
                 }
             }
@@ -423,7 +425,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
     {
         dialog = BottomSheetDialog(requireContext())
 
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_compass_calibrate, null)
+        val view = localInflater.inflate(R.layout.dialog_compass_calibrate, null)
 
         accuracy = view.findViewById(R.id.accuracy)
         val okBtn:MaterialButton = view.findViewById(R.id.okBtn)

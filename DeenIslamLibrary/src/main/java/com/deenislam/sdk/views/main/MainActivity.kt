@@ -90,7 +90,7 @@ internal class MainActivity : AppCompatActivity() {
         frameContainerView.visible(true)
         changeLanguage()
         //bottom_navigation.setupWithNavController(navController)
-
+        searchInput.hint = localContext.getString(R.string.search)
         // test notification
         createChannel("Prayer Time","Prayer Time","Prayer Alert")
 

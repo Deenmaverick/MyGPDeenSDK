@@ -91,7 +91,6 @@
         android:textColor="@color/txt_black_deep"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:text="278° from the geographical north"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/distanceTxt"/>

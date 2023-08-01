@@ -5,11 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.prayer_calendar.Data
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
+import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.monthNameLocale
+import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.timeLocale
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.base.BaseViewHolder
 import java.text.SimpleDateFormat
@@ -20,7 +25,7 @@ internal class PrayerCalendarAdapter(
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_prayer_calendar, parent, false)
         )
 
@@ -50,7 +55,7 @@ internal class PrayerCalendarAdapter(
 
             if((position % 2)==0)
             {
-                itemView.setBackgroundColor(itemView.context.resources.getColor(R.color.background,itemView.context.theme))
+                itemView.setBackgroundColor(ContextCompat.getColor(itemView.context,R.color.background))
             }
             else
                 itemView.setBackgroundResource(0)
@@ -61,14 +66,15 @@ internal class PrayerCalendarAdapter(
             else
                 headerLayout.visible(false)
 
-                val newDate = format.parse(prayerTime.Date.StringTimeToMillisecond("yyyy-MM-dd'T'HH:mm:ss").MilliSecondToStringTime("dd MMMM"))
-                date.text = format.format(newDate)
 
-                fajr.text = "${prayerTime.Fajr.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}"
-                dhuhr.text = "${prayerTime.Juhr.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}"
-                asr.text = "${prayerTime.Asr.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}"
-                maghrib.text = "${prayerTime.Magrib.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}"
-                isha.text = "${prayerTime.Isha.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}"
+                val newDate = format.parse(prayerTime.Date.StringTimeToMillisecond("yyyy-MM-dd'T'HH:mm:ss").MilliSecondToStringTime("dd MMMM"))
+                date.text = format.format(newDate).numberLocale().monthNameLocale()
+
+                fajr.text = ("${prayerTime.Fajr.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}").timeLocale()
+                dhuhr.text = ("${prayerTime.Juhr.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}").timeLocale()
+                asr.text = ("${prayerTime.Asr.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}").timeLocale()
+                maghrib.text = ("${prayerTime.Magrib.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}").timeLocale()
+                isha.text = ("${prayerTime.Isha.StringTimeToMillisecond().MilliSecondToStringTime("hh:mm aa")?:"0:00"}").timeLocale()
 
 
         }

@@ -58,7 +58,7 @@ internal class FavoriteDuaAdapter(
             }
 
             itemView.setOnClickListener {
-                callback.duaClick(favList[position].DuaId,favList[position].SubCategory,favList[position].Category)
+                callback.duaClick(favList[position].DuaId,favList[position].SubCategory,favList[position].SubCategoryName)
             }
 
         }

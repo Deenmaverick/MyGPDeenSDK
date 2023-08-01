@@ -27,16 +27,16 @@ internal class ZakatCalculatorLiabilityFragment(
         super.onViewCreated(view, savedInstanceState)
 
         // inputs
-        binding.inputPart1.heading.text = "Debts"
-        binding.inputPart1.title1.text = "To Family"
-        binding.inputPart1.title2.text = "To Others"
+        binding.inputPart1.heading.text = localContext.getString(R.string.debts)
+        binding.inputPart1.title1.text = localContext.getString(R.string.to_family)
+        binding.inputPart1.title2.text = localContext.getString(R.string.to_others)
         binding.inputPart1.heading.setTextColor(ContextCompat.getColor(requireContext(),R.color.brand_error))
 
-        binding.inputPart2.heading.text = "Liabilities"
-        binding.inputPart2.title1.text = "Credit Card Payment"
-        binding.inputPart2.title2.text = "Home Payment"
-        binding.inputPart2.title3.text = "Car Payment"
-        binding.inputPart2.title4.text = "Business Payment"
+        binding.inputPart2.heading.text = localContext.getString(R.string.liabilities)
+        binding.inputPart2.title1.text = localContext.getString(R.string.credit_card_payment)
+        binding.inputPart2.title2.text = localContext.getString(R.string.home_payment)
+        binding.inputPart2.title3.text = localContext.getString(R.string.car_payment)
+        binding.inputPart2.title4.text = localContext.getString(R.string.business_payment)
         binding.inputPart2.heading.setTextColor(ContextCompat.getColor(requireContext(),R.color.brand_error))
         binding.inputPart2.title3.show()
         binding.inputPart2.input3.show()

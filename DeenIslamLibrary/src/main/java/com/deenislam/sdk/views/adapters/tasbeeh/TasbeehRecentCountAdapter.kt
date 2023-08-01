@@ -5,8 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.Tasbeeh
+import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>() {
@@ -14,7 +17,7 @@ internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>(
     private val tasbeehData:ArrayList<Tasbeeh> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_tasbeeh_recent_count, parent, false)
         )
 
@@ -37,12 +40,17 @@ internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>(
         private val duaCount:AppCompatTextView by lazy { itemView.findViewById(R.id.duaCount) }
         override fun onBind(position: Int) {
             super.onBind(position)
-            listPos.text = "0"+(position+1).toString()
+            listPos.text = "0"+(position+1).toString().numberLocale()
+            if(Deen.language == "en")
             duaName.text = tasbeehData[position].dua
-            duaCount.text =  if(tasbeehData[position].dua_count>1)
-                "${tasbeehData[position].dua_count} times"
             else
-                "${tasbeehData[position].dua_count} time"
+                duaName.text = tasbeehData[position].dua_bn
+
+            duaCount.text =  if(tasbeehData[position].dua_count>1)
+                duaCount.context.getString(R.string.tasbeeh_dhikir_recent_list_counts,"${tasbeehData[position].dua_count}").numberLocale()
+            else
+                duaCount.context.getString(R.string.tasbeeh_dhikir_recent_list_count,"${tasbeehData[position].dua_count}").numberLocale()
+
 
         }
     }

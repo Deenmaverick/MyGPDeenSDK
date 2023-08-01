@@ -8,6 +8,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentZakaCalculatorNisabBinding
 import com.deenislam.sdk.service.callback.ZakatCalculatorCallback
 import com.deenislam.sdk.utils.hideKeyboard
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseFragment
 
 internal class ZakaCalculatorNisabFragment(
@@ -31,27 +32,27 @@ internal class ZakaCalculatorNisabFragment(
 
         // steps
 
-        binding.step1.stepCount.text = "Step 1"
-        binding.step1.contentTxt.text = getString(R.string.zakat_calculator_nisab_step1)
+        binding.step1.stepCount.text = localContext.getString(R.string.step,"1").numberLocale()
+        binding.step1.contentTxt.text = localContext.getString(R.string.zakat_calculator_nisab_step1)
 
-        binding.step2.stepCount.text = "Step 2"
-        binding.step2.contentTxt.text = getString(R.string.zakat_calculator_nisab_step2)
+        binding.step2.stepCount.text =  localContext.getString(R.string.step,"2").numberLocale()
+        binding.step2.contentTxt.text = localContext.getString(R.string.zakat_calculator_nisab_step2)
 
-        binding.step3.stepCount.text = "Step 3"
-        binding.step3.contentTxt.text = getString(R.string.zakat_calculator_nisab_step3)
+        binding.step3.stepCount.text =  localContext.getString(R.string.step,"3").numberLocale()
+        binding.step3.contentTxt.text = localContext.getString(R.string.zakat_calculator_nisab_step3)
 
-        binding.step4.stepCount.text = "Step 4"
-        binding.step4.contentTxt.text = getString(R.string.zakat_calculator_nisab_step4)
+        binding.step4.stepCount.text =  localContext.getString(R.string.step,"4").numberLocale()
+        binding.step4.contentTxt.text = localContext.getString(R.string.zakat_calculator_nisab_step4)
 
-        binding.step5.stepCount.text = "Step 5"
-        binding.step5.contentTxt.text = getString(R.string.zakat_calculator_nisab_step5)
+        binding.step5.stepCount.text =  localContext.getString(R.string.step,"5").numberLocale()
+        binding.step5.contentTxt.text = localContext.getString(R.string.zakat_calculator_nisab_step5)
 
         binding.goldBtn.setOnClickListener {
             binding.goldBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
             binding.goldBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
             binding.silverBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
             binding.silverBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-            binding.covertedNisab.text = "৳ $gold_price"
+            binding.covertedNisab.text = "৳ $gold_price".numberLocale()
             nisab_type = 1
             nisab_amount = gold_price
 
@@ -62,7 +63,7 @@ internal class ZakaCalculatorNisabFragment(
             binding.goldBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
             binding.silverBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
             binding.silverBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
-            binding.covertedNisab.text = "৳ $silver_price"
+            binding.covertedNisab.text = "৳ $silver_price".numberLocale()
             nisab_type = 2
             nisab_amount = silver_price
         }

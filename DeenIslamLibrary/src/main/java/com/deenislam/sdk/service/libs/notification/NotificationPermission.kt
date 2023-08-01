@@ -38,7 +38,7 @@ internal class NotificationPermission {
         instance?.hasNotificationPermissionGranted =bol
     }
 
-    fun setupLauncher(fragment:Fragment,mContext:Context,isShowDialog:Boolean)
+    fun setupLauncher(fragment:Fragment,mContext:Context,isShowDialog:Boolean,activityContext:Context)
     {
         notificationPermissionLauncher =  fragment.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (!isGranted) {
@@ -47,9 +47,9 @@ internal class NotificationPermission {
                     if (Build.VERSION.SDK_INT >= 33) {
                         if (fragment.shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
                             NotificationPermission().getInstance()
-                                .showNotificationPermissionRationale(mContext)
+                                .showNotificationPermissionRationale(mContext,activityContext)
                         } else {
-                            NotificationPermission().getInstance().showSettingDialog(mContext)
+                            NotificationPermission().getInstance().showSettingDialog(mContext,activityContext)
                         }
                     }
                 }
@@ -70,30 +70,30 @@ internal class NotificationPermission {
 
     }
 
-    fun showNotificationPermissionRationale(mContext:Context) {
+    fun showNotificationPermissionRationale(mContext: Context, activityContext: Context) {
 
-        MaterialAlertDialogBuilder(mContext, R.style.MaterialAlertDialog_Material3)
-            .setTitle("Alert")
-            .setMessage("Notification permission is required, to show notification")
-            .setPositiveButton("Ok") { _, _ ->
+        MaterialAlertDialogBuilder(activityContext, R.style.MaterialAlertDialog_Material3)
+            .setTitle(mContext.getString(com.deenislam.sdk.R.string.alert))
+            .setMessage(mContext.getString(com.deenislam.sdk.R.string.dialog_notification_context))
+            .setPositiveButton(mContext.getString(com.deenislam.sdk.R.string.okay)) { _, _ ->
                 if (Build.VERSION.SDK_INT >= 33) {
                     instance?.notificationPermissionLauncher?.launch(android.Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(mContext.getString(com.deenislam.sdk.R.string.cancel), null)
             .show()
     }
 
-    fun showSettingDialog(mContext:Context) {
-        MaterialAlertDialogBuilder(mContext, R.style.MaterialAlertDialog_Material3)
-            .setTitle("Notification Permission")
-            .setMessage("Notification permission is required, Please allow notification permission from setting")
-            .setPositiveButton("Ok") { _, _ ->
+    fun showSettingDialog(mContext: Context, activityContext: Context) {
+        MaterialAlertDialogBuilder(activityContext, R.style.MaterialAlertDialog_Material3)
+            .setTitle(mContext.getString(com.deenislam.sdk.R.string.alert))
+            .setMessage(mContext.getString(com.deenislam.sdk.R.string.dialog_notification_context))
+            .setPositiveButton(mContext.getString(com.deenislam.sdk.R.string.okay)) { _, _ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.data = Uri.parse("package:${mContext.packageName}")
                 mContext.startActivity(intent)
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(mContext.getString(com.deenislam.sdk.R.string.cancel), null)
             .show()
     }
 

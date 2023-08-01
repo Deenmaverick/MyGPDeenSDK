@@ -8,7 +8,10 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.dailydua.duabycategory.Data
+import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton
 
@@ -20,7 +23,7 @@ internal class DuaByCatAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_quranic_dua, parent, false)
         )
 
@@ -51,15 +54,24 @@ internal class DuaByCatAdapter(
         private val duaSub:AppCompatTextView = itemView.findViewById(R.id.duaSub)
         private val surahInfo:AppCompatTextView = itemView.findViewById(R.id.surahInfo)
         private val favBtn:MaterialButton = itemView.findViewById(R.id.favBtn)
+        private val shareBtn:MaterialButton = itemView.findViewById(R.id.favshareBtn)
 
         override fun onBind(position: Int) {
             super.onBind(position)
 
             surahInfo.hide()
+            shareBtn.hide()
             if(duaList.size>0) {
                 val dua = duaList[position]
-                duaCat.text = "${dua.SubCategoryName}-${position}"
-                arabicName.text = dua.TextInArabic
+                duaCat.text = "${dua.SubCategoryName}-${position+1}".numberLocale()
+
+                if(dua.TextInArabic.isEmpty())
+                    arabicName.hide()
+                else {
+                    arabicName.show()
+                    arabicName.text = dua.TextInArabic
+                }
+
                 duaTxt.text = dua.Text
                 duaSub.text = dua.Pronunciation
 

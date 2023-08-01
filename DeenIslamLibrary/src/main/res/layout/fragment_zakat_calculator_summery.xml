@@ -209,7 +209,7 @@
             android:layout_marginEnd="@dimen/space_16"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="New Calculation"
+            android:text="@string/new_calculation"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
             app:cornerRadius="8dp" />
