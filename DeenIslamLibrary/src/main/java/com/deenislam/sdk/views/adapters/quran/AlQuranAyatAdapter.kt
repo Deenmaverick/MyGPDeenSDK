@@ -403,19 +403,21 @@ internal class AlQuranAyatAdapter(
                     val verseText = stringBuilder.toString()
                     val spannableString = SpannableString(verseText)
 
-                    data.forEach {
+                    for ((index, data) in data.withIndex()) {
+
+                        val it = data
 
                         // detect verse click
                         val clickableSpan = object : ClickableSpan() {
                             override fun onClick(view: View) {
                                 // itemView.context.toast(it.verse_number.toString())
-                                quranPlayBtnClick(it.verse_number-1)
+                                quranPlayBtnClick(index)
                                 // Handle verse click event
                             }
                             override fun updateDrawState(ds: TextPaint) {
                                 // Remove underline
                                 ds.isUnderlineText = false
-                                if(isPlaying && previousCallbackPosition == it.verse_number-1) {
+                                if(isPlaying && previousCallbackPosition == index) {
                                     playLoadingState(false)
                                     ds.color = ContextCompat.getColor(
                                         itemView.context,
@@ -443,7 +445,8 @@ internal class AlQuranAyatAdapter(
                         val start = verseText.indexOf(ayatArabic)
                         val end = start + ayatArabic.length
 
-                        if(isPlaying && previousCallbackPosition == it.verse_number-1 )
+                        //it.verse_number-1
+                        if(isPlaying && previousCallbackPosition == index )
                             startIndexForActive = start
 
                         spannableString.setSpan(
@@ -470,7 +473,6 @@ internal class AlQuranAyatAdapter(
 
 
 
-
                     if (isMiniPlayerCall) {
                         playQuranAudio(position)
                         isMiniPlayerCall = false
@@ -492,12 +494,15 @@ internal class AlQuranAyatAdapter(
 
         private fun playQuranAudio(pos: Int)
         {
-            playLoadingState(true)
+                playLoadingState(true)
 
-            CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.IO).launch {
 
-                AudioManager().getInstance().playAudioFromUrl("${BASE_QURAN_VERSE_AUDIO_URL}${data[pos].audio.url}",pos)
-            }
+                    AudioManager().getInstance().playAudioFromUrl(
+                        "${BASE_QURAN_VERSE_AUDIO_URL}${data[pos].audio.url}",
+                        pos
+                    )
+                }
         }
 
         private fun quranPlayBtnClick(pos:Int)
@@ -508,7 +513,7 @@ internal class AlQuranAyatAdapter(
 
                 playQuranAudio(pos)
 
-            } else if (previousCallbackPosition == pos && !isPlaying)
+            } else if (!isPlaying)
                 playQuranAudio(pos)
             else {
                 pauseQuranAudio(pos)

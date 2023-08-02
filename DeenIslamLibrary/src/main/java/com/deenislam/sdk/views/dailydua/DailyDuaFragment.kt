@@ -45,6 +45,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
     }
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -167,10 +168,6 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.e("onDestroyView","Daily DUA")
-    }
 
     private fun clearAllBtnSelection()
     {

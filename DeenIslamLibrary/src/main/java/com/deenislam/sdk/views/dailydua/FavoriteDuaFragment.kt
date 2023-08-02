@@ -87,15 +87,11 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
         return mainView
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        loadPage()
-    }
 
 
     override fun onResume() {
         super.onResume()
-        loadApiData()
+        loadPage()
     }
 
     private fun loadPage()
@@ -121,6 +117,10 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
                 adapter = favoriteDuaAdapter
 
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+            post {
+                loadApiData()
+            }
         }
 
     }

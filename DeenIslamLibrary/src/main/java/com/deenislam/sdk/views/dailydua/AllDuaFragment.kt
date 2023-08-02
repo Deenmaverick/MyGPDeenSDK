@@ -68,6 +68,9 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         noInternetLayout = mainView.findViewById(R.id.no_internet_layout)
         noInternetRetry = noInternetLayout.findViewById(R.id.no_internet_retry)
 
+        if(firstload) {
+            progressLayout.hide()
+        }
         return mainView
     }
 
@@ -93,16 +96,16 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
 
         listView.apply {
 
+                adapter = allDuaAdapter
                 val margins = (layoutParams as ConstraintLayout.LayoutParams).apply {
                     leftMargin = 12.dp
                     rightMargin = 12.dp
                 }
                 layoutParams = margins
 
-                adapter = allDuaAdapter
                 layoutManager = GridLayoutManager(requireContext(),3)
 
-            runWhenReady {
+            post {
                 initObserver()
 
                 if(!firstload)

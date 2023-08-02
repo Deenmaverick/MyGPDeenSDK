@@ -48,7 +48,6 @@ internal class Billboard() {
         instance?.linearLayoutManager?.orientation = LinearLayoutManager.HORIZONTAL
         //instance?.dashboardBillboard?.layoutManager = linearLayoutManager
         //linearLayoutManager.initialPrefetchItemCount = 4
-        val pagerSnapHelper = RecylerPagerSnapHelper()
 
         var screenWidth = widget.context.resources.displayMetrics.run {
             widthPixels / density

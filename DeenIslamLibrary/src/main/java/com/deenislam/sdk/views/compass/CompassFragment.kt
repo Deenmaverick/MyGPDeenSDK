@@ -95,7 +95,6 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         showCalibrateDialog()
     }
 
-
     @SuppressLint("MissingPermission")
     private fun locationPermissionResult(bol:Boolean)
     {
@@ -306,10 +305,11 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         locationListener?.let {
             locationManager?.removeUpdates(it)
+            locationListener = null
         }
+        super.onDestroyView()
     }
 
     private fun initKaabaDistance(latitude: Double, longitude: Double)

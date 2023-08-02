@@ -13,7 +13,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.Tasbeeh
@@ -22,11 +21,7 @@ import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.libs.media3.AudioManager
 import com.deenislam.sdk.service.models.TasbeehResource
 import com.deenislam.sdk.service.repository.TasbeehRepository
-import com.deenislam.sdk.utils.HalfGaugeView
-import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.numberLocale
-import com.deenislam.sdk.utils.show
-import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.TasbeehViewModel
 import com.deenislam.sdk.views.adapters.tasbeeh.TasbeehDuaAdapter
 import com.deenislam.sdk.views.adapters.tasbeeh.TasbeehRecentCountAdapter
@@ -41,8 +36,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
@@ -89,6 +83,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
     private var track4Count:Int = 0
 
     override fun OnCreate() {
+        super.OnCreate()
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -98,6 +93,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
             userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
         )
         viewmodel = TasbeehViewModel(repository)
+
     }
 
     override fun onCreateView(
@@ -115,6 +111,9 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         super.onResume()
         loadpage()
     }
+
+
+
     private fun loadpage()
     {
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.MaterialAlertDialog_rounded)
@@ -131,7 +130,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         duaListRC.apply {
             adapter = tasbeehDuaAdapter
             overScrollMode = View.OVER_SCROLL_NEVER
-            PagerSnapHelper().attachToRecyclerView(this)
+            ViewPagerHorizontalRecyler().getInstance().load(this)
         }
 
         recentCountList.apply {
@@ -386,16 +385,12 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     }
 
-    override fun onBackPress() {
-        setupOtherFragment(false)
-        super.onBackPress()
-
-    }
 
     override fun selectedDua(duaid: Int) {
 
         track4Count = 0
         loadAPI(duaid)
     }
+
 
 }

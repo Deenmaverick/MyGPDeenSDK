@@ -107,7 +107,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     open fun OnCreate(){
         onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
+                    onBackPress()
             }
         onBackPressedCallback.isEnabled = true
     }

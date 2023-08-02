@@ -426,9 +426,9 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
+   /* override fun onBackPressed() {
         onBackPressedDispatcher.onBackPressed()
-    }
+    }*/
 
     fun setupActionbar(action1:Int,action2:Int,callback: actionCallback?=null)
     {
