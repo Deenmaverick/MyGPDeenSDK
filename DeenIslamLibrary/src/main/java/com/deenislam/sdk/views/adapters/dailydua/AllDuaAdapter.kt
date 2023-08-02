@@ -10,6 +10,7 @@ import coil.load
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.dailydua.alldua.Data
 import com.deenislam.sdk.utils.BASE_CONTENT_URL
+import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class AllDuaAdapter(
@@ -20,7 +21,7 @@ internal class AllDuaAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_all_dua, parent, false)
         )
 

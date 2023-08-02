@@ -21,6 +21,7 @@ import com.deenislam.sdk.service.network.response.dailydua.alldua.Data
 import com.deenislam.sdk.service.repository.DailyDuaRepository
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.runWhenReady
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DailyDuaViewModel
@@ -72,10 +73,8 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(listView.isEmpty())
-            loadpage()
+        loadpage()
     }
-
 
     private fun loadpage()
     {
@@ -84,9 +83,6 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         ViewCompat.setTranslationZ(noInternetLayout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)
 
-        initObserver()
-
-        loadingState()
 
         //click retry button for get api data again
         noInternetRetry.setOnClickListener {
@@ -96,7 +92,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         allDuaAdapter = AllDuaAdapter(this@AllDuaFragment)
 
         listView.apply {
-            post {
+
                 val margins = (layoutParams as ConstraintLayout.LayoutParams).apply {
                     leftMargin = 12.dp
                     rightMargin = 12.dp
@@ -105,22 +101,20 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
 
                 adapter = allDuaAdapter
                 layoutManager = GridLayoutManager(requireContext(),3)
+
+            runWhenReady {
+                initObserver()
+
+                if(!firstload)
+                    loadApiData()
+                firstload = true
+
             }
         }
 
     }
 
-    override fun setMenuVisibility(menuVisible: Boolean) {
-        super.setMenuVisibility(menuVisible)
-        if(menuVisible)
-        {
-            if(!firstload)
-                loadApiData()
 
-            firstload = true
-
-        }
-    }
 
     private fun loadApiData()
     {

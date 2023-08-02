@@ -9,14 +9,14 @@ import com.deenislam.sdk.service.models.quran.SurahResource
 internal interface CommonResource
 {
     object API_CALL_FAILED:CommonResource, PrayerTimeResource, PrayerCalendarResource, SurahResource,
-        AlQuranResource, HadithResource, DailyDuaResource, ZakatResource
+        AlQuranResource, HadithResource, DailyDuaResource, ZakatResource, IslamicNameResource
 
     object LOADING:CommonResource
     object EMPTY:CommonResource, PrayerCalendarResource, PrayerTimeResource,
         PrayerNotificationResource, AlQuranResource, SurahResource, HadithResource, DailyDuaResource,
-        ZakatResource
+        ZakatResource, IslamicNameResource
 
-    object ACTION_API_CALL_FAILED:CommonResource, DailyDuaResource
+    object ACTION_API_CALL_FAILED:CommonResource, DailyDuaResource, IslamicNameResource
     object CLEAR:CommonResource, ZakatResource, PrayerNotificationResource, SettingResource,
-        DailyDuaResource
+        DailyDuaResource, IslamicNameResource
 }

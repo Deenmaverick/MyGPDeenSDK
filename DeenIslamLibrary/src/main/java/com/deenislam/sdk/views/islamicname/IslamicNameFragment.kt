@@ -1,4 +1,4 @@
-package com.deenislam.sdk.views.hadith
+package com.deenislam.sdk.views.islamicname
 
 import android.content.res.ColorStateList
 import android.os.Build
@@ -18,14 +18,14 @@ import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialSharedAxis
 
-internal class HadithFragment : BaseRegularFragment() {
 
-    private lateinit var hadithBtn:MaterialButton
-    private lateinit var catBtn:MaterialButton
-    private lateinit var favBtn:MaterialButton
-    private lateinit var _viewPager:ViewPager2
+internal class IslamicNameFragment : BaseRegularFragment() {
+
+    private lateinit var nameBtn: MaterialButton
+    private lateinit var favBtn: MaterialButton
+    private lateinit var _viewPager: ViewPager2
     private lateinit var actionbar: ConstraintLayout
-    private lateinit var header: ConstraintLayout
+    private lateinit var header: LinearLayout
 
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
@@ -44,18 +44,16 @@ internal class HadithFragment : BaseRegularFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
-        val mainView = localInflater.inflate(R.layout.fragment_hadith,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_islamic_name,container,false)
 
         //init view
-        hadithBtn = mainView.findViewById(R.id.hadithBtn)
-        catBtn = mainView.findViewById(R.id.catBtn)
+        nameBtn = mainView.findViewById(R.id.nameBtn)
         favBtn = mainView.findViewById(R.id.favBtn)
         _viewPager = mainView.findViewById(R.id.viewPager)
         actionbar = mainView.findViewById(R.id.actionbar)
         header = mainView.findViewById(R.id.header)
 
-        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.hadith),true,mainView)
+        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.islamic_name),true,mainView)
         return mainView
     }
 
@@ -63,9 +61,8 @@ internal class HadithFragment : BaseRegularFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mPageDestination = arrayListOf(
-            HadithHomeFragment(),
-            HadithCategoryFragment(),
-            HadithFavoriteFragment()
+            IslamicNameHomeFragment(),
+            IslamicNameFavFragment()
         )
 
         mainViewPagerAdapter = MainViewPagerAdapter(
@@ -103,43 +100,32 @@ internal class HadithFragment : BaseRegularFragment() {
                 {
                     0->
                     {
-                        hadithBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
-                        hadithBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                        nameBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
+                        nameBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                     }
 
                     1->
                     {
-                        catBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireActivity(),R.color.primary))
-                        catBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
-                    }
-
-                    2->
-                    {
                         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
                         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                     }
+
                 }
 
             }
         })
 
-        hadithBtn.setOnClickListener { _viewPager.currentItem = 0 }
-        catBtn.setOnClickListener { _viewPager.currentItem = 1 }
-        favBtn.setOnClickListener { _viewPager.currentItem = 2 }
+        nameBtn.setOnClickListener { _viewPager.currentItem = 0 }
+        favBtn.setOnClickListener { _viewPager.currentItem = 1 }
     }
 
     private fun clearAllBtnSelection()
     {
-
-        hadithBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        hadithBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-
-        catBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        catBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        nameBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
+        nameBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
     }
-
 }

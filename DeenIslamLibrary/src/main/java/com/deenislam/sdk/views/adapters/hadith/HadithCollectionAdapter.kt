@@ -10,7 +10,9 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.hadith.Data
 import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.imageLoad
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class HadithCollectionAdapter(
@@ -20,7 +22,7 @@ internal class HadithCollectionAdapter(
     private val collectionList:ArrayList<Data> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_hadith_collection, parent, false)
         )
 
@@ -49,16 +51,16 @@ internal class HadithCollectionAdapter(
             val hadith = collectionList[position]
 
             ic_hadith_book.imageLoad(
-                url = BASE_CONTENT_URL_SGP+"Hadith/hadithbook/"+hadith.name+".png",
+                url = BASE_CONTENT_URL_SGP+"Hadith/hadithbook/"+hadith.Name+".png",
                 ic_small = true
             )
 
-            nameArabic.text = hadith.collection[1].title
-            nameEn.text = hadith.collection[0].title
-            hadithCount.text = "${hadith.totalAvailableHadith} Hadith"
+            nameArabic.text = hadith.ArabicTitle
+            nameEn.text = hadith.Title
+            hadithCount.text = hadithCount.context.getString(R.string.hadith_collection_adapter_total,hadith.TotalHadith.toString().numberLocale())
 
             itemView.setOnClickListener {
-                callback.CollectionClicked(hadith.name,hadith.collection[0].title)
+                callback.CollectionClicked(hadith.Name,hadith.Title)
             }
 
             if(position==0)

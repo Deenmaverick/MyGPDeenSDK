@@ -25,13 +25,11 @@ internal class HadithViewModel(
     private val _hadithPreviewLiveData:MutableLiveData<HadithResource> = MutableLiveData()
     val hadithPreviewLiveData:MutableLiveData<HadithResource> get() = _hadithPreviewLiveData
 
-    fun getHadithCollection(language:String,page:Int,limit:Int){
+    fun getHadithCollection(language:String){
         viewModelScope.launch {
             processHadithCollection(
                 hadithRepository.getHadithCollection(
-                    language = language,
-                    page = page,
-                    limit = limit
+                    language = language
                 ) as ApiResource<HadithResponse>
             )
         }
@@ -44,8 +42,8 @@ internal class HadithViewModel(
             is ApiResource.Failure -> _hadithLiveData.value = CommonResource.API_CALL_FAILED
             is ApiResource.Success ->
             {
-                if(response.value.data.isNotEmpty())
-                    _hadithLiveData.value = HadithResource.hadithCollection(response.value.data)
+                if(response.value.Data?.isNotEmpty() == true)
+                    _hadithLiveData.value = HadithResource.hadithCollection(response.value.Data)
                 else
                     _hadithLiveData.value = CommonResource.EMPTY
             }

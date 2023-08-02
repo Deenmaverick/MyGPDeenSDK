@@ -7,6 +7,7 @@ import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.service.network.api.DeenService
 import com.deenislam.sdk.service.network.api.HadithService
 import com.deenislam.sdk.service.network.api.HadithServiceTest
+import com.deenislam.sdk.service.network.api.IslamicNameService
 import com.deenislam.sdk.service.network.api.QuranService
 import com.deenislam.sdk.utils.BASE_AUTH_API_URL
 import com.deenislam.sdk.utils.BASE_DEEN_SERVICE_API_URL
@@ -27,6 +28,7 @@ internal class NetworkProvider {
     private var authService:AuthenticateService ? = null
     private var hadithService:HadithService ? = null
     private var hadithServiceTest:HadithServiceTest ? = null
+    private var islamicNameService:IslamicNameService ? = null
 
     companion object {
         var instance: NetworkProvider? = null
@@ -44,7 +46,8 @@ internal class NetworkProvider {
         isAuthService:Boolean = false,
         isQuranService:Boolean = false,
         isHadithService: Boolean = false,
-        isHadithServiceTest: Boolean = false
+        isHadithServiceTest: Boolean = false,
+        isIslamicNameService: Boolean = false
     )
     {
         if(instance?.authInterceptor==null) {
@@ -126,7 +129,7 @@ internal class NetworkProvider {
             instance?.okHttpClient?.let {
                 instance?.hadithService = buildAPI(
                     api = HadithService::class.java,
-                    baseUrl = BASE_HADITH_API_URL,
+                    baseUrl = BASE_DEEN_SERVICE_API_URL,
                     okHttpClient = it
                 )
             }
@@ -137,6 +140,16 @@ internal class NetworkProvider {
                 instance?.hadithServiceTest = buildAPI(
                     api = HadithServiceTest::class.java,
                     baseUrl = BASE_HADITH_API_TEST_URL,
+                    okHttpClient = it
+                )
+            }
+        }
+
+        if(instance?.islamicNameService == null && isIslamicNameService) {
+            instance?.okHttpClient?.let {
+                instance?.islamicNameService = buildAPI(
+                    api = IslamicNameService::class.java,
+                    baseUrl = BASE_DEEN_SERVICE_API_URL,
                     okHttpClient = it
                 )
             }
@@ -183,6 +196,11 @@ internal class NetworkProvider {
     fun provideHadithServiceTest(): HadithServiceTest? {
         initInstance(isHadithServiceTest = true)
         return instance?.hadithServiceTest
+    }
+
+    fun provideIslamicNameService(): IslamicNameService? {
+        initInstance(isIslamicNameService = true)
+        return instance?.islamicNameService
     }
 
 }

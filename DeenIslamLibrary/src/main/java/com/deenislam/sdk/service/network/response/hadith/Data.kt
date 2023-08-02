@@ -1,12 +1,19 @@
 package com.deenislam.sdk.service.network.response.hadith
 
-import com.deenislam.sdk.service.network.response.hadith.Collection
+import androidx.annotation.Keep
 
+@Keep
 internal data class Data(
-    val collection: List<Collection>,
-    val hasBooks: Boolean,
-    val hasChapters: Boolean,
-    val name: String,
-    val totalAvailableHadith: Int,
-    val totalHadith: Int
+    val ArabicTitle: String,
+    val HasBooks: Boolean,
+    val HasChapters: Boolean,
+    val Id: Int,
+    val ImageUrl: String,
+    val IsActive: Boolean,
+    val Language: String,
+    val Name: String,
+    val Title: String,
+    val TotalAvailableHadith: Int,
+    val TotalHadith: Int,
+    val contentBaseUrl: String
 )

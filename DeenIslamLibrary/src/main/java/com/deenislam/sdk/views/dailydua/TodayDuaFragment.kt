@@ -67,11 +67,9 @@ internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
         return mainView
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(listView.isEmpty())
-            loadpage()
+        loadpage()
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
@@ -80,9 +78,7 @@ internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
         {
             if(!firstload)
                 loadApiData()
-
             firstload = true
-
 
         }
     }
@@ -95,21 +91,18 @@ internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
 
         initObserver()
 
-        loadingState()
-
         todayDuaAdapter = TodayDuaAdapter(this@TodayDuaFragment)
 
         listView.apply {
-            post {
                 adapter = todayDuaAdapter
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            }
         }
 
         //click retry button for get api data again
         noInternetRetry.setOnClickListener {
             loadApiData()
         }
+
     }
 
     private fun loadApiData()

@@ -300,6 +300,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             MENU_ZAKAT -> gotoFrag(R.id.zakatFragment)
             MENU_DIGITAL_TASBEEH -> gotoFrag(R.id.tasbeehFragment)
             MENU_QIBLA_COMPASS -> gotoFrag(R.id.compassFragment)
+            MENU_ISLAMIC_NAME -> gotoFrag(R.id.islamicNameFragment)
         }
     }
 

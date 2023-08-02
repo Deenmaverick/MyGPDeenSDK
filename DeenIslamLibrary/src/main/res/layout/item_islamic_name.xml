@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_10"
+    android:layout_marginStart="@dimen/space_16"
+    android:layout_marginEnd="@dimen/space_16"
+    app:cardCornerRadius="@dimen/space_8"
+    app:cardElevation="1dp"
+    style="@style/Widget.Material3.CardView.Elevated"
+    app:cardBackgroundColor="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_marginTop="@dimen/space_12"
+            android:layout_marginStart="@dimen/space_12"
+            android:textColor="@color/card_bg_deep_teal"
+            android:text="Aaban"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/nameArabic"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nameArabic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:layout_marginTop="@dimen/space_12"
+            android:layout_marginStart="@dimen/space_12"
+            android:textColor="@color/primary"
+            android:text="ابن"
+            app:layout_constraintStart_toEndOf="@+id/name"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/meaning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_12"
+            android:layout_marginBottom="@dimen/space_8"
+            android:textColor="@color/txt_ash"
+            android:text="Clear, Eloquent, Lucid, Distinct"
+            app:layout_constraintStart_toStartOf="@+id/name"
+            app:layout_constraintTop_toBottomOf="@+id/nameArabic"
+            app:layout_constraintEnd_toStartOf="@+id/rightBtn"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/rightBtn"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_favorite_primary_active"
+            app:tint="@color/primary"
+            android:layout_marginEnd="@dimen/space_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/name"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

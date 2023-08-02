@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/islamic_name_home_gradiant"
+    tools:context=".views.islamicname.IslamicNameHomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_12">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_islamic_name_home_elements"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="centerCrop"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_32"
+        android:layout_marginEnd="@dimen/space_32"
+        android:layout_marginTop="@dimen/space_16"
+        android:textStyle="bold"
+        android:textColor="@color/card_bg_deep_teal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:text="@string/islamic_name_home_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+  <com.google.android.material.card.MaterialCardView
+      android:id="@+id/boyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/space_32"
+      android:layout_marginEnd="@dimen/space_32"
+      android:layout_marginTop="@dimen/space_16"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="1dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeWidth="0dp"
+      app:layout_constraintTop_toBottomOf="@+id/title"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_islamic_name_boy_avatar"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:layout_gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/txt_black_deep"
+                android:text="@string/muslim_boys_names"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/boyNameBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_next"
+                app:iconTint="@color/primary"
+                app:iconGravity="textEnd"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginStart="@dimen/space_12"
+                android:layout_marginEnd="@dimen/space_12"
+                android:layout_marginBottom="@dimen/space_8"
+                android:text="@string/view_names"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/primary"
+                android:background="@android:color/transparent"
+                />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/girlLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_32"
+        android:layout_marginEnd="@dimen/space_32"
+        android:layout_marginTop="@dimen/space_16"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="1dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeWidth="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/boyLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_islamioc_name_girl_avatar"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:layout_gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/txt_black_deep"
+                android:text="@string/muslim_girls_names"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/girlNameBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_next"
+                app:iconTint="@color/primary"
+                app:iconGravity="textEnd"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginStart="@dimen/space_12"
+                android:layout_marginEnd="@dimen/space_12"
+                android:layout_marginBottom="@dimen/space_8"
+                android:text="@string/view_names"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/primary"
+                android:background="@android:color/transparent"
+                />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/girlLayout"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

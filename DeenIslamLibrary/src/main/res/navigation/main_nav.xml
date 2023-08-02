@@ -186,5 +186,26 @@
         android:name="com.deenislam.sdk.views.more.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/islamicNameFragment"
+        android:name="com.deenislam.sdk.views.islamicname.IslamicNameFragment"
+        android:label="IslamicNameFragment" >
+        <action
+            android:id="@+id/action_islamicNameFragment_to_islamicNameViewFragment"
+            app:destination="@id/islamicNameViewFragment"
+            app:popUpTo="@id/islamicNameFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/islamicNameViewFragment"
+        android:name="com.deenislam.sdk.views.islamicname.IslamicNameViewFragment"
+        android:label="IslamicNameViewFragment" >
+        <argument
+            android:name="gender"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

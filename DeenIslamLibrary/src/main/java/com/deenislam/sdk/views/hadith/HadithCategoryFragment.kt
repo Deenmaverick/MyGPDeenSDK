@@ -110,7 +110,7 @@ internal class HadithCategoryFragment : BaseRegularFragment() {
     {
         loadingState()
         lifecycleScope.launch {
-            viewModel.getHadithCollection(language = "bn", page = 1, limit = 50)
+            viewModel.getHadithCollection(language = getLanguage())
         }
     }
 

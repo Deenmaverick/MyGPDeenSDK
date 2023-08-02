@@ -80,7 +80,7 @@
     <string name="billboard_next_prayer">পরবর্তী নামাজ: %1$s</string>
     <string name="billboard_all_prayers">সকল নামাজ</string>
     <string name="hadith">হাদিস</string>
-    <string name="categories">Categories</string>
+    <string name="categories">ক্যাটাগরি</string>
     <string name="favorite">প্রিয় তালিকা</string>
     <string name="all_dua">সকল দোয়া</string>
     <string name="today_s">আজকের</string>
@@ -224,5 +224,12 @@
     <string name="low">কম</string>
     <string name="medium">মধ্যম</string>
     <string name="high">উচ্চ</string>
-
+    <string name="hadith_collection_adapter_total">%1$s হাদিস</string>
+    <string name="islamic_name_home_title">মুসলিম শিশুদের জন্য সেরা ইসলামিক নাম খুঁজুন</string>
+    <string name="muslim_boys_names">মুসলিম ছেলেদের নাম</string>
+    <string name="view_names">নাম দেখুন</string>
+    <string name="muslim_girls_names">মুসলিম মেয়েদের নাম</string>
+    <string name="names">নামসমূহ</string>
+    <string name="view_muslim_girls_names">মুসলিম মেয়েদের নাম দেখুন</string>
+    <string name="view_muslim_boys_names">মুসলিম ছেলেদের নাম দেখুন</string>
 </resources>

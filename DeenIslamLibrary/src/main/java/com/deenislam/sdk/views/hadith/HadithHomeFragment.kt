@@ -22,9 +22,9 @@ import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.HadithViewModel
-import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.adapters.hadith.HadithCollectionAdapter
 import com.deenislam.sdk.views.adapters.hadith.HadithCollectionCallback
+import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
@@ -58,7 +58,7 @@ internal class HadithHomeFragment : BaseRegularFragment(), HadithCollectionCallb
     ): View? {
         // Inflate the layout for this fragment
 
-        val mainView = layoutInflater.inflate(R.layout.fragment_hadith_home,container,false)
+        val mainView = localInflater.inflate(R.layout.fragment_hadith_home,container,false)
 
         //init view
 
@@ -112,7 +112,7 @@ internal class HadithHomeFragment : BaseRegularFragment(), HadithCollectionCallb
     {
         loadingState()
         lifecycleScope.launch {
-            viewModel.getHadithCollection(language = "bn", page = 1, limit = 50)
+            viewModel.getHadithCollection(language = "en")
         }
     }
 

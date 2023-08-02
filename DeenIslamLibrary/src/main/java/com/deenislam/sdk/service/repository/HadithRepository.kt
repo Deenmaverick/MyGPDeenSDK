@@ -3,6 +3,9 @@ package com.deenislam.sdk.service.repository
 import com.deenislam.sdk.service.network.ApiCall
 import com.deenislam.sdk.service.network.api.HadithService
 import com.deenislam.sdk.service.network.api.HadithServiceTest
+import com.deenislam.sdk.utils.RequestBodyMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 internal class HadithRepository (
     private val hadithService: HadithService?,
@@ -10,9 +13,14 @@ internal class HadithRepository (
 ): ApiCall {
 
     private val API_KEY = "SqD712P3E82xnwOAEOkGd5JZH8s9wRR24TqNFzjk"
-    suspend fun getHadithCollection(language:String,page:Int,limit:Int) =
+    suspend fun getHadithCollection(language:String) =
         makeApicall {
-            hadithService?.getCollectionList(API_KEY, language = language, page = page, limit = limit)
+
+            val body = JSONObject()
+            body.put("language", language)
+            val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+            hadithService?.getCollectionList(parm = requestBody)
         }
 
     suspend fun getChapterByCollection(language:String,collectionName:String,page:Int,limit:Int) =

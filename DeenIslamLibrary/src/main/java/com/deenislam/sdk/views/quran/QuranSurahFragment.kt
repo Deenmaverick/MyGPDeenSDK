@@ -98,7 +98,6 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("onViewCreated","SURAH")
         initView()
     }
 

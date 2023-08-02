@@ -224,4 +224,12 @@
     <string name="low">Low</string>
     <string name="medium">Medium</string>
     <string name="high">High</string>
+    <string name="hadith_collection_adapter_total">%1$s Hadith</string>
+    <string name="islamic_name_home_title">Find the best Islamic names for Muslim babies</string>
+    <string name="muslim_boys_names">Muslim Boys Names</string>
+    <string name="view_names">View Names</string>
+    <string name="muslim_girls_names">Muslim Girls Names</string>
+    <string name="names">Names</string>
+    <string name="view_muslim_girls_names">View Muslim Girls Names</string>
+    <string name="view_muslim_boys_names">View Muslim Boys Names</string>
 </resources>

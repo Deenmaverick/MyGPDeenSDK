@@ -1,11 +1,11 @@
 package com.deenislam.sdk.service.network.response.hadith
 
-import com.deenislam.sdk.service.network.response.hadith.Data
+import androidx.annotation.Keep
 
+@Keep
 internal data class HadithResponse(
-    val `data`: List<Data>,
-    val limit: Int,
-    val next: Any,
-    val previous: Any,
-    val total: Int
+    val Data: List<Data>?,
+    val Message: String,
+    val Success: Boolean,
+    val TotalData: Int
 )
