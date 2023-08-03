@@ -16,13 +16,14 @@ import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
-import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
+import com.deenislam.sdk.service.models.DashboardResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
+import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.repository.DashboardRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.DashboardViewModel
-import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
@@ -40,8 +41,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
-    private lateinit var prayerTimeViewModel: PrayerTimesViewModel
-
     private val dashboardPatchMain:DashboardPatchAdapter by lazy { DashboardPatchAdapter(
         callback = this@DashboardFragment,
         menuCallback = this@DashboardFragment
@@ -51,21 +50,20 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     override fun OnCreate() {
         super.OnCreate()
-        dashboardViewModel = DashboardViewModel()
+
+        val dashboardRepository = DashboardRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
 
         val prayerTimesRepository = PrayerTimesRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
             prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao(),
             prayerTimesDao = DatabaseProvider().getInstance().providePrayerTimesDao()
-
         )
 
-        val factory = VMFactory(prayerTimesRepository)
-        prayerTimeViewModel = ViewModelProvider(
+        val factory = VMFactory(dashboardRepository,prayerTimesRepository)
+        dashboardViewModel = ViewModelProvider(
             requireActivity(),
             factory
-        )[PrayerTimesViewModel::class.java]
-
+        )[DashboardViewModel::class.java]
 
     }
 
@@ -109,9 +107,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     {
           loadingState()
             lifecycleScope.launch {
-                prayerTimeViewModel.getPrayerTimes("Dhaka", "bn", prayerdate)
-                prayerTimeViewModel.getDateWisePrayerNotificationData(prayerdate)
-
+                dashboardViewModel.getDashboard("Dhaka", getLanguage(), prayerdate)
             }
     }
 
@@ -125,35 +121,55 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     private fun initObserver()
     {
 
-        prayerTimeViewModel.prayerTimes.observe(viewLifecycleOwner)
+        dashboardViewModel.prayerTimes.observe(viewLifecycleOwner)
         {
             when(it)
             {
-                is PrayerTimeResource.postPrayerTime -> viewState(it.data)
-                CommonResource.API_CALL_FAILED -> nointernetState()
-                PrayerTimeResource.prayerTimeEmpty -> Unit
-                else -> Unit
+                is PrayerTimeResource.postPrayerTime -> viewStatePrayerTime(it.data)
+
             }
         }
 
-        prayerTimeViewModel.prayerTimesNotification.observe(viewLifecycleOwner)
+        dashboardViewModel.dashLiveData.observe(viewLifecycleOwner)
+        {
+            when(it)
+            {
+                CommonResource.API_CALL_FAILED -> nointernetState()
+                is DashboardResource.DashboardData -> viewState(it.data)
+
+            }
+        }
+
+        /*dashboardViewModel.prayerTimesNotification.observe(viewLifecycleOwner)
         {
             when(it)
             {
                 is PrayerNotificationResource.dateWiseNotificationData -> updateprayerTracker(it.data)
                 else -> Unit
             }
+        }*/
+
+    }
+
+    private fun viewStatePrayerTime(data: PrayerTimesResponse)
+    {
+        if(prayerTimesResponse==null) {
+            prayerTimesResponse = data
         }
 
     }
 
-    private fun viewState(data: PrayerTimesResponse)
+    private fun viewState(data: Data)
     {
-        if(prayerTimesResponse==null) {
-            prayerTimesResponse = data
-            dashboardPatchMain.updatePrayerTime(data)
+
+        dashboardPatchMain.updateDashData(data)
+
+        prayerTimesResponse?.let {
+            dashboardPatchMain.updatePrayerTime(it)
         }
-        
+
+
+
         binding.dashboardMain.post {
             dataState()
         }
@@ -271,10 +287,10 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
         lifecycleScope.launch {
             if (momentName?.isNotEmpty() == true) {
-               prayerTimeViewModel.setPrayerTrack(date = prayerdate,prayer_tag=momentName,true)
+              // prayerTimeViewModel.setPrayerTrack(date = prayerdate,prayer_tag=momentName,true)
             }
-            else
-                prayerTimeViewModel.getDateWisePrayerNotificationData(prayerdate)
+            /*else
+                prayerTimeViewModel.getDateWisePrayerNotificationData(prayerdate)*/
         }
     }
 
@@ -283,9 +299,11 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     }
 
     inner class VMFactory(
-        private val prayerTimesRepository : PrayerTimesRepository) : ViewModelProvider.Factory{
+        private val dashboardRepository: DashboardRepository,
+        private val prayerTimesRepository : PrayerTimesRepository
+        ) : ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return PrayerTimesViewModel(prayerTimesRepository) as T
+            return DashboardViewModel(dashboardRepository,prayerTimesRepository) as T
         }
     }
 

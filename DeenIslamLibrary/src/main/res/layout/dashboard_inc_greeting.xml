@@ -24,15 +24,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/space_16"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginBottom="@dimen/space_16"
             android:text="Assalamu Alaikum, Good Morning"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/txt_ash"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/txt_black_deep"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
             android:id="@+id/greetingDate"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

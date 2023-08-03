@@ -14,5 +14,6 @@ internal data class Data(
     val Sehri: String,
     val Sunrise: String,
     val Tahajjut: String,
-    val wish: String
+    val wish: String,
+    val WaktTracker: List<WaktTracker>,
 )

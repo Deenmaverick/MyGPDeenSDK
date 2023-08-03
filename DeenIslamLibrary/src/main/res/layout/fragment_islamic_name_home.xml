@@ -31,7 +31,7 @@
         android:layout_marginTop="@dimen/space_16"
         android:textStyle="bold"
         android:textColor="@color/card_bg_deep_teal"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:text="@string/islamic_name_home_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,8 +58,8 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
                 android:layout_marginTop="@dimen/space_16"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_islamic_name_boy_avatar"/>
@@ -118,8 +118,8 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
                 android:layout_marginTop="@dimen/space_16"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_islamioc_name_girl_avatar"/>

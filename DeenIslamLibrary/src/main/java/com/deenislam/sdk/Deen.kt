@@ -30,10 +30,14 @@ object Deen {
     var language = "bn"
 
     @JvmStatic
+    var msisdn:String = ""
+
+    @JvmStatic
     fun openDeen(context: Context, msisdn:String, callback: DeenCallback? = null)
     {
         this.appContext = context.applicationContext
         this.CallBackListener = callback
+        this.msisdn = msisdn
 
         CoroutineScope(Dispatchers.IO).launch {
 

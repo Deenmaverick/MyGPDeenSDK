@@ -1,19 +1,30 @@
 package com.deenislam.sdk.views.more
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.PRIVACY_URL
+import com.deenislam.sdk.utils.TERMS_URL
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.MaterialSharedAxis
 
 internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
     private lateinit var settingLayout:MaterialCardView
-
+    private lateinit var username:AppCompatTextView
+    private lateinit var editProfileBtn:MaterialButton
+    private lateinit var termsLayout:MaterialCardView
+    private lateinit var privacyLayout:MaterialCardView
 
     override fun OnCreate() {
         super.OnCreate()
@@ -33,6 +44,10 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
         //init view
         settingLayout = mainview.findViewById(R.id.settingLayout)
+        username = mainview.findViewById(R.id.username)
+        editProfileBtn = mainview.findViewById(R.id.editProfileBtn)
+        termsLayout = mainview.findViewById(R.id.termsLayout)
+        privacyLayout = mainview.findViewById(R.id.privacyLayout)
 
         setupActionForOtherFragment(
             action1 = R.drawable.ic_close,
@@ -51,10 +66,43 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        username.text =  if(!Deen.msisdn.first().equals("+")) "+${Deen.msisdn}" else Deen.msisdn
+
         settingLayout.setOnClickListener {
             gotoFrag(R.id.action_moreFragment_to_settingFragment)
         }
+
+        editProfileBtn.setOnClickListener {
+
+        }
+
+        termsLayout.setOnClickListener {
+
+            val url = TERMS_URL
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            activity?.let {
+                if (intent.resolveActivity(it.packageManager) != null) {
+                    startActivity(intent)
+                }
+            }
+        }
+
+        privacyLayout.setOnClickListener {
+
+            val url = PRIVACY_URL
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            activity?.let {
+                if (intent.resolveActivity(it.packageManager) != null) {
+                    startActivity(intent)
+                }
+            }
+
+        }
     }
+
+
 
     override fun action1() {
         onBackPress()

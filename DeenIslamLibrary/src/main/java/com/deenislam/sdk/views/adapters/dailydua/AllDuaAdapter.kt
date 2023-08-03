@@ -10,7 +10,9 @@ import coil.load
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.dailydua.alldua.Data
 import com.deenislam.sdk.utils.BASE_CONTENT_URL
+import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class AllDuaAdapter(
@@ -47,7 +49,7 @@ internal class AllDuaAdapter(
             super.onBind(position)
 
             catName.text = categoryList[position].Category
-            catIcon.load(BASE_CONTENT_URL+categoryList[position].ImageUrl)
+            catIcon.imageLoad(BASE_CONTENT_URL_SGP+categoryList[position].ImageUrl)
 
             itemView.setOnClickListener {
                 callback.selectedCat(categoryList[position].Id,categoryList[position].Category)

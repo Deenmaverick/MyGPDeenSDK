@@ -5,12 +5,15 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.network.response.dashboard.Qibla
 import com.deenislam.sdk.utils.DotsIndicatorDecoration
 import com.deenislam.sdk.utils.ViewPagerHorizontalRecyler
 import com.deenislam.sdk.views.adapters.CarouselAdapter
 
 internal class AdBanner {
 
+    private var adapter:CarouselAdapter ? =null
+    private var adbanner:RecyclerView ? = null
     companion object
     {
         var instance: AdBanner? = null
@@ -26,13 +29,15 @@ internal class AdBanner {
 
     fun load(widget: View, viewPool: RecyclerView.RecycledViewPool?) {
 
-        val adbanner:RecyclerView = widget.findViewById(R.id.inf)
+         instance?.adbanner = widget.findViewById(R.id.inf)
+        instance?.adapter = CarouselAdapter()
 
-        adbanner.apply {
 
-            adapter = CarouselAdapter()
+        adbanner?.apply {
+
+            adapter = instance?.adapter
             onFlingListener = null
-            PagerSnapHelper().attachToRecyclerView(adbanner)
+            PagerSnapHelper().attachToRecyclerView(instance?.adbanner)
             val radius = 6
             val dotsHeight = 56
             addItemDecoration(
@@ -50,6 +55,12 @@ internal class AdBanner {
             ViewPagerHorizontalRecyler().getInstance().load(this)
             overScrollMode = View.OVER_SCROLL_NEVER
         }
+
+    }
+
+    fun update(adbanner: List<Qibla>)
+    {
+        instance?.adapter?.update(adbanner)
 
     }
 }

@@ -17,9 +17,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dashboard_recycle_menu"
-            android:layout_marginBottom="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:useDefaultMargins="true"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="4"

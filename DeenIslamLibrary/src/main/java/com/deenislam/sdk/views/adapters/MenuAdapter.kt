@@ -11,15 +11,16 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.models.MenuModel
+import com.deenislam.sdk.service.network.response.dashboard.Service
 import com.deenislam.sdk.utils.AsyncViewStub
+import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
 
 private const val ONBOARDING_MENU = 1
 private const val DASHBOARD_MENU = 2
 internal class MenuAdapter(
-     private val menuList:ArrayList<MenuModel>,
      private val viewType: Int = 1,
      private val callback: favMenuCallback? = null,
      private val menuCallback: MenuCallback? = null
@@ -27,6 +28,16 @@ internal class MenuAdapter(
 
     // init view
     private var initView:Boolean = false
+    private val menuList:ArrayList<Service> = arrayListOf()
+
+    fun update(services: List<Service>)
+    {
+        menuList.clear()
+        menuList.addAll(services)
+
+        notifyDataSetChanged()
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         when(viewType)
@@ -76,7 +87,7 @@ internal class MenuAdapter(
        override fun onBind(position: Int, viewtype: Int) {
            super.onBind(position,viewtype)
 
-           val getMenu: MenuModel = menuList[position]
+           val getMenu: Service = menuList[position]
 
            when (viewtype) {
                    ONBOARDING_MENU -> {
@@ -86,13 +97,8 @@ internal class MenuAdapter(
                        menuTitile = itemView.findViewById(R.id.menuTitile)
                        menuRadioBtn = itemView.findViewById(R.id.menuRadioBtn)
 
-                       menuIcon.setImageDrawable(
-                           AppCompatResources.getDrawable(
-                               itemView.context,
-                               getMenu.icon
-                           )
-                       )
-                       menuTitile.text = getMenu.name
+                       menuIcon.imageLoad(getMenu.contentBaseUrl+"/"+getMenu.imageurl1, isSvg = true)
+                       menuTitile.text = getMenu.ArabicText
 
                        menuCardview.setOnClickListener {
 
@@ -115,17 +121,12 @@ internal class MenuAdapter(
                        menuIcon = itemView.findViewById(R.id.menuIcon)
                        menuTitile = itemView.findViewById(R.id.menuTitile)
 
-                       menuIcon.setImageDrawable(
-                           AppCompatResources.getDrawable(
-                               itemView.context,
-                               getMenu.icon
-                           )
-                       )
+                       menuIcon.imageLoad(getMenu.contentBaseUrl+"/"+getMenu.imageurl1, isSvg = true)
 
-                       menuTitile.text = getMenu.name
+                       menuTitile.text = getMenu.ArabicText
 
                        itemView.setOnClickListener {
-                           menuCallback?.menuClicked(getMenu.menuTag)
+                           menuCallback?.menuClicked(getMenu.Text)
                        }
 
                    }
@@ -139,8 +140,8 @@ internal class MenuAdapter(
 
 internal interface favMenuCallback
 {
-    fun setFavmenu(menu:MenuModel)
-    fun unsetFavmenu(menu:MenuModel)
+    fun setFavmenu(menu: Service)
+    fun unsetFavmenu(menu: Service)
 }
 
 internal interface MenuCallback

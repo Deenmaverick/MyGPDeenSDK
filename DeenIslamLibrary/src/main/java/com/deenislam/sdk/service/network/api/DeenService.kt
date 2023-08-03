@@ -5,6 +5,7 @@ import com.deenislam.sdk.service.network.response.dailydua.alldua.AllDuaResponse
 import com.deenislam.sdk.service.network.response.dailydua.duabycategory.DuaByCategory
 import com.deenislam.sdk.service.network.response.dailydua.favdua.FavDua
 import com.deenislam.sdk.service.network.response.dailydua.todaydua.TodayDua
+import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislam.sdk.service.network.response.prayer_calendar.PrayerCalendarResponse
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetails

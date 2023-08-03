@@ -75,13 +75,16 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
+        Log.e("onResume","BASE FRAGMENT")
+
+            onBackPressedCallback =
+                requireActivity().onBackPressedDispatcher.addCallback {
+                    onBackPress()
+                }
+            onBackPressedCallback.isEnabled = true
 
     }
+
 
     fun isOnlyBack(bol:Boolean)
     {
@@ -255,6 +258,12 @@ internal abstract class BaseRegularFragment: Fragment() {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
         }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        onBackPressedCallback.isEnabled = false
     }
 }
 

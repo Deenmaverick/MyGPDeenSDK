@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/space_15"
@@ -21,9 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_8"
-        android:text="Daily Verse"
+        android:text="Title"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/txt_black"
+        android:textColor="@color/txt_black_deep"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/icon"
         app:layout_constraintStart_toEndOf="@+id/icon"
@@ -31,12 +32,12 @@
 
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/seeAllBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="See all"
+        android:text="@string/see_all"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/primary"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/titile"/>
@@ -64,54 +65,53 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@drawable/daily_verse_header" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+                android:id="@+id/textContent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_12"
                 android:layout_marginEnd="@dimen/space_16"
-                android:text="بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ١ ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢ ..."
+                android:text="Text Content"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/txt_ash" />
+                android:textColor="@color/txt_black_deep" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/subContent"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_8"
                 android:layout_marginEnd="@dimen/space_16"
-                android:text="Surah Al Fatiha • 7 Ayaat"
+                android:text="Sub Content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/txt_ash"
-                android:textStyle="bold" />
+                android:textColor="@color/txt_black_deep" />
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/seeAllUmrahPack"
+                android:id="@+id/mainBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_8"
                 android:layout_marginBottom="@dimen/space_4"
                 android:background="@android:color/transparent"
-                android:text="Read the full Surah"
+                android:text="Button"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/primary"
                 app:cornerRadius="6dp"
+                app:iconSize="@dimen/sapce_20"
                 app:icon="@drawable/ic_next"
                 app:iconGravity="textEnd"
-                app:iconTint="@color/primary"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/createOtherHint" />
-
+                app:iconTint="@color/primary" />
 
         </LinearLayout>
 

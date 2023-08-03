@@ -232,4 +232,9 @@
     <string name="names">Names</string>
     <string name="view_muslim_girls_names">View Muslim Girls Names</string>
     <string name="view_muslim_boys_names">View Muslim Boys Names</string>
+    <string name="see_all">See all</string>
+    <string name="read_the_full_hadith">Read the full Hadith</string>
+    <string name="calculate_zakat">Calculate Zakat</string>
+    <string name="count_tasbeeh">Count Tasbeeh</string>
+    <string name="read_the_full_surah">Read the full Surah</string>
 </resources>

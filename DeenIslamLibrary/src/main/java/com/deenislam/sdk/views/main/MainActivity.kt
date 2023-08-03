@@ -9,9 +9,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
@@ -29,13 +31,18 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
-import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.utils.LocaleUtil
+import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.isBottomNavFragment
+import com.deenislam.sdk.utils.isFragmentInBackStack
+import com.deenislam.sdk.utils.reduceDragSensitivity
+import com.deenislam.sdk.utils.setCurrentItem
+import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.dashboard.DashboardFragment
 import com.deenislam.sdk.views.dashboard.patch.Billboard
-import com.deenislam.sdk.views.more.MoreFragment
-import com.deenislam.sdk.views.prayertimes.PrayerTimesFragment
-import com.deenislam.sdk.views.quran.QuranFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Locale
@@ -426,9 +433,6 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
-   /* override fun onBackPressed() {
-        onBackPressedDispatcher.onBackPressed()
-    }*/
 
     fun setupActionbar(action1:Int,action2:Int,callback: actionCallback?=null)
     {

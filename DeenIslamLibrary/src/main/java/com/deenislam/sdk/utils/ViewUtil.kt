@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import coil.decode.SvgDecoder
 import coil.load
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
@@ -31,11 +32,15 @@ fun AppCompatImageView.imageLoad(
     url:String,
     ic_small:Boolean=false,
     ic_medium:Boolean=false,
-    ic_large:Boolean=false
+    ic_large:Boolean=false,
+    isSvg:Boolean = false
 )
 {
+    val context = this.context
     this.load(url)
     {
+        if(isSvg)
+        decoder(SvgDecoder(context))
         if(ic_small)
             error(R.drawable.ic_small_download_empty)
     }

@@ -232,4 +232,9 @@
     <string name="names">নামসমূহ</string>
     <string name="view_muslim_girls_names">মুসলিম মেয়েদের নাম দেখুন</string>
     <string name="view_muslim_boys_names">মুসলিম ছেলেদের নাম দেখুন</string>
+    <string name="see_all">সবগুলো দেখুন</string>
+    <string name="read_the_full_hadith">সম্পূর্ণ হাদিস পড়ুন</string>
+    <string name="calculate_zakat">যাকাত হিসাব করুন</string>
+    <string name="count_tasbeeh">তাসবীহ গুনুন</string>
+    <string name="read_the_full_surah">পূর্ণ সূরা পড়ুন</string>
 </resources>

@@ -15,6 +15,7 @@
         android:id="@+id/dashboardMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/space_16"
         android:clipToPadding="false"
         android:nestedScrollingEnabled="false"
         android:scrollbars="none"
