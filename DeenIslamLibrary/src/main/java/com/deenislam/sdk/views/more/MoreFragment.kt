@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatTextView
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.ActivityCallback
 import com.deenislam.sdk.utils.PRIVACY_URL
 import com.deenislam.sdk.utils.TERMS_URL
 import com.deenislam.sdk.views.base.BaseRegularFragment
@@ -18,13 +20,16 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.MaterialSharedAxis
 
-internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
+internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback,ActivityCallback {
 
     private lateinit var settingLayout:MaterialCardView
     private lateinit var username:AppCompatTextView
     private lateinit var editProfileBtn:MaterialButton
     private lateinit var termsLayout:MaterialCardView
     private lateinit var privacyLayout:MaterialCardView
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+
 
     override fun OnCreate() {
         super.OnCreate()
@@ -32,6 +37,8 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+
+        setActivityCallback(this@MoreFragment)
 
     }
 
@@ -81,7 +88,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
             val url = TERMS_URL
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
-            activity?.let {
+            requireActivity().let {
                 if (intent.resolveActivity(it.packageManager) != null) {
                     startActivity(intent)
                 }
@@ -93,15 +100,23 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
             val url = PRIVACY_URL
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
-            activity?.let {
+            requireActivity().let {
                 if (intent.resolveActivity(it.packageManager) != null) {
                     startActivity(intent)
                 }
             }
 
         }
-    }
 
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+                Log.e("handleOnBackPressed","OOOOO")
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+
+    }
 
 
     override fun action1() {
@@ -109,6 +124,10 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     }
 
     override fun action2() {
+    }
+
+    override fun activityBackpress() {
+        onBackPress()
     }
 
 

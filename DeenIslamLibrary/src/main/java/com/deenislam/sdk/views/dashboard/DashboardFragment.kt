@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
+import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -37,13 +38,14 @@ import java.util.Locale
 
 
 internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
-    actionCallback, MenuCallback, prayerTimeCallback{
+    actionCallback, MenuCallback, prayerTimeCallback , ViewInflationListener {
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
     private val dashboardPatchMain:DashboardPatchAdapter by lazy { DashboardPatchAdapter(
         callback = this@DashboardFragment,
-        menuCallback = this@DashboardFragment
+        menuCallback = this@DashboardFragment,
+        viewInflationListener = this@DashboardFragment
     ) }
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
@@ -169,12 +171,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         }
 
 
-
-        binding.dashboardMain.post {
-            dataState()
-        }
-
-
         //dashboardPatchMain.notifyDataSetChanged()
 
        /* binding.dashboardMain.afterMeasured {
@@ -242,17 +238,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                 //overScrollMode = View.OVER_SCROLL_NEVER
                 post {
 
-                    //base fragment livedata
-                  /* BASE_OBSERVE_API_CALL_STATE()
-                    initObserver()
-
-                    lifecycleScope.launch {
-                        BASE_CHECK_API_STATE()
-                    }
-
-                    if(lifecycle.currentState != Lifecycle.State.RESUMED) {
-                        loadDataAPI()
-                    }*/
                     loadDataAPI()
                 }
             }
@@ -320,6 +305,10 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             MENU_QIBLA_COMPASS -> gotoFrag(R.id.compassFragment)
             MENU_ISLAMIC_NAME -> gotoFrag(R.id.islamicNameFragment)
         }
+    }
+
+    override fun onAllViewsInflated() {
+        dataState()
     }
 
 }

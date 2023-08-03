@@ -1,7 +1,6 @@
 package com.deenislam.sdk.views.base
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,16 +20,12 @@ import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
-import com.deenislam.sdk.utils.AsyncViewStub
-import com.deenislam.sdk.utils.ContextWrapper
-import com.deenislam.sdk.utils.LocaleUtil
-import com.deenislam.sdk.utils.dp
-import com.deenislam.sdk.utils.isBottomNavFragment
-import com.deenislam.sdk.utils.visible
+import com.deenislam.sdk.service.callback.ActivityCallback
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
-import java.util.Locale
+import java.util.*
 
 
 internal abstract class BaseRegularFragment: Fragment() {
@@ -75,13 +70,9 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.e("onResume","BASE FRAGMENT")
 
-            onBackPressedCallback =
-                requireActivity().onBackPressedDispatcher.addCallback {
-                    onBackPress()
-                }
-            onBackPressedCallback.isEnabled = true
+        onBackPressedCallback.isEnabled = true
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
     }
 
@@ -129,6 +120,10 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     }
 
+    fun setActivityCallback(callback: ActivityCallback)
+    {
+        (activity as MainActivity).setActivityCallback(callback)
+    }
 
     fun changeMainViewPager(page:Int)
     {
@@ -265,6 +260,9 @@ internal abstract class BaseRegularFragment: Fragment() {
         super.onPause()
         onBackPressedCallback.isEnabled = false
     }
+
+
+
 }
 
 interface otherFagmentActionCallback

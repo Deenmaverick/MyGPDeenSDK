@@ -30,6 +30,7 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.ActivityCallback
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
@@ -77,6 +78,8 @@ internal class MainActivity : AppCompatActivity() {
 
     var bottomNavClicked:Boolean = false
     var childFragmentAnimForward:Boolean = false
+
+    private var activityCallback:ActivityCallback ? = null
 
     companion object
     {
@@ -146,6 +149,10 @@ internal class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+
+        activityCallback?.activityBackpress()
+    }
 
     fun changeLanguage()
     {
@@ -155,6 +162,7 @@ internal class MainActivity : AppCompatActivity() {
             LocaleUtil.createLocaleContext(this, Locale("bn"))
         }
     }
+
 
    /* override fun attachBaseContext(newBase: Context) {
         // replace "bn" with the desired locale
@@ -356,6 +364,11 @@ internal class MainActivity : AppCompatActivity() {
     private fun clearAllInstance()
     {
         Billboard().getInstance().clearInstance()
+    }
+
+    fun setActivityCallback(callback: ActivityCallback)
+    {
+        activityCallback = callback
     }
 
     fun setViewPager(page:Int)

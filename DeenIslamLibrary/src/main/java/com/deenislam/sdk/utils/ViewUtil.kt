@@ -9,7 +9,7 @@ import coil.decode.SvgDecoder
 import coil.load
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
-import java.util.Locale
+import java.util.*
 
 internal inline fun <T : View> prepareStubView(
     stub: AsyncViewStub,

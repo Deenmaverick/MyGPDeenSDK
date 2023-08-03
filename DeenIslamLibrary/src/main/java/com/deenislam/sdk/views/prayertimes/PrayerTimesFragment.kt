@@ -129,6 +129,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         no_internet_retryBtn = no_internet_layout.findViewById(R.id.no_internet_retry)
         mainContainer =  mainview.findViewById(R.id.container)
 
+
         setupActionForOtherFragment(R.drawable.ic_calendar,0,this@PrayerTimesFragment,localContext.getString(R.string.prayer_times),true,mainview)
 
         return mainview
@@ -156,6 +157,11 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         if(prayerMain.isEmpty())
             loadPage()
+
+        if(firstload == 0)
+            loadDataAPI()
+        firstload = 1
+
     }
 
     override fun onPause() {
@@ -165,16 +171,14 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
 
-    fun loadDataAPI(retry:Boolean=false)
+    fun loadDataAPI()
     {
 
-        if((no_internet_layout.isVisible && retry) || (!no_internet_layout.isVisible && retry && !progressLayout.isVisible) || (progressLayout.isVisible && firstload == 1)) {
             loadingState()
             lifecycleScope.launch {
-                viewmodel.getPrayerTimes("Dhaka", "bn", prayerdate)
+                viewmodel.getPrayerTimes("Dhaka", getLanguage(), prayerdate)
                 viewmodel.getDateWisePrayerNotificationData(prayerdate)
             }
-        }
     }
 
 
@@ -251,14 +255,12 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             layoutManager = linearLayoutManager
             isNestedScrollingEnabled = false
             post {
-                if(firstload == 0)
-                    loadDataAPI()
-                firstload = 1
+                initObserver()
             }
         }
 
         no_internet_retryBtn.setOnClickListener {
-            loadDataAPI(true)
+            loadDataAPI()
         }
 
     }
@@ -345,14 +347,12 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
               return
           firstUpdate = true*/
         prayerTimesResponse?.let {
+
             //prayerTimesAdapter.notifyDataSetChanged()
             prayerTimesAdapter.updateData(it,pryaerNotificationData)
-            prayerMain.runWhenReady {
-                progressLayout.visible(false)
-                no_internet_layout.visible(false)
-            }
 
-        }?:noInternetState()
+
+        }
 
     }
 
@@ -561,7 +561,8 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun onAllViewsInflated() {
-        initObserver()
+        progressLayout.visible(false)
+        no_internet_layout.visible(false)
     }
 
     inner class VMFactory(

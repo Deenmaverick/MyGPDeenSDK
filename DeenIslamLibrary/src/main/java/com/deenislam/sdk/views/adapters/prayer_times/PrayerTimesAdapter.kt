@@ -47,7 +47,6 @@ internal class PrayerTimesAdapter(
     private var  prayerMomentRangeData: PrayerMomentRange? = null
 
     // init view
-    private var initView:Boolean = false
     private lateinit var  prayerMoment:AppCompatTextView
     private lateinit var  dateTimeArabic:AppCompatTextView
     private lateinit var dateTime:AppCompatTextView
@@ -62,9 +61,69 @@ internal class PrayerTimesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder
     {
-        initView = false
         val main_view = LayoutInflater.from(parent.context.getLocalContext())
             .inflate(R.layout.layout_async_match, parent, false)
+
+        prayerList.forEach()
+        {
+            when(it)
+            {
+                //pryaer time card
+
+                TYPE_WIDGET1 -> {
+
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_prayer_time) {
+                        prayerMoment= this.findViewById(R.id.prayerMoment)
+                        prayerMomentRange = this.findViewById(R.id.appCompatTextView)
+                        nextPrayerName = this.findViewById(R.id.nextPrayerName)
+                        nextPrayerTimeCount = this.findViewById(R.id.nextPrayerTime)
+                        prayerBG = this.findViewById(R.id.prayerBG)
+                        allPrayer = this.findViewById(R.id.allPrayer)
+                        allPrayer.setOnClickListener { callback?.clickMonthlyCalendar() }
+
+                        widget1_view()
+                    }
+
+                }
+
+                TYPE_WIDGET2 -> {
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_prayer_part1) {
+                        dateTimeArabic  = this.findViewById(R.id.dateTimeArabic)
+                        dateTime =  this.findViewById(R.id.dateTime)
+                        leftBtn = this.findViewById(R.id.leftBtn)
+                        rightBtn = this.findViewById(R.id.rightBtn)
+
+                        widget2_view()
+                    }
+                }
+
+                TYPE_WIDGET3 -> {
+                    //prayer times fazr to isha
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
+                        PrayerTimes().getInstance().load(this, callback = callback)
+                        widget3_view()
+                    }
+                }
+
+                TYPE_WIDGET4 -> {
+
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
+                        OtherPrayerTimes().getInstance().load(this,callback)
+                        widget4_view()
+                    }
+
+                }
+
+                TYPE_WIDGET5 -> {
+                    //forbidden times
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
+                        ForbiddenTimes().getInstance().load(this )
+                        widget5_view()
+                    }
+
+                }
+            }
+        }
 
         return   ViewHolder(
             main_view
@@ -101,18 +160,29 @@ internal class PrayerTimesAdapter(
 
         prayerData = data
         dateWisePrayerNotificationData = Notificationdata
+        widget1_view()
+        widget2_view()
+        widget3_view()
+
+        if(inflatedViewCount>0)
+            viewInflationListener.onAllViewsInflated()
+
         notifyDataSetChanged()
     }
 
     fun updateNotificationData(Notificationdata: ArrayList<PrayerNotification>?)
     {
         dateWisePrayerNotificationData = Notificationdata
+        widget4_view()
+        widget5_view()
+        if(inflatedViewCount>0)
+            viewInflationListener.onAllViewsInflated()
         notifyDataSetChanged()
     }
 
 
 
-    override fun getItemCount(): Int =1
+    override fun getItemCount(): Int = if(prayerData !=null) 1 else 0
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)
@@ -224,95 +294,13 @@ internal class PrayerTimesAdapter(
         prayerData?.let { ForbiddenTimes().getInstance().update(it) }
     }
 
-    private fun initView(main_view:View)
-    {
-        if(initView)
-            return
-
-        prayerList.forEach()
-        {
-            when(it)
-            {
-                //pryaer time card
-
-                TYPE_WIDGET1 -> {
-
-                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_prayer_time) {
-                        prayerMoment= this.findViewById(R.id.prayerMoment)
-                        prayerMomentRange = this.findViewById(R.id.appCompatTextView)
-                        nextPrayerName = this.findViewById(R.id.nextPrayerName)
-                        nextPrayerTimeCount = this.findViewById(R.id.nextPrayerTime)
-                        prayerBG = this.findViewById(R.id.prayerBG)
-                        allPrayer = this.findViewById(R.id.allPrayer)
-                        allPrayer.setOnClickListener { callback?.clickMonthlyCalendar() }
-                    }
-
-                }
-
-                TYPE_WIDGET2 -> {
-                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_prayer_part1) {
-                        dateTimeArabic  = this.findViewById(R.id.dateTimeArabic)
-                        dateTime =  this.findViewById(R.id.dateTime)
-                        leftBtn = this.findViewById(R.id.leftBtn)
-                        rightBtn = this.findViewById(R.id.rightBtn)
-                    }
-                }
-
-                TYPE_WIDGET3 -> {
-                    //prayer times fazr to isha
-                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
-                        PrayerTimes().getInstance().load(this, callback = callback)
-                    }
-                }
-
-                TYPE_WIDGET4 -> {
-
-                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
-                        OtherPrayerTimes().getInstance().load(this,callback)
-                    }
-
-                }
-
-                TYPE_WIDGET5 -> {
-                    //forbidden times
-                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
-                        ForbiddenTimes().getInstance().load(this )
-                    }
-
-                }
-            }
-        }
-
-        initView = true
-
-    }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
         override fun onBind(position: Int) {
             super.onBind(position)
 
-            if(!initView)
-                initView(itemView)
-            else {
-                prayerList.forEach()
-                { widget_position ->
 
-                    when (widget_position) {
-
-                        TYPE_WIDGET1 -> widget1_view()
-
-                        TYPE_WIDGET2 -> widget2_view()
-
-                        TYPE_WIDGET3-> widget3_view()
-
-                        TYPE_WIDGET4-> widget4_view()
-
-                        TYPE_WIDGET5 -> widget5_view()
-
-                    }
-                }
-            }
         }
     }
 
