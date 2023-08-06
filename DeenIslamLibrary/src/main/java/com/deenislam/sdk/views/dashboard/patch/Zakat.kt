@@ -5,6 +5,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.imageLoad
 import com.google.android.material.button.MaterialButton
@@ -24,7 +25,8 @@ internal class Zakat {
 
     fun load(
         widget: View,
-        data: com.deenislam.sdk.service.network.response.dashboard.Zakat
+        data: com.deenislam.sdk.service.network.response.dashboard.Zakat,
+        dashboardPatchCallback: DashboardPatchCallback
     )
     {
         val icon: AppCompatImageView = widget.findViewById(R.id.icon)
@@ -33,6 +35,11 @@ internal class Zakat {
         val textContent: AppCompatTextView = widget.findViewById(R.id.textContent)
         val subContent:AppCompatTextView = widget.findViewById(R.id.subContent)
         val mainBtn: MaterialButton = widget.findViewById(R.id.mainBtn)
+
+
+        widget.setOnClickListener {
+            dashboardPatchCallback.dashboardPatchClickd("Zakat")
+        }
 
         subContent.hide()
 

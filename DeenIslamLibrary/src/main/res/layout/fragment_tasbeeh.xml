@@ -82,7 +82,7 @@
                         android:layout_marginTop="@dimen/space_8"
                         android:textAppearance="@style/TextAppearance.font40"
                         android:textStyle="bold"
-                        android:textColor="@color/txt_orange"
+                        android:textColor="@color/primary"
                         app:layout_constraintTop_toBottomOf="@id/targetTxt"
                         app:layout_constraintEnd_toStartOf="@+id/targetCountTxt"
                         app:layout_constraintStart_toStartOf="@+id/targetTxt"/>

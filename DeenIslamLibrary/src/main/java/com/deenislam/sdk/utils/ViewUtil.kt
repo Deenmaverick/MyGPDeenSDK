@@ -1,6 +1,7 @@
 package com.deenislam.sdk.utils
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
@@ -43,6 +44,8 @@ fun AppCompatImageView.imageLoad(
         decoder(SvgDecoder(context))
         if(ic_small)
             error(R.drawable.ic_small_download_empty)
+        if(ic_medium)
+            error(R.drawable.placeholder_1_1)
     }
 }
 

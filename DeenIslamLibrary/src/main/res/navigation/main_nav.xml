@@ -100,16 +100,21 @@
             app:destination="@id/hadithChapterFragment"
             app:popUpTo="@id/hadithFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_hadithFragment_to_hadithPreviewFragment"
+            app:destination="@id/hadithPreviewFragment"
+            app:popUpTo="@id/hadithFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/hadithPreviewFragment"
         android:name="com.deenislam.sdk.views.hadith.HadithPreviewFragment"
         android:label="HadithPreviewFragment" >
         <argument
-            android:name="bookname"
-            app:argType="string" />
+            android:name="chapterId"
+            app:argType="integer" />
         <argument
-            android:name="chapter"
+            android:name="bookId"
             app:argType="integer" />
         <argument
             android:name="title"
@@ -122,15 +127,12 @@
         tools:layout="@layout/fragment_hadith_chapter" >
         <argument
             android:name="collectionName"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="pageTitile"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_hadithChapterFragment_to_hadithPreviewFragment"
-            app:destination="@id/hadithPreviewFragment"
-            app:popUpTo="@id/hadithChapterFragment"
-            app:popUpToInclusive="false" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/dailyDuaFragment"

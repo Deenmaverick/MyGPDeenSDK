@@ -2,17 +2,14 @@ package com.deenislam.sdk.service.repository
 
 import com.deenislam.sdk.service.network.ApiCall
 import com.deenislam.sdk.service.network.api.HadithService
-import com.deenislam.sdk.service.network.api.HadithServiceTest
 import com.deenislam.sdk.utils.RequestBodyMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 internal class HadithRepository (
-    private val hadithService: HadithService?,
-    private val hadithServiceTest: HadithServiceTest?
+    private val hadithService: HadithService?
 ): ApiCall {
 
-    private val API_KEY = "SqD712P3E82xnwOAEOkGd5JZH8s9wRR24TqNFzjk"
     suspend fun getHadithCollection(language:String) =
         makeApicall {
 
@@ -23,25 +20,46 @@ internal class HadithRepository (
             hadithService?.getCollectionList(parm = requestBody)
         }
 
-    suspend fun getChapterByCollection(language:String,collectionName:String,page:Int,limit:Int) =
+    suspend fun getChapterByCollection(language:String,bookId:Int,page:Int,limit:Int) =
         makeApicall {
-            hadithService?.getChapterByCollection(
-                API_KEY,
-                language = language,
-                collectionName = collectionName,
-                page = page,
-                limit = limit
-            )
+
+            val body = JSONObject()
+            body.put("language", language)
+            body.put("bookId", bookId)
+            body.put("page", page)
+            body.put("content", limit)
+            val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+            hadithService?.getChapterByCollection(requestBody)
         }
 
     // hadith preview
 
-   suspend fun getHadithPreview(language: String, bookname:String, chapter: Int) =
+   suspend fun getHadithPreview(language: String, bookId:Int, chapterId: Int,page:Int,limit:Int) =
         makeApicall {
-            hadithServiceTest?.getHadithPreview(
-                language = language,
-                bookname = bookname,
-                chapter = chapter
-            )
+
+            val body = JSONObject()
+            body.put("language", language)
+            body.put("bookId", bookId)
+            body.put("chapterId", chapterId)
+            body.put("page", page)
+            body.put("content", limit)
+
+            val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+            hadithService?.getHadithPreview(parm = requestBody)
+        }
+
+    suspend fun setHadithFav(isfav: Boolean, duaId: Int, language: String) =
+        makeApicall {
+
+            val body = JSONObject()
+            body.put("contentId", duaId)
+            body.put("isFavorite",!isfav)
+            body.put("language", language)
+            val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+            hadithService?.setHadithFav(parm = requestBody)
+
         }
 }

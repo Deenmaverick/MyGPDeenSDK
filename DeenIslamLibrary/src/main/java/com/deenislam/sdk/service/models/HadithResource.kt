@@ -10,4 +10,7 @@ internal interface HadithResource
     data class hadithChapterByCollection(val data: List<com.deenislam.sdk.service.network.response.hadith.chapter.Data>) :HadithResource
     data class hadithPreview(val value: HadithPreviewResponse) :HadithResource
 
+    data class setFavHadith(val position: Int, val fav: Boolean) :HadithResource
+
+
 }

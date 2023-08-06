@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
+import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.di.DatabaseProvider
@@ -38,14 +39,16 @@ import java.util.Locale
 
 
 internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
-    actionCallback, MenuCallback, prayerTimeCallback , ViewInflationListener {
+    actionCallback, MenuCallback, prayerTimeCallback , ViewInflationListener,
+    DashboardPatchCallback {
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
     private val dashboardPatchMain:DashboardPatchAdapter by lazy { DashboardPatchAdapter(
         callback = this@DashboardFragment,
         menuCallback = this@DashboardFragment,
-        viewInflationListener = this@DashboardFragment
+        viewInflationListener = this@DashboardFragment,
+        dashboardPatchCallback = this@DashboardFragment
     ) }
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
@@ -309,6 +312,26 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     override fun onAllViewsInflated() {
         dataState()
+    }
+
+    override fun dashboardPatchClickd(patch:String) {
+
+        when(patch)
+        {
+            "Verse" -> gotoFrag(R.id.quranFragment)
+            "Hadith" -> gotoFrag(R.id.hadithFragment)
+            "Zakat" -> gotoFrag(R.id.zakatFragment)
+            "Tasbeeh" -> gotoFrag(R.id.tasbeehFragment)
+            "IslamicName" -> gotoFrag(R.id.islamicNameFragment)
+            "Qibla" -> gotoFrag(R.id.compassFragment)
+            "DailyDua" -> gotoFrag(R.id.dailyDuaFragment)
+            "Compass" -> gotoFrag(R.id.compassFragment)
+            "Dua" -> gotoFrag(R.id.dailyDuaFragment)
+            "Quran" -> gotoFrag(R.id.quranFragment)
+            "Tasbeeh" -> gotoFrag(R.id.tasbeehFragment)
+
+
+        }
     }
 
 }

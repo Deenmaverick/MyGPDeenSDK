@@ -6,13 +6,10 @@ import com.deenislam.sdk.service.network.AuthInterceptor
 import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.service.network.api.DeenService
 import com.deenislam.sdk.service.network.api.HadithService
-import com.deenislam.sdk.service.network.api.HadithServiceTest
 import com.deenislam.sdk.service.network.api.IslamicNameService
 import com.deenislam.sdk.service.network.api.QuranService
 import com.deenislam.sdk.utils.BASE_AUTH_API_URL
 import com.deenislam.sdk.utils.BASE_DEEN_SERVICE_API_URL
-import com.deenislam.sdk.utils.BASE_HADITH_API_TEST_URL
-import com.deenislam.sdk.utils.BASE_HADITH_API_URL
 import com.deenislam.sdk.utils.BASE_QURAN_API_URL
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
@@ -27,7 +24,6 @@ internal class NetworkProvider {
     private var quranService:QuranService ? = null
     private var authService:AuthenticateService ? = null
     private var hadithService:HadithService ? = null
-    private var hadithServiceTest:HadithServiceTest ? = null
     private var islamicNameService:IslamicNameService ? = null
 
     companion object {
@@ -135,15 +131,6 @@ internal class NetworkProvider {
             }
         }
 
-        if(instance?.hadithServiceTest == null && isHadithServiceTest) {
-            instance?.okHttpClient?.let {
-                instance?.hadithServiceTest = buildAPI(
-                    api = HadithServiceTest::class.java,
-                    baseUrl = BASE_HADITH_API_TEST_URL,
-                    okHttpClient = it
-                )
-            }
-        }
 
         if(instance?.islamicNameService == null && isIslamicNameService) {
             instance?.okHttpClient?.let {
@@ -191,11 +178,6 @@ internal class NetworkProvider {
     fun provideHadithService(): HadithService? {
         initInstance(isHadithService = true)
         return instance?.hadithService
-    }
-
-    fun provideHadithServiceTest(): HadithServiceTest? {
-        initInstance(isHadithServiceTest = true)
-        return instance?.hadithServiceTest
     }
 
     fun provideIslamicNameService(): IslamicNameService? {

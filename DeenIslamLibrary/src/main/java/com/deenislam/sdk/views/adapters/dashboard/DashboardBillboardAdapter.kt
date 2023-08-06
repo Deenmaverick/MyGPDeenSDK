@@ -14,28 +14,39 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.models.prayer_time.PrayerMomentRange
+import com.deenislam.sdk.service.network.response.dashboard.Banner
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
-import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.utils.AsyncViewStub
+import com.deenislam.sdk.utils.StringTimeToMillisecond
+import com.deenislam.sdk.utils.TimeDiffForPrayer
+import com.deenislam.sdk.utils.checkCompulsoryprayerByTag
+import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.formateDateTime
+import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.getPrayerTimeName
+import com.deenislam.sdk.utils.get_prayer_name_by_tag
+import com.deenislam.sdk.utils.get_prayer_tag_by_name
+import com.deenislam.sdk.utils.imageLoad
+import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.prayerMomentLocale
+import com.deenislam.sdk.utils.timeLocale
+import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.progressindicator.LinearProgressIndicator
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.math.ceil
+import java.util.Date
+import java.util.Locale
 
 private const val PRAYER_VIEW = 1
 private const val BILLBOARD_VIEW = 2
 internal class DashboardBillboardAdapter(
-    private val callback: prayerTimeCallback? = null
+    private val callback: prayerTimeCallback? = null,
+    private val dashboardPatchCallback: DashboardPatchCallback
 ) : RecyclerView.Adapter<BaseViewHolder>(){
 
-    private lateinit var  rootview:LinearLayout
-
-    //init view
-
-    private var initView:Boolean = false
     private lateinit var  prayerBG: AppCompatImageView
     private lateinit var prayerMoment:AppCompatTextView
     private lateinit var prayerMomentRange:AppCompatTextView
@@ -46,12 +57,16 @@ internal class DashboardBillboardAdapter(
     private lateinit var progressTxt:AppCompatTextView
     private lateinit var namazTask:LinearProgressIndicator
     private lateinit var prayerCheck:RadioButton
-    //private lateinit var shimmerContainer:ShimmerFrameLayout
     private lateinit var mainContainer:ConstraintLayout
+
+
+    //banner
+    private var billboardBanner:ArrayList<AppCompatImageView> = arrayListOf()
 
     private var prayerData:PrayerTimesResponse ? = null
     private var countDownTimer:CountDownTimer?=null
     private var prayerNotificationData:ArrayList<PrayerNotification> ? =null
+    private var billboardData:ArrayList<Banner> = arrayListOf()
 
     fun update(data: PrayerTimesResponse)
     {
@@ -65,27 +80,26 @@ internal class DashboardBillboardAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder
+    fun updateBillboard(data: List<Banner>)
     {
-        initView = false
-        val main_view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_dashboard_main, parent, false)
-
-        return  ViewHolder(main_view)
+        billboardData.clear()
+        billboardData.addAll(data)
+        notifyDataSetChanged()
     }
 
-    // init view function
-    private fun initView(main_view:View,viewtype: Int)
-    {
-        if(initView) return
 
-        when(viewtype)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder
+    {
+
+        val main_view = LayoutInflater.from(parent.context.getLocalContext())
+            .inflate(R.layout.layout_dashboard_main, parent, false)
+
+        when(viewType)
         {
             PRAYER_VIEW ->
             {
                 prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_dashboard_prayer_time) {
 
-                    //shimmerContainer = this.findViewById(R.id.shimmerContainer)
                     mainContainer = this.findViewById(R.id.mainContainer)
                     prayerBG = this.findViewById(R.id.prayerBG)
                     askingLy = this.findViewById(R.id.askingLy)
@@ -107,16 +121,20 @@ internal class DashboardBillboardAdapter(
                         callback?.allPrayerPage()
                     }
 
+                    billboardBanner.add(AppCompatImageView(prayerBG.context))
+
                     callback?.billboard_prayer_load_complete()
 
-
                 }
+
+
 
             }
             BILLBOARD_VIEW ->
             {
                 prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_dashboard_billboard) {
-                    Log.e("BILLBOARD","INSIDE_CALL")
+                    // banner
+                    billboardBanner.add(this.findViewById(R.id.billboardBanner))
                 }
                 /*ViewHolder(
                     LayoutInflater.from(parent.context)
@@ -126,9 +144,12 @@ internal class DashboardBillboardAdapter(
             else -> throw java.lang.IllegalArgumentException("View cannot null")
         }
 
-        initView = true
 
+        return  ViewHolder(main_view)
     }
+
+    // init view function
+
 
 
     private fun widget1_view()
@@ -152,7 +173,6 @@ internal class DashboardBillboardAdapter(
                     && it.prayer_tag.isNotEmpty()
                     && get_prayer_tag.checkCompulsoryprayerByTag() }
 
-        Log.e("prayerNotificationData", prayerMomentRangeData?.MomentName.toString()+" "+get_prayer_tag+" "+checkTrack+" "+Gson().toJson(prayerNotificationData))
 
         //prayerCheck.isEnabled = !(checkTrack!=null && checkTrack >=0)
         prayerCheck.isChecked = (checkTrack!=null && checkTrack >=0)
@@ -210,10 +230,21 @@ internal class DashboardBillboardAdapter(
             }
         }
 
-        /*  //stop shimmer and show real view
-          shimmerContainer.stopShimmer()
-          shimmerContainer.visible(false)
-          mainContainer.visible(true)*/
+    }
+
+    private fun widget2_view(position: Int)
+    {
+        if(billboardBanner.isEmpty() || billboardData[position].Text == "PrayerTime")
+            return
+
+        billboardBanner[position].setOnClickListener {
+            dashboardPatchCallback.dashboardPatchClickd(billboardData[position].Text)
+        }
+
+        billboardBanner[position].imageLoad(
+            url = billboardData[position].contentBaseUrl+"/"+billboardData[position].imageurl1,
+            ic_medium = true
+        )
     }
 
     private fun prayerTracker(bol:Boolean)
@@ -249,14 +280,15 @@ internal class DashboardBillboardAdapter(
 
     override fun getItemViewType(position: Int): Int {
 
-        return if(position == ceil(itemCount.toDouble() / 2).toInt())
+         /*if(position == ceil(itemCount.toDouble() / 2).toInt())*/
+        return if(billboardData[position].Text == "PrayerTime")
             PRAYER_VIEW
         else
             BILLBOARD_VIEW
     }
 
     override fun getItemCount(): Int {
-        return 4
+        return billboardData.size
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -282,24 +314,19 @@ internal class DashboardBillboardAdapter(
 
     internal inner class ViewHolder(itemView: View) : BaseViewHolder(itemView)
     {
+
         override fun onBind(position: Int, viewtype: Int) {
             super.onBind(position, viewtype)
-            if (!initView) {
-                initView(itemView, viewtype)
-            }
-            else {
+
                 when (viewtype) {
                     PRAYER_VIEW -> {
                         widget1_view()
                     }
                     BILLBOARD_VIEW -> {
-
+                        widget2_view(position)
                     }
-
                 }
 
-
-            }
 
             if (position == 0) {
                 (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 8.dp

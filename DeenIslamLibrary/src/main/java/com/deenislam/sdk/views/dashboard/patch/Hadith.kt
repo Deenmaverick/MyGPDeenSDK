@@ -5,6 +5,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.utils.imageLoad
 import com.google.android.material.button.MaterialButton
 
@@ -15,7 +16,7 @@ internal class Hadith {
     }
 
     fun getInstance(): Hadith {
-        if (instance == null)
+        if(instance == null)
             instance = Hadith()
 
         return instance as Hadith
@@ -23,7 +24,8 @@ internal class Hadith {
 
     fun load(
         widget: View,
-        data: com.deenislam.sdk.service.network.response.dashboard.Hadith
+        data: com.deenislam.sdk.service.network.response.dashboard.Hadith,
+        dashboardPatchCallback: DashboardPatchCallback
     )
     {
         val icon: AppCompatImageView = widget.findViewById(R.id.icon)
@@ -32,6 +34,11 @@ internal class Hadith {
         val textContent:AppCompatTextView = widget.findViewById(R.id.textContent)
         val subContent:AppCompatTextView = widget.findViewById(R.id.subContent)
         val mainBtn:MaterialButton = widget.findViewById(R.id.mainBtn)
+
+
+        widget.setOnClickListener {
+            dashboardPatchCallback.dashboardPatchClickd("Hadith")
+        }
 
         icon.setImageDrawable(
             AppCompatResources.getDrawable(

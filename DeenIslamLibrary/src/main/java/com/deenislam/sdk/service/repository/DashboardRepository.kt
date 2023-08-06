@@ -15,7 +15,7 @@ internal class DashboardRepository(
 
         val body = JSONObject()
         body.put("language", language)
-        body.put("device", "android")
+        body.put("device", "sdk")
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
         authenticateService?.getDashboardData(parm = requestBody)

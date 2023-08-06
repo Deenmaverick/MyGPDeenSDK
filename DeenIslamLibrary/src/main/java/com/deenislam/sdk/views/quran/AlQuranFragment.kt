@@ -146,8 +146,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     }
 
 
-
-
     override fun ON_CREATE_VIEW(root: View) {
         super.ON_CREATE_VIEW(root)
         setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,root)
@@ -571,9 +569,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         lifecycleScope.launch {
             if(surahNo!=null)
-                alQuranViewModel.getVersesByChapter("en",page,itemCount,surahNo)
+                alQuranViewModel.getVersesByChapter(getLanguage(),page,itemCount,surahNo)
             else if(juz_number!=null)
-                alQuranViewModel.getVersesByJuz("en",page,itemCount,juz_number)
+                alQuranViewModel.getVersesByJuz(getLanguage(),page,itemCount,juz_number)
             playerControlViewModel.getSetting()
         }
     }
@@ -724,7 +722,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         alQuranAyatAdapter.clear()
         alQuranAyatAdapter = AlQuranAyatAdapter(this@AlQuranFragment)
         resetAyatList()
-        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_list_mode,this@AlQuranFragment,pageTitle,true,requireView())
+        setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,requireView())
 
         if(isSurahMode)
             loadApiData(pageNo,pageItemCount,surahListData?.id)

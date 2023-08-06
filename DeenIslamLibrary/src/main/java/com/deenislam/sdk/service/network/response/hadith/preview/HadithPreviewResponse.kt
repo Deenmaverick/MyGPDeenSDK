@@ -1,3 +1,8 @@
 package com.deenislam.sdk.service.network.response.hadith.preview
 
-internal class HadithPreviewResponse : ArrayList<HadithPreviewResponseItem>()
+data class HadithPreviewResponse(
+    val Data: List<Data>?,
+    val Message: String,
+    val Success: Boolean,
+    val TotalData: Int
+)

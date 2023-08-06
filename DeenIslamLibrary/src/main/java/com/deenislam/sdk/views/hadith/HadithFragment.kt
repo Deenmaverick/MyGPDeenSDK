@@ -63,8 +63,7 @@ internal class HadithFragment : BaseRegularFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mPageDestination = arrayListOf(
-            HadithHomeFragment(),
-            HadithCategoryFragment(),
+            HadithChapterFragment(),
             HadithFavoriteFragment()
         )
 

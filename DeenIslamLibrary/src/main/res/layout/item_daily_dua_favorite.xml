@@ -64,7 +64,7 @@
             android:layout_width="24dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_favorite_primary_active"
-            app:tint="@color/primary"
+            app:tint="@color/brand_favorite"
             android:layout_marginEnd="@dimen/space_8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/itemTitle"

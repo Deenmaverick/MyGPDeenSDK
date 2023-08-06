@@ -182,7 +182,7 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(), DuaByCatCallback {
 
     override fun favDua(isFavorite: Boolean, duaId: Int, position: Int) {
         lifecycleScope.launch {
-            viewmodel.setFavDua(isFavorite,duaId,"bn",position)
+            viewmodel.setFavDua(isFavorite,duaId,getLanguage(),position)
         }
     }
 }

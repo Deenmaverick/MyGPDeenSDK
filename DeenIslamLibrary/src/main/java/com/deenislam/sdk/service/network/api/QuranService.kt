@@ -23,7 +23,7 @@ internal interface QuranService {
         @Query("per_page") per_page: Int,
         @Query("translations") translations:String = "131,161",
         @Query("word_fields") word_fields:String = "qpcUthmaniHafs",
-        @Query("audio") audio:Int = 1
+        @Query("audio") audio:Int = 7
 
     ): Verses
 

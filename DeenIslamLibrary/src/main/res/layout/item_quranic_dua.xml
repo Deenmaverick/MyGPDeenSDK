@@ -167,12 +167,12 @@
             android:id="@+id/favBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="0dp"
             android:layout_marginStart="@dimen/space_12"
             android:layout_marginTop="@dimen/space_12"
             android:layout_marginBottom="@dimen/space_12"
             android:background="@android:color/transparent"
-            android:text="Favorite"
+            android:padding="0dp"
+            android:text="@string/favorite"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/txt_black_deep"
@@ -182,11 +182,13 @@
             app:iconSize="@dimen/sapce_20"
             app:iconTint="@color/txt_black_deep"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/favshareBtn"
-            app:layout_constraintTop_toBottomOf="@+id/surahInfo" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/surahInfo"
+            app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
             android:id="@+id/favshareBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

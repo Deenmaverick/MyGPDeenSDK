@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deenislam.sdk.service.models.CommonResource
+import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.models.HadithResource
 import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.response.hadith.HadithResponse
@@ -50,12 +51,12 @@ internal class HadithViewModel(
         }
     }
 
-    fun getHadithChapterByCollection(language:String,collectionName:String,page:Int,limit:Int){
+    fun getHadithChapterByCollection(language:String,bookId:Int,page:Int,limit:Int){
         viewModelScope.launch {
             processHadithChapterResponse(
                 hadithRepository.getChapterByCollection(
                     language = language,
-                    collectionName = collectionName,
+                    bookId = bookId,
                     page = page,
                     limit = limit
                 ) as ApiResource<HadithChapterResponse>
@@ -70,8 +71,8 @@ internal class HadithViewModel(
             is ApiResource.Failure -> _hadithChapterLiveData.value = CommonResource.API_CALL_FAILED
             is ApiResource.Success ->
             {
-                if(response.value.data.isNotEmpty())
-                    _hadithChapterLiveData.value = HadithResource.hadithChapterByCollection(response.value.data)
+                if(response.value.Data?.isNotEmpty() == true)
+                    _hadithChapterLiveData.value = HadithResource.hadithChapterByCollection(response.value.Data)
                 else
                     _hadithChapterLiveData.value = CommonResource.EMPTY
             }
@@ -80,14 +81,16 @@ internal class HadithViewModel(
 
     // hadith preview
 
-    fun getHadithPreview(language: String,bookname:String,chapter:Int)
+    fun getHadithPreview(language: String, bookId:Int, chapterId: Int,page:Int,limit:Int)
     {
         viewModelScope.launch {
             hadithPreviewProcess(
                 hadithRepository.getHadithPreview(
                     language = language,
-                    bookname = bookname,
-                    chapter = chapter
+                    bookId = bookId,
+                    chapterId = chapterId,
+                    page = page,
+                    limit = limit
                 ) as ApiResource<HadithPreviewResponse>
             )
         }
@@ -100,13 +103,30 @@ internal class HadithViewModel(
             is ApiResource.Failure -> _hadithPreviewLiveData.value = CommonResource.API_CALL_FAILED
             is ApiResource.Success ->
             {
-                if(response.value.isNotEmpty())
+                if(response.value.Data?.isNotEmpty() == true)
                     _hadithPreviewLiveData.value = HadithResource.hadithPreview(response.value)
                 else
                     _hadithPreviewLiveData.value = CommonResource.EMPTY
             }
         }
 
+    }
+
+    fun setFavHadith(isFavorite: Boolean, duaId: Int, language: String, position: Int)
+    {
+        viewModelScope.launch {
+
+            when(val response = hadithRepository.setHadithFav(isFavorite,duaId,language))
+            {
+                is ApiResource.Failure -> _hadithPreviewLiveData.value = CommonResource.ACTION_API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Success == true)
+                        _hadithPreviewLiveData.value = HadithResource.setFavHadith(position,!isFavorite)
+
+                }
+            }
+        }
     }
 
 }

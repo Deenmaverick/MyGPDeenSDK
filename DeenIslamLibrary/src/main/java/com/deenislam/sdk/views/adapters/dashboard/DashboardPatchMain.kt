@@ -1,12 +1,12 @@
 package com.deenislam.sdk.views.adapters.dashboard;
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.network.response.dashboard.Data
@@ -17,6 +17,7 @@ import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.views.dashboard.patch.AdBanner
 import com.deenislam.sdk.views.dashboard.patch.Billboard
+import com.deenislam.sdk.views.dashboard.patch.DailyDua
 import com.deenislam.sdk.views.dashboard.patch.DailyVerse
 import com.deenislam.sdk.views.dashboard.patch.Greeting
 import com.deenislam.sdk.views.dashboard.patch.Hadith
@@ -32,15 +33,17 @@ const val TYPE_WIDGET3 = "Services"
 const val TYPE_WIDGET4 = "Verse"
 const val TYPE_WIDGET5 = "Qibla"
 const val TYPE_WIDGET6 = "Hadith"
-const val TYPE_WIDGET7 = "Zakat"
-const val TYPE_WIDGET8 = "Tasbeeh"
-const val TYPE_WIDGET9 = "IslamicName"
+const val TYPE_WIDGET7 = "DailyDua"
+const val TYPE_WIDGET8 = "Zakat"
+const val TYPE_WIDGET9 = "Tasbeeh"
+const val TYPE_WIDGET10 = "IslamicName"
 /*const val TYPE_WIDGET8:Int = 8
 const val TYPE_WIDGET9:Int = 9*/
 internal class DashboardPatchAdapter(
     private val callback: prayerTimeCallback? = null,
     private val menuCallback:MenuCallback ? =null,
-    private var viewInflationListener: ViewInflationListener
+    private var viewInflationListener: ViewInflationListener,
+    private val dashboardPatchCallback: DashboardPatchCallback
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -72,7 +75,6 @@ internal class DashboardPatchAdapter(
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder
     {
         val main_view = LayoutInflater.from(parent.context.getLocalContext())
@@ -89,8 +91,13 @@ internal class DashboardPatchAdapter(
 
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.dashboard_inc_billboard) {
                         completeViewLoad()
-                        Billboard().getInstance().load(this, null,callback)
+                        Billboard().getInstance().load(this, null,callback,dashboardPatchCallback).apply {
 
+                            dashboardData?.Banners?.let {
+                                    banner ->
+                                Billboard().getInstance().updateBillboard(banner)
+                            }
+                        }
                     }
                 }
 
@@ -123,7 +130,7 @@ internal class DashboardPatchAdapter(
                         completeViewLoad()
                         dashboardData?.VerseData?.let {
                                  verse ->
-                            DailyVerse().getInstance().load(this,verse)
+                            DailyVerse().getInstance().load(this,verse,dashboardPatchCallback)
                         }
 
                     }
@@ -134,7 +141,7 @@ internal class DashboardPatchAdapter(
                 TYPE_WIDGET5 -> {
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.dashboard_inc_adbanner) {
                         completeViewLoad()
-                        AdBanner().getInstance().load(this, null)
+                        AdBanner().getInstance().load(this, null,dashboardPatchCallback)
                         dashboardData?.Qibla?.let {
                             adbanner->
                             AdBanner().getInstance().update(adbanner)
@@ -149,19 +156,32 @@ internal class DashboardPatchAdapter(
                         completeViewLoad()
                         dashboardData?.Hadith?.let {
                             hadith->
-                            Hadith().getInstance().load(this,hadith)
+                            Hadith().getInstance().load(this,hadith,dashboardPatchCallback)
+                        }
+                    }
+                }
+
+                // DailyDua
+
+                TYPE_WIDGET7 -> {
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.dashboard_inc_item_horizontal_list) {
+                        completeViewLoad()
+                        DailyDua().getInstance().load(this,dashboardPatchCallback)
+                        dashboardData?.DailyDua?.let {
+                                dailydua->
+                            DailyDua().getInstance().update(dailydua)
                         }
                     }
                 }
 
                 // zakat calculator
 
-                TYPE_WIDGET7 -> {
+                TYPE_WIDGET8 -> {
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.dashboard_inc_item_quranic) {
                         completeViewLoad()
                         dashboardData?.Zakat?.let {
                                 zakat->
-                            Zakat().getInstance().load(this,zakat)
+                            Zakat().getInstance().load(this,zakat,dashboardPatchCallback)
                         }
 
                     }
@@ -169,30 +189,29 @@ internal class DashboardPatchAdapter(
 
                 // digital tasbeeh
 
-                TYPE_WIDGET8 -> {
+                TYPE_WIDGET9 -> {
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.dashboard_inc_item_quranic) {
                         completeViewLoad()
                         dashboardData?.Tasbeeh?.let {
                                 tasbeeh->
-                            Tasbeeh().getInstance().load(this,tasbeeh)
+                            Tasbeeh().getInstance().load(this,tasbeeh,dashboardPatchCallback)
                         }
                     }
                 }
 
                 // islamic name
 
-                TYPE_WIDGET9 -> {
+                TYPE_WIDGET10 -> {
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.dashboard_inc_item_quranic) {
                         completeViewLoad()
                         dashboardData?.IslamicName?.let {
                                 name->
-                            IslamicName().getInstance().load(this,name)
+                            IslamicName().getInstance().load(this,name,dashboardPatchCallback)
                         }
 
                     }
                 }
             }
-
         }
 
         return  ViewHolder(main_view)
@@ -208,7 +227,7 @@ internal class DashboardPatchAdapter(
 
     //private fun inflate_widget(layoutInflater: LayoutInflater,layoutInt: Int):View = layoutInflater.inflate(layoutInt,rootview)
 
-    override fun getItemCount(): Int = if(dashboardData !=null) 1 else 0
+    override fun getItemCount(): Int = if(dashboardData !=null) 1 else -1
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position,getItemViewType(position))

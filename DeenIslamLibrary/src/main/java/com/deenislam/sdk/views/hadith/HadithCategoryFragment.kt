@@ -45,8 +45,7 @@ internal class HadithCategoryFragment : BaseRegularFragment() {
         // init viewmodel
 
         val repository = HadithRepository(
-            hadithService = NetworkProvider().getInstance().provideHadithService(),
-            hadithServiceTest = NetworkProvider().getInstance().provideHadithServiceTest()
+            hadithService = NetworkProvider().getInstance().provideHadithService()
         )
         viewModel = HadithViewModel(repository)
     }

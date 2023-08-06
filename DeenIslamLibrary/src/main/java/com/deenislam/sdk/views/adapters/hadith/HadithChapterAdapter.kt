@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.hadith.chapter.Data
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class HadithChapterAdapter(
@@ -17,10 +19,8 @@ internal class HadithChapterAdapter(
     private val chapterList:ArrayList<Data> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
-        ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_hadith_chapter_by_collection, parent, false)
-        )
+        ViewHolder(LayoutInflater.from(parent.context.getLocalContext())
+                .inflate(R.layout.item_hadith_chapter_by_collection, parent, false))
 
     fun update(data: List<Data>)
     {
@@ -47,8 +47,8 @@ internal class HadithChapterAdapter(
             val chapter = chapterList[position]
 
             countTxt.text = (position+1).toString()
-            name.text = chapter.book[0].name
-            count.text = "${chapter.hadithStartNumber} to ${chapter.hadithEndNumber}"
+            name.text = chapter.Name
+            count.text = count.context.getString(R.string.hadith_chapter_available_count,chapter.HadithStartNumber.toString().numberLocale(),chapter.HadithEndNumber.toString().numberLocale())
 
             if(position==0)
                 (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 10.dp
@@ -56,7 +56,7 @@ internal class HadithChapterAdapter(
                 (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 0
 
             itemView.setOnClickListener {
-                callback.chapterClick(chapter.bookNumber,chapter.book[0].name)
+                callback.chapterClick(chapter.ChapterNo,chapter.BookId,chapter.Name)
             }
 
         }
@@ -65,5 +65,5 @@ internal class HadithChapterAdapter(
 
 interface HadithChapterCallback
 {
-    fun chapterClick(bookNumber: String, name: String)
+    fun chapterClick(chapterID: Int, bookID: Int, name: String)
 }

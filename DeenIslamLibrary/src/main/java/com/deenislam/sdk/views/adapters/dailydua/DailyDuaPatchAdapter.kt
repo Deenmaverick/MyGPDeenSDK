@@ -1,4 +1,4 @@
-package com.deenislam.sdk.views.adapters
+package com.deenislam.sdk.views.adapters.dailydua;
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,45 +7,47 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
-import com.deenislam.sdk.service.network.response.dashboard.Qibla
+import com.deenislam.sdk.service.network.response.dashboard.DailyDua
 import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.views.base.BaseViewHolder
 
-internal class CarouselAdapter(
+internal class DailyDuaPatchAdapter(
     private val dashboardPatchCallback: DashboardPatchCallback
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
-    private var adbanner: ArrayList<Qibla>  = arrayListOf()
+    private var dailyDuaData:ArrayList<DailyDua> = arrayListOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_carousel, parent, false)
+                .inflate(R.layout.item_daily_dua_home, parent, false)
         )
 
-    fun update(adbanner: List<Qibla>)
+    fun update(dailydua: List<DailyDua>)
     {
-        this.adbanner.clear()
-        this.adbanner.addAll(adbanner)
+        dailyDuaData.clear()
+        dailyDuaData.addAll(dailydua)
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = adbanner.size
+    override fun getItemCount(): Int = dailyDuaData.size
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)
     }
 
-    internal  inner class ViewHolder(itemView: View) :BaseViewHolder(itemView)
-    {
-        private val banner:AppCompatImageView = itemView.findViewById(R.id.banner)
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
+
+        private val dailyDuaImg:AppCompatImageView = itemView.findViewById(R.id.dailyDuaImg)
+
         override fun onBind(position: Int) {
             super.onBind(position)
 
             itemView.setOnClickListener {
-                dashboardPatchCallback.dashboardPatchClickd("Qibla")
+                dashboardPatchCallback.dashboardPatchClickd("DailyDua")
             }
-            val data = adbanner[position]
-            banner.imageLoad(data.contentBaseUrl+"/"+data.imageurl1)
+            dailyDuaImg.imageLoad(dailyDuaData[position].contentBaseUrl+"/"+dailyDuaData[position].ImageUrl)
+
         }
     }
 }

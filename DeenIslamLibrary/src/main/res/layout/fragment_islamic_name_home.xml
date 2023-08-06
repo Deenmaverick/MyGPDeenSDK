@@ -22,22 +22,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_32"
-        android:layout_marginEnd="@dimen/space_32"
-        android:layout_marginTop="@dimen/space_16"
-        android:textStyle="bold"
-        android:textColor="@color/card_bg_deep_teal"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:text="@string/islamic_name_home_title"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_32"
+            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_32"
+            android:text="@string/islamic_name_home_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/card_bg_deep_teal"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-  <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.card.MaterialCardView
       android:id="@+id/boyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,6 +79,7 @@
                 android:id="@+id/boyNameBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="false"
                 app:icon="@drawable/ic_next"
                 app:iconTint="@color/primary"
                 app:iconGravity="textEnd"
@@ -138,6 +140,7 @@
                 android:id="@+id/girlNameBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="false"
                 app:icon="@drawable/ic_next"
                 app:iconTint="@color/primary"
                 app:iconGravity="textEnd"

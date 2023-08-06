@@ -4,7 +4,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.database.entity.PrayerNotification
+import com.deenislam.sdk.service.network.response.dashboard.Banner
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.adapters.dashboard.DashboardBillboardAdapter
@@ -36,7 +38,12 @@ internal class Billboard() {
         return instance as Billboard
     }
 
-    fun load(widget: View, viewPool: RecyclerView.RecycledViewPool?,callback: prayerTimeCallback?=null)
+    fun load(
+        widget: View,
+        viewPool: RecyclerView.RecycledViewPool?,
+        callback: prayerTimeCallback? = null,
+        dashboardPatchCallback: DashboardPatchCallback
+    )
     {
         instance?.dashboardBillboard  = widget.findViewById(R.id.inf)
 
@@ -60,12 +67,12 @@ internal class Billboard() {
               instance?.linearLayoutManager?.scrollToPositionWithOffset(2, screenWidth.dp)
           }*/
 
-        instance?.dashboardBillboardAdapter = DashboardBillboardAdapter(callback)
+        instance?.dashboardBillboardAdapter = DashboardBillboardAdapter(callback,dashboardPatchCallback)
 
         instance?.dashboardBillboard?.apply {
             layoutManager = instance?.linearLayoutManager
             adapter = instance?.dashboardBillboardAdapter
-            dashboardBillboard.onFlingListener = null;
+            dashboardBillboard.onFlingListener = null
             setLinearSnapHelper()
             //pagerSnapHelper.attachToRecyclerView(dashboardBillboard)
             viewPool?.let { setRecycledViewPool(it) }
@@ -117,10 +124,7 @@ internal class Billboard() {
                         instance?.dashboardBillboardAdapter?.notifyDataSetChanged()
                     }
 
-
                 }
-                // }
-
 
             }
 
@@ -136,6 +140,17 @@ internal class Billboard() {
             instance?.dashboardBillboard?.post {
                 instance?.dashboardBillboardAdapter?.notifyDataSetChanged()
             }
+        }
+    }
+
+    fun updateBillboard(data: List<Banner>)
+    {
+        if(instance!=null && instance!!::dashboardBillboard.isInitialized) {
+            instance?.dashboardBillboardAdapter?.updateBillboard(data)
+            instance?.dashboardBillboard?.post {
+                instance?.dashboardBillboardAdapter?.notifyDataSetChanged()
+            }
+
         }
     }
 

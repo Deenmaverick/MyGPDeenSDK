@@ -21,11 +21,10 @@ import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.HadithViewModel
-import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.adapters.hadith.HadithChapterAdapter
 import com.deenislam.sdk.views.adapters.hadith.HadithChapterCallback
+import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.launch
 
 
@@ -48,15 +47,10 @@ internal class HadithChapterFragment : BaseRegularFragment(), HadithChapterCallb
 
     override fun OnCreate() {
         super.OnCreate()
-        isOnlyBack(true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 
         // init viewmodel
         val repository = HadithRepository(
-            hadithService = NetworkProvider().getInstance().provideHadithService(),
-            hadithServiceTest = NetworkProvider().getInstance().provideHadithServiceTest()
+            hadithService = NetworkProvider().getInstance().provideHadithService()
         )
         viewModel = HadithViewModel(repository)
 
@@ -78,9 +72,9 @@ internal class HadithChapterFragment : BaseRegularFragment(), HadithChapterCallb
         noInternetRetry = noInternetLayout.findViewById(R.id.no_internet_retry)
         actionbar = mainView.findViewById(R.id.actionbar)
 
-        actionbar.show()
+        actionbar.hide()
 
-        setupActionForOtherFragment(0,0,null,args.pageTitile,true,mainView)
+        //setupActionForOtherFragment(0,0,null,args.pageTitile,true,mainView)
 
         return mainView
     }
@@ -120,7 +114,7 @@ internal class HadithChapterFragment : BaseRegularFragment(), HadithChapterCallb
     {
         loadingState()
         lifecycleScope.launch {
-            viewModel.getHadithChapterByCollection(language = "bn", collectionName = args.collectionName, page = 1, limit = 100)
+            viewModel.getHadithChapterByCollection(language = getLanguage(), bookId = 1, page = 1, limit = 100)
         }
     }
 
@@ -171,13 +165,13 @@ internal class HadithChapterFragment : BaseRegularFragment(), HadithChapterCallb
         }
     }
 
-    override fun chapterClick(bookNumber: String, name: String) {
+    override fun chapterClick(chapterID: Int, bookID: Int, name: String) {
 
         val bundle = Bundle().apply {
-            putString("bookname", args.collectionName)
+            putInt("chapterId", chapterID)
+            putInt("bookId", bookID)
             putString("title", name)
-            putInt("chapter", bookNumber.toInt())
         }
-        gotoFrag(R.id.action_hadithChapterFragment_to_hadithPreviewFragment,data = bundle)
+        gotoFrag(R.id.action_hadithFragment_to_hadithPreviewFragment,data = bundle)
     }
 }
