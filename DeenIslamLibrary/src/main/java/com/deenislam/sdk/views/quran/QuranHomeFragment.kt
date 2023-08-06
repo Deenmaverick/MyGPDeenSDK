@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
 
-    private lateinit var recentRC: RecyclerView
+    //private lateinit var recentRC: RecyclerView
     private lateinit var popularRC: RecyclerView
     private lateinit var progressLayout: LinearLayout
     private var firstload:Int = 0
@@ -71,7 +71,7 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
         val mainview = localInflater.inflate(R.layout.fragment_quran_home, container, false)
 
         //init view
-        recentRC = mainview.findViewById(R.id.recentRC)
+        //recentRC = mainview.findViewById(R.id.recentRC)
         popularRC = mainview.findViewById(R.id.popularRC)
         progressLayout = mainview.findViewById(R.id.progressLayout)
         no_internet_layout = mainview.findViewById(R.id.no_internet_layout)
@@ -99,12 +99,12 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
     {
             ViewCompat.setTranslationZ(progressLayout, 10F)
 
-            recentRC.apply {
+           /* recentRC.apply {
                 adapter = RecentlyReadAdapter()
                 ViewPagerHorizontalRecyler().getInstance().load(this)
                 overScrollMode = View.OVER_SCROLL_NEVER
 
-            }
+            }*/
 
             popularSurahAdapter = PopularSurahAdapter(this@QuranHomeFragment)
 

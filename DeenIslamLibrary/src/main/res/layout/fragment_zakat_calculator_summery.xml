@@ -162,27 +162,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/payzakatPercent"/>
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/donateBtn"
-                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_16"
-                app:icon="@drawable/ic_zakat_donate"
-                app:iconGravity="textStart"
-                android:text="@string/donate_zakat"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/primary"
-                app:cornerRadius="6dp"
-                app:strokeColor="@color/primary"
-                app:strokeWidth="1dp"
-                app:backgroundTint="@android:color/transparent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/saveBtn"/>
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

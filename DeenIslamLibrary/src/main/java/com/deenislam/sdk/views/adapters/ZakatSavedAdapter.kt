@@ -1,5 +1,7 @@
 package com.deenislam.sdk.views.adapters;
 
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,7 +66,22 @@ internal class ZakatSavedAdapter(
             datetime.text = timedate.timeLocale().monthNameLocale()
             totalAssets.text = "৳ ${data.TotalAssets}".numberLocale()
             payableZakat.text = "৳ ${data.ZakatPayable}".numberLocale()
-            dateCard.text = dateCardText.timeLocale().monthNameLocale()
+            //dateCard.text = dateCardText.timeLocale().monthNameLocale()
+
+
+            val htmlText = "<font size=\"4\">20px.</font>"
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                dateCard.text = Html.fromHtml(
+                    htmlText,
+                    Html.FROM_HTML_MODE_LEGACY
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                dateCard.text = Html.fromHtml(
+                    htmlText
+                )
+            }
 
             itemView.setOnClickListener {
                 callback.viewCalculation(data)

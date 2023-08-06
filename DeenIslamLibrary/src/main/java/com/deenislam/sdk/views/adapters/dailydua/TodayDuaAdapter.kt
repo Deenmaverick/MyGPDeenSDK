@@ -97,7 +97,7 @@ internal class TodayDuaAdapter(
             if(duaData.IsFavorite)
             {
                 favBtn.setIconResource(R.drawable.ic_favorite_primary_active)
-                favBtn.iconTint = AppCompatResources.getColorStateList(favBtn.context,R.color.primary)
+                favBtn.iconTint = AppCompatResources.getColorStateList(favBtn.context,R.color.txt_black_deep)
                 favBtn.setTextColor(AppCompatResources.getColorStateList(favBtn.context,R.color.primary))
 
             }

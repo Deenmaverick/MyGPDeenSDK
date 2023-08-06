@@ -97,7 +97,7 @@ internal class WidgetPrayerTimes(
                     prayerNameArabic.text = "الشروق"
                     prayerCheck.visible(false)
                     disableRadio.visible(true)
-                    icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_sunrise_fill))
+                    icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_fajr_light))
 
                     timeTxt.text = "${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}".numberLocale()
 
@@ -144,7 +144,7 @@ internal class WidgetPrayerTimes(
                 {
                     prayerName.text = "Isha".prayerMomentLocale()
                     prayerNameArabic.text = "صلاة العِشاء"
-                    icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_night))
+                    icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_isha))
 
                     timeTxt.text = ("${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
                             "${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()

@@ -1,16 +1,17 @@
 package com.deenislam.sdk.utils
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.decode.SvgDecoder
 import coil.load
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import java.util.*
+
 
 internal inline fun <T : View> prepareStubView(
     stub: AsyncViewStub,
@@ -33,20 +34,45 @@ fun AppCompatImageView.imageLoad(
     url:String,
     ic_small:Boolean=false,
     ic_medium:Boolean=false,
-    ic_large:Boolean=false,
-    isSvg:Boolean = false
+    ic_large:Boolean=false
 )
 {
     val context = this.context
+
+    val progressBar = CircularProgressDrawable(context)
+    this.setImageDrawable(progressBar) // Set the CircularProgressDrawable as the placeholder
+
     this.load(url)
     {
-        if(isSvg)
+
+        val fileExtension = getFileExtension(url)
+        if(fileExtension == "svg")
         decoder(SvgDecoder(context))
         if(ic_small)
             error(R.drawable.ic_small_download_empty)
         if(ic_medium)
             error(R.drawable.placeholder_1_1)
+
+
+        listener(
+            onSuccess = { _, _ ->
+                progressBar.stop()
+            },
+            onError = { _, _ ->
+                progressBar.stop()
+            }
+        )
+
+
     }
+}
+
+fun getFileExtension(fileName: String): String {
+    val lastDotIndex = fileName.lastIndexOf('.')
+    if (lastDotIndex > 0 && lastDotIndex < fileName.length - 1) {
+        return fileName.substring(lastDotIndex + 1).toLowerCase()
+    }
+    return ""
 }
 
 

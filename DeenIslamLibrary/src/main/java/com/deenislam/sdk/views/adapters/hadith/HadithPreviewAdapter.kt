@@ -1,5 +1,7 @@
 package com.deenislam.sdk.views.adapters.hadith;
 
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,14 +86,25 @@ internal class HadithPreviewAdapter(
 
                     duaCat.text = duaCat.context.getString(R.string.hadith_preview_pos,data.HadithNumber.numberLocale())
                     arabicName.text = data.HadithArabicText
-                    duaSub.text = data.HadithText
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        duaSub.text = Html.fromHtml(
+                            data.HadithText,
+                            Html.FROM_HTML_MODE_LEGACY
+                        )
+                    } else {
+                        @Suppress("DEPRECATION")
+                        duaSub.text = Html.fromHtml(
+                            data.HadithText
+                        )
+                    }
 
 
                     if(data.IsFavorite)
                     {
                         favBtn.setIconResource(R.drawable.ic_favorite_primary_active)
                         favBtn.iconTint = AppCompatResources.getColorStateList(favBtn.context,R.color.brand_favorite)
-                        favBtn.setTextColor(AppCompatResources.getColorStateList(favBtn.context,R.color.primary))
+                        favBtn.setTextColor(AppCompatResources.getColorStateList(favBtn.context,R.color.txt_black_deep))
 
                     }
                     else

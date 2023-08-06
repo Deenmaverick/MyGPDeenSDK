@@ -139,6 +139,7 @@
                 android:layout_marginTop="@dimen/space_10"
                 android:layout_marginStart="@dimen/space_8"
                 android:layout_marginEnd="@dimen/space_8"
+                android:paddingBottom="@dimen/space_8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -146,105 +147,12 @@
                 android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/dateTimeLayout"
-                app:layout_constraintBottom_toTopOf="@id/footerLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/footerLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:background="@color/brand_ultra_light"
-                android:layout_marginTop="@dimen/space_14"
-                android:layout_marginStart="@dimen/space_8"
-                android:layout_marginEnd="@dimen/space_8"
-                android:layout_marginBottom="@dimen/space_8"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/prayerMain">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtdownload"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:gravity="center_vertical"
-                    android:text="@string/download"
-                    android:layout_marginTop="@dimen/space_10.5"
-                    android:layout_marginBottom="@dimen/space_10.5"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/txt_ash"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_playstore"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="@dimen/space_4"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_playstore"
-                    app:layout_constraintStart_toEndOf="@+id/txtdownload"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_back_slash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/space_4"
-                    android:src="@drawable/ic_back_slash"
-                    app:layout_constraintStart_toEndOf="@+id/ic_playstore"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_app_store"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="@dimen/space_4"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_app_store"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ic_back_slash"/>
-
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_web"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="@dimen/space_4"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_world"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/txtweb"/>
-
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtweb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:gravity="center_vertical"
-                    android:text="www.deenislamic.com"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/txt_ash"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

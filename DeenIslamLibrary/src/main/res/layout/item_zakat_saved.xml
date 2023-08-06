@@ -61,8 +61,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/delBtn"
-            android:layout_width="48dp"
-            android:layout_height="24dp"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
             android:src="@drawable/ic_delete"
             android:layout_marginEnd="@dimen/space_12"
             app:layout_constraintTop_toTopOf="@+id/datetime"
@@ -108,6 +108,7 @@
             android:text="@string/zakat_payable"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/card_bg_deep_teal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/datetime"
             app:layout_constraintEnd_toStartOf="@+id/totalAssets"
             app:layout_constraintTop_toBottomOf="@+id/taTxt"/>
@@ -128,26 +129,6 @@
 
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/seeMoreMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/ic_next"
-            app:iconTint="@color/primary"
-            app:iconGravity="textEnd"
-            android:layout_marginTop="@dimen/space_8"
-            android:layout_marginStart="@dimen/space_12"
-            android:layout_marginEnd="@dimen/space_12"
-            android:layout_marginBottom="@dimen/space_8"
-            android:text="@string/pay_zakat"
-            android:textAlignment="textEnd"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/primary"
-            android:background="@android:color/transparent"
-            app:layout_constraintStart_toStartOf="@+id/datetime"
-            app:layout_constraintEnd_toEndOf="@+id/totalAssets"
-            app:layout_constraintTop_toBottomOf="@+id/zpTxt"
-            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -230,8 +230,8 @@
     <string name="view_names">দেখুন</string>
     <string name="muslim_girls_names">মেয়েদের নাম</string>
     <string name="names">নামসমূহ</string>
-    <string name="view_muslim_girls_names">মুসলিম মেয়েদের নাম দেখুন</string>
-    <string name="view_muslim_boys_names">মুসলিম ছেলেদের নাম দেখুন</string>
+    <string name="view_muslim_girls_names">মেয়েদের নাম দেখুন</string>
+    <string name="view_muslim_boys_names">ছেলেদের নাম দেখুন</string>
     <string name="see_all">সবগুলো দেখুন</string>
     <string name="read_the_full_hadith">সম্পূর্ণ হাদিস পড়ুন</string>
     <string name="calculate_zakat">যাকাত হিসাব করুন</string>

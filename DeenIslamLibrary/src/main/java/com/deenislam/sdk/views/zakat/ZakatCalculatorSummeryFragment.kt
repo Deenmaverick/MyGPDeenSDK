@@ -80,7 +80,10 @@ internal class ZakatCalculatorSummeryFragment(
 
     override fun zakatAPIResponse(success: Boolean) {
         LoadingButton().getInstance(requireContext()).removeLoader()
-        saveBtn.text = "Save the Calculation"
+        saveBtn.text = if(updateMode)
+             localContext.getString(R.string.update_the_calculation)
+        else
+             localContext.getString(R.string.save_the_calculation)
         saveBtn.isEnabled = !success
     }
 

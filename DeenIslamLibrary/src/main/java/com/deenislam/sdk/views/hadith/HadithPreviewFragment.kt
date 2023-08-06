@@ -45,11 +45,9 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
 
     private val hadithData :ArrayList<Data> = arrayListOf()
 
-    var isHeaderVisible = true
     var previousScrollY = 0
     var isScrollAtEnd = false
     private var isNextEnabled  = true
-    private var isReadingMode:Boolean = false
     private var pageNo:Int = 1
     private var pageItemCount:Int = 10
     private var nextPageAPICalled:Boolean = false
@@ -207,8 +205,8 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
                 CommonResource.EMPTY -> emptyState()
                 is HadithResource.hadithPreview -> {
 
-                    isNextEnabled = hadithPreviewAdapter.itemCount>=totalHadithCount
                     totalHadithCount =  it.value.TotalData
+                    isNextEnabled = hadithPreviewAdapter.itemCount>=totalHadithCount
                     it.value.Data?.let { it1 -> viewState(it1) }
                 }
                 is HadithResource.setFavHadith -> updateFavorite(it.position,it.fav)

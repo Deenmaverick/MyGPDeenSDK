@@ -20,10 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.deenislam.sdk.utils.AspectRatioImageView
             android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:imageAspectRatio="1"
             android:src="@drawable/placeholder_1_1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

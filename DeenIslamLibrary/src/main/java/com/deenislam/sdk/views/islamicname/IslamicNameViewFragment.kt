@@ -43,6 +43,7 @@ internal class IslamicNameViewFragment : BaseRegularFragment(),IslamicNameAdapte
     private lateinit var islamicNameAdapter: IslamicNameAdapter
     private var islamicNameData: Data? =null
     private var adapterPosition:Int = -1
+    private var gender = "male"
     private lateinit var viewmodel: IslamicNameViewModel
 
     private val args:IslamicNameViewFragmentArgs by navArgs()
@@ -54,6 +55,8 @@ internal class IslamicNameViewFragment : BaseRegularFragment(),IslamicNameAdapte
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 
+
+        gender = args.gender
         //init viewmodel
         val repository = IslamicNameRepository(
             islamicNameService = NetworkProvider().getInstance().provideIslamicNameService()
@@ -103,10 +106,27 @@ internal class IslamicNameViewFragment : BaseRegularFragment(),IslamicNameAdapte
 
     private fun setupViewBtn()
     {
-        if(args.gender == "male")
-            viewBtn.text = localContext.getString(R.string.view_muslim_boys_names)
-        else
+        if(gender == "male") {
+            setupActionForOtherFragment(0,0,null,localContext.getString(R.string.muslim_boys_names),true,requireView())
+
             viewBtn.text = localContext.getString(R.string.view_muslim_girls_names)
+        }
+        else {
+            setupActionForOtherFragment(0,0,null,localContext.getString(R.string.muslim_girls_names),true,requireView())
+
+            viewBtn.text = localContext.getString(R.string.view_muslim_boys_names)
+        }
+
+        viewBtn.setOnClickListener {
+
+            if(gender == "male")
+                gender = "female"
+            else
+                gender = "male"
+
+            loadApiData()
+            setupViewBtn()
+        }
 
     }
 
@@ -118,7 +138,8 @@ internal class IslamicNameViewFragment : BaseRegularFragment(),IslamicNameAdapte
     private fun loadApiData()
     {
         lifecycleScope.launch {
-            viewmodel.getNames(args.gender,getLanguage())
+            loadingState()
+            viewmodel.getNames(gender,getLanguage())
         }
     }
 

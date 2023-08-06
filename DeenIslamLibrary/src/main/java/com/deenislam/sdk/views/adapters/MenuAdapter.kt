@@ -1,11 +1,9 @@
 package com.deenislam.sdk.views.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
@@ -16,7 +14,6 @@ import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
-import com.google.gson.Gson
 
 private const val ONBOARDING_MENU = 1
 private const val DASHBOARD_MENU = 2
@@ -97,7 +94,7 @@ internal class MenuAdapter(
                        menuTitile = itemView.findViewById(R.id.menuTitile)
                        menuRadioBtn = itemView.findViewById(R.id.menuRadioBtn)
 
-                       menuIcon.imageLoad(getMenu.contentBaseUrl+"/"+getMenu.imageurl1, isSvg = true)
+                       menuIcon.imageLoad(getMenu.contentBaseUrl+"/"+getMenu.imageurl1)
                        menuTitile.text = getMenu.ArabicText
 
                        menuCardview.setOnClickListener {
@@ -121,7 +118,7 @@ internal class MenuAdapter(
                        menuIcon = itemView.findViewById(R.id.menuIcon)
                        menuTitile = itemView.findViewById(R.id.menuTitile)
 
-                       menuIcon.imageLoad(getMenu.contentBaseUrl+"/"+getMenu.imageurl1, isSvg = true)
+                       menuIcon.imageLoad(getMenu.contentBaseUrl+"/"+getMenu.imageurl1)
 
                        menuTitile.text = getMenu.ArabicText
 
