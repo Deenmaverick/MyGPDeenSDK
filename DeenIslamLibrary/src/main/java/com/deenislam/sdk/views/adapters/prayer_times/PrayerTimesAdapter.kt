@@ -322,7 +322,7 @@ internal interface prayerTimeAdapterCallback
     fun clickNotification(position: String)
     fun clickMonthlyCalendar()
 
-    fun prayerCheck(prayer_tag: String, date: Boolean)
+    fun prayerCheck(prayer_tag: String, date: String, isPrayed: Boolean)
 
 
 }

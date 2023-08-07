@@ -92,7 +92,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
         }
 
         languageLayout.setOnClickListener {
-            showLanguiageDialog()
+           // showLanguiageDialog()
         }
 
         locationswitch.setOnClickListener {

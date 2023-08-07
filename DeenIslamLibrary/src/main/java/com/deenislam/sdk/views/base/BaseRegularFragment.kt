@@ -68,14 +68,6 @@ internal abstract class BaseRegularFragment: Fragment() {
         else
             "bn"
 
-    override fun onResume() {
-        super.onResume()
-
-        onBackPressedCallback.isEnabled = true
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
-
-    }
-
 
     fun isOnlyBack(bol:Boolean)
     {
@@ -99,12 +91,21 @@ internal abstract class BaseRegularFragment: Fragment() {
     }
 
     open fun OnCreate(){
+
         onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {
-                    onBackPress()
+                onBackPress()
             }
         onBackPressedCallback.isEnabled = true
+
     }
+
+
+    override fun onPause() {
+        super.onPause()
+        onBackPressedCallback.isEnabled = false
+    }
+
 
 
 
@@ -120,10 +121,6 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     }
 
-    fun setActivityCallback(callback: ActivityCallback)
-    {
-        (activity as MainActivity).setActivityCallback(callback)
-    }
 
     fun changeMainViewPager(page:Int)
     {
@@ -147,6 +144,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupActionForOtherFragment(action1:Int,action2:Int,callback: otherFagmentActionCallback?=null,actionnBartitle:String,backEnable:Boolean=true,view: View,isBackIcon:Boolean = false)
     {
+
         val action1Btn:AppCompatImageView = view.findViewById(R.id.action1)
         val action2Btn:AppCompatImageView = view.findViewById(R.id.action2)
         val btnBack:AppCompatImageView = view.findViewById(R.id.btnBack)
@@ -253,13 +251,15 @@ internal abstract class BaseRegularFragment: Fragment() {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
         }
+
     }
 
+    override fun onResume() {
+        super.onResume()
 
-    override fun onPause() {
-        super.onPause()
-        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.isEnabled = true
     }
+
 
 
 

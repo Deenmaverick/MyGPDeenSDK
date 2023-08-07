@@ -60,11 +60,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
 
         OnCreate()
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
+
 
     }
 
@@ -126,10 +122,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     override fun onResume() {
         super.onResume()
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
+
         onBackPressedCallback.isEnabled = true
 
     }
@@ -239,7 +232,21 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     }
 
-    open fun OnCreate(){}
+    open fun OnCreate(){
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        onBackPressedCallback.isEnabled = false
+    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

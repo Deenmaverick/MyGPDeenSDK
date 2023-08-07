@@ -271,23 +271,15 @@ internal class DashboardBillboardAdapter(
     private fun getCompletedPrayerCount():Int
     {
         var count = 0
-        prayerNotificationData?.let {
+        prayerData?.Data?.WaktTracker?.let {
             it.forEach {
                     it1->
-                if(it1.isPrayed &&
-                    get_prayer_name_by_tag(it1.prayer_tag).isNotEmpty() &&
-                    it1.prayer_tag.checkCompulsoryprayerByTag() &&
-                    it1.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))
-
-                ) {
-
-                    Log.e("getCompletedPrayerCount",it1.prayer_tag)
+                if(it1.status) {
                     count++
                 }
             }
         }
-
-
+        
         return  count
     }
 

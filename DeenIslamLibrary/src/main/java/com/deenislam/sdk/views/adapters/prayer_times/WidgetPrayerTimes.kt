@@ -199,8 +199,28 @@ internal class WidgetPrayerTimes(
 
             val prayerIsChecked = prayerCheck.isChecked
             prayerCheck.setOnClickListener {
+
                 prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")
-                    ?.let { it1 -> callback?.prayerCheck("pt"+(position+1), !prayerIsChecked) }
+                    ?.let {
+
+                            it1 ->
+
+                        val prayer_tag = "pt"+(position+1)
+
+                        val notifyTime = prayerData?.let { getPrayerTimeTagWise(prayer_tag, it1, it) }
+
+                        notifyTime?.let {
+
+                            if(notifyTime >= 0L) {
+                                prayerCheck.context.toast("${prayer_tag.getWaktNameByTag()} tracking was expired for selected date time")
+                                prayerCheck.isChecked = prayerIsChecked
+                                return@setOnClickListener
+                            }
+                        }
+
+                        callback?.prayerCheck("pt"+(position+1),it1, !prayerIsChecked)
+
+                    }
             }
 
         }

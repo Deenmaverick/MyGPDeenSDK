@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
+import android.window.OnBackInvokedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
@@ -81,7 +82,6 @@ internal class MainActivity : AppCompatActivity() {
     var bottomNavClicked:Boolean = false
     var childFragmentAnimForward:Boolean = false
 
-    private var activityCallback:ActivityCallback ? = null
 
     companion object
     {
@@ -152,7 +152,7 @@ internal class MainActivity : AppCompatActivity() {
 
     }
 
-  /*  override fun onBackPressed() {
+    /*override fun onBackPressed() {
 
         activityCallback?.activityBackpress()
     }*/
@@ -369,10 +369,6 @@ internal class MainActivity : AppCompatActivity() {
         Billboard().getInstance().clearInstance()
     }
 
-    fun setActivityCallback(callback: ActivityCallback)
-    {
-        activityCallback = callback
-    }
 
     fun setViewPager(page:Int)
     {

@@ -27,9 +27,6 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback,A
     private lateinit var editProfileBtn:MaterialButton
     private lateinit var termsLayout:MaterialCardView
     private lateinit var privacyLayout:MaterialCardView
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
-
-
 
     override fun OnCreate() {
         super.OnCreate()
@@ -37,8 +34,6 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback,A
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-
-        setActivityCallback(this@MoreFragment)
 
     }
 
@@ -108,13 +103,6 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback,A
 
         }
 
-        onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-
-                Log.e("handleOnBackPressed","OOOOO")
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
 
     }
 

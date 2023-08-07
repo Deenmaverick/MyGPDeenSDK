@@ -555,13 +555,16 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         gotoFrag(R.id.prayerCalendarFragment)
     }
 
-    override fun prayerCheck(prayer_tag: String, isPrayed: Boolean) {
+    override fun prayerCheck(prayer_tag: String, date: String, isPrayed: Boolean) {
         lifecycleScope.launch {
+
 
             prayerTrackLastWakt = if(isPrayed)
                 prayer_tag.getWaktNameByTag()
             else
                 ""
+
+
             viewmodel.setPrayerTrack(language = getLanguage(),prayer_tag=prayer_tag.getWaktNameByTag(),isPrayed)
         }
     }

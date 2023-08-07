@@ -92,7 +92,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         degreeTxt.text = localContext.getString(R.string.compass_degree_txt,"--")
 
         askLocationPermission(false)
-        showCalibrateDialog()
+
     }
 
     @SuppressLint("MissingPermission")
@@ -214,6 +214,8 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
             }
 
         }
+        else
+            showCalibrateDialog()
 
     }
 

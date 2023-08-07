@@ -282,11 +282,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     }
 
 
-
-    override fun onBackPress() {
-        requireActivity().moveTaskToBack(true)
-    }
-
     override fun action1() {
 
         gotoFrag(R.id.moreFragment)

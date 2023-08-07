@@ -28,6 +28,7 @@
             android:layout_marginStart="@dimen/space_12"
             android:text="Dhikr 1"
             android:enabled="false"
+            android:clickable="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/card_checkbox_bg"
             app:cornerRadius="20dp"
