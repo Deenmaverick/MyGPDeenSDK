@@ -139,7 +139,7 @@ internal class SelectSurahAdapter(
     }
 }
 
-interface SelectSurahCallback
+internal interface SelectSurahCallback
 {
     fun selectedSurah(position: Int)
     fun selectedJuz(position: Int)

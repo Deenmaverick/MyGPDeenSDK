@@ -1,7 +1,8 @@
 package com.deenislam.sdk.service.network.response.islamicname
 
-import com.deenislam.sdk.service.network.response.islamicname.Data
+import androidx.annotation.Keep
 
+@Keep
 internal data class IslamicNameResponse(
     val Data: List<Data>?,
     val Message: String,

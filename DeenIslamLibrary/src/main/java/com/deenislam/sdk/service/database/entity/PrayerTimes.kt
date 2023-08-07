@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "prayer_times")
-data class PrayerTimes(
+internal data class PrayerTimes(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id", defaultValue = "0")

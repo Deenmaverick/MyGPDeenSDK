@@ -198,3 +198,20 @@ fun String.checkCompulsoryprayerByTag():Boolean =
 
         else-> false
     }
+
+fun String.getWaktNameByTag():String =
+    when(this)
+    {
+
+        "pt1"-> "Fajr"
+
+        "pt3"-> "Zuhr"
+
+        "pt4"-> "Asar"
+
+        "pt5"-> "Maghrib"
+
+        "pt6"-> "Isha"
+
+        else-> ""
+    }

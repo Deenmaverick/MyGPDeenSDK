@@ -2,9 +2,7 @@ package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.quran.juz.JuzResponse
 import com.deenislam.sdk.service.network.response.quran.qurannew.surah.SurahList
-import com.deenislam.service.network.response.quran.verses.Verses
-import okhttp3.RequestBody
-import retrofit2.http.Body
+import com.deenislam.sdk.service.network.response.quran.verses.Verses
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

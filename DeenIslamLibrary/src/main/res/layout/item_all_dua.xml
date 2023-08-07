@@ -14,7 +14,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/space_4"
+            android:paddingEnd="@dimen/space_4">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/menuIcon"

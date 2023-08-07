@@ -57,7 +57,7 @@ internal class AllDuaAdapter(
         }
     }
 }
-interface AllDuaCallback
+internal interface AllDuaCallback
 {
     fun selectedCat(id: Int, category: String)
 }

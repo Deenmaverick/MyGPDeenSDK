@@ -140,26 +140,46 @@ fun String.timeLocale():String
 
 }
 
-fun String.prayerMomentLocale():String
+fun String.prayerMomentLocaleForToast():String
 {
     if(Deen.language == "bn") {
 
        return when(this)
         {
-            "Fajr" -> "ফজর"
-           "Ishraq" -> "ইশরাক"
-           "Dhuhr" -> "যোহর"
-           "Asr" -> "আসর"
-           "Maghrib" -> "মাগরিব"
-           "Isha" -> "এশা"
-           "Tahajjud" -> "তাহাজ্জুদ"
-           "Sunrise" ->  "সূর্যোদয়"
-           "Suhoor (End)" -> "সেহরি শেষ"
-           "Iftaar (Start)" -> "ইফতার শুরু"
-           "Midday" -> "মধ্যাহ্ন"
-
+            "Fajr" -> "ফজরের"
+           "Zuhr" -> "জোহরের"
+           "Asar" -> "আসরের"
+           "Maghrib" -> "মাগরিবের"
+           "Isha" -> "এশার"
            else -> this
        }
+
+    }
+    else
+        return this
+
+}
+
+fun String.prayerMomentLocale():String
+{
+    if(Deen.language == "bn") {
+
+        return when(this)
+        {
+            "Fajr" -> "ফজর"
+            "Ishraq" -> "ইশরাক"
+            "Dhuhr" -> "যোহর"
+            "Asr" -> "আসর"
+            "Maghrib" -> "মাগরিব"
+            "Isha" -> "এশা"
+            "Tahajjud" -> "তাহাজ্জুদ"
+            "Sunrise" ->  "সূর্যোদয়"
+            "Suhoor (End)" -> "সেহরি শেষ"
+            "Iftaar (Start)" -> "ইফতার শুরু"
+            "Midday" -> "মধ্যাহ্ন"
+
+            else -> this
+        }
 
     }
     else

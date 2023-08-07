@@ -19,6 +19,7 @@ import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.models.prayer_time.PrayerMomentRange
 import com.deenislam.sdk.service.network.response.dashboard.Banner
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.TimeDiffForPrayer
@@ -27,6 +28,7 @@ import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.formateDateTime
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.getPrayerTimeName
+import com.deenislam.sdk.utils.getWaktNameByTag
 import com.deenislam.sdk.utils.get_prayer_name_by_tag
 import com.deenislam.sdk.utils.get_prayer_tag_by_name
 import com.deenislam.sdk.utils.imageLoad
@@ -74,9 +76,21 @@ internal class DashboardBillboardAdapter(
         notifyDataSetChanged()
     }
 
-    fun updatePrayerTracker(data: ArrayList<PrayerNotification>)
+    fun updatePrayerTracker(data: Data)
     {
-        prayerNotificationData = data
+        prayerData?.Data?.WaktTracker?.forEach {
+
+            when(it.Wakt)
+            {
+                "Fajr" -> it.status = data.Fajr
+                "Zuhr" -> it.status = data.Zuhr
+                "Asar" -> it.status = data.Asar
+                "Maghrib" -> it.status = data.Maghrib
+                "Isha" -> it.status = data.Isha
+            }
+
+        }
+
         notifyDataSetChanged()
     }
 
@@ -167,11 +181,10 @@ internal class DashboardBillboardAdapter(
 
         val get_prayer_tag = get_prayer_tag_by_name(prayerMomentRangeData?.MomentName.toString())
 
-        val checkTrack = prayerNotificationData?.indexOfFirst {
-            it.isPrayed
-                    && it.prayer_tag == get_prayer_tag
-                    && it.prayer_tag.isNotEmpty()
-                    && get_prayer_tag.checkCompulsoryprayerByTag() }
+        val checkTrack = prayerData?.Data?.WaktTracker?.indexOfFirst {
+            it.Wakt == get_prayer_tag.getWaktNameByTag() && it.status
+
+        }
 
 
         //prayerCheck.isEnabled = !(checkTrack!=null && checkTrack >=0)
@@ -206,10 +219,10 @@ internal class DashboardBillboardAdapter(
         nextPrayerTime.text = "-00:00:00".timeLocale()
 
 
-
+        val prayerIsChecked = prayerCheck.isChecked
 
         prayerCheck.setOnClickListener {
-            callback?.prayerTask(get_prayer_tag)
+            callback?.prayerTask(get_prayer_tag,!prayerIsChecked)
         }
 
         prayerMomentRangeData?.nextPrayerTimeCount?.let {
@@ -346,12 +359,12 @@ internal class DashboardBillboardAdapter(
     }
 }
 
-interface prayerTimeCallback
+internal interface prayerTimeCallback
 {
     fun nextPrayerCountownFinish()
     fun allPrayerPage()
 
-    fun prayerTask(momentName: String?)
+    fun prayerTask(momentName: String?, b: Boolean)
 
     fun billboard_prayer_load_complete()
 }

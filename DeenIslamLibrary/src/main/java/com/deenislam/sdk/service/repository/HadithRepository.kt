@@ -50,11 +50,11 @@ internal class HadithRepository (
             hadithService?.getHadithPreview(parm = requestBody)
         }
 
-    suspend fun setHadithFav(isfav: Boolean, duaId: Int, language: String) =
+    suspend fun setHadithFav(isfav: Boolean, hadithID: Int, language: String) =
         makeApicall {
 
             val body = JSONObject()
-            body.put("contentId", duaId)
+            body.put("contentId", hadithID)
             body.put("isFavorite",!isfav)
             body.put("language", language)
             val requestBody = body.toString().toRequestBody(RequestBodyMediaType)

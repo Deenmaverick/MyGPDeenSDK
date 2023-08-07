@@ -113,7 +113,7 @@ internal class CustomAlertDialog {
     }
 }
 
-interface CustomDialogCallback
+internal interface CustomDialogCallback
 {
     fun clickBtn1()
     fun clickBtn2()

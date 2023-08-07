@@ -1,10 +1,12 @@
 package com.deenislam.sdk.service.network.response.quran.juz
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 
+@Keep
 @Parcelize
-data class Juz(
+internal data class Juz(
     val first_verse_id: Int,
     val id: Int,
     val juz_number: Int,

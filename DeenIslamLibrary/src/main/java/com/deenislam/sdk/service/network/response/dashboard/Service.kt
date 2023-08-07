@@ -1,5 +1,8 @@
 package com.deenislam.sdk.service.network.response.dashboard
 
+import androidx.annotation.Keep
+
+@Keep
 internal data class Service(
     val ArabicText: String,
     val FeatureID: Int,

@@ -1,8 +1,9 @@
-package com.deenislam.service.network.response.quran.verses
+package com.deenislam.sdk.service.network.response.quran.verses
 
-import com.deenislam.sdk.service.network.response.quran.verses.Audio
+import androidx.annotation.Keep
 
-data class Verse(
+@Keep
+internal data class Verse(
     val hizb_number: Int,
     val id: Int,
     val juz_number: Int,

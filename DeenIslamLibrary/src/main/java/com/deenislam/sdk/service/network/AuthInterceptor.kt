@@ -1,6 +1,5 @@
 package com.deenislam.sdk.service.network
 
-import android.util.Log
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.service.database.dao.UserPrefDao
 import kotlinx.coroutines.runBlocking

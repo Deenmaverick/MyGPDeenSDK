@@ -5,13 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
-import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.network.response.dashboard.Banner
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.adapters.dashboard.DashboardBillboardAdapter
 import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
-import java.util.ArrayList
 
 internal class Billboard() {
 
@@ -131,7 +130,7 @@ internal class Billboard() {
         }
     }
 
-    fun updatePrayerTracker(data: ArrayList<PrayerNotification>)
+    fun updatePrayerTracker(data: Data)
     {
         if(instance!=null && instance!!::dashboardBillboard.isInitialized) {
 

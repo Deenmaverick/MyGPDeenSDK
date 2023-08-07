@@ -14,24 +14,35 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
-import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.DashboardResource
+import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.DashboardRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
-import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.utils.MENU_AL_QURAN
+import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
+import com.deenislam.sdk.utils.MENU_DUA
+import com.deenislam.sdk.utils.MENU_HADITH
+import com.deenislam.sdk.utils.MENU_ISLAMIC_NAME
+import com.deenislam.sdk.utils.MENU_PRAYER_TIME
+import com.deenislam.sdk.utils.MENU_QIBLA_COMPASS
+import com.deenislam.sdk.utils.MENU_ZAKAT
+import com.deenislam.sdk.utils.getWaktNameByTag
+import com.deenislam.sdk.utils.prayerMomentLocaleForToast
+import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
+import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
 import com.deenislam.sdk.views.base.BaseFragment
 import com.deenislam.sdk.views.main.actionCallback
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -43,6 +54,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     DashboardPatchCallback {
 
     private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var prayerViewModel:  PrayerTimesViewModel
 
     private val dashboardPatchMain:DashboardPatchAdapter by lazy { DashboardPatchAdapter(
         callback = this@DashboardFragment,
@@ -52,6 +64,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     ) }
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
+    private var prayerTrackLastWakt = ""
 
     override fun OnCreate() {
         super.OnCreate()
@@ -69,6 +82,12 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             requireActivity(),
             factory
         )[DashboardViewModel::class.java]
+
+        val factoryPrayer = VMFactoryPrayer(prayerTimesRepository)
+        prayerViewModel = ViewModelProvider(
+            requireActivity(),
+            factoryPrayer
+        )[PrayerTimesViewModel::class.java]
 
     }
 
@@ -145,6 +164,22 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             }
         }
 
+        prayerViewModel.prayerTimesNotification.observe(viewLifecycleOwner)
+        {
+            when(it)
+            {
+                is PrayerNotificationResource.prayerTrackFailed ->  requireContext().toast("Failed to set prayer track")
+                is PrayerNotificationResource.prayerTrackData ->
+                {
+
+                    if(prayerTrackLastWakt.isNotEmpty())
+                        requireContext().toast("আলহামদুলিল্লাহ আপনি ${prayerTrackLastWakt.prayerMomentLocaleForToast()} নামাজ আদায় করেছেন।")
+
+                    updatePrayerTrackingView(it.data)
+                }
+            }
+        }
+
         /*dashboardViewModel.prayerTimesNotification.observe(viewLifecycleOwner)
         {
             when(it)
@@ -154,6 +189,12 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             }
         }*/
 
+    }
+
+    private fun updatePrayerTrackingView(data: com.deenislam.sdk.service.network.response.prayertimes.tracker.Data)
+    {
+
+        dashboardPatchMain.updatePrayerTracker(data)
     }
 
     private fun viewStatePrayerTime(data: PrayerTimesResponse)
@@ -182,13 +223,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     }
 
-    private fun updateprayerTracker(data: ArrayList<PrayerNotification>)
-    {
-        Log.e("updateprayerTracker",Gson().toJson(data))
-        binding.dashboardMain.runWhenReady {
-            dashboardPatchMain.updatePrayerTracker(data)
-        }
-    }
 
     private fun updatePrayerAdapterOnly(data: PrayerTimesResponse)
     {
@@ -250,7 +284,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
 
     override fun onBackPress() {
-        activity?.moveTaskToBack(true)
+        requireActivity().moveTaskToBack(true)
     }
 
     override fun action1() {
@@ -271,11 +305,17 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         gotoFrag(R.id.prayerTimesFragment)
     }
 
-    override fun prayerTask(momentName: String?) {
+    override fun prayerTask(momentName: String?, isPrayed: Boolean) {
 
         lifecycleScope.launch {
+
+            prayerTrackLastWakt = if(isPrayed)
+                momentName?.getWaktNameByTag().toString()
+            else
+                ""
+
             if (momentName?.isNotEmpty() == true) {
-              // prayerTimeViewModel.setPrayerTrack(date = prayerdate,prayer_tag=momentName,true)
+               prayerViewModel.setPrayerTrack(language = getLanguage(),prayer_tag=momentName.getWaktNameByTag(),isPrayed)
             }
             /*else
                 prayerTimeViewModel.getDateWisePrayerNotificationData(prayerdate)*/
@@ -292,6 +332,13 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         ) : ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return DashboardViewModel(dashboardRepository,prayerTimesRepository) as T
+        }
+    }
+
+    inner class VMFactoryPrayer(
+        private val prayerTimesRepository : PrayerTimesRepository) : ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return PrayerTimesViewModel(prayerTimesRepository) as T
         }
     }
 

@@ -1,8 +1,10 @@
 package com.deenislam.sdk.service.network.response.zakat
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
+@Keep
 @Parcelize
 internal data class Data(
     val AgricultureAmount: Double,

@@ -16,6 +16,7 @@ import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.models.prayer_time.PrayerMomentRange
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.views.prayertimes.patch.ForbiddenTimes
@@ -170,6 +171,13 @@ internal class PrayerTimesAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateTrackingData(data: Data)
+    {
+        PrayerTimes().getInstance().updateTrackingData(data)
+        notifyDataSetChanged()
+    }
+
+
     fun updateNotificationData(Notificationdata: ArrayList<PrayerNotification>?)
     {
         dateWisePrayerNotificationData = Notificationdata
@@ -306,7 +314,7 @@ internal class PrayerTimesAdapter(
 
 }
 
-interface prayerTimeAdapterCallback
+internal interface prayerTimeAdapterCallback
 {
     fun leftBtnClick()
     fun rightBtnClick()
@@ -314,7 +322,7 @@ interface prayerTimeAdapterCallback
     fun clickNotification(position: String)
     fun clickMonthlyCalendar()
 
-    fun prayerCheck(prayer_tag: String, date: String)
+    fun prayerCheck(prayer_tag: String, date: Boolean)
 
 
 }

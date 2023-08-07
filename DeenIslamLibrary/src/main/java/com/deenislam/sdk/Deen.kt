@@ -75,7 +75,102 @@ object Deen {
         }
     }
 
+    @JvmStatic
+    fun openTasbeeh(context: Context, msisdn:String, callback: DeenCallback? = null)
+    {
+        this.appContext = context.applicationContext
+        this.CallBackListener = callback
+        this.msisdn = msisdn
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            token = AuthenticateRepository(
+                authenticateService = NetworkProvider().getInstance().provideAuthService(),
+                userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+            ).authDeen(msisdn).apply {
+
+                if (!this.isNullOrEmpty())
+                {
+                    language = SettingRepository(
+                        userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+                    ).getSetting()?.language?:"bn"
+
+                    Log.e("language1", language)
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+
+                if (token != null && token?.isNotEmpty() == true) {
+
+                    val intent =
+                        Intent(context, MainActivity::class.java)
+                    intent.putExtra("destination",R.id.tasbeehFragment)
+                    context.startActivity(intent)
+
+                    CallBackListener?.onAuthSuccess()
+
+                } else {
+                    CallBackListener?.onAuthFailed()
+                }
+            }
+
+        }
+    }
+
+    @JvmStatic
+    fun openPrayerTime(context: Context, msisdn:String, callback: DeenCallback? = null)
+    {
+        this.appContext = context.applicationContext
+        this.CallBackListener = callback
+        this.msisdn = msisdn
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            token = AuthenticateRepository(
+                authenticateService = NetworkProvider().getInstance().provideAuthService(),
+                userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+            ).authDeen(msisdn).apply {
+
+                if (!this.isNullOrEmpty())
+                {
+                    language = SettingRepository(
+                        userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+                    ).getSetting()?.language?:"bn"
+
+                    Log.e("language1", language)
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+
+                if (token != null && token?.isNotEmpty() == true) {
+
+                    val intent =
+                        Intent(context, MainActivity::class.java)
+                    intent.putExtra("destination",R.id.prayerTimesFragment)
+                    context.startActivity(intent)
+
+                    CallBackListener?.onAuthSuccess()
+
+                } else {
+                    CallBackListener?.onAuthFailed()
+                }
+            }
+
+        }
+    }
+
+    @JvmStatic
+    fun destroySDK() {
+        CallBackListener = null
+        appContext = null
+    }
+
+
 }
+
+
 
 interface DeenCallback
 {

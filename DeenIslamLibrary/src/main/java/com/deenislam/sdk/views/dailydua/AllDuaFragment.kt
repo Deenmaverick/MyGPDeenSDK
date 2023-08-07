@@ -98,8 +98,8 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
 
                 adapter = allDuaAdapter
                 val margins = (layoutParams as ConstraintLayout.LayoutParams).apply {
-                    leftMargin = 12.dp
-                    rightMargin = 12.dp
+                    leftMargin = 8.dp
+                    rightMargin = 8.dp
                 }
                 layoutParams = margins
 

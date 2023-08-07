@@ -8,7 +8,6 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.content.res.AppCompatResources
@@ -57,13 +56,12 @@ import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.deenislam.sdk.views.quran.quranplayer.PlayerAudioFragment
 import com.deenislam.sdk.views.quran.quranplayer.PlayerThemeFragment
 import com.deenislam.sdk.views.quran.quranplayer.PlayerTranslationFragment
-import com.deenislam.service.network.response.quran.verses.Verse
+import com.deenislam.sdk.service.network.response.quran.verses.Verse
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit

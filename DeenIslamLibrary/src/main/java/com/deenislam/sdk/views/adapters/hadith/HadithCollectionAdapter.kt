@@ -71,7 +71,7 @@ internal class HadithCollectionAdapter(
         }
     }
 }
-interface HadithCollectionCallback
+internal interface HadithCollectionCallback
 {
     fun CollectionClicked(name: String, title: String)
 }

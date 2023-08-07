@@ -2,7 +2,7 @@ package com.deenislam.sdk.service.models.quran
 
 import com.deenislam.sdk.service.network.response.quran.juz.Juz
 import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetailsData
-import com.deenislam.service.network.response.quran.verses.Verse
+import com.deenislam.sdk.service.network.response.quran.verses.Verse
 
 internal interface AlQuranResource {
 

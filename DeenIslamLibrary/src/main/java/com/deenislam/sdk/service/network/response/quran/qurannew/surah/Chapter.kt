@@ -1,10 +1,12 @@
 package com.deenislam.sdk.service.network.response.quran.qurannew.surah
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
+@Keep
 @Parcelize
-data class Chapter(
+internal data class Chapter(
     val bismillah_pre: Boolean,
     val id: Int,
     val name_arabic: String,

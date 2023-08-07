@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatRadioButton
@@ -15,9 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isEmpty
-import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +29,7 @@ import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
@@ -93,6 +90,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     private var notification_prayer_name = ""
     private var muezzinAdapter: MuezzinAdapter ? =null
     private var isNotificationClicked:Boolean = false
+    private var prayerTrackLastWakt = ""
 
     override fun OnCreate() {
         super.OnCreate()
@@ -232,6 +230,18 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                     }
                 }
 
+                is PrayerNotificationResource.prayerTrackFailed ->  requireContext().toast("Failed to set prayer track")
+                is PrayerNotificationResource.prayerTrackData ->
+                {
+
+                    Log.e("setPrayerTimeTrack",Gson().toJson(it.data))
+
+                    if(prayerTrackLastWakt.isNotEmpty())
+                    requireContext().toast("আলহামদুলিল্লাহ আপনি ${prayerTrackLastWakt.prayerMomentLocaleForToast()} নামাজ আদায় করেছেন।")
+
+                    updatePrayerTrackingView(it.data)
+                }
+
                 CommonResource.EMPTY -> Unit
             }
         }
@@ -333,27 +343,18 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             Log.e("viewState",Gson().toJson(pryaerNotificationData))
         }
 
-
-        /* lifecycleScope.launch {
-             viewmodel.clearLiveData()
-         }*/
-
-        /* lifecycleScope.launch {
-             viewmodel.cachePrayerTime(prayerdate,data.Data)
-         }*/
-
-        //prayerTimesResponse = data
-        /*  if(firstUpdate)
-              return
-          firstUpdate = true*/
         prayerTimesResponse?.let {
 
             //prayerTimesAdapter.notifyDataSetChanged()
             prayerTimesAdapter.updateData(it,pryaerNotificationData)
 
-
         }
 
+    }
+
+    private fun updatePrayerTrackingView(data: Data)
+    {
+        prayerTimesAdapter.updateTrackingData(data)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -554,9 +555,14 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         gotoFrag(R.id.prayerCalendarFragment)
     }
 
-    override fun prayerCheck(prayer_tag: String, date: String) {
+    override fun prayerCheck(prayer_tag: String, isPrayed: Boolean) {
         lifecycleScope.launch {
-            viewmodel.updatePrayerTrack(date = date,prayer_tag=prayer_tag)
+
+            prayerTrackLastWakt = if(isPrayed)
+                prayer_tag.getWaktNameByTag()
+            else
+                ""
+            viewmodel.setPrayerTrack(language = getLanguage(),prayer_tag=prayer_tag.getWaktNameByTag(),isPrayed)
         }
     }
 

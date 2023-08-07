@@ -492,15 +492,16 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
         else
             0.0
 
-        payable_zakat = if(payable_zakat>nisab_amount)
+        payable_zakat = (payable_zakat*2.5)/100
+    /*if(payable_zakat>nisab_amount)
             (payable_zakat*2.5)/100
         else
-            0.0
+            0.0*/
 
     }
 
 }
-interface ZakatCalculatorFragmentCallback
+internal interface ZakatCalculatorFragmentCallback
 {
     fun zakatAPIResponse(success: Boolean)
 }

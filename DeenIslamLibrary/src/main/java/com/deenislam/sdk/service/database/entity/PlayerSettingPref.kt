@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "playersettingpref")
-data class PlayerSettingPref(
+internal data class PlayerSettingPref(
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id", defaultValue = "1")

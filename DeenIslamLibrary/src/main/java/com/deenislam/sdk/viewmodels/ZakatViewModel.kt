@@ -20,6 +20,10 @@ internal class ZakatViewModel(
     private val _savedZakatLiveData:MutableLiveData<ZakatResource> = MutableLiveData()
     val savedZakatLiveData:MutableLiveData<ZakatResource> get() = _savedZakatLiveData
 
+    private val _zakatNisabLiveData:MutableLiveData<ZakatResource> = MutableLiveData()
+    val zakatNisabLiveData:MutableLiveData<ZakatResource> get() = _zakatNisabLiveData
+
+
     fun addZakatHistory(
         nisab_amount: Double,
         property_cash_in_hand: Double,
@@ -199,6 +203,27 @@ internal class ZakatViewModel(
             }
         }
     }
+
+    fun getZakatNisab()
+    {
+        viewModelScope.launch {
+
+            val response = repository.getZakatNisab()
+
+            when(response)
+            {
+                is ApiResource.Failure -> _zakatNisabLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Success == true)
+                        _zakatNisabLiveData.value = ZakatResource.zakatNisab(response.value.Data)
+                    else
+                        _zakatNisabLiveData.value =  CommonResource.API_CALL_FAILED
+                }
+            }
+        }
+    }
+
 
     fun clear()
     {

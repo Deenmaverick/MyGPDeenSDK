@@ -9,11 +9,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
@@ -23,6 +21,8 @@ import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withCreated
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
@@ -35,8 +35,6 @@ import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.isBottomNavFragment
-import com.deenislam.sdk.utils.isFragmentInBackStack
 import com.deenislam.sdk.utils.reduceDragSensitivity
 import com.deenislam.sdk.utils.setCurrentItem
 import com.deenislam.sdk.utils.show
@@ -46,6 +44,10 @@ import com.deenislam.sdk.views.dashboard.DashboardFragment
 import com.deenislam.sdk.views.dashboard.patch.Billboard
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 
@@ -108,17 +110,6 @@ internal class MainActivity : AppCompatActivity() {
       /*  setNotification(  SystemClock.elapsedRealtime()+600,1)
         setNotification(SystemClock.elapsedRealtime()+1200,2)
 */
-        intent.getIntExtra("destination",0).let {
-                if(it>0)
-                    stackNavigation(destination = it)
-        }
-
-        intent.getStringExtra("logout").let {
-
-            if(it == "ok") {
-                logout()
-            }
-        }
 
         //action button click
         action1Btn.setOnClickListener {
@@ -145,6 +136,18 @@ internal class MainActivity : AppCompatActivity() {
                 }
             }
             false
+        }
+
+        intent.getIntExtra("destination",0).let {
+            if(it>0)
+                stackNavigation(destination = it)
+        }
+
+        intent.getStringExtra("logout").let {
+
+            if(it == "ok") {
+                logout()
+            }
         }
 
     }
@@ -520,12 +523,19 @@ internal class MainActivity : AppCompatActivity() {
             }
             else ->
             {
-                dashboardComponent(destination.isBottomNavFragment)
 
-                if(navController.isFragmentInBackStack(destination))
-                    navController.popBackStack(destination,false)
-                else
-                    navController.navigate(destination)
+                lifecycleScope.launch {
+
+                    withContext(Dispatchers.Main)
+                    {
+                        val dashboard =  async { initDashboard() }
+                        dashboard.await()
+                        navController.navigate(destination)
+                        setupOtherFragment(true)
+                    }
+
+                }
+
             }
         }
 
@@ -537,7 +547,7 @@ internal interface actionCallback
     fun action1()
     fun action2()
 }
-interface searchCallback
+internal interface searchCallback
 {
     fun searchBack()
     fun searchSubmit(query: String)

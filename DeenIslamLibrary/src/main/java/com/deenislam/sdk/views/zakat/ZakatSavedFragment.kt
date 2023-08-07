@@ -92,6 +92,12 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
 
         loadingState()
 
+        //click retry button for get api data again
+        noInternetRetry.setOnClickListener {
+            loadingState()
+            loadApiData()
+        }
+
         listView.apply {
             post {
                 adapter = zakatSavedAdapter

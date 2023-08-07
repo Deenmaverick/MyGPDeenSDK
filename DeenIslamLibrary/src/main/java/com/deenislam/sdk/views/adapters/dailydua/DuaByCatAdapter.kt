@@ -98,7 +98,7 @@ internal class DuaByCatAdapter(
         }
     }
 }
-interface DuaByCatCallback
+internal interface DuaByCatCallback
 {
     fun favDua(isFavorite: Boolean, duaId: Int, position: Int)
 }

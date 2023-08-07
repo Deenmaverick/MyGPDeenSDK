@@ -201,4 +201,21 @@ internal class PrayerTimesRepository(
             getDateWiseNotificationData(date)
         }
 
+    suspend fun setPrayerTimeTrack(language: String,prayer_tag: String,isPrayed:Boolean) = makeApicall {
+        val body = JSONObject()
+        body.put("language", language)
+        body.put(prayer_tag.lowercase(), isPrayed)
+
+        Log.e("setPrayerTimeTrack",prayer_tag+isPrayed)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.setPrayerTimeTrack(parm = requestBody)
+    }
+
+
+    suspend fun getPrayerTimeTrack() = makeApicall {
+        val body = JSONObject()
+        deenService?.getPrayerTimeTrack()
+    }
+
 }

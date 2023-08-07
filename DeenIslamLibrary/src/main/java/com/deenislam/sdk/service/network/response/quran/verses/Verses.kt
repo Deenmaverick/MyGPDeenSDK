@@ -1,8 +1,9 @@
-package com.deenislam.service.network.response.quran.verses
+package com.deenislam.sdk.service.network.response.quran.verses
 
-import com.deenislam.sdk.service.network.response.quran.verses.Pagination
+import androidx.annotation.Keep
 
-data class Verses(
+@Keep
+internal data class Verses(
     val pagination: Pagination,
     val verses: List<Verse>
 )

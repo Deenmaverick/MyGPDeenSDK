@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
-import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.utils.getLocalContext
@@ -69,7 +68,7 @@ internal class DashboardPatchAdapter(
         notifyDataSetChanged()
     }
 
-    fun updatePrayerTracker(data: java.util.ArrayList<PrayerNotification>)
+    fun updatePrayerTracker(data: com.deenislam.sdk.service.network.response.prayertimes.tracker.Data)
     {
         Billboard().getInstance().updatePrayerTracker(data)
     }

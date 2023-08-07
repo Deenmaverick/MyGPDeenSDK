@@ -113,7 +113,7 @@ internal class TodayDuaAdapter(
     }
 }
 
-interface TodayDuaCallback
+internal interface TodayDuaCallback
 {
     fun favClick(isFavorite: Boolean, duaId: Int, position: Int)
 }

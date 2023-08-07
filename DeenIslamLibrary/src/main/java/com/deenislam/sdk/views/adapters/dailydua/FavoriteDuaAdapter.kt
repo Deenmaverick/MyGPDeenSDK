@@ -64,7 +64,7 @@ internal class FavoriteDuaAdapter(
         }
     }
 }
-interface FavDuaAdapterCallback
+internal interface FavDuaAdapterCallback
 {
     fun favClick(duaID: Int, position: Int)
     fun duaClick(duaId: Int, subCategory: Int, category: String)

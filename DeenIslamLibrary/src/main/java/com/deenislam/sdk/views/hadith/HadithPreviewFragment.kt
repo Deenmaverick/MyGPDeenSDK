@@ -105,6 +105,7 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
 
         //click retry button for get api data again
         noInternetRetry.setOnClickListener {
+            loadingState()
             loadApiData()
         }
 
@@ -119,9 +120,34 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
 
         // List scroll listner for pagging
 
-        listView.viewTreeObserver.addOnScrollChangedListener {
+        listView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    // RecyclerView has reached the end.
+                    // Load more data here if you are implementing pagination.
+                    Log.e("RecyclerView_Listview", "Reached the end")
+                    // NestedScrollView has scrolled to the end
+                    if(isNextEnabled && hadithPreviewAdapter.itemCount>0) {
+                        nextPageAPICalled = true
+                        fetchNextPageData()
+                        Log.e("ALQURAN_SCROLL","END")
+                        morePageBottomLoading(true)
+                    }
+                    else
+                        morePageBottomLoading(false)
+                }
+
+
+            }
+        })
+
+
+       /* listView.viewTreeObserver.addOnScrollChangedListener {
             val scrollY = listView.scrollY
-            val totalContentHeight = listView.getChildAt(0)?.let { it.measuredHeight - listView.height + 20 }
+            val totalContentHeight = listView.getChildAt(0)?.let { it.measuredHeight - listView.height }
 
             if (scrollY >= (totalContentHeight ?: 0) && !isScrollAtEnd) {
                 isScrollAtEnd = true
@@ -136,10 +162,10 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
                     morePageBottomLoading(false)
             }
 
-        }
+        }*/
 
         initObserver()
-
+        loadingState()
         loadApiData()
 
     }
@@ -150,6 +176,8 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
     }
 
     private fun fetchNextPageData() {
+
+        Log.e("fetchNextPageData","called")
         val from = hadithPreviewAdapter.getDataSize()
         val to = hadithData.size
 
@@ -189,7 +217,6 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
 
     private fun loadApiData(page:Int = pageNo)
     {
-        loadingState()
         lifecycleScope.launch {
             viewModel.getHadithPreview(language = getLanguage(), bookId = args.bookId,chapterId = args.chapterId, page = page, limit = pageItemCount)
         }
@@ -205,9 +232,21 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
                 CommonResource.EMPTY -> emptyState()
                 is HadithResource.hadithPreview -> {
 
+                    morePageBottomLoading(false)
+
                     totalHadithCount =  it.value.TotalData
-                    isNextEnabled = hadithPreviewAdapter.itemCount>=totalHadithCount
-                    it.value.Data?.let { it1 -> viewState(it1) }
+
+                    Log.e("totalHadithCount",totalHadithCount.toString())
+
+                    it.value.Data?.forEach {
+                            hadith->
+                        val check = hadithData.indexOfFirst { it.Id!= hadith.Id}
+                        if(check <=0)
+                            hadithData.add(hadith)
+                    }
+
+                    isNextEnabled = hadithPreviewAdapter.itemCount < totalHadithCount
+                    it.value.Data?.let { it1 -> viewState() }
                 }
                 is HadithResource.setFavHadith -> updateFavorite(it.position,it.fav)
 
@@ -242,9 +281,9 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
         noInternetLayout.show()
     }
 
-    private fun viewState(data: List<Data>)
+    private fun viewState()
     {
-        hadithPreviewAdapter.update(data)
+        hadithPreviewAdapter.update(hadithData)
 
         listView.post {
             progressLayout.hide()

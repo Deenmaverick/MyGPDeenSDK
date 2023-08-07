@@ -1,5 +1,8 @@
 package com.deenislam.sdk.service.network.response.quran.surah_details
 
+import androidx.annotation.Keep
+
+@Keep
 internal data class Ayath(
     val AyatOrder: Int,
     val ContentBaseUrl: String,

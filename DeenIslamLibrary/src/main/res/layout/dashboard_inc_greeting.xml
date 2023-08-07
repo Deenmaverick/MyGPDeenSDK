@@ -29,9 +29,9 @@
             android:text="Assalamu Alaikum, Good Morning"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/txt_black_deep"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/greetingIcon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/greetingIcon" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -46,11 +46,12 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/txt_black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/greetingIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/greeting_txt" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/greetingIcon"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="@dimen/space_16"

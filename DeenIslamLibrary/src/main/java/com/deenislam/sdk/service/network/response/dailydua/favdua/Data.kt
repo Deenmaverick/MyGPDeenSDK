@@ -1,5 +1,8 @@
 package com.deenislam.sdk.service.network.response.dailydua.favdua
 
+import androidx.annotation.Keep
+
+@Keep
 internal data class Data(
     val Address: Any,
     val Category: String,

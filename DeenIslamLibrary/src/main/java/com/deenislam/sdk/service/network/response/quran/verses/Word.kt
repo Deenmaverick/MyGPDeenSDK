@@ -1,8 +1,9 @@
-package com.deenislam.service.network.response.quran.verses
+package com.deenislam.sdk.service.network.response.quran.verses
 
-import com.deenislam.sdk.service.network.response.quran.verses.Translation
+import androidx.annotation.Keep
 
-data class Word(
+@Keep
+internal data class Word(
     val audio_url: String,
     val char_type_name: String,
     val code_v1: String,

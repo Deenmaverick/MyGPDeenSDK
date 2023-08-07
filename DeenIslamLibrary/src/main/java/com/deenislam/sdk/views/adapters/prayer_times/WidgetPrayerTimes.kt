@@ -1,12 +1,12 @@
 package com.deenislam.sdk.views.adapters.prayer_times;
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
@@ -14,9 +14,11 @@ import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.libs.notification.NotificationPermission
 import com.deenislam.sdk.service.models.prayer_time.PrayerMomentRange
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -29,6 +31,7 @@ internal class WidgetPrayerTimes(
     private var prayerData: PrayerTimesResponse? = null
     private var dateWisePrayerNotificationData:ArrayList<PrayerNotification>?= null
     private var prayerMomentRangeData: PrayerMomentRange? = null
+    private var prayerTrackingData:Data ? = null
     private var todayDate: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
 
@@ -57,6 +60,25 @@ internal class WidgetPrayerTimes(
         notifyDataSetChanged()
     }
 
+    fun updateTrackingData(data: Data)
+    {
+        prayerData?.Data?.WaktTracker?.forEach {
+
+            Log.e("updateTrackingData",Gson().toJson(it))
+            when(it.Wakt)
+            {
+                "Fajr" -> it.status = data.Fajr
+                "Zuhr" -> it.status = data.Zuhr
+                "Asar" -> it.status = data.Asar
+                "Maghrib" -> it.status = data.Maghrib
+                "Isha" -> it.status = data.Isha
+            }
+
+        }
+
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
         override fun onBind(position: Int) {
             super.onBind(position)
@@ -78,6 +100,7 @@ internal class WidgetPrayerTimes(
 
             setNotificationState("pt"+(position+1),rightBtn)
             checkPrayerTracker("pt"+(position+1),prayerCheck)
+
 
             when(position+1)
             {
@@ -174,9 +197,10 @@ internal class WidgetPrayerTimes(
             else
                 (itemView.rootView as MaterialCardView).strokeWidth = 0
 
+            val prayerIsChecked = prayerCheck.isChecked
             prayerCheck.setOnClickListener {
                 prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")
-                    ?.let { it1 -> callback?.prayerCheck("pt"+(position+1), it1) }
+                    ?.let { it1 -> callback?.prayerCheck("pt"+(position+1), !prayerIsChecked) }
             }
 
         }
@@ -220,11 +244,8 @@ internal class WidgetPrayerTimes(
 
     private fun checkPrayerTracker(prayer_tag:String,view:RadioButton)
     {
-        val checkTrack = dateWisePrayerNotificationData?.indexOfFirst {
-            it.isPrayed &&
-                    it.prayer_tag == prayer_tag &&
-                    it.prayer_tag.isNotEmpty() &&
-                    it.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))
+        val checkTrack = prayerData?.Data?.WaktTracker?.indexOfFirst {
+                    it.Wakt == prayer_tag.getWaktNameByTag() && it.status
 
         }
 

@@ -136,4 +136,10 @@ internal class ZakatRepository(
         deenService?.delZakatHistory(requestBody)
 
     }
+
+    suspend fun getZakatNisab() = makeApicall {
+
+        deenService?.getZakatNisab()
+
+    }
 } 

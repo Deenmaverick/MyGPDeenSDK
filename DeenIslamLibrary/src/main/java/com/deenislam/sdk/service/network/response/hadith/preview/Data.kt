@@ -1,6 +1,9 @@
 package com.deenislam.sdk.service.network.response.hadith.preview
 
-data class Data(
+import androidx.annotation.Keep
+
+@Keep
+internal data class Data(
     val BabName: Any,
     val BabNumber: Any,
     val BookId: Int,

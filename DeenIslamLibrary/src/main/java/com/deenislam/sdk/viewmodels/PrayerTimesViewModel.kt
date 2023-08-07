@@ -11,6 +11,7 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import kotlinx.coroutines.launch
 
@@ -88,10 +89,39 @@ internal class PrayerTimesViewModel(
         }
     }
 
-    fun setPrayerTrack(date:String,prayer_tag: String,bol:Boolean)
+    fun setPrayerTrack(language:String,prayer_tag: String,bol:Boolean)
     {
         viewModelScope.launch {
-            _prayerTimesNotification.value = PrayerNotificationResource.dateWiseNotificationData(prayerTimesRepository.updatePrayerTrackAuto(date=date,prayer_tag=prayer_tag) as ArrayList<PrayerNotification>)
+
+            val response = prayerTimesRepository.setPrayerTimeTrack(language = language,prayer_tag = prayer_tag, isPrayed = bol)
+
+            when(response)
+            {
+                is ApiResource.Failure -> _prayerTimesNotification.value = PrayerNotificationResource.prayerTrackFailed
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Success == true)
+                        processPrayerTrackData(prayerTimesRepository.getPrayerTimeTrack())
+                    else
+                        _prayerTimesNotification.value = PrayerNotificationResource.prayerTrackFailed
+                }
+            }
+        }
+    }
+
+    private fun processPrayerTrackData(response: ApiResource<PrayerTrackResponse?>)
+    {
+        when(response)
+        {
+            is ApiResource.Failure -> _prayerTimesNotification.value = PrayerNotificationResource.prayerTrackFailed
+            is ApiResource.Success ->
+            {
+                if(response.value?.Success == true)
+                    _prayerTimesNotification.value = PrayerNotificationResource.prayerTrackData(response.value.Data)
+                else
+                    _prayerTimesNotification.value = PrayerNotificationResource.prayerTrackFailed
+
+            }
         }
     }
 

@@ -13,4 +13,7 @@ internal interface ZakatResource {
 
     object historyUpdateFailed:ZakatResource
     object historyUpdateSuccess:ZakatResource
+
+    data class zakatNisab(val data: List<com.deenislam.sdk.service.network.response.zakat.nisab.Data>) :ZakatResource
+
 }

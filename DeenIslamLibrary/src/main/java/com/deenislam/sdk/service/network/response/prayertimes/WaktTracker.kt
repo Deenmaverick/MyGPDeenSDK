@@ -1,6 +1,9 @@
 package com.deenislam.sdk.service.network.response.prayertimes
 
-data class WaktTracker(
-    val Wakt: String,
-    val status: Boolean
+import androidx.annotation.Keep
+
+@Keep
+internal data class WaktTracker(
+    var Wakt: String,
+    var status: Boolean
 )

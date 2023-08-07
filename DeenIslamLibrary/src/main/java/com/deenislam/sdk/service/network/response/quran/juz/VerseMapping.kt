@@ -1,10 +1,12 @@
 package com.deenislam.sdk.service.network.response.quran.juz
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 
+@Keep
 @Parcelize
-data class VerseMapping(
+internal data class VerseMapping(
     val `1`: String?,
     val `10`: String?,
     val `100`: String?,

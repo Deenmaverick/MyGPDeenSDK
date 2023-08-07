@@ -24,7 +24,7 @@ import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.base.BaseViewHolderBinding
-import com.deenislam.service.network.response.quran.verses.Verse
+import com.deenislam.sdk.service.network.response.quran.verses.Verse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

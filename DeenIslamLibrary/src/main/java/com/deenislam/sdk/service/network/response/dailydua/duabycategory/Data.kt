@@ -1,5 +1,8 @@
 package com.deenislam.sdk.service.network.response.dailydua.duabycategory
 
+import androidx.annotation.Keep
+
+@Keep
 internal data class Data(
     val DuaId :Int,
     val Address: Any,

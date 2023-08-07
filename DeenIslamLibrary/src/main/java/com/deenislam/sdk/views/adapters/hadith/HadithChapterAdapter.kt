@@ -63,7 +63,7 @@ internal class HadithChapterAdapter(
     }
 }
 
-interface HadithChapterCallback
+internal interface HadithChapterCallback
 {
     fun chapterClick(chapterID: Int, bookID: Int, name: String)
 }

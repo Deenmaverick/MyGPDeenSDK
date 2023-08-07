@@ -8,9 +8,11 @@ import com.deenislam.sdk.service.network.response.dailydua.todaydua.TodayDua
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislam.sdk.service.network.response.prayer_calendar.PrayerCalendarResponse
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
 import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetails
 import com.deenislam.sdk.service.network.response.quran.SurahList
 import com.deenislam.sdk.service.network.response.zakat.SavedZakatResponse
+import com.deenislam.sdk.service.network.response.zakat.nisab.NisabResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -21,6 +23,12 @@ internal interface DeenService {
 
     @POST("PrayerTime/PrayerTimeDateWise")
     suspend fun prayerTime(@Body parm: RequestBody): PrayerTimesResponse
+
+    @POST("PrayerTracker/AddTrackingInfo")
+    suspend fun setPrayerTimeTrack(@Body parm: RequestBody): BasicResponse
+
+    @POST("PrayerTracker/GetTrackingInfo")
+    suspend fun getPrayerTimeTrack(): PrayerTrackResponse
 
     @POST("PrayerTime/CurrentMonthPrayerTime")
     suspend fun currentMonthPrayerTime(@Body parm: RequestBody): PrayerCalendarResponse
@@ -118,8 +126,8 @@ internal interface DeenService {
     @POST("Zakat/DeleteZakatHistory")
     suspend fun delZakatHistory(@Body parm: RequestBody): BasicResponse
 
-
-
+    @POST("Zakat/ZakatProduct")
+    suspend fun getZakatNisab(): NisabResponse
 
 
 }

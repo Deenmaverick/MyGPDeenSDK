@@ -1,6 +1,9 @@
 package com.deenislam.sdk.service.network.response.hadith.chapter
 
-data class HadithChapterResponse(
+import androidx.annotation.Keep
+
+@Keep
+internal data class HadithChapterResponse(
     val Data: List<Data>?,
     val Message: String,
     val Success: Boolean,

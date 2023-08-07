@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deenislam.sdk.service.models.CommonResource
-import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.models.HadithResource
 import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.response.hadith.HadithResponse
@@ -112,11 +111,11 @@ internal class HadithViewModel(
 
     }
 
-    fun setFavHadith(isFavorite: Boolean, duaId: Int, language: String, position: Int)
+    fun setFavHadith(isFavorite: Boolean, hadithID: Int, language: String, position: Int)
     {
         viewModelScope.launch {
 
-            when(val response = hadithRepository.setHadithFav(isFavorite,duaId,language))
+            when(val response = hadithRepository.setHadithFav(isFavorite,hadithID,language))
             {
                 is ApiResource.Failure -> _hadithPreviewLiveData.value = CommonResource.ACTION_API_CALL_FAILED
                 is ApiResource.Success ->
@@ -126,6 +125,23 @@ internal class HadithViewModel(
 
                 }
             }
+        }
+    }
+
+    fun getFavHadith(duaId: Int, language: String, position: Int)
+    {
+        viewModelScope.launch {
+/*
+            when(val response = hadithRepository.setHadithFav(isFavorite,duaId,language))
+            {
+                is ApiResource.Failure -> _hadithPreviewLiveData.value = CommonResource.ACTION_API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Success == true)
+                        _hadithPreviewLiveData.value = HadithResource.setFavHadith(position,!isFavorite)
+
+                }
+            }*/
         }
     }
 

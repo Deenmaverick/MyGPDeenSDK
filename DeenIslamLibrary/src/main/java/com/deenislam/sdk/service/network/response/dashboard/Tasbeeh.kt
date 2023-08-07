@@ -1,5 +1,8 @@
 package com.deenislam.sdk.service.network.response.dashboard
 
+import androidx.annotation.Keep
+
+@Keep
 internal data class Tasbeeh(
     val ArabicText: Any,
     val FeatureID: Int,

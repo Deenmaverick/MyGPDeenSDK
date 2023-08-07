@@ -42,7 +42,6 @@ internal class HadithPreviewAdapter(
 
     fun update(data: List<Data>)
     {
-        haditDataList.clear()
         haditDataList.addAll(data)
         notifyDataSetChanged()
     }
@@ -85,17 +84,26 @@ internal class HadithPreviewAdapter(
                     val data = haditDataList[position]
 
                     duaCat.text = duaCat.context.getString(R.string.hadith_preview_pos,data.HadithNumber.numberLocale())
-                    arabicName.text = data.HadithArabicText
+
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         duaSub.text = Html.fromHtml(
                             data.HadithText,
                             Html.FROM_HTML_MODE_LEGACY
                         )
+
+                        arabicName.text = Html.fromHtml(
+                            data.HadithArabicText,
+                            Html.FROM_HTML_MODE_LEGACY
+                        )
+
                     } else {
                         @Suppress("DEPRECATION")
                         duaSub.text = Html.fromHtml(
                             data.HadithText
+                        )
+                        arabicName.text = Html.fromHtml(
+                            data.HadithArabicText
                         )
                     }
 

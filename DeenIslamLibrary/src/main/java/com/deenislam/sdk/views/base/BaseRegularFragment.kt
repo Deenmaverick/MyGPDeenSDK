@@ -265,7 +265,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
 }
 
-interface otherFagmentActionCallback
+internal interface otherFagmentActionCallback
 {
     fun action1()
     fun action2()

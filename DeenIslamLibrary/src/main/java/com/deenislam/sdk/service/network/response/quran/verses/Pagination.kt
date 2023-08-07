@@ -1,6 +1,9 @@
 package com.deenislam.sdk.service.network.response.quran.verses
 
-data class Pagination(
+import androidx.annotation.Keep
+
+@Keep
+internal data class Pagination(
     val current_page: Int,
     val next_page: Int?,
     val per_page: Int,

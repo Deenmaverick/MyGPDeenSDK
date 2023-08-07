@@ -97,7 +97,7 @@ internal class QuranJuzAdapter(
 
     }
 }
-interface JuzCallback
+internal interface JuzCallback
 {
     fun juzClicked(juz: Juz)
 }

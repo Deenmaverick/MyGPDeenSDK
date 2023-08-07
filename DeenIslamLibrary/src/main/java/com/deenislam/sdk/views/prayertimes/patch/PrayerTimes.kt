@@ -7,6 +7,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.models.prayer_time.PrayerMomentRange
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.views.adapters.prayer_times.WidgetPrayerTimes
 import com.deenislam.sdk.views.adapters.prayer_times.prayerTimeAdapterCallback
 
@@ -47,5 +48,10 @@ internal class PrayerTimes {
     )
     {
         instance?.widgetPrayerTimes?.updateData(prayerTimesResponse,dateWisePrayerNotificationData,prayerMomentRangeData)
+    }
+
+    fun updateTrackingData(data: Data)
+    {
+        instance?.widgetPrayerTimes?.updateTrackingData(data)
     }
 }

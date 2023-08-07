@@ -1,5 +1,8 @@
 package com.deenislam.sdk.service.network.response.prayertimes
 
+import androidx.annotation.Keep
+
+@Keep
 internal data class Data(
     val Asr: String,
     val Date: String,
@@ -15,5 +18,6 @@ internal data class Data(
     val Sunrise: String,
     val Tahajjut: String,
     val wish: String,
+    val moment:String,
     val WaktTracker: List<WaktTracker>,
 )

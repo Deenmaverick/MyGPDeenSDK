@@ -10,7 +10,7 @@ import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.response.quran.juz.JuzResponse
 import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetails
 import com.deenislam.sdk.service.repository.quran.AlQuranRepository
-import com.deenislam.service.network.response.quran.verses.Verses
+import com.deenislam.sdk.service.network.response.quran.verses.Verses
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 

@@ -1,6 +1,9 @@
-package com.deenislam.service.network.response.quran.verses
+package com.deenislam.sdk.service.network.response.quran.verses
 
-data class Transliteration(
+import androidx.annotation.Keep
+
+@Keep
+internal data class Transliteration(
     val language_name: String,
     val text: String
 )
