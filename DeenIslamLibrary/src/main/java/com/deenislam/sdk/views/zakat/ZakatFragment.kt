@@ -10,14 +10,18 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.reduceDragSensitivity
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.views.zakat.ZakatSavedFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialSharedAxis
+import kotlinx.coroutines.launch
 
 internal class ZakatFragment : BaseRegularFragment() {
 
@@ -31,6 +35,8 @@ internal class ZakatFragment : BaseRegularFragment() {
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
     private var viewPagerPosition:Int = 0
+
+    private var firstload = false
 
 
     override fun OnCreate() {
@@ -62,6 +68,21 @@ internal class ZakatFragment : BaseRegularFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "zakat",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        firstload = true
 
         mPageDestination = arrayListOf(
             ZakatHomeFragment(),
@@ -131,5 +152,20 @@ internal class ZakatFragment : BaseRegularFragment() {
         savedBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
     }
+
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "zakat",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
+    }
+
 
 }

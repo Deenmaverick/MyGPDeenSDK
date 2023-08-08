@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.launch
 
 internal class ZakatHomeFragment : BaseRegularFragment() {
 
@@ -112,6 +115,20 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
             faq4Content.visible(!faq4Content.isVisible)
         }
 
+    }
+
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "zakat",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
     }
 
 }

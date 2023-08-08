@@ -1,7 +1,6 @@
 package com.deenislam.sdk.views.adapters.dashboard
 
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,13 +22,10 @@ import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.TimeDiffForPrayer
-import com.deenislam.sdk.utils.checkCompulsoryprayerByTag
 import com.deenislam.sdk.utils.dp
-import com.deenislam.sdk.utils.formateDateTime
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.getPrayerTimeName
 import com.deenislam.sdk.utils.getWaktNameByTag
-import com.deenislam.sdk.utils.get_prayer_name_by_tag
 import com.deenislam.sdk.utils.get_prayer_tag_by_name
 import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.utils.numberLocale
@@ -201,6 +197,8 @@ internal class DashboardBillboardAdapter(
             prayerBG.setBackgroundResource(R.drawable.maghrib)
         else if(prayerMomentRangeData?.MomentName == "Isha")
             prayerBG.setBackgroundResource(R.drawable.isha)
+        else if(prayerMomentRangeData?.MomentName == "Ishraq")
+            prayerBG.setBackgroundResource(R.drawable.fajr)
         else {
             //prayerBG.setBackgroundResource(R.drawable.isha)
             prayerTracker(false)
@@ -247,17 +245,19 @@ internal class DashboardBillboardAdapter(
 
     private fun widget2_view(position: Int)
     {
-        if(billboardBanner.isEmpty() || billboardData[position].Text == "PrayerTime")
-            return
+        if (billboardData.size>0) {
+            if (billboardBanner.isEmpty() || billboardData[position].Text == "PrayerTime")
+                return
 
-        billboardBanner[position].setOnClickListener {
-            dashboardPatchCallback.dashboardPatchClickd(billboardData[position].Text)
+            billboardBanner[position].setOnClickListener {
+                dashboardPatchCallback.dashboardPatchClickd(billboardData[position].Text)
+            }
+
+            billboardBanner[position].imageLoad(
+                url = billboardData[position].contentBaseUrl + "/" + billboardData[position].imageurl1,
+                ic_medium = true
+            )
         }
-
-        billboardBanner[position].imageLoad(
-            url = billboardData[position].contentBaseUrl+"/"+billboardData[position].imageurl1,
-            ic_medium = true
-        )
     }
 
     private fun prayerTracker(bol:Boolean)

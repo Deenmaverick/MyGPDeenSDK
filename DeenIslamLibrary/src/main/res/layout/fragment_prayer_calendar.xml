@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
+    tools:viewBindingIgnore="true"
     android:nestedScrollingEnabled="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">

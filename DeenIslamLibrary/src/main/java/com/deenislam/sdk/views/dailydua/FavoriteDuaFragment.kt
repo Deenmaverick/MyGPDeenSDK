@@ -12,6 +12,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.libs.alertdialog.CustomAlertDialog
@@ -22,6 +23,7 @@ import com.deenislam.sdk.service.network.response.dailydua.favdua.Data
 import com.deenislam.sdk.service.repository.DailyDuaRepository
 import com.deenislam.sdk.utils.LoadingButton
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
@@ -94,6 +96,19 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
         loadPage()
     }
 
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "daily_dua",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
+    }
     private fun loadPage()
     {
 

@@ -21,5 +21,5 @@ internal interface CommonResource
         HadithResource, PrayerNotificationResource
 
     object CLEAR:CommonResource, ZakatResource, PrayerNotificationResource, SettingResource,
-        DailyDuaResource, IslamicNameResource
+        DailyDuaResource, IslamicNameResource, HadithResource
 }

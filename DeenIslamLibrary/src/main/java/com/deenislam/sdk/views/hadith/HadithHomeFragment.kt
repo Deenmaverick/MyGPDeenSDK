@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.hadith
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
@@ -113,6 +115,21 @@ internal class HadithHomeFragment : BaseRegularFragment(), HadithCollectionCallb
         lifecycleScope.launch {
             viewModel.getHadithCollection(language = "en")
         }
+    }
+
+    override fun onBackPress() {
+
+        Log.e("onBackPress","HADITH")
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "hadith",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
     }
 
     private fun initObserver()

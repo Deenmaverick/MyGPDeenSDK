@@ -30,5 +30,10 @@ internal interface HadithService {
         @Body parm: RequestBody
     ): BasicResponse
 
+    @POST("Hadith/FavHadithByChapterFromBook")
+    suspend fun getFavHadith(
+        @Body parm: RequestBody
+    ): HadithPreviewResponse
+
 
 }

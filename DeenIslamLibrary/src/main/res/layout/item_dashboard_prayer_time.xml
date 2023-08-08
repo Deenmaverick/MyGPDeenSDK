@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/space_16"
     app:cardElevation="0dp"
+    tools:viewBindingIgnore="true"
     style="@style/Widget.Material3.CardView.Elevated"
     android:layout_marginStart="@dimen/space_4"
     android:layout_marginEnd="@dimen/space_4"
@@ -12,7 +13,8 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
   <!--  <include
         android:id="@+id/shimmerContainer"

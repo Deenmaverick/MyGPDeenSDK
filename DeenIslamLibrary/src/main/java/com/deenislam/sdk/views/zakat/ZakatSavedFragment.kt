@@ -10,6 +10,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.libs.alertdialog.CustomAlertDialog
@@ -223,6 +224,20 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
         lifecycleScope.launch {
             viewmodel.clear()
         }
+    }
+
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "zakat",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
     }
 
 }

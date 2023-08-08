@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
@@ -97,6 +98,18 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
 
         setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
+    }
+
+    override fun onBackPress() {
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "quran",
+                trackingID = getTrackingID()
+            )
+        }
+        super.onBackPress()
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {

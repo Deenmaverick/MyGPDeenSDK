@@ -10,6 +10,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.libs.alertdialog.CustomAlertDialog
@@ -133,7 +134,7 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
                     btn2?.isClickable = true
                     LoadingButton().getInstance(requireContext()).removeLoader()
                     customAlertDialog?.dismissDialog()
-                    requireContext().toast("Failed to remove favorite name")
+                    requireContext().toast("Failed to remove favorite item")
                 }
                 is IslamicNameResource.favremoved ->
                 {
@@ -144,7 +145,7 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
                     islamicNameFavAdapter.delItem(adapterPosition)
                     if (islamicNameFavAdapter.itemCount == 0)
                         emptyState()
-                    requireContext().toast("Favorite names updated successful")
+                    requireContext().toast("Favorite item updated successful")
                 }
 
                 is CommonResource.CLEAR -> Unit
@@ -196,7 +197,7 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
         btn2?.text = btn2?.let { LoadingButton().getInstance(requireContext()).loader(it) }
 
         lifecycleScope.launch {
-            favData?.Id?.let { viewmodel.removeFavName(it,"bn",adapterPosition) }
+            favData?.Id?.let { viewmodel.removeFavName(it,getLanguage(),adapterPosition) }
         }
 
     }
@@ -215,5 +216,19 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
         customAlertDialog?.showDialog(false)
     }
 
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "islamic_name",
+                trackingID = getTrackingID()
+            )
+        }
+
+
+        super.onBackPress()
+    }
 
 }

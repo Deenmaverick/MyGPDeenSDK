@@ -23,10 +23,14 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.MAKKAH_LATITUDE
 import com.deenislam.sdk.utils.MAKKAH_LONGITUDE
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -50,9 +54,13 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
     private lateinit var distanceTxt:AppCompatTextView
     private var locationListener:LocationListener ? =null
     private var locationManager:LocationManager ? =null
+    private lateinit var actionbar:ConstraintLayout
+    private lateinit var container:NestedScrollView
     private lateinit var mSensorManager: SensorManager
 
     private lateinit var accuracy:AppCompatTextView
+
+    private var firstload = false
 
 
     private var dialog:Dialog ? = null
@@ -80,6 +88,8 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         compassKaaba = mainView.findViewById(R.id.compassKaaba)
         degreeTxt = mainView.findViewById(R.id.degreeTxt)
         distanceTxt = mainView.findViewById(R.id.distanceTxt)
+        actionbar = mainView.findViewById(R.id.actionbar)
+        this.container = mainView.findViewById(R.id.container)
 
         setupActionForOtherFragment(0,0,null,localContext.getString(R.string.qibla_compass),true,mainView)
         return mainView
@@ -88,6 +98,26 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "compass",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        firstload = true
+
+        actionbar.post {
+            val param = container.layoutParams as ViewGroup.MarginLayoutParams
+            param.topMargin = container.marginTop+ actionbar.height
+            container.layoutParams = param
+        }
 
         degreeTxt.text = localContext.getString(R.string.compass_degree_txt,"--")
 
@@ -441,6 +471,20 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         okBtn.setOnClickListener {
             dialog?.dismiss()
         }
+    }
+
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "compass",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
     }
 
 }

@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.database.entity.PrayerNotification
@@ -156,8 +157,20 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         if(prayerMain.isEmpty())
             loadPage()
 
-        if(firstload == 0)
+        if(firstload == 0) {
+
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "prayer_time",
+                    trackingID = getTrackingID()
+                )
+            }
+
             loadDataAPI()
+        }
         firstload = 1
 
     }
@@ -328,7 +341,14 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun onBackPress() {
-        Log.e("onBackPress","STATE")
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "prayer_time",
+                trackingID = getTrackingID()
+            )
+        }
         viewmodel.listState = null
         super.onBackPress()
     }

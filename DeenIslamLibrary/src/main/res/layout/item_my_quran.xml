@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    android:layout_width="match_parent"
+<com.google.android.material.card.MaterialCardView android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginStart="@dimen/space_16"
     android:layout_marginEnd="@dimen/space_16"
     android:layout_marginTop="1dp"
     android:layout_marginBottom="@dimen/space_4"
     app:cardCornerRadius="8dp"
     app:cardElevation="0dp"
+    tools:viewBindingIgnore="true"
     app:cardBackgroundColor="@android:color/transparent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
@@ -32,17 +33,20 @@ import com.deenislam.sdk.utils.MENU_ISLAMIC_NAME
 import com.deenislam.sdk.utils.MENU_PRAYER_TIME
 import com.deenislam.sdk.utils.MENU_QIBLA_COMPASS
 import com.deenislam.sdk.utils.MENU_ZAKAT
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.getWaktNameByTag
 import com.deenislam.sdk.utils.prayerMomentLocaleForToast
 import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
+import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
 import com.deenislam.sdk.views.base.BaseFragment
 import com.deenislam.sdk.views.main.actionCallback
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -88,6 +92,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             requireActivity(),
             factoryPrayer
         )[PrayerTimesViewModel::class.java]
+
+
 
     }
 
@@ -193,7 +199,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     private fun updatePrayerTrackingView(data: com.deenislam.sdk.service.network.response.prayertimes.tracker.Data)
     {
-
         dashboardPatchMain.updatePrayerTracker(data)
     }
 
@@ -207,20 +212,16 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     private fun viewState(data: Data)
     {
+        lifecycleScope.launch {
 
-        dashboardPatchMain.updateDashData(data)
+            val dashbTask = async { dashboardPatchMain.updateDashData(data) }
 
-        prayerTimesResponse?.let {
-            dashboardPatchMain.updatePrayerTime(it)
+            dashbTask.await()
+
+            prayerTimesResponse?.let {
+                dashboardPatchMain.updatePrayerTime(it)
+            }
         }
-
-
-        //dashboardPatchMain.notifyDataSetChanged()
-
-       /* binding.dashboardMain.afterMeasured {
-            dataState()
-        }*/
-
     }
 
 
@@ -278,6 +279,16 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                     loadDataAPI()
                 }
             }
+
+        lifecycleScope.launch {
+
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "home",
+                trackingID = get9DigitRandom()
+            )
+        }
 
     }
 

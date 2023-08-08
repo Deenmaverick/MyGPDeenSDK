@@ -1,18 +1,22 @@
 package com.deenislam.sdk.service.repository
 
 import android.util.Log
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.service.database.dao.UserPrefDao
 import com.deenislam.sdk.service.database.entity.UserPref
+import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.network.ApiCall
 import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.service.network.response.auth.login.LoginResponse
 import com.deenislam.sdk.utils.RequestBodyMediaType
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import kotlin.random.Random
 
 
 internal class AuthenticateRepository(
@@ -59,8 +63,27 @@ internal class AuthenticateRepository(
             {
                 response.value?.Data?.let {
 
-                        if(storeToken(it.JWT,msisdn,"") > 0)
+                        if(storeToken(it.JWT,msisdn,"") > 0) {
+
+                            makeApicall {
+
+
+
+                                val body = JSONObject()
+                                body.put("language", Deen.language)
+                                body.put("msisdn", msisdn)
+                                body.put("pagename", "dashboard")
+                                body.put("trackingID", get9DigitRandom())
+                                body.put("device", "sdk")
+                                val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+                                NetworkProvider().getInstance().provideDeenService()
+                                authenticateService?.userTrack(requestBody)
+                            }
+
+
                             return it.JWT
+                        }
                         else
                         {
                             return  null

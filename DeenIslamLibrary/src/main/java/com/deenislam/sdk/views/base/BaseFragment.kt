@@ -2,6 +2,7 @@ package com.deenislam.sdk.views.base
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +21,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.isBottomNavFragment
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
+import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 import java.util.Locale
@@ -35,6 +39,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     lateinit var localContext:Context
     lateinit var localInflater: LayoutInflater
+    lateinit var userTrackViewModel: UserTrackViewModel
 
     private val fragmentViewModel by viewModels<FragmentViewModel>()
 
@@ -122,7 +127,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     override fun onResume() {
         super.onResume()
-
+        if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.isEnabled = true
 
     }
@@ -133,6 +138,8 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     }
 
     open fun onBackPress() {
+
+        Log.e("onBackPress","BASE")
         if(!isOnlyback) {
             findNavController().popBackStack().apply {
                 setupOtherFragment(false)
@@ -234,6 +241,10 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     open fun OnCreate(){
 
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
+
         onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {
                 onBackPress()
@@ -243,16 +254,20 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     override fun onPause() {
         super.onPause()
-        onBackPressedCallback.isEnabled = false
-    }
 
+        if(this::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.isEnabled = false
+        }
+    }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
         //unregister listener here
-        onBackPressedCallback.isEnabled = false
-        onBackPressedCallback.remove()
+        if(this::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.isEnabled = false
+            onBackPressedCallback.remove()
+        }
     }
 
 }

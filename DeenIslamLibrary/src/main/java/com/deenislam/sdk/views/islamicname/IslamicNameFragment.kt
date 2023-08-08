@@ -10,13 +10,17 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.reduceDragSensitivity
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialSharedAxis
+import kotlinx.coroutines.launch
 
 
 internal class IslamicNameFragment : BaseRegularFragment() {
@@ -30,6 +34,8 @@ internal class IslamicNameFragment : BaseRegularFragment() {
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
     private var viewPagerPosition:Int = 0
+
+    private var firstload = false
 
     override fun OnCreate() {
         super.OnCreate()
@@ -59,6 +65,22 @@ internal class IslamicNameFragment : BaseRegularFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "islamic_name",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        firstload = true
+
 
         mPageDestination = arrayListOf(
             IslamicNameHomeFragment(),
@@ -127,5 +149,19 @@ internal class IslamicNameFragment : BaseRegularFragment() {
         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
+    }
+
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "islamic_name",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
     }
 }

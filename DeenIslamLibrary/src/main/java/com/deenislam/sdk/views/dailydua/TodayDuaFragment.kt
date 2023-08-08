@@ -11,12 +11,14 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.network.response.dailydua.todaydua.Data
 import com.deenislam.sdk.service.repository.DailyDuaRepository
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
@@ -112,6 +114,19 @@ internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
         }
     }
 
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "daily_dua",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
+    }
     private fun initObserver()
     {
         viewmodel.todayDuaLiveData.observe(viewLifecycleOwner)

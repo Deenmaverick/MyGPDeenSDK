@@ -25,6 +25,10 @@ internal class HadithViewModel(
     private val _hadithPreviewLiveData:MutableLiveData<HadithResource> = MutableLiveData()
     val hadithPreviewLiveData:MutableLiveData<HadithResource> get() = _hadithPreviewLiveData
 
+    private val _hadithFavLiveData:MutableLiveData<HadithResource> = MutableLiveData()
+    val hadithFavLiveData:MutableLiveData<HadithResource> get() = _hadithFavLiveData
+
+
     fun getHadithCollection(language:String){
         viewModelScope.launch {
             processHadithCollection(
@@ -122,27 +126,36 @@ internal class HadithViewModel(
                 {
                     if(response.value?.Success == true)
                         _hadithPreviewLiveData.value = HadithResource.setFavHadith(position,!isFavorite)
+                    else
+                        _hadithPreviewLiveData.value = HadithResource.updateFavFailed
 
                 }
             }
         }
     }
 
-    fun getFavHadith(duaId: Int, language: String, position: Int)
+    fun getFavHadith(language: String,page:Int,limit:Int)
     {
         viewModelScope.launch {
-/*
-            when(val response = hadithRepository.setHadithFav(isFavorite,duaId,language))
+
+            when(val response = hadithRepository.getFavHadith(language = language, page = page, limit = limit))
             {
-                is ApiResource.Failure -> _hadithPreviewLiveData.value = CommonResource.ACTION_API_CALL_FAILED
+                is ApiResource.Failure -> _hadithFavLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success ->
                 {
-                    if(response.value?.Success == true)
-                        _hadithPreviewLiveData.value = HadithResource.setFavHadith(position,!isFavorite)
+                    if(response.value?.Data?.isNotEmpty() == true)
+                        _hadithFavLiveData.value = HadithResource.hadithFavData(response.value)
+                    else
+                        _hadithFavLiveData.value = CommonResource.EMPTY
 
                 }
-            }*/
+            }
         }
+    }
+
+    fun clear()
+    {
+        _hadithPreviewLiveData.value = CommonResource.CLEAR
     }
 
 }

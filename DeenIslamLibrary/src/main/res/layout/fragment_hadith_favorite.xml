@@ -12,12 +12,29 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:nestedScrollingEnabled="false"
-        android:paddingTop="@dimen/space_16"
+        android:paddingTop="@dimen/space_12"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:visibility="gone"
+        android:id="@+id/last_item_loading_progress"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="@dimen/space_16"
+        android:layout_marginStart="@dimen/space_12"
+        android:layout_marginEnd="@dimen/space_12"
+        app:indicatorSize="@dimen/space_24"
+        app:trackThickness="2dp"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listView"/>
+
 
     <include
         android:id="@+id/progressLayout"

@@ -62,4 +62,17 @@ internal class HadithRepository (
             hadithService?.setHadithFav(parm = requestBody)
 
         }
+
+    suspend fun getFavHadith(language: String,page:Int,limit:Int) =
+        makeApicall {
+
+            val body = JSONObject()
+            body.put("language", language)
+            body.put("page", page)
+            body.put("content", limit)
+
+            val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+            hadithService?.getFavHadith(parm = requestBody)
+        }
 }

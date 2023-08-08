@@ -7,6 +7,35 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/prayernotifyon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/prayertime"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/white"
+        android:text="Prayer notification enable"
+        android:textColor="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/prayernotifyoff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/prayernotifyon"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/white"
+        android:text="Prayer notification disabled"
+        android:textColor="@color/black" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/prayertime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -66,10 +66,10 @@ internal class ZakatSavedAdapter(
             datetime.text = timedate.timeLocale().monthNameLocale()
             totalAssets.text = "৳ ${data.TotalAssets}".numberLocale()
             payableZakat.text = "৳ ${data.ZakatPayable}".numberLocale()
-            //dateCard.text = dateCardText.timeLocale().monthNameLocale()
+            dateCard.text = dateCardText.timeLocale().monthNameLocale()
 
 
-            val htmlText = "<font size=\"4\">20px.</font>"
+            /*val htmlText = "<font size=\"4\">${dateCardText.timeLocale().monthNameLocale()}</font>"
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 dateCard.text = Html.fromHtml(
@@ -81,7 +81,7 @@ internal class ZakatSavedAdapter(
                 dateCard.text = Html.fromHtml(
                     htmlText
                 )
-            }
+            }*/
 
             itemView.setOnClickListener {
                 callback.viewCalculation(data)

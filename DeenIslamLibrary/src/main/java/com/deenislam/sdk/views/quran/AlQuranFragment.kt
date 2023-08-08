@@ -371,7 +371,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     private fun morePageBottomLoading(bol:Boolean)
     {
-        binding.lastItemLoading.root.visible(bol && !isReadingMode)
         binding.lastItemLoadingProgress.visible(bol && isReadingMode)
     }
 

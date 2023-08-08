@@ -189,7 +189,8 @@ fun String.prayerMomentLocale():String
 
 fun Int.getSurahNameBn():String
 {
-    val surahNameBn = arrayListOf<String>("আল ফাতিহা",
+    val surahNameBn = arrayListOf(
+        "আল ফাতিহা",
         "আল বাকারাহ",
         "আলে-ইমরান",
         "আন নিসা",

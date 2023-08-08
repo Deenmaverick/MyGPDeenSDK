@@ -18,7 +18,9 @@
 */
 -->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/text1"
+    tools:viewBindingIgnore="true"
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -26,4 +28,4 @@
     android:paddingBottom="@dimen/space_8"
     android:paddingStart="@dimen/space_16"
     android:paddingEnd="0dp"
-    android:textAlignment="textStart"/>
+    android:textAlignment="textStart" />

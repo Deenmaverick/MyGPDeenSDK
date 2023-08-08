@@ -21,7 +21,10 @@ import androidx.navigation.fragment.findNavController
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ActivityCallback
+import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
@@ -34,6 +37,8 @@ internal abstract class BaseRegularFragment: Fragment() {
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isOnlyback:Boolean = false
     private var isBackPressed:Boolean = false
+    lateinit var userTrackViewModel: UserTrackViewModel
+
 
     lateinit var localContext:Context
     lateinit var localInflater: LayoutInflater
@@ -62,6 +67,13 @@ internal abstract class BaseRegularFragment: Fragment() {
         (activity as MainActivity).changeLanguage()
     }
 
+    fun setTrackingID(id:Long)
+    {
+        (activity as MainActivity).setTrackingID(id)
+    }
+
+    fun getTrackingID() = (activity as MainActivity).getTrackingID()
+
     fun getLanguage():String =
         if(Deen.language == "en")
             ""
@@ -78,6 +90,8 @@ internal abstract class BaseRegularFragment: Fragment() {
 
 
     open fun onBackPress() {
+
+        Log.e("onBackPress","REGULAR")
         this.isBackPressed = true
         if(!isOnlyback) {
             findNavController().popBackStack().apply {
@@ -92,6 +106,10 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     open fun OnCreate(){
 
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
+
         onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {
                 onBackPress()
@@ -103,6 +121,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     override fun onPause() {
         super.onPause()
+        if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.isEnabled = false
     }
 
@@ -256,7 +275,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+        if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.isEnabled = true
     }
 

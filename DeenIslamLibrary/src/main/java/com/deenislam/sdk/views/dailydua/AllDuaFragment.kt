@@ -13,6 +13,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
@@ -20,6 +21,7 @@ import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.network.response.dailydua.alldua.Data
 import com.deenislam.sdk.service.repository.DailyDuaRepository
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.runWhenReady
 import com.deenislam.sdk.utils.show
@@ -117,6 +119,19 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
 
     }
 
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "daily_dua",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
+    }
 
 
     private fun loadApiData()

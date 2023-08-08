@@ -10,13 +10,17 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.reduceDragSensitivity
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialSharedAxis
+import kotlinx.coroutines.launch
 
 internal class HadithFragment : BaseRegularFragment() {
 
@@ -30,6 +34,7 @@ internal class HadithFragment : BaseRegularFragment() {
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
     private var viewPagerPosition:Int = 0
+    private var firstload = false
 
     override fun OnCreate() {
         super.OnCreate()
@@ -61,6 +66,21 @@ internal class HadithFragment : BaseRegularFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        if(!firstload)
+        {
+                lifecycleScope.launch {
+                    setTrackingID(get9DigitRandom())
+                    userTrackViewModel.trackUser(
+                        language = getLanguage(),
+                        msisdn = Deen.msisdn,
+                        pagename = "hadith",
+                        trackingID = getTrackingID()
+                    )
+                }
+        }
+        firstload = true
 
         mPageDestination = arrayListOf(
             HadithChapterFragment(),
@@ -108,23 +128,31 @@ internal class HadithFragment : BaseRegularFragment() {
 
                     1->
                     {
-                        catBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireActivity(),R.color.primary))
-                        catBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
-                    }
-
-                    2->
-                    {
                         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
                         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+
                     }
+
                 }
 
             }
         })
 
         hadithBtn.setOnClickListener { _viewPager.currentItem = 0 }
-        catBtn.setOnClickListener { _viewPager.currentItem = 1 }
-        favBtn.setOnClickListener { _viewPager.currentItem = 2 }
+        favBtn.setOnClickListener { _viewPager.currentItem = 1 }
+
+    }
+
+    override fun onBackPress() {
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "hadith",
+                trackingID = getTrackingID()
+            )
+        }
+        super.onBackPress()
     }
 
     private fun clearAllBtnSelection()
@@ -132,9 +160,6 @@ internal class HadithFragment : BaseRegularFragment() {
 
         hadithBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
         hadithBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-
-        catBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        catBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))

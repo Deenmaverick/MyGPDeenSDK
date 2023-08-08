@@ -12,5 +12,8 @@ internal interface HadithResource
 
     data class setFavHadith(val position: Int, val fav: Boolean) :HadithResource
 
+    data class hadithFavData(val value: HadithPreviewResponse) :HadithResource
+    object updateFavFailed:HadithResource
+
 
 }

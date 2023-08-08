@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:fillViewport="true"
+    tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:overScrollMode="never"
     android:background="@color/background">

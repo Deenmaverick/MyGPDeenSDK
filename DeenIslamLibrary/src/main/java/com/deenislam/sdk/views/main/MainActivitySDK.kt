@@ -63,6 +63,8 @@ internal class MainActivity : AppCompatActivity() {
 
     lateinit var localContext:Context
 
+    private var trackingID:Long = 0
+
     private val _viewPager: ViewPager2 by lazy { findViewById(R.id.viewPager) }
     private val frameContainerView: FragmentContainerView by lazy { findViewById(R.id.fragmentContainerView) }
 
@@ -166,6 +168,11 @@ internal class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getTrackingID() = trackingID
+    fun setTrackingID(id:Long)
+    {
+        trackingID =id
+    }
 
    /* override fun attachBaseContext(newBase: Context) {
         // replace "bn" with the desired locale

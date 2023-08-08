@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -123,6 +124,14 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
     }
 
     override fun onBackPress() {
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "quran",
+                trackingID = getTrackingID()
+            )
+        }
         super.onBackPress()
         viewmodel.listState = null
     }

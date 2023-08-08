@@ -1,5 +1,6 @@
 package com.deenislam.sdk.service.network.api
 
+import com.deenislam.sdk.service.network.response.BasicResponse
 import com.deenislam.sdk.service.network.response.auth.login.LoginResponse
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
 import okhttp3.RequestBody
@@ -14,6 +15,8 @@ internal interface AuthenticateService {
     @POST("Dashboard/GetDashboardData")
     suspend fun getDashboardData(@Body parm: RequestBody): DashboardResponse
 
+    @POST("Tracker/TrackUser")
+    suspend fun userTrack(@Body parm: RequestBody): BasicResponse
 
 
 }

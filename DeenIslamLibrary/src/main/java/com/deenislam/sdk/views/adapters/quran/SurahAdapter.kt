@@ -57,12 +57,12 @@ internal class SurahAdapter(
 
             surahCount.text = surahFilter[position].id.toString().numberLocale()
             surahName.text =
-                if(Deen.language == "bn") position.getSurahNameBn()
+                if(Deen.language == "bn") (surahFilter[position].id-1).getSurahNameBn()
                 else
-                    surahList[position].name_simple
+                    surahFilter[position].name_simple
 
             arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
-            surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahList[position].translated_name.name+" • ",surahList[position].verses_count.toString().numberLocale())
+            surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahFilter[position].translated_name.name+" • ",surahFilter[position].verses_count.toString().numberLocale())
 
             itemView.setOnClickListener {
                 surahCallback?.surahClick(surahFilter[position])
@@ -76,7 +76,7 @@ internal class SurahAdapter(
 
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charString = constraint?.toString() ?: ""
-                if (charString.isEmpty()) surahFilter = surahList else {
+                surahFilter = if (charString.isEmpty()) surahList else {
                     val filteredList = ArrayList<Chapter>()
                     surahList
                         .filter {
@@ -84,7 +84,7 @@ internal class SurahAdapter(
 
                         }
                         .forEach { filteredList.add(it) }
-                    surahFilter = filteredList
+                    filteredList
 
                 }
                 return FilterResults().apply { values = surahFilter }

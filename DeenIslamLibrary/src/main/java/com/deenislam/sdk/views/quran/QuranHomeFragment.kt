@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -31,6 +32,7 @@ import com.deenislam.sdk.views.adapters.quran.PopularSurahAdapter
 import com.deenislam.sdk.views.adapters.quran.RecentlyReadAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
@@ -95,6 +97,7 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
     }
 
 
+
     private fun initView()
     {
             ViewCompat.setTranslationZ(progressLayout, 10F)
@@ -136,6 +139,19 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
         }
     }
 
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "quran",
+                trackingID = getTrackingID()
+            )
+        }
+        super.onBackPress()
+    }
+
     private fun loadingState()
     {
         progressLayout.visible(true)
@@ -159,15 +175,22 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
         surahList.clear()
         surahList.addAll(data)
 
+        Log.e("viewState",Gson().toJson(data))
+
         val filterSurahList: ArrayList<Chapter> = arrayListOf()
         data.forEach {
             when(it.id)
             {
                 1 -> filterSurahList.add(it)
+                2 -> filterSurahList.add(it)
+                18 -> filterSurahList.add(it)
                 36 -> filterSurahList.add(it)
                 67 -> filterSurahList.add(it)
                 112 -> filterSurahList.add(it)
-                103 -> filterSurahList.add(it)
+                108 -> filterSurahList.add(it)
+                109 -> filterSurahList.add(it)
+                113 -> filterSurahList.add(it)
+                114 -> filterSurahList.add(it)
             }
         }
 

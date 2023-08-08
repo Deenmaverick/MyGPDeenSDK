@@ -81,7 +81,7 @@ internal class PrayerTimesRepository(
         state: Int = 0,
         sound_file: String = "",
         prayerTimesResponse: PrayerTimesResponse?
-    )=
+    ) =
         withContext(Dispatchers.IO)
         {
             try {
@@ -218,4 +218,19 @@ internal class PrayerTimesRepository(
         deenService?.getPrayerTimeTrack()
     }
 
+
+    suspend fun clearPrayerNotification(
+        date: String
+    ):Int =
+        withContext(Dispatchers.IO)
+        {
+            try {
+               return@withContext prayerNotificationDao?.clearAllNotification(date,0)?:0
+
+                }
+            catch (e:Exception)
+            {
+                0
+            }
+        }
 }

@@ -184,25 +184,11 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_quran_ayat"
                 app:layout_constraintTop_toBottomOf="@id/bismillahLy"
-                app:layout_constraintBottom_toTopOf="@+id/last_item_loading"
+                app:layout_constraintBottom_toTopOf="@+id/last_item_loading_progress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
             </androidx.recyclerview.widget.RecyclerView>
 
-            <include
-                android:visibility="gone"
-                android:id="@+id/last_item_loading"
-                layout="@layout/item_quran_ayat_shimmer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_12"
-                android:layout_marginEnd="@dimen/space_12"
-                android:layout_marginTop="@dimen/space_4"
-                android:layout_marginBottom="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ayatList"/>
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:visibility="gone"

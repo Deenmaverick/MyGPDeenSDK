@@ -34,6 +34,7 @@ import java.io.Reader
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 
 fun View.visible(isvisible:Boolean)
@@ -453,4 +454,13 @@ fun ViewPager2.setCurrentItem(
 
     currentItemAnimator = animator
 
+}
+
+fun get9DigitRandom(): Long {
+    val random = Random
+    val part1 = random.nextInt(1000, 10000)  // generates a random 4-digit number
+    val part2 = random.nextInt(10000, 100000)  // generates a random 5-digit number
+    val trackingID = "$part1$part2".toLong() // concatenate the two numbers
+
+    return trackingID
 }

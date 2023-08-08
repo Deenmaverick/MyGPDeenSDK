@@ -39,7 +39,7 @@ internal class MenuAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         when(viewType)
         {
-            ONBOARDING_MENU -> ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_menulist_onboarding,parent,false))
+            ONBOARDING_MENU -> ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_menu_list_dashboard,parent,false))
             DASHBOARD_MENU -> ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_menu_list_dashboard,parent,false))
             else -> throw java.lang.IllegalArgumentException("View cannot null")
         }
@@ -92,7 +92,6 @@ internal class MenuAdapter(
                        menuCardview = itemView.findViewById(R.id.menuCarview)
                        menuIcon = itemView.findViewById(R.id.menuIcon)
                        menuTitile = itemView.findViewById(R.id.menuTitile)
-                       menuRadioBtn = itemView.findViewById(R.id.menuRadioBtn)
 
                        menuIcon.imageLoad(getMenu.contentBaseUrl+"/"+getMenu.imageurl1)
                        menuTitile.text = getMenu.ArabicText

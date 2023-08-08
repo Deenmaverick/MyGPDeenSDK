@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.Tasbeeh
 import com.deenislam.sdk.service.database.entity.UserPref
@@ -81,6 +82,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
     private var selectedPos:Int = 0
     private var selectedCount:Int = 1
     private var track4Count:Int = 0
+    private var firstload = false
 
     override fun OnCreate() {
         super.OnCreate()
@@ -116,6 +118,22 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     private fun loadpage()
     {
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "digital_tasbeeh",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        firstload = true
+
+
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.MaterialAlertDialog_rounded)
         customAlertDialogView = localInflater.inflate(R.layout.dialog_tasbeeh_reset, null, false)
 
@@ -392,5 +410,18 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         loadAPI(duaid)
     }
 
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "digital_tasbeeh",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
+    }
 
 }

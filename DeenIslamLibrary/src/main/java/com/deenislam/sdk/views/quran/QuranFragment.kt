@@ -3,6 +3,7 @@ package com.deenislam.sdk.views.quran
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialSharedAxis
+import kotlinx.coroutines.launch
 
 
 internal class QuranFragment : BaseRegularFragment() {
@@ -37,7 +42,8 @@ internal class QuranFragment : BaseRegularFragment() {
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
     private var viewPagerPosition:Int = 0
 
-    private var firstload:Int = 0
+    private var firstload =false
+
 
 
     override fun OnCreate() {
@@ -103,6 +109,32 @@ internal class QuranFragment : BaseRegularFragment() {
         }*/
 
         initViewPager()
+
+        if(!firstload) {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "quran",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        firstload = true
+    }
+
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "quran",
+                trackingID = getTrackingID()
+            )
+        }
+        super.onBackPress()
     }
 
     private fun initViewPager()
@@ -165,6 +197,7 @@ internal class QuranFragment : BaseRegularFragment() {
 
             }
         })
+
     }
 
     fun getActionbar():ConstraintLayout = actionbar

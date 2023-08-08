@@ -226,6 +226,8 @@ internal class PrayerTimesAdapter(
             prayerBG.setBackgroundResource(R.drawable.maghrib)
         else if(prayerMomentRangeData?.MomentName == "Isha")
             prayerBG.setBackgroundResource(R.drawable.isha)
+        else if(prayerMomentRangeData?.MomentName == "Ishraq")
+            prayerBG.setBackgroundResource(R.drawable.fajr)
         else
             prayerBG.setBackgroundColor(ContextCompat.getColor(getContext,R.color.black))
 

@@ -22,5 +22,8 @@ internal abstract class PrayerNotificationDao: BaseDao<PrayerNotification> {
     @Query("UPDATE  prayer_notification SET isPrayed=:bol where prayer_tag=:prayer_tag and date=:pdate")
     abstract fun update(pdate:String,prayer_tag:String,bol:Boolean):Int
 
+    @Query("UPDATE  prayer_notification SET state=:state where date=:pdate")
+    abstract fun clearAllNotification(pdate:String,state:Int):Int
+
 
 }

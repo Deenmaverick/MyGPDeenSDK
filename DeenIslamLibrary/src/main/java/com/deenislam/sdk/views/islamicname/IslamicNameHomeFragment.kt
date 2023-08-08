@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.launch
 
 internal class IslamicNameHomeFragment : BaseRegularFragment() {
 
@@ -47,4 +50,17 @@ internal class IslamicNameHomeFragment : BaseRegularFragment() {
         }
     }
 
+    override fun onBackPress() {
+
+        lifecycleScope.launch {
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = Deen.msisdn,
+                pagename = "islamic_name",
+                trackingID = getTrackingID()
+            )
+        }
+
+        super.onBackPress()
+    }
 }
