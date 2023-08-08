@@ -84,4 +84,17 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
 }
+//For Maven Publish
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.deenislam.sdk"
+                artifactId = "mybl_deen_sdk"
+                version = "0.0.1"
+            }
+        }
+    }
+}
 
