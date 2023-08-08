@@ -5,12 +5,12 @@ plugins {
 
 android {
     signingConfigs {
-        release {
+    /*    release {
             storeFile file('D:\\Office Project\\mybl-deenislam\\credentials\\deenislam.jks')
             storePassword '12345678'
             keyPassword '12345678'
             keyAlias 'deen islam'
-        }
+        }*/
     }
     namespace 'com.deenislamsdk'
     compileSdk 33
@@ -29,7 +29,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
         }
     }
     compileOptions {
