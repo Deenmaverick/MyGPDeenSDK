@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id "kotlin-parcelize"
     id("androidx.navigation.safeargs")
+    id("maven-publish")
 }
 
 android {
@@ -83,3 +84,4 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
 }
+
