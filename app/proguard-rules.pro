@@ -19,3 +19,21 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Platform calls Class.forName on types which do not exist on Android to determine platform.
+
+
+-keep public class * extends java.lang.Exception
+-keep class androidx.* {*;}
+-dontwarn retrofit.**
+-keep class retrofit.* { *; }
+-keep class com.google.android.* {*;}
+-keep class androidx.core.app.CoreComponentFactory { *; }
+-keep class android.content.Context.*{*;}
+-keep class android.content.Intent.*{*;}
+-keepattributes *Annotation*
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+-keepattributes Exceptions,InnerClasses,Signature
+
+
