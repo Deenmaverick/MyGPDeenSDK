@@ -5,7 +5,6 @@ import android.view.View
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.decode.SvgDecoder
 import coil.load
 import com.deenislam.sdk.Deen

@@ -29,7 +29,8 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerMomentRange
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import java.io.Reader
 import java.text.SimpleDateFormat
 import java.util.*
@@ -112,7 +113,13 @@ val Int.isBottomNavFragment: Boolean
            }
 
 
-val RequestBodyMediaType = "application/json; charset=utf-8".toMediaType()
+
+fun String.toRequestBody(type:String): RequestBody {
+    val mediaType = MediaType.parse(type)
+    val requestBody = RequestBody.create(mediaType, this)
+
+    return requestBody
+}
 
 
 fun String.StringTimeToMillisecond(pattern: String="HH:mm:ss"): Long {

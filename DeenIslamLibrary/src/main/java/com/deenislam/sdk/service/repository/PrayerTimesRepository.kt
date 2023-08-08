@@ -19,10 +19,10 @@ import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesRespons
 import com.deenislam.sdk.utils.RequestBodyMediaType
 import com.deenislam.sdk.utils.TimeDiffForPrayer
 import com.deenislam.sdk.utils.getPrayerTimeTagWise
+import com.deenislam.sdk.utils.toRequestBody
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 internal class PrayerTimesRepository(

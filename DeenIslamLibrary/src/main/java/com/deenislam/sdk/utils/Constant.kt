@@ -40,6 +40,8 @@ const val MENU_AZAN = "Azan"
 const val MENU_ISLAMIC_EVENT = "IslamicEvent"
 const val MENU_ISLAMIC_NAME = "IslamicName"
 
+const val RequestBodyMediaType = "application/json"
+
 // :notifications-api
 const val ACTION_START_ALARM_LOOPER = "alarm.loopers.START"
 // makkah location

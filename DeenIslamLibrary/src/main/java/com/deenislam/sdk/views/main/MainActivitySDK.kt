@@ -79,7 +79,6 @@ internal class MainActivity : AppCompatActivity() {
     private val action2Btn:AppCompatImageView by lazy { actionbar.findViewById(R.id.action2) }
     private val btnBack:AppCompatImageView by lazy { actionbar.findViewById(R.id.btnBack) }
     private val title:AppCompatTextView by lazy { actionbar.findViewById(R.id.title) }
-    private val bottom_navigation:BottomNavigationView by lazy { findViewById(R.id.inc_bottomNav) }
 
     var bottomNavClicked:Boolean = false
     var childFragmentAnimForward:Boolean = false
@@ -308,67 +307,8 @@ internal class MainActivity : AppCompatActivity() {
                 _viewPager.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER;
             }
 
-            _viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
-
-                override fun onPageSelected(position: Int) {
-                    when (position) {
-                        0 -> {
-                            bottom_navigation.menu.findItem(R.id.dashboardFragment).isChecked = true
-                        }
-                        1 -> {
-                            bottom_navigation.menu.findItem(R.id.quranFragment).isChecked = true
-                        }
-                        2 -> {
-
-                            //(supportFragmentManager.findFragmentByTag("f$position") as PrayerTimesFragment).loadDataAPI()
-                            bottom_navigation.menu.findItem(R.id.prayerTimesFragment).isChecked = true
-
-                        }
-                        3 -> {
-
-                            bottom_navigation.menu.findItem(R.id.moreFragment).isChecked = true
-                        }
-                    }
-
-                }
-            })
 
 
-            bottom_navigation.setOnItemSelectedListener { item ->
-
-                instance?.bottomNavClicked = true
-
-                when (item.itemId) {
-
-                    R.id.dashboardFragment ->
-                    {
-                        childFragmentAnimForward = _viewPager.currentItem<0
-                        _viewPager.setCurrentItem(0, 120)
-                    }
-
-                    R.id.quranFragment ->
-                    {
-                        childFragmentAnimForward = _viewPager.currentItem<1
-                        _viewPager.setCurrentItem(1, 120)
-                    }
-
-                    R.id.prayerTimesFragment ->
-                    {
-                        childFragmentAnimForward = _viewPager.currentItem<2
-                        _viewPager.setCurrentItem(2, 120)
-                    }
-
-                    R.id.moreFragment ->
-                    {
-                        childFragmentAnimForward = _viewPager.currentItem<3
-                        _viewPager.setCurrentItem(3, 120)
-                    }
-
-                    else -> Unit
-                }
-
-                true
-            }
     }
 
     private fun clearAllInstance()

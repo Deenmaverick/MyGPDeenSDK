@@ -8,7 +8,6 @@ import android.text.Spanned
 import android.text.style.DynamicDrawableSpan
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.deenislam.sdk.R
 
 internal class LoadingButton {
@@ -32,7 +31,12 @@ internal class LoadingButton {
             instance?.progressDrawable = CircularProgressDrawable(context).apply {
                 // let's use large style just to better see one issue
                 setStyle(CircularProgressDrawable.DEFAULT)
-                setColorSchemeColors(Color.WHITE)
+                val customColors = intArrayOf(
+                    Color.WHITE,
+                    Color.WHITE,
+                    Color.WHITE
+                )
+                colorSchemeColors = customColors
 
                 //bounds definition is required to show drawable correctly
                 val size = (centerRadius + strokeWidth).toInt() * 2
@@ -56,7 +60,13 @@ internal class LoadingButton {
 
     fun loader(button: View,color:Int= R.color.white): SpannableString? {
 
-        instance?.progressDrawable?.setColorSchemeColors(ContextCompat.getColor(button.context,color))
+        val customColors = intArrayOf(
+            Color.WHITE,
+            Color.WHITE,
+            Color.WHITE
+        )
+
+        instance?.progressDrawable?.colorSchemeColors = customColors
         instance?.progressDrawable?.start()
         instance?.callback = object : Drawable.Callback {
             override fun unscheduleDrawable(who: Drawable, what: Runnable) {

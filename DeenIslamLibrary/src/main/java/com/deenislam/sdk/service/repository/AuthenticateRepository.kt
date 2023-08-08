@@ -11,12 +11,11 @@ import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.service.network.response.auth.login.LoginResponse
 import com.deenislam.sdk.utils.RequestBodyMediaType
 import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.toRequestBody
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
-import kotlin.random.Random
 
 
 internal class AuthenticateRepository(

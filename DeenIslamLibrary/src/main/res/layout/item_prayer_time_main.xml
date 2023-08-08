@@ -8,10 +8,12 @@
     app:strokeColor="@color/brand_secondary"
     app:cardCornerRadius="@dimen/space_8"
     app:cardElevation="1dp"
+    tools:viewBindingIgnore="true"
     style="@style/Widget.Material3.CardView.Elevated"
     app:cardBackgroundColor="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

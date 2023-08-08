@@ -3,7 +3,7 @@ package com.deenislam.sdk.service.repository;
 import com.deenislam.sdk.service.network.ApiCall
 import com.deenislam.sdk.service.network.api.DeenService
 import com.deenislam.sdk.utils.RequestBodyMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
+import com.deenislam.sdk.utils.toRequestBody
 import org.json.JSONObject
 
 internal class ZakatRepository(

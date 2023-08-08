@@ -9,15 +9,9 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentZakaCalculatorNisabBinding
 import com.deenislam.sdk.service.callback.ZakatCalculatorCallback
 import com.deenislam.sdk.service.di.NetworkProvider
-import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.ZakatResource
-import com.deenislam.sdk.service.network.response.zakat.nisab.Data
 import com.deenislam.sdk.service.repository.ZakatRepository
-import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.hideKeyboard
-import com.deenislam.sdk.utils.numberLocale
-import com.deenislam.sdk.utils.show
-import com.deenislam.sdk.utils.visible
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.ZakatViewModel
 import com.deenislam.sdk.views.base.BaseFragment
 import kotlinx.coroutines.launch

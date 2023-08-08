@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/m3_bottom_nav_min_height"
     android:gravity="center"
+    tools:viewBindingIgnore="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="PrivateResource">

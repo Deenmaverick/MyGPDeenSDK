@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:viewBindingIgnore="true"
     tools:context="com.deenislam.sdk.views.main.MainActivity">
 
     <include
@@ -30,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/inc_bottomNav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,18 +47,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/inc_bottomNav"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
-    <include
-        android:visibility="gone"
-        android:id="@+id/inc_bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/layout_navbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
