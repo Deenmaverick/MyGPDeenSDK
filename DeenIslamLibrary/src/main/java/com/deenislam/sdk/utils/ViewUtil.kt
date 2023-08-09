@@ -2,13 +2,20 @@ package com.deenislam.sdk.utils
 
 import android.content.Context
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStateAtLeast
 import coil.decode.SvgDecoder
 import coil.load
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -492,3 +499,18 @@ fun String.dayNameLocale(): String =
     }
     else this
 
+fun Fragment.bindOnBackPressedCallback(callback: () -> Unit) {
+    val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            callback.invoke()
+        }
+    }
+
+    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+
+    viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycle.whenStateAtLeast(Lifecycle.State.DESTROYED) {
+            onBackPressedCallback.remove()
+        }
+    }
+}

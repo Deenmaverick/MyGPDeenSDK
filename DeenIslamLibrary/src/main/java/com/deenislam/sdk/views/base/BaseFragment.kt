@@ -48,6 +48,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isOnlyback:Boolean = false
+    private var isBackCallback:Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -266,12 +267,13 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     open fun OnCreate(){
 
-
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
+        if(isBackCallback) {
+            onBackPressedCallback =
+                requireActivity().onBackPressedDispatcher.addCallback {
+                    onBackPress()
+                }
+            onBackPressedCallback.isEnabled = true
+        }
 
         userTrackViewModel = UserTrackViewModel(
             repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
@@ -279,10 +281,21 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     }
 
+    fun setIsBackCallback(bol:Boolean)
+    {
+        isBackCallback = bol
+    }
+
+    fun setBackPressCallback(callback:OnBackPressedCallback)
+    {
+        onBackPressedCallback =  callback
+    }
+
     override fun onPause() {
         super.onPause()
 
         if(this::onBackPressedCallback.isInitialized) {
+            Log.e("onPause","BASE")
             onBackPressedCallback.isEnabled = false
         }
     }

@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.quran
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,7 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
     override fun OnCreate() {
         super.OnCreate()
 
+        Log.e("onBackPress","OnCreate Quran")
         onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {
                 onBackPress()
@@ -104,14 +106,24 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
 
     override fun onResume() {
         super.onResume()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback(this) {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
 
         setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
     }
 
-    override fun onBackPress() {
 
+
+    override fun onBackPress() {
+        Log.e("onBackPress", "QURAN HOME")
         if(isVisible) {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
@@ -124,6 +136,13 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
         }
         tryCatch { super.onBackPress() }
 
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //this.onBackPressedCallback.isEnabled = false
+        Log.e("onBackPress", "QURAN HOME PAUSE")
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {

@@ -115,11 +115,11 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     open fun OnCreate(){
 
-        onBackPressedCallback =
+       /* onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {
                 onBackPress()
             }
-        onBackPressedCallback.isEnabled = true
+        onBackPressedCallback.isEnabled = true*/
 
         userTrackViewModel = UserTrackViewModel(
             repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
@@ -130,8 +130,10 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     override fun onPause() {
         super.onPause()
-        if(this::onBackPressedCallback.isInitialized)
-        onBackPressedCallback.isEnabled = false
+        if(this::onBackPressedCallback.isInitialized) {
+            Log.e("onPause","REGULAR")
+            onBackPressedCallback.isEnabled = false
+        }
     }
 
 
@@ -275,13 +277,15 @@ internal abstract class BaseRegularFragment: Fragment() {
         //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            //onBackPressedCallback.remove()
+            onBackPressedCallback.remove()
         }
 
     }
 
     override fun onResume() {
         super.onResume()
+
+        Log.e("onResume","REGULAR")
 
         if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.isEnabled = true

@@ -135,6 +135,7 @@ internal class QuranFragment : BaseRegularFragment() {
     }
 
     override fun onBackPress() {
+        Log.e("onBackPress", "QURAN HOME")
 
         if(isVisible) {
             lifecycleScope.launch {
@@ -148,6 +149,17 @@ internal class QuranFragment : BaseRegularFragment() {
         }
         tryCatch { super.onBackPress() }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        this.onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //this.onBackPressedCallback.isEnabled = false
+        Log.e("onBackPress", "QURAN HOME PAUSE")
     }
 
     private fun initViewPager()

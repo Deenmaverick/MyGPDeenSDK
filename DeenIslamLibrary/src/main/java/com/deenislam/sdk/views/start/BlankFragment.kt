@@ -21,9 +21,14 @@ internal class BlankFragment : BaseRegularFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+       // onBackPressedCallback.isEnabled = false
         setupOtherFragment(true)
     }
 
+    override fun onResume() {
+        super.onResume()
+        //onBackPressedCallback.isEnabled = false
+    }
 
     override fun onBackPress() {
         setupOtherFragment(false)
