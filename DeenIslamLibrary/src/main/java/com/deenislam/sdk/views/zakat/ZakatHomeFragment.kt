@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
@@ -39,6 +41,16 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
     private lateinit var faq4Titile:AppCompatTextView
     private lateinit var faq4Content:AppCompatTextView
 
+
+    override fun OnCreate() {
+        super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -118,17 +130,18 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
     }
 
     override fun onBackPress() {
-
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "zakat",
-                trackingID = getTrackingID()
-            )
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "zakat",
+                    trackingID = getTrackingID()
+                )
+            }
         }
+        tryCatch { super.onBackPress() }
 
-        super.onBackPress()
     }
 
 }

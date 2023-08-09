@@ -18,6 +18,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +33,7 @@ import com.deenislam.sdk.utils.MAKKAH_LATITUDE
 import com.deenislam.sdk.utils.MAKKAH_LONGITUDE
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -69,6 +71,13 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -475,16 +484,18 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     override fun onBackPress() {
 
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "compass",
-                trackingID = getTrackingID()
-            )
-        }
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "compass",
+                    trackingID = getTrackingID()
+                )
+            }
 
-        super.onBackPress()
+        }
+        tryCatch { super.onBackPress() }
     }
 
 }

@@ -32,7 +32,7 @@ internal class WidgetPrayerTimes(
     private var dateWisePrayerNotificationData:ArrayList<PrayerNotification>?= null
     private var prayerMomentRangeData: PrayerMomentRange? = null
     private var prayerTrackingData:Data ? = null
-    private var todayDate: String = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
@@ -56,7 +56,7 @@ internal class WidgetPrayerTimes(
         prayerData = prayerTimesResponse
         dateWisePrayerNotificationData = notificationData
         this.prayerMomentRangeData = prayerMomentRangeData
-        todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        todayDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
         notifyDataSetChanged()
     }
 
@@ -212,7 +212,13 @@ internal class WidgetPrayerTimes(
                         notifyTime?.let {
 
                             if(notifyTime >= 0L) {
-                                prayerCheck.context.toast("${prayer_tag.getWaktNameByTag()} tracking was expired for selected date time")
+                                prayerCheck.context.toast("এখনও ${prayer_tag.getWaktNameByTag().prayerMomentLocaleForToast()} ওয়াক্ত শুরু হয়নি")
+                                prayerCheck.isChecked = prayerIsChecked
+                                return@setOnClickListener
+                            }
+                            else if(todayDate != it1 && prayer_tag!="pt1")
+                            {
+                                prayerCheck.context.toast("দুঃখিত পূর্ববর্তী তারিখ ট্র্যাক করা সম্ভব নয়")
                                 prayerCheck.isChecked = prayerIsChecked
                                 return@setOnClickListener
                             }

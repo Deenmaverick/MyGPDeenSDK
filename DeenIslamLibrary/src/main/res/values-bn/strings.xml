@@ -229,7 +229,7 @@
     <string name="muslim_boys_names">ছেলেদের নাম</string>
     <string name="view_names">দেখুন</string>
     <string name="muslim_girls_names">মেয়েদের নাম</string>
-    <string name="names">নামসমূহ</string>
+    <string name="names">নাম সমূহ</string>
     <string name="view_muslim_girls_names">মেয়েদের নাম দেখুন</string>
     <string name="view_muslim_boys_names">ছেলেদের নাম দেখুন</string>
     <string name="see_all">সবগুলো দেখুন</string>
@@ -240,4 +240,5 @@
     <string name="hadith_chapter_available_count">%1$s থেকে %2$s</string>
     <string name="mishari_rashid_al_afasy">মিশারি রশিদ আল-আফসী</string>
     <string name="hadith_preview_pos">হাদিস-%1$s</string>
+    <string name="setting">সেটিং</string>
 </resources>

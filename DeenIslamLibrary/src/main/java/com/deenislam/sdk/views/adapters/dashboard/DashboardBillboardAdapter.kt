@@ -337,7 +337,7 @@ internal class DashboardBillboardAdapter(
                 (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 8.dp
                 (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 0
             }
-            else if (position == 3) {
+            else if (position == itemCount-1) {
                 (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 8.dp
                 (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 0
             }

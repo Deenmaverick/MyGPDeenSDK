@@ -74,7 +74,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
             action1 = 0,
             action2 = 0,
             callback = this@SettingFragment,
-            actionnBartitle = "Setting",
+            actionnBartitle = localContext.getString(R.string.setting),
             backEnable = true,
             view = mainview
         )

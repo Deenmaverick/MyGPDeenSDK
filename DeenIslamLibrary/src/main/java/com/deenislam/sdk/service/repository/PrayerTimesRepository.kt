@@ -86,6 +86,8 @@ internal class PrayerTimesRepository(
         {
             try {
 
+                getNotificationData(date = date, prayer_tag = prayer_tag)
+
                 if(prayerNotificationDao?.update(date,prayer_tag,state) !=0) {
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)
                     if(getNotificationData?.isNotEmpty() == true)
@@ -225,9 +227,75 @@ internal class PrayerTimesRepository(
         withContext(Dispatchers.IO)
         {
             try {
-               return@withContext prayerNotificationDao?.clearAllNotification(date,0)?:0
+
+                val prayerNotificationData = prayerNotificationDao?.select(date)
+
+                if(prayerNotificationData?.isNotEmpty() == true)
+                    return@withContext prayerNotificationDao?.clearAllNotification(date,1)?:0
+
+                else
+                    1
 
                 }
+            catch (e:Exception)
+            {
+                0
+            }
+        }
+
+    suspend fun enableAllPrayerNotification(
+        date: String,
+        prayer_tag: String,
+        state: Int = 0,
+        sound_file: String = "",
+        prayerTimesResponse: PrayerTimesResponse?,
+        isChecking:Boolean = true
+    ) =
+        withContext(Dispatchers.IO)
+        {
+            try {
+
+                if(prayerNotificationDao?.update(date,prayer_tag,state) !=0) {
+                    val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)
+                    if(getNotificationData?.isNotEmpty() == true)
+                    {
+                        val pid = getNotificationData[0]?.id?:0
+                        if(prayerTimesResponse!=null) {
+                            val notifyTime = getPrayerTimeTagWise(prayer_tag, date, prayerTimesResponse)
+
+                            Log.e("PRAYER_NT",notifyTime.TimeDiffForPrayer()+""+date+Gson().toJson(prayerTimesResponse))
+
+                            if(pid <= 0)
+                                return@withContext 0
+
+                            else if (notifyTime > 0L) {
+                                setNotification(SystemClock.elapsedRealtime() + notifyTime, pid)
+                                return@withContext  1
+                            }
+                            else
+                                return@withContext 2
+                        } else 0
+                    }
+                    else 0
+                }
+                else {
+                    if(isChecking) {
+                        getNotificationData(date = date, prayer_tag = prayer_tag)
+
+                      /*  val test = enableAllPrayerNotification(
+                            date = date,
+                            prayer_tag = prayer_tag,
+                            state = state,
+                            sound_file = sound_file,
+                            prayerTimesResponse = prayerTimesResponse,
+                            isChecking = false)*/
+
+
+                    }
+                    else
+                        0
+                }
+            }
             catch (e:Exception)
             {
                 0

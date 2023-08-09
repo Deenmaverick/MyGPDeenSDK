@@ -20,7 +20,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.MaterialSharedAxis
 
-internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback,ActivityCallback {
+internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
     private lateinit var settingLayout:MaterialCardView
     private lateinit var username:AppCompatTextView
@@ -55,7 +55,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback,A
             action1 = R.drawable.ic_close,
             action2 = 0,
             callback = this@MoreFragment,
-            actionnBartitle = getString(R.string.app_name),
+            actionnBartitle = localContext.getString(R.string.app_name),
             backEnable = false,
             view = mainview,
             isBackIcon = true
@@ -100,10 +100,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback,A
                     startActivity(intent)
                 }
             }
-
         }
-
-
     }
 
 
@@ -114,9 +111,6 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback,A
     override fun action2() {
     }
 
-    override fun activityBackpress() {
-        onBackPress()
-    }
 
 
 }

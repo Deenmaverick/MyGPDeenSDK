@@ -15,6 +15,7 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
@@ -22,27 +23,28 @@ import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ActivityCallback
 import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.libs.media3.AudioManager
 import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 
 internal abstract class BaseRegularFragment: Fragment() {
 
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
+    lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isOnlyback:Boolean = false
     private var isBackPressed:Boolean = false
     lateinit var userTrackViewModel: UserTrackViewModel
 
-
     lateinit var localContext:Context
     lateinit var localInflater: LayoutInflater
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +94,8 @@ internal abstract class BaseRegularFragment: Fragment() {
     open fun onBackPress() {
 
         Log.e("onBackPress","REGULAR")
-        this.isBackPressed = true
+       this.isBackPressed = true
+
         if(!isOnlyback) {
             findNavController().popBackStack().apply {
                 setupOtherFragment(false)
@@ -101,20 +104,26 @@ internal abstract class BaseRegularFragment: Fragment() {
         else
             findNavController().popBackStack()
 
-        Log.e("isOnlyback",isOnlyback.toString())
+        tryCatch {
+            lifecycleScope.launch(Dispatchers.IO)
+            {
+                AudioManager().getInstance().releasePlayer()
+            }
+        }
+
     }
 
     open fun OnCreate(){
-
-        userTrackViewModel = UserTrackViewModel(
-            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
-        )
 
         onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {
                 onBackPress()
             }
         onBackPressedCallback.isEnabled = true
+
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
 
     }
 
@@ -124,8 +133,6 @@ internal abstract class BaseRegularFragment: Fragment() {
         if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.isEnabled = false
     }
-
-
 
 
     fun gotoFrag(
@@ -268,18 +275,35 @@ internal abstract class BaseRegularFragment: Fragment() {
         //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            onBackPressedCallback.remove()
+            //onBackPressedCallback.remove()
         }
 
     }
 
     override fun onResume() {
         super.onResume()
+
         if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.isEnabled = true
+
+
+        requireView().addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+            when (v.visibility) {
+                View.VISIBLE -> {
+
+                    if (this::onBackPressedCallback.isInitialized && !onBackPressedCallback.isEnabled) {
+                        onBackPressedCallback.isEnabled = true
+                    }
+
+                    // View is now visible
+                }
+
+                else -> {
+                    // View is not visible
+                }
+            }
+        }
     }
-
-
 
 
 }

@@ -45,7 +45,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     private var _binding:VB ? = null
     val binding:VB get() = _binding as VB
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
+    lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isOnlyback:Boolean = false
 
@@ -127,9 +127,30 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     override fun onResume() {
         super.onResume()
+
         if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.isEnabled = true
 
+        requireView().addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+            when (v.visibility) {
+                View.VISIBLE -> {
+
+                    if(this::onBackPressedCallback.isInitialized && !onBackPressedCallback.isEnabled)
+                    {
+                        onBackPressedCallback.isEnabled = true
+                    }
+
+
+                    // View is now visible
+                }
+                else -> {
+                    // View is not visible
+                }
+            }
+
+            //Log.e("LayoutChangeListener",onBackPressedCallback.isEnabled.toString())
+
+        }
     }
 
     open fun BASE_API_CALL_STATE()
@@ -149,6 +170,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
             findNavController().popBackStack()
 
     }
+
 
     fun setupOtherFragment(bol:Boolean)
     {
@@ -235,21 +257,26 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     fun gotoFrag(destination:Int,data:Bundle?=null,navOptions: NavOptions?=null)
     {
+        if(this::onBackPressedCallback.isInitialized)
+            onBackPressedCallback.isEnabled = false
+
         findNavController().navigate(destination,data,navOptions)
 
     }
 
     open fun OnCreate(){
 
-        userTrackViewModel = UserTrackViewModel(
-            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
-        )
 
         onBackPressedCallback =
             requireActivity().onBackPressedDispatcher.addCallback {
                 onBackPress()
             }
         onBackPressedCallback.isEnabled = true
+
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
+
     }
 
     override fun onPause() {
@@ -266,7 +293,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            onBackPressedCallback.remove()
+            //onBackPressedCallback.remove()
         }
     }
 

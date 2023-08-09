@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +21,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
@@ -48,6 +50,14 @@ internal class QuranFragment : BaseRegularFragment() {
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -126,15 +136,18 @@ internal class QuranFragment : BaseRegularFragment() {
 
     override fun onBackPress() {
 
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "quran",
-                trackingID = getTrackingID()
-            )
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "quran",
+                    trackingID = getTrackingID()
+                )
+            }
         }
-        super.onBackPress()
+        tryCatch { super.onBackPress() }
+
     }
 
     private fun initViewPager()

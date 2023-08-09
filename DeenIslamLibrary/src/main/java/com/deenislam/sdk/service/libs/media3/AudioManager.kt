@@ -3,7 +3,9 @@ package com.deenislam.sdk.service.libs.media3;
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.os.Build
 import android.util.Log
+import com.deenislam.sdk.utils.tryCatch
 
 internal class AudioManager {
 
@@ -39,12 +41,25 @@ internal class AudioManager {
                 instance?.mediaPlayer = MediaPlayer()
 
             instance?.mediaPlayer?.apply {
-                setAudioAttributes(
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    val attributes = AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build()
+                  setAudioAttributes(attributes)
+                } else {
+                   setAudioStreamType(android.media.AudioManager.STREAM_MUSIC)  // Deprecated method, but necessary for older devices
+                }
+
+
+               /* setAudioAttributes(
                     AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .setUsage(AudioAttributes.USAGE_MEDIA)
                         .build()
-                )
+                )*/
+
                 setDataSource(url)
                 prepareAsync()
             }
@@ -88,21 +103,27 @@ internal class AudioManager {
         }
         catch (e:Exception)
         {
+            Log.e("playRawAudioFile",e.toString())
             releasePlayer()
         }
     }
 
     fun releasePlayer(position:Int=-1,crash:Boolean=false)
     {
-        instance?.mediaPlayer?.reset()
-        //instance?.mediaPlayer?.release()
-        //instance?.mediaPlayer = null
-        if(position>=0) {
-            if(!crash)
-                instance?.apAdapterCallback?.isPause(position)
-            else
-                instance?.apAdapterCallback?.isStop(position)
+        tryCatch {
+
+            instance?.mediaPlayer?.reset()
+           /* instance?.mediaPlayer?.stop()
+            instance?.mediaPlayer?.release()*/
+            //instance?.mediaPlayer = null
+            if(position>=0) {
+                if(!crash)
+                    instance?.apAdapterCallback?.isPause(position)
+                else
+                    instance?.apAdapterCallback?.isStop(position)
+            }
         }
+
 
         //Log.e("MymediaPlayer","release")
     }

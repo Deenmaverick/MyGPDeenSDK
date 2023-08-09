@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.reduceDragSensitivity
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
@@ -42,6 +44,14 @@ internal class DailyDuaFragment : BaseRegularFragment() {
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -94,17 +104,18 @@ internal class DailyDuaFragment : BaseRegularFragment() {
     }
 
     override fun onBackPress() {
-
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "daily_dua",
-                trackingID = getTrackingID()
-            )
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "daily_dua",
+                    trackingID = getTrackingID()
+                )
+            }
         }
+        tryCatch { super.onBackPress() }
 
-        super.onBackPress()
     }
     private fun loadpage()
     {

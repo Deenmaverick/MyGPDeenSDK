@@ -1,10 +1,11 @@
-package com.deenislam.views.zakat
+package com.deenislam.sdk.views.zakat
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import com.deenislam.sdk.utils.LoadingButton
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.ZakatViewModel
 import com.deenislam.sdk.views.adapters.ZakatAdapterCallback
@@ -50,6 +52,14 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         // init voiewmodel
         val repository = ZakatRepository(deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = ZakatViewModel(repository)
@@ -228,16 +238,18 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
 
     override fun onBackPress() {
 
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "zakat",
-                trackingID = getTrackingID()
-            )
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "zakat",
+                    trackingID = getTrackingID()
+                )
+            }
         }
+        tryCatch { super.onBackPress() }
 
-        super.onBackPress()
     }
 
 }

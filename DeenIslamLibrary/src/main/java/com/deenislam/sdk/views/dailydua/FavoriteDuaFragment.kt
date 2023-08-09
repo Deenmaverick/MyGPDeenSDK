@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isEmpty
@@ -27,6 +28,7 @@ import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DailyDuaViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
@@ -57,6 +59,14 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         // init viewmodel
         val repository = DailyDuaRepository(deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = DailyDuaViewModel(repository)
@@ -97,17 +107,18 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
     }
 
     override fun onBackPress() {
-
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "daily_dua",
-                trackingID = getTrackingID()
-            )
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "daily_dua",
+                    trackingID = getTrackingID()
+                )
+            }
         }
+        tryCatch { super.onBackPress() }
 
-        super.onBackPress()
     }
     private fun loadPage()
     {

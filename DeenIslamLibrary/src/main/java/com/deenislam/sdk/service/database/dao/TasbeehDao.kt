@@ -31,7 +31,7 @@ internal abstract class TasbeehDao: BaseDao<Tasbeeh> {
     @Query("UPDATE tasbeeh SET daily_count=0,track1=0,track2=0,track3=0 WHERE id=:duaid")
     abstract fun reset_today(duaid: Int):Int
 
-    @Query("SELECT * from tasbeeh ORDER BY timestamp DESC LIMIT 5")
+    @Query("SELECT * from tasbeeh ORDER BY timestamp DESC")
     abstract fun recent_count():List<Tasbeeh>
 
 }

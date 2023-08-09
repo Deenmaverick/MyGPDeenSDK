@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
@@ -26,6 +27,7 @@ import com.deenislam.sdk.service.repository.quran.AlQuranRepository
 import com.deenislam.sdk.service.repository.quran.SurahRepository
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.quran.AlQuranViewModel
 import com.deenislam.sdk.viewmodels.quran.SurahViewModel
@@ -55,6 +57,14 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         val repository = AlQuranRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
             quranService = NetworkProvider().getInstance().provideQuranService()
@@ -101,15 +111,19 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
     }
 
     override fun onBackPress() {
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "quran",
-                trackingID = getTrackingID()
-            )
+
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "quran",
+                    trackingID = getTrackingID()
+                )
+            }
         }
-        super.onBackPress()
+        tryCatch { super.onBackPress() }
+
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {

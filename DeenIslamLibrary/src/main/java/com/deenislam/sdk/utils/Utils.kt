@@ -109,6 +109,7 @@ val Int.isBottomNavFragment: Boolean
        when(this)
            {
                R.id.dashboardFragment -> true
+               R.id.blankFragment -> true
                else -> false
            }
 

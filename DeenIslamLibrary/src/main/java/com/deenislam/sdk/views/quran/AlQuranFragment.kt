@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -57,6 +58,7 @@ import com.deenislam.sdk.views.quran.quranplayer.PlayerAudioFragment
 import com.deenislam.sdk.views.quran.quranplayer.PlayerThemeFragment
 import com.deenislam.sdk.views.quran.quranplayer.PlayerTranslationFragment
 import com.deenislam.sdk.service.network.response.quran.verses.Verse
+import com.deenislam.sdk.utils.tryCatch
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -109,8 +111,18 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     private var totalVerseCount = 0
     private var isSurahMode:Boolean = true
 
+
     override fun OnCreate() {
+        super.OnCreate()
         isOnlyBack(true)
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -140,9 +152,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             requireActivity(),
             factory
         )[PlayerControlViewModel::class.java]
-
     }
-
 
     override fun ON_CREATE_VIEW(root: View) {
         super.ON_CREATE_VIEW(root)
@@ -732,9 +742,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         lifecycleScope.launch(Dispatchers.IO)
         {
             AudioManager().getInstance().releasePlayer()
-        }.apply {
-            super.onBackPress()
         }
+            tryCatch { super.onBackPress() }
     }
 
     override fun playAudioFromUrl(url: String, position: Int) {
@@ -812,9 +821,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             isAyatPause()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 binding.bottomPlayer.miniPlayer.playerProgress.setProgress(0, false)
+                binding.bottomPlayer.largePlayer.playerProgress.value = 0.0F
             } else {
                 @Suppress("DEPRECATION")
                 binding.bottomPlayer.miniPlayer.playerProgress.progress = 0
+                binding.bottomPlayer.largePlayer.playerProgress.value = 0.0F
             }
 
         }
@@ -839,8 +850,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         var currentProgress = progress * position
 
-        if(currentProgress == 0.0)
+        if(currentProgress <= 0.0)
             currentProgress = 0.5
+        else if(currentProgress > 100.0)
+            currentProgress = 100.0
+
 
 
         Log.e("currentProgress", duration.toString())
@@ -854,6 +868,13 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                     currentProgress +=progressPerSecond
 
                     val curProgress = currentProgress.toInt()
+
+                    if(currentProgress <= 0.0)
+                        currentProgress = 0.5
+                    else if(currentProgress > 100.0)
+                        currentProgress = 100.0
+
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         binding.bottomPlayer.miniPlayer.playerProgress.setProgress(curProgress, false)
                     } else {

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioGroup
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -86,6 +87,14 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -412,16 +421,18 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     override fun onBackPress() {
 
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "digital_tasbeeh",
-                trackingID = getTrackingID()
-            )
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "digital_tasbeeh",
+                    trackingID = getTrackingID()
+                )
+            }
         }
+        tryCatch { super.onBackPress() }
 
-        super.onBackPress()
     }
 
 }

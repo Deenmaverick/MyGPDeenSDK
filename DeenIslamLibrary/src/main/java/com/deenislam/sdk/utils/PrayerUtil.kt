@@ -23,13 +23,13 @@ internal fun getPrayerTimeTagWise(
 
         "pt1" -> {
 
-            val fajr: Long
-            if(currentTime<nightTime)
+            val fajr: Long = "$date ${data.Data.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+            /*if(currentTime<nightTime)
                 fajr =
                     "$date ${data.Data.Fajr}".convertDateTime("dd/MM/yyyy HH:mm:ss",1)
             else
              fajr =
-                "$date ${data.Data.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+                "$date ${data.Data.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")*/
 
             return  fajr-currentTime
 

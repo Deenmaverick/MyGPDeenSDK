@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.appcompat.widget.AppCompatTextView
@@ -95,6 +96,14 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         NotificationPermission().getInstance().setupLauncher(this,localContext,true, activityContext = requireContext())
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -201,6 +210,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             {
                 is PrayerTimeResource.postPrayerTime ->
                 {
+                    Log.e("PrayerTimeResource","MAIN")
                     prayerTimesResponse = it.data
                     viewState(arrayListOf())
                     /* lifecycleScope.launch {
@@ -219,7 +229,11 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             Log.e("ROTATE_DATA",Gson().toJson(it))
             when(it)
             {
-                is PrayerNotificationResource.dateWiseNotificationData -> viewState(it.data)
+                is PrayerNotificationResource.dateWiseNotificationData ->
+                {
+                    Log.e("PrayerTimeResource","OTHER")
+                    viewState(it.data)
+                }
                 is PrayerNotificationResource.notificationData -> showNotificationDialog(it.data)
                 is PrayerNotificationResource.setNotification ->
                 {
@@ -341,16 +355,20 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun onBackPress() {
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "prayer_time",
-                trackingID = getTrackingID()
-            )
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "prayer_time",
+                    trackingID = getTrackingID()
+                )
+            }
+            viewmodel.listState = null
         }
-        viewmodel.listState = null
-        super.onBackPress()
+
+        tryCatch { super.onBackPress() }
+
     }
 
 
@@ -360,14 +378,14 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         if (data.size>0) {
             pryaerNotificationData = data
+            prayerTimesAdapter.updateNotificationData(pryaerNotificationData)
             Log.e("viewState",Gson().toJson(pryaerNotificationData))
         }
 
         prayerTimesResponse?.let {
-
-            //prayerTimesAdapter.notifyDataSetChanged()
-            prayerTimesAdapter.updateData(it,pryaerNotificationData)
-
+            prayerTimesAdapter.updateData(it,pryaerNotificationData).apply {
+                prayerTimesAdapter.updateNotificationData(pryaerNotificationData)
+            }
         }
 
     }

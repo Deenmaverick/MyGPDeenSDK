@@ -20,6 +20,7 @@ import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.models.HadithResource
 import com.deenislam.sdk.service.network.response.hadith.preview.Data
 import com.deenislam.sdk.service.repository.HadithRepository
+import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
@@ -112,6 +113,12 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
         hadithPreviewAdapter = HadithPreviewAdapter(this@HadithPreviewFragment)
 
         listView.apply {
+
+            val margins = (layoutParams as ConstraintLayout.LayoutParams).apply {
+                topMargin = 12.dp
+            }
+            layoutParams = margins
+
             overScrollMode = View.OVER_SCROLL_NEVER
             adapter = hadithPreviewAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

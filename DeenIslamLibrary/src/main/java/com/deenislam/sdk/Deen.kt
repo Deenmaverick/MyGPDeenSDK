@@ -12,6 +12,7 @@ import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.views.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -192,12 +193,9 @@ object Deen {
                 userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
             ).authDeen(msisdn)
 
-            withContext(Dispatchers.Main) {
-
                 if (token != null && token?.isNotEmpty() == true) {
 
-                    withContext(Dispatchers.IO)
-                    {
+
                         val prayerTimesRepository = PrayerTimesRepository(
                             deenService = NetworkProvider().getInstance().provideDeenService(),
                             prayerNotificationDao = DatabaseProvider().getInstance()
@@ -207,23 +205,23 @@ object Deen {
 
 
 
-                        val getPrayerTime =
-                            prayerTimesRepository.getPrayerTimes("Dhaka", language, prayerDate)
+                        var getPrayerTime = async { prayerTimesRepository.getPrayerTimes("Dhaka", language, prayerDate) }
 
+                    val finalPrayerTime = getPrayerTime.await()
                         var prayerTimesResponse: PrayerTimesResponse? = null
 
-                        when (getPrayerTime) {
+                        when (finalPrayerTime) {
                             is ApiResource.Failure -> {
                                 withContext(Dispatchers.Main)
                                 {
                                     callback?.prayerNotificationFailed()
                                 }
 
-                                return@withContext
+                                return@launch
                             }
 
                             is ApiResource.Success -> {
-                                prayerTimesResponse = getPrayerTime.value
+                                prayerTimesResponse = finalPrayerTime.value
                             }
                         }
 
@@ -278,16 +276,19 @@ object Deen {
                             )
                                 prayerNotifyCount++
 
-                            if (prayerNotifyCount > 0)
+
+                            if (prayerNotifyCount > 0) {
                                 withContext(Dispatchers.Main)
                                 {
                                     callback?.prayerNotificationOn()
                                 }
-                            else
+                            }
+                            else {
                                 withContext(Dispatchers.Main)
                                 {
                                     callback?.prayerNotificationFailed()
                                 }
+                            }
 
 
                         } ?:
@@ -299,12 +300,11 @@ object Deen {
 
                     }
 
-                } else {
+                else {
                     CallBackListener?.onAuthFailed()
                 }
-            }
-        }
-            else
+
+        }else
             {
 
                 val prayerTimesRepository = PrayerTimesRepository(

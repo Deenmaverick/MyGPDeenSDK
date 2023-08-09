@@ -171,6 +171,7 @@ internal class PrayerTimesAdapter(
         notifyDataSetChanged()
     }
 
+
     fun updateTrackingData(data: Data)
     {
         PrayerTimes().getInstance().updateTrackingData(data)
@@ -181,8 +182,8 @@ internal class PrayerTimesAdapter(
     fun updateNotificationData(Notificationdata: ArrayList<PrayerNotification>?)
     {
         dateWisePrayerNotificationData = Notificationdata
+        widget3_view()
         widget4_view()
-        widget5_view()
         if(inflatedViewCount>0)
             viewInflationListener.onAllViewsInflated()
         notifyDataSetChanged()

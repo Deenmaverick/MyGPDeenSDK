@@ -107,11 +107,14 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         loadingState()
         ViewCompat.setTranslationZ(binding.progressLayout.root, 10F)
         ViewCompat.setTranslationZ(binding.noInternetLayout.root, 10F)
+        binding.noInternetLayout.root.isClickable = true
+        binding.progressLayout.root.isClickable = true
         initObserver()
         loadPage()
         binding.noInternetLayout.noInternetRetry.setOnClickListener {
             loadDataAPI()
         }
+
 
     }
 
@@ -220,7 +223,9 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
             prayerTimesResponse?.let {
                 dashboardPatchMain.updatePrayerTime(it)
-            }
+                binding.progressLayout.root.visible(false)
+                binding.noInternetLayout.root.visible(false)
+            }?:nointernetState()
         }
     }
 
@@ -236,9 +241,9 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     private fun dataState()
     {
-        binding.dashboardMain.visible(true)
+        binding.dashboardMain.visible(true)/*
         binding.progressLayout.root.visible(false)
-        binding.noInternetLayout.root.visible(false)
+        binding.noInternetLayout.root.visible(false)*/
     }
 
     private fun nointernetState()

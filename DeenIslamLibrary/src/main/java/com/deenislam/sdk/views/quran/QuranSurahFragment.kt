@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
@@ -26,6 +27,7 @@ import com.deenislam.sdk.service.repository.quran.SurahRepository
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.hideKeyboard
 import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.quran.SurahViewModel
 import com.deenislam.sdk.views.adapters.quran.SurahAdapter
@@ -54,6 +56,14 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
+
         // init viewmodel
         val repository = SurahRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
@@ -124,16 +134,20 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
     }
 
     override fun onBackPress() {
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "quran",
-                trackingID = getTrackingID()
-            )
+
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "quran",
+                    trackingID = getTrackingID()
+                )
+            }
+            viewmodel.listState = null
         }
-        super.onBackPress()
-        viewmodel.listState = null
+        tryCatch { super.onBackPress() }
+
     }
 
     private fun initView()

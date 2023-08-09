@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
@@ -26,6 +27,7 @@ import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.HadithViewModel
 import com.deenislam.sdk.views.adapters.hadith.HadithFavAdapter
@@ -64,6 +66,13 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
 
     override fun OnCreate() {
         super.OnCreate()
+
+        onBackPressedCallback =
+            requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+
 
         // init viewmodel
         val repository = HadithRepository(
@@ -204,17 +213,20 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
         last_item_loading_progress.visible(bol)
     }
 
-    override fun onBackPress() {
 
-        lifecycleScope.launch {
-            userTrackViewModel.trackUser(
-                language = getLanguage(),
-                msisdn = Deen.msisdn,
-                pagename = "hadith",
-                trackingID = getTrackingID()
-            )
+    override fun onBackPress() {
+        Log.e("onBackPress","HADITH")
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "hadith",
+                    trackingID = getTrackingID()
+                )
+            }
         }
-        super.onBackPress()
+        tryCatch { super.onBackPress() }
     }
 
 
