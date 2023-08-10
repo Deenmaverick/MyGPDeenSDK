@@ -47,7 +47,7 @@ internal class HadithChapterFragment : BaseRegularFragment(), HadithChapterCallb
 
     override fun OnCreate() {
         super.OnCreate()
-
+        setupBackPressCallback(this)
         // init viewmodel
         val repository = HadithRepository(
             hadithService = NetworkProvider().getInstance().provideHadithService()

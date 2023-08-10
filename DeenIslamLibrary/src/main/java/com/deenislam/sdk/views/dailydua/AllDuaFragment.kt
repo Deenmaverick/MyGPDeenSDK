@@ -51,13 +51,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
     override fun OnCreate() {
         super.OnCreate()
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                if(isVisible)
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
-
+        setupBackPressCallback(this)
 
         // init viewmodel
         val repository = DailyDuaRepository(deenService = NetworkProvider().getInstance().provideDeenService())

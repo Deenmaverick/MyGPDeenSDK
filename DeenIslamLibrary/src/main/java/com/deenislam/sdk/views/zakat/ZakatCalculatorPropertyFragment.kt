@@ -28,6 +28,10 @@ internal class ZakatCalculatorPropertyFragment(
     private var other_pension = 0.0
     private var other_capital = 0.0
 
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -60,11 +60,7 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
     override fun OnCreate() {
         super.OnCreate()
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
+        setupBackPressCallback(this)
 
 
         // init viewmodel

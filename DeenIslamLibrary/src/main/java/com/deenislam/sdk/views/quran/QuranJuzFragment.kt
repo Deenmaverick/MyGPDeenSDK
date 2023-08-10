@@ -58,11 +58,7 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
     override fun OnCreate() {
         super.OnCreate()
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
+        setupBackPressCallback(this)
 
 
         val repository = AlQuranRepository(

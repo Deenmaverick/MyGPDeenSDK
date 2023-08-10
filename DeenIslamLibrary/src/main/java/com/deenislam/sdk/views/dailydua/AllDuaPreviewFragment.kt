@@ -47,6 +47,7 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(), DuaByCatCallback {
     override fun OnCreate() {
         super.OnCreate()
         isOnlyBack(true)
+        setupBackPressCallback(this)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -104,14 +105,6 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(), DuaByCatCallback {
         firstload = true
     }
 
-
-    override fun onBackPress() {
-
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        findNavController().popBackStack()
-
-    }
 
     private fun loadApiData()
     {

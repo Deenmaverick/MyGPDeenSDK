@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
@@ -25,12 +26,14 @@ import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.isBottomNavFragment
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 internal abstract class BaseFragment<VB:ViewBinding>(
@@ -174,6 +177,18 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     fun setupOtherFragment(bol:Boolean)
     {
+        if(!bol)
+        {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "home",
+                    trackingID = get9DigitRandom()
+                )
+            }
+        }
+
         (activity as MainActivity).setupOtherFragment(bol)
     }
 
@@ -266,17 +281,19 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     open fun OnCreate(){
 
-
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
-
         userTrackViewModel = UserTrackViewModel(
             repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
         )
 
+    }
+
+    fun setupBackPressCallback(fragment: Fragment)
+    {
+        onBackPressedCallback =
+            fragment.requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
     }
 
     override fun onPause() {

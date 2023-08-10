@@ -23,6 +23,10 @@ internal class ZakatCalculatorLiabilityFragment(
     private var debt_car_payment = 0.0
     private var debt_business_payment = 0.0
 
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

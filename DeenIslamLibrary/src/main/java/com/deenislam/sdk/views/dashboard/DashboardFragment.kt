@@ -73,6 +73,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     override fun OnCreate() {
         super.OnCreate()
 
+        setupBackPressCallback(this)
+
         val dashboardRepository = DashboardRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
 
         val prayerTimesRepository = PrayerTimesRepository(
@@ -115,7 +117,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             loadDataAPI()
         }
 
-
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -150,6 +151,9 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     }
 */
 
+    override fun onBackPress() {
+
+    }
 
     private fun initObserver()
     {

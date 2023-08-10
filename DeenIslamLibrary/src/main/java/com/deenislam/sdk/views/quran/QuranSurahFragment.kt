@@ -57,11 +57,7 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
     override fun OnCreate() {
         super.OnCreate()
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
+        setupBackPressCallback(this)
 
 
         // init viewmodel

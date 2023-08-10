@@ -27,6 +27,10 @@ internal class ZakatCalculatorSummeryFragment(
     private lateinit var debtAmount:AppCompatTextView
     private var updateMode:Boolean = false
 
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

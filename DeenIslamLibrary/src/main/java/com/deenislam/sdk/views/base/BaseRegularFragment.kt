@@ -63,6 +63,22 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     }
 
+    open fun OnCreate(){
+
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
+    }
+
+    fun setupBackPressCallback(fragment: Fragment)
+    {
+        onBackPressedCallback =
+            fragment.requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
+    }
+
     fun changeLanguage(language:String)
     {
         Deen.language = language
@@ -113,19 +129,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     }
 
-    open fun OnCreate(){
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
-
-        userTrackViewModel = UserTrackViewModel(
-            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
-        )
-
-    }
 
 
     override fun onPause() {
@@ -165,6 +169,17 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupOtherFragment(bol:Boolean)
     {
+        if(!bol)
+        {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "home",
+                    trackingID = get9DigitRandom()
+                )
+            }
+        }
         (requireActivity() as MainActivity).setupOtherFragment(bol)
     }
 

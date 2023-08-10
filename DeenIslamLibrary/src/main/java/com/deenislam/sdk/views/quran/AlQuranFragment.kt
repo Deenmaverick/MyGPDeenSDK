@@ -116,13 +116,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         super.OnCreate()
         isOnlyBack(true)
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
-
-
+        setupBackPressCallback(this)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -739,6 +733,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     }
 
     override fun onBackPress() {
+
+        Log.e("onBackPress","AL QURAN")
         lifecycleScope.launch(Dispatchers.IO)
         {
             AudioManager().getInstance().releasePlayer()
