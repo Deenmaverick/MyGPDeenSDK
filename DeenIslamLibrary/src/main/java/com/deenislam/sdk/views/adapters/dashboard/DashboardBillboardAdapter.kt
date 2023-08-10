@@ -197,8 +197,10 @@ internal class DashboardBillboardAdapter(
             prayerBG.setBackgroundResource(R.drawable.maghrib)
         else if(prayerMomentRangeData?.MomentName == "Isha")
             prayerBG.setBackgroundResource(R.drawable.isha)
-        else if(prayerMomentRangeData?.MomentName == "Ishraq")
+        else if(prayerMomentRangeData?.MomentName == "Ishraq") {
+            prayerTracker(false)
             prayerBG.setBackgroundResource(R.drawable.fajr)
+        }
         else {
             //prayerBG.setBackgroundResource(R.drawable.isha)
             prayerTracker(false)
