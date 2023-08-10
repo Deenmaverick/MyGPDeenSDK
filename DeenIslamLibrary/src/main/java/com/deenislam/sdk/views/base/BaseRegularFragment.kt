@@ -45,6 +45,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     lateinit var localContext:Context
     lateinit var localInflater: LayoutInflater
+    private lateinit var childFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +75,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupBackPressCallback(fragment: Fragment)
     {
+        childFragment = fragment
         onBackPressedCallback =
             fragment.requireActivity().onBackPressedDispatcher.addCallback {
                 onBackPress()
@@ -112,22 +114,24 @@ internal abstract class BaseRegularFragment: Fragment() {
     open fun onBackPress() {
 
         Log.e("onBackPress","REGULAR")
-       this.isBackPressed = true
+            isBackPressed = true
 
-        if(!isOnlyback) {
-            findNavController().popBackStack().apply {
-                setupOtherFragment(false)
-            }
-        }
-        else
-            findNavController().popBackStack()
+            if (!isOnlyback) {
+                findNavController().popBackStack().apply {
+                    setupOtherFragment(false)
+                }
+            } else {
 
-        tryCatch {
-            lifecycleScope.launch(Dispatchers.IO)
-            {
-                AudioManager().getInstance().releasePlayer()
+                if(findNavController().previousBackStackEntry?.destination?.id?.equals(findNavController().graph.startDestinationId) != true)
+                findNavController().popBackStack()
             }
-        }
+
+            /*tryCatch {
+                lifecycleScope.launch(Dispatchers.IO)
+                {
+                    AudioManager().getInstance().releasePlayer()
+                }
+            }*/
 
     }
 
@@ -137,7 +141,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onPause() {
         super.onPause()
         if(this::onBackPressedCallback.isInitialized)
-        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
     }
 
 
@@ -292,7 +296,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            //onBackPressedCallback.remove()
+            onBackPressedCallback.remove()
         }
 
     }
@@ -300,8 +304,8 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if(this::onBackPressedCallback.isInitialized)
-        onBackPressedCallback.isEnabled = true
+        if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
+            onBackPressedCallback.isEnabled = true
 
 
         requireView().addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->

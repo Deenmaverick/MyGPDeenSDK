@@ -129,6 +129,12 @@ internal class QuranFragment : BaseRegularFragment() {
         firstload = true
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.e("ONRESUME","QURAN")
+        setupBackPressCallback(this)
+    }
+
     override fun onBackPress() {
 
         if(isVisible) {

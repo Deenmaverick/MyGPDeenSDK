@@ -149,6 +149,11 @@ internal class HadithFragment : BaseRegularFragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
+    }
+
     override fun onBackPress() {
 
         Log.e("onBackPress","HADITH")

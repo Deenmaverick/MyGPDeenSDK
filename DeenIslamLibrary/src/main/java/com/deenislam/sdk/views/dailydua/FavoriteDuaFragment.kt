@@ -60,9 +60,6 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
     override fun OnCreate() {
         super.OnCreate()
 
-        setupBackPressCallback(this)
-
-
         // init viewmodel
         val repository = DailyDuaRepository(deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = DailyDuaViewModel(repository)

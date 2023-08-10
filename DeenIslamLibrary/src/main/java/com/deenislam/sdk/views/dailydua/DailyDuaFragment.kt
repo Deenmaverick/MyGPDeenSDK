@@ -95,7 +95,9 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         firstload = true
 
 
+        postponeEnterTransition()
         loadpage()
+        startPostponedEnterTransition()
     }
 
     override fun onBackPress() {
@@ -111,6 +113,11 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         }
         tryCatch { super.onBackPress() }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
     }
     private fun loadpage()
     {

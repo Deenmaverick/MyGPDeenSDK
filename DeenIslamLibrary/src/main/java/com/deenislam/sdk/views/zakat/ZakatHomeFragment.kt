@@ -44,7 +44,7 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
 
     override fun OnCreate() {
         super.OnCreate()
-        setupBackPressCallback(this)
+        //setupBackPressCallback(this)
     }
 
     override fun onCreateView(

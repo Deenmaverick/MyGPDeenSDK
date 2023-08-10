@@ -103,6 +103,10 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
+    }
 
     override fun action1() {
         onBackPress()

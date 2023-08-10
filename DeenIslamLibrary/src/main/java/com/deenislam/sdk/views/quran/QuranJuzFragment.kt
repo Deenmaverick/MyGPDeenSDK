@@ -58,7 +58,7 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
     override fun OnCreate() {
         super.OnCreate()
 
-        setupBackPressCallback(this)
+        //setupBackPressCallback(this)
 
 
         val repository = AlQuranRepository(
@@ -118,6 +118,7 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
                 )
             }
         }
+
         tryCatch { super.onBackPress() }
 
     }

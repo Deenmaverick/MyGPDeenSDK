@@ -69,6 +69,10 @@ internal class ZakatFragment : BaseRegularFragment() {
         return mainView
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

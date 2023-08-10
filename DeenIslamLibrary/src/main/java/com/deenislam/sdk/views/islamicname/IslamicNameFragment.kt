@@ -156,6 +156,11 @@ internal class IslamicNameFragment : BaseRegularFragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
+    }
+
     override fun onBackPress() {
 
         if(isVisible) {

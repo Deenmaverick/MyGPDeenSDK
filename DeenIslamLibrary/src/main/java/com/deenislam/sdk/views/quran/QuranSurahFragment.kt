@@ -57,7 +57,7 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
     override fun OnCreate() {
         super.OnCreate()
 
-        setupBackPressCallback(this)
+       // setupBackPressCallback(this)
 
 
         // init viewmodel
@@ -142,6 +142,7 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
             }
             viewmodel.listState = null
         }
+
         tryCatch { super.onBackPress() }
 
     }

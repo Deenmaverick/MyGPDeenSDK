@@ -66,7 +66,8 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
 
     private var dialog:Dialog ? = null
-    var bearing: Double? = null
+    private var bearing: Double? = null
+    private var isLocationEnabledDialogShow:Boolean = false
 
 
     override fun OnCreate() {
@@ -126,6 +127,101 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
         degreeTxt.text = localContext.getString(R.string.compass_degree_txt,"--")
 
+
+        // location listner
+
+        val currentTime = Date()
+        val sdf = SimpleDateFormat("hh:mm aa", Locale.getDefault())
+        val getTime =  sdf.format(currentTime)
+
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+
+        locationListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                val latitude = location.latitude
+                val longitude = location.longitude
+
+                val bearingPoint =  getBearingBetweenTwoPoints(latitude,longitude)
+
+                bearing = if (bearingPoint > 0) {
+                    bearingPoint
+                } else {
+                    90 + bearingPoint
+                }
+
+                initKaabaDistance(latitude,longitude)
+
+                Log.e("onLocationChanged",latitude.toString())
+
+                lifecycleScope.launch(Dispatchers.IO)
+                {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        //Fetch address from location
+                        geocoder.getFromLocation(
+                            latitude,
+                            longitude,
+                            1,
+                            object : Geocoder.GeocodeListener {
+                                override fun onGeocode(addresses: MutableList<Address>) {
+
+                                    lifecycleScope.launch(Dispatchers.Main)
+                                    {
+                                        val state = addresses[0].adminArea
+
+                                        locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),state)
+                                        locationListener?.let {
+                                            locationManager?.removeUpdates(it)
+                                        }
+                                    }
+
+                                }
+
+                                override fun onError(errorMessage: String?) {
+                                    super.onError(errorMessage)
+                                }
+
+                            })
+                    } else {
+                        try {
+                            val addresses: List<Address> =
+                                geocoder.getFromLocation(
+                                    latitude,
+                                    longitude,
+                                    1
+                                ) as List<Address>
+
+                            if (addresses.isNotEmpty()) {
+                                lifecycleScope.launch(Dispatchers.Main)
+                                {
+                                    val state = addresses[0].adminArea
+
+                                    locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),state)
+                                    locationListener?.let {
+                                        locationManager?.removeUpdates(it)
+                                    }
+                                }
+                                // Do something with the state information here
+                            }
+                        } catch (e: IOException) {
+                            // Handle Geocoder exceptions here
+                        }
+                    }
+                }
+
+            }
+
+            @Deprecated("Deprecated in Java")
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+
+            override fun onProviderEnabled(provider: String) {
+            }
+
+            override fun onProviderDisabled(provider: String) {
+            }
+        }
+
+
         askLocationPermission(false)
 
     }
@@ -138,99 +234,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         val getTime =  sdf.format(currentTime)
 
         locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),"...")
-        if(bol) {
             locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val geocoder = Geocoder(requireContext(), Locale.getDefault())
-             locationListener = object : LocationListener {
-                override fun onLocationChanged(location: Location) {
-                    val latitude = location.latitude
-                    val longitude = location.longitude
-
-                    val bearingPoint =  getBearingBetweenTwoPoints(latitude,longitude)
-
-                    bearing = if (bearingPoint > 0) {
-                        bearingPoint
-                    } else {
-                        90 + bearingPoint
-                    }
-
-                    initKaabaDistance(latitude,longitude)
-
-                    Log.e("onLocationChanged",latitude.toString())
-
-                    lifecycleScope.launch(Dispatchers.IO)
-                    {
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            //Fetch address from location
-                            geocoder.getFromLocation(
-                                latitude,
-                                longitude,
-                                1,
-                                object : Geocoder.GeocodeListener {
-                                    override fun onGeocode(addresses: MutableList<Address>) {
-
-                                        lifecycleScope.launch(Dispatchers.Main)
-                                        {
-                                            val state = addresses[0].adminArea
-
-                                            locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),state)
-                                            locationListener?.let {
-                                                locationManager?.removeUpdates(it)
-                                            }
-                                        }
-
-                                    }
-
-                                    override fun onError(errorMessage: String?) {
-                                        super.onError(errorMessage)
-                                    }
-
-                                })
-                        } else {
-                            try {
-                                val addresses: List<Address> =
-                                    geocoder.getFromLocation(
-                                        latitude,
-                                        longitude,
-                                        1
-                                    ) as List<Address>
-
-                                if (addresses.isNotEmpty()) {
-                                    lifecycleScope.launch(Dispatchers.Main)
-                                    {
-                                        val state = addresses[0].adminArea
-
-                                        locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),state)
-                                        locationListener?.let {
-                                            locationManager?.removeUpdates(it)
-                                        }
-                                    }
-                                    // Do something with the state information here
-                                }
-                            } catch (e: IOException) {
-                                // Handle Geocoder exceptions here
-                            }
-                        }
-                    }
-
-                }
-
-                @Deprecated("Deprecated in Java")
-                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-
-                override fun onProviderEnabled(provider: String) {
-                }
-
-                override fun onProviderDisabled(provider: String) {
-                }
-            }
-
-           /* val isGpsEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
-            if (isGpsEnabled) {
-                // GPS provider is not available, handle this case accordingly
-            }*/
 
             locationListener?.let {
                 locationManager?.requestLocationUpdates(
@@ -246,11 +250,22 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                     100f,
                     it
                 )
+
+                Log.e("COMPASS","OK")
             }
 
-        }
-        else
+
+        if(!bol)
             showCalibrateDialog()
+        else
+        {
+            val isGpsEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+            if (!isGpsEnabled && !isLocationEnabledDialogShow) {
+                isLocationEnabledDialogShow = true
+                showLocationEnableDialog()
+            }
+        }
 
     }
 
@@ -264,6 +279,23 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 requireContext().startActivity(intent)
             }
             .setNegativeButton(localContext.getString(R.string.cancel), null)
+            .show()
+    }
+
+    fun showLocationEnableDialog() {
+        MaterialAlertDialogBuilder(requireContext(), com.google.android.material.R.style.MaterialAlertDialog_Material3)
+            .setTitle(localContext.getString(R.string.location_permission))
+            .setMessage(localContext.getString(R.string.dialog_location_permission_context))
+            .setPositiveButton(localContext.getString(R.string.okay)) { _, _ ->
+
+                isLocationEnabledDialogShow = false
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                requireContext().startActivity(intent)
+            }
+            .setNegativeButton(localContext.getString(R.string.cancel))
+            {   _, _ ->
+                isLocationEnabledDialogShow = false
+            }
             .show()
     }
 
@@ -328,12 +360,17 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     override fun onResume() {
         super.onResume()
+
+        setupBackPressCallback(this)
+
         askLocationPermission(true)
         view?.requestLayout()
         val mSensor = mSensorManager.getDefaultSensor(3)
         if (mSensor != null) {
             mSensorManager.registerListener(this, mSensor, 1)
         }
+
+
     }
 
     override fun onPause() {

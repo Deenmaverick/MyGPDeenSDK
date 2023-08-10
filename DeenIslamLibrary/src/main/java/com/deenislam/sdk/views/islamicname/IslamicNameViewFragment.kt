@@ -133,6 +133,7 @@ internal class IslamicNameViewFragment : BaseRegularFragment(),IslamicNameAdapte
 
     override fun onResume() {
         super.onResume()
+        setupBackPressCallback(this)
         loadApiData()
     }
 

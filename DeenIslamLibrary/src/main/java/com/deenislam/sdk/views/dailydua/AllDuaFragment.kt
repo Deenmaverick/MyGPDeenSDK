@@ -51,9 +51,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
     override fun OnCreate() {
         super.OnCreate()
 
-        setupBackPressCallback(this)
-
-        // init viewmodel
+         // init viewmodel
         val repository = DailyDuaRepository(deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = DailyDuaViewModel(repository)
     }

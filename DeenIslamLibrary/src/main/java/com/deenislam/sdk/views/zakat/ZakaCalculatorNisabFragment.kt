@@ -28,8 +28,7 @@ internal class ZakaCalculatorNisabFragment(
 
     override fun OnCreate() {
         super.OnCreate()
-        isOnlyBack(true)
-        setupBackPressCallback(this)
+
         // init voiewmodel
         val repository = ZakatRepository(deenService = NetworkProvider().getInstance().provideDeenService())
         viewModel = ZakatViewModel(repository)

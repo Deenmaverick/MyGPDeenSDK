@@ -67,8 +67,6 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
     override fun OnCreate() {
         super.OnCreate()
 
-        setupBackPressCallback(this)
-
         // init viewmodel
         val repository = HadithRepository(
             hadithService = NetworkProvider().getInstance().provideHadithService()
@@ -210,20 +208,6 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
     }
 
 
-    override fun onBackPress() {
-        Log.e("onBackPress","HADITH")
-        if(isVisible) {
-            lifecycleScope.launch {
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = Deen.msisdn,
-                    pagename = "hadith",
-                    trackingID = getTrackingID()
-                )
-            }
-        }
-        tryCatch { super.onBackPress() }
-    }
 
 
     private fun loadingState()

@@ -55,7 +55,7 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
     override fun OnCreate() {
         super.OnCreate()
 
-        setupBackPressCallback(this)
+        //setupBackPressCallback(this)
 
 
         // init viewmodel

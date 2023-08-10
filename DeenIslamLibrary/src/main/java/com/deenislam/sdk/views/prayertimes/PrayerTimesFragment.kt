@@ -143,6 +143,8 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     override fun onResume() {
         super.onResume()
 
+            setupBackPressCallback(this)
+
         if (viewmodel.listState != null) {
             linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
         }

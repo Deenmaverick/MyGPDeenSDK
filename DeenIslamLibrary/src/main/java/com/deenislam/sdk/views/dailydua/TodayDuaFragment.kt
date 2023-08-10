@@ -49,9 +49,6 @@ internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupBackPressCallback(this)
-
-
         // init viewmodel
         val repository = DailyDuaRepository(deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = DailyDuaViewModel(repository)

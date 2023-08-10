@@ -115,9 +115,9 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             loadDataAPI()
         }
 
-
-
     }
+
+
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -126,8 +126,9 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     override fun onResume() {
         super.onResume()
-            loadPage()
 
+            //setupBackPressCallback(this)
+            loadPage()
 
     }
 

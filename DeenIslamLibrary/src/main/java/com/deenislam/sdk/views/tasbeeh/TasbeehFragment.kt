@@ -115,6 +115,9 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     override fun onResume() {
         super.onResume()
+
+        setupBackPressCallback(this)
+
         loadpage()
     }
 

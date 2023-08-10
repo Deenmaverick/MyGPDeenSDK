@@ -150,6 +150,11 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
+    }
+
     override fun action1() {
     }
 

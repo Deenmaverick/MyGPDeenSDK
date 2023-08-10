@@ -52,7 +52,7 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
 
     override fun OnCreate() {
         super.OnCreate()
-        setupBackPressCallback(this)
+        //setupBackPressCallback(this)
 
 
         // init voiewmodel
