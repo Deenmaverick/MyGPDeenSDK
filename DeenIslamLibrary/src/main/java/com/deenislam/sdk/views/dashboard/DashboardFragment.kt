@@ -40,7 +40,6 @@ import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
-import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.adapters.MenuCallback
 import com.deenislam.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
@@ -96,7 +95,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         )[PrayerTimesViewModel::class.java]
 
 
-
     }
 
     private var prayerTimesResponse:PrayerTimesResponse?=null
@@ -117,6 +115,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             loadDataAPI()
         }
 
+
+
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -127,12 +127,15 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     override fun onResume() {
         super.onResume()
             loadPage()
+
+
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
         if(menuVisible)
         {
+            Log.e("setMenuVisibility","DAASHBOARD")
             setupAction(R.drawable.ic_menu,0,this@DashboardFragment,localContext.resources.getString(R.string.app_name))
         }
     }

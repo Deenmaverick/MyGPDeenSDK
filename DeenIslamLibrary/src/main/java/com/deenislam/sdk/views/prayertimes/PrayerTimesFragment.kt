@@ -233,6 +233,10 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 is PrayerNotificationResource.notificationData -> showNotificationDialog(it.data)
                 is PrayerNotificationResource.setNotification ->
                 {
+                    lifecycleScope.launch {
+
+                        viewmodel.clearPrayerNotificationLiveData()
+                    }
                     LoadingButton().getInstance(requireContext()).removeLoader()
                     dialog_okBtn.text = "OK"
 
@@ -272,6 +276,8 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     fun loadPage()
     {
+
+        NotificationPermission().getInstance().askPermission()
 
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(no_internet_layout, 10F)
@@ -374,12 +380,12 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         if (data.size>0) {
             pryaerNotificationData = data
-            prayerTimesAdapter.updateNotificationData(pryaerNotificationData)
             Log.e("viewState",Gson().toJson(pryaerNotificationData))
         }
 
         prayerTimesResponse?.let {
-            prayerTimesAdapter.updateData(it,pryaerNotificationData).apply {
+            prayerTimesAdapter.updateData(it,pryaerNotificationData)
+            prayerMain.post {
                 prayerTimesAdapter.updateNotificationData(pryaerNotificationData)
             }
         }

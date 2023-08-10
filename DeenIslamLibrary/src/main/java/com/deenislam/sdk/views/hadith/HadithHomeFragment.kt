@@ -47,8 +47,8 @@ internal class HadithHomeFragment : BaseRegularFragment(), HadithCollectionCallb
 
     override fun OnCreate() {
         super.OnCreate()
-        setupBackPressCallback(this)
 
+        setupBackPressCallback(this)
 
         // init viewmodel
         val repository = HadithRepository(
@@ -72,6 +72,7 @@ internal class HadithHomeFragment : BaseRegularFragment(), HadithCollectionCallb
         nodataLayout = mainView.findViewById(R.id.nodataLayout)
         noInternetLayout = mainView.findViewById(R.id.no_internet_layout)
         noInternetRetry = noInternetLayout.findViewById(R.id.no_internet_retry)
+
 
         return mainView
     }

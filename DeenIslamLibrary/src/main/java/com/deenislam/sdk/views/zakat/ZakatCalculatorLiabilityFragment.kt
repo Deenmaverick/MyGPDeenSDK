@@ -25,6 +25,8 @@ internal class ZakatCalculatorLiabilityFragment(
 
     override fun OnCreate() {
         super.OnCreate()
+        isOnlyBack(true)
+
         setupBackPressCallback(this)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

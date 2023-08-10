@@ -163,6 +163,8 @@ internal class PrayerTimesAdapter(
         dateWisePrayerNotificationData = Notificationdata
         widget1_view()
         widget2_view()
+
+        if(dateWisePrayerNotificationData?.isNotEmpty() == true)
         widget3_view()
 
         if(inflatedViewCount>0)

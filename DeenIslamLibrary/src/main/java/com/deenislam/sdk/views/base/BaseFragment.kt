@@ -66,6 +66,9 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
         localInflater = layoutInflater.cloneInContext(themedContext)
 
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
 
         OnCreate()
 
@@ -280,10 +283,6 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     }
 
     open fun OnCreate(){
-
-        userTrackViewModel = UserTrackViewModel(
-            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
-        )
 
     }
 

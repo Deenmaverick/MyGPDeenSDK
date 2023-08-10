@@ -108,11 +108,10 @@ internal class NotificationPermission {
 
     fun isNotificationPermitted():Boolean {
 
-        if (Build.VERSION.SDK_INT >= 33) {
-            return instance?.hasNotificationPermissionGranted ?: false
-        }
-        else
-            return true
+        return if (Build.VERSION.SDK_INT >= 33) {
+            instance?.hasNotificationPermissionGranted ?: false
+        } else
+            true
 
     }
 

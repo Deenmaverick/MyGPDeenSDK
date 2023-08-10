@@ -57,6 +57,9 @@ internal class WidgetPrayerTimes(
         dateWisePrayerNotificationData = notificationData
         this.prayerMomentRangeData = prayerMomentRangeData
         todayDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+
+        Log.e("updateData",Gson().toJson(dateWisePrayerNotificationData))
+
         notifyDataSetChanged()
     }
 
@@ -237,10 +240,16 @@ internal class WidgetPrayerTimes(
         rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_off))
 
         dateWisePrayerNotificationData?.forEach {
+
+
             if (it.prayer_tag == prayer_tag
                 && it.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))
                 && NotificationPermission().getInstance().isNotificationPermitted())
             {
+
+                Log.e("setNotificationState",it.prayer_tag+" "+prayer_tag)
+
+
                 prayerData?.let {
                     if(getPrayerTimeTagWise(
                             prayer_tag= prayer_tag,
@@ -263,6 +272,7 @@ internal class WidgetPrayerTimes(
 
                 }
             }
+
 
         }
 

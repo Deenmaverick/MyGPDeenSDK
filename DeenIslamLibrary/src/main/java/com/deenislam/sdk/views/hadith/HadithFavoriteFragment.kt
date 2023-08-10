@@ -66,6 +66,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
 
     override fun OnCreate() {
         super.OnCreate()
+
         setupBackPressCallback(this)
 
         // init viewmodel
@@ -99,6 +100,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
             titileText = localContext.getString(R.string.want_to_delete),
             subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
         )
+
 
         return mainView
     }

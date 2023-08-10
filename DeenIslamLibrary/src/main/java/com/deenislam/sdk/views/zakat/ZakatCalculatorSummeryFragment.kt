@@ -29,6 +29,7 @@ internal class ZakatCalculatorSummeryFragment(
 
     override fun OnCreate() {
         super.OnCreate()
+        isOnlyBack(true)
         setupBackPressCallback(this)
     }
     override fun onCreateView(

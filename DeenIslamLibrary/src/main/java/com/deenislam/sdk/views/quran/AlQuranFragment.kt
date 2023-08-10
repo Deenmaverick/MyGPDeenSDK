@@ -114,6 +114,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun OnCreate() {
         super.OnCreate()
+
         isOnlyBack(true)
 
         setupBackPressCallback(this)

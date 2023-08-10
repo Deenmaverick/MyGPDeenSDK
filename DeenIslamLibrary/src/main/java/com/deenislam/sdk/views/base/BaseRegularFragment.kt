@@ -59,15 +59,17 @@ internal abstract class BaseRegularFragment: Fragment() {
 
         localInflater = layoutInflater.cloneInContext(themedContext)
 
+
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
+
         OnCreate()
 
     }
 
     open fun OnCreate(){
 
-        userTrackViewModel = UserTrackViewModel(
-            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
-        )
     }
 
     fun setupBackPressCallback(fragment: Fragment)
