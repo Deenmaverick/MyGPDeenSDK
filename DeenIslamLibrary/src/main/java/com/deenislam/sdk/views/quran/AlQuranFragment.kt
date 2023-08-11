@@ -113,21 +113,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
 
     override fun OnCreate() {
-
-        setIsBackCallback(false)
         super.OnCreate()
 
         isOnlyBack(true)
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-
-        onBackPressedCallback.isEnabled = true
-
-        Log.e("onBackPress", onBackPressedCallback.isEnabled.toString())
-
+        setupBackPressCallback(this)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -161,16 +151,16 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun ON_CREATE_VIEW(root: View) {
         super.ON_CREATE_VIEW(root)
-
-
         setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,root)
     }
 
     override fun onResume() {
         super.onResume()
+
+            setupBackPressCallback(this)
+
         loadApiData(pageNo,pageItemCount)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

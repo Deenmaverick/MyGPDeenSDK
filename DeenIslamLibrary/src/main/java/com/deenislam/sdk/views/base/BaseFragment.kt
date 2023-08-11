@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
@@ -25,12 +26,15 @@ import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.isBottomNavFragment
+import com.deenislam.sdk.utils.isFragmentInBackStack
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 internal abstract class BaseFragment<VB:ViewBinding>(
@@ -48,7 +52,8 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isOnlyback:Boolean = false
-    private var isBackCallback:Boolean = true
+    lateinit var childFragment: Fragment
+    private var isBackPressed:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +69,9 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
         localInflater = layoutInflater.cloneInContext(themedContext)
 
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
 
         OnCreate()
 
@@ -129,8 +137,9 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     override fun onResume() {
         super.onResume()
 
-        if(this::onBackPressedCallback.isInitialized)
-        onBackPressedCallback.isEnabled = true
+        if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
+            onBackPressedCallback.isEnabled = true
+
 
         requireView().addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
             when (v.visibility) {
@@ -162,19 +171,36 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     open fun onBackPress() {
 
         Log.e("onBackPress","BASE")
-        if(!isOnlyback) {
-            findNavController().popBackStack().apply {
-                setupOtherFragment(false)
+
+            isBackPressed = true
+
+            if (!isOnlyback) {
+                findNavController().popBackStack().apply {
+                    setupOtherFragment(false)
+                }
+            } else {
+
+                if(findNavController().previousBackStackEntry?.destination?.id?.equals(findNavController().graph.startDestinationId) != true)
+                    findNavController().popBackStack()
             }
-        }
-        else
-            findNavController().popBackStack()
 
     }
 
 
     fun setupOtherFragment(bol:Boolean)
     {
+        if(!bol)
+        {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "home",
+                    trackingID = get9DigitRandom()
+                )
+            }
+        }
+
         (activity as MainActivity).setupOtherFragment(bol)
     }
 
@@ -258,8 +284,6 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     fun gotoFrag(destination:Int,data:Bundle?=null,navOptions: NavOptions?=null)
     {
-        if(this::onBackPressedCallback.isInitialized)
-            onBackPressedCallback.isEnabled = false
 
         findNavController().navigate(destination,data,navOptions)
 
@@ -267,36 +291,28 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     open fun OnCreate(){
 
-        if(isBackCallback) {
+    }
+
+    fun setupBackPressCallback(fragment: Fragment)
+    {
+        childFragment = fragment
+
+        if(this::onBackPressedCallback.isInitialized)
+            onBackPressedCallback.remove()
+
             onBackPressedCallback =
-                requireActivity().onBackPressedDispatcher.addCallback {
+                fragment.requireActivity().onBackPressedDispatcher.addCallback {
                     onBackPress()
                 }
             onBackPressedCallback.isEnabled = true
-        }
 
-        userTrackViewModel = UserTrackViewModel(
-            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
-        )
-
-    }
-
-    fun setIsBackCallback(bol:Boolean)
-    {
-        isBackCallback = bol
-    }
-
-    fun setBackPressCallback(callback:OnBackPressedCallback)
-    {
-        onBackPressedCallback =  callback
     }
 
     override fun onPause() {
         super.onPause()
 
         if(this::onBackPressedCallback.isInitialized) {
-            Log.e("onPause","BASE")
-            onBackPressedCallback.isEnabled = false
+            onBackPressedCallback.remove()
         }
     }
 
@@ -306,7 +322,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            //onBackPressedCallback.remove()
+            onBackPressedCallback.remove()
         }
     }
 

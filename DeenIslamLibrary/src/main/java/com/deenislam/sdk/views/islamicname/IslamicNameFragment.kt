@@ -42,12 +42,7 @@ internal class IslamicNameFragment : BaseRegularFragment() {
     override fun OnCreate() {
         super.OnCreate()
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
-
+        setupBackPressCallback(this)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -159,6 +154,11 @@ internal class IslamicNameFragment : BaseRegularFragment() {
         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
     }
 
     override fun onBackPress() {

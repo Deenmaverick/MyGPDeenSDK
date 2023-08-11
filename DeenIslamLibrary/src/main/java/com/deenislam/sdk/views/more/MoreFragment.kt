@@ -30,7 +30,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
     override fun OnCreate() {
         super.OnCreate()
-
+        setupBackPressCallback(this)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -103,6 +103,10 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
+    }
 
     override fun action1() {
         onBackPress()

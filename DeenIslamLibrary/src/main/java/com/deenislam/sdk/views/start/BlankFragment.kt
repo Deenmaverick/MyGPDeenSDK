@@ -10,6 +10,11 @@ import com.deenislam.sdk.views.base.BaseRegularFragment
 
 internal class BlankFragment : BaseRegularFragment() {
 
+
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

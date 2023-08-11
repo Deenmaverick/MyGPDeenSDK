@@ -18,14 +18,6 @@ internal class IslamicNameHomeFragment : BaseRegularFragment() {
     private lateinit var boyLayout:MaterialCardView
     private lateinit var girlLayout:MaterialCardView
 
-    override fun OnCreate() {
-        super.OnCreate()
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,19 +52,5 @@ internal class IslamicNameHomeFragment : BaseRegularFragment() {
         }
     }
 
-    override fun onBackPress() {
 
-        if(isVisible) {
-            lifecycleScope.launch {
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = Deen.msisdn,
-                    pagename = "islamic_name",
-                    trackingID = getTrackingID()
-                )
-            }
-        }
-        tryCatch { super.onBackPress() }
-
-    }
 }

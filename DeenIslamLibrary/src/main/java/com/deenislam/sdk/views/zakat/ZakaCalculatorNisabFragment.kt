@@ -27,6 +27,7 @@ internal class ZakaCalculatorNisabFragment(
     private lateinit var viewModel: ZakatViewModel
 
     override fun OnCreate() {
+        super.OnCreate()
 
         // init voiewmodel
         val repository = ZakatRepository(deenService = NetworkProvider().getInstance().provideDeenService())

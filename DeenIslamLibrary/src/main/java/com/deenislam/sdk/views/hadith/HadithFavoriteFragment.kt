@@ -67,13 +67,6 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
     override fun OnCreate() {
         super.OnCreate()
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
-
-
         // init viewmodel
         val repository = HadithRepository(
             hadithService = NetworkProvider().getInstance().provideHadithService()
@@ -105,6 +98,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
             titileText = localContext.getString(R.string.want_to_delete),
             subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
         )
+
 
         return mainView
     }
@@ -214,20 +208,6 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
     }
 
 
-    override fun onBackPress() {
-        Log.e("onBackPress","HADITH")
-        if(isVisible) {
-            lifecycleScope.launch {
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = Deen.msisdn,
-                    pagename = "hadith",
-                    trackingID = getTrackingID()
-                )
-            }
-        }
-        tryCatch { super.onBackPress() }
-    }
 
 
     private fun loadingState()

@@ -45,6 +45,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     lateinit var localContext:Context
     lateinit var localInflater: LayoutInflater
+    private lateinit var childFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +60,27 @@ internal abstract class BaseRegularFragment: Fragment() {
 
         localInflater = layoutInflater.cloneInContext(themedContext)
 
+
+        userTrackViewModel = UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
+
         OnCreate()
 
+    }
+
+    open fun OnCreate(){
+
+    }
+
+    fun setupBackPressCallback(fragment: Fragment)
+    {
+        childFragment = fragment
+        onBackPressedCallback =
+            fragment.requireActivity().onBackPressedDispatcher.addCallback {
+                onBackPress()
+            }
+        onBackPressedCallback.isEnabled = true
     }
 
     fun changeLanguage(language:String)
@@ -94,46 +114,34 @@ internal abstract class BaseRegularFragment: Fragment() {
     open fun onBackPress() {
 
         Log.e("onBackPress","REGULAR")
-       this.isBackPressed = true
+            isBackPressed = true
 
-        if(!isOnlyback) {
-            findNavController().popBackStack().apply {
-                setupOtherFragment(false)
-            }
-        }
-        else
-            findNavController().popBackStack()
+            if (!isOnlyback) {
+                findNavController().popBackStack().apply {
+                    setupOtherFragment(false)
+                }
+            } else {
 
-        tryCatch {
-            lifecycleScope.launch(Dispatchers.IO)
-            {
-                AudioManager().getInstance().releasePlayer()
+                if(findNavController().previousBackStackEntry?.destination?.id?.equals(findNavController().graph.startDestinationId) != true)
+                findNavController().popBackStack()
             }
-        }
+
+            /*tryCatch {
+                lifecycleScope.launch(Dispatchers.IO)
+                {
+                    AudioManager().getInstance().releasePlayer()
+                }
+            }*/
 
     }
 
-    open fun OnCreate(){
 
-       /* onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true*/
-
-        userTrackViewModel = UserTrackViewModel(
-            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
-        )
-
-    }
 
 
     override fun onPause() {
         super.onPause()
-        if(this::onBackPressedCallback.isInitialized) {
-            Log.e("onPause","REGULAR")
-            onBackPressedCallback.isEnabled = false
-        }
+        if(this::onBackPressedCallback.isInitialized)
+        onBackPressedCallback.remove()
     }
 
 
@@ -167,6 +175,17 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupOtherFragment(bol:Boolean)
     {
+        if(!bol)
+        {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = Deen.msisdn,
+                    pagename = "home",
+                    trackingID = get9DigitRandom()
+                )
+            }
+        }
         (requireActivity() as MainActivity).setupOtherFragment(bol)
     }
 
@@ -285,10 +304,8 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        Log.e("onResume","REGULAR")
-
-        if(this::onBackPressedCallback.isInitialized)
-        onBackPressedCallback.isEnabled = true
+        if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
+            onBackPressedCallback.isEnabled = true
 
 
         requireView().addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->

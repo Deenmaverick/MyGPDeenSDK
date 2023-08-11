@@ -57,11 +57,7 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
     override fun OnCreate() {
         super.OnCreate()
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback(this) {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
+       // setupBackPressCallback(this)
 
 
         // init viewmodel
@@ -134,7 +130,7 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
     }
 
     override fun onBackPress() {
-        Log.e("onBackPress", "QURAN HOME")
+
         if(isVisible) {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
@@ -146,15 +142,9 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
             }
             viewmodel.listState = null
         }
+
         tryCatch { super.onBackPress() }
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //onBackPressedCallback.isEnabled = false
-        //onBackPressedCallback.remove()
-        Log.e("onBackPress", "QURAN HOME PAUSE")
     }
 
     private fun initView()

@@ -88,6 +88,8 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
     override fun OnCreate() {
         super.OnCreate()
         isOnlyBack(true)
+        setupBackPressCallback(this)
+
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -264,6 +266,10 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupBackPressCallback(this)
+    }
     private fun clearAllBtnSelection()
     {
         nisabBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))

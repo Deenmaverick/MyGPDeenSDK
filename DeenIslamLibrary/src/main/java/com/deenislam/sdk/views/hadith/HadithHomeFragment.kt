@@ -48,13 +48,6 @@ internal class HadithHomeFragment : BaseRegularFragment(), HadithCollectionCallb
     override fun OnCreate() {
         super.OnCreate()
 
-        onBackPressedCallback =
-            requireActivity().onBackPressedDispatcher.addCallback {
-                onBackPress()
-            }
-        onBackPressedCallback.isEnabled = true
-
-
         // init viewmodel
         val repository = HadithRepository(
             hadithService = NetworkProvider().getInstance().provideHadithService()
@@ -77,6 +70,7 @@ internal class HadithHomeFragment : BaseRegularFragment(), HadithCollectionCallb
         nodataLayout = mainView.findViewById(R.id.nodataLayout)
         noInternetLayout = mainView.findViewById(R.id.no_internet_layout)
         noInternetRetry = noInternetLayout.findViewById(R.id.no_internet_retry)
+
 
         return mainView
     }
@@ -126,21 +120,6 @@ internal class HadithHomeFragment : BaseRegularFragment(), HadithCollectionCallb
         }
     }
 
-    override fun onBackPress() {
-
-        Log.e("onBackPress","HADITH")
-        if(isVisible) {
-            lifecycleScope.launch {
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = Deen.msisdn,
-                    pagename = "hadith",
-                    trackingID = getTrackingID()
-                )
-            }
-        }
-        tryCatch { super.onBackPress() }
-    }
 
     private fun initObserver()
     {

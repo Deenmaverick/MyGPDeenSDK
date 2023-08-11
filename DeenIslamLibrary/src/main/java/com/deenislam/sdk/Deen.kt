@@ -2,6 +2,7 @@ package com.deenislam.sdk
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.annotation.Keep
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -239,7 +240,8 @@ object Deen {
                                 ) == 1
                             )
                                 prayerNotifyCount++
-                            else if (prayerTimesRepository.updatePrayerNotification(
+
+                            if (prayerTimesRepository.updatePrayerNotification(
                                     prayerDate,
                                     "pt3",
                                     3,
@@ -248,7 +250,7 @@ object Deen {
                                 ) == 1
                             )
                                 prayerNotifyCount++
-                            else if (prayerTimesRepository.updatePrayerNotification(
+                             if (prayerTimesRepository.updatePrayerNotification(
                                     prayerDate,
                                     "pt4",
                                     3,
@@ -257,7 +259,8 @@ object Deen {
                                 ) == 1
                             )
                                 prayerNotifyCount++
-                            else if (prayerTimesRepository.updatePrayerNotification(
+
+                             if (prayerTimesRepository.updatePrayerNotification(
                                     prayerDate,
                                     "pt5",
                                     3,
@@ -266,7 +269,8 @@ object Deen {
                                 ) == 1
                             )
                                 prayerNotifyCount++
-                            else if (prayerTimesRepository.updatePrayerNotification(
+
+                             if (prayerTimesRepository.updatePrayerNotification(
                                     prayerDate,
                                     "pt6",
                                     3,
@@ -276,6 +280,7 @@ object Deen {
                             )
                                 prayerNotifyCount++
 
+                            Log.e("DEEN_NOTIFY",prayerNotifyCount.toString())
 
                             if (prayerNotifyCount > 0) {
                                 withContext(Dispatchers.Main)

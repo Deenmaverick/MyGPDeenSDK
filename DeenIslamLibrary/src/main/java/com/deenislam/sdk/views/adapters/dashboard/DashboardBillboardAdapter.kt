@@ -197,8 +197,10 @@ internal class DashboardBillboardAdapter(
             prayerBG.setBackgroundResource(R.drawable.maghrib)
         else if(prayerMomentRangeData?.MomentName == "Isha")
             prayerBG.setBackgroundResource(R.drawable.isha)
-        else if(prayerMomentRangeData?.MomentName == "Ishraq")
+        else if(prayerMomentRangeData?.MomentName == "Ishraq") {
+            prayerTracker(false)
             prayerBG.setBackgroundResource(R.drawable.fajr)
+        }
         else {
             //prayerBG.setBackgroundResource(R.drawable.isha)
             prayerTracker(false)
@@ -245,7 +247,7 @@ internal class DashboardBillboardAdapter(
 
     private fun widget2_view(position: Int)
     {
-        if (billboardData.size>0) {
+        if (billboardData.size>0 && billboardBanner.size>=position) {
             if (billboardBanner.isEmpty() || billboardData[position].Text == "PrayerTime")
                 return
 
