@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
-import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.models.HadithResource
 import com.deenislam.sdk.service.network.response.hadith.preview.Data
 import com.deenislam.sdk.service.repository.HadithRepository
@@ -60,7 +59,6 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
 
     override fun OnCreate() {
         super.OnCreate()
-        isOnlyBack(true)
         setupBackPressCallback(this)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)

@@ -21,16 +21,13 @@ import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.callback.ActivityCallback
 import com.deenislam.sdk.service.di.NetworkProvider
-import com.deenislam.sdk.service.libs.media3.AudioManager
 import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.main.MainActivity
 import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -39,7 +36,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
-    private var isOnlyback:Boolean = false
+    private var isBacktoHome:Boolean = false
     private var isBackPressed:Boolean = false
     lateinit var userTrackViewModel: UserTrackViewModel
 
@@ -103,9 +100,9 @@ internal abstract class BaseRegularFragment: Fragment() {
             "bn"
 
 
-    fun isOnlyBack(bol:Boolean)
+    fun isBacktoHome(bol:Boolean)
     {
-        isOnlyback = bol
+        isBacktoHome = bol
     }
 
     fun isBackPressed():Boolean = isBackPressed
@@ -116,7 +113,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         Log.e("onBackPress","REGULAR")
             isBackPressed = true
 
-            if (!isOnlyback) {
+            if (isBacktoHome) {
                 findNavController().popBackStack().apply {
                     setupOtherFragment(false)
                 }
@@ -306,7 +303,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
+       /* if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
             onBackPressedCallback.isEnabled = true
 
 
@@ -325,7 +322,7 @@ internal abstract class BaseRegularFragment: Fragment() {
                     // View is not visible
                 }
             }
-        }
+        }*/
     }
 
 

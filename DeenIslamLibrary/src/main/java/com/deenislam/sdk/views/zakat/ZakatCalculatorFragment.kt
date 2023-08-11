@@ -87,7 +87,6 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
 
     override fun OnCreate() {
         super.OnCreate()
-        isOnlyBack(true)
         setupBackPressCallback(this)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)

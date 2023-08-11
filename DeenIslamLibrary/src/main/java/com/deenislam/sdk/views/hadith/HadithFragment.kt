@@ -41,7 +41,7 @@ internal class HadithFragment : BaseRegularFragment() {
 
     override fun OnCreate() {
         super.OnCreate()
-
+        isBacktoHome(true)
         setupBackPressCallback(this)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)

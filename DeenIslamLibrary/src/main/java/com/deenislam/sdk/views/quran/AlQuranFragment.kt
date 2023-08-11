@@ -10,7 +10,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
-import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -114,8 +113,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun OnCreate() {
         super.OnCreate()
-
-        isOnlyBack(true)
 
         setupBackPressCallback(this)
 

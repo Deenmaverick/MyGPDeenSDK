@@ -50,7 +50,6 @@ internal class IslamicNameViewFragment : BaseRegularFragment(),IslamicNameAdapte
 
     override fun OnCreate() {
         super.OnCreate()
-        isOnlyBack(true)
         setupBackPressCallback(this)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)

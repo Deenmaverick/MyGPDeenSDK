@@ -96,7 +96,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun OnCreate() {
         super.OnCreate()
-
+        isBacktoHome(true)
         setupBackPressCallback(this)
 
 

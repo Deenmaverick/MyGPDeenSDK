@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,7 +45,6 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(), DuaByCatCallback {
 
     override fun OnCreate() {
         super.OnCreate()
-        isOnlyBack(true)
         setupBackPressCallback(this)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)

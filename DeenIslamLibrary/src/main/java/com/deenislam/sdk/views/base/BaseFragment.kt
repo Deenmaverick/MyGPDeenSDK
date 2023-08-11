@@ -28,7 +28,6 @@ import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.isBottomNavFragment
-import com.deenislam.sdk.utils.isFragmentInBackStack
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
@@ -51,7 +50,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     val binding:VB get() = _binding as VB
     lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
-    private var isOnlyback:Boolean = false
+    private var isBacktoHome:Boolean = false
     lateinit var childFragment: Fragment
     private var isBackPressed:Boolean = false
 
@@ -89,9 +88,9 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         Deen.language = language
         (activity as MainActivity).changeLanguage()
     }
-    fun isOnlyBack(bol:Boolean)
+    fun isBacktoHome(bol:Boolean)
     {
-        isOnlyback = bol
+        isBacktoHome = bol
     }
 
 
@@ -137,9 +136,9 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     override fun onResume() {
         super.onResume()
 
-        if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
+       /* if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
             onBackPressedCallback.isEnabled = true
-
+*/
 
         requireView().addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
             when (v.visibility) {
@@ -147,7 +146,12 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
                     if(this::onBackPressedCallback.isInitialized && !onBackPressedCallback.isEnabled)
                     {
-                        onBackPressedCallback.isEnabled = true
+
+                        if(isDashboardVisible())
+                        {
+                            setupBackPressCallback(this)
+                        }
+
                     }
 
 
@@ -174,7 +178,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
             isBackPressed = true
 
-            if (!isOnlyback) {
+            if (isBacktoHome) {
                 findNavController().popBackStack().apply {
                     setupOtherFragment(false)
                 }
@@ -200,6 +204,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
                 )
             }
         }
+
 
         (activity as MainActivity).setupOtherFragment(bol)
     }
@@ -286,6 +291,11 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     fun gotoFrag(destination:Int,data:Bundle?=null,navOptions: NavOptions?=null)
     {
+
+        if(this::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.isEnabled = false
+            onBackPressedCallback.remove()
+        }
 
         findNavController().navigate(destination,data,navOptions)
 

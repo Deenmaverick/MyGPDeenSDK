@@ -30,6 +30,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
     override fun OnCreate() {
         super.OnCreate()
+        isBacktoHome(true)
         setupBackPressCallback(this)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
