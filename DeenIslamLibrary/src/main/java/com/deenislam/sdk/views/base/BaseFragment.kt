@@ -149,6 +149,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
                         if(isDashboardVisible())
                         {
+                            Log.e("LayoutChangeListener",onBackPressedCallback.isEnabled.toString())
                             setupBackPressCallback(this)
                         }
 
@@ -176,6 +177,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
         Log.e("onBackPress","BASE")
 
+        if(isVisible) {
             isBackPressed = true
 
             if (isBacktoHome) {
@@ -184,9 +186,14 @@ internal abstract class BaseFragment<VB:ViewBinding>(
                 }
             } else {
 
-                if(findNavController().previousBackStackEntry?.destination?.id?.equals(findNavController().graph.startDestinationId) != true)
+                if (findNavController().previousBackStackEntry?.destination?.id?.equals(
+                        findNavController().graph.startDestinationId
+                    ) != true
+                )
                     findNavController().popBackStack()
             }
+
+        }
 
     }
 

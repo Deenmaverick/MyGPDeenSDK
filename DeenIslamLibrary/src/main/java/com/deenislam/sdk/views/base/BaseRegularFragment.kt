@@ -111,6 +111,8 @@ internal abstract class BaseRegularFragment: Fragment() {
     open fun onBackPress() {
 
         Log.e("onBackPress","REGULAR")
+
+        if(isVisible) {
             isBackPressed = true
 
             if (isBacktoHome) {
@@ -119,9 +121,13 @@ internal abstract class BaseRegularFragment: Fragment() {
                 }
             } else {
 
-                if(findNavController().previousBackStackEntry?.destination?.id?.equals(findNavController().graph.startDestinationId) != true)
-                findNavController().popBackStack()
+                if (findNavController().previousBackStackEntry?.destination?.id?.equals(
+                        findNavController().graph.startDestinationId
+                    ) != true
+                )
+                    findNavController().popBackStack()
             }
+        }
 
             /*tryCatch {
                 lifecycleScope.launch(Dispatchers.IO)
