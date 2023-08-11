@@ -282,6 +282,8 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         (activity as MainActivity).setupActionbar(action1,action2,callback)
     }
 
+    fun isDashboardVisible() = (activity as MainActivity).isDashboardVisible()
+
     fun gotoFrag(destination:Int,data:Bundle?=null,navOptions: NavOptions?=null)
     {
 
@@ -312,6 +314,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         super.onPause()
 
         if(this::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
         }
     }

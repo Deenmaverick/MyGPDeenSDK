@@ -140,8 +140,10 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     override fun onPause() {
         super.onPause()
-        if(this::onBackPressedCallback.isInitialized)
-        onBackPressedCallback.remove()
+        if(this::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.isEnabled = false
+            onBackPressedCallback.remove()
+        }
     }
 
 

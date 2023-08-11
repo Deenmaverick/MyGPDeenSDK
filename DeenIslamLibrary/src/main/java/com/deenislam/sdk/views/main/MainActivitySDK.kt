@@ -21,6 +21,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
@@ -237,6 +238,8 @@ internal class MainActivity : AppCompatActivity() {
             notifyPendingIntent
         )
     }
+
+    fun isDashboardVisible() = _viewPager.isVisible
 
      fun dashboardComponent(bol:Boolean)
     {

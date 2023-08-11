@@ -236,6 +236,20 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),"...")
             locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
+
+
+
+        if(!bol)
+            showCalibrateDialog()
+        else
+        {
+            val isGpsEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+            if (!isGpsEnabled && !isLocationEnabledDialogShow) {
+                isLocationEnabledDialogShow = true
+                showLocationEnableDialog()
+            }
+
             locationListener?.let {
                 locationManager?.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
@@ -252,18 +266,6 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 )
 
                 Log.e("COMPASS","OK")
-            }
-
-
-        if(!bol)
-            showCalibrateDialog()
-        else
-        {
-            val isGpsEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
-            if (!isGpsEnabled && !isLocationEnabledDialogShow) {
-                isLocationEnabledDialogShow = true
-                showLocationEnableDialog()
             }
         }
 

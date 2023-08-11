@@ -152,10 +152,6 @@ internal class QuranFragment : BaseRegularFragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        this.onBackPressedCallback.isEnabled = true
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

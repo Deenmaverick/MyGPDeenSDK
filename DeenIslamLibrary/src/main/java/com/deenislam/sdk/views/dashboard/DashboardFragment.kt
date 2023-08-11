@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -97,6 +98,13 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.e("DASHBOARD_NEW","onPause")
+    }
+
+
+
     private var prayerTimesResponse:PrayerTimesResponse?=null
 
     private var firstload:Int = 0
@@ -127,9 +135,10 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     override fun onResume() {
         super.onResume()
 
-            //setupBackPressCallback(this)
             loadPage()
-
+        if(isDashboardVisible())
+        setupBackPressCallback(this)
+        Log.e("DASHBOARD_NEW",isDashboardVisible().toString())
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
