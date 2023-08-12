@@ -265,10 +265,6 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupBackPressCallback(this)
-    }
     private fun clearAllBtnSelection()
     {
         nisabBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))

@@ -106,8 +106,6 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     override fun onResume() {
         super.onResume()
 
-            setupBackPressCallback(this)
-
         // call api to get monthly data
         loadApiData()
     }

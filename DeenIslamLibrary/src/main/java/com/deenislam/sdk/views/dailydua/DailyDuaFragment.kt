@@ -44,8 +44,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
 
     override fun OnCreate() {
         super.OnCreate()
-        isBacktoHome(true)
-        setupBackPressCallback(this)
+        setupBackPressCallback(this,true)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -111,14 +110,11 @@ internal class DailyDuaFragment : BaseRegularFragment() {
                 )
             }
         }
+
         tryCatch { super.onBackPress() }
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupBackPressCallback(this)
-    }
     private fun loadpage()
     {
         mPageDestination = arrayListOf(

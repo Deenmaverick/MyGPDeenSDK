@@ -87,8 +87,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     override fun OnCreate() {
         super.OnCreate()
-        isBacktoHome(true)
-        setupBackPressCallback(this)
+        setupBackPressCallback(this,true)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -115,8 +114,6 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     override fun onResume() {
         super.onResume()
-
-        setupBackPressCallback(this)
 
         loadpage()
     }

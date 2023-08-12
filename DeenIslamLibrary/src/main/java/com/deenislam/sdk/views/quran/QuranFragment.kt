@@ -50,8 +50,7 @@ internal class QuranFragment : BaseRegularFragment() {
 
     override fun OnCreate() {
         super.OnCreate()
-        isBacktoHome(true)
-        setupBackPressCallback(this)
+        setupBackPressCallback(this,true)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -129,11 +128,6 @@ internal class QuranFragment : BaseRegularFragment() {
         firstload = true
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.e("ONRESUME","QURAN")
-        setupBackPressCallback(this)
-    }
 
     override fun onBackPress() {
         Log.e("onBackPress", "QURAN HOME")

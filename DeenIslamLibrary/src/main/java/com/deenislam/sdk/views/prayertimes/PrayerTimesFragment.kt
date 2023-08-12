@@ -96,8 +96,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun OnCreate() {
         super.OnCreate()
-        isBacktoHome(true)
-        setupBackPressCallback(this)
+        setupBackPressCallback(this,true)
 
 
         NotificationPermission().getInstance().setupLauncher(this,localContext,true, activityContext = requireContext())
@@ -142,8 +141,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun onResume() {
         super.onResume()
-
-            setupBackPressCallback(this)
 
         if (viewmodel.listState != null) {
             linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)

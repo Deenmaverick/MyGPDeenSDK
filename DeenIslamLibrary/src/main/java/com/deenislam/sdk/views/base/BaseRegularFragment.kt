@@ -70,8 +70,9 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     }
 
-    fun setupBackPressCallback(fragment: Fragment)
+    fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {
+        isBacktoHome(isBacktoHome)
         childFragment = fragment
         onBackPressedCallback =
             fragment.requireActivity().onBackPressedDispatcher.addCallback {
@@ -100,7 +101,7 @@ internal abstract class BaseRegularFragment: Fragment() {
             "bn"
 
 
-    fun isBacktoHome(bol:Boolean)
+    private fun isBacktoHome(bol:Boolean)
     {
         isBacktoHome = bol
     }
@@ -308,7 +309,8 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+        if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
+            setupBackPressCallback(this,isBacktoHome)
        /* if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
             onBackPressedCallback.isEnabled = true
 

@@ -73,6 +73,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     override fun OnCreate() {
         super.OnCreate()
 
+        isHomePage(true)
         setupBackPressCallback(this)
 
         val dashboardRepository = DashboardRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())

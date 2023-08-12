@@ -42,11 +42,6 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
     private lateinit var faq4Content:AppCompatTextView
 
 
-    override fun OnCreate() {
-        super.OnCreate()
-        //setupBackPressCallback(this)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -53,6 +53,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     private var isBacktoHome:Boolean = false
     lateinit var childFragment: Fragment
     private var isBackPressed:Boolean = false
+    private var isHomePage:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +78,11 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     }
 
+    fun isHomePage(bol:Boolean)
+    {
+        isHomePage = bol
+    }
+
      fun getLanguage():String =
         if(Deen.language == "en")
             ""
@@ -88,7 +94,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         Deen.language = language
         (activity as MainActivity).changeLanguage()
     }
-    fun isBacktoHome(bol:Boolean)
+    private fun isBacktoHome(bol:Boolean)
     {
         isBacktoHome = bol
     }
@@ -135,6 +141,9 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     override fun onResume() {
         super.onResume()
+
+        if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized && !isHomePage)
+            setupBackPressCallback(this,isBacktoHome)
 
        /* if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
             onBackPressedCallback.isEnabled = true
@@ -312,8 +321,9 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     }
 
-    fun setupBackPressCallback(fragment: Fragment)
+    fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {
+        isBacktoHome(isBacktoHome)
         childFragment = fragment
 
         if(this::onBackPressedCallback.isInitialized)

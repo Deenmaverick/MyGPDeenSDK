@@ -52,8 +52,6 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
 
     override fun OnCreate() {
         super.OnCreate()
-        //setupBackPressCallback(this)
-
 
         // init voiewmodel
         val repository = ZakatRepository(deenService = NetworkProvider().getInstance().provideDeenService())

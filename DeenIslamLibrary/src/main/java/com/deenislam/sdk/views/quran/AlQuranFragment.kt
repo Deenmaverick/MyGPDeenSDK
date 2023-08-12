@@ -153,9 +153,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun onResume() {
         super.onResume()
-
-            setupBackPressCallback(this)
-
         loadApiData(pageNo,pageItemCount)
     }
 

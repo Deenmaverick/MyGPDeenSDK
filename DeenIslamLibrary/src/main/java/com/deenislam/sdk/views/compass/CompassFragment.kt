@@ -72,8 +72,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     override fun OnCreate() {
         super.OnCreate()
-        isBacktoHome(true)
-        setupBackPressCallback(this)
+        setupBackPressCallback(this,true)
 
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
@@ -362,8 +361,6 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-
-        setupBackPressCallback(this)
 
         askLocationPermission(true)
         view?.requestLayout()
