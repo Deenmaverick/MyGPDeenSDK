@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -126,14 +125,14 @@ internal class IslamicNameFragment : BaseRegularFragment() {
                 {
                     0->
                     {
-                        nameBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
-                        nameBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                        nameBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        nameBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
 
                     1->
                     {
-                        favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
-                        favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                        favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
 
                 }
@@ -147,11 +146,11 @@ internal class IslamicNameFragment : BaseRegularFragment() {
 
     private fun clearAllBtnSelection()
     {
-        nameBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        nameBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        nameBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        nameBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
-        favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
     }
 

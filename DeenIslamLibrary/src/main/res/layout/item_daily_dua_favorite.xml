@@ -8,7 +8,7 @@
     app:cardElevation="1dp"
     tools:viewBindingIgnore="true"
     style="@style/Widget.Material3.CardView.Elevated"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/deen_white"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/space_12"
             android:layout_marginStart="@dimen/space_12"
-            android:textColor="@color/txt_black"
+            android:textColor="@color/deen_txt_black"
             android:text="Iftar Dua - 1"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/itemTitle"
             android:layout_marginBottom="@dimen/space_12"
             android:layout_marginTop="2dp"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             android:text="Dhahaba al-zama’ wa abtalat al-‘urooq wa thabata al-ajr in sha..."/>
 
 
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@+id/duaTxt"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="@dimen/space_12"
-            android:textColor="@color/txt_ash"
+            android:textColor="@color/deen_txt_ash"
             android:text="— Abu Dawud: 2357"/>
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -66,7 +66,7 @@
             android:layout_width="24dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_favorite_primary_active"
-            app:tint="@color/brand_favorite"
+            app:tint="@color/deen_brand_favorite"
             android:layout_marginEnd="@dimen/space_8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/itemTitle"

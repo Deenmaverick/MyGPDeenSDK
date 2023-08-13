@@ -7,8 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -194,14 +192,14 @@ internal class QuranFragment : BaseRegularFragment() {
                     0-> quranHomeBtn.setImageDrawable(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_quran_verse))
                     1->
                     {
-                        surahBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
-                        surahBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                        surahBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        surahBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
 
                     2->
                     {
-                        juzBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
-                        juzBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                        juzBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        juzBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
 
                   /*  3->
@@ -223,11 +221,11 @@ internal class QuranFragment : BaseRegularFragment() {
 
         quranHomeBtn.setImageDrawable(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_quran_verse_inactive))
 
-        surahBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        surahBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        surahBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        surahBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
-        juzBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        juzBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        juzBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        juzBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
       /*  myquranBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
         myquranBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))

@@ -7,7 +7,7 @@
     tools:viewBindingIgnore="true"
     android:nestedScrollingEnabled="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <include
         android:id="@+id/actionbar"
@@ -36,7 +36,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainView"
             android:layout_width="match_parent"
-            android:background="@color/white"
+            android:background="@color/deen_white"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:background="@color/white"
+                android:background="@color/deen_white"
                 android:layout_marginStart="@dimen/space_8"
                 android:layout_marginEnd="@dimen/space_8"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,8 +68,8 @@
                     android:layout_marginBottom="@dimen/space_15"
                     android:gravity="center_vertical"
                     android:text="@string/app_name"
-                    android:textAppearance="@style/TextAppearance.font20"
-                    android:textColor="@color/primary"
+                    android:textAppearance="@style/DeenTextAppearance.font20"
+                    android:textColor="@color/deen_primary"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:background="@color/card_bg"
+                    android:background="@color/deen_card_bg"
                     android:elevation="1dp"
                     android:layout_marginStart="@dimen/space_8"
                     android:layout_marginEnd="@dimen/space_8"
@@ -100,7 +100,7 @@
                         android:layout_marginEnd="@dimen/space_8"
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/primary"
+                        android:textColor="@color/deen_primary"
                         android:textStyle="bold" />
 
 
@@ -114,7 +114,7 @@
                         android:text="@string/location_dhaka"
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/txt_ash" />
+                        android:textColor="@color/deen_txt_ash" />
 
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -128,7 +128,7 @@
                         android:text="@string/islamic_foundation_bangladesh"
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/txt_ash" />
+                        android:textColor="@color/deen_txt_ash" />
 
                 </LinearLayout>
 

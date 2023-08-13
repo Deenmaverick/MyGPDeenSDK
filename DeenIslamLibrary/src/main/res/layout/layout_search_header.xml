@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:elevation="@dimen/space_8"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/deen_white"
     tools:viewBindingIgnore="true">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -32,7 +32,7 @@
         android:layout_marginEnd="@dimen/space_16"
         android:layout_marginTop="@dimen/space_6"
         android:layout_marginBottom="@dimen/space_6"
-        app:hintTextColor="@color/gray"
+        app:hintTextColor="@color/deen_gray"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnBack"

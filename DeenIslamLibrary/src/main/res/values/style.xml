@@ -1,100 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="TextAppearance.font32" parent="">
+    <style name="DeenTextAppearance.font32" parent="">
         <item name="android:textSize">32sp</item>
-        <item name="android:color">@color/txt_black</item>
+        <item name="android:color">@color/deen_txt_black</item>
     </style>
 
-    <style name="TextAppearance.font40" parent="">
+    <style name="DeenTextAppearance.font40" parent="">
         <item name="android:textSize">40sp</item>
-        <item name="android:color">@color/txt_black</item>
+        <item name="android:color">@color/deen_txt_black</item>
     </style>
 
-    <style name="TextAppearance.font28" parent="">
+    <style name="DeenTextAppearance.font28" parent="">
         <item name="android:textSize">28sp</item>
-        <item name="android:color">@color/txt_black</item>
+        <item name="android:color">@color/deen_txt_black</item>
     </style>
 
-    <style name="TextAppearance.font20" parent="">
+    <style name="DeenTextAppearance.font20" parent="">
         <item name="android:textSize">20sp</item>
-        <item name="android:color">@color/txt_black</item>
+        <item name="android:color">@color/deen_txt_black</item>
     </style>
 
-    <style name="TextAppearance.font24" parent="">
+    <style name="DeenTextAppearance.font24" parent="">
         <item name="android:textSize">24sp</item>
-        <item name="android:color">@color/txt_black</item>
+        <item name="android:color">@color/deen_txt_black</item>
     </style>
 
-    <style name="TextAppearance.font10" parent="">
+    <style name="DeenTextAppearance.font10" parent="">
         <item name="android:textSize">10sp</item>
-        <item name="android:color">@color/txt_black</item>
+        <item name="android:color">@color/deen_txt_black</item>
     </style>
 
-    <style name="MaterialButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="DeenMaterialButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="backgroundTint">@color/color_state_materialbutton</item>
     </style>
 
-    <style name="MaterialAlertDialog_rounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="shapeAppearanceOverlay">@style/DialogCorners</item>
+    <style name="DeenMaterialAlertDialog_rounded" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/DeenDialogCorners</item>
     </style>
 
-    <style name="DialogCorners">
+    <style name="DeenDialogCorners">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
     </style>
 
-    <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+    <style name="DeenWidget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="materialThemeOverlay">@style/DeenThemeOverlay.App.Switch</item>
     </style>
 
-    <style name="ThemeOverlay.App.Switch" parent="">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorSurfaceVariant">@color/gray</item>
+    <style name="DeenThemeOverlay.App.Switch" parent="">
+        <item name="colorPrimary">@color/deen_primary</item>
+        <item name="colorSurfaceVariant">@color/deen_gray</item>
     </style>
 
-    <style name="Widget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    <style name="DeenWidget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/DeenThemeOverlay.App.RadioButton</item>
     </style>
 
-    <style name="ThemeOverlay.App.RadioButton" parent="">
-        <item name="colorOnSurface">@color/white</item>
-        <item name="colorPrimary">@color/white</item>
+    <style name="DeenThemeOverlay.App.RadioButton" parent="">
+        <item name="colorOnSurface">@color/deen_white</item>
+        <item name="colorPrimary">@color/deen_white</item>
     </style>
 
     <!--Material dialog without round corner-->
 
-    <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialAlertDialog.Rounded</item>
+    <style name="DeenMaterialAlertDialog.Rounded" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/DeenShapeAppearanceOverlay.MaterialAlertDialog.Rounded</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.MaterialAlertDialog.Rounded" parent="">
+    <style name="DeenShapeAppearanceOverlay.MaterialAlertDialog.Rounded" parent="">
         <item name="cornerSize">@dimen/space_8</item>
     </style>
 
-    <style name="App.Nav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/card_bg</item>
+    <style name="DeenApp.Nav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/deen_card_bg</item>
     </style>
 
-    <style name="Tasbeen.Nav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/txt_ash</item>
+    <style name="DeenTasbeen.Nav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/deen_txt_ash</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+    <style name="DeenShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="tasbeeh_nav_fav">
+    <style name="deen_tasbeeh_nav_fav">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="RadioButtonNormal" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/gray</item>
-        <item name="colorControlActivated">@color/primary</item>
+    <style name="DeenRadioButtonNormal" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/deen_gray</item>
+        <item name="colorControlActivated">@color/deen_primary</item>
     </style>
 
-    <declare-styleable name="AspectRatioImageView">
+    <declare-styleable name="DeenAspectRatioImageView">
         <attr name="imageAspectRatio" format="float"/>
     </declare-styleable>
 

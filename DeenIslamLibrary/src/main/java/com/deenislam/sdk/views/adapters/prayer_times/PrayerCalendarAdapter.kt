@@ -55,7 +55,7 @@ internal class PrayerCalendarAdapter(
 
             if((position % 2)==0)
             {
-                itemView.setBackgroundColor(ContextCompat.getColor(itemView.context,R.color.background))
+                itemView.setBackgroundColor(ContextCompat.getColor(itemView.context,R.color.deen_background))
             }
             else
                 itemView.setBackgroundResource(0)

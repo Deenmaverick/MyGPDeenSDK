@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".views.tasbeeh.TasbeehFragment"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <include
         android:id="@+id/actionbar"
@@ -55,7 +55,7 @@
                     android:layout_marginTop="@dimen/space_16"
                     android:layout_gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/brand_teal" />
+                    android:textColor="@color/deen_brand_teal" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
                     android:layout_gravity="center"
                     android:text="@string/sura"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/brand_teal" />
+                    android:textColor="@color/deen_brand_teal" />
 
             </LinearLayout>
 
@@ -88,7 +88,7 @@
                     android:layout_gravity="center"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/card_bg_deep_teal" />
+                    android:textColor="@color/deen_card_bg_deep_teal" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/nameMeaning"
@@ -97,7 +97,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="2dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/brand_teal" />
+                    android:textColor="@color/deen_brand_teal" />
 
             </LinearLayout>
 
@@ -122,7 +122,7 @@
                     android:layout_marginTop="@dimen/space_16"
                     android:layout_gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/brand_teal" />
+                    android:textColor="@color/deen_brand_teal" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ruku"
@@ -131,7 +131,7 @@
                     android:layout_gravity="center"
                     android:text="@string/ruku"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/brand_teal" />
+                    android:textColor="@color/deen_brand_teal" />
 
             </LinearLayout>
 

@@ -9,7 +9,7 @@
     android:layout_marginBottom="1dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/deen_white"
     app:layout_constraintEnd_toStartOf="@+id/learnquranBtn2"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
@@ -31,8 +31,8 @@
             android:layout_marginEnd="@dimen/space_12"
             android:text="ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢"
             android:fontFamily="@font/kfgqpc_uthmanic_script_hafs_regular"
-            android:textAppearance="@style/TextAppearance.font24"
-            android:textColor="@color/txt_black_deep"
+            android:textAppearance="@style/DeenTextAppearance.font24"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -46,7 +46,7 @@
             android:layout_marginEnd="@dimen/space_12"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ayatArabic"
             app:layout_constraintStart_toStartOf="parent" />
@@ -61,7 +61,7 @@
             android:layout_marginEnd="@dimen/space_12"
             android:text="১. পরম করুণাময় ও অসীম দয়ালু আল্লাহর নামে শুরু করছি।"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transliteration"
             app:layout_constraintStart_toStartOf="parent" />
@@ -75,7 +75,7 @@
             android:layout_marginEnd="@dimen/space_12"
             android:text="2. All praise is for Allah—Lord of all worlds,1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ayatBn"
             app:layout_constraintStart_toStartOf="parent" />
@@ -87,7 +87,7 @@
             android:layout_marginTop="@dimen/space_12"
             android:layout_marginStart="@dimen/space_12"
             android:layout_marginEnd="@dimen/space_12"
-            android:background="@color/border"
+            android:background="@color/deen_border"
             app:layout_constraintTop_toBottomOf="@+id/ayatEn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -101,7 +101,7 @@
             android:layout_marginEnd="@dimen/space_12"
             android:text="1:1"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/txt_ash"
+            android:textColor="@color/deen_txt_ash"
             app:layout_constraintTop_toBottomOf="@+id/border"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -166,7 +166,7 @@
             android:layout_height="40dp"
             android:padding="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_8"
-            app:tint="@color/txt_ash"
+            app:tint="@color/deen_txt_ash"
             android:src="@drawable/ic_quran_play_fill"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnTafseer"

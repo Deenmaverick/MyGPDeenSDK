@@ -23,7 +23,7 @@
         android:text="@string/font_size"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintEnd_toStartOf="@+id/defaultFontBtn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -35,7 +35,7 @@
         android:gravity="center"
         android:text="@string/default_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fontsizeTxt"/>
@@ -47,7 +47,7 @@
         android:layout_marginTop="@dimen/space_8"
         android:text="@string/font__a"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -60,14 +60,14 @@
         app:labelBehavior="gone"
         android:focusable="false"
         app:haloRadius="@dimen/sapce_20"
-        app:thumbColor="@color/white"
+        app:thumbColor="@color/deen_white"
         android:valueTo="100"
         android:value="0"
         android:stepSize="20"
         app:trackHeight="2dp"
         app:thumbRadius="8dp"
-        app:tickColorActive="@color/txt_ash"
-        app:tickColorInactive="@color/txt_ash"
+        app:tickColorActive="@color/deen_txt_ash"
+        app:tickColorInactive="@color/deen_txt_ash"
         app:layout_constraintBottom_toBottomOf="@id/fontMinus"
         app:layout_constraintStart_toEndOf="@+id/fontMinus"
         app:layout_constraintEnd_toStartOf="@+id/fontPlus"
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:text="@string/font_a"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintTop_toTopOf="@+id/fontControl"
         app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
         app:layout_constraintStart_toEndOf="@+id/fontControl"
@@ -97,7 +97,7 @@
         android:layout_marginStart="@dimen/space_16"
         android:layout_marginEnd="@dimen/space_16"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/background"
+        app:cardBackgroundColor="@color/deen_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fontControl"
@@ -110,8 +110,8 @@
             android:layout_margin="@dimen/space_10"
             android:text="ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢"
             android:fontFamily="@font/kfgqpc_uthmanic_script_hafs_regular"
-            android:textAppearance="@style/TextAppearance.font24"
-            android:textColor="@color/primary"
+            android:textAppearance="@style/DeenTextAppearance.font24"
+            android:textColor="@color/deen_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -127,7 +127,7 @@
         android:text="@string/arabic_font"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintTop_toBottomOf="@+id/fontLayout"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -147,7 +147,7 @@
             android:text="@string/uthmanic_script_hafs_regular"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/primary"
+            android:textColor="@color/deen_primary"
             app:layout_constraintTop_toBottomOf="@+id/fontLayout"
             app:layout_constraintStart_toStartOf="parent"/>
 

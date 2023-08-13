@@ -9,7 +9,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
     tools:viewBindingIgnore="true"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/deen_white"
     app:layout_constraintEnd_toStartOf="@+id/learnquranBtn2"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
@@ -36,7 +36,7 @@
             android:background="@drawable/ic_surah_count_bg"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textStyle="bold"
-            android:textColor="@color/card_checkbox_bg"
+            android:textColor="@color/deen_card_checkbox_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@
             android:text="Al-Fatihah"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toEndOf="@id/surahCount"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +66,7 @@
             android:gravity="center"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/txt_ash"
+            android:textColor="@color/deen_txt_ash"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/surahName"
             app:layout_constraintStart_toEndOf="@id/surahCount"
@@ -79,8 +79,8 @@
             android:layout_marginEnd="@dimen/space_12"
             android:fontFamily="@font/arbfont"
             android:text="001"
-            android:textAppearance="@style/TextAppearance.font32"
-            android:textColor="@color/primary"
+            android:textAppearance="@style/DeenTextAppearance.font32"
+            android:textColor="@color/deen_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

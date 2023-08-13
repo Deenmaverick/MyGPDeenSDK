@@ -124,7 +124,7 @@ internal class DashboardBillboardAdapter(
                     prayerBG.setBackgroundColor(
                         ContextCompat.getColor(
                             prayerBG.context,
-                            R.color.black,
+                            R.color.deen_black,
                         )
                     )
                     allPrayer.setOnClickListener {
@@ -206,7 +206,7 @@ internal class DashboardBillboardAdapter(
             prayerTracker(false)
             prayerBG.setBackgroundColor(
                 ContextCompat.getColor(getContext,
-                    R.color.black
+                    R.color.deen_black
                 )
             )
 

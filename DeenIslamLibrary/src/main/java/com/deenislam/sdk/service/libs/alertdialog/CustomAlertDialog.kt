@@ -45,7 +45,7 @@ internal class CustomAlertDialog {
     {
         instance?.customDialogCallback = callback
 
-        instance?.materialAlertDialogBuilder = MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialog_rounded)
+        instance?.materialAlertDialogBuilder = MaterialAlertDialogBuilder(context, R.style.DeenMaterialAlertDialog_rounded)
         instance?.customAlertDialogView = LayoutInflater.from(context)
             .inflate(R.layout.dialog_tasbeeh_reset, null, false)
 

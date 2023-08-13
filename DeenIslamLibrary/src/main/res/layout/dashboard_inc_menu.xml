@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/Widget.Material3.CardView.Elevated"
-    app:cardBackgroundColor="@color/card_bg"
+    app:cardBackgroundColor="@color/deen_card_bg"
     android:layout_marginStart="@dimen/space_16"
     android:layout_marginTop="@dimen/space_16"
     android:layout_marginEnd="@dimen/space_16"

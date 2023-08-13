@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:viewBindingIgnore="true"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <ViewStub
         android:id="@+id/widget"

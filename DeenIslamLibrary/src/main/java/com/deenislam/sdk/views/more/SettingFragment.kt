@@ -197,21 +197,21 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
 
          if(localLanguage == "en")
         {
-            enTitle?.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+            enTitle?.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
             englishRadioBtn?.isChecked = true
 
             banglaRadioBtn?.isChecked = false
-            bnTitle?.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_black_deep))
+            bnTitle?.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_black_deep))
 
 
         }
         else
         {
-            enTitle?.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_black_deep))
+            enTitle?.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_black_deep))
             englishRadioBtn?.isChecked = false
 
             banglaRadioBtn?.isChecked = true
-            bnTitle?.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+            bnTitle?.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
 
 
         }

@@ -28,9 +28,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/select_surah"
-                android:textColor="@color/txt_black_deep"
+                android:textColor="@color/deen_txt_black_deep"
                 android:layout_gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.font20"
+                android:textAppearance="@style/DeenTextAppearance.font20"
                 android:textStyle="bold"
                 />
 
@@ -71,7 +71,7 @@
         app:boxStrokeWidth="0dp"
         android:layout_marginStart="@dimen/space_16"
         android:layout_marginEnd="@dimen/space_16"
-        app:hintTextColor="@color/gray"
+        app:hintTextColor="@color/deen_gray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mobileLayout"
         app:hintEnabled="false">

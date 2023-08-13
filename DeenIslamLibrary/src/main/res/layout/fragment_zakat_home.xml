@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
-    android:background="@color/background"
+    android:background="@color/deen_background"
     android:paddingStart="@dimen/space_16"
     android:paddingEnd="@dimen/space_16"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -12,7 +12,7 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:background="@color/background"
+        android:background="@color/deen_background"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/newCaculateBtn"
-                style="@style/MaterialButtonStyle"
+                style="@style/DeenMaterialButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/space_10"
@@ -39,7 +39,7 @@
                 android:paddingBottom="@dimen/space_12.5"
                 android:text="@string/new_calculation"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/white"
+                android:textColor="@color/deen_white"
                 app:cornerRadius="8dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
         android:layout_marginTop="@dimen/space_16"
         android:text="@string/learn_about_zakat"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_black_deep"
+        android:textColor="@color/deen_txt_black_deep"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newCaculateBtn"/>

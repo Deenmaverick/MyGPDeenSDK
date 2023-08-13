@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background"
+    android:background="@color/deen_background"
     tools:context=".views.more.SettingFragment">
 
     <include
@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/space_16"
         app:cardCornerRadius="12dp"
         app:cardElevation="1dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/deen_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionbar"
@@ -44,7 +44,7 @@
                 android:layout_marginTop="@dimen/space_8"
                 android:text="@string/language"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/txt_black_deep"
+                android:textColor="@color/deen_txt_black_deep"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -55,7 +55,7 @@
                 android:layout_marginBottom="@dimen/space_8"
                 android:text="@string/setting_language_txt"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/txt_black_deep"
+                android:textColor="@color/deen_txt_black_deep"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title1"
                 app:layout_constraintStart_toStartOf="@+id/title1"/>
@@ -85,7 +85,7 @@
         android:layout_marginTop="@dimen/space_16"
         app:cardCornerRadius="12dp"
         app:cardElevation="1dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/deen_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/languageLayout"
@@ -106,7 +106,7 @@
                 android:layout_marginBottom="@dimen/space_16.5"
                 android:text="@string/location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/txt_black_deep"
+                android:textColor="@color/deen_txt_black_deep"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -123,7 +123,7 @@
                 android:minHeight="15dp"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
-                app:thumbTint="@color/white"
+                app:thumbTint="@color/deen_white"
                 app:trackDecorationTint="@android:color/transparent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -145,7 +145,7 @@
         android:layout_marginTop="@dimen/space_16"
         app:cardCornerRadius="12dp"
         app:cardElevation="1dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/deen_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationLayout"
@@ -167,7 +167,7 @@
                 android:layout_marginTop="@dimen/space_8"
                 android:text="Social media"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_ash"
+                android:textColor="@color/deen_txt_ash"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -187,7 +187,7 @@
                     android:layout_height="wrap_content"
                     android:text="Facebook"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/txt_black_deep"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -204,7 +204,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/space_16"
-                android:background="@color/border"
+                android:background="@color/deen_border"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/facebookLayout"/>
@@ -227,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:text="YouTube"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/txt_black_deep"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -263,7 +263,7 @@
             android:textAlignment="center"
             android:text="Deen - v1.0.0"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/txt_black_deep"/>
+            android:textColor="@color/deen_txt_black_deep"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginStart="@dimen/space_16"
@@ -273,7 +273,7 @@
             android:textAlignment="center"
             android:text="© 2023 Deen. All rights reserved"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/txt_ash"/>
+            android:textColor="@color/deen_txt_ash"/>
 
 
     </LinearLayout>

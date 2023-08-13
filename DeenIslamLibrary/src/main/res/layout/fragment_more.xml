@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <include
         android:id="@+id/actionbar"
@@ -39,7 +39,7 @@
             android:layout_marginBottom="@dimen/space_10"
             app:cardCornerRadius="8dp"
             app:cardElevation="1dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deen_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -72,8 +72,8 @@
                     android:text="Naveed Hasan"
                     android:gravity="center"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.font20"
-                    android:textColor="@color/txt_black_deep"
+                    android:textAppearance="@style/DeenTextAppearance.font20"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintTop_toBottomOf="@+id/ic_avatar"
                     app:layout_constraintStart_toStartOf="@+id/ic_avatar"
                     app:layout_constraintEnd_toEndOf="@+id/ic_avatar" />
@@ -87,7 +87,7 @@
                     android:text="Unknown"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/txt_black_deep"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/accountName"
                     app:layout_constraintStart_toStartOf="@id/accountName"
@@ -104,12 +104,12 @@
                     android:layout_marginTop="@dimen/space_10"
                     android:layout_marginBottom="@dimen/space_10"
                     android:text="Edit Profile"
-                    style="@style/MaterialButtonStyle"
+                    style="@style/DeenMaterialButtonStyle"
                     app:backgroundTint="@android:color/transparent"
-                    app:strokeColor="@color/border"
+                    app:strokeColor="@color/deen_border"
                     app:strokeWidth="1dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/deen_primary"
                     app:cornerRadius="6dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -165,7 +165,7 @@
                     android:text="Get Premium"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/deen_white"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ic_premium" />
 
@@ -177,7 +177,7 @@
                     android:textAlignment="center"
                     android:text="Join the Islamic OTT platform"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/white_70"
+                    android:textColor="@color/deen_white_70"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/getPremiumTxt"
                     app:layout_constraintStart_toStartOf="@+id/getPremiumTxt" />
@@ -191,7 +191,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:tint="@color/white"
+                    android:tint="@color/deen_white"
                     android:src="@drawable/right_arrow"/>
 
 
@@ -208,7 +208,7 @@
             android:layout_marginTop="@dimen/space_10"
             app:cardCornerRadius="12dp"
             app:cardElevation="1dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deen_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/premiumLayout"
@@ -239,7 +239,7 @@
                     android:layout_marginBottom="@dimen/sapce_20"
                     android:text="Settings"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/txt_black_deep"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ic_setting" />
@@ -269,7 +269,7 @@
             android:layout_marginTop="@dimen/space_10"
             app:cardCornerRadius="12dp"
             app:cardElevation="1dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deen_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingLayout"
@@ -299,7 +299,7 @@
                     android:layout_marginBottom="@dimen/sapce_20"
                     android:text="Contact us"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/txt_black_deep"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ic_contact" />
@@ -329,7 +329,7 @@
             android:layout_marginTop="@dimen/space_10"
             app:cardCornerRadius="12dp"
             app:cardElevation="1dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deen_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contactLayout"
@@ -359,7 +359,7 @@
                     android:layout_marginBottom="@dimen/sapce_20"
                     android:text="Terms of use"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/txt_black_deep"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ic_info" />
@@ -391,7 +391,7 @@
             android:layout_marginTop="@dimen/space_10"
             app:cardCornerRadius="12dp"
             app:cardElevation="1dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deen_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -422,7 +422,7 @@
                     android:layout_marginBottom="@dimen/sapce_20"
                     android:text="Privacy policy"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/txt_black_deep"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ic_privacy" />

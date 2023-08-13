@@ -8,7 +8,7 @@
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:overScrollMode="never"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -252,7 +252,7 @@
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/popular_sura"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black"
+            android:textColor="@color/deen_txt_black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 

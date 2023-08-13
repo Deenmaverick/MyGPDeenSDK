@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@color/deen_white"
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -19,8 +19,8 @@
         android:layout_marginStart="@dimen/space_16"
         android:layout_marginEnd="@dimen/space_16"
         android:text="Notification - Fajr"
-        android:textAppearance="@style/TextAppearance.font20"
-        android:textColor="@color/txt_black_deep"
+        android:textAppearance="@style/DeenTextAppearance.font20"
+        android:textColor="@color/deen_txt_black_deep"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
         android:layout_marginTop="@dimen/space_12"
         android:layout_marginStart="@dimen/space_16"
         android:layout_marginEnd="@dimen/space_16"
-        android:background="@color/border"
+        android:background="@color/deen_border"
         app:layout_constraintTop_toBottomOf="@+id/txtTitile"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -63,7 +63,7 @@
             android:layout_marginStart="@dimen/space_8"
             android:layout_weight="10"
             android:text="@string/notification_off"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
@@ -106,7 +106,7 @@
             android:layout_marginStart="@dimen/space_8"
             android:layout_weight="10"
             android:text="@string/in_app_notification"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
@@ -149,7 +149,7 @@
             android:layout_marginStart="@dimen/space_8"
             android:layout_weight="10"
             android:text="@string/notification_sound"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
@@ -174,7 +174,7 @@
         android:layout_marginStart="@dimen/space_16"
         android:layout_marginTop="@dimen/space_16"
         android:text="Muezzin"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintTop_toBottomOf="@+id/notification_sound_layout"
         app:layout_constraintStart_toStartOf="parent" />
@@ -207,9 +207,9 @@
         android:paddingBottom="@dimen/space_9.5"
         android:layout_marginTop="@dimen/space_27"
         android:text="@string/ok_cap"
-        style="@style/MaterialButtonStyle"
+        style="@style/DeenMaterialButtonStyle"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/white"
+        android:textColor="@color/deen_white"
         app:cornerRadius="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

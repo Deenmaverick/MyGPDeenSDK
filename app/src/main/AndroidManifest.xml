@@ -8,8 +8,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DeenIslam"
-        tools:targetApi="31">
+        android:theme="@style/Theme.DeenIslamSDK"
+        tools:targetApi="31"
+        tools:replace="android:theme">
         <activity
             android:name=".DeenActivity"
             android:exported="true">

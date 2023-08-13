@@ -201,27 +201,27 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
                     0->
                     {
                         nisabBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),
-                            R.color.card_bg))
-                        nisabBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+                            R.color.deen_card_bg))
+                        nisabBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
                     }
 
                     1->
                     {
-                        propertyBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.card_bg))
-                        propertyBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+                        propertyBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_card_bg))
+                        propertyBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
 
                     }
 
                     2->
                     {
-                        liabilityBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.card_bg))
-                        liabilityBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+                        liabilityBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_card_bg))
+                        liabilityBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
                     }
 
                     3->
                     {
-                        summeryBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.card_bg))
-                        summeryBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+                        summeryBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_card_bg))
+                        summeryBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
 
                     }
 
@@ -267,17 +267,17 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
 
     private fun clearAllBtnSelection()
     {
-        nisabBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        nisabBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        nisabBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        nisabBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
-        propertyBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        propertyBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        propertyBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        propertyBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
-        liabilityBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        liabilityBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        liabilityBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        liabilityBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
-        summeryBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        summeryBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        summeryBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        summeryBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
     }
 

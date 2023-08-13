@@ -90,7 +90,7 @@ fun Context.getLocalContext(): Context {
         LocaleUtil.createLocaleContext(this, Locale("bn"))
     }
 
-    return ContextThemeWrapper(localContext, R.style.Theme_DeenIslam)
+    return ContextThemeWrapper(localContext, R.style.DeenSDKTheme)
 
 }
 

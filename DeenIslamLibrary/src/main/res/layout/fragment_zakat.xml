@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <include
         android:id="@+id/actionbar"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/space_10"
         android:paddingBottom="@dimen/space_10"
-        android:background="@color/white"
+        android:background="@color/deen_white"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,14 +40,14 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:text="@string/zakat"
-            app:backgroundTint="@color/primary"
+            app:backgroundTint="@color/deen_primary"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             app:cornerRadius="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3"
-            app:strokeColor="@color/border" />
+            app:strokeColor="@color/deen_border" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/savedBtn"
@@ -61,12 +61,12 @@
             android:padding="0dp"
             android:text="@string/saved"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_ash"
+            android:textColor="@color/deen_txt_ash"
             app:cornerRadius="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3"
-            app:strokeColor="@color/border" />
+            app:strokeColor="@color/deen_border" />
 
 
     </LinearLayout>

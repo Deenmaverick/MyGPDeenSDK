@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:text="Revelation"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/primary"
+        android:textColor="@color/deen_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -29,7 +29,7 @@
         android:layout_marginTop="@dimen/space_8"
         android:text="رَبَّنَا تَقَبَّلۡ مِنَّآۖ إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلۡعَلِيمُ"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_black_deep"
+        android:textColor="@color/deen_txt_black_deep"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -43,7 +43,7 @@
         android:maxLines="2"
         android:text="Our Lord! Accept (this service) from us: For Thou art the All-Hearing, the All-knowing."
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_black_deep"
+        android:textColor="@color/deen_txt_black_deep"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titileArabic"/>

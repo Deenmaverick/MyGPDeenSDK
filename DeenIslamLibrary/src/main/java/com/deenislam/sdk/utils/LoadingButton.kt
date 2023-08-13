@@ -7,7 +7,6 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.DynamicDrawableSpan
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.deenislam.sdk.R
 
 internal class LoadingButton {
@@ -58,7 +57,7 @@ internal class LoadingButton {
         return instance as LoadingButton
     }
 
-    fun loader(button: View,color:Int= R.color.white): SpannableString? {
+    fun loader(button: View,color:Int= R.color.deen_white): SpannableString? {
 
         val customColors = intArrayOf(
             Color.WHITE,

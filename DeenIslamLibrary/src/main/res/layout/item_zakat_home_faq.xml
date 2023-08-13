@@ -8,7 +8,7 @@
     android:layout_marginBottom="1dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/deen_white"
     app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,7 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textStyle="bold"
-            android:textColor="@color/card_checkbox_bg"
+            android:textColor="@color/deen_card_checkbox_bg"
             app:layout_constraintBottom_toTopOf="@+id/content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +44,7 @@
             android:text="@string/zakah_home_faq1_title"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintEnd_toStartOf="@+id/ic_right"
             app:layout_constraintBottom_toBottomOf="@+id/countTxt"
             app:layout_constraintStart_toEndOf="@id/countTxt"
@@ -56,7 +56,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="@dimen/space_12"
-            android:tint="@color/txt_black_deep"
+            android:tint="@color/deen_txt_black_deep"
             android:src="@drawable/ic_plus_new"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_12"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toStartOf="@id/countTxt"
             app:layout_constraintTop_toBottomOf="@id/countTxt"
             app:layout_constraintEnd_toEndOf="@+id/ic_right"

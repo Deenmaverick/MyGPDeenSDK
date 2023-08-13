@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <include
         android:id="@+id/actionbar"
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_ash"
+                android:textColor="@color/deen_txt_ash"
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_4"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/txt_black_deep"
+                android:textColor="@color/deen_txt_black_deep"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +121,7 @@
                 android:elevation="@dimen/space_4"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_ash"
+                android:textColor="@color/deen_txt_ash"
                 app:layout_constraintBottom_toTopOf="@+id/bottomBg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

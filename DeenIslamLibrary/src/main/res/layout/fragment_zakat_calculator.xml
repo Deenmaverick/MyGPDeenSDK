@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
-    android:background="@color/background"
+    android:background="@color/deen_background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:background="@color/white"
+            android:background="@color/deen_white"
             android:paddingTop="@dimen/space_4"
             android:paddingBottom="@dimen/space_4"
             android:paddingStart="@dimen/space_8"
@@ -41,8 +41,8 @@
                 android:text="@string/nisab"
                 android:clickable="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/primary"
-                app:backgroundTint="@color/card_bg"
+                android:textColor="@color/deen_primary"
+                app:backgroundTint="@color/deen_card_bg"
                 app:cornerRadius="18dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -56,8 +56,8 @@
                 android:layout_weight="1"
                 android:text="@string/property"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_ash"
-                app:backgroundTint="@color/white"
+                android:textColor="@color/deen_txt_ash"
+                app:backgroundTint="@color/deen_white"
                 app:cornerRadius="18dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -71,8 +71,8 @@
                 android:layout_weight="1"
                 android:text="@string/liabilities"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_ash"
-                app:backgroundTint="@color/white"
+                android:textColor="@color/deen_txt_ash"
+                app:backgroundTint="@color/deen_white"
                 app:cornerRadius="18dp"
                 />
 
@@ -87,8 +87,8 @@
                 android:layout_weight="1"
                 android:text="@string/summery"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_ash"
-                app:backgroundTint="@color/white"
+                android:textColor="@color/deen_txt_ash"
+                app:backgroundTint="@color/deen_white"
                 app:cornerRadius="18dp"
                 />
 

@@ -6,7 +6,7 @@
     android:elevation="@dimen/space_8"
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:background="@color/deen_white">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnBack"
@@ -30,7 +30,7 @@
         android:layout_marginBottom="@dimen/space_15"
         android:layout_marginStart="@dimen/space_8"
         android:text="@string/app_name"
-        android:textColor="@color/primary"
+        android:textColor="@color/deen_primary"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnBack"

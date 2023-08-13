@@ -53,7 +53,7 @@ internal abstract class BaseRegularFragment: Fragment() {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
         }
 
-       val themedContext = ContextThemeWrapper(localContext, R.style.Theme_DeenIslam) // Replace with your theme
+       val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
 
         localInflater = layoutInflater.cloneInContext(themedContext)
 
@@ -211,7 +211,7 @@ internal abstract class BaseRegularFragment: Fragment() {
                 onBackPress()
             }
             title.text = actionnBartitle
-            title.setTextColor(ContextCompat.getColor(title.context,R.color.txt_black_deep))
+            title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_txt_black_deep))
 
         }
         else

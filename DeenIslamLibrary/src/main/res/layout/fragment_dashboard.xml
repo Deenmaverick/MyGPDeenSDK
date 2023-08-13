@@ -6,7 +6,7 @@
     android:focusable="true"
     android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
 
     <androidx.recyclerview.widget.RecyclerView

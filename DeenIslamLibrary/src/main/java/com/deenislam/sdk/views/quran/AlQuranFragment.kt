@@ -209,17 +209,17 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                 when(position)
                 {
                     0-> {
-                        binding.bottomPlayer.largePlayer.themeBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
-                        binding.bottomPlayer.largePlayer.themeBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
+                        binding.bottomPlayer.largePlayer.themeBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        binding.bottomPlayer.largePlayer.themeBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
                     1->  {
-                        binding.bottomPlayer.largePlayer.audioBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
-                        binding.bottomPlayer.largePlayer.audioBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
+                        binding.bottomPlayer.largePlayer.audioBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        binding.bottomPlayer.largePlayer.audioBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
                     }
                     2->  {
-                        binding.bottomPlayer.largePlayer.transalationBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
-                        binding.bottomPlayer.largePlayer.transalationBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
+                        binding.bottomPlayer.largePlayer.transalationBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        binding.bottomPlayer.largePlayer.transalationBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
                     }
 
@@ -360,14 +360,14 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     private fun clearPlayerControlBtn()
     {
-        binding.bottomPlayer.largePlayer.themeBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-        binding.bottomPlayer.largePlayer.themeBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.background))
+        binding.bottomPlayer.largePlayer.themeBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+        binding.bottomPlayer.largePlayer.themeBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_background))
 
-        binding.bottomPlayer.largePlayer.audioBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-        binding.bottomPlayer.largePlayer.audioBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.background))
+        binding.bottomPlayer.largePlayer.audioBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+        binding.bottomPlayer.largePlayer.audioBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_background))
 
-        binding.bottomPlayer.largePlayer.transalationBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-        binding.bottomPlayer.largePlayer.transalationBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.background))
+        binding.bottomPlayer.largePlayer.transalationBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+        binding.bottomPlayer.largePlayer.transalationBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_background))
 
     }
 
@@ -608,7 +608,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     }
     private fun dialog_select_surah()
     {
-        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialog_Rounded)
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DeenMaterialAlertDialog_Rounded)
         customAlertDialogView = localInflater.inflate(R.layout.dialog_surah_list, null, false)
 
         // Initialize and assign variable

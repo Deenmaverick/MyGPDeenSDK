@@ -325,19 +325,19 @@ internal class AlQuranAyatAdapter(
                         binding_list?.quranCard?.setCardBackgroundColor(
                             ContextCompat.getColor(
                                 itemView.context,
-                                R.color.card_bg
+                                R.color.deen_card_bg
                             )
                         )
                         binding_list?.ayatArabic?.setTextColor(
                             ContextCompat.getColor(
                                 itemView.context,
-                                R.color.primary
+                                R.color.deen_primary
                             )
                         )
                         binding_list?.ayatBn?.setTextColor(
                             ContextCompat.getColor(
                                 itemView.context,
-                                R.color.txt_black_deep
+                                R.color.deen_txt_black_deep
                             )
                         )
 
@@ -360,19 +360,19 @@ internal class AlQuranAyatAdapter(
                         binding_list?.quranCard?.setCardBackgroundColor(
                             ContextCompat.getColor(
                                 itemView.context,
-                                R.color.white
+                                R.color.deen_white
                             )
                         )
                         binding_list?.ayatArabic?.setTextColor(
                             ContextCompat.getColor(
                                 itemView.context,
-                                R.color.txt_black_deep
+                                R.color.deen_txt_black_deep
                             )
                         )
                         binding_list?.ayatBn?.setTextColor(
                             ContextCompat.getColor(
                                 itemView.context,
-                                R.color.txt_ash
+                                R.color.deen_txt_ash
                             )
                         )
 
@@ -421,13 +421,13 @@ internal class AlQuranAyatAdapter(
                                     playLoadingState(false)
                                     ds.color = ContextCompat.getColor(
                                         itemView.context,
-                                        R.color.primary
+                                        R.color.deen_primary
                                     )
                                 }
                                 else
                                     ds.color = ContextCompat.getColor(
                                         itemView.context,
-                                        R.color.txt_black_deep
+                                        R.color.deen_txt_black_deep
                                     )
 
                             }

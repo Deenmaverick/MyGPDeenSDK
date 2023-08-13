@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_16"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/txt_black_deep"
+        android:textColor="@color/deen_txt_black_deep"
         android:textStyle="bold"
         android:text="@string/language"
         app:layout_constraintTop_toBottomOf="@+id/ic_bar"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/space_12"
-        android:background="@color/border"
+        android:background="@color/deen_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCompatTextView1"/>
@@ -66,7 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             android:text="Bangla (বাংলা)"
             android:layout_weight="1"
             />
@@ -101,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             android:text="English (ইংরেজি)"
             android:layout_weight="1"
             />

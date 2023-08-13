@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <include
         android:id="@+id/actionbar"
@@ -19,7 +19,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/deen_white"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,13 +47,13 @@
             android:padding="0dp"
             android:text="@string/sura"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_ash"
+            android:textColor="@color/deen_txt_ash"
             app:cornerRadius="18dp"
             app:layout_constraintEnd_toStartOf="@+id/juzBtn"
             app:layout_constraintStart_toEndOf="@+id/quranHomeBtn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:strokeColor="@color/border" />
+            app:strokeColor="@color/deen_border" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/juzBtn"
@@ -64,13 +64,13 @@
             android:padding="0dp"
             android:text="@string/juz"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_ash"
+            android:textColor="@color/deen_txt_ash"
             app:cornerRadius="18dp"
             app:layout_constraintStart_toEndOf="@+id/surahBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:strokeColor="@color/border" />
+            app:strokeColor="@color/deen_border" />
 
         <!--<com.google.android.material.button.MaterialButton
             android:id="@+id/myquranBtn"

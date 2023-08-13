@@ -65,19 +65,19 @@ internal class TasbeehDuaAdapter(
             {
                 itemView.isEnabled = false
                 item_bg.setBackgroundResource(R.drawable.tasbeeh_dua_gradiant)
-                dhikrCount.setTextColor(ContextCompat.getColor(name.context,R.color.white))
-                dhikrCount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(name.context,R.color.border))
-                arabicName.setTextColor(ContextCompat.getColor(name.context,R.color.white))
-                name.setTextColor(ContextCompat.getColor(name.context,R.color.white_70))
+                dhikrCount.setTextColor(ContextCompat.getColor(name.context,R.color.deen_white))
+                dhikrCount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(name.context,R.color.deen_border))
+                arabicName.setTextColor(ContextCompat.getColor(name.context,R.color.deen_white))
+                name.setTextColor(ContextCompat.getColor(name.context,R.color.deen_white_70))
             }
             else
             {
                 itemView.isEnabled = true
                 item_bg.background = null
-                dhikrCount.setTextColor(ContextCompat.getColor(name.context,R.color.card_checkbox_bg))
-                dhikrCount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(name.context,R.color.card_bg))
-                arabicName.setTextColor(ContextCompat.getColor(name.context,R.color.txt_black_deep))
-                name.setTextColor(ContextCompat.getColor(name.context,R.color.txt_ash))
+                dhikrCount.setTextColor(ContextCompat.getColor(name.context,R.color.deen_card_checkbox_bg))
+                dhikrCount.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(name.context,R.color.deen_card_bg))
+                arabicName.setTextColor(ContextCompat.getColor(name.context,R.color.deen_txt_black_deep))
+                name.setTextColor(ContextCompat.getColor(name.context,R.color.deen_txt_ash))
             }
 
             dhikrCount.text = dhikrCount.context.getString(R.string.tasbeeh_dhikir_count,(position+1).toString().numberLocale())

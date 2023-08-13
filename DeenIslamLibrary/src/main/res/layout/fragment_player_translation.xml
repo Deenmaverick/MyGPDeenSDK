@@ -32,7 +32,7 @@
             android:text="@string/transliteration"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintTop_toBottomOf="@+id/fontLayout"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -46,7 +46,7 @@
             android:checked="true"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            app:thumbTint="@color/white"
+            app:thumbTint="@color/deen_white"
             app:trackDecorationTint="@android:color/transparent" />
 
 
@@ -62,7 +62,7 @@
         android:text="@string/translation_font_size"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintEnd_toStartOf="@+id/defaultFontBtn"
         app:layout_constraintTop_toBottomOf="@+id/transliterationLy"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -74,7 +74,7 @@
         android:gravity="center"
         android:text="@string/default_txt"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintTop_toTopOf="@+id/fontsizeTxt"
         app:layout_constraintTop_toBottomOf="@+id/transliterationLy"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +87,7 @@
         android:layout_marginTop="@dimen/space_8"
         android:text="@string/font__a"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -100,14 +100,14 @@
         app:labelBehavior="gone"
         android:focusable="false"
         app:haloRadius="@dimen/sapce_20"
-        app:thumbColor="@color/white"
+        app:thumbColor="@color/deen_white"
         android:valueTo="100"
         android:value="0"
         android:stepSize="20"
         app:trackHeight="2dp"
         app:thumbRadius="8dp"
-        app:tickColorActive="@color/txt_ash"
-        app:tickColorInactive="@color/txt_ash"
+        app:tickColorActive="@color/deen_txt_ash"
+        app:tickColorInactive="@color/deen_txt_ash"
         app:layout_constraintBottom_toBottomOf="@id/fontMinus"
         app:layout_constraintStart_toEndOf="@+id/fontMinus"
         app:layout_constraintEnd_toStartOf="@+id/fontPlus"
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:text="@string/font_a"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintTop_toTopOf="@+id/fontControl"
         app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
         app:layout_constraintStart_toEndOf="@+id/fontControl"
@@ -136,7 +136,7 @@
         android:text="@string/translation_language"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintTop_toBottomOf="@+id/fontControl"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -157,7 +157,7 @@
             android:text="বাংলা"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/primary"
+            android:textColor="@color/deen_primary"
             app:layout_constraintTop_toBottomOf="@+id/fontLayout"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -191,7 +191,7 @@
             android:text="English"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black_deep"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintTop_toBottomOf="@+id/fontLayout"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -216,7 +216,7 @@
         android:text="@string/translation_by"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintTop_toBottomOf="@+id/langEnLayout"
         app:layout_constraintStart_toStartOf="parent"/>
 

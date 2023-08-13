@@ -18,7 +18,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -462,7 +461,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 if(this::accuracy.isInitialized)
                 {
                     accuracy.text = localContext.getString(R.string.unreliable)
-                    accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.brand_error))
+                    accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_brand_error))
                 }
             }
             SensorManager.SENSOR_STATUS_ACCURACY_LOW -> {
@@ -470,7 +469,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 if(this::accuracy.isInitialized)
                 {
                     accuracy.text = localContext.getString(R.string.low)
-                    accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.brand_error))
+                    accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_brand_error))
                 }
             }
             SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM -> {
@@ -478,7 +477,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 if(this::accuracy.isInitialized)
                 {
                     accuracy.text = localContext.getString(R.string.medium)
-                    accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.yellow))
+                    accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_yellow))
                 }
 
             }
@@ -487,7 +486,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 if(this::accuracy.isInitialized)
                 {
                     accuracy.text = localContext.getString(R.string.high)
-                    accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+                    accuracy.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
                 }
             }
         }

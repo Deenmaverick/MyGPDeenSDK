@@ -43,7 +43,7 @@
             android:layout_marginStart="@dimen/space_16"
             android:layout_marginTop="@dimen/space_19"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/space_16"
             android:button="@drawable/radio_button_prayer_time"
-            style="@style/Widget.App.RadioButton"
+            style="@style/DeenWidget.App.RadioButton"
             android:minWidth="23dp"
             android:minHeight="20dp"
             android:gravity="bottom"
@@ -69,10 +69,10 @@
             android:layout_marginEnd="@dimen/space_16"
             app:trackCornerRadius="@dimen/space_8"
             android:indeterminate="false"
-            app:indicatorColor="@color/yellow"
+            app:indicatorColor="@color/deen_yellow"
             android:progress="0"
             style="Widget.Material3.LinearProgressIndicator"
-            app:trackColor="@color/idle"
+            app:trackColor="@color/deen_idle"
             android:layout_marginTop="@dimen/space_8"
             app:layout_constraintEnd_toStartOf="@+id/progressTxt"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_16"
             android:text="3/5"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintTop_toTopOf="@id/namazTask"
             app:layout_constraintBottom_toBottomOf="@id/namazTask"
@@ -98,7 +98,7 @@
             android:layout_marginStart="@dimen/space_16"
             android:layout_marginTop="@dimen/space_8"
             android:text="@string/it_s_time_for"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/namazTask"/>
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_16"
             android:includeFontPadding="false"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -123,7 +123,7 @@
             android:layout_marginStart="@dimen/space_16"
             android:text="7:30 - 11:30 PM"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/prayerMoment" />
 
@@ -133,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_4"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +148,7 @@
             android:layout_marginBottom="@dimen/space_16.5"
             android:text="-5:39:30"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -172,7 +172,7 @@
                 android:text="@string/billboard_all_prayers"
                 android:layout_gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/white"
+                android:textColor="@color/deen_white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/prayerMoment" />
 
@@ -198,7 +198,7 @@
                 android:layout_gravity="center"
                 android:text="Dhaka"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/white"
+                android:textColor="@color/deen_white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/prayerMoment" />
 

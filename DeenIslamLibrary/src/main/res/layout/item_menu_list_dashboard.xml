@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/primary"
+        app:strokeColor="@color/deen_primary"
         app:strokeWidth="0dp">
 
         <LinearLayout
@@ -50,7 +50,7 @@
         android:text="Menu Name"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/txt_black"
+        android:textColor="@color/deen_txt_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menuCarview" />

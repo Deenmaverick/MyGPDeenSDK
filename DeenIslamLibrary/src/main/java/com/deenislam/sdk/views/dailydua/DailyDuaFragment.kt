@@ -3,12 +3,9 @@ package com.deenislam.sdk.views.dailydua
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -160,20 +157,20 @@ internal class DailyDuaFragment : BaseRegularFragment() {
                 {
                     0->
                     {
-                        allDuaBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
-                        allDuaBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                        allDuaBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        allDuaBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
 
                     1->
                     {
-                        todayBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
-                        todayBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                        todayBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        todayBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
 
                     2->
                     {
-                        favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.primary))
-                        favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                        favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                        favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
                 }
 
@@ -214,14 +211,14 @@ internal class DailyDuaFragment : BaseRegularFragment() {
     private fun clearAllBtnSelection()
     {
 
-        allDuaBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        allDuaBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        allDuaBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        allDuaBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
-        todayBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        todayBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        todayBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        todayBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
 
-        favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white))
-        favBtn.setTextColor(ContextCompat.getColor(requireActivity(),R.color.txt_ash))
+        favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_white))
+        favBtn.setTextColor(ContextCompat.getColor(requireActivity(),R.color.deen_txt_ash))
 
     }
 

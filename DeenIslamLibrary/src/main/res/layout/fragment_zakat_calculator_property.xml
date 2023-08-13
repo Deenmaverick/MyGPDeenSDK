@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/container"
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_black_deep"
+                android:textColor="@color/deen_txt_black_deep"
                 android:layout_marginTop="@dimen/space_16"
                 android:text="@string/enter_the_amount_of_all_your_possessions_during_the_lunar_year"
                 app:layout_constraintTop_toTopOf="parent"
@@ -148,7 +148,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/nextBtn"
-            style="@style/MaterialButtonStyle"
+            style="@style/DeenMaterialButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_14"
@@ -159,7 +159,7 @@
             android:insetBottom="0dp"
             android:text="Continue"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/white"
+            android:textColor="@color/deen_white"
             app:cornerRadius="8dp" />
 
 

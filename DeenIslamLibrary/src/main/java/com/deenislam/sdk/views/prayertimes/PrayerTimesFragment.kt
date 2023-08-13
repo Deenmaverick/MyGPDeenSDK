@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.appcompat.widget.AppCompatTextView
@@ -307,7 +306,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     {
         customAlertDialogView = localInflater.inflate(R.layout.dialog_prayer_notification, null, false)
 
-        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.MaterialAlertDialog_rounded)
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.DeenMaterialAlertDialog_rounded)
             .setView(customAlertDialogView)
             .setCancelable(true)
         notificationDialog = materialAlertDialogBuilder.create()

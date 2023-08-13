@@ -9,7 +9,7 @@
     app:cardElevation="1dp"
     tools:viewBindingIgnore="true"
     style="@style/Widget.Material3.CardView.Elevated"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/deen_white"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -64,7 +64,7 @@
             app:layout_constraintTop_toTopOf="@id/leftBtn"
             app:layout_constraintBottom_toBottomOf="@id/leftBtn"
             android:layout_marginStart="@dimen/space_8"
-            android:textColor="@color/txt_black"
+            android:textColor="@color/deen_txt_black"
             android:text="Fajr"/>
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -87,7 +87,7 @@
             app:layout_constraintEnd_toStartOf="@+id/rightBtn"
             app:layout_constraintTop_toTopOf="@id/rightBtn"
             app:layout_constraintBottom_toBottomOf="@id/rightBtn"
-            android:textColor="@color/txt_ash"
+            android:textColor="@color/deen_txt_ash"
             android:text="0:00 - 0:00 AM"/>
 
 

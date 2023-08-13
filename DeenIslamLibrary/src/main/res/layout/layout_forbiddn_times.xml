@@ -14,7 +14,7 @@
         android:layout_marginStart="@dimen/space_16"
         android:text="Forbidden Time"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_black"
+        android:textColor="@color/deen_txt_black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

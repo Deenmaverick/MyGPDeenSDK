@@ -24,7 +24,7 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/txt_black_deep"
+        android:textColor="@color/deen_txt_black_deep"
         app:layout_constraintTop_toTopOf="@+id/ic_al_quran"
         app:layout_constraintStart_toEndOf="@+id/ic_al_quran"/>
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="7 Ayahs"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/txt_ash"
+        android:textColor="@color/deen_txt_ash"
         app:layout_constraintBottom_toBottomOf="@+id/ic_al_quran"
         app:layout_constraintTop_toBottomOf="@+id/surahTitile"
         app:layout_constraintStart_toStartOf="@+id/surahTitile"/>
@@ -44,7 +44,7 @@
         android:layout_width="24dp"
         android:layout_height="0dp"
         android:layout_marginEnd="@dimen/space_16"
-        app:tint="@color/primary"
+        app:tint="@color/deen_primary"
         android:src="@drawable/ic_play_fill"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/ic_al_quran"
@@ -68,9 +68,9 @@
         android:id="@+id/playerProgress"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        app:trackColor="@color/border"
+        app:trackColor="@color/deen_border"
         app:trackThickness="2dp"
-        app:indicatorColor="@color/primary"
+        app:indicatorColor="@color/deen_primary"
         android:progress="0"
         app:layout_constraintBottom_toBottomOf="parent"
         />

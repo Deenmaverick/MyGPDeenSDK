@@ -8,6 +8,6 @@
     android:layout_marginEnd="@dimen/space_12"
     android:fontFamily="@font/kfgqpc_font"
     android:textAlignment="textStart"
-    android:textAppearance="@style/TextAppearance.font24"
-    android:textColor="@color/txt_black_deep"
+    android:textAppearance="@style/DeenTextAppearance.font24"
+    android:textColor="@color/deen_txt_black_deep"
     />

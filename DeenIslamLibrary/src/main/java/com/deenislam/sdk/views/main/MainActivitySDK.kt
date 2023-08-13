@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
-import android.window.OnBackInvokedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
@@ -25,27 +24,22 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.withCreated
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.callback.ActivityCallback
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.reduceDragSensitivity
-import com.deenislam.sdk.utils.setCurrentItem
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.dashboard.DashboardFragment
 import com.deenislam.sdk.views.dashboard.patch.Billboard
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -362,7 +356,7 @@ internal class MainActivity : AppCompatActivity() {
                 onBackPressedDispatcher.onBackPressed()
             }
             title.text = titile
-            title.setTextColor(ContextCompat.getColor(title.context,R.color.txt_black_deep))
+            title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_txt_black_deep))
 
         }
         else

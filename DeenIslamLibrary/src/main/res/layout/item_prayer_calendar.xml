@@ -27,8 +27,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_8"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_ash"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_ash"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -43,8 +43,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_ash"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_ash"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -59,8 +59,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_ash"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_ash"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -75,8 +75,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_ash"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_ash"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -91,8 +91,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_ash"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_ash"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -107,8 +107,8 @@
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_8"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_ash"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_ash"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -134,8 +134,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_8"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_black_deep"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -150,8 +150,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_black_deep"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -166,8 +166,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_black_deep"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -182,8 +182,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_black_deep"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -198,8 +198,8 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_black_deep"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
@@ -214,8 +214,8 @@
             android:layout_marginBottom="@dimen/space_4"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_8"
-            android:textAppearance="@style/TextAppearance.font10"
-            android:textColor="@color/txt_black_deep"
+            android:textAppearance="@style/DeenTextAppearance.font10"
+            android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 

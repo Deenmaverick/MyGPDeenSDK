@@ -232,7 +232,7 @@ internal class PrayerTimesAdapter(
         else if(prayerMomentRangeData?.MomentName == "Ishraq")
             prayerBG.setBackgroundResource(R.drawable.fajr)
         else
-            prayerBG.setBackgroundColor(ContextCompat.getColor(getContext,R.color.black))
+            prayerBG.setBackgroundColor(ContextCompat.getColor(getContext,R.color.deen_black))
 
         prayerMoment.text = prayerMomentRangeData?.MomentName?.prayerMomentLocale()
         prayerMomentRange.text = prayerMomentRangeData?.StartTime?.timeLocale() +" - " + prayerMomentRangeData?.EndTime?.timeLocale()

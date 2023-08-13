@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
-    android:background="@color/background"
+    android:background="@color/deen_background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         app:icon="@drawable/ic_next"
         app:iconSize="@dimen/space_24"
-        app:iconTint="@color/primary"
+        app:iconTint="@color/deen_primary"
         app:iconGravity="textEnd"
         android:paddingTop="@dimen/space_12"
         android:paddingBottom="@dimen/space_12"
@@ -34,8 +34,8 @@
         android:text="@string/view_muslim_boys_names"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/primary"
-        app:backgroundTint="@color/card_bg"
+        android:textColor="@color/deen_primary"
+        app:backgroundTint="@color/deen_card_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionbar"

@@ -25,7 +25,7 @@
         android:layout_marginStart="@dimen/space_8"
         android:text="Title"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/txt_black_deep"
+        android:textColor="@color/deen_txt_black_deep"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/icon"
         app:layout_constraintStart_toEndOf="@+id/icon"
@@ -40,7 +40,7 @@
         android:layout_marginEnd="17dp"
         android:text="@string/see_all"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/primary"
+        android:textColor="@color/deen_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/titile"/>

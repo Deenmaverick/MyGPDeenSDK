@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/Widget.Material3.CardView.Elevated"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/deen_white"
     android:layout_marginStart="@dimen/space_16"
     android:layout_marginTop="@dimen/space_16"
     android:layout_marginEnd="@dimen/space_16"
@@ -31,7 +31,7 @@
             android:textAlignment="center"
             android:text="Find the best tour packages for"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/txt_black" />
+            android:textColor="@color/deen_txt_black" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -42,7 +42,7 @@
             android:textStyle="bold"
             android:layout_gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/txt_black" />
+            android:textColor="@color/deen_txt_black" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_next"
-            app:iconTint="@color/primary"
+            app:iconTint="@color/deen_primary"
             app:iconGravity="textEnd"
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginStart="@dimen/space_12"
@@ -59,7 +59,7 @@
             android:text="See all packages"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/primary"
+            android:textColor="@color/deen_primary"
             android:background="@android:color/transparent"
             app:cornerRadius="6dp"
             app:layout_constraintLeft_toLeftOf="parent"

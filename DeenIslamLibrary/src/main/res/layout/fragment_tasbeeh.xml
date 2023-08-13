@@ -6,7 +6,7 @@
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".views.tasbeeh.TasbeehFragment"
-    android:background="@color/background">
+    android:background="@color/deen_background">
 
     <include
         android:id="@+id/actionbar"
@@ -41,7 +41,7 @@
                 android:layout_marginBottom="1dp"
                 app:cardCornerRadius="@dimen/space_16"
                 app:cardElevation="1dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/deen_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -68,7 +68,7 @@
                         android:text="@string/target"
                         android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/txt_ash"
+                        android:textColor="@color/deen_txt_ash"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/countView"
                         app:layout_constraintStart_toStartOf="@+id/countView"
@@ -81,9 +81,9 @@
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
                         android:layout_marginTop="@dimen/space_8"
-                        android:textAppearance="@style/TextAppearance.font40"
+                        android:textAppearance="@style/DeenTextAppearance.font40"
                         android:textStyle="bold"
-                        android:textColor="@color/primary"
+                        android:textColor="@color/deen_primary"
                         app:layout_constraintTop_toBottomOf="@id/targetTxt"
                         app:layout_constraintEnd_toStartOf="@+id/targetCountTxt"
                         app:layout_constraintStart_toStartOf="@+id/targetTxt"/>
@@ -93,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/deen_gray"
                         app:layout_constraintBottom_toBottomOf="@id/countTxt"
                         app:layout_constraintStart_toEndOf="@+id/countTxt"
                         app:layout_constraintEnd_toEndOf="@+id/targetTxt"/>
@@ -105,7 +105,7 @@
                         android:layout_marginTop="@dimen/space_21"
                         android:text="@string/tasbeeh_today_s"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/txt_ash"
+                        android:textColor="@color/deen_txt_ash"
                         app:layout_constraintTop_toBottomOf="@id/countTxt"
                         app:layout_constraintStart_toStartOf="@+id/countTxt"
                         app:layout_constraintEnd_toStartOf="@+id/todaysCountTxt"/>
@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_21"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/txt_black_deep"
+                        android:textColor="@color/deen_txt_black_deep"
                         app:layout_constraintTop_toBottomOf="@id/countTxt"
                         app:layout_constraintStart_toEndOf="@id/todaysTxt"
                         app:layout_constraintEnd_toEndOf="@id/targetCountTxt"/>
@@ -130,7 +130,7 @@
                         android:layout_marginTop="@dimen/space_4"
                         android:text="@string/tasbeeh_total"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/txt_ash"
+                        android:textColor="@color/deen_txt_ash"
                         app:layout_constraintTop_toBottomOf="@id/todaysTxt"
                         app:layout_constraintStart_toStartOf="@+id/todaysTxt"
                         app:layout_constraintEnd_toStartOf="@+id/totalCountTxt"/>
@@ -141,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_4"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/txt_black_deep"
+                        android:textColor="@color/deen_txt_black_deep"
                         app:layout_constraintTop_toBottomOf="@id/todaysTxt"
                         app:layout_constraintStart_toEndOf="@+id/totalTxt"
                         app:layout_constraintEnd_toEndOf="@+id/todaysCountTxt"/>
@@ -163,7 +163,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="true"
-                                android:theme="@style/RadioButtonNormal" />
+                                android:theme="@style/DeenRadioButtonNormal" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/countRadio1Txt"
@@ -171,7 +171,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="৩৩"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                android:textColor="@color/primary"
+                                android:textColor="@color/deen_primary"
                                 app:layout_constraintTop_toTopOf="@+id/countRadio1"
                                 app:layout_constraintBottom_toBottomOf="@+id/countRadio1"
                                 app:layout_constraintStart_toEndOf="@+id/countRadio1"/>
@@ -181,35 +181,35 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_16"
-                                android:theme="@style/RadioButtonNormal" />
+                                android:theme="@style/DeenRadioButtonNormal" />
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/countRadio2Txt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="৩৪"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                android:textColor="@color/txt_gray"/>
+                                android:textColor="@color/deen_txt_gray"/>
 
                             <androidx.appcompat.widget.AppCompatRadioButton
                                 android:id="@+id/countRadio3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_16"
-                                android:theme="@style/RadioButtonNormal" />
+                                android:theme="@style/DeenRadioButtonNormal" />
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/countRadio3Txt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="৯৯"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                android:textColor="@color/txt_gray"/>
+                                android:textColor="@color/deen_txt_gray"/>
 
                             <androidx.appcompat.widget.AppCompatRadioButton
                                 android:id="@+id/countRadio4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/space_16"
-                                android:theme="@style/RadioButtonNormal" />
+                                android:theme="@style/DeenRadioButtonNormal" />
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/countRadio4Txt"
                                 android:layout_width="wrap_content"
@@ -217,7 +217,7 @@
                                 android:layout_marginEnd="@dimen/space_4"
                                 android:text="@string/none"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                                android:textColor="@color/txt_gray"/>
+                                android:textColor="@color/deen_txt_gray"/>
 
 
                         </RadioGroup>
@@ -263,7 +263,7 @@
                 android:layout_marginTop="@dimen/space_16"
                 android:text="@string/recent_counts"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_black"
+                android:textColor="@color/deen_txt_black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/duaList" />
 
@@ -291,7 +291,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/no_recent_count_available"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/txt_ash"
+                android:textColor="@color/deen_txt_ash"
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:layout_marginTop="@dimen/space_16"

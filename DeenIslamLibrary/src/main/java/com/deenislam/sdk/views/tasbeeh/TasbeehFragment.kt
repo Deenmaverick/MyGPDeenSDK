@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioGroup
-import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -138,7 +137,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         firstload = true
 
 
-        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.MaterialAlertDialog_rounded)
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.DeenMaterialAlertDialog_rounded)
         customAlertDialogView = localInflater.inflate(R.layout.dialog_tasbeeh_reset, null, false)
 
         countRadio1Txt.text = "33".numberLocale()
@@ -278,11 +277,11 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     private fun activeRadioText(view:AppCompatTextView)
     {
-        countRadio1Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-        countRadio2Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-        countRadio3Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-        countRadio4Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
-        view.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+        countRadio1Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+        countRadio2Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+        countRadio3Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+        countRadio4Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+        view.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
     }
 
     private fun updateCountView(count:Int)

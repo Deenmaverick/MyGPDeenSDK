@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.fragment.app.Fragment
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ZakatCalculatorCallback
 import com.deenislam.sdk.utils.LoadingButton
 import com.deenislam.sdk.utils.hideKeyboard
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislam.sdk.views.zakat.ZakatCalculatorFragmentCallback
 import com.google.android.material.button.MaterialButton
 import java.text.DecimalFormat
 
@@ -59,7 +57,7 @@ internal class ZakatCalculatorSummeryFragment(
         }
 
         saveBtn.setOnClickListener {
-            saveBtn.text = LoadingButton().getInstance(requireContext()).loader(saveBtn,R.color.primary)
+            saveBtn.text = LoadingButton().getInstance(requireContext()).loader(saveBtn,R.color.deen_primary)
             if(updateMode)
             callback.updateZakatCalculation(this@ZakatCalculatorSummeryFragment)
             else
