@@ -85,25 +85,55 @@ internal class HadithPreviewAdapter(
 
                     duaCat.text = duaCat.context.getString(R.string.hadith_preview_pos,data.HadithNumber.numberLocale())
 
+                    var duaSubData = ""
+                    var arabicNameData = ""
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        duaSub.text = Html.fromHtml(
+                        duaSubData = Html.fromHtml(
                             data.HadithText,
+                            Html.FROM_HTML_MODE_LEGACY
+                        ).toString()
+
+                        arabicNameData = Html.fromHtml(
+                            data.HadithArabicText,
+                            Html.FROM_HTML_MODE_LEGACY
+                        ).toString()
+
+                    } else {
+                        @Suppress("DEPRECATION")
+                        duaSubData = Html.fromHtml(
+                            data.HadithText
+                        ).toString()
+                        arabicNameData = Html.fromHtml(
+                            data.HadithArabicText
+                        ).toString()
+                    }
+
+                    duaSubData = "<html><body style='text-align:justify;'>$duaSubData</body></html>"
+
+                    arabicNameData = "<html><body style='text-align:justify;'>$arabicNameData</body></html>"
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+
+                        duaSub.text = Html.fromHtml(
+                            duaSubData,
                             Html.FROM_HTML_MODE_LEGACY
                         )
 
                         arabicName.text = Html.fromHtml(
-                            data.HadithArabicText,
+                            arabicNameData,
                             Html.FROM_HTML_MODE_LEGACY
                         )
 
                     } else {
                         @Suppress("DEPRECATION")
                         duaSub.text = Html.fromHtml(
-                            data.HadithText
+                            duaSubData
                         )
+
                         arabicName.text = Html.fromHtml(
-                            data.HadithArabicText
+                            arabicNameData
                         )
                     }
 

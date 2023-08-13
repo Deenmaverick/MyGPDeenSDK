@@ -306,7 +306,11 @@ object Deen {
                     }
 
                 else {
-                    CallBackListener?.onAuthFailed()
+                    withContext(Dispatchers.Main)
+                    {
+                        callback?.onAuthFailed()
+                    }
+
                 }
 
         }else
