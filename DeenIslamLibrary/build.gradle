@@ -87,7 +87,7 @@ afterEvaluate {
                 from components.findByName("release")
                 groupId = "com.deenislam.sdk"
                 artifactId = "mybl_deen_sdk"
-                version = "0.0.7-alpha"
+                version = "0.0.8-alpha"
             }
         }
     }
