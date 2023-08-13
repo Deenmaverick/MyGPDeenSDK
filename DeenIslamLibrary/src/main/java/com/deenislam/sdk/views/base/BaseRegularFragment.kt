@@ -101,7 +101,7 @@ internal abstract class BaseRegularFragment: Fragment() {
             "bn"
 
 
-    private fun isBacktoHome(bol:Boolean)
+     fun isBacktoHome(bol:Boolean)
     {
         isBacktoHome = bol
     }

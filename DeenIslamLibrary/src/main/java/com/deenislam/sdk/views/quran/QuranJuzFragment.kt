@@ -57,7 +57,7 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
 
     override fun OnCreate() {
         super.OnCreate()
-
+        isBacktoHome(true)
         //setupBackPressCallback(this)
 
 
