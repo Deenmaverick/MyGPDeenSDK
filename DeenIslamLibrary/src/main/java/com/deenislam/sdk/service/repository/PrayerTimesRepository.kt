@@ -216,7 +216,6 @@ internal class PrayerTimesRepository(
 
 
     suspend fun getPrayerTimeTrack() = makeApicall {
-        val body = JSONObject()
         deenService?.getPrayerTimeTrack()
     }
 

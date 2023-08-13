@@ -80,28 +80,16 @@ dependencies {
 
 }
 //For Maven Publish
-/*afterEvaluate {
+afterEvaluate {
     publishing {
         publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = "com.deenislam.sdk"
-                artifactId = "mybl_deen_sdk"
-                version = "0.0.1"
-            }
-        }
-    }
-}*/
-
-
-
-    publishing {
-        publications {
-            release(MavenPublication) {
+           release(MavenPublication) {
                 from components.findByName("release")
                 groupId = "com.deenislam.sdk"
                 artifactId = "mybl_deen_sdk"
-                version = "0.0.5"
+                version = "0.0.7-alpha"
             }
         }
     }
+}
+
