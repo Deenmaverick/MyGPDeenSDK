@@ -1,14 +1,7 @@
 package com.deenislam.sdk.views.base
 
-import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
-import com.deenislam.sdk.R
-import com.deenislam.sdk.utils.LocaleUtil
-import java.util.Locale
 
 internal abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

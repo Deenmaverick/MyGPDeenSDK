@@ -7,7 +7,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
 import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
@@ -57,7 +57,7 @@ internal class SurahAdapter(
 
             surahCount.text = surahFilter[position].id.toString().numberLocale()
             surahName.text =
-                if(Deen.language == "bn") (surahFilter[position].id-1).getSurahNameBn()
+                if(DeenSDKCore.language == "bn") (surahFilter[position].id-1).getSurahNameBn()
                 else
                     surahFilter[position].name_simple
 

@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.Tasbeeh
 import com.deenislam.sdk.utils.dp
@@ -83,7 +83,7 @@ internal class TasbeehDuaAdapter(
             dhikrCount.text = dhikrCount.context.getString(R.string.tasbeeh_dhikir_count,(position+1).toString().numberLocale())
             arabicName.text = duaList[position].dua_arb
 
-            if(Deen.language == "en")
+            if(DeenSDKCore.language == "en")
             name.text = duaList[position].dua
             else
                 name.text = duaList[position].dua_bn

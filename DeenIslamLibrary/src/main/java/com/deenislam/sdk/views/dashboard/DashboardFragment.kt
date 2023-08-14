@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
@@ -307,7 +306,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
             userTrackViewModel.trackUser(
                 language = getLanguage(),
-                msisdn = Deen.msisdn,
+                msisdn = DeenSDKCore.msisdn,
                 pagename = "home",
                 trackingID = get9DigitRandom()
             )

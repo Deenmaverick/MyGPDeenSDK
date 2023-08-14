@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.Tasbeeh
 import com.deenislam.sdk.service.database.entity.UserPref
@@ -128,7 +128,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "digital_tasbeeh",
                     trackingID = getTrackingID()
                 )
@@ -419,7 +419,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "digital_tasbeeh",
                     trackingID = getTrackingID()
                 )

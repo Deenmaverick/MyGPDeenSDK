@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.quran.juz.Juz
 import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
@@ -74,7 +74,7 @@ internal class QuranJuzAdapter(
                     if (value is String && value.isNotEmpty()) {
                         suraSubTxt +=
 
-                            if(Deen.language == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
+                            if(DeenSDKCore.language == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
                             else
                                 "${surahList[surah.name.toInt()-1].name_simple} "
 

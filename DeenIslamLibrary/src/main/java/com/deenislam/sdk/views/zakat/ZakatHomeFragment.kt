@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
@@ -124,7 +123,7 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "zakat",
                     trackingID = getTrackingID()
                 )

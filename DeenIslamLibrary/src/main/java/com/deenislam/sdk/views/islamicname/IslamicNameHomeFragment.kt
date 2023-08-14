@@ -4,14 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
-import androidx.lifecycle.lifecycleScope
-import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
-import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.card.MaterialCardView
-import kotlinx.coroutines.launch
 
 internal class IslamicNameHomeFragment : BaseRegularFragment() {
 

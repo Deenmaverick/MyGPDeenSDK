@@ -1,36 +1,45 @@
 package com.deenislam.sdk
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Base64
 import android.util.Log
 import androidx.annotation.Keep
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.network.ApiResource
+import com.deenislam.sdk.service.network.response.auth.jwt.JwtResponse
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.AuthenticateRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.views.main.MainActivity
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@SuppressLint("StaticFieldLeak")
 @Keep
-object Deen {
+object DeenSDKCore {
 
     @JvmStatic
-    var  CallBackListener : DeenCallback? =null
+    var  CallBackListener : DeenSDKCallback? =null
 
     @JvmStatic
     var appContext: Context? = null
 
     @JvmStatic
-    var token: String? = null
+    var baseContext: Context? = null
+
+    @JvmStatic
+    var token: String = ""
 
     @JvmStatic
     var language = "bn"
@@ -38,21 +47,79 @@ object Deen {
     @JvmStatic
     var msisdn:String = ""
 
+
     @JvmStatic
-    fun openDeen(context: Context, msisdn:String, callback: DeenCallback? = null)
+    fun initDeen(context: Context, token:String, callback: DeenSDKCallback? = null)
     {
+
+        this.baseContext = context
         this.appContext = context.applicationContext
         this.CallBackListener = callback
-        this.msisdn = msisdn
+        this.token = token
+
+        try {
+            val decoded = JWTdecode(token)
+           msisdn = decoded.payload.name
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         CoroutineScope(Dispatchers.IO).launch {
+
+            if(!AuthenticateRepository(
+                authenticateService = NetworkProvider().getInstance().provideAuthService(),
+                userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+            ).initSDK(token, msisdn))
+            {
+                baseContext = null
+                appContext = null
+                CallBackListener = callback
+            }
+
+            withContext(Dispatchers.Main)
+            {
+                checkAuth()
+            }
+        }
+
+    }
+
+    private fun checkAuth(): Boolean {
+        if(appContext == null || baseContext == null || token.isEmpty() || msisdn.isBlank()) {
+            CallBackListener?.onDeenSDKInitFailed()
+            return false
+        }
+        else
+            CallBackListener?.onDeenSDKInitSuccess()
+
+        return true
+    }
+
+    @JvmStatic
+    fun openDeen()
+    {
+
+        if (!checkAuth()) {
+            return
+        }
+
+        val intent =
+            Intent(baseContext, MainActivity::class.java)
+        intent.putExtra("destination",R.id.dashboardFragment)
+        baseContext?.startActivity(intent)
+
+       /* this.appContext = context.applicationContext
+        this.CallBackListener = callback
+        this.msisdn = msisdn*/
+
+        /*CoroutineScope(Dispatchers.IO).launch {
 
             token = AuthenticateRepository(
                 authenticateService = NetworkProvider().getInstance().provideAuthService(),
                 userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
             ).authDeen(msisdn)
 
-            /*.apply {
+            *//*.apply {
 
                 if (!this.isNullOrEmpty())
                 {
@@ -62,7 +129,7 @@ object Deen {
 
                     Log.e("language1", language)
                 }
-            }*/
+            }*//*
 
             withContext(Dispatchers.Main) {
 
@@ -80,24 +147,34 @@ object Deen {
                 }
             }
 
-        }
+        }*/
     }
 
     @JvmStatic
-    fun openTasbeeh(context: Context, msisdn:String, callback: DeenCallback? = null)
+    fun openTasbeeh()
     {
-        this.appContext = context.applicationContext
-        this.CallBackListener = callback
-        this.msisdn = msisdn
 
-        CoroutineScope(Dispatchers.IO).launch {
+        if (!checkAuth()) {
+            return
+        }
+
+        val intent =
+            Intent(baseContext, MainActivity::class.java)
+        intent.putExtra("destination",R.id.tasbeehFragment)
+        baseContext?.startActivity(intent)
+
+        /*this.appContext = context.applicationContext
+        this.CallBackListener = callback
+        this.msisdn = msisdn*/
+
+        /*CoroutineScope(Dispatchers.IO).launch {
 
             token = AuthenticateRepository(
                 authenticateService = NetworkProvider().getInstance().provideAuthService(),
                 userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
             ).authDeen(msisdn)
 
-            /*.apply {
+            *//*.apply {
 
                 if (!this.isNullOrEmpty())
                 {
@@ -107,7 +184,7 @@ object Deen {
 
                     Log.e("language1", language)
                 }
-            }*/
+            }*//*
 
             withContext(Dispatchers.Main) {
 
@@ -125,24 +202,33 @@ object Deen {
                 }
             }
 
-        }
+        }*/
     }
 
     @JvmStatic
-    fun openPrayerTime(context: Context, msisdn:String, callback: DeenCallback? = null)
+    fun openPrayerTime()
     {
-        this.appContext = context.applicationContext
-        this.CallBackListener = callback
-        this.msisdn = msisdn
 
-        CoroutineScope(Dispatchers.IO).launch {
+        if (!checkAuth()) {
+            return
+        }
+
+        val intent =
+            Intent(baseContext, MainActivity::class.java)
+        intent.putExtra("destination",R.id.prayerTimesFragment)
+        baseContext?.startActivity(intent)
+       /* this.appContext = context.applicationContext
+        this.CallBackListener = callback
+        this.msisdn = msisdn*/
+
+        /*CoroutineScope(Dispatchers.IO).launch {
 
             token = AuthenticateRepository(
                 authenticateService = NetworkProvider().getInstance().provideAuthService(),
                 userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
             ).authDeen(msisdn)
 
-            /*.apply {
+            *//*.apply {
 
                 if (!this.isNullOrEmpty())
                 {
@@ -152,7 +238,7 @@ object Deen {
 
                     Log.e("language1", language)
                 }
-            }*/
+            }*//*
 
             withContext(Dispatchers.Main) {
 
@@ -170,15 +256,16 @@ object Deen {
                 }
             }
 
-        }
+        }*/
     }
 
     @JvmStatic
-    fun prayerNotification(isEnabled: Boolean,context: Context, msisdn:String, callback: DeenCallback? = null)
+    fun prayerNotification(isEnabled: Boolean)
     {
-        this.appContext = context.applicationContext
-        this.CallBackListener = callback
-        this.msisdn = msisdn
+        if (!checkAuth()) {
+            return
+        }
+
         val prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
             Date()
         )
@@ -189,12 +276,12 @@ object Deen {
             if(isEnabled)
             {
 
-            token = AuthenticateRepository(
+           /* token = AuthenticateRepository(
                 authenticateService = NetworkProvider().getInstance().provideAuthService(),
                 userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
             ).authDeen(msisdn)
 
-                if (token != null && token?.isNotEmpty() == true) {
+                if (token != null && token?.isNotEmpty() == true) {*/
 
 
                         val prayerTimesRepository = PrayerTimesRepository(
@@ -203,7 +290,6 @@ object Deen {
                                 .providePrayerNotificationDao(),
                             prayerTimesDao = null
                         )
-
 
 
                         var getPrayerTime = async { prayerTimesRepository.getPrayerTimes("Dhaka", language, prayerDate) }
@@ -215,7 +301,7 @@ object Deen {
                             is ApiResource.Failure -> {
                                 withContext(Dispatchers.Main)
                                 {
-                                    callback?.prayerNotificationFailed()
+                                    CallBackListener?.DeenPrayerNotificationFailed()
                                 }
 
                                 return@launch
@@ -285,13 +371,13 @@ object Deen {
                             if (prayerNotifyCount > 0) {
                                 withContext(Dispatchers.Main)
                                 {
-                                    callback?.prayerNotificationOn()
+                                    CallBackListener?.DeenPrayerNotificationOn()
                                 }
                             }
                             else {
                                 withContext(Dispatchers.Main)
                                 {
-                                    callback?.prayerNotificationFailed()
+                                    CallBackListener?.DeenPrayerNotificationFailed()
                                 }
                             }
 
@@ -299,19 +385,12 @@ object Deen {
                         } ?:
                         withContext(Dispatchers.Main)
                         {
-                            callback?.prayerNotificationFailed()
+                            CallBackListener?.DeenPrayerNotificationFailed()
                         }
 
 
-                    }
+                    //}
 
-                else {
-                    withContext(Dispatchers.Main)
-                    {
-                        callback?.onAuthFailed()
-                    }
-
-                }
 
         }else
             {
@@ -326,12 +405,12 @@ object Deen {
                 if(prayerTimesRepository.clearPrayerNotification(prayerDate)>0)
                     withContext(Dispatchers.Main)
                     {
-                        callback?.prayerNotificationOff()
+                        CallBackListener?.DeenPrayerNotificationOff()
                     }
                 else
                     withContext(Dispatchers.Main)
                     {
-                        callback?.prayerNotificationFailed()
+                        CallBackListener?.DeenPrayerNotificationFailed()
                     }
 
 
@@ -344,6 +423,26 @@ object Deen {
     fun destroySDK() {
         CallBackListener = null
         appContext = null
+        baseContext = null
+    }
+
+   private fun JWTdecode(jwtToken: String): JwtResponse {
+        val split = jwtToken.split("\\.".toRegex()).toTypedArray()
+        if (split.size < 2) {
+            throw IllegalArgumentException("Invalid JWT token.")
+        }
+
+        val header = String(Base64.decode(split[0], Base64.DEFAULT))
+        val payload = String(Base64.decode(split[1], Base64.DEFAULT))
+
+        val headerJson = JSONObject(header)
+        val payloadJson = JSONObject(payload)
+
+        val result = JSONObject()
+        result.put("header", headerJson)
+        result.put("payload", payloadJson)
+
+        return Gson().fromJson(result.toString(),JwtResponse::class.java)
     }
 
 
@@ -351,11 +450,11 @@ object Deen {
 
 
 
-interface DeenCallback
+interface DeenSDKCallback
 {
-    fun onAuthSuccess()
-    fun onAuthFailed()
-    fun prayerNotificationOn()
-    fun prayerNotificationOff()
-    fun prayerNotificationFailed()
+    fun onDeenSDKInitSuccess()
+    fun onDeenSDKInitFailed()
+    fun DeenPrayerNotificationOn()
+    fun DeenPrayerNotificationOff()
+    fun DeenPrayerNotificationFailed()
 }

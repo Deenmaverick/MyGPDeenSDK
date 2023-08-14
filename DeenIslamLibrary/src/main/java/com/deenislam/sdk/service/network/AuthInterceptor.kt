@@ -1,8 +1,7 @@
 package com.deenislam.sdk.service.network
 
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.database.dao.UserPrefDao
-import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -11,7 +10,7 @@ internal class AuthInterceptor(
 ):Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        val acceessToken =  runBlocking {
+        /*val acceessToken =  runBlocking {
             val userData = userPrefDao?.select()
 
             userData?.let {
@@ -20,7 +19,9 @@ internal class AuthInterceptor(
                 else Deen.token
             }
 
-        }
+        }*/
+
+        val acceessToken = DeenSDKCore.token
 
         var request = chain.request()
         request = request.newBuilder().header("Authorization", "Bearer $acceessToken").build()

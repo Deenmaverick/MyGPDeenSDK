@@ -11,7 +11,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.views.main.MainActivity
@@ -72,12 +72,12 @@ fun NotificationManager.sendNotification(
 
     // Cancel intent for notification dismiss listner
 
-    val DismissIntent = Intent(Deen.appContext, AlarmReceiver::class.java)
+    val DismissIntent = Intent(DeenSDKCore.appContext, AlarmReceiver::class.java)
     DismissIntent.putExtra("dismiss","ok")
 
     val DismissPendingIntent: PendingIntent =
         PendingIntent.getBroadcast(
-            Deen.appContext,
+            DeenSDKCore.appContext,
             notification_id,
             DismissIntent,
             PendingIntent.FLAG_UPDATE_CURRENT

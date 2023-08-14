@@ -3,15 +3,12 @@ package com.deenislam.sdk.views.more
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatTextView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.callback.ActivityCallback
 import com.deenislam.sdk.utils.PRIVACY_URL
 import com.deenislam.sdk.utils.TERMS_URL
 import com.deenislam.sdk.views.base.BaseRegularFragment
@@ -68,7 +65,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        username.text =  if(!Deen.msisdn.first().equals("+")) "+${Deen.msisdn}" else Deen.msisdn
+        username.text =  if(!DeenSDKCore.msisdn.first().equals("+")) "+${DeenSDKCore.msisdn}" else DeenSDKCore.msisdn
 
         settingLayout.setOnClickListener {
             gotoFrag(R.id.action_moreFragment_to_settingFragment)

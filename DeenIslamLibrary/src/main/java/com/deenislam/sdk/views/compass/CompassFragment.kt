@@ -26,7 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.marginTop
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.MAKKAH_LATITUDE
 import com.deenislam.sdk.utils.MAKKAH_LONGITUDE
@@ -109,7 +109,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "compass",
                     trackingID = getTrackingID()
                 )
@@ -519,7 +519,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "compass",
                     trackingID = getTrackingID()
                 )

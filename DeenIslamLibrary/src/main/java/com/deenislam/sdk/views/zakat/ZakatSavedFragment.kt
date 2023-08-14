@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.activity.addCallback
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.libs.alertdialog.CustomAlertDialog
@@ -235,7 +234,7 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "zakat",
                     trackingID = getTrackingID()
                 )

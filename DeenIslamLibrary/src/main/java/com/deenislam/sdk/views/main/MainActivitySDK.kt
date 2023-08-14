@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.utils.LocaleUtil
@@ -156,7 +156,7 @@ internal class MainActivity : AppCompatActivity() {
 
     fun changeLanguage()
     {
-        localContext = if (Deen.language == "en") {
+        localContext = if (DeenSDKCore.language == "en") {
             LocaleUtil.createLocaleContext(this, Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(this, Locale("bn"))
@@ -471,9 +471,13 @@ internal class MainActivity : AppCompatActivity() {
 
                     withContext(Dispatchers.Main)
                     {
-                        val dashboard =  async { initDashboard() }
-                        dashboard.await()
+
                         navController.navigate(destination)
+                        val dashboard =  async {
+                            initDashboard()
+                            setupOtherFragment(true)
+                        }
+                        dashboard.await()
                         setupOtherFragment(true)
                     }
 

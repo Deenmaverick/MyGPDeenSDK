@@ -30,10 +30,6 @@ internal class BlankFragment : BaseRegularFragment() {
         setupOtherFragment(true)
     }
 
-    override fun onResume() {
-        super.onResume()
-        //onBackPressedCallback.isEnabled = false
-    }
 
     override fun onBackPress() {
         setupOtherFragment(false)

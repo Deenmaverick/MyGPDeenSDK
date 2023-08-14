@@ -20,7 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.repository.UserTrackRepository
@@ -58,7 +58,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        localContext = if (Deen.language == "en") {
+        localContext = if (DeenSDKCore.language == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
@@ -84,14 +84,14 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     }
 
      fun getLanguage():String =
-        if(Deen.language == "en")
+        if(DeenSDKCore.language == "en")
             ""
         else
             "bn"
 
     fun changeLanguage(language:String)
     {
-        Deen.language = language
+        DeenSDKCore.language = language
         (activity as MainActivity).changeLanguage()
     }
     private fun isBacktoHome(bol:Boolean)
@@ -214,7 +214,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "home",
                     trackingID = get9DigitRandom()
                 )

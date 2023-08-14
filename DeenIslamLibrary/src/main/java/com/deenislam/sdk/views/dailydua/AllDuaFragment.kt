@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
-import androidx.core.view.isEmpty
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
@@ -22,9 +20,7 @@ import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.network.response.dailydua.alldua.Data
 import com.deenislam.sdk.service.repository.DailyDuaRepository
 import com.deenislam.sdk.utils.dp
-import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.runWhenReady
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
@@ -126,7 +122,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "daily_dua",
                     trackingID = getTrackingID()
                 )

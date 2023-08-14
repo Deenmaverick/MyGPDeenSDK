@@ -19,7 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.repository.UserTrackRepository
@@ -47,7 +47,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        localContext = if (Deen.language == "en") {
+        localContext = if (DeenSDKCore.language == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
@@ -83,7 +83,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun changeLanguage(language:String)
     {
-        Deen.language = language
+        DeenSDKCore.language = language
         (activity as MainActivity).changeLanguage()
     }
 
@@ -95,7 +95,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     fun getTrackingID() = (activity as MainActivity).getTrackingID()
 
     fun getLanguage():String =
-        if(Deen.language == "en")
+        if(DeenSDKCore.language == "en")
             ""
         else
             "bn"
@@ -186,7 +186,7 @@ internal abstract class BaseRegularFragment: Fragment() {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "home",
                     trackingID = get9DigitRandom()
                 )

@@ -3,7 +3,7 @@ package com.deenislam.sdk.service.di;
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.database.AppDatabase
 import com.deenislam.sdk.service.database.dao.PlayerSettingDao
 import com.deenislam.sdk.service.database.dao.PrayerNotificationDao
@@ -138,7 +138,7 @@ internal class DatabaseProvider {
         if (instance?.databse == null)
             instance?.databse =
         Room.databaseBuilder(
-            Deen.appContext!!,
+            DeenSDKCore.appContext!!,
             AppDatabase::class.java, "deenislam.db"
         )
             .addMigrations(MIGRATION_TEST)

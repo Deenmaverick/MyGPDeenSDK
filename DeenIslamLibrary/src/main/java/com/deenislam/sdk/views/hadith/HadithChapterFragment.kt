@@ -1,7 +1,6 @@
 package com.deenislam.sdk.views.hadith
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
@@ -21,7 +19,6 @@ import com.deenislam.sdk.service.models.HadithResource
 import com.deenislam.sdk.service.repository.HadithRepository
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
-import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.HadithViewModel
 import com.deenislam.sdk.views.adapters.hadith.HadithChapterAdapter

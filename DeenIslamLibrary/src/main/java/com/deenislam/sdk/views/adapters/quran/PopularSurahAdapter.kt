@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
 import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
@@ -70,7 +70,7 @@ internal class PopularSurahAdapter(
 
                     surahCount.text = surahList[position].id.toString().numberLocale()
                     surahName.text =
-                        if(Deen.language == "bn") (surahList[position].id-1).getSurahNameBn()
+                        if(DeenSDKCore.language == "bn") (surahList[position].id-1).getSurahNameBn()
                     else
                         surahList[position].name_simple
                     

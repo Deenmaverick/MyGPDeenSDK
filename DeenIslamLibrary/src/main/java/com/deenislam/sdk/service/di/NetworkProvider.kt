@@ -1,7 +1,6 @@
 package com.deenislam.sdk.service.di;
 
-import android.util.Log
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.network.AuthInterceptor
 import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.service.network.api.DeenService
@@ -11,7 +10,6 @@ import com.deenislam.sdk.service.network.api.QuranService
 import com.deenislam.sdk.utils.BASE_AUTH_API_URL
 import com.deenislam.sdk.utils.BASE_DEEN_SERVICE_API_URL
 import com.deenislam.sdk.utils.BASE_QURAN_API_URL
-import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -49,11 +47,11 @@ internal class NetworkProvider {
         if(instance?.authInterceptor==null) {
 
             val userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
-            var acceessToken = ""
+            var acceessToken = DeenSDKCore.token
 
                 val userData = userPrefDao?.select()
 
-            userData?.let {
+           /* userData?.let {
 
                 Log.e("AUTH_DATA_1", Gson().toJson(it))
 
@@ -61,7 +59,7 @@ internal class NetworkProvider {
                     it[0]?.token.toString()
                 else
                     Deen.token.toString()
-            }?.apply { acceessToken = Deen.token.toString() }
+            }?.apply { acceessToken = Deen.token.toString() }*/
 
             if(acceessToken.isNotEmpty()) {
                 instance?.authInterceptor = AuthInterceptor(userPrefDao).apply {

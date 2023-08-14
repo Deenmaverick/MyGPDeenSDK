@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.Tasbeeh
 import com.deenislam.sdk.utils.getLocalContext
@@ -41,7 +41,7 @@ internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>(
         override fun onBind(position: Int) {
             super.onBind(position)
             listPos.text = "0"+(position+1).toString().numberLocale()
-            if(Deen.language == "en")
+            if(DeenSDKCore.language == "en")
             duaName.text = tasbeehData[position].dua
             else
                 duaName.text = tasbeehData[position].dua_bn

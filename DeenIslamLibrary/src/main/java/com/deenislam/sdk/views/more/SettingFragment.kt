@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.models.SettingResource
@@ -193,7 +193,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
     private fun setupSettingDialogLanguage()
     {
 
-        Deen.language = localLanguage
+        DeenSDKCore.language = localLanguage
 
          if(localLanguage == "en")
         {

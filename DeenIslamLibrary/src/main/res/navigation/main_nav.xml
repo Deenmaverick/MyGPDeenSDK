@@ -56,6 +56,12 @@
             android:id="@+id/action_blankFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment"
             app:popUpTo="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_blankFragment_to_tasbeehFragment"
+            app:destination="@id/tasbeehFragment" />
+        <action
+            android:id="@+id/action_blankFragment_to_prayerTimesFragment"
+            app:destination="@id/prayerTimesFragment" />
     </fragment>
     <fragment
         android:id="@+id/quranFavoriteFragment"

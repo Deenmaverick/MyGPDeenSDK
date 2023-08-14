@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.SystemClock
 import android.util.Log
 import androidx.core.app.AlarmManagerCompat
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.database.dao.PrayerNotificationDao
 import com.deenislam.sdk.service.database.dao.PrayerTimesDao
 import com.deenislam.sdk.service.database.entity.PrayerNotification
@@ -123,18 +123,18 @@ internal class PrayerTimesRepository(
 
     private fun setNotification(time:Long,reqcode:Int)
     {
-        val notifyIntent = Intent(Deen.appContext, AlarmReceiver::class.java)
+        val notifyIntent = Intent(DeenSDKCore.appContext, AlarmReceiver::class.java)
         notifyIntent.putExtra("pid",reqcode)
 
         val notifyPendingIntent: PendingIntent =
             PendingIntent.getBroadcast(
-                Deen.appContext,
+                DeenSDKCore.appContext,
                 reqcode,
                 notifyIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
             )
 
-        val alarmManager = Deen.appContext?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = DeenSDKCore.appContext?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             alarmManager,
             AlarmManager.ELAPSED_REALTIME_WAKEUP,

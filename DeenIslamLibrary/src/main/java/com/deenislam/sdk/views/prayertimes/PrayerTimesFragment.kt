@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.database.entity.PrayerNotification
@@ -166,7 +166,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "prayer_time",
                     trackingID = getTrackingID()
                 )
@@ -359,7 +359,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "prayer_time",
                     trackingID = getTrackingID()
                 )

@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.tryCatch
@@ -117,7 +117,7 @@ internal class QuranFragment : BaseRegularFragment() {
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "quran",
                     trackingID = getTrackingID()
                 )
@@ -134,7 +134,7 @@ internal class QuranFragment : BaseRegularFragment() {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = Deen.msisdn,
+                    msisdn = DeenSDKCore.msisdn,
                     pagename = "quran",
                     trackingID = getTrackingID()
                 )

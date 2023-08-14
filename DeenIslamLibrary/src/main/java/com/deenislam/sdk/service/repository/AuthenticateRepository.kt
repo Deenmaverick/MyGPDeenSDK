@@ -1,7 +1,7 @@
 package com.deenislam.sdk.service.repository
 
 import android.util.Log
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.database.dao.UserPrefDao
 import com.deenislam.sdk.service.database.entity.UserPref
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -47,11 +47,36 @@ internal class AuthenticateRepository(
                     it[0]?.username = username
                     userPrefDao?.update(it)
                 } else {
-                    0
+                    userPrefDao?.insert(UserPref(token = token, username = username))
+
+                    1
                 }
             }?:0
 
         }
+
+    suspend fun initSDK(token: String,msisdn:String):Boolean {
+        if (storeToken(token, msisdn, "") > 0) {
+
+            makeApicall {
+
+                val body = JSONObject()
+                body.put("language", DeenSDKCore.language)
+                body.put("msisdn", msisdn)
+                body.put("pagename", "dashboard")
+                body.put("trackingID", get9DigitRandom())
+                body.put("device", "sdk")
+                val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+                NetworkProvider().getInstance().provideDeenService()
+                authenticateService?.userTrack(requestBody)
+            }
+
+           return true
+        }
+
+        return false
+    }
 
     private suspend fun processLoginResponse(response: ApiResource<LoginResponse?>, msisdn: String): String?
     {
@@ -69,7 +94,7 @@ internal class AuthenticateRepository(
 
 
                                 val body = JSONObject()
-                                body.put("language", Deen.language)
+                                body.put("language", DeenSDKCore.language)
                                 body.put("msisdn", msisdn)
                                 body.put("pagename", "dashboard")
                                 body.put("trackingID", get9DigitRandom())

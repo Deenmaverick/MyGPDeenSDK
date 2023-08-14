@@ -8,12 +8,11 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStateAtLeast
 import coil.decode.SvgDecoder
 import coil.load
-import com.deenislam.sdk.Deen
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import kotlinx.coroutines.launch
 import java.util.*
@@ -84,7 +83,7 @@ fun getFileExtension(fileName: String): String {
 
 fun Context.getLocalContext(): Context {
 
-    var localContext: Context = if (Deen.language == "en") {
+    var localContext: Context = if (DeenSDKCore.language == "en") {
         LocaleUtil.createLocaleContext(this, Locale("en"))
     } else {
         LocaleUtil.createLocaleContext(this, Locale("bn"))
@@ -96,7 +95,7 @@ fun Context.getLocalContext(): Context {
 
 fun String.numberLocale():String
 {
-    if(Deen.language == "bn") {
+    if(DeenSDKCore.language == "bn") {
         val numberMap = mapOf(
             '0' to '০',
             '1' to '১',
@@ -119,7 +118,7 @@ fun String.numberLocale():String
 
 fun String.timeLocale():String
 {
-    if(Deen.language == "bn") {
+    if(DeenSDKCore.language == "bn") {
         val numberMap = mapOf(
             '0' to '০',
             '1' to '১',
@@ -148,7 +147,7 @@ fun String.timeLocale():String
 
 fun String.prayerMomentLocaleForToast():String
 {
-    if(Deen.language == "bn") {
+    if(DeenSDKCore.language == "bn") {
 
        return when(this)
         {
@@ -168,7 +167,7 @@ fun String.prayerMomentLocaleForToast():String
 
 fun String.prayerMomentLocale():String
 {
-    if(Deen.language == "bn") {
+    if(DeenSDKCore.language == "bn") {
 
         return when(this)
         {
@@ -433,11 +432,11 @@ fun String.surahNameLocale():String
             "An-Nas"
     )
 
-    return  if(Deen.language == "bn") surahNameEn.indexOf(this).getSurahNameBn() else this
+    return  if(DeenSDKCore.language == "bn") surahNameEn.indexOf(this).getSurahNameBn() else this
 }
 
 fun String.surahOriginLocale():String =
-    if(Deen.language == "bn")
+    if(DeenSDKCore.language == "bn")
     {
        if(this == "makkah")
            "মক্কা"
@@ -451,7 +450,7 @@ fun Context.getString(id:Int):String = this.resources.getString(id)
 
 fun String.monthNameLocale(): String =
 
-     if(Deen.language == "bn") {
+     if(DeenSDKCore.language == "bn") {
 
         val englishMonths = listOf(
             "January", "February", "March", "April", "May", "June",
@@ -476,7 +475,7 @@ fun String.monthNameLocale(): String =
 
 fun String.dayNameLocale(): String =
 
-    if(Deen.language == "bn") {
+    if(DeenSDKCore.language == "bn") {
 
         val englishDays = listOf(
             "Sunday", "Monday", "Tuesday", "Wednesday",
