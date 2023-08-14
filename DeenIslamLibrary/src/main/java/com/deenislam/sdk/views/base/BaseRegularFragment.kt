@@ -208,7 +208,7 @@ internal abstract class BaseRegularFragment: Fragment() {
             btnBack.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.ic_back))
             btnBack.visible(true)
             btnBack.setOnClickListener {
-                onBackPress()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
             title.text = actionnBartitle
             title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_txt_black_deep))

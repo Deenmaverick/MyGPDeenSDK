@@ -54,7 +54,6 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
 
     override fun OnCreate() {
         super.OnCreate()
-        isBacktoHome(true)
         //setupBackPressCallback(this)
 
 
