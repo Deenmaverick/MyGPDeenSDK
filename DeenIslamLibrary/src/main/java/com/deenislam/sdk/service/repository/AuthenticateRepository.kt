@@ -38,7 +38,13 @@ internal class AuthenticateRepository(
     suspend fun storeToken(token:String,username: String,refreshToken: String) =
         withContext(Dispatchers.IO)
         {
-            val data = userPrefDao?.select()
+            var data = userPrefDao?.select()
+
+          /*  if(data == null)
+            {
+                userPrefDao?.insert(UserPref(token = token, username = username))
+                data =  userPrefDao?.select()
+            }*/
 
             data?.let {
                 if (it.isNotEmpty()) {
@@ -48,11 +54,9 @@ internal class AuthenticateRepository(
                     userPrefDao?.update(it)
                 } else {
                     userPrefDao?.insert(UserPref(token = token, username = username))
-
                     1
                 }
             }?:0
-
         }
 
     suspend fun initSDK(token: String,msisdn:String):Boolean {

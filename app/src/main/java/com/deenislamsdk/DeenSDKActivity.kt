@@ -13,18 +13,27 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        DeenSDKCore.initDeen(
-            this,
-            "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJBcHBsaWNhdGlvbiI6IkRlZW4gSXNsYW0iLCJuYW1lIjoiaW1yYW5raGFuIiwicm9sZSI6IlNESyIsIm5iZiI6MTY5MjAwNDEwMSwiZXhwIjoxNjkyMDkwNTAxLCJpYXQiOjE2OTIwMDQxMDF9.cMIf17mm82uCw9M2glN9egv5e2Tc7t7zdnRes15YOAFCmVgV8kDRkwIbsJuwdHv8yVOtDBZ_U3S7lYoJNb4dOg",
-            this@DeenSDKActivity
-        )
 
         val msisdn:EditText = findViewById(R.id.phone_number)
         val authBtn:AppCompatButton = findViewById(R.id.login)
+        val initSDKbtn:AppCompatButton = findViewById(R.id.initSDKbtn)
         val tasbeehBtn:AppCompatButton = findViewById(R.id.tasbeeh)
         val forbiddenBtn:AppCompatButton = findViewById(R.id.prayertime)
         val prayernotifyon:AppCompatButton = findViewById(R.id.prayernotifyon)
         val prayernotifyoff:AppCompatButton = findViewById(R.id.prayernotifyoff)
+
+
+        initSDKbtn.setOnClickListener {
+            if(msisdn.text.isNotEmpty()){
+                DeenSDKCore.initDeen(
+                    this,
+                    msisdn.text.toString(),
+                    this@DeenSDKActivity
+                )
+            }else{
+                Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
         authBtn.setOnClickListener {
