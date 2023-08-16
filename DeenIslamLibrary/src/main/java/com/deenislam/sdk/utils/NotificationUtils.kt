@@ -37,14 +37,14 @@ fun NotificationManager.sendNotification(
             applicationContext,
             notification_id,
             contentIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
         )
     } else {
         PendingIntent.getBroadcast(
             applicationContext,
             notification_id,
             contentIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
         )
     }
 
@@ -80,7 +80,7 @@ fun NotificationManager.sendNotification(
             DeenSDKCore.appContext,
             notification_id,
             DismissIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
         )
 
     val builder = NotificationCompat.Builder(

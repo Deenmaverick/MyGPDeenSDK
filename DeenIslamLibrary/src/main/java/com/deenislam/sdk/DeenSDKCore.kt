@@ -342,8 +342,7 @@ object DeenSDKCore {
                                     3,
                                     "",
                                     it
-                                ) == 1
-                            )
+                                ) == 1)
                                 prayerNotifyCount++
 
                              if (prayerTimesRepository.updatePrayerNotification(
@@ -402,7 +401,7 @@ object DeenSDKCore {
                     prayerTimesDao = null
                 )
 
-                if(prayerTimesRepository.clearPrayerNotification(prayerDate)>0)
+                if(prayerTimesRepository.clearPrayerNotification()>0)
                     withContext(Dispatchers.Main)
                     {
                         CallBackListener?.DeenPrayerNotificationOff()
@@ -413,11 +412,29 @@ object DeenSDKCore {
                         CallBackListener?.DeenPrayerNotificationFailed()
                     }
 
-
             }
 
         }
     }
+
+    @JvmStatic
+    suspend fun isPrayerNotificationEnabled(context: Context):Boolean =
+        withContext(Dispatchers.IO)
+        {
+            baseContext = context
+            appContext = context.applicationContext
+
+            val prayerTimesRepository = PrayerTimesRepository(
+                deenService = NetworkProvider().getInstance().provideDeenService(),
+                prayerNotificationDao = DatabaseProvider().getInstance()
+                    .providePrayerNotificationDao(),
+                prayerTimesDao = null
+            )
+
+            return@withContext prayerTimesRepository.getTotalActiveNotification() > 0
+
+        }
+
 
     @JvmStatic
     fun destroySDK() {

@@ -8,15 +8,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
 import android.text.format.DateUtils
+import android.util.Log
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 
-internal class SnoozeReceiver: BroadcastReceiver() {
+class SnoozeReceiver: BroadcastReceiver() {
     private val REQUEST_CODE = 0
 
     override fun onReceive(context: Context, intent: Intent) {
         val triggerTime = SystemClock.elapsedRealtime() + DateUtils.MINUTE_IN_MILLIS // Time after which you want to show the                     //notification again
 
+        Log.e("SnoozeReceiver","OK")
         val notifyIntent = Intent(context, AlarmReceiver::class.java)
         val notifyPendingIntent = PendingIntent.getBroadcast(
             context,

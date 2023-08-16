@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.res.AssetFileDescriptor
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.os.Build
 
-internal object AzanPlayer {
+object AzanPlayer {
 
     private var mMediaPlayer: MediaPlayer? = null
 
@@ -19,21 +20,28 @@ internal object AzanPlayer {
                 assetFileDescriptor.startOffset,
                 assetFileDescriptor.length
             )
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build()
+                )
+            } else {
+
+                setAudioStreamType(android.media.AudioManager.STREAM_ALARM)  // Deprecated method, but necessary for older devices
+            }
+
+            start()
         }
-        mMediaPlayer?.setAudioAttributes(
-            AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ALARM)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-        )
-        mMediaPlayer?.prepare()
-        mMediaPlayer?.setOnPreparedListener {
-            it?.start()
-        }
+
+
     }
 
     fun releaseMediaPlayer() {
         mMediaPlayer?.stop()
+        mMediaPlayer?.reset()
         mMediaPlayer?.release()
         mMediaPlayer = null
     }

@@ -11,21 +11,35 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.work.Constraints
+import androidx.work.Data
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.database.dao.PrayerNotificationDao
 import com.deenislam.sdk.service.database.entity.PrayerNotification
+import com.deenislam.sdk.service.di.DatabaseProvider
+import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.repository.PrayerTimesRepository
+import com.deenislam.sdk.utils.MilliSecondToStringTime
+import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.sendNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal class AlarmReceiver : BroadcastReceiver() {
+class AlarmReceiver : BroadcastReceiver() {
 
-    lateinit var prayerNotificationDao: PrayerNotificationDao
     private var mMediaPlayer: MediaPlayer? = null
 
     override fun onReceive(context: Context, intent: Intent) {
+
+        if(DeenSDKCore.appContext == null)
+        DeenSDKCore.appContext = context.applicationContext
+        if(DeenSDKCore.baseContext == null)
+        DeenSDKCore.baseContext = context
 
         AzanPlayer.releaseMediaPlayer()
 
@@ -35,6 +49,15 @@ internal class AlarmReceiver : BroadcastReceiver() {
             }
             else ->
             {
+
+               /* val service = Intent(context, AlarmReceiverService::class.java)
+                service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )
+                service.putExtra("dismiss",intent.extras?.getString("dismiss").toString() )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(service)
+                } else {
+                    context.startService(service)
+                }*/
              /*   val service = Intent(context, Notificationservice::class.java)
                 service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )
                 service.putExtra("dismiss",intent.extras?.getString("dismiss").toString() )
@@ -42,10 +65,13 @@ internal class AlarmReceiver : BroadcastReceiver() {
 */
                 val prayer_notification_id = intent.extras?.getInt("pid",0)?:0
 
-                if(prayer_notification_id>0)
-                CoroutineScope(Dispatchers.IO).launch {
-                    processNotification(prayer_notification_id, context)
+                Log.e("AlarmReceiver_Prayer", prayer_notification_id.toString())
 
+                if(prayer_notification_id>0) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        processNotification(prayer_notification_id, context)
+
+                    }
                 }
 
                 val isNotificationDismiss = intent.extras?.getString("dismiss").toString()
@@ -88,8 +114,27 @@ internal class AlarmReceiver : BroadcastReceiver() {
                             AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common_fajr)
                         else
                             AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common)
+
                     }
 
+
+                    clear_prayer_notification_by_id(it.id)
+
+                    val inputData = Data.Builder()
+                        .putString("prayerDate", it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
+                        .build()
+
+                    val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+
+                    val workRequest = OneTimeWorkRequestBuilder<AlarmReceiverWork>()
+                        .setConstraints(constraints)
+                        .setInputData(inputData)
+                        .build()
+
+                    WorkManager.getInstance(context).enqueue(workRequest)
+                    //reCheckNotification(it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
 
                 }
 
@@ -101,17 +146,31 @@ internal class AlarmReceiver : BroadcastReceiver() {
 
         withContext(Dispatchers.IO)
         {
-            if (this@AlarmReceiver::prayerNotificationDao.isInitialized) {
 
-                val prayerNotificationData = prayerNotificationDao.select(pid)
+                val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
 
-                if (prayerNotificationData.isNotEmpty())
+                val prayerNotificationData = prayerNotificationDao?.select(pid)
+
+                if (prayerNotificationData?.isNotEmpty() == true)
                      prayerNotificationData[0]
                 else
                      null
 
-            } else
-                 null
+        }
+
+    private suspend fun reCheckNotification(prayerDate: String)
+    {
+
+    }
+
+    private suspend fun clear_prayer_notification_by_id(pid:Int) =
+
+        withContext(Dispatchers.IO)
+        {
+            val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
+
+            prayerNotificationDao?.clearNotificationByID(pid)
+
         }
 
     private fun get_prayer_name_by_tag(tag:String): String? =

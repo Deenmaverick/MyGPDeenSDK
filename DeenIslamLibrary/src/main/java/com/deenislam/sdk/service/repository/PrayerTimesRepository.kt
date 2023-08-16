@@ -14,6 +14,7 @@ import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.database.entity.PrayerTimes
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.service.network.ApiCall
+import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.api.DeenService
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.utils.RequestBodyMediaType
@@ -22,6 +23,7 @@ import com.deenislam.sdk.utils.getPrayerTimeTagWise
 import com.deenislam.sdk.utils.toRequestBody
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
@@ -60,7 +62,7 @@ internal class PrayerTimesRepository(
                     prayerNotificationData[0]
                 else
                 {
-                    prayerNotificationDao?.insert(PrayerNotification(date = date, prayer_tag = prayer_tag, id = 0))
+                    prayerNotificationDao?.insert(PrayerNotification(date = date, prayer_tag = prayer_tag))
                     prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
 
                     if(prayerNotificationData?.isNotEmpty() == true)
@@ -88,10 +90,12 @@ internal class PrayerTimesRepository(
 
                 getNotificationData(date = date, prayer_tag = prayer_tag)
 
+
                 if(prayerNotificationDao?.update(date,prayer_tag,state) !=0) {
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)
                     if(getNotificationData?.isNotEmpty() == true)
                     {
+
                         val pid = getNotificationData[0]?.id?:0
                         if(prayerTimesResponse!=null) {
                             val notifyTime = getPrayerTimeTagWise(prayer_tag, date, prayerTimesResponse)
@@ -102,7 +106,8 @@ internal class PrayerTimesRepository(
                                 return@withContext 0
 
                             else if (notifyTime > 0L) {
-                                setNotification(SystemClock.elapsedRealtime() + notifyTime, pid)
+
+                                setNotification(SystemClock.elapsedRealtime() + 5000, pid)
                                 return@withContext  1
                             }
                             else
@@ -143,6 +148,21 @@ internal class PrayerTimesRepository(
         )
     }
 
+
+    suspend fun getTotalActiveNotification():Int=
+
+        withContext(Dispatchers.IO)
+        {
+            try {
+
+                val prayerNotificationData = prayerNotificationDao?.select_all_activate_notification()
+
+               prayerNotificationData?.size?:0
+
+            } catch (e: Exception) {
+                return@withContext 0
+            }
+        }
 
 
     suspend fun chachePrayerTimes(date:String, data: PrayerTimes):Boolean =
@@ -220,17 +240,15 @@ internal class PrayerTimesRepository(
     }
 
 
-    suspend fun clearPrayerNotification(
-        date: String
-    ):Int =
+    suspend fun clearPrayerNotification():Int =
         withContext(Dispatchers.IO)
         {
             try {
 
-                val prayerNotificationData = prayerNotificationDao?.select(date)
+                val prayerNotificationData = prayerNotificationDao?.select_all_activate_notification()
 
                 if(prayerNotificationData?.isNotEmpty() == true)
-                    return@withContext prayerNotificationDao?.clearAllNotification(date,1)?:0
+                    return@withContext prayerNotificationDao?.clearAllNotification(1)?:0
 
                 else
                     1
@@ -299,5 +317,69 @@ internal class PrayerTimesRepository(
             {
                 0
             }
+        }
+
+    suspend fun refill_prayer_notification_for_alarm_service(prayerDate: String) {
+
+            val getPrayerTime =  getPrayerTimes("Dhaka",
+                DeenSDKCore.language, prayerDate)
+
+            var prayerTimesResponse: PrayerTimesResponse? = null
+
+            when (getPrayerTime) {
+                is ApiResource.Failure -> {
+                    Log.e("PRAYER_ALARAM_SERVICE","failed")
+                }
+
+                is ApiResource.Success -> {
+                    prayerTimesResponse = getPrayerTime.value
+
+                    Log.e("reCheckNotification1",Gson().toJson(prayerTimesResponse))
+
+                    updatePrayerNotification(
+                        prayerDate,
+                        "pt1",
+                        3,
+                        "",
+                        prayerTimesResponse
+                    )
+/*
+
+                    updatePrayerNotification(
+                        prayerDate,
+                        "pt3",
+                        3,
+                        "",
+                        prayerTimesResponse
+                    )
+
+                    updatePrayerNotification(
+                        prayerDate,
+                        "pt4",
+                        3,
+                        "",
+                        prayerTimesResponse
+                    )
+
+                    updatePrayerNotification(
+                        prayerDate,
+                        "pt5",
+                        3,
+                        "",
+                        prayerTimesResponse
+                    )
+
+                    updatePrayerNotification(
+                        prayerDate,
+                        "pt6",
+                        3,
+                        "",
+                        prayerTimesResponse
+                    )*/
+                }
+            }
+
+
+
         }
 }

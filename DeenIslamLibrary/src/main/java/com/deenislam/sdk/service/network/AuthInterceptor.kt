@@ -21,7 +21,7 @@ internal class AuthInterceptor(
 
         }*/
 
-        val acceessToken = DeenSDKCore.token
+        val acceessToken = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJBcHBsaWNhdGlvbiI6IkRlZW4gSXNsYW0iLCJuYW1lIjoiODgwMTczODQzOTIzNiIsInJvbGUiOiJTREsiLCJuYmYiOjE2OTIxNjU1NzYsImV4cCI6MTY5MjI1MTk3NiwiaWF0IjoxNjkyMTY1NTc2fQ.FlYlkXOJAYl4cFAeBmq3tgBRfsTyNKwWO72UvfBtg3m89C0Gd0EvLDqUvd5v4vHYywJ_HatgvviWNx_-VFfq4A"
 
         var request = chain.request()
         request = request.newBuilder().header("Authorization", "Bearer $acceessToken").build()
