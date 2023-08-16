@@ -6,10 +6,9 @@ plugins {
 android {
     signingConfigs {
 
-
-        /*    release {
-                storeFile file('D:\\Office Project\\mybl-deenislam\\credentials\\deenislam.jks')
-                storePassword '12345678'
+           /*release {
+               storeFile file('D:\\My Workspace\\mybl-deenislam\\credentials\\deenislam.jks')
+               storePassword '12345678'
                 keyPassword '12345678'
                 keyAlias 'deen islam'
             }*/

@@ -138,7 +138,7 @@ internal class DatabaseProvider {
         if (instance?.databse == null)
             instance?.databse =
         Room.databaseBuilder(
-            DeenSDKCore.appContext!!,
+            DeenSDKCore.baseContext!!,
             AppDatabase::class.java, "deenislam.db"
         )
             .addMigrations(MIGRATION_TEST)

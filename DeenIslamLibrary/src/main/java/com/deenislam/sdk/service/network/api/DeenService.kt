@@ -129,5 +129,8 @@ internal interface DeenService {
     @POST("Zakat/ZakatProduct")
     suspend fun getZakatNisab(): NisabResponse
 
+    @POST("PrayerTime/PrayerTimeDateWiseSDK")
+    suspend fun prayerTimeSDK(@Body parm: RequestBody): PrayerTimesResponse
+
 
 }

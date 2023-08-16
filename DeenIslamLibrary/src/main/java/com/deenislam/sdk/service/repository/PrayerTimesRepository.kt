@@ -51,6 +51,27 @@ internal class PrayerTimesRepository(
         //}
     }
 
+    suspend fun getPrayerTimeSDK(localtion:String,language:String,requiredDate:String) = makeApicall {
+
+        /*val prayerTimeData = prayerTimesDao.select(requiredDate)
+
+        if(prayerTimeData.isNotEmpty())
+            PrayerTimesResponse(Data = prayerTimeData[0], Message = "Success", Success = true, TotalData = 1)
+
+        else {*/
+        val body = JSONObject()
+        body.put("location", localtion)
+        body.put("language", language)
+        body.put("requiredDate", requiredDate)
+        body.put("client_id", "myblsdk")
+        body.put("client_secret", "h8JD1vNStY")
+
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.prayerTimeSDK(parm = requestBody)
+        //}
+    }
+
     suspend fun getNotificationData(date:String,prayer_tag:String) =
         withContext(Dispatchers.IO)
         {
@@ -95,7 +116,7 @@ internal class PrayerTimesRepository(
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)
                     if(getNotificationData?.isNotEmpty() == true)
                     {
-
+                        setNotification(SystemClock.elapsedRealtime() + 5000, 1)
                         val pid = getNotificationData[0]?.id?:0
                         if(prayerTimesResponse!=null) {
                             val notifyTime = getPrayerTimeTagWise(prayer_tag, date, prayerTimesResponse)
@@ -321,7 +342,7 @@ internal class PrayerTimesRepository(
 
     suspend fun refill_prayer_notification_for_alarm_service(prayerDate: String) {
 
-            val getPrayerTime =  getPrayerTimes("Dhaka",
+            val getPrayerTime =  getPrayerTimeSDK("Dhaka",
                 DeenSDKCore.language, prayerDate)
 
             var prayerTimesResponse: PrayerTimesResponse? = null

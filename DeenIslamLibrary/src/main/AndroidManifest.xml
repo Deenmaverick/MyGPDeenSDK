@@ -79,7 +79,6 @@
         </receiver>
 
         <service android:name=".service.libs.notification.Notificationservice" />
-        <service android:name=".service.libs.notification.AlarmReceiverService" />
 
     </application>
 
