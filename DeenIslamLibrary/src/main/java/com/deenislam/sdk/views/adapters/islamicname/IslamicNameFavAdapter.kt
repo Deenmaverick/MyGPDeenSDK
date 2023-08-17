@@ -34,7 +34,7 @@ internal class IslamicNameFavAdapter(
     fun delItem(position: Int)
     {
         favData.removeAt(if(position ==1)0 else position)
-        notifyItemRemoved(position)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = favData.size

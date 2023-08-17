@@ -31,7 +31,7 @@ internal class HadithFavAdapter(
     fun delItem(position: Int)
     {
         hadithDataList.removeAt(if(position ==1)0 else position)
-        notifyItemRemoved(position)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = hadithDataList.size
