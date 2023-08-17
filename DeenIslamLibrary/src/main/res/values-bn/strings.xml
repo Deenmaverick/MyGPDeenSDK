@@ -241,4 +241,8 @@
     <string name="mishari_rashid_al_afasy">মিশারি রশিদ আল-আফসী</string>
     <string name="hadith_preview_pos">হাদিস-%1$s</string>
     <string name="setting">সেটিং</string>
+    <string name="terms_of_use">ব্যবহারের শর্তাবলী</string>
+    <string name="privacy_policy">গোপনীয়তা নীতি</string>
+    <string name="deen_all_rights_reserved">© ২০২৩ দ্বীন। সমস্ত অধিকার সংরক্ষিত</string>
+    <string name="deen_version">দ্বীন - v1.0.0</string>
 </resources>

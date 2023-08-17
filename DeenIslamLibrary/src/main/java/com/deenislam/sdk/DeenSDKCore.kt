@@ -13,6 +13,8 @@ import com.deenislam.sdk.service.network.response.auth.jwt.JwtResponse
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.AuthenticateRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
+import com.deenislam.sdk.utils.MilliSecondToStringTime
+import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.views.main.MainActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +48,10 @@ object DeenSDKCore {
 
     @JvmStatic
     var msisdn:String = ""
+
+    private var  prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+        Date()
+    )
 
 
     @JvmStatic
@@ -85,7 +91,7 @@ object DeenSDKCore {
     }
 
     private fun checkAuth(): Boolean {
-        if(appContext == null || baseContext == null || token.isEmpty() || msisdn.isBlank()) {
+        if(appContext == null || baseContext == null || token.isEmpty() || msisdn.isEmpty()) {
             CallBackListener?.onDeenSDKInitFailed()
             return false
         }
@@ -94,6 +100,41 @@ object DeenSDKCore {
 
         return true
     }
+
+    private fun authSDK(context: Context, getmsisdn:String, callback: DeenSDKCallback? = null)
+    {
+
+        this.baseContext = context
+        this.appContext = context.applicationContext
+        this.CallBackListener = callback
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val authenticateRepository = AuthenticateRepository(
+                authenticateService = NetworkProvider().getInstance().provideAuthService(),
+                userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+            )
+
+            token = authenticateRepository.authDeen(getmsisdn).toString().apply {
+
+                try {
+                    val decoded = JWTdecode(this)
+                    msisdn = decoded.payload.name
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+                Log.e("authSDK", msisdn)
+            }
+
+            withContext(Dispatchers.Main)
+            {
+                checkAuth()
+            }
+
+        }
+
+        }
 
     @JvmStatic
     fun openDeen()
@@ -266,11 +307,6 @@ object DeenSDKCore {
             return
         }
 
-        val prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
-            Date()
-        )
-
-
         CoroutineScope(Dispatchers.IO).launch {
 
             if(isEnabled)
@@ -292,12 +328,11 @@ object DeenSDKCore {
                         )
 
 
-                        var getPrayerTime = async { prayerTimesRepository.getPrayerTimes("Dhaka", language, prayerDate) }
+                        val getPrayerTime = async { prayerTimesRepository.getPrayerTimes("Dhaka", language, prayerDate) }.await()
+                        val getPrayerTimeNextDay = async { prayerTimesRepository.getPrayerTimes("Dhaka", language, prayerDate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)) }.await()
 
-                    val finalPrayerTime = getPrayerTime.await()
-                        var prayerTimesResponse: PrayerTimesResponse? = null
 
-                        when (finalPrayerTime) {
+                when (getPrayerTime) {
                             is ApiResource.Failure -> {
                                 withContext(Dispatchers.Main)
                                 {
@@ -308,85 +343,40 @@ object DeenSDKCore {
                             }
 
                             is ApiResource.Success -> {
-                                prayerTimesResponse = finalPrayerTime.value
+
+                                getPrayerTime.value?.let {
+
+                                    val isha =
+                                        "$prayerDate ${it.Data.Isha}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+                                    val currentTime =
+                                        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+                                    if(currentTime>isha)
+                                        return@launch
+                                    else
+                                    setupPrayerNotification(prayerTimesRepository,it)
+                                }?:CallBackListener?.DeenPrayerNotificationFailed()
                             }
                         }
 
-
-                        prayerTimesResponse?.let {
-
-                            var prayerNotifyCount = 0
-
-                            if (prayerTimesRepository.updatePrayerNotification(
-                                    prayerDate,
-                                    "pt1",
-                                    3,
-                                    "",
-                                    it
-                                ) == 1
-                            )
-                                prayerNotifyCount++
-
-                            if (prayerTimesRepository.updatePrayerNotification(
-                                    prayerDate,
-                                    "pt3",
-                                    3,
-                                    "",
-                                    it
-                                ) == 1
-                            )
-                                prayerNotifyCount++
-                             if (prayerTimesRepository.updatePrayerNotification(
-                                    prayerDate,
-                                    "pt4",
-                                    3,
-                                    "",
-                                    it
-                                ) == 1)
-                                prayerNotifyCount++
-
-                             if (prayerTimesRepository.updatePrayerNotification(
-                                    prayerDate,
-                                    "pt5",
-                                    3,
-                                    "",
-                                    it
-                                ) == 1
-                            )
-                                prayerNotifyCount++
-
-                             if (prayerTimesRepository.updatePrayerNotification(
-                                    prayerDate,
-                                    "pt6",
-                                    3,
-                                    "",
-                                    it
-                                ) == 1
-                            )
-                                prayerNotifyCount++
-
-                            Log.e("DEEN_NOTIFY",prayerNotifyCount.toString())
-
-                            if (prayerNotifyCount > 0) {
-                                withContext(Dispatchers.Main)
-                                {
-                                    CallBackListener?.DeenPrayerNotificationOn()
-                                }
-                            }
-                            else {
-                                withContext(Dispatchers.Main)
-                                {
-                                    CallBackListener?.DeenPrayerNotificationFailed()
-                                }
-                            }
-
-
-                        } ?:
+                when (getPrayerTimeNextDay) {
+                    is ApiResource.Failure -> {
                         withContext(Dispatchers.Main)
                         {
                             CallBackListener?.DeenPrayerNotificationFailed()
                         }
 
+                        return@launch
+                    }
+
+                    is ApiResource.Success -> {
+
+                        getPrayerTimeNextDay.value?.let {
+                                setupPrayerNotification(prayerTimesRepository,it)
+                        }?:CallBackListener?.DeenPrayerNotificationFailed()
+                    }
+                }
 
                     //}
 
@@ -414,6 +404,88 @@ object DeenSDKCore {
 
             }
 
+        }
+    }
+
+    private suspend fun setupPrayerNotification(
+        prayerTimesRepository: PrayerTimesRepository,
+        prayerTimesResponse: PrayerTimesResponse
+    )
+    {
+        prayerTimesResponse.let {
+
+
+
+            var prayerNotifyCount = 0
+
+            if (prayerTimesRepository.updatePrayerNotification(
+                    prayerDate,
+                    "pt1",
+                    3,
+                    "",
+                    it
+                ) == 1
+            )
+                prayerNotifyCount++
+
+            if (prayerTimesRepository.updatePrayerNotification(
+                    prayerDate,
+                    "pt3",
+                    3,
+                    "",
+                    it
+                ) == 1
+            )
+                prayerNotifyCount++
+            if (prayerTimesRepository.updatePrayerNotification(
+                    prayerDate,
+                    "pt4",
+                    3,
+                    "",
+                    it
+                ) == 1)
+                prayerNotifyCount++
+
+            if (prayerTimesRepository.updatePrayerNotification(
+                    prayerDate,
+                    "pt5",
+                    3,
+                    "",
+                    it
+                ) == 1
+            )
+                prayerNotifyCount++
+
+            if (prayerTimesRepository.updatePrayerNotification(
+                    prayerDate,
+                    "pt6",
+                    3,
+                    "",
+                    it
+                ) == 1
+            )
+                prayerNotifyCount++
+
+            Log.e("DEEN_NOTIFY",prayerNotifyCount.toString())
+
+            if (prayerNotifyCount > 0) {
+                withContext(Dispatchers.Main)
+                {
+                    CallBackListener?.DeenPrayerNotificationOn()
+                }
+            }
+            else {
+                withContext(Dispatchers.Main)
+                {
+                    CallBackListener?.DeenPrayerNotificationFailed()
+                }
+            }
+
+
+        } ?:
+        withContext(Dispatchers.Main)
+        {
+            CallBackListener?.DeenPrayerNotificationFailed()
         }
     }
 

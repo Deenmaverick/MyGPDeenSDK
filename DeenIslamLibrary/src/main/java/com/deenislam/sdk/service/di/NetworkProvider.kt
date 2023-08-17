@@ -61,8 +61,8 @@ internal class NetworkProvider {
                     Deen.token.toString()
             }?.apply { acceessToken = Deen.token.toString() }*/
 
-            if(acceessToken.isNotEmpty()) {
-                instance?.authInterceptor = AuthInterceptor(userPrefDao).apply {
+           // if(acceessToken.isNotEmpty()) {
+                instance?.authInterceptor = AuthInterceptor().apply {
 
                     if (instance?.okHttpClient == null) {
                         /*val loggingInterceptor = HttpLoggingInterceptor()
@@ -73,7 +73,7 @@ internal class NetworkProvider {
                                 .addInterceptor(this)
                                 .build()
                     }
-                }
+                //}
             }
 
         }

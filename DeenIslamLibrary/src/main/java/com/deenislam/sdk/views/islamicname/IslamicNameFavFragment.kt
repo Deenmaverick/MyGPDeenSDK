@@ -141,9 +141,17 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
                     btn2?.isClickable = true
                     LoadingButton().getInstance(requireContext()).removeLoader()
                     customAlertDialog?.dismissDialog()
+
                     islamicNameFavAdapter.delItem(adapterPosition)
+
                     if (islamicNameFavAdapter.itemCount == 0)
                         emptyState()
+
+
+                    lifecycleScope.launch {
+                        viewmodel.clear()
+                    }
+
                     requireContext().toast("Favorite item updated successful")
                 }
 

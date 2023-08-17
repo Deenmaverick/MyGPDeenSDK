@@ -261,7 +261,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="Deen - v1.0.0"
+            android:text="@string/deen_version"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/deen_txt_black_deep"/>
 
@@ -271,7 +271,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="© 2023 Deen. All rights reserved"
+            android:text="@string/deen_all_rights_reserved"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_txt_ash"/>
 

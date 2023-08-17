@@ -11,26 +11,15 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.work.Constraints
-import androidx.work.Data
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.di.DatabaseProvider
-import com.deenislam.sdk.service.di.NetworkProvider
-import com.deenislam.sdk.service.repository.PrayerTimesRepository
-import com.deenislam.sdk.utils.MilliSecondToStringTime
-import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.sendNotification
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AlarmReceiver : BroadcastReceiver() {
+internal class AlarmReceiver : BroadcastReceiver() {
 
     private var mMediaPlayer: MediaPlayer? = null
 
@@ -52,34 +41,29 @@ class AlarmReceiver : BroadcastReceiver() {
             else ->
             {
 
-               /* val service = Intent(context, AlarmReceiverService::class.java)
+                val service = Intent(context, AlarmReceiverService::class.java)
                 service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )
                 service.putExtra("dismiss",intent.extras?.getString("dismiss").toString() )
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(service)
-                } else {
-                    context.startService(service)
-                }*/
+                context.startService(service)
              /*   val service = Intent(context, Notificationservice::class.java)
                 service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )
                 service.putExtra("dismiss",intent.extras?.getString("dismiss").toString() )
                 context.startService(service)
 */
-                val prayer_notification_id = intent.extras?.getInt("pid",0)?:0
+               /* val prayer_notification_id = intent.extras?.getInt("pid",0)?:0
 
                 Log.e("AlarmReceiver_Prayer", prayer_notification_id.toString())
 
                 if(prayer_notification_id>0) {
                     CoroutineScope(Dispatchers.IO).launch {
                         processNotification(prayer_notification_id, context)
-
                     }
                 }
 
                 val isNotificationDismiss = intent.extras?.getString("dismiss").toString()
 
                 if(isNotificationDismiss == "ok")
-                    AzanPlayer.releaseMediaPlayer()
+                    AzanPlayer.releaseMediaPlayer()*/
 
             }
         }
@@ -120,10 +104,10 @@ class AlarmReceiver : BroadcastReceiver() {
                     }
 
 
-                    clear_prayer_notification_by_id(it.id)
 
-                    val inputData = Data.Builder()
+                  /*  val inputData = Data.Builder()
                         .putString("prayerDate", it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
+                        .putInt("pid", it.id)
                         .build()
 
                     val constraints = Constraints.Builder()
@@ -137,7 +121,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
                     WorkManager.getInstance(context).enqueue(workRequest)
                     //reCheckNotification(it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
-
+*/
                 }
 
             }
@@ -160,20 +144,6 @@ class AlarmReceiver : BroadcastReceiver() {
 
         }
 
-    private suspend fun reCheckNotification(prayerDate: String)
-    {
-
-    }
-
-    private suspend fun clear_prayer_notification_by_id(pid:Int) =
-
-        withContext(Dispatchers.IO)
-        {
-            val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
-
-            prayerNotificationDao?.clearNotificationByID(pid)
-
-        }
 
     private fun get_prayer_name_by_tag(tag:String): String? =
          when(tag)

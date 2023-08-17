@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.SystemClock
 import android.util.Log
 import androidx.core.app.AlarmManagerCompat
+import com.deenislam.sdk.BuildConfig
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.database.dao.PrayerNotificationDao
 import com.deenislam.sdk.service.database.dao.PrayerTimesDao
@@ -63,8 +64,8 @@ internal class PrayerTimesRepository(
         body.put("location", localtion)
         body.put("language", language)
         body.put("requiredDate", requiredDate)
-        body.put("client_id", "myblsdk")
-        body.put("client_secret", "h8JD1vNStY")
+        body.put("client_id", BuildConfig.CLIENT_ID)
+        body.put("client_secret", BuildConfig.CLIENT_SECRET)
 
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
@@ -111,12 +112,10 @@ internal class PrayerTimesRepository(
 
                 getNotificationData(date = date, prayer_tag = prayer_tag)
 
-
                 if(prayerNotificationDao?.update(date,prayer_tag,state) !=0) {
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)
                     if(getNotificationData?.isNotEmpty() == true)
                     {
-                        setNotification(SystemClock.elapsedRealtime() + 5000, 1)
                         val pid = getNotificationData[0]?.id?:0
                         if(prayerTimesResponse!=null) {
                             val notifyTime = getPrayerTimeTagWise(prayer_tag, date, prayerTimesResponse)
@@ -364,7 +363,7 @@ internal class PrayerTimesRepository(
                         "",
                         prayerTimesResponse
                     )
-/*
+
 
                     updatePrayerNotification(
                         prayerDate,
@@ -396,7 +395,7 @@ internal class PrayerTimesRepository(
                         3,
                         "",
                         prayerTimesResponse
-                    )*/
+                    )
                 }
             }
 

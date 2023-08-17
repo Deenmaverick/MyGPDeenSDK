@@ -1,6 +1,7 @@
 package com.deenislam.sdk.service.repository
 
 import android.util.Log
+import com.deenislam.sdk.BuildConfig
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.database.dao.UserPrefDao
 import com.deenislam.sdk.service.database.entity.UserPref
@@ -14,6 +15,7 @@ import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.toRequestBody
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
@@ -27,8 +29,8 @@ internal class AuthenticateRepository(
 
         val body = JSONObject()
         body.put("msisdn",username)
-        body.put("client_id","")
-        body.put("client_secret","")
+        body.put("client_id",BuildConfig.CLIENT_ID)
+        body.put("client_secret",BuildConfig.CLIENT_SECRET)
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
@@ -95,8 +97,6 @@ internal class AuthenticateRepository(
 
                             makeApicall {
 
-
-
                                 val body = JSONObject()
                                 body.put("language", DeenSDKCore.language)
                                 body.put("msisdn", msisdn)
@@ -124,9 +124,10 @@ internal class AuthenticateRepository(
         }
     }
 
-    suspend fun authDeen(msisdn:String): String?
+    suspend fun authDeen(msisdn: String): String?
     {
-        val response = login(msisdn)
+
+        val response =  login(msisdn)
 
         val data = userPrefDao?.select()
 

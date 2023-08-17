@@ -31,7 +31,7 @@ internal class FavoriteDuaAdapter(
 
     fun delItem(position: Int)
     {
-        favList.removeAt(position)
+        favList.removeAt(if(position ==1)0 else position)
         notifyDataSetChanged()
     }
     override fun getItemCount(): Int = favList.size

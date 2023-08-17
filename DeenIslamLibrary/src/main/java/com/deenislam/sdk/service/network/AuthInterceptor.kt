@@ -5,9 +5,7 @@ import com.deenislam.sdk.service.database.dao.UserPrefDao
 import okhttp3.Interceptor
 import okhttp3.Response
 
-internal class AuthInterceptor(
-    private val userPrefDao: UserPrefDao?
-):Interceptor {
+internal class AuthInterceptor():Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
 
         /*val acceessToken =  runBlocking {

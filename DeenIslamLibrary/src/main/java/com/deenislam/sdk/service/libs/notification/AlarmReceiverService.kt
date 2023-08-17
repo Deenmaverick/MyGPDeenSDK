@@ -21,22 +21,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AlarmReceiverService: Service() {
-
+internal class AlarmReceiverService: Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        Log.e("AlarmReceiver_Prayer", "SERVICE CALLED")
-
+        val serviceContext:Context = this
         if(DeenSDKCore.appContext == null)
             DeenSDKCore.appContext = this.applicationContext
         if(DeenSDKCore.baseContext == null)
             DeenSDKCore.baseContext = this
-
-        val ServiceContext = this
+        if(DeenSDKCore.token.isEmpty())
+            DeenSDKCore.token = "MyBLSDK"
 
         AzanPlayer.releaseMediaPlayer()
 
@@ -46,8 +43,7 @@ class AlarmReceiverService: Service() {
 
         if(prayer_notification_id>0) {
             CoroutineScope(Dispatchers.IO).launch {
-                processNotification(prayer_notification_id, ServiceContext)
-
+                processNotification(prayer_notification_id, serviceContext)
             }
         }
 
@@ -56,12 +52,18 @@ class AlarmReceiverService: Service() {
         if(isNotificationDismiss == "ok")
             AzanPlayer.releaseMediaPlayer()
 
+
         return super.onStartCommand(intent, flags, startId)
     }
+
 
     private suspend fun processNotification(prayer_notification_id: Int, context: Context)
     {
         get_prayer_notification_data(prayer_notification_id)?.let {
+
+            if(it.state!=3 && it.state!=2)
+                return
+
 
             val prayerName = get_prayer_name_by_tag(it.prayer_tag)
 
@@ -92,13 +94,34 @@ class AlarmReceiverService: Service() {
                 }
 
 
-                clear_prayer_notification_by_id(it.id)
-                reCheckNotification(it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
+                val pid = it.id
+                val prayerDate = it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)
+
+                clear_prayer_notification_by_id(pid)
+
+                val prayerTimesRepository = PrayerTimesRepository(
+                    deenService = NetworkProvider().getInstance().provideDeenService(),
+                    prayerNotificationDao = DatabaseProvider().getInstance()
+                        .providePrayerNotificationDao(),
+                    prayerTimesDao = null
+                )
+
+                prayerTimesRepository.refill_prayer_notification_for_alarm_service(prayerDate)
 
             }
 
         }
     }
+
+    private suspend fun clear_prayer_notification_by_id(pid:Int) =
+
+        withContext(Dispatchers.IO)
+        {
+            val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
+
+            prayerNotificationDao?.clearNotificationByID(pid)
+
+        }
 
     private suspend fun get_prayer_notification_data(pid:Int): PrayerNotification? =
 
@@ -116,31 +139,6 @@ class AlarmReceiverService: Service() {
 
         }
 
-    private suspend fun reCheckNotification(prayerDate: String)
-    {
-        withContext(Dispatchers.IO)
-        {
-            val prayerTimesRepository = PrayerTimesRepository(
-                deenService = NetworkProvider().getInstance().provideDeenService(),
-                prayerNotificationDao = DatabaseProvider().getInstance()
-                    .providePrayerNotificationDao(),
-                prayerTimesDao = null
-            )
-
-            prayerTimesRepository.refill_prayer_notification_for_alarm_service(prayerDate)
-
-        }
-    }
-
-    private suspend fun clear_prayer_notification_by_id(pid:Int) =
-
-        withContext(Dispatchers.IO)
-        {
-            val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
-
-            prayerNotificationDao?.clearNotificationByID(pid)
-
-        }
 
     private fun get_prayer_name_by_tag(tag:String): String? =
         when(tag)

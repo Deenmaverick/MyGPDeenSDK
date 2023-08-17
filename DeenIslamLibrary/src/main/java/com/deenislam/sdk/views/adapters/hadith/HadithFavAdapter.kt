@@ -30,7 +30,7 @@ internal class HadithFavAdapter(
 
     fun delItem(position: Int)
     {
-        hadithDataList.removeAt(position)
+        hadithDataList.removeAt(if(position ==1)0 else position)
         notifyItemRemoved(position)
     }
 

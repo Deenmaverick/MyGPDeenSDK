@@ -1,20 +1,16 @@
 package com.deenislam.sdk.service.libs.notification
 
-import android.content.Context
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
-import com.deenislam.sdk.service.di.DatabaseProvider
-import com.deenislam.sdk.service.di.NetworkProvider
-import com.deenislam.sdk.service.repository.PrayerTimesRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-
-class AlarmReceiverWork(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+/*
+internal class AlarmReceiverWork(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         // Do your background task here
         // For example, an API call, database operation, etc.
+        val pid = inputData.getInt("pid",0)
         val prayerDate = inputData.getString("prayerDate")
+
+        clear_prayer_notification_by_id(pid)
+
         val prayerTimesRepository = PrayerTimesRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
             prayerNotificationDao = DatabaseProvider().getInstance()
@@ -30,4 +26,14 @@ class AlarmReceiverWork(context: Context, params: WorkerParameters) : CoroutineW
         // Return the result of your task
         return Result.success()
     }
-}
+
+    private suspend fun clear_prayer_notification_by_id(pid:Int) =
+
+        withContext(Dispatchers.IO)
+        {
+            val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
+
+            prayerNotificationDao?.clearNotificationByID(pid)
+
+        }
+}*/

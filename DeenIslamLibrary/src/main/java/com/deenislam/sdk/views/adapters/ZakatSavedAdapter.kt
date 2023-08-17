@@ -38,7 +38,7 @@ internal class ZakatSavedAdapter(
 
     fun delItem(position: Int)
     {
-        savedZakatList.removeAt(position)
+        savedZakatList.removeAt(if(position ==1)0 else position)
         notifyItemRemoved(position)
     }
 

@@ -11,6 +11,7 @@ import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.PRIVACY_URL
 import com.deenislam.sdk.utils.TERMS_URL
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.button.MaterialButton
@@ -39,7 +40,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val mainview = layoutInflater.inflate(R.layout.fragment_more,container,false)
+        val mainview = localInflater.inflate(R.layout.fragment_more,container,false)
 
         //init view
         settingLayout = mainview.findViewById(R.id.settingLayout)
@@ -65,7 +66,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        username.text =  if(!DeenSDKCore.msisdn.first().equals("+")) "+${DeenSDKCore.msisdn}" else DeenSDKCore.msisdn
+        username.text =  if(!DeenSDKCore.msisdn.first().equals("+")) "+${DeenSDKCore.msisdn.numberLocale()}" else DeenSDKCore.msisdn.numberLocale()
 
         settingLayout.setOnClickListener {
             gotoFrag(R.id.action_moreFragment_to_settingFragment)

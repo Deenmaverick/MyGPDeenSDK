@@ -31,5 +31,9 @@ internal abstract class PrayerNotificationDao: BaseDao<PrayerNotification> {
     @Query("SELECT * from prayer_notification where state=3 or state=2")
     abstract fun select_all_activate_notification():List<PrayerNotification>
 
+    @Query("SELECT * from prayer_notification where id=:pid and (state=3 or state=2)")
+    abstract fun select_active_notification(pid:Int):List<PrayerNotification>
+
+
 
 }
