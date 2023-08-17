@@ -127,7 +127,7 @@ internal class PrayerTimesRepository(
 
                             else if (notifyTime > 0L) {
 
-                                setNotification(SystemClock.elapsedRealtime() + 5000, pid)
+                                setNotification(SystemClock.elapsedRealtime() + notifyTime, pid)
                                 return@withContext  1
                             }
                             else
