@@ -87,7 +87,7 @@ internal class IslamicNameFragment : BaseRegularFragment() {
 
         mPageDestination = arrayListOf(
             IslamicNameHomeFragment(),
-            IslamicNameFavFragment()
+            IslamicNameFavFavFragment()
         )
 
         mainViewPagerAdapter = MainViewPagerAdapter(

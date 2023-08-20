@@ -184,9 +184,6 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
                     }
                     customAlertDialog?.dismissDialog()
 
-                    lifecycleScope.launch {
-                        viewmodel.clearFavDuaLiveData()
-                    }
                 }
             }
         }
@@ -221,6 +218,13 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
             progressLayout.hide()
             nodataLayout.hide()
             noInternetLayout.hide()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        lifecycleScope.launch {
+            viewmodel.clearFavDuaLiveData()
         }
     }
 

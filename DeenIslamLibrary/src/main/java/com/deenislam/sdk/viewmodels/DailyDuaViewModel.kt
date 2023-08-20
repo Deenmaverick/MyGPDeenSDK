@@ -162,6 +162,7 @@ internal class DailyDuaViewModel(
 
     fun clearFavDuaLiveData()
     {
+        _duaPreviewLiveData.value = CommonResource.CLEAR
         _favDuaLiveData.value = CommonResource.CLEAR
     }
 

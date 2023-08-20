@@ -25,12 +25,13 @@ import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.IslamicNameViewModel
 import com.deenislam.sdk.views.adapters.islamicname.IslamicNameAdapter
 import com.deenislam.sdk.views.adapters.islamicname.IslamicNameAdapterCallback
+import com.deenislam.sdk.views.adapters.islamicname.IslamicNameFavAdapterCallback
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.launch
 
-internal class IslamicNameViewFragment : BaseRegularFragment(),IslamicNameAdapterCallback {
+internal class IslamicNameViewFragment : BaseRegularFragment(), IslamicNameAdapterCallback {
 
     private lateinit var listView: RecyclerView
     private lateinit var progressLayout: LinearLayout

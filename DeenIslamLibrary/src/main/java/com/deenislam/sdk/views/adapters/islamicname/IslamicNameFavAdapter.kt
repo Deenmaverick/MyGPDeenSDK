@@ -1,4 +1,4 @@
-package com.deenislam.views.adapters.islamicname;
+package com.deenislam.sdk.views.adapters.islamicname;
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,7 @@ import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class IslamicNameFavAdapter(
-    private val callback: IslamicNameAdapterCallback
+    private val callback: IslamicNameFavAdapterCallback
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private val favData:ArrayList<Data> = arrayListOf()
@@ -65,7 +65,7 @@ internal class IslamicNameFavAdapter(
     }
 }
 
-internal interface IslamicNameAdapterCallback
+internal interface IslamicNameFavAdapterCallback
 {
     fun delFav(data: Data, position: Int)
 }

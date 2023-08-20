@@ -25,13 +25,14 @@ import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.IslamicNameViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislam.views.adapters.islamicname.IslamicNameAdapterCallback
-import com.deenislam.views.adapters.islamicname.IslamicNameFavAdapter
+import com.deenislam.sdk.views.adapters.islamicname.IslamicNameFavAdapterCallback
+import com.deenislam.sdk.views.adapters.islamicname.IslamicNameFavAdapter
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
 
-internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallback,IslamicNameAdapterCallback {
+internal class IslamicNameFavFavFragment : BaseRegularFragment(), CustomDialogCallback,
+    IslamicNameFavAdapterCallback {
 
     private lateinit var listView: RecyclerView
     private lateinit var progressLayout: LinearLayout
@@ -43,7 +44,7 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
 
     private var favData: Data? =null
     private var adapterPosition:Int = -1
-    private val islamicNameFavAdapter: IslamicNameFavAdapter by lazy { IslamicNameFavAdapter(this@IslamicNameFavFragment) }
+    private val islamicNameFavAdapter: IslamicNameFavAdapter by lazy { IslamicNameFavAdapter(this@IslamicNameFavFavFragment) }
 
     private lateinit var viewmodel: IslamicNameViewModel
 
@@ -73,7 +74,7 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
 
         customAlertDialog = CustomAlertDialog().getInstance()
         customAlertDialog?.setupDialog(
-            callback = this@IslamicNameFavFragment,
+            callback = this@IslamicNameFavFavFragment,
             context = requireContext(),
             btn1Text = localContext.getString(R.string.cancel),
             btn2Text = localContext.getString(R.string.delete),
@@ -147,10 +148,6 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
                     if (islamicNameFavAdapter.itemCount == 0)
                         emptyState()
 
-
-                    lifecycleScope.launch {
-                        viewmodel.clear()
-                    }
 
                     requireContext().toast("Favorite item updated successful")
                 }
