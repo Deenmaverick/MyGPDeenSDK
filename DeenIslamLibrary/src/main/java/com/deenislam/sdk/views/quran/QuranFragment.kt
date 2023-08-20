@@ -44,8 +44,6 @@ internal class QuranFragment : BaseRegularFragment() {
 
     private var firstload =false
 
-
-
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this,true)

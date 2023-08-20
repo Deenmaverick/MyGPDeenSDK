@@ -300,10 +300,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                 // NestedScrollView has scrolled to the end
                 if(isNextEnabled && alQuranAyatAdapter.itemCount>0) {
                     //binding.container.setScrollingEnabled(false)
+                    morePageBottomLoading(true)
                     nextPageAPICalled = true
                     fetchNextPageData()
                     Log.e("ALQURAN_SCROLL","END")
-                    morePageBottomLoading(true)
+
                 }
                 else
                     morePageBottomLoading(false)
@@ -373,7 +374,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     private fun morePageBottomLoading(bol:Boolean)
     {
-        binding.lastItemLoadingProgress.visible(bol && isReadingMode)
+        binding.lastItemLoadingProgress.visible(bol)
     }
 
     private fun setHeaderData()
