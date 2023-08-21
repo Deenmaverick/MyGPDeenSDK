@@ -140,7 +140,7 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     {
         lifecycleScope.launch {
 
-            viewmodel.getMonthlyData("Dhaka", "bn")
+            viewmodel.getMonthlyData("Dhaka", getLanguage())
         }
     }
 

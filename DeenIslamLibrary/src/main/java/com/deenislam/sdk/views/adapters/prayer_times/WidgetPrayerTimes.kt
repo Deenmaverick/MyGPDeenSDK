@@ -219,7 +219,7 @@ internal class WidgetPrayerTimes(
                                 prayerCheck.isChecked = prayerIsChecked
                                 return@setOnClickListener
                             }
-                            else if(todayDate != it1 && prayer_tag!="pt1")
+                            else if(todayDate != it1)
                             {
                                 prayerCheck.context.toast("দুঃখিত পূর্ববর্তী তারিখ ট্র্যাক করা সম্ভব নয়")
                                 prayerCheck.isChecked = prayerIsChecked

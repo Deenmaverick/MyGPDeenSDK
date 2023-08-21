@@ -187,7 +187,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     fun loadDataAPI()
     {
-
             loadingState()
             lifecycleScope.launch {
                 viewmodel.getPrayerTimes("Dhaka", getLanguage(), prayerdate)
