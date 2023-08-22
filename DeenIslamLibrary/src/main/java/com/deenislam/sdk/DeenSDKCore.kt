@@ -101,7 +101,7 @@ object DeenSDKCore {
         return true
     }
 
-    private fun authSDK(context: Context, getmsisdn:String, callback: DeenSDKCallback? = null)
+     fun authSDK(context: Context, getmsisdn:String, callback: DeenSDKCallback? = null)
     {
 
         this.baseContext = context

@@ -79,11 +79,11 @@ internal class AlQuranAyatAdapter(
     {
         if(previousCallbackPosition>=0 && previousCallbackPosition!=position) {
             isPlaying = false
-            notifyDataSetChanged()
+            notifyItemChanged(previousCallbackPosition)
         }
         if(position>=0) {
             isPlaying = true
-            notifyDataSetChanged()
+            notifyItemChanged(position)
         }
     }
 
@@ -92,12 +92,12 @@ internal class AlQuranAyatAdapter(
         isPlaying = false
         AudioManager().getInstance().releasePlayer()
         if(previousCallbackPosition>=0 && previousCallbackPosition!=position) {
-            //notifyItemChanged(previousCallbackPosition)
-            notifyDataSetChanged()
+            notifyItemChanged(previousCallbackPosition)
+            //notifyDataSetChanged()
         }
         if(position>=0)
-            notifyDataSetChanged()
-        //notifyItemChanged(position)
+        //notifyDataSetChanged()
+            notifyItemChanged(position)
 
     }
 
@@ -119,21 +119,30 @@ internal class AlQuranAyatAdapter(
             isMiniPlayerCall = true
         }
 
-        notifyDataSetChanged()
+        if(previousCallbackPosition>=0)
+            notifyItemChanged(previousCallbackPosition)
     }
 
     fun miniPlayerPrevCall()
     {
         if(previousCallbackPosition>=0)
         {
+
+            // change already playing item
+            isPlaying = false
+            isMiniPlayerCall = true
+
+            notifyItemChanged(previousCallbackPosition)
+
             previousCallbackPosition--
             AudioManager().getInstance().releasePlayer()
             callback.isAyatPause()
 
             isPlaying = true
-            isMiniPlayerCall = true
+            //isMiniPlayerCall = true
 
-            notifyDataSetChanged()
+            //notifyDataSetChanged()
+            notifyItemChanged(previousCallbackPosition)
         }
 
     }
@@ -142,14 +151,20 @@ internal class AlQuranAyatAdapter(
     {
 
         if(previousCallbackPosition+1<data.size) {
+
+            isPlaying = false
+            isMiniPlayerCall = true
+            notifyItemChanged(previousCallbackPosition)
+
             previousCallbackPosition++
             AudioManager().getInstance().releasePlayer()
             callback.isAyatPause()
 
             isPlaying = true
-            isMiniPlayerCall = true
 
-            notifyDataSetChanged()
+            notifyItemChanged(previousCallbackPosition)
+
+            //notifyDataSetChanged()
         }
 
     }
@@ -159,33 +174,34 @@ internal class AlQuranAyatAdapter(
     {
         data.addAll(surahData)
         if(!isReadingMode)
+        // notifyItemRangeInserted(data.size - surahData.size, surahData.size)
             notifyItemInserted(data.size - 1)
         else
-            notifyDataSetChanged()
+            notifyItemRangeChanged(0,1)
     }
 
     fun update_theme_font_size(fontsize: Float)
     {
         theme_font_size = fontsize
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     fun update_translation_font_size(fontsize: Float)
     {
         translation_font_size = fontsize
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     fun update_transliteration(bol:Boolean)
     {
         setting_transliteration = bol
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     fun update_auto_play_next(bol:Boolean)
     {
         auto_play_next = bol
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     fun getDataSize() = data.size

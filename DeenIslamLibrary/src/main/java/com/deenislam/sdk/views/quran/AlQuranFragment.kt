@@ -357,6 +357,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             }
         })
 
+        // get player setting data
+        loadPlayerSetting()
+
     }
 
     private fun clearPlayerControlBtn()
@@ -457,10 +460,22 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                     it.setting?.transliteration?.let { it1 -> alQuranAyatAdapter.update_transliteration(it1) }
                     it.setting?.auto_scroll?.let { it1 -> auto_scroll = it1 }
                     it.setting?.auto_play_next?.let { it1 -> alQuranAyatAdapter.update_auto_play_next(it1) }
+
+                    updateAyatAdapterVisibleItems()
                 }
 
             }
         }
+    }
+
+    private fun updateAyatAdapterVisibleItems() {
+        val layoutManager = binding.ayatList.layoutManager as LinearLayoutManager
+        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+        val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+
+        val visibleItemCount = lastVisiblePosition - firstVisiblePosition + 1
+
+        alQuranAyatAdapter.notifyItemRangeChanged(firstVisiblePosition, visibleItemCount)
     }
 
     private fun update_theme_font_size(fontsize: Float,isTranslationFont:Boolean=false,isThemeFont:Boolean=false)
@@ -572,9 +587,17 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                 alQuranViewModel.getVersesByChapter(getLanguage(),page,itemCount,surahNo)
             else if(juz_number!=null)
                 alQuranViewModel.getVersesByJuz(getLanguage(),page,itemCount,juz_number)
+        }
+    }
+
+    private fun loadPlayerSetting()
+    {
+        lifecycleScope.launch {
             playerControlViewModel.getSetting()
         }
     }
+
+
     private fun viewState()
     {
         fetchNextPageData()
@@ -772,7 +795,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         surahDetailsData.clear()
         alQuranAyatAdapter.clear()
         surahListData = args.suraList.chapters[position]
-        pageTitle = args.suraList.chapters[position].name_simple
+        pageTitle = args.suraList.chapters[position].name_simple.surahNameLocale()
         setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,requireView())
         setupMiniPlayerData()
         setHeaderData()
@@ -787,7 +810,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         surahDetailsData.clear()
         alQuranAyatAdapter.clear()
         quranJuz = quranJuzList?.juzs?.get(position)
-        pageTitle = "Juz (Para) ${quranJuzList?.juzs?.get(position)?.juz_number}"
+        pageTitle =  localContext.resources.getString(R.string.quran_para_adapter_title,quranJuzList?.juzs?.get(position)?.juz_number.toString().numberLocale())
         setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,requireView())
         setupMiniPlayerData()
         setHeaderData()
