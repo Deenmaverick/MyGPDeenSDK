@@ -113,10 +113,7 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
 
         listView.apply {
 
-            val margins = (layoutParams as ConstraintLayout.LayoutParams).apply {
-                topMargin = 12.dp
-            }
-            layoutParams = margins
+            setPadding(0,12.dp,0,0)
 
             overScrollMode = View.OVER_SCROLL_NEVER
             adapter = hadithPreviewAdapter

@@ -22,7 +22,10 @@ internal class AuthInterceptor():Interceptor {
         val acceessToken = DeenSDKCore.token
 
         var request = chain.request()
-        request = request.newBuilder().header("Authorization", "Bearer $acceessToken").build()
+        request = request.newBuilder()
+            .header("device", "blsdk_android")
+            .header("Authorization", "Bearer $acceessToken")
+            .build()
         return chain.proceed(request)
     }
 

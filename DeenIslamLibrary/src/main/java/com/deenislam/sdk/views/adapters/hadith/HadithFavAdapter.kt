@@ -25,13 +25,13 @@ internal class HadithFavAdapter(
     fun update(data: ArrayList<Data>)
     {
         hadithDataList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(hadithDataList.size - 1)
     }
 
     fun delItem(position: Int)
     {
         hadithDataList.removeAt(if(position ==1)0 else position)
-        notifyDataSetChanged()
+        notifyItemRemoved(position)
     }
 
     override fun getItemCount(): Int = hadithDataList.size

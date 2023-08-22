@@ -25,7 +25,7 @@ internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>(
     {
         tasbeehData.clear()
         tasbeehData.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(data.size-1)
     }
     override fun getItemCount(): Int = tasbeehData.size
 

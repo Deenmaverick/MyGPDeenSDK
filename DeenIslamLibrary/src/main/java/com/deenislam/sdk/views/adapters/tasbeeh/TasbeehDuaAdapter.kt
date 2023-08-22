@@ -44,7 +44,7 @@ internal class TasbeehDuaAdapter(
     fun update(pos:Int)
     {
         selectedPos = pos
-        notifyDataSetChanged()
+        notifyItemChanged(pos)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {

@@ -32,7 +32,7 @@ internal class TodayDuaAdapter(
     {
         todayDuaList.clear()
         todayDuaList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(data.size-1)
     }
 
     fun update(position: Int, fav: Boolean)

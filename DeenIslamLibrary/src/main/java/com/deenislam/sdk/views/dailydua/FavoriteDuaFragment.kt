@@ -253,7 +253,7 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
         btn2?.text = btn2?.let { LoadingButton().getInstance(requireContext()).loader(it) }
 
         lifecycleScope.launch {
-            viewmodel.setFavDua(isFavorite = true, duaId = duaID, language = "bn",adapterPosition)
+            viewmodel.setFavDua(isFavorite = true, duaId = duaID, language = getLanguage(),adapterPosition)
         }
     }
 }

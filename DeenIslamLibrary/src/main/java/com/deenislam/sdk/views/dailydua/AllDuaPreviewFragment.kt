@@ -107,7 +107,7 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(), DuaByCatCallback {
     private fun loadApiData()
     {
         lifecycleScope.launch {
-            viewmodel.getDuaByCategory(args.category,"bn")
+            viewmodel.getDuaByCategory(args.category,getLanguage())
         }
     }
 
