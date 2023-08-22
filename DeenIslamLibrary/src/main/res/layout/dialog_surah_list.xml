@@ -80,7 +80,7 @@
             android:id="@+id/search_surah"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:hint="@string/search_surah"
+            android:hint="@string/search"
             android:paddingTop="@dimen/space_13.5"
             android:paddingBottom="@dimen/space_13.5"
             android:inputType="text"

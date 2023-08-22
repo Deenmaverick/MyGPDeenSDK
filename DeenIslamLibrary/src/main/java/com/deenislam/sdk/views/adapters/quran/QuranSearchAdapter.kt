@@ -8,6 +8,7 @@ import android.widget.Filterable
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.quran.juz.Juz
 import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
@@ -54,9 +55,13 @@ internal class SelectSurahAdapter(
 
                 val surahPost = surahFilter[position].id
 
-                surahCount.text = surahPost.toString().numberLocale()
-                surahName.text = surahFilter[position].name_simple.surahNameLocale()
-                surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahList[position].translated_name.name+" • ",surahList[position].verses_count.toString().numberLocale())
+                surahCount.text = surahFilter[position].id.toString().numberLocale()
+                surahName.text =
+                    if(DeenSDKCore.language == "bn") (surahFilter[position].id-1).getSurahNameBn()
+                    else
+                        surahFilter[position].name_simple
+
+                arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
                 arbSurah.text =
                     "${if (surahPost < 10) 0 else ""}${if (surahPost < 100) 0 else ""}${surahPost}"
                 itemView.setOnClickListener {
@@ -74,8 +79,8 @@ internal class SelectSurahAdapter(
 
                 val juzData = juzFilter?.get(position)
 
-                surahCount.text = juzData?.juz_number.toString()
-                surahName.text = "Juz (Para) ${juzData?.juz_number}"
+                surahCount.text = juzData?.juz_number.toString().numberLocale()
+                surahName.text =   surahName.context.resources.getString(R.string.quran_para_adapter_title,juzData?.juz_number.toString().numberLocale())
 
                 val verse_mapping = juzData?.verse_mapping?.let { it::class.java.declaredFields }
                 var suraSubTxt = ""
@@ -88,7 +93,9 @@ internal class SelectSurahAdapter(
                             val value = surah.get(juzData.verse_mapping)
 
                             if (value is String && value.isNotEmpty()) {
-                                suraSubTxt += "${surahList[surah.name.toInt()-1].name_simple} "
+                                suraSubTxt += if(DeenSDKCore.language == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
+                                else
+                                    "${surahList[surah.name.toInt()-1].name_simple} "
                             }
                         }
                     }

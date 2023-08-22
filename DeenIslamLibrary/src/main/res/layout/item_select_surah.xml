@@ -39,22 +39,23 @@
             app:layout_constraintStart_toEndOf="@id/surahCount"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/surahSub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="@dimen/space_9"
-            android:layout_marginBottom="@dimen/space_10"
-            android:text="The Opener • 7 Ayahs"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_txt_ash"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/surahName"
-            app:layout_constraintStart_toEndOf="@id/surahCount"
-            />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/surahSub"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="@dimen/space_12"
+        android:layout_marginStart="@dimen/space_9"
+        android:layout_marginBottom="@dimen/space_10"
+        android:text="The Opener • 7 Ayahs"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/deen_txt_ash"
+        app:layout_constraintEnd_toStartOf="@+id/arbSurah"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/surahName"
+        app:layout_constraintStart_toEndOf="@id/surahCount"
+        />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/arbSurah"
