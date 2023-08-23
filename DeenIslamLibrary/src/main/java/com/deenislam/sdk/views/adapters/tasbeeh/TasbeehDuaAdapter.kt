@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.adapters.tasbeeh;
 
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,8 @@ internal class TasbeehDuaAdapter(
     fun update(pos:Int)
     {
         selectedPos = pos
-        notifyItemChanged(pos)
+        notifyDataSetChanged()
+
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -61,8 +63,12 @@ internal class TasbeehDuaAdapter(
         override fun onBind(position: Int) {
             super.onBind(position)
 
+
             if(selectedPos==position)
             {
+
+                Log.e("RecyclerViewDebug", "Styling position $position as selected")
+
                 itemView.isEnabled = false
                 item_bg.setBackgroundResource(R.drawable.tasbeeh_dua_gradiant)
                 dhikrCount.setTextColor(ContextCompat.getColor(name.context,R.color.deen_white))

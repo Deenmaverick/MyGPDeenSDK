@@ -14,17 +14,17 @@ internal class TasbeehRepository(
     suspend fun getDuaData(duaid:Int) =
     withContext(Dispatchers.IO){
 
-         val duaList:ArrayList<Tasbeeh> = arrayListOf(
-             Tasbeeh(id=0,dua="", dua_bn = "", dua_arb = ""),
-             Tasbeeh(id=1,dua="Subhan Allah", dua_bn = "সুবহান আল্লাহ", dua_arb = "سُبْحَانَ ٱللَّ"),
-             Tasbeeh(id=2,dua="Alhamdulillah", dua_bn = "আলহামদুলিল্লাহ", dua_arb = "ٱلْحَمْدُ لِلَّهِ"),
-             Tasbeeh(id=3,dua="Bismillah", dua_bn = "বিসমিল্লাহ", dua_arb = "بِسْمِ اللهِ"),
-             Tasbeeh(id=4,dua="Allahu Akbar", dua_bn = "আল্লাহু আকবার", dua_arb = "الله أكبر"),
-             Tasbeeh(id=5,dua="Astagfirullah", dua_bn = "আস্তাগফিরুল্লাহ", dua_arb = "أَسْتَغْفِرُ اللّٰهَ"),
-             Tasbeeh(id=6,dua="Allah", dua_bn = "আল্লাহ", dua_arb = "الله"),
-             Tasbeeh(id=7,dua="La Ilaha illa Allah", dua_bn = "লা ইলাহা ইল্লাল্লাহ", dua_arb = "لَا إِلَٰهَ إِلَّا ٱللَّ"),
-             Tasbeeh(id=8,dua="Subhanallahi Wa-Bihamdihi", dua_bn = "সুবহানাল্লাহি ওয়া-বিহামদিহি", dua_arb = "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ")
-         )
+        val duaList:ArrayList<Tasbeeh> = arrayListOf(
+
+            Tasbeeh(id=1,dua="Subhan Allah", dua_bn = "সুবহান আল্লাহ", dua_arb = "سُبْحَانَ ٱللَّ"),
+            Tasbeeh(id=2,dua="Alhamdulillah", dua_bn = "আলহামদুলিল্লাহ", dua_arb = "ٱلْحَمْدُ لِلَّهِ"),
+            Tasbeeh(id=3,dua="Bismillah", dua_bn = "বিসমিল্লাহ", dua_arb = "بِسْمِ اللهِ"),
+            Tasbeeh(id=4,dua="Allahu Akbar", dua_bn = "আল্লাহু আকবার", dua_arb = "الله أكبر"),
+            Tasbeeh(id=5,dua="Astagfirullah", dua_bn = "আস্তাগফিরুল্লাহ", dua_arb = "أَسْتَغْفِرُ اللّٰهَ"),
+            Tasbeeh(id=6,dua="Allah", dua_bn = "আল্লাহ", dua_arb = "الله"),
+            Tasbeeh(id=7,dua="La Ilaha illa Allah", dua_bn = "লা ইলাহা ইল্লাল্লাহ", dua_arb = "لَا إِلَٰهَ إِلَّا ٱللَّ"),
+            Tasbeeh(id=8,dua="Subhanallahi Wa-Bihamdihi", dua_bn = "সুবহানাল্লাহি ওয়া-বিহামদিহি", dua_arb = "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ")
+        )
 
         val tasbeehData = tasbeehDao?.select(duaid)
 
