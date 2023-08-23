@@ -97,7 +97,6 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
     override fun onResume() {
         super.onResume()
         val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
-
         setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
     }

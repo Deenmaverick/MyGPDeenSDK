@@ -149,10 +149,6 @@ internal class MainActivity : AppCompatActivity() {
 
     }
 
-    /*override fun onBackPressed() {
-
-        activityCallback?.activityBackpress()
-    }*/
 
     fun changeLanguage()
     {

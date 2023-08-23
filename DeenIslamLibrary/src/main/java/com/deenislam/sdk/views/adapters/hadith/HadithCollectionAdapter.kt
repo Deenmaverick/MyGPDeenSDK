@@ -30,7 +30,7 @@ internal class HadithCollectionAdapter(
     {
         collectionList.clear()
         collectionList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemChanged(data.size-1)
     }
     override fun getItemCount(): Int = collectionList.size
 

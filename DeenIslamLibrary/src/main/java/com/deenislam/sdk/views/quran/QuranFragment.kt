@@ -79,6 +79,29 @@ internal class QuranFragment : BaseRegularFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
+        loadpage()
+        startPostponedEnterTransition()
+    }
+
+    private fun loadpage()
+    {
+
+        if(!firstload) {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.msisdn,
+                    pagename = "quran",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        firstload = true
+
+
+        initViewPager()
 
         header.post {
             val param = _viewPager.layoutParams as ViewGroup.MarginLayoutParams
@@ -104,24 +127,11 @@ internal class QuranFragment : BaseRegularFragment() {
             changeViewPagerPos(2)
         }
 
-      /*  myquranBtn.setOnClickListener {
-            changeViewPagerPos(3)
-        }*/
+        /*  myquranBtn.setOnClickListener {
+              changeViewPagerPos(3)
+          }*/
 
-        initViewPager()
 
-        if(!firstload) {
-            lifecycleScope.launch {
-                setTrackingID(get9DigitRandom())
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
-                    pagename = "quran",
-                    trackingID = getTrackingID()
-                )
-            }
-        }
-        firstload = true
     }
 
 
@@ -142,12 +152,6 @@ internal class QuranFragment : BaseRegularFragment() {
 
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //this.onBackPressedCallback.isEnabled = false
-        Log.e("onBackPress", "QURAN HOME PAUSE")
-    }
 
     private fun initViewPager()
     {

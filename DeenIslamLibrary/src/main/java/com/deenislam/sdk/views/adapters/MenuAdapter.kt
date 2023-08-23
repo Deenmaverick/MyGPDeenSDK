@@ -31,8 +31,7 @@ internal class MenuAdapter(
     {
         menuList.clear()
         menuList.addAll(services)
-
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount)
 
     }
 

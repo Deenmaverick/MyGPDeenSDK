@@ -31,7 +31,7 @@ internal class AllDuaAdapter(
     {
         categoryList.clear()
         categoryList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount)
     }
 
     override fun getItemCount(): Int = categoryList.size

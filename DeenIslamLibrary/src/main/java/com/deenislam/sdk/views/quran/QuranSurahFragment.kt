@@ -157,7 +157,6 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
             overScrollMode = View.OVER_SCROLL_NEVER
             post {
                 initObserver()
-
             }
         }
 

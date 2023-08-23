@@ -175,7 +175,7 @@ internal class AlQuranAyatAdapter(
         data.addAll(surahData)
         if(!isReadingMode)
         // notifyItemRangeInserted(data.size - surahData.size, surahData.size)
-            notifyItemInserted(data.size - 1)
+            notifyItemInserted(itemCount)
         else
             notifyItemRangeChanged(0,1)
     }

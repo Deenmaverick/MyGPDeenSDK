@@ -31,7 +31,7 @@ internal class DuaByCatAdapter(
     {
         duaList.clear()
         duaList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount)
     }
 
     fun update(position: Int, fav: Boolean)

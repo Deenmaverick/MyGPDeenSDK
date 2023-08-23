@@ -26,7 +26,7 @@ internal class IslamicNameAdapter(
     {
         islamicNameData.clear()
         islamicNameData.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount)
     }
 
     fun favUpdate(adapterPosition: Int, bol: Boolean)

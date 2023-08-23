@@ -26,7 +26,7 @@ internal class HadithChapterAdapter(
     {
         chapterList.clear()
         chapterList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount)
     }
 
     override fun getItemCount(): Int = chapterList.size

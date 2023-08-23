@@ -2,6 +2,7 @@ package com.deenislam.sdk.views.base
 
 import android.content.Context
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,8 @@ internal abstract class BaseRegularFragment: Fragment() {
     lateinit var localContext:Context
     lateinit var localInflater: LayoutInflater
     private lateinit var childFragment: Fragment
+    private var lastClickTime = 0L
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,6 +115,11 @@ internal abstract class BaseRegularFragment: Fragment() {
     open fun onBackPress() {
 
         Log.e("onBackPress","REGULAR")
+        val currentTime = SystemClock.elapsedRealtime()
+        if (currentTime - lastClickTime < 500) {
+            return  // The click is too fast, ignore it
+        }
+        lastClickTime = currentTime
 
         if(isVisible) {
             isBackPressed = true
@@ -124,9 +132,10 @@ internal abstract class BaseRegularFragment: Fragment() {
 
                 if (findNavController().previousBackStackEntry?.destination?.id?.equals(
                         findNavController().graph.startDestinationId
-                    ) != true
-                )
+                    ) != true)
                     findNavController().popBackStack()
+                else
+                    setupOtherFragment(false)
             }
         }
 
@@ -208,7 +217,7 @@ internal abstract class BaseRegularFragment: Fragment() {
             btnBack.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.ic_back))
             btnBack.visible(true)
             btnBack.setOnClickListener {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                this.requireActivity().onBackPressedDispatcher.onBackPressed()
             }
             title.text = actionnBartitle
             title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_txt_black_deep))

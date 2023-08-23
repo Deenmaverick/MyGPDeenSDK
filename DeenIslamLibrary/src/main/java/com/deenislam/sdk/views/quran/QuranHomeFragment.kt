@@ -53,7 +53,6 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
         super.OnCreate()
         //setupBackPressCallback(this)
 
-
         // init viewmodel
         val repository = SurahRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
@@ -104,12 +103,13 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
     {
             ViewCompat.setTranslationZ(progressLayout, 10F)
 
-           /* recentRC.apply {
-                adapter = RecentlyReadAdapter()
-                ViewPagerHorizontalRecyler().getInstance().load(this)
-                overScrollMode = View.OVER_SCROLL_NEVER
 
-            }*/
+        /* recentRC.apply {
+             adapter = RecentlyReadAdapter()
+             ViewPagerHorizontalRecyler().getInstance().load(this)
+             overScrollMode = View.OVER_SCROLL_NEVER
+
+         }*/
 
             popularSurahAdapter = PopularSurahAdapter(this@QuranHomeFragment)
 
@@ -117,19 +117,16 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
                 adapter = popularSurahAdapter
                 overScrollMode = View.OVER_SCROLL_NEVER
 
-                runWhenReady {
-                    initObserver()
-
-                    if(firstload == 0)
-                        loadAPI()
-                    firstload = 1
-
-                }
             }
 
             no_internet_retryBtn.setOnClickListener {
                 loadAPI()
             }
+
+        initObserver()
+        if(firstload == 0)
+            loadAPI()
+        firstload = 1
 
     }
 
@@ -157,12 +154,6 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //onBackPressedCallback.isEnabled = false
-        //onBackPressedCallback.remove()
-        Log.e("onBackPress", "QURAN HOME PAUSE")
-    }
 
     private fun loadingState()
     {

@@ -39,7 +39,7 @@ internal class PopularSurahAdapter(
     {
         surahList.clear()
         surahList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount)
     }
 
     override fun getItemViewType(position: Int): Int =

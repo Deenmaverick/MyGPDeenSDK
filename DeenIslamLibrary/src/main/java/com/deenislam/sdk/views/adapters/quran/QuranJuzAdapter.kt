@@ -33,14 +33,14 @@ internal class QuranJuzAdapter(
     {
         juzList.clear()
         juzList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount)
     }
 
     fun updateSurahList(data: List<Chapter>)
     {
         surahList.clear()
         surahList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount)
 
     }
     override fun getItemCount(): Int = juzList.size

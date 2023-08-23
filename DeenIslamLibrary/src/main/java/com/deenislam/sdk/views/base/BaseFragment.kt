@@ -2,6 +2,7 @@ package com.deenislam.sdk.views.base
 
 import android.content.Context
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     lateinit var childFragment: Fragment
     private var isBackPressed:Boolean = false
     private var isHomePage:Boolean = false
+    private var lastClickTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -186,6 +188,12 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
         Log.e("onBackPress","BASE")
 
+        val currentTime = SystemClock.elapsedRealtime()
+        if (currentTime - lastClickTime < 500) {
+            return  // The click is too fast, ignore it
+        }
+        lastClickTime = currentTime
+
         if(isVisible) {
             isBackPressed = true
 
@@ -200,6 +208,8 @@ internal abstract class BaseFragment<VB:ViewBinding>(
                     ) != true
                 )
                     findNavController().popBackStack()
+                else
+                    setupOtherFragment(false)
             }
 
         }
@@ -249,7 +259,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
             btnBack.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.ic_back))
             btnBack.visible(true)
             btnBack.setOnClickListener {
-                onBackPress()
+                this.requireActivity().onBackPressedDispatcher.onBackPressed()
             }
             title.text = actionnBartitle
             title.setTextColor(ContextCompat.getColor(title.context, R.color.deen_txt_black_deep))

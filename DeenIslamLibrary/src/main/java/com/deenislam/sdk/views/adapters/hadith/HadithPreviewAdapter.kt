@@ -43,7 +43,7 @@ internal class HadithPreviewAdapter(
     fun update(data: List<Data>)
     {
         haditDataList.addAll(data)
-        notifyItemInserted(data.size - 1)
+        notifyItemInserted(itemCount)
     }
 
     fun update(position: Int, fav: Boolean)

@@ -27,7 +27,7 @@ internal class DailyDuaPatchAdapter(
     {
         dailyDuaData.clear()
         dailyDuaData.addAll(dailydua)
-        notifyDataSetChanged()
+        notifyItemChanged(dailydua.size-1)
     }
 
     override fun getItemCount(): Int = dailyDuaData.size

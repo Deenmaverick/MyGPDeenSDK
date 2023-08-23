@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.deenislam.sdk.R
 import com.deenislam.sdk.views.base.BaseRegularFragment
+import com.google.android.material.transition.MaterialSharedAxis
 
 internal class BlankFragment : BaseRegularFragment() {
 
 
     override fun OnCreate() {
         super.OnCreate()
-        setupBackPressCallback(this)
+        setupBackPressCallback(this,true)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,11 +25,6 @@ internal class BlankFragment : BaseRegularFragment() {
         return inflater.inflate(R.layout.fragment_blank, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-       // onBackPressedCallback.isEnabled = false
-        setupOtherFragment(true)
-    }
 
 
     override fun onBackPress() {
