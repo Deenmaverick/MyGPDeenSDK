@@ -1,4 +1,4 @@
-package com.deenislam.views.zakat
+package com.deenislam.sdk.views.zakat
 
 import android.os.Bundle
 import android.util.Log

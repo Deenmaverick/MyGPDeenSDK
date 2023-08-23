@@ -26,7 +26,6 @@ import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.viewmodels.ZakatViewModel
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislam.views.zakat.ZakatCalculatorLiabilityFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.launch
