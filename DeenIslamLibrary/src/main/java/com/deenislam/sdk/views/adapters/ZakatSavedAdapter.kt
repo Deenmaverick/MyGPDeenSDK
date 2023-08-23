@@ -41,6 +41,7 @@ internal class ZakatSavedAdapter(
         savedZakatList.removeAt(if(position ==1)0 else position)
         notifyItemRemoved(position)
         notifyItemChanged(position)
+        notifyItemRangeChanged(position, savedZakatList.size - position)
     }
 
     override fun getItemCount(): Int = savedZakatList.size

@@ -34,6 +34,8 @@ internal class FavoriteDuaAdapter(
         favList.removeAt(if(position ==1)0 else position)
         notifyItemRemoved(position)
         notifyItemChanged(position)
+        notifyItemRangeChanged(position, favList.size - position)
+
     }
     override fun getItemCount(): Int = favList.size
 
