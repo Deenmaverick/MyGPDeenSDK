@@ -57,7 +57,7 @@
             android:layout_height="24dp"
             android:layout_marginEnd="@dimen/space_12"
             android:tint="@color/deen_txt_black_deep"
-            android:src="@drawable/ic_plus_new"
+            android:src="@drawable/ic_dropdown"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/title" />
