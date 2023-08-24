@@ -9,13 +9,17 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
+import kotlinx.coroutines.launch
 
 
 internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionCallback {
@@ -79,6 +83,16 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
 
         if (_viewPager.getChildAt(0) is RecyclerView) {
             _viewPager.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER;
+        }
+
+        lifecycleScope.launch {
+
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = DeenSDKCore.msisdn,
+                pagename = "home",
+                trackingID = get9DigitRandom()
+            )
         }
 
     }
