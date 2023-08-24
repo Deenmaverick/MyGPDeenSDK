@@ -49,7 +49,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     private var _binding:VB ? = null
     val binding:VB get() = _binding as VB
-    lateinit var onBackPressedCallback: OnBackPressedCallback
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isBacktoHome:Boolean = false
     lateinit var childFragment: Fragment
@@ -145,7 +145,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         super.onResume()
 
         if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized && !isHomePage)
-            setupBackPressCallback(this,isBacktoHome)
+            setupBackPressCallback(childFragment,isBacktoHome)
 
        /* if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
             onBackPressedCallback.isEnabled = true
@@ -187,7 +187,6 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     open fun onBackPress() {
 
         Log.e("onBackPress","BASE")
-
         val currentTime = SystemClock.elapsedRealtime()
         if (currentTime - lastClickTime < 500) {
             return  // The click is too fast, ignore it
@@ -343,7 +342,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {
-
+        (activity as MainActivity).disableBackPress()
         //isBacktoHome(isBacktoHome)
         childFragment = fragment
 
@@ -363,18 +362,24 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            onBackPressedCallback.remove()
+            //onBackPressedCallback.remove()
         }
     }
 
 
     override fun onDestroyView() {
-        super.onDestroyView()
-        //unregister listener here
+      //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
         }
+
+        (activity as MainActivity).enableBackPress()
+
+
+        super.onDestroyView()
+
+
     }
 
 }

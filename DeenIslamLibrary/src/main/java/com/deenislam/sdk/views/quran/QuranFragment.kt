@@ -47,7 +47,6 @@ internal class QuranFragment : BaseRegularFragment() {
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this,true)
-
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)

@@ -95,6 +95,8 @@ internal class AuthenticateRepository(
 
                         if(storeToken(it.JWT,msisdn,"") > 0) {
 
+                            DeenSDKCore.token = it.JWT
+
                             makeApicall {
 
                                 val body = JSONObject()

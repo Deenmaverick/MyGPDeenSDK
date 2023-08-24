@@ -83,6 +83,7 @@ internal class MainActivity : AppCompatActivity() {
     var childFragmentAnimForward:Boolean = false
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
+    private var isDisableBackPress = false
 
     companion object
     {
@@ -158,23 +159,22 @@ internal class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(this::onBackPressedCallback.isInitialized && !onBackPressedCallback.isEnabled)
-        {
+        if(!isDisableBackPress) {
             setupBackPressCallback()
-
         }
+
     }
 
-    override fun onBackPressed() {
+ /*   override fun onBackPressed() {
         if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.handleOnBackPressed()
-    }
+    }*/
 
 
     private fun setupBackPressCallback()
     {
 
-        onBackPressedCallback = object : OnBackPressedCallback(true) {
+      /*  onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 Log.e("setupBackPressCallback",navController.previousBackStackEntry?.destination?.id.toString())
                 // Handle the back button event
@@ -189,6 +189,20 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+*/
+        onBackPressedCallback =
+            this.onBackPressedDispatcher.addCallback {
+                Log.e("setupBackPressCallback",navController.previousBackStackEntry?.destination?.id.toString())
+                // Handle the back button event
+                if (navController.previousBackStackEntry?.destination?.id?.equals(
+                        navController.graph.startDestinationId
+                    ) != true &&
+                    navController.previousBackStackEntry?.destination?.id?.equals(
+                        R.id.blankFragment
+                    ) != true && navController.previousBackStackEntry?.destination?.id != null)
+                    navController.popBackStack()
+            }
+        onBackPressedCallback.isEnabled = true
 
        /* onBackPressedCallback =
             onBackPressedDispatcher.addCallback {
@@ -228,6 +242,20 @@ internal class MainActivity : AppCompatActivity() {
         } else {
             LocaleUtil.createLocaleContext(this, Locale("bn"))
         }
+    }
+
+    fun disableBackPress()
+    {
+        isDisableBackPress = true
+        if(this::onBackPressedCallback.isInitialized)
+            onBackPressedCallback.isEnabled = false
+    }
+
+    fun enableBackPress()
+    {
+        isDisableBackPress = false
+        Log.e("enableBackPress",this::onBackPressedCallback.isInitialized.toString())
+        setupBackPressCallback()
     }
 
     fun getTrackingID() = trackingID

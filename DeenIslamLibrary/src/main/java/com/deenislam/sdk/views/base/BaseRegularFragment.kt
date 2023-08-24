@@ -35,7 +35,7 @@ import java.util.*
 
 internal abstract class BaseRegularFragment: Fragment() {
 
-    lateinit var onBackPressedCallback: OnBackPressedCallback
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isBacktoHome:Boolean = false
     private var isBackPressed:Boolean = false
@@ -75,6 +75,8 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {
+        Log.e("setupBackPressCallback","OK")
+        (activity as MainActivity).disableBackPress()
         //isBacktoHome(isBacktoHome)
         childFragment = fragment
         onBackPressedCallback =
@@ -113,7 +115,6 @@ internal abstract class BaseRegularFragment: Fragment() {
 
 
     open fun onBackPress() {
-
 
         Log.e("onBackPress","REGULAR")
         val currentTime = SystemClock.elapsedRealtime()
@@ -318,19 +319,27 @@ internal abstract class BaseRegularFragment: Fragment() {
 
 
     override fun onDestroyView() {
-        super.onDestroyView()
+
         //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            //onBackPressedCallback.remove()
+            onBackPressedCallback.remove()
         }
+
+        (activity as MainActivity).enableBackPress()
+
+        super.onDestroyView()
+
 
     }
 
     override fun onResume() {
         super.onResume()
+
         if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
-            setupBackPressCallback(this,isBacktoHome)
+            setupBackPressCallback(childFragment,isBacktoHome)
+
+
        /* if(this::onBackPressedCallback.isInitialized && this::childFragment.isInitialized)
             onBackPressedCallback.isEnabled = true
 
