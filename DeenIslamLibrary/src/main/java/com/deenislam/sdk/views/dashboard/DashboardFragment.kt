@@ -241,7 +241,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
             prayerTimesResponse?.let {
                 dashboardPatchMain.updatePrayerTime(it)
-                binding.progressLayout.root.visible(false)
+                //binding.progressLayout.root.visible(false)
                 binding.noInternetLayout.root.visible(false)
             }?:nointernetState()
         }
@@ -259,7 +259,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
     private fun dataState()
     {
-        binding.dashboardMain.visible(true)/*
+        binding.dashboardMain.visible(true)
+        binding.progressLayout.root.visible(false)/*
         binding.progressLayout.root.visible(false)
         binding.noInternetLayout.root.visible(false)*/
     }

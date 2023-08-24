@@ -36,7 +36,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainView"
             android:layout_width="match_parent"
-            android:background="@color/deen_white"
+            android:background="@drawable/corner_radius_white"
             android:layout_height="wrap_content">
 
             <LinearLayout
