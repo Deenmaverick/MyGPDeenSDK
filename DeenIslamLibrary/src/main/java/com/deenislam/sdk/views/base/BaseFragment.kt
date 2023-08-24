@@ -151,7 +151,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
             onBackPressedCallback.isEnabled = true
 */
 
-        requireView().addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+      /*  requireView().addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
             when (v.visibility) {
                 View.VISIBLE -> {
 
@@ -176,7 +176,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
             //Log.e("LayoutChangeListener",onBackPressedCallback.isEnabled.toString())
 
-        }
+        }*/
     }
 
     open fun BASE_API_CALL_STATE()
@@ -194,7 +194,15 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         }
         lastClickTime = currentTime
 
-        if(isVisible) {
+        if (findNavController().previousBackStackEntry?.destination?.id?.equals(
+                findNavController().graph.startDestinationId
+            ) != true &&
+            findNavController().previousBackStackEntry?.destination?.id?.equals(
+                R.id.blankFragment
+            ) != true && findNavController().previousBackStackEntry?.destination?.id != null)
+            findNavController().popBackStack()
+
+       /* if(isVisible) {
             isBackPressed = true
 
             if (isBacktoHome) {
@@ -212,13 +220,15 @@ internal abstract class BaseFragment<VB:ViewBinding>(
                     setupOtherFragment(false)
             }
 
-        }
+        }*/
 
     }
 
 
     fun setupOtherFragment(bol:Boolean)
     {
+
+        return
         if(!bol)
         {
             lifecycleScope.launch {
@@ -333,7 +343,8 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {
-        isBacktoHome(isBacktoHome)
+
+        //isBacktoHome(isBacktoHome)
         childFragment = fragment
 
         if(this::onBackPressedCallback.isInitialized)

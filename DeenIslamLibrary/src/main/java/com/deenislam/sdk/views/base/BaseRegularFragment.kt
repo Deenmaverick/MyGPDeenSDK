@@ -75,7 +75,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {
-        isBacktoHome(isBacktoHome)
+        //isBacktoHome(isBacktoHome)
         childFragment = fragment
         onBackPressedCallback =
             fragment.requireActivity().onBackPressedDispatcher.addCallback {
@@ -114,6 +114,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     open fun onBackPress() {
 
+
         Log.e("onBackPress","REGULAR")
         val currentTime = SystemClock.elapsedRealtime()
         if (currentTime - lastClickTime < 500) {
@@ -121,7 +122,15 @@ internal abstract class BaseRegularFragment: Fragment() {
         }
         lastClickTime = currentTime
 
-        if(isVisible) {
+        if (findNavController().previousBackStackEntry?.destination?.id?.equals(
+                findNavController().graph.startDestinationId
+            ) != true &&
+            findNavController().previousBackStackEntry?.destination?.id?.equals(
+                R.id.blankFragment
+            ) != true && findNavController().previousBackStackEntry?.destination?.id != null)
+            findNavController().popBackStack()
+
+       /* if(isVisible) {
             isBackPressed = true
 
             if (isBacktoHome) {
@@ -137,7 +146,7 @@ internal abstract class BaseRegularFragment: Fragment() {
                 else
                     setupOtherFragment(false)
             }
-        }
+        }*/
 
             /*tryCatch {
                 lifecycleScope.launch(Dispatchers.IO)
@@ -155,7 +164,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         super.onPause()
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            onBackPressedCallback.remove()
+            //onBackPressedCallback.remove()
         }
     }
 
@@ -190,6 +199,8 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupOtherFragment(bol:Boolean)
     {
+
+        return
         if(!bol)
         {
             lifecycleScope.launch {
@@ -254,10 +265,10 @@ internal abstract class BaseRegularFragment: Fragment() {
 
         actionCallback = callback
 
-        if(findNavController().currentDestination?.id?.isBottomNavFragment == false)
+      /*  if(findNavController().currentDestination?.id?.isBottomNavFragment == false)
             setupOtherFragment(true)
         else
-            setupOtherFragment(false)
+            setupOtherFragment(false)*/
     }
 
 
@@ -311,7 +322,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
-            onBackPressedCallback.remove()
+            //onBackPressedCallback.remove()
         }
 
     }

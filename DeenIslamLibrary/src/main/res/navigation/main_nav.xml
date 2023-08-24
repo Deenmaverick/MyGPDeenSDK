@@ -18,8 +18,7 @@
             android:id="@+id/action_quranFragment_to_alQuranFragment"
             app:destination="@id/alQuranFragment"
             app:popUpTo="@id/quranFragment"
-            app:popUpToInclusive="false"
-            app:launchSingleTop="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/prayerTimesFragment"
@@ -55,13 +54,19 @@
         <action
             android:id="@+id/action_blankFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment"
-            app:popUpTo="@id/dashboardFragment" />
+            app:popUpTo="@id/dashboardFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_blankFragment_to_tasbeehFragment"
             app:destination="@id/tasbeehFragment" />
         <action
             android:id="@+id/action_blankFragment_to_prayerTimesFragment"
             app:destination="@id/prayerTimesFragment" />
+        <action
+            android:id="@+id/action_blankFragment_to_dashboardFakeFragment"
+            app:destination="@id/dashboardFakeFragment"
+            app:popUpTo="@id/blankFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/quranFavoriteFragment"
@@ -214,6 +219,16 @@
         <argument
             android:name="title"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardFakeFragment"
+        android:name="com.deenislam.sdk.views.dashboard.DashboardFakeFragment"
+        android:label="DashboardFakeFragment" >
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_moreFragment"
+            app:destination="@id/moreFragment"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 
 </navigation>

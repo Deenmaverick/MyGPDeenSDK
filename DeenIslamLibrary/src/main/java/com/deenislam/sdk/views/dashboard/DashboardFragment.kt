@@ -72,9 +72,9 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     override fun OnCreate() {
         super.OnCreate()
 
-        isHomePage(true)
+       /* isHomePage(true)
         setupBackPressCallback(this)
-
+*/
         val dashboardRepository = DashboardRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
 
         val prayerTimesRepository = PrayerTimesRepository(
@@ -136,19 +136,19 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         super.onResume()
 
             loadPage()
-        if(isDashboardVisible())
-        setupBackPressCallback(this)
+      /*  if(isDashboardVisible())
+        setupBackPressCallback(this)*/
         Log.e("DASHBOARD_NEW",isDashboardVisible().toString())
     }
 
-    override fun setMenuVisibility(menuVisible: Boolean) {
+    /*override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
         if(menuVisible)
         {
             Log.e("setMenuVisibility","DAASHBOARD")
             setupAction(R.drawable.ic_menu,0,this@DashboardFragment,localContext.resources.getString(R.string.app_name))
         }
-    }
+    }*/
 
     fun loadDataAPI()
     {

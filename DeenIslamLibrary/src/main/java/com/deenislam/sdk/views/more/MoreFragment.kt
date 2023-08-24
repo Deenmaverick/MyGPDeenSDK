@@ -28,7 +28,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
     override fun OnCreate() {
         super.OnCreate()
-        setupBackPressCallback(this,true)
+       // setupBackPressCallback(this,true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
@@ -40,6 +40,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val mainview = localInflater.inflate(R.layout.fragment_more,container,false)
 
         //init view

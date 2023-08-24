@@ -146,7 +146,7 @@ object DeenSDKCore {
 
         val intent =
             Intent(baseContext, MainActivity::class.java)
-        intent.putExtra("destination",R.id.dashboardFragment)
+        intent.putExtra("destination",R.id.action_blankFragment_to_dashboardFakeFragment)
         baseContext?.startActivity(intent)
 
        /* this.appContext = context.applicationContext

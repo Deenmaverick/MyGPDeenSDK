@@ -95,7 +95,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun OnCreate() {
         super.OnCreate()
-        setupBackPressCallback(this,true)
+        //setupBackPressCallback(this,true)
 
 
         NotificationPermission().getInstance().setupLauncher(this,localContext,true, activityContext = requireContext())

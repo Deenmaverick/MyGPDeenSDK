@@ -13,6 +13,8 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
@@ -26,6 +28,7 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.DeenSDKCore
@@ -78,6 +81,7 @@ internal class MainActivity : AppCompatActivity() {
 
     var bottomNavClicked:Boolean = false
     var childFragmentAnimForward:Boolean = false
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
 
     companion object
@@ -93,6 +97,7 @@ internal class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_deen)
+
         instance = this
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
@@ -147,8 +152,74 @@ internal class MainActivity : AppCompatActivity() {
             }
         }
 
+        setupBackPressCallback()
+
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(this::onBackPressedCallback.isInitialized && !onBackPressedCallback.isEnabled)
+        {
+            setupBackPressCallback()
+
+        }
+    }
+
+    override fun onBackPressed() {
+        if(this::onBackPressedCallback.isInitialized)
+        onBackPressedCallback.handleOnBackPressed()
+    }
+
+
+    private fun setupBackPressCallback()
+    {
+
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Log.e("setupBackPressCallback",navController.previousBackStackEntry?.destination?.id.toString())
+                // Handle the back button event
+                if (navController.previousBackStackEntry?.destination?.id?.equals(
+                        navController.graph.startDestinationId
+                    ) != true &&
+                    navController.previousBackStackEntry?.destination?.id?.equals(
+                        R.id.blankFragment
+                    ) != true && navController.previousBackStackEntry?.destination?.id != null)
+                    navController.popBackStack()
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
+       /* onBackPressedCallback =
+            onBackPressedDispatcher.addCallback {
+                Log.e("setupBackPressCallback","NEW MAIN CALLBACK")
+                if (navController.previousBackStackEntry?.destination?.id?.equals(
+                        navController.graph.startDestinationId
+                    ) != true ||
+                    navController.previousBackStackEntry?.destination?.id?.equals(
+                        R.id.dashboardFakeFragment
+                    ) != true)
+                    navController.popBackStack()
+            }
+        onBackPressedCallback.isEnabled = true*/
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+
+        if(this::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.isEnabled = false
+            onBackPressedCallback.remove()
+        }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        if(this::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.isEnabled = false
+            onBackPressedCallback.remove()
+        }
+    }
 
     fun changeLanguage()
     {
@@ -455,29 +526,30 @@ internal class MainActivity : AppCompatActivity() {
         //showBottomNav(destination.isBottomNavFragment)
         when(destination)
         {
-            R.id.dashboardFragment ->
+            R.id.action_blankFragment_to_dashboardFakeFragment ->
             {
-                initDashboard()
+
+                navController.navigate(destination)
 
             }
             else ->
             {
 
-                lifecycleScope.launch {
+               /* lifecycleScope.launch {
 
                     withContext(Dispatchers.Main)
                     {
 
                         navController.navigate(destination)
                         val dashboard =  async {
-                            initDashboard()
-                            setupOtherFragment(true)
+                           // initDashboard()
+                            //setupOtherFragment(true)
                         }
                         dashboard.await()
-                        setupOtherFragment(true)
+                        //setupOtherFragment(true)
                     }
 
-                }
+                }*/
 
             }
         }
