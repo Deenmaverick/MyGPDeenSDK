@@ -304,6 +304,15 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                 }
             }
 
+    /*    lifecycleScope.launch {
+
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = DeenSDKCore.msisdn,
+                pagename = "home",
+                trackingID = get9DigitRandom()
+            )
+        }*/
 
     }
 
