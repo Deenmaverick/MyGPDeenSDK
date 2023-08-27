@@ -230,5 +230,17 @@
             app:popUpTo="@id/dashboardFakeFragment"
             app:popUpToInclusive="false"/>
     </fragment>
+    <fragment
+        android:id="@+id/basicWebViewFragment"
+        android:name="com.deenislam.sdk.views.webview.BasicWebViewFragment"
+        android:label="fragment_basic_web_view"
+        tools:layout="@layout/fragment_basic_web_view" >
+        <argument
+            android:name="weburl"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

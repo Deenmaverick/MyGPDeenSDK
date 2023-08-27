@@ -67,7 +67,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        username.text =  if(!DeenSDKCore.msisdn.first().equals("+")) "+${DeenSDKCore.msisdn.numberLocale()}" else DeenSDKCore.msisdn.numberLocale()
+        username.text = DeenSDKCore.msisdn.numberLocale()
 
         settingLayout.setOnClickListener {
             gotoFrag(R.id.action_moreFragment_to_settingFragment)
@@ -79,26 +79,30 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
         termsLayout.setOnClickListener {
 
-            val url = TERMS_URL
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(url)
-            requireActivity().let {
-                if (intent.resolveActivity(it.packageManager) != null) {
-                    startActivity(intent)
-                }
+            val bundle = Bundle().apply {
+                putString("title", localContext.getString(R.string.terms_of_use))
+                putString("weburl", TERMS_URL)
             }
+            gotoFrag(R.id.basicWebViewFragment,data = bundle)
         }
 
         privacyLayout.setOnClickListener {
 
-            val url = PRIVACY_URL
+         /*   val url = PRIVACY_URL
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             requireActivity().let {
                 if (intent.resolveActivity(it.packageManager) != null) {
                     startActivity(intent)
                 }
+            }*/
+
+
+            val bundle = Bundle().apply {
+                putString("title", localContext.getString(R.string.privacy_policy))
+                putString("weburl", PRIVACY_URL)
             }
+            gotoFrag(R.id.basicWebViewFragment,data = bundle)
         }
     }
 
