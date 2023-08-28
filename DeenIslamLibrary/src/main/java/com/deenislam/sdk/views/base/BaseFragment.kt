@@ -366,8 +366,18 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         }
     }
 
+    override fun onStop() {
+        //unregister listener here
+        if(this::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.isEnabled = false
+            onBackPressedCallback.remove()
+            (activity as MainActivity).enableBackPress()
+        }
+        super.onStop()
+    }
 
-    override fun onDestroyView() {
+
+    /*override fun onDestroyView() {
       //unregister listener here
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
@@ -380,6 +390,6 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         super.onDestroyView()
 
 
-    }
+    }*/
 
 }
