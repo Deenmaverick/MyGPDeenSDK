@@ -58,10 +58,15 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_blankFragment_to_tasbeehFragment"
-            app:destination="@id/tasbeehFragment" />
+            app:destination="@id/tasbeehFragment"
+            app:popUpTo="@id/blankFragment"
+            app:popUpToInclusive="true"/>
+
         <action
             android:id="@+id/action_blankFragment_to_prayerTimesFragment"
-            app:destination="@id/prayerTimesFragment" />
+            app:destination="@id/prayerTimesFragment"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popUpToInclusive="false"/>
         <action
             android:id="@+id/action_blankFragment_to_dashboardFakeFragment"
             app:destination="@id/dashboardFakeFragment"

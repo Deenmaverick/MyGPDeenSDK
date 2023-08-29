@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/space_12.5"
         android:layout_marginStart="@dimen/space_16.5"
         android:layout_marginBottom="@dimen/space_12.5"
-        android:src="@drawable/ic_logo"
+        android:src="@drawable/bl_islamic_icon"
         app:layout_constraintEnd_toStartOf="@+id/title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

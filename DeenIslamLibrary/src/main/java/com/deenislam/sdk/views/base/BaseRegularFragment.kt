@@ -115,7 +115,6 @@ internal abstract class BaseRegularFragment: Fragment() {
 
 
     open fun onBackPress() {
-
         Log.e("onBackPress","REGULAR")
         val currentTime = SystemClock.elapsedRealtime()
         if (currentTime - lastClickTime < 500) {
@@ -130,6 +129,8 @@ internal abstract class BaseRegularFragment: Fragment() {
                 R.id.blankFragment
             ) != true && findNavController().previousBackStackEntry?.destination?.id != null)
             findNavController().popBackStack()
+        /*else
+            findNavController().popBackStack()*/
 
        /* if(isVisible) {
             isBackPressed = true

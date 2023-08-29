@@ -15,6 +15,7 @@ import com.deenislam.sdk.service.repository.AuthenticateRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
+import com.deenislam.sdk.utils.getRCDestination
 import com.deenislam.sdk.views.main.MainActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -149,50 +150,31 @@ object DeenSDKCore {
         intent.putExtra("destination",R.id.action_blankFragment_to_dashboardFakeFragment)
         baseContext?.startActivity(intent)
 
-       /* this.appContext = context.applicationContext
-        this.CallBackListener = callback
-        this.msisdn = msisdn*/
-
-        /*CoroutineScope(Dispatchers.IO).launch {
-
-            token = AuthenticateRepository(
-                authenticateService = NetworkProvider().getInstance().provideAuthService(),
-                userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
-            ).authDeen(msisdn)
-
-            *//*.apply {
-
-                if (!this.isNullOrEmpty())
-                {
-                    language = SettingRepository(
-                        userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
-                    ).getSetting()?.language?:"bn"
-
-                    Log.e("language1", language)
-                }
-            }*//*
-
-            withContext(Dispatchers.Main) {
-
-                if (token != null && token?.isNotEmpty() == true) {
-
-                    val intent =
-                        Intent(context, MainActivity::class.java)
-                    intent.putExtra("destination",R.id.dashboardFragment)
-                    context.startActivity(intent)
-
-                    CallBackListener?.onAuthSuccess()
-
-                } else {
-                    CallBackListener?.onAuthFailed()
-                }
-            }
-
-        }*/
     }
 
     @JvmStatic
-    fun openTasbeeh()
+    fun openFromRC(rc:String)
+    {
+        if (!checkAuth()) {
+            return
+        }
+
+        val getDestination = rc.getRCDestination()
+
+        if(getDestination == 0) {
+            CallBackListener?.onDeenSDKRCFailed()
+            return
+        }
+
+        val intent =
+            Intent(baseContext, MainActivity::class.java)
+        intent.putExtra("destination",getDestination)
+        baseContext?.startActivity(intent)
+
+    }
+
+    @JvmStatic
+    private fun openTasbeeh()
     {
 
         if (!checkAuth()) {
@@ -247,7 +229,7 @@ object DeenSDKCore {
     }
 
     @JvmStatic
-    fun openPrayerTime()
+    private fun openPrayerTime()
     {
 
         if (!checkAuth()) {
@@ -256,7 +238,7 @@ object DeenSDKCore {
 
         val intent =
             Intent(baseContext, MainActivity::class.java)
-        intent.putExtra("destination",R.id.prayerTimesFragment)
+        intent.putExtra("destination",R.id.action_blankFragment_to_prayerTimesFragment)
         baseContext?.startActivity(intent)
        /* this.appContext = context.applicationContext
         this.CallBackListener = callback
@@ -543,6 +525,7 @@ interface DeenSDKCallback
 {
     fun onDeenSDKInitSuccess()
     fun onDeenSDKInitFailed()
+    fun onDeenSDKRCFailed()
     fun DeenPrayerNotificationOn()
     fun DeenPrayerNotificationOff()
     fun DeenPrayerNotificationFailed()

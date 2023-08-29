@@ -201,6 +201,9 @@ internal class MainActivity : AppCompatActivity() {
                         R.id.blankFragment
                     ) != true && navController.previousBackStackEntry?.destination?.id != null)
                     navController.popBackStack()
+                /*else
+                    navController.popBackStack()*/
+
             }
         onBackPressedCallback.isEnabled = true
 
@@ -436,7 +439,7 @@ internal class MainActivity : AppCompatActivity() {
     {
         if(titile.isEmpty() || titile == localContext.resources.getString(R.string.app_name) && !backEnable) {
             title.text = localContext.resources.getString(R.string.app_name)
-            btnBack.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_logo))
+            btnBack.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.bl_islamic_icon))
             btnBack.visible(true)
 
             btnBack.setOnClickListener {
@@ -562,6 +565,8 @@ internal class MainActivity : AppCompatActivity() {
             }
             else ->
             {
+                navController.navigate(R.id.action_blankFragment_to_dashboardFakeFragment)
+                navController.navigate(destination)
 
                /* lifecycleScope.launch {
 
