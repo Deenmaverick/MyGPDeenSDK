@@ -99,7 +99,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (allDuaAdapter.getItemViewType(position)) {
-                    RECYCLERFOOTER -> 1
+                    RECYCLERFOOTER -> 3
                     else -> 1
                 }
             }

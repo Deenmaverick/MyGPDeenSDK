@@ -162,10 +162,25 @@
     </com.google.android.material.card.MaterialCardView>
 
         <View
+            android:id="@+id/lastview"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/girlLayout"/>
+
+        <include
+            android:id="@+id/footer"
+            layout="@layout/layout_footer_without_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lastview"
+            app:layout_constraintVertical_bias="1.0" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
