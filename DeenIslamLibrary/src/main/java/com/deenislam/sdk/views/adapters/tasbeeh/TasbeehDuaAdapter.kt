@@ -98,7 +98,7 @@ internal class TasbeehDuaAdapter(
                 itemView.setOnClickListener {
                     if(selectedPos!=position) {
                         selectedPos = position
-                        callback.selectedDua(duaList[position].id)
+                        callback.selectedDua(position)
                     }
                 }
 

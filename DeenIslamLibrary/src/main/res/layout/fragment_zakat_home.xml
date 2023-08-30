@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
     android:background="@color/deen_background"
-    android:paddingStart="@dimen/space_16"
-    android:paddingEnd="@dimen/space_16"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.core.widget.NestedScrollView
@@ -15,6 +13,8 @@
         android:background="@color/deen_background"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:layout_marginStart="@dimen/space_16"
+        android:layout_marginEnd="@dimen/space_16"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,16 +103,30 @@
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginTop="@dimen/space_8"
+        app:layout_constraintBottom_toTopOf="@+id/lastView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/faq3" />
 
             <View
+                android:id="@+id/lastView"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/faq4"/>
+
+            <include
+                android:id="@+id/footer"
+                layout="@layout/layout_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lastView"
+                app:layout_constraintVertical_bias="1.0" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

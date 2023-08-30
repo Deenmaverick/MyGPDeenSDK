@@ -65,9 +65,10 @@ internal class PrayerTimesAdapter(
         val main_view = LayoutInflater.from(parent.context.getLocalContext())
             .inflate(R.layout.layout_async_match, parent, false)
 
-        prayerList.forEach()
+        prayerList.forEachIndexed()
         {
-            when(it)
+                index, item ->
+            when(item)
             {
                 //pryaer time card
 
@@ -121,6 +122,16 @@ internal class PrayerTimesAdapter(
                         ForbiddenTimes().getInstance().load(this )
                         widget5_view()
                     }
+
+                }
+            }
+
+            if (index == prayerList.size - 1) {
+
+                com.deenislam.sdk.utils.prepareStubView<View>(
+                    main_view.findViewById(R.id.widget),
+                    R.layout.layout_footer
+                ) {
 
                 }
             }

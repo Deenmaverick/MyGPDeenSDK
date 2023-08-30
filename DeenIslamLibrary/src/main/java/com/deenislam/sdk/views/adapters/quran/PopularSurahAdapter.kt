@@ -17,6 +17,7 @@ import com.deenislam.sdk.views.base.BaseViewHolder
 
 private const val NO_DATA = 0
 private const val DATA_AVAILABLE = 1
+private const val FOOTER = 2
 internal class PopularSurahAdapter(
     private val callback: SurahCallback
 ) : RecyclerView.Adapter<BaseViewHolder>() {
@@ -24,16 +25,28 @@ internal class PopularSurahAdapter(
     private val surahList: ArrayList<Chapter> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
-        if(viewType == DATA_AVAILABLE)
-            ViewHolder(
-                LayoutInflater.from(parent.context.getLocalContext())
-                    .inflate(R.layout.item_quran_popular_surah, parent, false)
-            )
-        else
-            ViewHolder(
+
+        when(viewType)
+        {
+            DATA_AVAILABLE ->
+                ViewHolder(
+                    LayoutInflater.from(parent.context.getLocalContext())
+                        .inflate(R.layout.item_quran_popular_surah, parent, false)
+                )
+
+            FOOTER ->
+                ViewHolder(
+                    LayoutInflater.from(parent.context.getLocalContext())
+                        .inflate(R.layout.layout_footer, parent, false)
+                )
+
+            else -> ViewHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_no_data, parent, false)
             )
+
+        }
+
 
     fun update(data: List<Chapter>)
     {
@@ -43,9 +56,13 @@ internal class PopularSurahAdapter(
     }
 
     override fun getItemViewType(position: Int): Int =
-        if(surahList.size==0) NO_DATA else DATA_AVAILABLE
+        when (surahList.size) {
+            0 -> NO_DATA
+            position -> FOOTER
+            else -> DATA_AVAILABLE
+        }
 
-    override fun getItemCount(): Int = if(surahList.size==0) 1 else surahList.size
+    override fun getItemCount(): Int = if(surahList.size==0) 2 else surahList.size+1
 
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -66,7 +83,6 @@ internal class PopularSurahAdapter(
                 DATA_AVAILABLE->
                 {
                     val surahPost = position+1
-
 
                     surahCount.text = surahList[position].id.toString().numberLocale()
                     surahName.text =

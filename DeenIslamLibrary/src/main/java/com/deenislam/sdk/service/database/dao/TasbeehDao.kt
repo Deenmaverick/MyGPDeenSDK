@@ -1,11 +1,17 @@
 package com.deenislam.sdk.service.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.deenislam.sdk.service.database.entity.Tasbeeh
 
 @Dao
 internal abstract class TasbeehDao: BaseDao<Tasbeeh> {
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert_replace(obj: Tasbeeh):Long
 
     @Query("SELECT * from tasbeeh where id=:duaid")
     abstract fun select(duaid:Int):List<Tasbeeh>

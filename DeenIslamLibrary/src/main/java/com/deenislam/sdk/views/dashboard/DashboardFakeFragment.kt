@@ -40,7 +40,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
         actionbar = mainview.findViewById(R.id.actionbar)
         _viewPager = mainview.findViewById(R.id.viewPager)
 
-        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,localContext.resources.getString(R.string.app_name),false,actionbar)
+        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,"",false,actionbar)
         val btnBack: AppCompatImageView = actionbar.findViewById(R.id.btnBack)
         btnBack.show()
 

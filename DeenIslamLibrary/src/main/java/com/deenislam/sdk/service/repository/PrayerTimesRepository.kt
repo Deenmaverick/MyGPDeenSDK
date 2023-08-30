@@ -110,9 +110,13 @@ internal class PrayerTimesRepository(
         {
             try {
 
-                getNotificationData(date = date, prayer_tag = prayer_tag)
+               val existingPrayerNotifyData =  getNotificationData(date = date, prayer_tag = prayer_tag)
 
-                if(prayerNotificationDao?.update(date,prayer_tag,state) !=0) {
+                var finalState = state
+                if(existingPrayerNotifyData?.state == 2 || existingPrayerNotifyData?.state == 3)
+                    finalState = existingPrayerNotifyData.state
+
+                if(prayerNotificationDao?.update(date,prayer_tag,finalState) !=0) {
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)
                     if(getNotificationData?.isNotEmpty() == true)
                     {

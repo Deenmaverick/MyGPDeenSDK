@@ -39,7 +39,8 @@ const val MENU_ISLAMIC_JIGGASA = "IslamicJiggasa"
 const val MENU_AZAN = "Azan"
 const val MENU_ISLAMIC_EVENT = "IslamicEvent"
 const val MENU_ISLAMIC_NAME = "IslamicName"
-
+const val RECYCLER_DATA_AVAILABLE = 1
+const val RECYCLERFOOTER = 2
 const val RequestBodyMediaType = "application/json"
 
 // :notifications-api

@@ -236,7 +236,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
         }
 
-        loadAPI(selectedPos+1)
+        loadAPI(selectedPos)
 
     }
 
@@ -399,8 +399,8 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
         updateCountView(selectedCount)
 
-        tasbeehDuaAdapter.update(data.id-1)
-        duaListRC.smoothScrollToPosition(data.id-1)
+        tasbeehDuaAdapter.update(selectedPos)
+        duaListRC.smoothScrollToPosition(selectedPos)
 
         progressLayout.hide()
 
@@ -409,6 +409,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     override fun selectedDua(duaid: Int) {
 
+        selectedPos = duaid
         track4Count = 0
         loadAPI(duaid)
     }

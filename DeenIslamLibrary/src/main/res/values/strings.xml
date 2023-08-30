@@ -245,4 +245,5 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="deen_all_rights_reserved">© 2023 Deen. All rights reserved</string>
     <string name="deen_version">Deen - v1.0.0</string>
+    <string name="continue_txt">Continue</string>
 </resources>

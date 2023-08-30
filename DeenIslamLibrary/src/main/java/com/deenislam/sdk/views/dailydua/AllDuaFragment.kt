@@ -19,6 +19,7 @@ import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.network.response.dailydua.alldua.Data
 import com.deenislam.sdk.service.repository.DailyDuaRepository
+import com.deenislam.sdk.utils.RECYCLERFOOTER
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
@@ -94,6 +95,16 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
 
         allDuaAdapter = AllDuaAdapter(this@AllDuaFragment)
 
+        val gridLayoutManager = GridLayoutManager(context, 3)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (allDuaAdapter.getItemViewType(position)) {
+                    RECYCLERFOOTER -> 1
+                    else -> 1
+                }
+            }
+        }
+
         listView.apply {
 
                 adapter = allDuaAdapter
@@ -103,7 +114,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
                 }
                 layoutParams = margins
 
-                layoutManager = GridLayoutManager(requireContext(),3)
+                layoutManager = gridLayoutManager
 
             post {
                 initObserver()

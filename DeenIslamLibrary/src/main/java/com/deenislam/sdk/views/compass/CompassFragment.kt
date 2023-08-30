@@ -495,21 +495,24 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     private fun showCalibrateDialog()
     {
-        dialog = BottomSheetDialog(requireContext())
 
-        val view = localInflater.inflate(R.layout.dialog_compass_calibrate, null)
+        if(dialog == null || dialog?.isShowing == false) {
+            dialog = BottomSheetDialog(requireContext())
 
-        accuracy = view.findViewById(R.id.accuracy)
-        val okBtn:MaterialButton = view.findViewById(R.id.okBtn)
+            val view = localInflater.inflate(R.layout.dialog_compass_calibrate, null)
 
-        dialog?.setCancelable(false)
+            accuracy = view.findViewById(R.id.accuracy)
+            val okBtn: MaterialButton = view.findViewById(R.id.okBtn)
 
-        dialog?.setContentView(view)
+            dialog?.setCancelable(false)
 
-        dialog?.show()
+            dialog?.setContentView(view)
 
-        okBtn.setOnClickListener {
-            dialog?.dismiss()
+            dialog?.show()
+
+            okBtn.setOnClickListener {
+                dialog?.dismiss()
+            }
         }
     }
 

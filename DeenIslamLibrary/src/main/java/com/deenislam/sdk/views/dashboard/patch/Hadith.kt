@@ -47,8 +47,8 @@ internal class Hadith {
             )
         )
         titile.text = data.Title
-        textContent.text = data.HadithArabicText.substring(0,100)+"..."
-        subContent.text = data.HadithText.substring(0,100)+"..."
+        textContent.text = if(data.HadithArabicText.length>100) data.HadithArabicText.substring(0,100)+"..." else data.HadithArabicText
+        subContent.text = if(data.HadithText.length>100) data.HadithText.substring(0,100)+"..." else data.HadithText
         banner.imageLoad(data.contentBaseUrl+"/"+data.imageurl1)
         mainBtn.text = mainBtn.context.getString(R.string.read_the_full_hadith)
     }

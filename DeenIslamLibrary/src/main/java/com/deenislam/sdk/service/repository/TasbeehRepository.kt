@@ -1,8 +1,10 @@
 package com.deenislam.sdk.service.repository
 
+import android.util.Log
 import com.deenislam.sdk.service.database.dao.TasbeehDao
 import com.deenislam.sdk.service.database.dao.UserPrefDao
 import com.deenislam.sdk.service.database.entity.Tasbeeh
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -26,7 +28,9 @@ internal class TasbeehRepository(
             Tasbeeh(id=8,dua="Subhanallahi Wa-Bihamdihi", dua_bn = "সুবহানাল্লাহি ওয়া-বিহামদিহি", dua_arb = "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ")
         )
 
-        val tasbeehData = tasbeehDao?.select(duaid)
+        val tasbeehData = tasbeehDao?.select(duaList[duaid].id)
+
+        Log.e("tasbeehData", Gson().toJson(tasbeehData)+duaid)
 
         if(tasbeehData?.isEmpty() == true)
         {

@@ -81,9 +81,10 @@ internal class DashboardPatchAdapter(
 
         rootview = main_view.findViewById(R.id.rootview)
 
-        dashlist.forEach()
+        dashlist.forEachIndexed ()
         {
-            when(it) {
+                index, item ->
+            when(item) {
 
                 // Billboard
                 TYPE_WIDGET1 -> {
@@ -209,6 +210,13 @@ internal class DashboardPatchAdapter(
                         }
 
                     }
+                }
+            }
+
+            if (index == dashlist.size - 1) {
+
+                prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_footer) {
+
                 }
             }
         }
