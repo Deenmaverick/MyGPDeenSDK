@@ -43,9 +43,15 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         super.OnCreate()
         setupBackPressCallback(this,true)
 
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
     }
 
@@ -90,10 +96,14 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         }
         firstload = true
 
+        allDuaBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+        allDuaBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
-        postponeEnterTransition()
-        loadpage()
-        startPostponedEnterTransition()
+
+        view.postDelayed({
+            // Code to execute after the animation
+            loadpage()
+        }, 300)
     }
 
     override fun onBackPress() {

@@ -234,6 +234,70 @@
             app:destination="@id/moreFragment"
             app:popUpTo="@id/dashboardFakeFragment"
             app:popUpToInclusive="false"/>
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_quranFragment"
+            app:destination="@id/quranFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_prayerTimesFragment"
+            app:destination="@id/prayerTimesFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_hadithFragment"
+            app:destination="@id/hadithFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_dailyDuaFragment"
+            app:destination="@id/dailyDuaFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_zakatFragment"
+            app:destination="@id/zakatFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_tasbeehFragment"
+            app:destination="@id/tasbeehFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_compassFragment"
+            app:destination="@id/compassFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_dashboardFakeFragment_to_islamicNameFragment"
+            app:destination="@id/islamicNameFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/wait_anim"
+            app:popUpTo="@id/dashboardFakeFragment"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
     <fragment
         android:id="@+id/basicWebViewFragment"

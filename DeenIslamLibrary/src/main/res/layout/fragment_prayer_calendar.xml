@@ -54,12 +54,15 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnBack"
+                    android:layout_marginTop="@dimen/space_15"
+                    android:layout_marginBottom="@dimen/space_15"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center"
                     android:src="@drawable/bl_islamic_icon"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -148,12 +151,22 @@
                 android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/dateTimeLayout"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 
+            <include
+                android:id="@+id/footer"
+                layout="@layout/layout_footer_without_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/prayerMain"
+                app:layout_constraintVertical_bias="1.0" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

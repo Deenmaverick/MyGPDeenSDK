@@ -29,9 +29,15 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     override fun OnCreate() {
         super.OnCreate()
        // setupBackPressCallback(this,true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
     }
 
@@ -67,6 +73,15 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.postDelayed({
+            // Code to execute after the animation
+            loadPage()
+        }, 300)
+
+    }
+
+    private fun loadPage()
+    {
         username.text = DeenSDKCore.msisdn.numberLocale()
 
         settingLayout.setOnClickListener {
@@ -88,14 +103,14 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
         privacyLayout.setOnClickListener {
 
-         /*   val url = PRIVACY_URL
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(url)
-            requireActivity().let {
-                if (intent.resolveActivity(it.packageManager) != null) {
-                    startActivity(intent)
-                }
-            }*/
+            /*   val url = PRIVACY_URL
+               val intent = Intent(Intent.ACTION_VIEW)
+               intent.data = Uri.parse(url)
+               requireActivity().let {
+                   if (intent.resolveActivity(it.packageManager) != null) {
+                       startActivity(intent)
+                   }
+               }*/
 
 
             val bundle = Bundle().apply {

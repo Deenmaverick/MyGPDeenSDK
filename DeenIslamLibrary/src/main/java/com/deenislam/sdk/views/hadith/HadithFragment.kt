@@ -41,9 +41,15 @@ internal class HadithFragment : BaseRegularFragment() {
         super.OnCreate()
         setupBackPressCallback(this,true)
 
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
     }
 
@@ -85,6 +91,20 @@ internal class HadithFragment : BaseRegularFragment() {
         }
         firstload = true
 
+        hadithBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+        hadithBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
+
+        
+        view.postDelayed({
+            // Code to execute after the animation
+            loadPage()
+        }, 300)
+
+
+    }
+
+    private fun loadPage()
+    {
         mPageDestination = arrayListOf(
             HadithChapterFragment(),
             HadithFavoriteFragment()
@@ -143,7 +163,6 @@ internal class HadithFragment : BaseRegularFragment() {
 
         hadithBtn.setOnClickListener { _viewPager.currentItem = 0 }
         favBtn.setOnClickListener { _viewPager.currentItem = 1 }
-
     }
 
 

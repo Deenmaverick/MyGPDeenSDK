@@ -88,9 +88,15 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
         super.OnCreate()
         setupBackPressCallback(this)
 
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
         // init voiewmodel
         val repository = ZakatRepository(deenService = NetworkProvider().getInstance().provideDeenService())
@@ -154,6 +160,15 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.postDelayed({
+            // Code to execute after the animation
+            loadPage()
+        }, 300)
+
+    }
+
+    private fun loadPage()
+    {
         initObserver()
 
         mPageDestination = arrayListOf(
@@ -228,7 +243,6 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
 
             }
         })
-
     }
 
     private fun initObserver()

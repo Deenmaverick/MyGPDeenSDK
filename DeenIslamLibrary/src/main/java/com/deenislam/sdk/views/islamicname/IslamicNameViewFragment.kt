@@ -52,9 +52,15 @@ internal class IslamicNameViewFragment : BaseRegularFragment(), IslamicNameAdapt
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
 
         gender = args.gender
@@ -87,6 +93,17 @@ internal class IslamicNameViewFragment : BaseRegularFragment(), IslamicNameAdapt
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadingState()
+
+        view.postDelayed({
+            // Code to execute after the animation
+            loadPage()
+        }, 300)
+
+    }
+
+    private fun loadPage()
+    {
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(noInternetLayout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)
@@ -95,7 +112,6 @@ internal class IslamicNameViewFragment : BaseRegularFragment(), IslamicNameAdapt
 
         initObserver()
 
-        loadingState()
 
         islamicNameAdapter = IslamicNameAdapter(this@IslamicNameViewFragment)
         listView.apply {

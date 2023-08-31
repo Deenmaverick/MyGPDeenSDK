@@ -102,15 +102,21 @@ internal class TasbeehDuaAdapter(
                     }
                 }
 
-            if(position == 0)
-            {
+            if (position == 0) {
                 (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 16.dp
+                (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 4.dp
+            }
+            else if (position == itemCount-1) {
+                (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 16.dp
+                (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 4.dp
+            }
+            else
+            {
+                (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 4.dp
+                (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 4.dp
             }
 
-            if(position == itemCount-1)
-            {
-                (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 16.dp
-            }
+
         }
     }
 }

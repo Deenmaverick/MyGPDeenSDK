@@ -60,9 +60,15 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
         // init viewmodel
         val repository = HadithRepository(
@@ -99,6 +105,17 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.postDelayed({
+            // Code to execute after the animation
+            loadPage()
+        }, 300)
+
+
+
+    }
+
+    private fun loadPage()
+    {
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(noInternetLayout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)
@@ -148,29 +165,28 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
         })
 
 
-       /* listView.viewTreeObserver.addOnScrollChangedListener {
-            val scrollY = listView.scrollY
-            val totalContentHeight = listView.getChildAt(0)?.let { it.measuredHeight - listView.height }
+        /* listView.viewTreeObserver.addOnScrollChangedListener {
+             val scrollY = listView.scrollY
+             val totalContentHeight = listView.getChildAt(0)?.let { it.measuredHeight - listView.height }
 
-            if (scrollY >= (totalContentHeight ?: 0) && !isScrollAtEnd) {
-                isScrollAtEnd = true
-                // NestedScrollView has scrolled to the end
-                if(isNextEnabled && hadithPreviewAdapter.itemCount>0) {
-                    nextPageAPICalled = true
-                    fetchNextPageData()
-                    Log.e("ALQURAN_SCROLL","END")
-                    morePageBottomLoading(true)
-                }
-                else
-                    morePageBottomLoading(false)
-            }
+             if (scrollY >= (totalContentHeight ?: 0) && !isScrollAtEnd) {
+                 isScrollAtEnd = true
+                 // NestedScrollView has scrolled to the end
+                 if(isNextEnabled && hadithPreviewAdapter.itemCount>0) {
+                     nextPageAPICalled = true
+                     fetchNextPageData()
+                     Log.e("ALQURAN_SCROLL","END")
+                     morePageBottomLoading(true)
+                 }
+                 else
+                     morePageBottomLoading(false)
+             }
 
-        }*/
+         }*/
 
         initObserver()
         loadingState()
         loadApiData()
-
     }
 
     private fun morePageBottomLoading(bol:Boolean)

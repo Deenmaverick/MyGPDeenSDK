@@ -60,9 +60,15 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
         // init viewmodel
         val repository = PrayerCalendarRespository(NetworkProvider().getInstance().provideDeenService())
@@ -84,6 +90,14 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.postDelayed({
+            // Code to execute after the animation
+            loadPage()
+        }, 300)
+    }
+
+    private fun loadPage()
+    {
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(no_internet_layout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)

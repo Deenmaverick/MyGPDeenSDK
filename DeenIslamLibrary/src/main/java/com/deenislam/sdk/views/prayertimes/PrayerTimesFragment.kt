@@ -98,9 +98,15 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         setupBackPressCallback(this,true)
 
         NotificationPermission().getInstance().setupLauncher(this,localContext,true, activityContext = requireContext())
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
         val prayerTimesRepository = PrayerTimesRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
@@ -157,7 +163,13 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         }
 
         if(prayerMain.isEmpty())
-            loadPage()
+        {
+            view?.postDelayed({
+                // Code to execute after the animation
+                loadPage()
+            }, 300)
+        }
+
 
         if(firstload == 0) {
 

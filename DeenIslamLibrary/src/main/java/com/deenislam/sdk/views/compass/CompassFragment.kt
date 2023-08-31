@@ -73,9 +73,15 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         super.OnCreate()
         setupBackPressCallback(this,true)
 
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
         mSensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
@@ -122,6 +128,17 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
             param.topMargin = container.marginTop+ actionbar.height
             container.layoutParams = param
         }
+
+        view.postDelayed({
+            // Code to execute after the animation
+            loadPage()
+        }, 300)
+
+    }
+
+    private fun loadPage()
+    {
+
 
         degreeTxt.text = localContext.getString(R.string.compass_degree_txt,"--")
 
@@ -221,7 +238,6 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
 
         askLocationPermission(false)
-
     }
 
     @SuppressLint("MissingPermission")

@@ -88,9 +88,15 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         super.OnCreate()
         setupBackPressCallback(this,true)
 
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
         val repository = TasbeehRepository(
             tasbeehDao = DatabaseProvider().getInstance().provideTasbeehDao(),
@@ -111,10 +117,14 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         return mainView
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        loadpage()
+        view.postDelayed({
+            // Code to execute after the animation
+            loadpage()
+        }, 300)
+
     }
 
 
@@ -152,6 +162,8 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
             adapter = tasbeehDuaAdapter
             overScrollMode = View.OVER_SCROLL_NEVER
             ViewPagerHorizontalRecyler().getInstance().load(this)
+            onFlingListener = null
+            setLinearSnapHelper()
         }
 
         recentCountList.apply {

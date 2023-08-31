@@ -34,9 +34,15 @@ internal class BasicWebViewFragment : BaseRegularFragment(), otherFagmentActionC
 
     override fun OnCreate() {
         super.OnCreate()
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
     }
 
@@ -63,16 +69,20 @@ internal class BasicWebViewFragment : BaseRegularFragment(), otherFagmentActionC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ViewCompat.setTranslationZ(progressLayout, 10F)
-        ViewCompat.setTranslationZ(noInternetLayout, 10F)
+
+        view.postDelayed({
+            // Code to execute after the animation
+            ViewCompat.setTranslationZ(progressLayout, 10F)
+            ViewCompat.setTranslationZ(noInternetLayout, 10F)
 
 
-        //click retry button for get api data again
-        noInternetRetry.setOnClickListener {
-            webview.reload()
-        }
+            //click retry button for get api data again
+            noInternetRetry.setOnClickListener {
+                webview.reload()
+            }
 
-        loadWebVieww()
+            loadWebVieww()
+        }, 300)
     }
 
     private fun loadWebVieww()

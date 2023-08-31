@@ -102,7 +102,7 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
     private fun initView()
     {
             ViewCompat.setTranslationZ(progressLayout, 10F)
-
+            loadingState()
 
         /* recentRC.apply {
              adapter = RecentlyReadAdapter()

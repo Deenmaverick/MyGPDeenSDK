@@ -3,6 +3,7 @@ package com.deenislam.sdk.views.quran
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.transition.Transition
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -47,9 +48,16 @@ internal class QuranFragment : BaseRegularFragment() {
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this,true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+            duration = 300L
+        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+            duration = 300L
+        }
 
     }
 
@@ -78,9 +86,18 @@ internal class QuranFragment : BaseRegularFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
+
+      /*  postponeEnterTransition()
         loadpage()
-        startPostponedEnterTransition()
+        startPostponedEnterTransition()*/
+
+        // Assuming 300ms is the duration of your longest animation
+        view.postDelayed({
+            // Code to execute after the animation
+            loadpage()
+        }, 300)
+
+
     }
 
     private fun loadpage()
@@ -174,7 +191,7 @@ internal class QuranFragment : BaseRegularFragment() {
             }
             isUserInputEnabled = false
             overScrollMode = View.OVER_SCROLL_NEVER
-            offscreenPageLimit = 3
+            offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
         }
 
         if (_viewPager.getChildAt(0) is RecyclerView) {
