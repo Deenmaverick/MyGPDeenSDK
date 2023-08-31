@@ -90,10 +90,11 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.postDelayed({
+        loadPage()
+       /* view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)
+        }, 300)*/
     }
 
     private fun loadPage()
@@ -102,13 +103,15 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
         ViewCompat.setTranslationZ(no_internet_layout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)
 
+        //loading start
+        loadingState()
+
         dateTime.text = localContext.getString(R.string.prayer_calendar_date,currentDate).monthNameLocale().numberLocale()
 
         //init observer
         initObserver()
 
-        //loading start
-        loadingState()
+
 
 
         //click retry button for get api data again

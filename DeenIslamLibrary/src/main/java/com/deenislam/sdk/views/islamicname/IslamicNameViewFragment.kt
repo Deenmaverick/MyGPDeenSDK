@@ -94,11 +94,11 @@ internal class IslamicNameViewFragment : BaseRegularFragment(), IslamicNameAdapt
         super.onViewCreated(view, savedInstanceState)
 
         loadingState()
-
-        view.postDelayed({
+        loadPage()
+    /*    view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)
+        }, 300)*/
 
     }
 

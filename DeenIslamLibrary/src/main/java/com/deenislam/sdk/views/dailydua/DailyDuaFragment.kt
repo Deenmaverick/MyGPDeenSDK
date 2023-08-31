@@ -99,11 +99,12 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         allDuaBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
         allDuaBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
+        loadpage()
 
-        view.postDelayed({
+       /* view.postDelayed({
             // Code to execute after the animation
             loadpage()
-        }, 300)
+        }, 300)*/
     }
 
     override fun onBackPress() {

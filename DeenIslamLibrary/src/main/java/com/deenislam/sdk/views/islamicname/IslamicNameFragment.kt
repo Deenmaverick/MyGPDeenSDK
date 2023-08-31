@@ -91,11 +91,11 @@ internal class IslamicNameFragment : BaseRegularFragment() {
         firstload = true
 
 
-
-        view.postDelayed({
+        loadPage()
+       /* view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)
+        }, 300)*/
 
     }
 

@@ -70,7 +70,19 @@ internal class BasicWebViewFragment : BaseRegularFragment(), otherFagmentActionC
         super.onViewCreated(view, savedInstanceState)
 
 
-        view.postDelayed({
+        // Code to execute after the animation
+        ViewCompat.setTranslationZ(progressLayout, 10F)
+        ViewCompat.setTranslationZ(noInternetLayout, 10F)
+
+
+        //click retry button for get api data again
+        noInternetRetry.setOnClickListener {
+            webview.reload()
+        }
+
+        loadWebVieww()
+
+        /*view.postDelayed({
             // Code to execute after the animation
             ViewCompat.setTranslationZ(progressLayout, 10F)
             ViewCompat.setTranslationZ(noInternetLayout, 10F)
@@ -82,7 +94,7 @@ internal class BasicWebViewFragment : BaseRegularFragment(), otherFagmentActionC
             }
 
             loadWebVieww()
-        }, 300)
+        }, 300)*/
     }
 
     private fun loadWebVieww()

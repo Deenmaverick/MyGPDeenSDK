@@ -105,10 +105,11 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.postDelayed({
+        loadPage()
+        /*view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)
+        }, 300)*/
 
 
 

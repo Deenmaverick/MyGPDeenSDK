@@ -127,12 +127,15 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
             val param = container.layoutParams as ViewGroup.MarginLayoutParams
             param.topMargin = container.marginTop+ actionbar.height
             container.layoutParams = param
+
         }
 
-        view.postDelayed({
+        loadPage()
+
+        /*view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)
+        }, 300)*/
 
     }
 

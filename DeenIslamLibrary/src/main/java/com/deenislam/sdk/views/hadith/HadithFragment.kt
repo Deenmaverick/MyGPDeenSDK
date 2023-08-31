@@ -94,11 +94,12 @@ internal class HadithFragment : BaseRegularFragment() {
         hadithBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
         hadithBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
+        loadPage()
         
-        view.postDelayed({
+       /* view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)
+        }, 300)*/
 
 
     }

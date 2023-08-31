@@ -164,10 +164,12 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         if(prayerMain.isEmpty())
         {
-            view?.postDelayed({
+            loadPage()
+
+            /*view?.postDelayed({
                 // Code to execute after the animation
                 loadPage()
-            }, 300)
+            }, 300)*/
         }
 
 
