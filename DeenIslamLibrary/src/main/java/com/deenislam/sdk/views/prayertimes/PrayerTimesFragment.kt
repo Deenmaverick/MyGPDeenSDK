@@ -69,7 +69,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     private lateinit var viewmodel:PrayerTimesViewModel
 
-    private var firstload:Int = 0
+    private var firstload:Boolean = false
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
     private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
     private var prayerTimesResponse:PrayerTimesResponse?=null
@@ -142,9 +142,8 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         return mainview
     }
 
-
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         if (viewmodel.listState != null) {
             linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
@@ -164,16 +163,17 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         if(prayerMain.isEmpty())
         {
+            if(firstload)
             loadPage()
-
-            /*view?.postDelayed({
+            else
+            view.postDelayed({
                 // Code to execute after the animation
                 loadPage()
-            }, 300)*/
+            }, 300)
         }
 
 
-        if(firstload == 0) {
+        if(!firstload) {
 
             lifecycleScope.launch {
                 setTrackingID(get9DigitRandom())
@@ -187,7 +187,12 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
             loadDataAPI()
         }
-        firstload = 1
+        firstload = true
+    }
+
+
+    override fun onResume() {
+        super.onResume()
 
     }
 

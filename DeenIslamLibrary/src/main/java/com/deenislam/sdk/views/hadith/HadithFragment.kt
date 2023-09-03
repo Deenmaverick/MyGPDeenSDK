@@ -89,17 +89,19 @@ internal class HadithFragment : BaseRegularFragment() {
                     )
                 }
         }
-        firstload = true
 
         hadithBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
         hadithBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
+        if(firstload)
         loadPage()
-        
-       /* view.postDelayed({
+        else
+        view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)*/
+        }, 300)
+
+        firstload = true
 
 
     }

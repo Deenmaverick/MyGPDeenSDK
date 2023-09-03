@@ -31,7 +31,7 @@ import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
 
-internal class IslamicNameFavFavFragment : BaseRegularFragment(), CustomDialogCallback,
+internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallback,
     IslamicNameFavAdapterCallback {
 
     private lateinit var listView: RecyclerView
@@ -44,7 +44,7 @@ internal class IslamicNameFavFavFragment : BaseRegularFragment(), CustomDialogCa
 
     private var favData: Data? =null
     private var adapterPosition:Int = -1
-    private val islamicNameFavAdapter: IslamicNameFavAdapter by lazy { IslamicNameFavAdapter(this@IslamicNameFavFavFragment) }
+    private val islamicNameFavAdapter: IslamicNameFavAdapter by lazy { IslamicNameFavAdapter(this@IslamicNameFavFragment) }
 
     private lateinit var viewmodel: IslamicNameViewModel
 
@@ -74,7 +74,7 @@ internal class IslamicNameFavFavFragment : BaseRegularFragment(), CustomDialogCa
 
         customAlertDialog = CustomAlertDialog().getInstance()
         customAlertDialog?.setupDialog(
-            callback = this@IslamicNameFavFavFragment,
+            callback = this@IslamicNameFavFragment,
             context = requireContext(),
             btn1Text = localContext.getString(R.string.cancel),
             btn2Text = localContext.getString(R.string.delete),
@@ -104,12 +104,11 @@ internal class IslamicNameFavFavFragment : BaseRegularFragment(), CustomDialogCa
 
         }
 
+        loadApiData()
+
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadApiData()
-    }
+
 
     private fun loadApiData()
     {

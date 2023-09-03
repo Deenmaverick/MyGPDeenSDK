@@ -89,12 +89,16 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
         return mainView
     }
 
-
-
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         loadPage()
     }
+
+
+   /* override fun onResume() {
+        super.onResume()
+
+    }*/
 
     override fun onBackPress() {
         if(isVisible) {

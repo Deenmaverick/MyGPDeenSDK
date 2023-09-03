@@ -121,7 +121,6 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 )
             }
         }
-        firstload = true
 
         actionbar.post {
             val param = container.layoutParams as ViewGroup.MarginLayoutParams
@@ -130,12 +129,15 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
         }
 
+        if(firstload)
         loadPage()
-
-        /*view.postDelayed({
+        else
+        view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)*/
+        }, 300)
+
+        firstload = true
 
     }
 

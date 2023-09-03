@@ -88,14 +88,18 @@ internal class IslamicNameFragment : BaseRegularFragment() {
                 )
             }
         }
-        firstload = true
 
 
+
+        if(firstload)
         loadPage()
-       /* view.postDelayed({
+        else
+        view.postDelayed({
             // Code to execute after the animation
             loadPage()
-        }, 300)*/
+        }, 300)
+
+        firstload = true
 
     }
 
@@ -104,7 +108,7 @@ internal class IslamicNameFragment : BaseRegularFragment() {
 
         mPageDestination = arrayListOf(
             IslamicNameHomeFragment(),
-            IslamicNameFavFavFragment()
+            IslamicNameFavFragment()
         )
 
         mainViewPagerAdapter = MainViewPagerAdapter(

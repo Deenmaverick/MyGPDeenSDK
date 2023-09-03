@@ -69,7 +69,6 @@ internal class BasicWebViewFragment : BaseRegularFragment(), otherFagmentActionC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // Code to execute after the animation
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(noInternetLayout, 10F)

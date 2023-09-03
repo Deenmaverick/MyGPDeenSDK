@@ -90,13 +90,13 @@ internal class QuranFragment : BaseRegularFragment() {
       /*  postponeEnterTransition()
         loadpage()
         startPostponedEnterTransition()*/
+        if(firstload)
         loadpage()
-        // Assuming 300ms is the duration of your longest animation
-        /*view.postDelayed({
+        else
+        view.postDelayed({
             // Code to execute after the animation
             loadpage()
-        }, 300)*/
-
+        }, 300)
 
     }
 

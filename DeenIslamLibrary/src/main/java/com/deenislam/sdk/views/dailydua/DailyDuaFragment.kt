@@ -56,7 +56,6 @@ internal class DailyDuaFragment : BaseRegularFragment() {
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,17 +93,19 @@ internal class DailyDuaFragment : BaseRegularFragment() {
                 )
             }
         }
-        firstload = true
 
         allDuaBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
         allDuaBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
+        if(firstload)
         loadpage()
-
-       /* view.postDelayed({
+        else
+        view.postDelayed({
             // Code to execute after the animation
             loadpage()
-        }, 300)*/
+        }, 300)
+
+        firstload = true
     }
 
     override fun onBackPress() {
@@ -153,7 +154,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
                 isNestedScrollingEnabled = false
             }
             overScrollMode = View.OVER_SCROLL_NEVER
-            offscreenPageLimit = 3
+            offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
             reduceDragSensitivity(2)
         }
 
