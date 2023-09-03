@@ -120,11 +120,11 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadpage()
-        /*view.postDelayed({
+        //loadpage()
+        view.postDelayed({
             // Code to execute after the animation
             loadpage()
-        }, 300)*/
+        }, 300)
 
     }
 
