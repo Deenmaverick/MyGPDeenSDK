@@ -127,10 +127,10 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
 
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
+   /* override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         prayerTimesResponse?.let { updatePrayerAdapterOnly(it) }
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()
