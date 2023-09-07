@@ -1,5 +1,6 @@
 package com.deenislamsdk
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -16,6 +17,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val configuration: Configuration = resources.configuration
 
         val msisdn:EditText = findViewById(R.id.phone_number)
         val authBtn:AppCompatButton = findViewById(R.id.login)
@@ -95,6 +97,24 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
             }
         }
 
+        //testcrash()
+
+    }
+
+   /* fun testcrash() {
+        val map: Map<String, Boolean>? = mapOf(
+            "key1" to true,
+            "key2" to false
+        )
+
+        val mutableMap: MutableMap<String, Boolean> = map // Error occurs here
+
+        // Attempting to assign a nullable Map to a non-nullable MutableMap
+    }*/
+
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode)
     }
 
     override fun onDestroy() {
@@ -124,5 +144,11 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
     override fun DeenPrayerNotificationFailed() {
         Toast.makeText(this, "Prayer notification failed Callback", Toast.LENGTH_SHORT).show()
+    }
+}
+interface MyInterface {
+    @JvmDefault
+    fun myDefaultMethod() {
+        println("Default method implementation")
     }
 }
