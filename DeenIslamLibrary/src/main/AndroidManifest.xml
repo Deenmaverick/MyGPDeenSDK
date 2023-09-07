@@ -52,7 +52,6 @@
             android:exported="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop">
-            <nav-graph android:value="@navigation/main_nav" />
         </activity>
 
         <receiver
