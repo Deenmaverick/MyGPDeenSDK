@@ -195,7 +195,7 @@ internal class MainActivity : AppCompatActivity() {
                 Log.e("setupBackPressCallback",navController.previousBackStackEntry?.destination?.id.toString())
                 // Handle the back button event
                 if (navController.previousBackStackEntry?.destination?.id?.equals(
-                        navController.graph.startDestinationId
+                        navController.graph.startDestination
                     ) != true &&
                     navController.previousBackStackEntry?.destination?.id?.equals(
                         R.id.blankFragment
