@@ -29,7 +29,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         initSDKbtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
-                DeenSDKCore.authSDK(
+                DeenSDKCore.initDeen(
                     this,
                     msisdn.text.toString(),
                     this@DeenSDKActivity

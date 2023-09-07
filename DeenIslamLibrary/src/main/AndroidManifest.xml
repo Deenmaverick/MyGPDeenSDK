@@ -31,10 +31,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         tools:replace="android:allowBackup"
-        android:theme="@style/DeenSDKTheme"
         tools:targetApi="n">
 
-        <provider
+       <!-- <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.deenislam.sdk.fileprovider"
             android:grantUriPermissions="true"
@@ -42,7 +41,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
-        </provider>
+        </provider>-->
 
 
 
