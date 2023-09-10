@@ -113,7 +113,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
     }*/
 
 
-   /* override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean,
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean,
                                                newConfig: Configuration) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         if (isInPictureInPictureMode) {
@@ -121,7 +121,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         } else {
             // Restore the full-screen UI.
         }
-    }*/
+    }
 
     override fun onDestroy() {
         super.onDestroy()
