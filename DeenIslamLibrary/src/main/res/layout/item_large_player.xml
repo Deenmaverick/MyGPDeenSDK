@@ -139,7 +139,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/themeBtn"
-                style="@style/Widget.Material3.Button.ElevatedButton"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -156,7 +156,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/audioBtn"
-                style="@style/Widget.Material3.Button.ElevatedButton"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -173,7 +173,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/transalationBtn"
-                style="@style/Widget.Material3.Button.ElevatedButton"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

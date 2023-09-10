@@ -1,5 +1,7 @@
 package com.deenislam.sdk.service.libs.notification;
 
+import android.Manifest
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -10,6 +12,7 @@ import android.provider.Settings
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.R
@@ -38,7 +41,7 @@ internal class NotificationPermission {
         instance?.hasNotificationPermissionGranted =bol
     }
 
-    fun setupLauncher(fragment:Fragment,mContext:Context,isShowDialog:Boolean,activityContext:Context)
+   /* fun setupLauncher(fragment:Fragment,mContext:Context,isShowDialog:Boolean,activityContext:Context)
     {
         notificationPermissionLauncher =  fragment.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (!isGranted) {
@@ -57,6 +60,35 @@ internal class NotificationPermission {
             else
                 instance?.setPermissionGranted(isGranted)
         }
+    }*/
+
+    fun setupLauncher(
+        fragment: Fragment,
+        mContext: Context,
+        isShowDialog: Boolean,
+        activityContext: Context
+    ) {
+        val permission = Manifest.permission.POST_NOTIFICATIONS
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED) {
+                if (isShowDialog) {
+                    if (fragment.shouldShowRequestPermissionRationale(permission)) {
+                        NotificationPermission().getInstance()
+                            .showNotificationPermissionRationale(mContext, activityContext)
+                    } else {
+                        NotificationPermission().getInstance().showSettingDialog(mContext, activityContext)
+                    }
+                }
+                ActivityCompat.requestPermissions(
+                    activityContext as Activity,
+                    arrayOf(permission),
+                    100
+                )
+            } else {
+                instance?.setPermissionGranted(true)
+            }
+        }
     }
 
     fun reCheckNotificationPermission(mContext: Context) {
@@ -72,7 +104,7 @@ internal class NotificationPermission {
 
     fun showNotificationPermissionRationale(mContext: Context, activityContext: Context) {
 
-        MaterialAlertDialogBuilder(activityContext, R.style.MaterialAlertDialog_Material3)
+        MaterialAlertDialogBuilder(activityContext, R.style.MaterialAlertDialog_MaterialComponents)
             .setTitle(mContext.getString(com.deenislam.sdk.R.string.alert))
             .setMessage(mContext.getString(com.deenislam.sdk.R.string.dialog_notification_context))
             .setPositiveButton(mContext.getString(com.deenislam.sdk.R.string.okay)) { _, _ ->
@@ -85,7 +117,7 @@ internal class NotificationPermission {
     }
 
     fun showSettingDialog(mContext: Context, activityContext: Context) {
-        MaterialAlertDialogBuilder(activityContext, R.style.MaterialAlertDialog_Material3)
+        MaterialAlertDialogBuilder(activityContext, R.style.MaterialAlertDialog_MaterialComponents)
             .setTitle(mContext.getString(com.deenislam.sdk.R.string.alert))
             .setMessage(mContext.getString(com.deenislam.sdk.R.string.dialog_notification_context))
             .setPositiveButton(mContext.getString(com.deenislam.sdk.R.string.okay)) { _, _ ->

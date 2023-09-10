@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="DeenSDKTheme" parent="Theme.Material3.DayNight">
+    <style name="DeenSDKTheme" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/deen_primary</item>
         <item name="colorPrimaryVariant">@color/deen_primary</item>
@@ -12,15 +12,15 @@
         <!-- Status bar color. -->
        <!-- <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
         <!-- Customize your theme here. -->
-        <item name="materialSwitchStyle">@style/DeenWidget.App.Switch</item>
+        <!--<item name="materialSwitchStyle">@style/DeenWidget.App.Switch</item>-->
     </style>
 
-    <style name="DeenSDKTheme.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="DeenSDKTheme.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/deen_primary</item>
         <item name="colorPrimaryDark">@color/deen_primary</item>
-        <item name="colorAccent">@color/deen_primary</item>
-        <item name="materialSwitchStyle">@style/DeenWidget.App.Switch</item>
+        <item name="colorAccent">@color/deen_primary</item><!--
+        <item name="materialSwitchStyle">@style/DeenWidget.App.Switch</item>-->
 
     </style>
     
