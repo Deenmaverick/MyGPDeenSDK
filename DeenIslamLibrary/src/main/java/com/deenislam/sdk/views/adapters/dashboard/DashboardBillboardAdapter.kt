@@ -227,7 +227,7 @@ internal class DashboardBillboardAdapter(
 
         prayerMomentRangeData?.nextPrayerTimeCount?.let {
             if(it>0) {
-                nextPrayerTime.text = "-"+prayerMomentRangeData.nextPrayerTimeCount?.TimeDiffForPrayer().numberLocale()
+                nextPrayerTime.text = "-"+prayerMomentRangeData.nextPrayerTimeCount.TimeDiffForPrayer()?.numberLocale()
                 countDownTimer?.cancel()
                 countDownTimer = object : CountDownTimer(it, 1000) {
                     override fun onTick(millisUntilFinished: Long) {

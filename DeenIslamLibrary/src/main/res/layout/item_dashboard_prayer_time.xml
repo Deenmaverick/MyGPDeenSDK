@@ -196,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Dhaka"
+                android:text="@string/dhaka"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/deen_white"
                 app:layout_constraintLeft_toLeftOf="parent"
