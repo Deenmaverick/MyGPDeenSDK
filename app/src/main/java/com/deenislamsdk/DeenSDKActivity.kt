@@ -113,9 +113,15 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
     }*/
 
 
-    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean) {
-        super.onPictureInPictureModeChanged(isInPictureInPictureMode)
-    }
+   /* override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean,
+                                               newConfig: Configuration) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        if (isInPictureInPictureMode) {
+            // Hide the full-screen UI (controls, etc.) while in PiP mode.
+        } else {
+            // Restore the full-screen UI.
+        }
+    }*/
 
     override fun onDestroy() {
         super.onDestroy()
@@ -146,9 +152,10 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         Toast.makeText(this, "Prayer notification failed Callback", Toast.LENGTH_SHORT).show()
     }
 }
+/*
 interface MyInterface {
     @JvmDefault
     fun myDefaultMethod() {
         println("Default method implementation")
     }
-}
+}*/
