@@ -291,7 +291,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
     }
 
     fun showSettingDialog() {
-        MaterialAlertDialogBuilder(requireContext(), com.google.android.material.R.style.MaterialAlertDialog_Material3)
+        MaterialAlertDialogBuilder(requireContext(), com.google.android.material.R.style.MaterialAlertDialog_MaterialComponents)
             .setTitle(localContext.getString(R.string.location_permission))
             .setMessage(localContext.getString(R.string.dialog_location_permission_context))
             .setPositiveButton(localContext.getString(R.string.okay)) { _, _ ->
@@ -304,7 +304,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
     }
 
     fun showLocationEnableDialog() {
-        MaterialAlertDialogBuilder(requireContext(), com.google.android.material.R.style.MaterialAlertDialog_Material3)
+        MaterialAlertDialogBuilder(requireContext(), com.google.android.material.R.style.MaterialAlertDialog_MaterialComponents)
             .setTitle(localContext.getString(R.string.location_permission))
             .setMessage(localContext.getString(R.string.dialog_location_permission_context))
             .setPositiveButton(localContext.getString(R.string.okay)) { _, _ ->

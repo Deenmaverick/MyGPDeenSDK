@@ -16,8 +16,8 @@ import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepos
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.slider.Slider
+import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.launch
 
 internal class PlayerTranslationFragment : BaseRegularFragment() {
@@ -26,7 +26,7 @@ internal class PlayerTranslationFragment : BaseRegularFragment() {
 
     private lateinit var fontControl: Slider
     private lateinit var defaultFontBtn: AppCompatTextView
-    private lateinit var transliterationSwitch:MaterialSwitch
+    private lateinit var transliterationSwitch:SwitchMaterial
 
     private var updateSettingCall:Boolean = false
     //setting

@@ -204,7 +204,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         }
 
 
-        bottom_navigation.setOnItemSelectedListener { item ->
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
 
             MainActivity.instance?.bottomNavClicked = true
 

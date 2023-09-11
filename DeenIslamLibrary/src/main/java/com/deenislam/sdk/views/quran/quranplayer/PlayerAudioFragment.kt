@@ -4,27 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.DatabaseProvider
-import com.deenislam.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
 import com.deenislam.sdk.service.models.quran.quranplayer.ThemeResource
-import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepository
-import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
+import com.deenislam.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.launch
 
 internal class PlayerAudioFragment : BaseRegularFragment() {
 
     private lateinit var viewmodel:PlayerControlViewModel
 
-    private lateinit var autoScrollSwitch:MaterialSwitch
-    private lateinit var autoPlaySwitch:MaterialSwitch
+    private lateinit var autoScrollSwitch: SwitchMaterial
+    private lateinit var autoPlaySwitch:SwitchMaterial
 
     private var updateSettingCall:Boolean = false
 

@@ -15,7 +15,6 @@
             android:layout_marginTop="30dp"
             android:paddingBottom="0dp"
             android:theme="@style/Theme.MaterialComponents.Light"
-            app:itemActiveIndicatorStyle="@style/DeenTasbeen.Nav.Indicator"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
             app:fabAlignmentMode="center"
