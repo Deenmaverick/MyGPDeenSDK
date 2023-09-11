@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.deenislam.sdk.DeenSDKCore
 import com.google.android.material.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -91,7 +92,7 @@ internal class NotificationPermission {
             .setPositiveButton(mContext.getString(com.deenislam.sdk.R.string.okay)) { _, _ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.data = Uri.parse("package:${mContext.packageName}")
-                mContext.startActivity(intent)
+                DeenSDKCore.baseContext?.startActivity(intent)
             }
             .setNegativeButton(mContext.getString(com.deenislam.sdk.R.string.cancel), null)
             .show()
