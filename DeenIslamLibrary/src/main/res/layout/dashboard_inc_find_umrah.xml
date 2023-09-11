@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView android:layout_width="match_parent"
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/Widget.Material3.CardView.Elevated"
     app:cardBackgroundColor="@color/deen_white"
     android:layout_marginStart="@dimen/space_16"
     android:layout_marginTop="@dimen/space_16"

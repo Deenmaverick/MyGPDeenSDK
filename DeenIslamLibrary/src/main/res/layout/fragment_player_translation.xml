@@ -37,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
 
-        <com.google.android.material.materialswitch.MaterialSwitch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/autoScrollSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:scaleX="0.8"
             android:scaleY="0.8"
             app:thumbTint="@color/deen_white"
-            app:trackDecorationTint="@android:color/transparent" />
+            app:trackTint="@android:color/transparent" />
 
 
 

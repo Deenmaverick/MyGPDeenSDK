@@ -25,23 +25,17 @@
         </intent>
     </queries>
 
-    <application
-        android:allowBackup="false"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        tools:replace="android:allowBackup">
+    <application>
 
-       <!-- <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.deenislam.sdk.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>-->
+        <!-- <provider
+             android:name="androidx.core.content.FileProvider"
+             android:authorities="com.deenislam.sdk.fileprovider"
+             android:grantUriPermissions="true"
+             android:exported="false">
+             <meta-data
+                 android:name="android.support.FILE_PROVIDER_PATHS"
+                 android:resource="@xml/filepaths" />
+         </provider>-->
 
 
 
@@ -67,18 +61,18 @@
 
         <service android:name=".service.libs.notification.AlarmReceiverService" />
 
-       <!-- <receiver
-            android:name=".service.libs.notification.SnoozeReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
-            </intent-filter>
-        </receiver>
+        <!-- <receiver
+             android:name=".service.libs.notification.SnoozeReceiver"
+             android:enabled="true"
+             android:exported="false">
+             <intent-filter>
+                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+             </intent-filter>
+         </receiver>
 
-        <service android:name=".service.libs.notification.Notificationservice" />-->
+         <service android:name=".service.libs.notification.Notificationservice" />-->
 
     </application>
 

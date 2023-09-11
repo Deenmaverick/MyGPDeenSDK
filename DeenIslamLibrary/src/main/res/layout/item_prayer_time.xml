@@ -8,7 +8,6 @@
     app:cardCornerRadius="@dimen/space_16"
     app:cardElevation="0dp"
     tools:viewBindingIgnore="true"
-    style="@style/Widget.Material3.CardView.Elevated"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
