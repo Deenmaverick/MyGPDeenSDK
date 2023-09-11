@@ -7,7 +7,7 @@
     android:layout_marginEnd="1dp"
     app:cardCornerRadius="@dimen/space_8"
     app:cardElevation="1dp"
-    style="@style/Widget.Material3.CardView.Elevated"
+    style="@style/Widget.MaterialComponents.CardView"
     app:cardBackgroundColor="@color/deen_white"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
