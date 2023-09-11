@@ -8,7 +8,6 @@
     app:cardCornerRadius="@dimen/space_8"
     tools:viewBindingIgnore="true"
     app:cardElevation="1dp"
-    style="@style/Widget.Material3.CardView.Elevated"
     app:cardBackgroundColor="@color/deen_card_bg"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_16"
         android:layout_marginEnd="@dimen/space_16"
-        style="@style/Widget.Material3.CardView.Elevated"
+        style="@style/Widget.MaterialComponents.CardView"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/space_8"
         app:cardElevation="0dp"

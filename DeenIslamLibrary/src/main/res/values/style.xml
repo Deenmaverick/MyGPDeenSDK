@@ -44,18 +44,18 @@
         <item name="cornerSize">16dp</item>
     </style>
 
-    <style name="DeenWidget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+   <!-- <style name="DeenWidget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
         <item name="materialThemeOverlay">@style/DeenThemeOverlay.App.Switch</item>
-    </style>
+    </style>-->
 
     <style name="DeenThemeOverlay.App.Switch" parent="">
-        <item name="colorPrimary">@color/deen_primary</item>
-        <item name="colorSurfaceVariant">@color/deen_gray</item>
+        <item name="colorPrimary">@color/deen_primary</item><!--
+        <item name="colorSurfaceVariant">@color/deen_gray</item>-->
     </style>
 
-    <style name="DeenWidget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+ <!--   <style name="DeenWidget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
         <item name="materialThemeOverlay">@style/DeenThemeOverlay.App.RadioButton</item>
-    </style>
+    </style>-->
 
     <style name="DeenThemeOverlay.App.RadioButton" parent="">
         <item name="colorOnSurface">@color/deen_white</item>
@@ -64,7 +64,7 @@
 
     <!--Material dialog without round corner-->
 
-    <style name="DeenMaterialAlertDialog.Rounded" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+    <style name="DeenMaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="shapeAppearanceOverlay">@style/DeenShapeAppearanceOverlay.MaterialAlertDialog.Rounded</item>
     </style>
 
@@ -72,11 +72,11 @@
         <item name="cornerSize">@dimen/space_8</item>
     </style>
 
-    <style name="DeenApp.Nav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+    <style name="DeenApp.Nav.Indicator" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="android:color">@color/deen_card_bg</item>
     </style>
 
-    <style name="DeenTasbeen.Nav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+    <style name="DeenTasbeen.Nav.Indicator" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="android:color">@color/deen_txt_ash</item>
     </style>
 

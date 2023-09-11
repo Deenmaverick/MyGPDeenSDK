@@ -22,7 +22,7 @@ import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +38,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
     private var enTitle:AppCompatTextView ? = null
     private var banglaRadioBtn:RadioButton ? = null
     private var englishRadioBtn:RadioButton ? = null
-    private lateinit var locationswitch: MaterialSwitch
+    private lateinit var locationswitch: SwitchMaterial
     private lateinit var currentLanguage:AppCompatTextView
 
     private var localLanguage = "bn"
