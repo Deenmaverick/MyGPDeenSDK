@@ -6,13 +6,14 @@
         <item name="colorPrimaryVariant">@color/deen_primary</item>
         <item name="colorOnPrimary">@color/deen_white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/deen_teal_200</item>
+        <item name="colorSecondary">@color/deen_primary</item>
         <item name="colorSecondaryVariant">@color/deen_teal_700</item>
         <item name="colorOnSecondary">@color/deen_black</item>
         <!-- Status bar color. -->
        <!-- <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
         <!-- Customize your theme here. -->
         <!--<item name="materialSwitchStyle">@style/DeenWidget.App.Switch</item>-->
+        <item name="colorOnSurface">@color/deen_primary</item>
     </style>
 
     <style name="DeenSDKTheme.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
