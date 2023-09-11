@@ -44,7 +44,7 @@
     <string name="my_quran">My Quran</string>
     <string name="continue_reading">Continue reading</string>
     <string name="empty_place">Empty place</string>
-    <string name="no_data_msg">There is no content, content will be add here, Insha’Allah</string>
+    <string name="no_data_msg">There is no content, content will be add here, Insha\'Allah</string>
     <string name="download">Download</string>
     <string name="snooze">Snooze</string>
     <string name="search">Search</string>
@@ -79,7 +79,7 @@
     <!--Billboard-->
 
     <string name="billboard_have_you_prayed">Have you prayed %1$s?</string>
-    <string name="it_s_time_for">It’s time for</string>
+    <string name="it_s_time_for">It\'s time for</string>
     <string name="billboard_next_prayer">Next prayer: %1$s</string>
     <string name="billboard_all_prayers">All Prayers</string>
     <string name="hadith">Hadith</string>
@@ -114,7 +114,7 @@
     <string name="save_the_calculation">Save the Calculation</string>
     <string name="donate_zakat">Donate Zakat</string>
     <string name="target">TARGET</string>
-    <string name="tasbeeh_today_s">TODAY’S:</string>
+    <string name="tasbeeh_today_s">TODAY\'S:</string>
     <string name="tasbeeh_total">TOTAL:</string>
     <string name="none">None</string>
     <string name="recent_counts">Recent counts</string>
