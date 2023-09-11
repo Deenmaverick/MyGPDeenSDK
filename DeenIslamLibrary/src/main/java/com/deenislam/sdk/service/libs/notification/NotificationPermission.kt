@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.deenislam.sdk.DeenSDKCore
 import com.google.android.material.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -70,7 +71,7 @@ internal class NotificationPermission {
     ) {
         val permission = Manifest.permission.POST_NOTIFICATIONS
 
-        if (Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= 33) {
             if (ContextCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED) {
                 if (isShowDialog) {
                     if (fragment.shouldShowRequestPermissionRationale(permission)) {
@@ -89,6 +90,8 @@ internal class NotificationPermission {
                 instance?.setPermissionGranted(true)
             }
         }
+        else
+            instance?.setPermissionGranted(true)
     }
 
     fun reCheckNotificationPermission(mContext: Context) {
@@ -123,7 +126,7 @@ internal class NotificationPermission {
             .setPositiveButton(mContext.getString(com.deenislam.sdk.R.string.okay)) { _, _ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.data = Uri.parse("package:${mContext.packageName}")
-                mContext.startActivity(intent)
+                DeenSDKCore.baseContext?.startActivity(intent)
             }
             .setNegativeButton(mContext.getString(com.deenislam.sdk.R.string.cancel), null)
             .show()
