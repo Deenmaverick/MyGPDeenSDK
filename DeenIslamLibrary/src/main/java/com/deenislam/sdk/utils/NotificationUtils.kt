@@ -92,12 +92,12 @@ fun NotificationManager.sendNotification(
         .setContentIntent(contentPendingIntent)
         .setDeleteIntent(DismissPendingIntent)
         .setAutoCancel(true)
-        .setLargeIcon(getBitmapFromVectorDrawable(applicationContext,R.mipmap.ic_launcher))
-      /*  .addAction(
-            R.drawable.button_icon,
+        .setLargeIcon(getBitmapFromVectorDrawable(applicationContext,R.drawable.ic_notification_small))
+        .addAction(
+            R.drawable.ic_notifications_off,
             applicationContext.getString(R.string.snooze),
-            snoozePendingIntent
-        )*/
+            DismissPendingIntent
+        )
         .setPriority(NotificationCompat.PRIORITY_HIGH)
 
     if(largeImage!=null)

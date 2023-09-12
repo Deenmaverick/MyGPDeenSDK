@@ -71,7 +71,7 @@ internal class NotificationPermission {
     ) {
         val permission = Manifest.permission.POST_NOTIFICATIONS
 
-        if (Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= 33) {
             if (ContextCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED) {
                 if (isShowDialog) {
                     if (fragment.shouldShowRequestPermissionRationale(permission)) {
@@ -90,6 +90,8 @@ internal class NotificationPermission {
                 instance?.setPermissionGranted(true)
             }
         }
+        else
+            instance?.setPermissionGranted(true)
     }
 
     fun reCheckNotificationPermission(mContext: Context) {

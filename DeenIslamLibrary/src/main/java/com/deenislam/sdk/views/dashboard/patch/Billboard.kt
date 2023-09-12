@@ -48,8 +48,7 @@ internal class Billboard() {
 
         instance?.dashboardBillboard?.visibility = View.INVISIBLE
 
-        if(instance?.linearLayoutManager == null)
-            instance?.linearLayoutManager = ProminentLayoutManager(widget.context, scaleDownBy = 0.09F)
+        instance?.linearLayoutManager = ProminentLayoutManager(widget.context, scaleDownBy = 0.09F)
 
         instance?.linearLayoutManager?.orientation = LinearLayoutManager.HORIZONTAL
         //instance?.dashboardBillboard?.layoutManager = linearLayoutManager

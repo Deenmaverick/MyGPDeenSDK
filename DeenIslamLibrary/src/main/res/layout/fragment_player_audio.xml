@@ -46,9 +46,7 @@
             android:minHeight="15dp"
             android:checked="true"
             android:scaleX="0.8"
-            android:scaleY="0.8"
-            app:thumbTint="@color/deen_white"
-            app:trackTint="@android:color/transparent" />
+            android:scaleY="0.8"/>
 
 
 
@@ -83,9 +81,7 @@
             android:minHeight="15dp"
             android:checked="true"
             android:scaleX="0.8"
-            android:scaleY="0.8"
-            app:thumbTint="@color/deen_white"
-            app:trackTint="@android:color/transparent" />
+            android:scaleY="0.8" />
 
 
 

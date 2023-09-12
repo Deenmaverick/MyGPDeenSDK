@@ -2,6 +2,7 @@ package com.deenislam.sdk.views.dashboard
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
+import com.deenislam.sdk.views.main.MainActivity
 import kotlinx.coroutines.launch
 
 
@@ -29,6 +31,11 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
 
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
+
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +66,10 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
         }
     }
 
+    override fun onBackPress() {
+        onDestroy()
+        destoryDeenSDK()
+    }
 
     private fun initViewPager()
     {
