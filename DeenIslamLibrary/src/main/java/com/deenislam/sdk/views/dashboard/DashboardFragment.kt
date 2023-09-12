@@ -165,9 +165,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     }
 */
 
-    override fun onBackPress() {
 
-    }
 
     private fun initObserver()
     {

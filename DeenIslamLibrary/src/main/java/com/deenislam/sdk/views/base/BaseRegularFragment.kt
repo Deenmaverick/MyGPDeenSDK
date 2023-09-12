@@ -92,6 +92,8 @@ internal abstract class BaseRegularFragment: Fragment() {
         (activity as MainActivity).changeLanguage()
     }
 
+    fun destoryDeenSDK() = (activity as MainActivity).closeDeenSDK()
+
     fun setTrackingID(id:Long)
     {
         (activity as MainActivity).setTrackingID(id)

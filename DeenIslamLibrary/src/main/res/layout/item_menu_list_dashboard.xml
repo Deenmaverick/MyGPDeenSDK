@@ -48,6 +48,7 @@
         android:layout_marginTop="@dimen/space_8"
         android:layout_marginBottom="@dimen/space_16"
         android:text="Menu Name"
+        android:gravity="center"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/deen_txt_black"

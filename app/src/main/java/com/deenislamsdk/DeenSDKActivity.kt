@@ -2,6 +2,7 @@ package com.deenislamsdk
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +32,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         initSDKbtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
-                DeenSDKCore.initDeen(
+                DeenSDKCore.authSDK(
                     this,
                     msisdn.text.toString(),
                     this@DeenSDKActivity
@@ -126,6 +127,11 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
     override fun onDestroy() {
         super.onDestroy()
         DeenSDKCore.destroySDK()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("APP_ACTIVITY","BL")
     }
 
     override fun onDeenSDKInitSuccess() {

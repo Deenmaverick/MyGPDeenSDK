@@ -25,10 +25,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.DeenSDKCore
@@ -44,10 +42,6 @@ import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.dashboard.DashboardFragment
 import com.deenislam.sdk.views.dashboard.patch.Billboard
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Locale
 
 
@@ -165,6 +159,11 @@ internal class MainActivity : AppCompatActivity() {
 
     }
 
+    fun closeDeenSDK()
+    {
+        DeenSDKCore.destroySDK()
+        finish()
+    }
  /*   override fun onBackPressed() {
         if(this::onBackPressedCallback.isInitialized)
         onBackPressedCallback.handleOnBackPressed()
