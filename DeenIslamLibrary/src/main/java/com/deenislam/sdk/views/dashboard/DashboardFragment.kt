@@ -21,6 +21,7 @@ import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.DashboardResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
+import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.DashboardRepository
@@ -33,6 +34,8 @@ import com.deenislam.sdk.utils.MENU_ISLAMIC_NAME
 import com.deenislam.sdk.utils.MENU_PRAYER_TIME
 import com.deenislam.sdk.utils.MENU_QIBLA_COMPASS
 import com.deenislam.sdk.utils.MENU_ZAKAT
+import com.deenislam.sdk.utils.MilliSecondToStringTime
+import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.getWaktNameByTag
 import com.deenislam.sdk.utils.prayerMomentLocaleForToast
@@ -45,8 +48,11 @@ import com.deenislam.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
 import com.deenislam.sdk.views.base.BaseFragment
 import com.deenislam.sdk.views.main.actionCallback
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -165,6 +171,159 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
     }
 */
 
+
+    private fun prayerNotification(isEnabled: Boolean)
+    {
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            if(isEnabled)
+            {
+
+                /* token = AuthenticateRepository(
+                     authenticateService = NetworkProvider().getInstance().provideAuthService(),
+                     userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+                 ).authDeen(msisdn)
+
+                     if (token != null && token?.isNotEmpty() == true) {*/
+
+
+                val prayerTimesRepository = PrayerTimesRepository(
+                    deenService = NetworkProvider().getInstance().provideDeenService(),
+                    prayerNotificationDao = DatabaseProvider().getInstance()
+                        .providePrayerNotificationDao(),
+                    prayerTimesDao = null
+                )
+
+
+                val getPrayerTime = async { prayerTimesRepository.getPrayerTimes("Dhaka",
+                    DeenSDKCore.language,
+                    DeenSDKCore.prayerDate
+                ) }.await()
+                val getPrayerTimeNextDay = async { prayerTimesRepository.getPrayerTimes("Dhaka",
+                    DeenSDKCore.language, DeenSDKCore.prayerDate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)) }.await()
+
+
+                when (getPrayerTime) {
+                    is ApiResource.Failure -> {
+
+                    }
+
+                    is ApiResource.Success -> {
+
+                        getPrayerTime.value?.let {
+
+                            val isha =
+                                "${DeenSDKCore.prayerDate} ${it.Data.Isha}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+                            val currentTime =
+                                SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+                            if(currentTime>isha)
+                                return@launch
+                            else
+                                setupPrayerNotification(prayerTimesRepository,it)
+                        }
+                    }
+                }
+
+                when (getPrayerTimeNextDay) {
+                    is ApiResource.Failure -> {
+
+                    }
+
+                    is ApiResource.Success -> {
+
+                        getPrayerTimeNextDay.value?.let {
+                            setupPrayerNotification(prayerTimesRepository,it)
+                        }
+                    }
+                }
+
+                //}
+
+
+            }else
+            {
+
+                val prayerTimesRepository = PrayerTimesRepository(
+                    deenService = NetworkProvider().getInstance().provideDeenService(),
+                    prayerNotificationDao = DatabaseProvider().getInstance()
+                        .providePrayerNotificationDao(),
+                    prayerTimesDao = null
+                )
+
+                prayerTimesRepository.clearPrayerNotification()
+
+            }
+
+        }
+    }
+
+    private suspend fun setupPrayerNotification(
+        prayerTimesRepository: PrayerTimesRepository,
+        prayerTimesResponse: PrayerTimesResponse
+    )
+    {
+        prayerTimesResponse.let {
+
+
+
+            var prayerNotifyCount = 0
+
+            if (prayerTimesRepository.updatePrayerNotification(
+                    DeenSDKCore.prayerDate,
+                    "pt1",
+                    3,
+                    "",
+                    it
+                ) == 1
+            )
+                prayerNotifyCount++
+
+            if (prayerTimesRepository.updatePrayerNotification(
+                    DeenSDKCore.prayerDate,
+                    "pt3",
+                    3,
+                    "",
+                    it
+                ) == 1
+            )
+                prayerNotifyCount++
+            if (prayerTimesRepository.updatePrayerNotification(
+                    DeenSDKCore.prayerDate,
+                    "pt4",
+                    3,
+                    "",
+                    it
+                ) == 1)
+                prayerNotifyCount++
+
+            if (prayerTimesRepository.updatePrayerNotification(
+                    DeenSDKCore.prayerDate,
+                    "pt5",
+                    3,
+                    "",
+                    it
+                ) == 1
+            )
+                prayerNotifyCount++
+
+            if (prayerTimesRepository.updatePrayerNotification(
+                    DeenSDKCore.prayerDate,
+                    "pt6",
+                    3,
+                    "",
+                    it
+                ) == 1
+            )
+                prayerNotifyCount++
+
+            Log.e("DEEN_NOTIFY",prayerNotifyCount.toString())
+
+
+        }
+    }
 
 
     private fun initObserver()

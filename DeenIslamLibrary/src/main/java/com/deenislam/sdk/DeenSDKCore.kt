@@ -50,7 +50,7 @@ object DeenSDKCore {
     @JvmStatic
     var msisdn:String = ""
 
-    private var  prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+    var  prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
         Date()
     )
 
