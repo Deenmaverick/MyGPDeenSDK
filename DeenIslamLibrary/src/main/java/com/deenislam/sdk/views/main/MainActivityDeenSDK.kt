@@ -161,7 +161,6 @@ internal class MainActivity : AppCompatActivity() {
 
     fun closeDeenSDK()
     {
-        DeenSDKCore.destroySDK()
         finish()
     }
  /*   override fun onBackPressed() {
