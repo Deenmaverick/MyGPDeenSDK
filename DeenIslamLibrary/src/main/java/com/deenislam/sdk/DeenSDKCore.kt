@@ -349,9 +349,7 @@ object DeenSDKCore {
                                     val currentTime =
                                         SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
-                                    if(currentTime>isha)
-                                        return@launch
-                                    else
+                                   if(currentTime<isha)
                                     setupPrayerNotification(prayerTimesRepository,it, prayerDate)
                                 }?: run {
                                     withContext(Dispatchers.Main)
@@ -478,11 +476,11 @@ object DeenSDKCore {
 
             if(!isTodayNotificationSet) {
                 if (prayerNotifyCount > 0) {
-                    isTodayNotificationSet = true
                     withContext(Dispatchers.Main)
                     {
                         CallBackListener?.DeenPrayerNotificationOn()
                     }
+                    isTodayNotificationSet = true
                 } else {
                     withContext(Dispatchers.Main)
                     {
