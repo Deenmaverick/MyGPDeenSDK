@@ -68,8 +68,9 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         }
 
         prayernotifyon.setOnClickListener {
+            val baseContext = this
             if(msisdn.text.isNotEmpty()){
-                DeenSDKCore.prayerNotification(true)
+                DeenSDKCore.prayerNotification(true,baseContext,this@DeenSDKActivity)
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }
@@ -77,7 +78,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         prayernotifyoff.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
-                DeenSDKCore.prayerNotification(false)
+                DeenSDKCore.prayerNotification(false,baseContext,this@DeenSDKActivity)
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }
@@ -140,6 +141,14 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
     override fun onDeenSDKInitFailed() {
         Toast.makeText(this, "Auth Failed Callback", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDeenSDKOperationSuccess() {
+        Toast.makeText(this, "Deen operaton Success Callback", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDeenSDKOperationFailed() {
+        Toast.makeText(this, "Deen operaton Failed Callback", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDeenSDKRCFailed() {

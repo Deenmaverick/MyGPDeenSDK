@@ -76,16 +76,20 @@ internal class NotificationPermission {
                 if (isShowDialog) {
                     if (fragment.shouldShowRequestPermissionRationale(permission)) {
                         NotificationPermission().getInstance()
-                            .showNotificationPermissionRationale(mContext, activityContext)
-                    } else {
+                            .showSettingDialog(mContext, activityContext)
+                    }/* else {
                         NotificationPermission().getInstance().showSettingDialog(mContext, activityContext)
-                    }
+                    }*/
                 }
-                ActivityCompat.requestPermissions(
-                    activityContext as Activity,
-                    arrayOf(permission),
-                    100
-                )
+
+                if (!fragment.shouldShowRequestPermissionRationale(permission)) {
+                    ActivityCompat.requestPermissions(
+                        activityContext as Activity,
+                        arrayOf(permission),
+                        100
+                    )
+                }
+
             } else {
                 instance?.setPermissionGranted(true)
             }
@@ -98,7 +102,7 @@ internal class NotificationPermission {
         if (Build.VERSION.SDK_INT >= 33) {
             instance?.setPermissionGranted(
                 ContextCompat.checkSelfPermission(mContext,
-                android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED)
+                Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED)
         }
         else
             instance?.setPermissionGranted(true)
@@ -112,7 +116,7 @@ internal class NotificationPermission {
             .setMessage(mContext.getString(com.deenislam.sdk.R.string.dialog_notification_context))
             .setPositiveButton(mContext.getString(com.deenislam.sdk.R.string.okay)) { _, _ ->
                 if (Build.VERSION.SDK_INT >= 33) {
-                    instance?.notificationPermissionLauncher?.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                    instance?.notificationPermissionLauncher?.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
             .setNegativeButton(mContext.getString(com.deenislam.sdk.R.string.cancel), null)
@@ -135,7 +139,7 @@ internal class NotificationPermission {
     fun askPermission()
     {
         if (Build.VERSION.SDK_INT >= 33) {
-            instance?.notificationPermissionLauncher?.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            instance?.notificationPermissionLauncher?.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
             instance?.hasNotificationPermissionGranted = true
         }

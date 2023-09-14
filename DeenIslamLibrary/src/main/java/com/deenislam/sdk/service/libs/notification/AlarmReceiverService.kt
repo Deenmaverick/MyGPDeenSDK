@@ -99,14 +99,16 @@ internal class AlarmReceiverService: Service() {
 
                 clear_prayer_notification_by_id(pid)
 
-                val prayerTimesRepository = PrayerTimesRepository(
-                    deenService = NetworkProvider().getInstance().provideDeenService(),
-                    prayerNotificationDao = DatabaseProvider().getInstance()
-                        .providePrayerNotificationDao(),
-                    prayerTimesDao = null
-                )
+                if(prayerName == "Isha") {
+                    val prayerTimesRepository = PrayerTimesRepository(
+                        deenService = NetworkProvider().getInstance().provideDeenService(),
+                        prayerNotificationDao = DatabaseProvider().getInstance()
+                            .providePrayerNotificationDao(),
+                        prayerTimesDao = null
+                    )
 
-                prayerTimesRepository.refill_prayer_notification_for_alarm_service(prayerDate)
+                    prayerTimesRepository.refill_prayer_notification_for_alarm_service(prayerDate)
+                }
 
             }
 

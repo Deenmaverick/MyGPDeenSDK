@@ -54,6 +54,8 @@ object DeenSDKCore {
         Date()
     )
 
+    private var isTodayNotificationSet = false
+
 
     @JvmStatic
     fun initDeen(context: Context, token:String, callback: DeenSDKCallback? = null)
@@ -102,6 +104,17 @@ object DeenSDKCore {
         return true
     }
 
+    private fun reCheckAuth(): Boolean {
+        if(appContext == null || baseContext == null || token.isEmpty() || msisdn.isEmpty()) {
+            CallBackListener?.onDeenSDKOperationFailed()
+            return false
+        }
+        else
+            CallBackListener?.onDeenSDKOperationSuccess()
+
+        return true
+    }
+
      private fun authSDK(context: Context, getmsisdn:String, callback: DeenSDKCallback? = null)
     {
 
@@ -141,7 +154,7 @@ object DeenSDKCore {
     fun openDeen()
     {
 
-        if (!checkAuth()) {
+        if (!reCheckAuth()) {
             return
         }
 
@@ -155,7 +168,7 @@ object DeenSDKCore {
     @JvmStatic
     fun openFromRC(rc:String)
     {
-        if (!checkAuth()) {
+        if (!reCheckAuth()) {
             return
         }
 
@@ -177,7 +190,7 @@ object DeenSDKCore {
     private fun openTasbeeh()
     {
 
-        if (!checkAuth()) {
+        if (!reCheckAuth()) {
             return
         }
 
@@ -232,7 +245,7 @@ object DeenSDKCore {
     private fun openPrayerTime()
     {
 
-        if (!checkAuth()) {
+        if (!reCheckAuth()) {
             return
         }
 
@@ -283,11 +296,13 @@ object DeenSDKCore {
     }
 
     @JvmStatic
-    fun prayerNotification(isEnabled: Boolean)
+    fun prayerNotification(isEnabled: Boolean,context: Context,callback: DeenSDKCallback? = null)
     {
-        if (!checkAuth()) {
-            return
-        }
+
+        this.isTodayNotificationSet = false
+        this.baseContext = context
+        this.appContext = context.applicationContext
+        this.CallBackListener = callback
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -310,8 +325,8 @@ object DeenSDKCore {
                         )
 
 
-                        val getPrayerTime = async { prayerTimesRepository.getPrayerTimes("Dhaka", language, prayerDate) }.await()
-                        val getPrayerTimeNextDay = async { prayerTimesRepository.getPrayerTimes("Dhaka", language, prayerDate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)) }.await()
+                        val getPrayerTime = async { prayerTimesRepository.getPrayerTimeSDK("Dhaka", language, prayerDate) }.await()
+                        val getPrayerTimeNextDay = async { prayerTimesRepository.getPrayerTimeSDK("Dhaka", language, prayerDate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)) }.await()
 
 
                 when (getPrayerTime) {
@@ -337,8 +352,14 @@ object DeenSDKCore {
                                     if(currentTime>isha)
                                         return@launch
                                     else
-                                    setupPrayerNotification(prayerTimesRepository,it)
-                                }?:CallBackListener?.DeenPrayerNotificationFailed()
+                                    setupPrayerNotification(prayerTimesRepository,it, prayerDate)
+                                }?: run {
+                                    withContext(Dispatchers.Main)
+                                    {
+                                        CallBackListener?.DeenPrayerNotificationFailed()
+                                    }
+                                    return@launch
+                                }
                             }
                         }
 
@@ -355,8 +376,14 @@ object DeenSDKCore {
                     is ApiResource.Success -> {
 
                         getPrayerTimeNextDay.value?.let {
-                                setupPrayerNotification(prayerTimesRepository,it)
-                        }?:CallBackListener?.DeenPrayerNotificationFailed()
+                                setupPrayerNotification(prayerTimesRepository,it, nextPrayerDate = prayerDate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
+                        }?: run {
+                            withContext(Dispatchers.Main)
+                            {
+                                CallBackListener?.DeenPrayerNotificationFailed()
+                            }
+                            return@launch
+                        }
                     }
                 }
 
@@ -391,17 +418,16 @@ object DeenSDKCore {
 
     private suspend fun setupPrayerNotification(
         prayerTimesRepository: PrayerTimesRepository,
-        prayerTimesResponse: PrayerTimesResponse
+        prayerTimesResponse: PrayerTimesResponse,
+        nextPrayerDate:String
     )
     {
         prayerTimesResponse.let {
 
-
-
             var prayerNotifyCount = 0
 
             if (prayerTimesRepository.updatePrayerNotification(
-                    prayerDate,
+                    nextPrayerDate,
                     "pt1",
                     3,
                     "",
@@ -411,7 +437,7 @@ object DeenSDKCore {
                 prayerNotifyCount++
 
             if (prayerTimesRepository.updatePrayerNotification(
-                    prayerDate,
+                    nextPrayerDate,
                     "pt3",
                     3,
                     "",
@@ -420,7 +446,7 @@ object DeenSDKCore {
             )
                 prayerNotifyCount++
             if (prayerTimesRepository.updatePrayerNotification(
-                    prayerDate,
+                    nextPrayerDate,
                     "pt4",
                     3,
                     "",
@@ -429,7 +455,7 @@ object DeenSDKCore {
                 prayerNotifyCount++
 
             if (prayerTimesRepository.updatePrayerNotification(
-                    prayerDate,
+                    nextPrayerDate,
                     "pt5",
                     3,
                     "",
@@ -439,7 +465,7 @@ object DeenSDKCore {
                 prayerNotifyCount++
 
             if (prayerTimesRepository.updatePrayerNotification(
-                    prayerDate,
+                    nextPrayerDate,
                     "pt6",
                     3,
                     "",
@@ -450,24 +476,21 @@ object DeenSDKCore {
 
             Log.e("DEEN_NOTIFY",prayerNotifyCount.toString())
 
-            if (prayerNotifyCount > 0) {
-                withContext(Dispatchers.Main)
-                {
-                    CallBackListener?.DeenPrayerNotificationOn()
-                }
-            }
-            else {
-                withContext(Dispatchers.Main)
-                {
-                    CallBackListener?.DeenPrayerNotificationFailed()
+            if(!isTodayNotificationSet) {
+                if (prayerNotifyCount > 0) {
+                    isTodayNotificationSet = true
+                    withContext(Dispatchers.Main)
+                    {
+                        CallBackListener?.DeenPrayerNotificationOn()
+                    }
+                } else {
+                    withContext(Dispatchers.Main)
+                    {
+                        CallBackListener?.DeenPrayerNotificationFailed()
+                    }
                 }
             }
 
-
-        } ?:
-        withContext(Dispatchers.Main)
-        {
-            CallBackListener?.DeenPrayerNotificationFailed()
         }
     }
 
@@ -525,6 +548,8 @@ interface DeenSDKCallback
 {
     fun onDeenSDKInitSuccess()
     fun onDeenSDKInitFailed()
+    fun onDeenSDKOperationSuccess()
+    fun onDeenSDKOperationFailed()
     fun onDeenSDKRCFailed()
     fun DeenPrayerNotificationOn()
     fun DeenPrayerNotificationOff()
