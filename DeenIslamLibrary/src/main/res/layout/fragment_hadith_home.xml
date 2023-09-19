@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
+    android:background="@color/deen_background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include

@@ -180,7 +180,7 @@
             android:textColor="@color/deen_txt_black_deep"
             app:cornerRadius="6dp"
             app:icon="@drawable/ic_favorite"
-            app:iconGravity="textStart"
+            app:iconGravity="start"
             app:iconSize="@dimen/sapce_20"
             app:iconTint="@color/deen_txt_black_deep"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -190,7 +190,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.button.MaterialButton
-            android:visibility="gone"
+            android:visibility="invisible"
             android:id="@+id/favshareBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
