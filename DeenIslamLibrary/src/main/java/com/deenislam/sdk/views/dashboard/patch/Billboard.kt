@@ -18,6 +18,7 @@ internal class Billboard() {
     private lateinit var  dashboardBillboard: RecyclerView
     private var linearLayoutManager:ProminentLayoutManager ? = null
     private var isAlreadyScrolled:Boolean = false
+    private var billboardBannerData:List<Banner> ? = arrayListOf()
     companion object
     {
         var instance: Billboard? =null
@@ -113,9 +114,16 @@ internal class Billboard() {
 
                     post {
 
+
+                        val ptPosition = instance?.billboardBannerData?.indexOfFirst {
+                                bData ->
+                            bData.Text == "PrayerTime"
+                        }?:0
+
+
                         instance?.isAlreadyScrolled = true
                         instance?.linearLayoutManager?.scrollToPositionWithOffset(
-                            2,
+                            ptPosition,
                             screenWidth.dp
                         )
 
@@ -143,6 +151,7 @@ internal class Billboard() {
 
     fun updateBillboard(data: List<Banner>)
     {
+        instance?.billboardBannerData = data
         if(instance!=null && instance!!::dashboardBillboard.isInitialized) {
             instance?.dashboardBillboardAdapter?.updateBillboard(data)
             instance?.dashboardBillboard?.post {

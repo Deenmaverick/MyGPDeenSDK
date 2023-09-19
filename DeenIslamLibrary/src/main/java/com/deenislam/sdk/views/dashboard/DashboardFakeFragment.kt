@@ -28,7 +28,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
 
     private lateinit var actionbar: ConstraintLayout
     private lateinit var _viewPager: ViewPager2
-
+    private lateinit var btnBack: AppCompatImageView
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
 
@@ -47,8 +47,8 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
         actionbar = mainview.findViewById(R.id.actionbar)
         _viewPager = mainview.findViewById(R.id.viewPager)
 
-        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,"",false,actionbar)
-        val btnBack: AppCompatImageView = actionbar.findViewById(R.id.btnBack)
+        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,localContext.getString(R.string.islamic),false,actionbar)
+        btnBack = actionbar.findViewById(R.id.btnBack)
         btnBack.show()
 
         return mainview
@@ -63,6 +63,10 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
             val param = _viewPager.layoutParams as ViewGroup.MarginLayoutParams
             param.topMargin =  actionbar.height
             _viewPager.layoutParams = param
+        }
+
+        btnBack.setOnClickListener {
+            onBackPress()
         }
     }
 

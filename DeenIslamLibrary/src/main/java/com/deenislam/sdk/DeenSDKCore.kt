@@ -58,7 +58,7 @@ object DeenSDKCore {
 
 
     @JvmStatic
-    fun initDeen(context: Context, token:String, callback: DeenSDKCallback? = null)
+    fun initDeen(context: Context, token:String, callback: DeenSDKCallback)
     {
 
         this.baseContext = context
@@ -75,20 +75,26 @@ object DeenSDKCore {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            if(!AuthenticateRepository(
+            withContext(Dispatchers.Main)
+            {
+                checkAuth()
+            }
+
+            AuthenticateRepository(
+                authenticateService = NetworkProvider().getInstance().provideAuthService(),
+                userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+            ).initSDK(token, msisdn)
+
+           /* if(!AuthenticateRepository(
                 authenticateService = NetworkProvider().getInstance().provideAuthService(),
                 userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
             ).initSDK(token, msisdn))
             {
                 baseContext = null
                 appContext = null
-                CallBackListener = callback
-            }
+                //CallBackListener = callback
+            }*/
 
-            withContext(Dispatchers.Main)
-            {
-                checkAuth()
-            }
         }
 
     }
