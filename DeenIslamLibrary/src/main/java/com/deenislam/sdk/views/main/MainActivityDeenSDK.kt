@@ -555,7 +555,7 @@ internal class MainActivity : AppCompatActivity() {
         //showBottomNav(destination.isBottomNavFragment)
         when(destination)
         {
-            R.id.action_blankFragment_to_dashboardFakeFragment ->
+            R.id.dashboardFakeFragment ->
             {
 
                 navController.navigate(destination)
@@ -563,7 +563,7 @@ internal class MainActivity : AppCompatActivity() {
             }
             else ->
             {
-                navController.navigate(R.id.action_blankFragment_to_dashboardFakeFragment)
+                navController.navigate(R.id.dashboardFakeFragment)
                 navController.navigate(destination)
 
                /* lifecycleScope.launch {
