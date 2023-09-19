@@ -302,7 +302,7 @@ object DeenSDKCore {
     }
 
     @JvmStatic
-    fun prayerNotification(isEnabled: Boolean,context: Context,callback: DeenSDKCallback? = null)
+    fun prayerNotification(isEnabled: Boolean,context: Context,callback: DeenSDKCallback)
     {
 
         this.isTodayNotificationSet = false
