@@ -18,22 +18,17 @@ import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.getRCDestination
 import com.deenislam.sdk.views.main.MainActivity
 import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 @SuppressLint("StaticFieldLeak")
 @Keep
 object DeenSDKCore {
 
     @JvmStatic
-    var  CallBackListener : DeenSDKCallback? =null
+    private var  CallBackListener : DeenSDKCallback? =null
 
     @JvmStatic
     var appContext: Context? = null
@@ -42,15 +37,15 @@ object DeenSDKCore {
     var baseContext: Context? = null
 
     @JvmStatic
-    var token: String = ""
+    private var token: String = ""
 
     @JvmStatic
-    var language = "bn"
+    private var deen_language = "bn"
 
     @JvmStatic
-    var msisdn:String = ""
+    private var msisdn:String = ""
 
-    var  prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+    private var  prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
         Date()
     )
 
@@ -98,6 +93,24 @@ object DeenSDKCore {
         }
 
     }
+
+    fun GetDeenLanguage() = deen_language
+    fun SetDeenLanguage(language:String)
+    {
+        deen_language = if(language == "en" || language == "bn")
+            language
+        else
+            "bn"
+    }
+
+    fun GetDeenToken() = token
+    fun SetDeenToken(token: String)
+    {
+        this.token = token
+    }
+
+    fun GetDeenMsisdn() = msisdn
+    fun GetDeenPrayerDate() = prayerDate
 
     private fun checkAuth(): Boolean {
         if(appContext == null || baseContext == null || token.isEmpty() || msisdn.isEmpty()) {
@@ -331,8 +344,8 @@ object DeenSDKCore {
                         )
 
 
-                        val getPrayerTime = async { prayerTimesRepository.getPrayerTimeSDK("Dhaka", language, prayerDate) }.await()
-                        val getPrayerTimeNextDay = async { prayerTimesRepository.getPrayerTimeSDK("Dhaka", language, prayerDate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)) }.await()
+                        val getPrayerTime = async { prayerTimesRepository.getPrayerTimeSDK("Dhaka", deen_language, prayerDate) }.await()
+                        val getPrayerTimeNextDay = async { prayerTimesRepository.getPrayerTimeSDK("Dhaka", deen_language, prayerDate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)) }.await()
 
 
                 when (getPrayerTime) {

@@ -81,7 +81,7 @@ internal class SurahAdapter(
 
                     surahCount.text = surahFilter[position].id.toString().numberLocale()
                     surahName.text =
-                        if(DeenSDKCore.language == "bn") (surahFilter[position].id-1).getSurahNameBn()
+                        if(DeenSDKCore.GetDeenLanguage() == "bn") (surahFilter[position].id-1).getSurahNameBn()
                         else
                             surahFilter[position].name_simple
 

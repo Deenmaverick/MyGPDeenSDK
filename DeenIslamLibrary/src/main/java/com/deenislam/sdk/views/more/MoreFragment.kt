@@ -83,7 +83,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
     private fun loadPage()
     {
-        username.text = DeenSDKCore.msisdn.numberLocale()
+        username.text = DeenSDKCore.GetDeenMsisdn().numberLocale()
 
         settingLayout.setOnClickListener {
             gotoFrag(R.id.action_moreFragment_to_settingFragment)

@@ -83,7 +83,7 @@ internal class HadithFragment : BaseRegularFragment() {
                     setTrackingID(get9DigitRandom())
                     userTrackViewModel.trackUser(
                         language = getLanguage(),
-                        msisdn = DeenSDKCore.msisdn,
+                        msisdn = DeenSDKCore.GetDeenMsisdn(),
                         pagename = "hadith",
                         trackingID = getTrackingID()
                     )
@@ -176,7 +176,7 @@ internal class HadithFragment : BaseRegularFragment() {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "hadith",
                     trackingID = getTrackingID()
                 )

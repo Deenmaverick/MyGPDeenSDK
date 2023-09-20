@@ -86,7 +86,7 @@ internal class PopularSurahAdapter(
 
                     surahCount.text = surahList[position].id.toString().numberLocale()
                     surahName.text =
-                        if(DeenSDKCore.language == "bn") (surahList[position].id-1).getSurahNameBn()
+                        if(DeenSDKCore.GetDeenLanguage() == "bn") (surahList[position].id-1).getSurahNameBn()
                     else
                         surahList[position].name_simple
                     

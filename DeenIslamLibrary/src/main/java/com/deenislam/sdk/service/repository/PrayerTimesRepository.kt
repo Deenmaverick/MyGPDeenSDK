@@ -24,7 +24,6 @@ import com.deenislam.sdk.utils.getPrayerTimeTagWise
 import com.deenislam.sdk.utils.toRequestBody
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
@@ -346,7 +345,7 @@ internal class PrayerTimesRepository(
     suspend fun refill_prayer_notification_for_alarm_service(prayerDate: String) {
 
             val getPrayerTime =  getPrayerTimeSDK("Dhaka",
-                DeenSDKCore.language, prayerDate)
+                DeenSDKCore.GetDeenLanguage(), prayerDate)
 
             var prayerTimesResponse: PrayerTimesResponse? = null
 

@@ -238,7 +238,7 @@ internal class MainActivity : AppCompatActivity() {
 
     fun changeLanguage()
     {
-        localContext = if (DeenSDKCore.language == "en") {
+        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(this, Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(this, Locale("bn"))

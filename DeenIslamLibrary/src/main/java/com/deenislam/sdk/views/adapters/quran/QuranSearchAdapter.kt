@@ -57,13 +57,16 @@ internal class SelectSurahAdapter(
 
                 surahCount.text = surahFilter[position].id.toString().numberLocale()
                 surahName.text =
-                    if(DeenSDKCore.language == "bn") (surahFilter[position].id-1).getSurahNameBn()
+                    if(DeenSDKCore.GetDeenLanguage() == "bn") (surahFilter[position].id-1).getSurahNameBn()
                     else
                         surahFilter[position].name_simple
 
                 arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
                 arbSurah.text =
                     "${if (surahPost < 10) 0 else ""}${if (surahPost < 100) 0 else ""}${surahPost}"
+
+                surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahFilter[position].translated_name.name+" • ",surahFilter[position].verses_count.toString().numberLocale())
+
                 itemView.setOnClickListener {
                     callback.selectedSurah(surahPost - 1)
                 }
@@ -93,7 +96,7 @@ internal class SelectSurahAdapter(
                             val value = surah.get(juzData.verse_mapping)
 
                             if (value is String && value.isNotEmpty()) {
-                                suraSubTxt += if(DeenSDKCore.language == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
+                                suraSubTxt += if(DeenSDKCore.GetDeenLanguage() == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
                                 else
                                     "${surahList[surah.name.toInt()-1].name_simple} "
                             }

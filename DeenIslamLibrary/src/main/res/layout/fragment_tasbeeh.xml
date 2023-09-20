@@ -292,6 +292,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/deen_txt_ash"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:layout_marginTop="@dimen/space_16"
                 android:layout_marginStart="@dimen/space_40"

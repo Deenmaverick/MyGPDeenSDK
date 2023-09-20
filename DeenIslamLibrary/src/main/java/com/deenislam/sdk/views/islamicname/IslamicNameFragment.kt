@@ -82,7 +82,7 @@ internal class IslamicNameFragment : BaseRegularFragment() {
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "islamic_name",
                     trackingID = getTrackingID()
                 )
@@ -182,7 +182,7 @@ internal class IslamicNameFragment : BaseRegularFragment() {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "islamic_name",
                     trackingID = getTrackingID()
                 )

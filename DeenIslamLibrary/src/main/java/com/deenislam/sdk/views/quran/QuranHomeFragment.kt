@@ -144,7 +144,7 @@ internal class QuranHomeFragment() : BaseRegularFragment(), SurahCallback {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "quran",
                     trackingID = getTrackingID()
                 )

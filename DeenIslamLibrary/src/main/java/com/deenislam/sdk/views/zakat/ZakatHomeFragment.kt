@@ -123,7 +123,7 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "zakat",
                     trackingID = getTrackingID()
                 )

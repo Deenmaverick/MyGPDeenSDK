@@ -115,7 +115,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "compass",
                     trackingID = getTrackingID()
                 )
@@ -543,7 +543,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "compass",
                     trackingID = getTrackingID()
                 )

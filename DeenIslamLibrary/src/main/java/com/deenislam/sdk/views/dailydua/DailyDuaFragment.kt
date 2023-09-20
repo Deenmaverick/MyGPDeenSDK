@@ -87,7 +87,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "daily_dua",
                     trackingID = getTrackingID()
                 )
@@ -113,7 +113,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "daily_dua",
                     trackingID = getTrackingID()
                 )

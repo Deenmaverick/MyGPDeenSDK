@@ -15,7 +15,6 @@ import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.toRequestBody
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
@@ -67,7 +66,7 @@ internal class AuthenticateRepository(
             makeApicall {
 
                 val body = JSONObject()
-                body.put("language", DeenSDKCore.language)
+                body.put("language", DeenSDKCore.GetDeenLanguage())
                 body.put("msisdn", msisdn)
                 body.put("pagename", "dashboard")
                 body.put("trackingID", get9DigitRandom())
@@ -95,12 +94,12 @@ internal class AuthenticateRepository(
 
                         if(storeToken(it.JWT,msisdn,"") > 0) {
 
-                            DeenSDKCore.token = it.JWT
+                            DeenSDKCore.SetDeenToken(it.JWT)
 
                             makeApicall {
 
                                 val body = JSONObject()
-                                body.put("language", DeenSDKCore.language)
+                                body.put("language", DeenSDKCore.GetDeenLanguage())
                                 body.put("msisdn", msisdn)
                                 body.put("pagename", "dashboard")
                                 body.put("trackingID", get9DigitRandom())

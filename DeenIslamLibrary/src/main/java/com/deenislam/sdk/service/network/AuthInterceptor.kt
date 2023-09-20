@@ -19,7 +19,7 @@ internal class AuthInterceptor():Interceptor {
 
         }*/
 
-        val acceessToken = DeenSDKCore.token
+        val acceessToken = DeenSDKCore.GetDeenToken()
 
         var request = chain.request()
         request = request.newBuilder()

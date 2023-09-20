@@ -89,7 +89,7 @@ internal class TasbeehDuaAdapter(
             dhikrCount.text = dhikrCount.context.getString(R.string.tasbeeh_dhikir_count,(position+1).toString().numberLocale())
             arabicName.text = duaList[position].dua_arb
 
-            if(DeenSDKCore.language == "en")
+            if(DeenSDKCore.GetDeenLanguage() == "en")
             name.text = duaList[position].dua
             else
                 name.text = duaList[position].dua_bn

@@ -60,7 +60,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        localContext = if (DeenSDKCore.language == "en") {
+        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
@@ -86,14 +86,14 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     }
 
      fun getLanguage():String =
-        if(DeenSDKCore.language == "en")
+        if(DeenSDKCore.GetDeenLanguage() == "en")
             ""
         else
             "bn"
 
     fun changeLanguage(language:String)
     {
-        DeenSDKCore.language = language
+        DeenSDKCore.SetDeenLanguage(language)
         (activity as MainActivity).changeLanguage()
     }
     private fun isBacktoHome(bol:Boolean)
@@ -233,7 +233,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "home",
                     trackingID = get9DigitRandom()
                 )

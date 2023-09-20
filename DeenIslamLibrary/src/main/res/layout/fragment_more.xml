@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/actionbar"
-        layout="@layout/layout_actionbar_home"
+        layout="@layout/layout_actionbar_homev2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

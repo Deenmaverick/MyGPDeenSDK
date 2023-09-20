@@ -32,8 +32,8 @@ internal class AlarmReceiverService: Service() {
             DeenSDKCore.appContext = this.applicationContext
         if(DeenSDKCore.baseContext == null)
             DeenSDKCore.baseContext = this
-        if(DeenSDKCore.token.isEmpty())
-            DeenSDKCore.token = "MyBLSDK"
+        if(DeenSDKCore.GetDeenToken().isEmpty())
+            DeenSDKCore.SetDeenToken("MyBLSDK")
 
         AzanPlayer.releaseMediaPlayer()
 

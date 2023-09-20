@@ -179,7 +179,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "prayer_time",
                     trackingID = getTrackingID()
                 )
@@ -376,7 +376,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "prayer_time",
                     trackingID = getTrackingID()
                 )

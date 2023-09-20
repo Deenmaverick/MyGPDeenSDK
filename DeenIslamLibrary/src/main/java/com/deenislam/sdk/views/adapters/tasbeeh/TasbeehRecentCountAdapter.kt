@@ -41,7 +41,7 @@ internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>(
         override fun onBind(position: Int) {
             super.onBind(position)
             listPos.text = "0"+(position+1).toString().numberLocale()
-            if(DeenSDKCore.language == "en")
+            if(DeenSDKCore.GetDeenLanguage() == "en")
             duaName.text = tasbeehData[position].dua
             else
                 duaName.text = tasbeehData[position].dua_bn

@@ -1,6 +1,5 @@
 package com.deenislam.sdk.views.dashboard
 
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -36,7 +35,6 @@ import com.deenislam.sdk.utils.MENU_QIBLA_COMPASS
 import com.deenislam.sdk.utils.MENU_ZAKAT
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
-import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.getWaktNameByTag
 import com.deenislam.sdk.utils.prayerMomentLocaleForToast
 import com.deenislam.sdk.utils.toast
@@ -52,7 +50,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -197,11 +194,11 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
 
                 val getPrayerTime = async { prayerTimesRepository.getPrayerTimes("Dhaka",
-                    DeenSDKCore.language,
-                    DeenSDKCore.prayerDate
+                    DeenSDKCore.GetDeenLanguage(),
+                    DeenSDKCore.GetDeenPrayerDate()
                 ) }.await()
                 val getPrayerTimeNextDay = async { prayerTimesRepository.getPrayerTimes("Dhaka",
-                    DeenSDKCore.language, DeenSDKCore.prayerDate.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)) }.await()
+                    DeenSDKCore.GetDeenLanguage(), DeenSDKCore.GetDeenPrayerDate().StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)) }.await()
 
 
                 when (getPrayerTime) {
@@ -214,7 +211,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                         getPrayerTime.value?.let {
 
                             val isha =
-                                "${DeenSDKCore.prayerDate} ${it.Data.Isha}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+                                "${DeenSDKCore.GetDeenPrayerDate()} ${it.Data.Isha}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
                             val currentTime =
                                 SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
@@ -272,7 +269,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             var prayerNotifyCount = 0
 
             if (prayerTimesRepository.updatePrayerNotification(
-                    DeenSDKCore.prayerDate,
+                    DeenSDKCore.GetDeenPrayerDate(),
                     "pt1",
                     3,
                     "",
@@ -282,7 +279,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                 prayerNotifyCount++
 
             if (prayerTimesRepository.updatePrayerNotification(
-                    DeenSDKCore.prayerDate,
+                    DeenSDKCore.GetDeenPrayerDate(),
                     "pt3",
                     3,
                     "",
@@ -291,7 +288,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             )
                 prayerNotifyCount++
             if (prayerTimesRepository.updatePrayerNotification(
-                    DeenSDKCore.prayerDate,
+                    DeenSDKCore.GetDeenPrayerDate(),
                     "pt4",
                     3,
                     "",
@@ -300,7 +297,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                 prayerNotifyCount++
 
             if (prayerTimesRepository.updatePrayerNotification(
-                    DeenSDKCore.prayerDate,
+                    DeenSDKCore.GetDeenPrayerDate(),
                     "pt5",
                     3,
                     "",
@@ -310,7 +307,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                 prayerNotifyCount++
 
             if (prayerTimesRepository.updatePrayerNotification(
-                    DeenSDKCore.prayerDate,
+                    DeenSDKCore.GetDeenPrayerDate(),
                     "pt6",
                     3,
                     "",
@@ -400,7 +397,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                 dashboardPatchMain.updatePrayerTime(it)
                 //binding.progressLayout.root.visible(false)
                 binding.noInternetLayout.root.visible(false)
-            }?:nointernetState()
+            }//?:nointernetState()
         }
     }
 
@@ -465,7 +462,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
 
             userTrackViewModel.trackUser(
                 language = getLanguage(),
-                msisdn = DeenSDKCore.msisdn,
+                msisdn = DeenSDKCore.GetDeenMsisdn(),
                 pagename = "home",
                 trackingID = get9DigitRandom()
             )

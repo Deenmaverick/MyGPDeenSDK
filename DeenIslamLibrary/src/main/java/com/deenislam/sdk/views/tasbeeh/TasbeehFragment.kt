@@ -139,7 +139,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "digital_tasbeeh",
                     trackingID = getTrackingID()
                 )
@@ -433,7 +433,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "digital_tasbeeh",
                     trackingID = getTrackingID()
                 )

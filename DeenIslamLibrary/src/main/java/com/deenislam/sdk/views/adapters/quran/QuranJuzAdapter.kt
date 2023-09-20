@@ -3,7 +3,6 @@ package com.deenislam.sdk.views.adapters.quran
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
@@ -16,7 +15,6 @@ import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.getSurahNameBn
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
-import com.google.android.material.progressindicator.CircularProgressIndicator
 
 internal class QuranJuzAdapter(
     private val callback: JuzCallback
@@ -100,7 +98,7 @@ internal class QuranJuzAdapter(
                             if (value is String && value.isNotEmpty()) {
                                 suraSubTxt +=
 
-                                    if(DeenSDKCore.language == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
+                                    if(DeenSDKCore.GetDeenLanguage() == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
                                     else
                                         "${surahList[surah.name.toInt()-1].name_simple} "
 

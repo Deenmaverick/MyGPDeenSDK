@@ -50,7 +50,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        localContext = if (DeenSDKCore.language == "en") {
+        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
@@ -88,7 +88,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun changeLanguage(language:String)
     {
-        DeenSDKCore.language = language
+        DeenSDKCore.SetDeenLanguage(language)
         (activity as MainActivity).changeLanguage()
     }
 
@@ -102,7 +102,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     fun getTrackingID() = (activity as MainActivity).getTrackingID()
 
     fun getLanguage():String =
-        if(DeenSDKCore.language == "en")
+        if(DeenSDKCore.GetDeenLanguage() == "en")
             ""
         else
             "bn"
@@ -210,7 +210,7 @@ internal abstract class BaseRegularFragment: Fragment() {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "home",
                     trackingID = get9DigitRandom()
                 )

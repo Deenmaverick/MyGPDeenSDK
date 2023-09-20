@@ -105,7 +105,7 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "daily_dua",
                     trackingID = getTrackingID()
                 )

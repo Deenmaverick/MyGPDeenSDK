@@ -47,7 +47,7 @@ internal class NetworkProvider {
         if(instance?.authInterceptor==null) {
 
             val userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
-            var acceessToken = DeenSDKCore.token
+            var acceessToken = DeenSDKCore.GetDeenToken()
 
                 val userData = userPrefDao?.select()
 

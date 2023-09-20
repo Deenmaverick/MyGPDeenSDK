@@ -104,7 +104,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
 
             userTrackViewModel.trackUser(
                 language = getLanguage(),
-                msisdn = DeenSDKCore.msisdn,
+                msisdn = DeenSDKCore.GetDeenMsisdn(),
                 pagename = "home",
                 trackingID = get9DigitRandom()
             )

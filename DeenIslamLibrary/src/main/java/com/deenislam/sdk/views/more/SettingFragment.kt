@@ -125,9 +125,9 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
 
                 }
 
-                is SettingResource.languageDataUpdate ->
+               /* is SettingResource.languageDataUpdate ->
                 {
-                    localLanguage = if(it.language.toString() == "en")
+                    localLanguage = if(it.language == "en")
                         "en"
                     else
                         "bn"
@@ -144,7 +144,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
                             navController.navigate(R.id.action_moreFragment_to_settingFragment)
                         }
                     }
-                }
+                }*/
             }
         }
     }
@@ -193,7 +193,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
     private fun setupSettingDialogLanguage()
     {
 
-        DeenSDKCore.language = localLanguage
+        //DeenSDKCore.GetDeenLanguage() = localLanguage
 
          if(localLanguage == "en")
         {

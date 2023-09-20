@@ -107,7 +107,7 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
             lifecycleScope.launch {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
-                    msisdn = DeenSDKCore.msisdn,
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
                     pagename = "quran",
                     trackingID = getTrackingID()
                 )

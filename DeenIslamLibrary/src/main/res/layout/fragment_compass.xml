@@ -51,6 +51,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/deen_txt_ash"
                 android:textAlignment="center"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mapBg"/>
@@ -107,6 +108,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/deen_txt_black_deep"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -119,6 +121,7 @@
                 android:layout_marginTop="@dimen/space_4"
                 android:text="@string/the_distance_from_kaaba_is_unknown"
                 android:elevation="@dimen/space_4"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/deen_txt_ash"

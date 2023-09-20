@@ -83,7 +83,7 @@ fun getFileExtension(fileName: String): String {
 
 fun Context.getLocalContext(): Context {
 
-    var localContext: Context = if (DeenSDKCore.language == "en") {
+    var localContext: Context = if (DeenSDKCore.GetDeenLanguage() == "en") {
         LocaleUtil.createLocaleContext(this, Locale("en"))
     } else {
         LocaleUtil.createLocaleContext(this, Locale("bn"))
@@ -95,7 +95,7 @@ fun Context.getLocalContext(): Context {
 
 fun String.numberLocale():String
 {
-    if(DeenSDKCore.language == "bn") {
+    if(DeenSDKCore.GetDeenLanguage() == "bn") {
         val numberMap = mapOf(
             '0' to '০',
             '1' to '১',
@@ -118,7 +118,7 @@ fun String.numberLocale():String
 
 fun String.timeLocale():String
 {
-    if(DeenSDKCore.language == "bn") {
+    if(DeenSDKCore.GetDeenLanguage() == "bn") {
         val numberMap = mapOf(
             '0' to '০',
             '1' to '১',
@@ -147,7 +147,7 @@ fun String.timeLocale():String
 
 fun String.prayerMomentLocaleForToast():String
 {
-    if(DeenSDKCore.language == "bn") {
+    if(DeenSDKCore.GetDeenLanguage() == "bn") {
 
        return when(this)
         {
@@ -167,7 +167,7 @@ fun String.prayerMomentLocaleForToast():String
 
 fun String.prayerMomentLocale():String
 {
-    if(DeenSDKCore.language == "bn") {
+    if(DeenSDKCore.GetDeenLanguage() == "bn") {
 
         return when(this)
         {
@@ -432,11 +432,11 @@ fun String.surahNameLocale():String
             "An-Nas"
     )
 
-    return  if(DeenSDKCore.language == "bn") surahNameEn.indexOf(this).getSurahNameBn() else this
+    return  if(DeenSDKCore.GetDeenLanguage() == "bn") surahNameEn.indexOf(this).getSurahNameBn() else this
 }
 
 fun String.surahOriginLocale():String =
-    if(DeenSDKCore.language == "bn")
+    if(DeenSDKCore.GetDeenLanguage() == "bn")
     {
        if(this == "makkah")
            "মক্কা"
@@ -450,7 +450,7 @@ fun Context.getString(id:Int):String = this.resources.getString(id)
 
 fun String.monthNameLocale(): String =
 
-     if(DeenSDKCore.language == "bn") {
+     if(DeenSDKCore.GetDeenLanguage() == "bn") {
 
         val englishMonths = listOf(
             "January", "February", "March", "April", "May", "June",
@@ -475,7 +475,7 @@ fun String.monthNameLocale(): String =
 
 fun String.dayNameLocale(): String =
 
-    if(DeenSDKCore.language == "bn") {
+    if(DeenSDKCore.GetDeenLanguage() == "bn") {
 
         val englishDays = listOf(
             "Sunday", "Monday", "Tuesday", "Wednesday",
