@@ -1,7 +1,5 @@
 package com.deenislam.sdk.views.more
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -57,7 +55,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         privacyLayout = mainview.findViewById(R.id.privacyLayout)
 
         setupActionForOtherFragment(
-            action1 = R.drawable.ic_close,
+            action1 = R.drawable.deen_ic_close,
             action2 = 0,
             callback = this@MoreFragment,
             actionnBartitle = localContext.getString(R.string.app_name),
