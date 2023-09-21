@@ -72,7 +72,7 @@ internal fun getPrayerTimeTagWise(
             return isha - currentTime
         }
 
-        "opt1" -> {
+       /* "opt1" -> {
             val tahajjut: Long
             if(currentTime<nightTime)
              tahajjut =
@@ -82,9 +82,9 @@ internal fun getPrayerTimeTagWise(
                     "$date ${data.Data.Tahajjut}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
             return  tahajjut-currentTime
-        }
+        }*/
 
-        "opt2" -> {
+        "opt1" -> {
 
             val suhoor: Long
             if(currentTime<nightTime)
@@ -97,7 +97,7 @@ internal fun getPrayerTimeTagWise(
             return  suhoor - currentTime
         }
 
-        "opt3" -> {
+       /* "opt3" -> {
             val ishrak: Long
             if(currentTime<nightTime)
                 ishrak =
@@ -107,9 +107,9 @@ internal fun getPrayerTimeTagWise(
                 "$date ${data.Data.Ishrak}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
             return  ishrak - currentTime
-        }
+        }*/
 
-        "opt4" -> {
+        "opt2" -> {
             val iftar =
                 "$date ${data.Data.Magrib}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
@@ -133,9 +133,9 @@ internal fun getPrayerTimeTagWise(
 
         "Isha"-> "pt6"
 
-        "Tahajjud"-> "opt1"
+        "Tahajjud"-> "opt3"
 
-        "Ishraq"-> "opt3"
+        "Ishraq"-> "opt4"
 
         else -> ""
 
@@ -155,13 +155,13 @@ fun get_prayer_name_by_tag(tag:String): String =
 
         "pt6"-> "Isha"
 
-        "opt1"-> "Tahajjud"
+        "opt3"-> "Tahajjud"
 
-        "opt2"-> "Suhoor"
+        "opt1"-> "Suhoor"
 
-        "opt3"-> "Ishraq"
+        "opt4"-> "Ishraq"
 
-        "opt4"-> "Iftaar"
+        "opt2"-> "Iftaar"
 
         else -> ""
 

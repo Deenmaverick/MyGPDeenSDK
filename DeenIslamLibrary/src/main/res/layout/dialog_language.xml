@@ -32,7 +32,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/deen_txt_black_deep"
         android:textStyle="bold"
-        android:text="@string/language"
+        android:text="@string/languageTxt"
         app:layout_constraintTop_toBottomOf="@+id/ic_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

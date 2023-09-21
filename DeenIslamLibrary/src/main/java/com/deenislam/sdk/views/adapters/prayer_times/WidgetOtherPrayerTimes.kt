@@ -81,35 +81,47 @@ internal class WidgetOtherPrayerTimes(
 
             when(position+1)
             {
+
                 1->
-                {
-                    prayerName.text = "Tahajjud".prayerMomentLocale()
-
-                    timeTxt.text = ("${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
-
-                }
-
-                2->
                 {
                     prayerName.text = "Suhoor (End)".prayerMomentLocale()
                     timeTxt.text = ("${prayerData?.Data?.Sehri?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 
+                2->
+                {
+                    prayerName.text = "Iftaar (Start)".prayerMomentLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                }
+
+
                 3->
+                {
+                    prayerName.text = "Tahajjud End".prayerMomentLocale()
+
+                   /* timeTxt.text = ("${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+*/
+
+                    timeTxt.text = ("${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+
+                    rightBtn.hide()
+
+                }
+
+
+                4->
                 {
                     prayerName.text = "Ishraq".prayerMomentLocale()
                     timeTxt.text = ("${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
                             "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
 
+                    rightBtn.hide()
+
                 }
 
-                4->
-                {
-                    prayerName.text = "Iftaar (Start)".prayerMomentLocale()
-                    timeTxt.text = ("${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
-                }
+
             }
 
             if(prayerMomentRangeData?.MomentName == prayerName.text && prayerData?.Data?.Date?.contains(todayDate) == true)

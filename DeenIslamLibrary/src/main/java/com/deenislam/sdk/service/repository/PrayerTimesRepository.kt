@@ -103,7 +103,8 @@ internal class PrayerTimesRepository(
         prayer_tag: String,
         state: Int = 0,
         sound_file: String = "",
-        prayerTimesResponse: PrayerTimesResponse?
+        prayerTimesResponse: PrayerTimesResponse?,
+        isFromInsideSDK:Boolean = true
     ) =
         withContext(Dispatchers.IO)
         {
@@ -111,9 +112,13 @@ internal class PrayerTimesRepository(
 
                val existingPrayerNotifyData =  getNotificationData(date = date, prayer_tag = prayer_tag)
 
+                Log.e("existingPrayerNotify",Gson().toJson(existingPrayerNotifyData))
+                if(existingPrayerNotifyData!=null && !isFromInsideSDK)
+                    return@withContext 1
+
                 var finalState = state
-                if(existingPrayerNotifyData?.state == 2 || existingPrayerNotifyData?.state == 3)
-                    finalState = existingPrayerNotifyData.state
+                /*if(existingPrayerNotifyData?.state == 2 || existingPrayerNotifyData?.state == 3)
+                    finalState = existingPrayerNotifyData.state*/
 
                 if(prayerNotificationDao?.update(date,prayer_tag,finalState) !=0) {
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)

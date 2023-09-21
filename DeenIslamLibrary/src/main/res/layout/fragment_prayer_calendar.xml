@@ -19,7 +19,6 @@
 
     <ScrollView
         android:id="@+id/container"
-        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -142,7 +141,6 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
                 android:id="@+id/prayerMain"
                 android:layout_marginTop="@dimen/space_10"
                 android:layout_marginStart="@dimen/space_8"
@@ -156,6 +154,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/dateTimeLayout"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/footer"
                 app:layout_constraintStart_toStartOf="parent">
 
             </androidx.recyclerview.widget.RecyclerView>

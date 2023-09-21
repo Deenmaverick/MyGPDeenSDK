@@ -86,13 +86,13 @@ fun NotificationManager.sendNotification(
     val builder = NotificationCompat.Builder(
         applicationContext,channelID
     )
-        .setSmallIcon(R.drawable.ic_notification_small)
+        .setSmallIcon(R.drawable.bl_islamic_icon)
         .setContentTitle(title)
         .setContentText(messageBody)
         .setContentIntent(contentPendingIntent)
         .setDeleteIntent(DismissPendingIntent)
         .setAutoCancel(true)
-        .setLargeIcon(getBitmapFromVectorDrawable(applicationContext,R.drawable.ic_notification_small))
+        .setLargeIcon(getBitmapFromVectorDrawable(applicationContext,R.drawable.bl_islamic_icon))
         .addAction(
             R.drawable.ic_notifications_off,
             applicationContext.getString(R.string.snooze),

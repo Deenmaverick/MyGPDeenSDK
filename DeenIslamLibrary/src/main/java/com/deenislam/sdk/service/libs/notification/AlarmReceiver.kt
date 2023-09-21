@@ -159,13 +159,13 @@ internal class AlarmReceiver : BroadcastReceiver() {
 
             "pt6"-> "Isha"
 
-            "opt1"-> "Tahajjud"
+            "opt3"-> "Tahajjud"
 
-            "opt2"-> "Suhoor"
+            "opt1"-> "Suhoor"
 
-            "opt3"-> "Ishraq"
+            "opt4"-> "Ishraq"
 
-            "opt4"-> "Iftaar"
+            "opt2"-> "Iftaar"
 
             else -> null
 

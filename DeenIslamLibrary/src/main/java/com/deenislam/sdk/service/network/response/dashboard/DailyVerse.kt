@@ -9,7 +9,7 @@ internal data class DailyVerse(
     val Id: Int,
     val IsActive: Any,
     val Language: Any,
-    val Reference: Any,
+    val Reference: String?,
     val Text: String,
     val Title: String,
     val contentBaseUrl: String,

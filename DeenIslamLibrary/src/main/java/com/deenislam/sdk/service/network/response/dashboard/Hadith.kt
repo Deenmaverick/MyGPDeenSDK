@@ -9,7 +9,7 @@ internal data class Hadith(
     val Id: Int,
     val IsActive: Any,
     val Language: Any,
-    val Reference: Any,
+    val Reference: String?,
     val HadithText: String,
     val HadithArabicText: String,
     val Title: String,

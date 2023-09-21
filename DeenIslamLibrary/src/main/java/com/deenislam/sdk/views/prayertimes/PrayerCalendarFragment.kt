@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -142,15 +143,37 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
 
     private fun viewState(data: ArrayList<Data>)
     {
-        val Prayeradapter = PrayerCalendarAdapter(data)
+
+        Log.e("PTviewState",data.size.toString())
+       // val Prayeradapter = PrayerCalendarAdapter(data)
 
         prayerMain.apply {
-            adapter = Prayeradapter
+            adapter = PrayerCalendarAdapter(data)
+            setRecyclerViewHeightBasedOnChildren(this)
             post {
                 dataState()
             }
         }
     }
+
+    fun setRecyclerViewHeightBasedOnChildren(recyclerView: RecyclerView) {
+        val adapter = recyclerView.adapter ?: return
+        var totalHeight = 0
+        for (i in 0 until adapter.itemCount) {
+            val viewHolder = adapter.createViewHolder(recyclerView, adapter.getItemViewType(i))
+            adapter.onBindViewHolder(viewHolder, i)
+            viewHolder.itemView.measure(
+                View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            totalHeight += viewHolder.itemView.measuredHeight
+        }
+
+        val params = recyclerView.layoutParams
+        params.height = totalHeight
+        recyclerView.layoutParams = params
+    }
+
 
 
     private fun loadApiData()

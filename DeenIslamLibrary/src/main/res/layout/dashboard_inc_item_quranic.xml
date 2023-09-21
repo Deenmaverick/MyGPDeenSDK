@@ -88,6 +88,19 @@
 
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
+                android:id="@+id/midContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_16"
+                android:text="Mid Content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_txt_black_deep" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/subContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,7 +109,7 @@
                 android:layout_marginEnd="@dimen/space_16"
                 android:text="Sub Content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/deen_txt_black_deep" />
+                android:textColor="@color/deen_txt_ash" />
 
 
             <com.google.android.material.button.MaterialButton

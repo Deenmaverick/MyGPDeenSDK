@@ -273,7 +273,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                     "pt1",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1
             )
                 prayerNotifyCount++
@@ -283,7 +284,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                     "pt3",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1
             )
                 prayerNotifyCount++
@@ -292,7 +294,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                     "pt4",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1)
                 prayerNotifyCount++
 
@@ -301,7 +304,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                     "pt5",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1
             )
                 prayerNotifyCount++
@@ -311,7 +315,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                     "pt6",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1
             )
                 prayerNotifyCount++

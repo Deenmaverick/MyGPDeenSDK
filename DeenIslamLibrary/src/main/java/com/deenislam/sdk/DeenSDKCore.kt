@@ -448,7 +448,8 @@ object DeenSDKCore {
                     "pt1",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1
             )
                 prayerNotifyCount++
@@ -458,7 +459,8 @@ object DeenSDKCore {
                     "pt3",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1
             )
                 prayerNotifyCount++
@@ -467,7 +469,8 @@ object DeenSDKCore {
                     "pt4",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1)
                 prayerNotifyCount++
 
@@ -476,7 +479,8 @@ object DeenSDKCore {
                     "pt5",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1
             )
                 prayerNotifyCount++
@@ -486,7 +490,8 @@ object DeenSDKCore {
                     "pt6",
                     3,
                     "",
-                    it
+                    it,
+                    isFromInsideSDK = false
                 ) == 1
             )
                 prayerNotifyCount++

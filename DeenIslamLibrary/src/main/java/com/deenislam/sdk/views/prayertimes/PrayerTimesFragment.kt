@@ -395,14 +395,12 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         if (data.size>0) {
             pryaerNotificationData = data
+            prayerTimesAdapter.updateNotificationData(pryaerNotificationData)
             Log.e("viewState",Gson().toJson(pryaerNotificationData))
         }
 
         prayerTimesResponse?.let {
             prayerTimesAdapter.updateData(it,pryaerNotificationData)
-            prayerMain.post {
-                prayerTimesAdapter.updateNotificationData(pryaerNotificationData)
-            }
         }
 
     }
@@ -485,10 +483,10 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         notification_prayer_name = titile
         muezzinListLayout(false)
-        muezzinAdapter = MuezzinAdapter()
+       /* muezzinAdapter = MuezzinAdapter()
         notification_muezzin_list.apply {
             adapter = muezzinAdapter
-        }
+        }*/
         dialog_okBtn = customAlertDialogView.findViewById(R.id.okBtn)
         notify_txtTitile.text = localContext.getString(R.string.prayer_notification_title,titile)
         ViewCompat.setTranslationZ(notify_progressLayout, 10F)
@@ -582,26 +580,26 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                     initNotificationDialog(localContext.getString(R.string.isha), position)
                 }
 
-                "opt1" -> {
+               /* "opt1" -> {
                     initNotificationDialog(localContext.getString(R.string.tahajjud), position)
-                }
+                }*/
 
-                "opt2" -> {
+                "opt1" -> {
                     initNotificationDialog(localContext.getString(R.string.suhoor), position)
                 }
 
-                "opt3" -> {
+             /*   "opt3" -> {
                     initNotificationDialog(localContext.getString(R.string.ishraq), position)
-                }
+                }*/
 
-                "opt4" -> {
+                "opt2" -> {
                     initNotificationDialog(localContext.getString(R.string.iftaar), position)
                 }
 
             }
         }
         else {
-            NotificationPermission().getInstance().askPermission()
+            NotificationPermission().getInstance().showSettingDialog(localContext,requireContext())
             isNotificationClicked = true
         }
     }

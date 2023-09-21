@@ -73,7 +73,7 @@
     <string name="zakah_home_faq3_content"></string>
     <string name="zakah_home_faq4_title">Zakat distribution sector</string>
     <string name="zakah_home_faq4_content"></string>
-    <string name="language">Language</string>
+    <string name="languageTxt">Language</string>
     <string name="setting_language_txt">English</string>
 
     <!--Billboard-->
@@ -126,7 +126,7 @@
     <string name="done">Done</string>
     <string name="location">Location</string>
     <string name="recently_read">Recently Read</string>
-    <string name="popular_sura">Popular Sura</string>
+    <string name="popular_sura">Widely used surah</string>
     <string name="quran_popular_surah_ayat">%1$s %2$s Ayahs</string>
     <string name="quran_para_adapter_title">Juz (Para) %1$s</string>
     <string name="ruku">Ruku: --</string>

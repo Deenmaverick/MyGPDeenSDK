@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_12"
                 android:layout_marginTop="@dimen/space_8"
-                android:text="@string/language"
+                android:text="@string/languageTxt"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/deen_txt_black_deep"
                 app:layout_constraintTop_toTopOf="parent"

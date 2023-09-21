@@ -58,7 +58,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
             action1 = R.drawable.deen_ic_close,
             action2 = 0,
             callback = this@MoreFragment,
-            actionnBartitle = localContext.getString(R.string.app_name),
+            actionnBartitle = localContext.getString(R.string.islamic),
             backEnable = false,
             view = mainview,
             isBackIcon = true

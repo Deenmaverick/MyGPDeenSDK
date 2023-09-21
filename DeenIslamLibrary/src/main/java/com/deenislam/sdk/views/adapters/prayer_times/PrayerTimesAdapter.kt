@@ -175,8 +175,10 @@ internal class PrayerTimesAdapter(
         widget1_view()
         widget2_view()
 
-        if(dateWisePrayerNotificationData?.isNotEmpty() == true)
-        widget3_view()
+        if(dateWisePrayerNotificationData?.isNotEmpty() == true) {
+            widget3_view()
+            widget4_view()
+        }
 
         if(inflatedViewCount>0)
             viewInflationListener.onAllViewsInflated()
