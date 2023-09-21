@@ -103,11 +103,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun getTrackingID() = (activity as MainActivity).getTrackingID()
 
-    fun getLanguage():String =
-        if(DeenSDKCore.GetDeenLanguage() == "en")
-            ""
-        else
-            "bn"
+    fun getLanguage():String = DeenSDKCore.GetDeenLanguage()
 
 
      fun isBacktoHome(bol:Boolean)

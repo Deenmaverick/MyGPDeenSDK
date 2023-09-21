@@ -238,11 +238,12 @@ internal class MainActivity : AppCompatActivity() {
 
     fun changeLanguage()
     {
-        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
+        localContext = LocaleUtil.createLocaleContext(this, Locale("bn"))
+    /*if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(this, Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(this, Locale("bn"))
-        }
+        }*/
     }
 
     fun disableBackPress()
