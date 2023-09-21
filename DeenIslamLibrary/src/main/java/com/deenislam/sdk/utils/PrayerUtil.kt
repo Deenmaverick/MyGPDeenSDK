@@ -11,12 +11,12 @@ internal fun getPrayerTimeTagWise(
 ):Long {
 
     val currentTime =
-        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
-       val nightTime =  "${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())} 23:59:59".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+       val nightTime =  "${SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())} 23:59:59".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
     /*   if(currentTime>=nightTime)
-    Log.e("PRAYER_NT", "$currentTime ${SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(Date())}  $date ${data.Data.Isha}")
+    Log.e("PRAYER_NT", "$currentTime ${SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US).format(Date())}  $date ${data.Data.Isha}")
 */
 
     return when (prayer_tag) {

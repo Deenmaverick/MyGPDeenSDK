@@ -222,7 +222,7 @@ internal class PrayerTimesAdapter(
 
         val getContext = prayerBG.context
 
-        val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.getDefault()).format(Date())
+        val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.US).format(Date())
 
 
         prayerMomentRangeData =  todayprayerData?.let { getPrayerTimeName(it,currentTime.StringTimeToMillisecond("hh:mm:ss aa") /*"3:42:06 AM".StringTimeToMillisecond("hh:mm:ss aa")*/ ) }
@@ -280,7 +280,7 @@ internal class PrayerTimesAdapter(
         if(!this::dateTime.isInitialized)
             return
 
-        //val TodayDateTime = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault()).format(Date())
+        //val TodayDateTime = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.US).format(Date())
         // val format = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.ENGLISH) // or you can add before dd/M/yyyy
         //val newDate = format.parse(prayerData?.Data?.Date?.StringTimeToMillisecond("yyyy-MM-dd'T'HH:mm:ss")?.MilliSecondToStringTime("EEEE, dd MMMM yyyy"))
 

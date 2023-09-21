@@ -68,7 +68,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         viewInflationListener = this@DashboardFragment,
         dashboardPatchCallback = this@DashboardFragment
     ) }
-    private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+    private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
 
     private var prayerTrackLastWakt = ""
 
@@ -214,7 +214,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                                 "${DeenSDKCore.GetDeenPrayerDate()} ${it.Data.Isha}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
                             val currentTime =
-                                SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+                                SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
                             if(currentTime>isha)
                                 return@launch

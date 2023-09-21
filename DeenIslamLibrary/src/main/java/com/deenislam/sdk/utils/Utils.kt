@@ -124,7 +124,7 @@ fun String.toRequestBody(type:String): RequestBody {
 
 fun String.StringTimeToMillisecond(pattern: String="HH:mm:ss"): Long {
     //String date_ = date;
-    val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+    val sdf = SimpleDateFormat(pattern, Locale.US)
     try {
         val mDate = sdf.parse(this)
         var timeInMilliseconds = mDate?.time

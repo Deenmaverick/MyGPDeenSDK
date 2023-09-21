@@ -78,7 +78,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     private lateinit var viewmodel:TasbeehViewModel
 
-    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
     private var selectedPos:Int = 0
     private var selectedCount:Int = 1
     private var track4Count:Int = 0

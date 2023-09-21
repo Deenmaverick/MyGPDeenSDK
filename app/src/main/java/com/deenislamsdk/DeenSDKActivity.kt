@@ -1,5 +1,6 @@
 package com.deenislamsdk
 
+import android.app.Activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import com.deenislam.sdk.DeenSDKCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +30,12 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val prayernotifyon:AppCompatButton = findViewById(R.id.prayernotifyon)
         val prayernotifyoff:AppCompatButton = findViewById(R.id.prayernotifyoff)
         val checkNotifyBtn:AppCompatButton = findViewById(R.id.checkNotifyBtn)
+        val languageBtn:AppCompatButton = findViewById(R.id.languageBtn)
 
+
+        languageBtn.setOnClickListener {
+            setLocale(this,"bn")
+        }
 
         initSDKbtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
@@ -114,6 +121,22 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         // Attempting to assign a nullable Map to a non-nullable MutableMap
     }*/
 
+    fun setLocale(activity: Activity, languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val resources = activity.resources
+        val config = Configuration(resources.configuration)
+        config.setLocale(locale)
+        activity.createConfigurationContext(config)
+
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        //DeenSDKCore.SetDeenLanguage("en")
+        // Recreate the activity to see the effects
+        activity.recreate()
+    }
+
 
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean,
                                                newConfig: Configuration) {
@@ -125,10 +148,10 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         }
     }
 
-    override fun onDestroy() {
+    /*override fun onDestroy() {
         super.onDestroy()
         DeenSDKCore.destroySDK()
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()

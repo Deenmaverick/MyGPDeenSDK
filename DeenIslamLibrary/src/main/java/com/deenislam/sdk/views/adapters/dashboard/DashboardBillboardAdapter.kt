@@ -169,7 +169,7 @@ internal class DashboardBillboardAdapter(
 
         val getContext = prayerBG.context
 
-        val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.getDefault()).format(Date())
+        val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.US).format(Date())
         val prayerMomentRangeData: PrayerMomentRange? =  prayerData?.let { getPrayerTimeName(it,currentTime.StringTimeToMillisecond("hh:mm:ss aa") /*getPrayerTimeName(it,"08:01:45 PM".StringTimeToMillisecond("hh:mm:ss aa") */ ) }
 
         askingLy.text = getContext.resources.getString(R.string.billboard_have_you_prayed,prayerMomentRangeData?.MomentName?.prayerMomentLocale())

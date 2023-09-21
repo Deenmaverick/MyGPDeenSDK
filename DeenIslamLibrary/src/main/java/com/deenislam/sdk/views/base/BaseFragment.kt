@@ -60,11 +60,13 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
+        localContext = LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
+
+        /*if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
-        }
+        }*/
 
 
         val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
@@ -85,15 +87,11 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         isHomePage = bol
     }
 
-     fun getLanguage():String =
-        if(DeenSDKCore.GetDeenLanguage() == "en")
-            ""
-        else
-            "bn"
+     fun getLanguage():String = DeenSDKCore.GetDeenLanguage()
 
     fun changeLanguage(language:String)
     {
-        DeenSDKCore.SetDeenLanguage(language)
+        //DeenSDKCore.SetDeenLanguage(language)
         (activity as MainActivity).changeLanguage()
     }
     private fun isBacktoHome(bol:Boolean)

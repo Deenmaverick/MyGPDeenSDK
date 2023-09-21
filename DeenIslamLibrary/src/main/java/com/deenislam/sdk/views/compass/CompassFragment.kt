@@ -151,10 +151,10 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         // location listner
 
         val currentTime = Date()
-        val sdf = SimpleDateFormat("hh:mm aa", Locale.getDefault())
+        val sdf = SimpleDateFormat("hh:mm aa", Locale.US)
         val getTime =  sdf.format(currentTime)
 
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val geocoder = Geocoder(requireContext(), Locale.US)
 
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
@@ -249,7 +249,7 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
     private fun locationPermissionResult(bol:Boolean)
     {
         val currentTime = Date()
-        val sdf = SimpleDateFormat("hh:mm aa", Locale.getDefault())
+        val sdf = SimpleDateFormat("hh:mm aa", Locale.US)
         val getTime =  sdf.format(currentTime)
 
         locationTxt.text = localContext.getString(R.string.compass_location_txt,getTime.numberLocale(),"...")

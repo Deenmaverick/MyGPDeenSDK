@@ -70,8 +70,8 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     private lateinit var viewmodel:PrayerTimesViewModel
 
     private var firstload:Boolean = false
-    private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
-    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+    private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
+    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
     private var prayerTimesResponse:PrayerTimesResponse?=null
 
     private var pryaerNotificationData:ArrayList<PrayerNotification> = arrayListOf()

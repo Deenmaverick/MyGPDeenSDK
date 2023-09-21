@@ -32,7 +32,7 @@ internal class WidgetPrayerTimes(
     private var dateWisePrayerNotificationData:ArrayList<PrayerNotification>?= null
     private var prayerMomentRangeData: PrayerMomentRange? = null
     private var prayerTrackingData:Data ? = null
-    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
@@ -56,7 +56,7 @@ internal class WidgetPrayerTimes(
         prayerData = prayerTimesResponse
         dateWisePrayerNotificationData = notificationData
         this.prayerMomentRangeData = prayerMomentRangeData
-        todayDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+        todayDate = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
 
         Log.e("updateData",Gson().toJson(dateWisePrayerNotificationData))
 

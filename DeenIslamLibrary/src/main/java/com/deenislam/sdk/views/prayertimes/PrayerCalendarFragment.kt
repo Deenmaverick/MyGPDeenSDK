@@ -55,7 +55,7 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     private val container:ConstraintLayout by lazy { requireView().findViewById(R.id.mainView) }
     private val dateTime:AppCompatTextView by lazy { requireView().findViewById(R.id.dateTime) }
 
-    private val currentDate = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(Date())
+    private val currentDate = SimpleDateFormat("MMMM yyyy", Locale.US).format(Date())
 
     override fun OnCreate() {
         super.OnCreate()
