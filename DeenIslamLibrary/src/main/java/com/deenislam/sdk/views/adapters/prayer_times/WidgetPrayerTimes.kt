@@ -250,7 +250,7 @@ internal class WidgetPrayerTimes(
                 && NotificationPermission().getInstance().isNotificationPermitted())
             {
 
-                Log.e("setNotificationState",it.prayer_tag+" "+prayer_tag)
+                Log.e("setNotificationState",it.state.toString()+" "+prayer_tag)
 
 
                 prayerData?.let {

@@ -79,7 +79,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
             if(msisdn.text.isNotEmpty()){
                 DeenSDKCore.prayerNotification(
                     isEnabled = true,
-                    isClearData = false,
+                    isClearData = true,
                     context = this,
                     callback = this@DeenSDKActivity
                 )

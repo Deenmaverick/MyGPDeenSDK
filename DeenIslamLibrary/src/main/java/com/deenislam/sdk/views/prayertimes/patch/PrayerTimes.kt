@@ -48,6 +48,7 @@ internal class PrayerTimes {
     )
     {
         instance?.widgetPrayerTimes?.updateData(prayerTimesResponse,dateWisePrayerNotificationData,prayerMomentRangeData)
+
     }
 
     fun updateTrackingData(data: Data)

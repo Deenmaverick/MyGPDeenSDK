@@ -152,20 +152,20 @@ internal class PrayerTimesRepository(
 
 
                     val existingPrayerNotifyData =
-                        getNotificationDataOnly(date = date, prayer_tag = prayer_tag)
+                        getNotificationData(date = date, prayer_tag = prayer_tag)
 
-                    if (existingPrayerNotifyData != null && !isFromInsideSDK && prayer_tag!="Notification") {
+                   /* if (existingPrayerNotifyData != null && !isFromInsideSDK && prayer_tag!="Notification") {
                         Log.e("existingPrayerNotify", Gson().toJson(existingPrayerNotifyData))
 
                         return@withContext 1
                     }
-                    else
-                    getNotificationData(date = date, prayer_tag = prayer_tag)
+                    else*/
+                    //getNotificationData(date = date, prayer_tag = prayer_tag)
 
 
-                val finalState = state
-                /*if(existingPrayerNotifyData?.state == 2 || existingPrayerNotifyData?.state == 3)
-                    finalState = existingPrayerNotifyData.state*/
+                var finalState = state
+                if(!isFromInsideSDK && (existingPrayerNotifyData?.state == 2 || existingPrayerNotifyData?.state == 3))
+                    finalState = existingPrayerNotifyData.state
 
                 if(prayerNotificationDao?.update(date,prayer_tag,finalState) !=0) {
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)

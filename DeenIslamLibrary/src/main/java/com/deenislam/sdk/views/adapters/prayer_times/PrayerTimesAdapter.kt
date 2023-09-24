@@ -197,10 +197,17 @@ internal class PrayerTimesAdapter(
     fun updateNotificationData(Notificationdata: ArrayList<PrayerNotification>?)
     {
         dateWisePrayerNotificationData = Notificationdata
-        widget3_view()
-        widget4_view()
+
+        if(dateWisePrayerNotificationData?.isNotEmpty() == true) {
+            widget3_view()
+            widget4_view()
+        }
+
+     /*   widget3_view()
+        widget4_view()*/
         if(inflatedViewCount>0)
             viewInflationListener.onAllViewsInflated()
+
         notifyDataSetChanged()
     }
 

@@ -137,7 +137,7 @@ internal class WidgetOtherPrayerTimes(
        rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_off))
 
         dateWisePrayerNotificationData?.forEach {
-            Log.e("notifyDAta", Gson().toJson(it))
+           // Log.e("notifyDAta",prayer_tag+ Gson().toJson(it))
             if (it.prayer_tag == prayer_tag
                 && it.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))
                 && NotificationPermission().getInstance().isNotificationPermitted())

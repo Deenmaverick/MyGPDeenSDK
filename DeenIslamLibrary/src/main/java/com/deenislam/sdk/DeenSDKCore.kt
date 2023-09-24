@@ -438,7 +438,10 @@ object DeenSDKCore {
                 )
                 {
                     if(isClearData)
-                    prayerTimesRepository.clearPrayerNotification()
+
+                    {
+                        Log.e("isClearData", prayerTimesRepository.clearPrayerNotification().toString())
+                    }
 
                     withContext(Dispatchers.Main)
                     {

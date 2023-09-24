@@ -306,7 +306,10 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 .setMessage(localContext.getString(R.string.ask_user_to_enable_ptn))
                 .setPositiveButton(localContext.getString(R.string.okay)) { _, _ ->
                     DeenSDKCore.SetPrayerTimeCallback(this@PrayerTimesFragment)
-                    DeenSDKCore.prayerNotification(isEnabled = true,context = DeenSDKCore.baseContext!!, callback = DeenSDKCore.GetDeenCallbackListner()!!)
+                    DeenSDKCore.prayerNotification(
+                        isEnabled = true,
+                        context = DeenSDKCore.baseContext!!,
+                        callback = DeenSDKCore.GetDeenCallbackListner()!!)
                     requireContext().toast("Request processing...")
 
                 }
