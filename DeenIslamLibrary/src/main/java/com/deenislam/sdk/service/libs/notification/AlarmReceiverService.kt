@@ -16,6 +16,7 @@ import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.sendNotification
+import com.deenislam.sdk.utils.tryCatch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,6 +60,10 @@ internal class AlarmReceiverService: Service() {
 
     private suspend fun processNotification(prayer_notification_id: Int, context: Context)
     {
+
+        if(!IsNotificationEnable())
+            return
+
         get_prayer_notification_data(prayer_notification_id)?.let {
 
             if(it.state!=3 && it.state!=2)
@@ -121,7 +126,11 @@ internal class AlarmReceiverService: Service() {
         {
             val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
 
-            prayerNotificationDao?.clearNotificationByID(pid)
+            //prayerNotificationDao?.clearNotificationByID(pid)
+
+            tryCatch {
+                prayerNotificationDao?.deleteNotificationByID(pid)
+            }
 
         }
 
@@ -140,6 +149,26 @@ internal class AlarmReceiverService: Service() {
                 null
 
         }
+
+    private suspend fun IsNotificationEnable():Boolean =
+    withContext(Dispatchers.IO)
+    {
+        val prayerTimesRepository = PrayerTimesRepository(
+            deenService = null,
+            prayerNotificationDao = DatabaseProvider().getInstance()
+                .providePrayerNotificationDao(),
+            prayerTimesDao = null
+        )
+
+        val getStatus = prayerTimesRepository.getNotificationData(
+            date = "",
+            prayer_tag = "Notification",
+            finalState = 0
+        )
+
+        getStatus?.state == 1
+
+    }
 
 
     private fun get_prayer_name_by_tag(tag:String): String? =

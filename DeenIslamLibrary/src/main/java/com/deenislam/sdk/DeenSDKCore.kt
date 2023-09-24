@@ -17,6 +17,7 @@ import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.getRCDestination
 import com.deenislam.sdk.views.main.MainActivity
+import com.deenislam.sdk.views.prayertimes.PrayerTimeNotification
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import org.json.JSONObject
@@ -28,7 +29,10 @@ import java.util.*
 object DeenSDKCore {
 
     @JvmStatic
-    private var  CallBackListener : DeenSDKCallback? =null
+    private var  DeenCallBackListener : DeenSDKCallback? =null
+
+    @JvmStatic
+    private var  DeenPrayerTimeCallBackListener : PrayerTimeNotification? =null
 
     @JvmStatic
     var appContext: Context? = null
@@ -58,7 +62,7 @@ object DeenSDKCore {
 
         this.baseContext = context
         this.appContext = context.applicationContext
-        this.CallBackListener = callback
+        this.DeenCallBackListener = callback
         this.token = token
 
         try {
@@ -112,24 +116,30 @@ object DeenSDKCore {
     fun GetDeenMsisdn() = msisdn
     fun GetDeenPrayerDate() = prayerDate
 
+    fun GetDeenCallbackListner() = DeenCallBackListener
+
+    fun SetPrayerTimeCallback(callback:PrayerTimeNotification) {
+        DeenPrayerTimeCallBackListener=callback
+    }
+
     private fun checkAuth(): Boolean {
         if(appContext == null || baseContext == null || token.isEmpty() || msisdn.isEmpty()) {
-            CallBackListener?.onDeenSDKInitFailed()
+            DeenCallBackListener?.onDeenSDKInitFailed()
             return false
         }
         else
-            CallBackListener?.onDeenSDKInitSuccess()
+            DeenCallBackListener?.onDeenSDKInitSuccess()
 
         return true
     }
 
     private fun reCheckAuth(): Boolean {
         if(appContext == null || baseContext == null || token.isEmpty() || msisdn.isEmpty()) {
-            CallBackListener?.onDeenSDKOperationFailed()
+            DeenCallBackListener?.onDeenSDKOperationFailed()
             return false
         }
         else
-            CallBackListener?.onDeenSDKOperationSuccess()
+            DeenCallBackListener?.onDeenSDKOperationSuccess()
 
         return true
     }
@@ -139,7 +149,7 @@ object DeenSDKCore {
 
         this.baseContext = context
         this.appContext = context.applicationContext
-        this.CallBackListener = callback
+        this.DeenCallBackListener = callback
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -194,7 +204,7 @@ object DeenSDKCore {
         val getDestination = rc.getRCDestination()
 
         if(getDestination == 0) {
-            CallBackListener?.onDeenSDKRCFailed()
+            DeenCallBackListener?.onDeenSDKRCFailed()
             return
         }
 
@@ -315,13 +325,13 @@ object DeenSDKCore {
     }
 
     @JvmStatic
-    fun prayerNotification(isEnabled: Boolean,context: Context,callback: DeenSDKCallback)
+    fun prayerNotification(isEnabled: Boolean,isClearData:Boolean = false, context: Context,callback: DeenSDKCallback)
     {
 
         this.isTodayNotificationSet = false
         this.baseContext = context
         this.appContext = context.applicationContext
-        this.CallBackListener = callback
+        this.DeenCallBackListener = callback
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -352,7 +362,7 @@ object DeenSDKCore {
                             is ApiResource.Failure -> {
                                 withContext(Dispatchers.Main)
                                 {
-                                    CallBackListener?.DeenPrayerNotificationFailed()
+                                    DeenCallBackListener?.DeenPrayerNotificationFailed()
                                 }
 
                                 return@launch
@@ -373,7 +383,7 @@ object DeenSDKCore {
                                 }?: run {
                                     withContext(Dispatchers.Main)
                                     {
-                                        CallBackListener?.DeenPrayerNotificationFailed()
+                                        DeenCallBackListener?.DeenPrayerNotificationFailed()
                                     }
                                     return@launch
                                 }
@@ -384,7 +394,7 @@ object DeenSDKCore {
                     is ApiResource.Failure -> {
                         withContext(Dispatchers.Main)
                         {
-                            CallBackListener?.DeenPrayerNotificationFailed()
+                            DeenCallBackListener?.DeenPrayerNotificationFailed()
                         }
 
                         return@launch
@@ -397,7 +407,7 @@ object DeenSDKCore {
                         }?: run {
                             withContext(Dispatchers.Main)
                             {
-                                CallBackListener?.DeenPrayerNotificationFailed()
+                                DeenCallBackListener?.DeenPrayerNotificationFailed()
                             }
                             return@launch
                         }
@@ -417,7 +427,33 @@ object DeenSDKCore {
                     prayerTimesDao = null
                 )
 
-                if(prayerTimesRepository.clearPrayerNotification()>0)
+
+                if(prayerTimesRepository.updatePrayerNotification(
+                        "",
+                        "Notification",
+                        0,
+                        "",
+                        null
+                    ) == 1
+                )
+                {
+                    if(isClearData)
+                    prayerTimesRepository.clearPrayerNotification()
+
+                    withContext(Dispatchers.Main)
+                    {
+                        DeenCallBackListener?.DeenPrayerNotificationOff()
+                    }
+                }
+                else
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        DeenCallBackListener?.DeenPrayerNotificationFailed()
+                    }
+                }
+
+               /* if(prayerTimesRepository.clearPrayerNotification()>0)
                     withContext(Dispatchers.Main)
                     {
                         CallBackListener?.DeenPrayerNotificationOff()
@@ -426,7 +462,7 @@ object DeenSDKCore {
                     withContext(Dispatchers.Main)
                     {
                         CallBackListener?.DeenPrayerNotificationFailed()
-                    }
+                    }*/
 
             }
 
@@ -499,7 +535,8 @@ object DeenSDKCore {
             Log.e("DEEN_NOTIFY",prayerNotifyCount.toString())
 
             if(!isTodayNotificationSet) {
-                if (prayerNotifyCount > 0) {
+
+                /*if (prayerNotifyCount > 0) {
                     withContext(Dispatchers.Main)
                     {
                         CallBackListener?.DeenPrayerNotificationOn()
@@ -509,6 +546,31 @@ object DeenSDKCore {
                     withContext(Dispatchers.Main)
                     {
                         CallBackListener?.DeenPrayerNotificationFailed()
+                    }
+                }*/
+
+                // new method to check notification state
+
+                if(prayerTimesRepository.updatePrayerNotification(
+                        "",
+                        "Notification",
+                        1,
+                        "",
+                        null
+                    ) == 1
+                )
+                {
+                    withContext(Dispatchers.Main)
+                    {
+                        DeenCallBackListener?.DeenPrayerNotificationOn()
+                        DeenPrayerTimeCallBackListener?.isSDKCoreNotificationEnable()
+                    }
+                    isTodayNotificationSet = true
+                }
+                else {
+                    withContext(Dispatchers.Main)
+                    {
+                        DeenCallBackListener?.DeenPrayerNotificationFailed()
                     }
                 }
             }
@@ -530,14 +592,25 @@ object DeenSDKCore {
                 prayerTimesDao = null
             )
 
-            return@withContext prayerTimesRepository.getTotalActiveNotification() > 0
+            //return@withContext prayerTimesRepository.getTotalActiveNotification() > 0
+
+
+            val getStatus = prayerTimesRepository.getNotificationData(
+                date = "",
+                prayer_tag = "Notification",
+                finalState = 0
+            )
+
+            Log.e("prayerTimesRepository",Gson().toJson(getStatus))
+
+            getStatus?.state == 1
 
         }
 
 
     @JvmStatic
     fun destroySDK() {
-        CallBackListener = null
+        DeenCallBackListener = null
         appContext = null
         baseContext = null
     }

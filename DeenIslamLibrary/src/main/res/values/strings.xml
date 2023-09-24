@@ -248,4 +248,5 @@
     <string name="continue_txt">Continue</string>
     <string name="dhaka">Dhaka</string>
     <string name="islamic">Islamic</string>
+    <string name="ask_user_to_enable_ptn">Do you want to enable the prayer Notification?</string>
 </resources>

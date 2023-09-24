@@ -77,7 +77,12 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         prayernotifyon.setOnClickListener {
             val baseContext = this
             if(msisdn.text.isNotEmpty()){
-                DeenSDKCore.prayerNotification(true,baseContext,this@DeenSDKActivity)
+                DeenSDKCore.prayerNotification(
+                    isEnabled = true,
+                    isClearData = false,
+                    context = this,
+                    callback = this@DeenSDKActivity
+                )
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }
@@ -85,7 +90,12 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         prayernotifyoff.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
-                DeenSDKCore.prayerNotification(false,baseContext,this@DeenSDKActivity)
+                DeenSDKCore.prayerNotification(
+                    isEnabled = false,
+                    isClearData = true,
+                    context = this,
+                    callback = this@DeenSDKActivity
+                )
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }

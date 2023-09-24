@@ -2,7 +2,6 @@ package com.deenislam.sdk.service.models.prayer_time
 
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
-import java.util.ArrayList
 
 internal  interface PrayerNotificationResource
 {
@@ -13,6 +12,7 @@ internal  interface PrayerNotificationResource
         PrayerNotificationResource
 
     object prayerTrackFailed: PrayerNotificationResource
+    object NotificationStateRequired:PrayerNotificationResource
     data class prayerTrackData(val data: Data) :PrayerNotificationResource
 
 }

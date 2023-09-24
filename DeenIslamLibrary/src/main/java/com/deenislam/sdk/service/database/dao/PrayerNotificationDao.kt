@@ -22,11 +22,18 @@ internal abstract class PrayerNotificationDao: BaseDao<PrayerNotification> {
     @Query("UPDATE  prayer_notification SET isPrayed=:bol where prayer_tag=:prayer_tag and date=:pdate")
     abstract fun update(pdate:String,prayer_tag:String,bol:Boolean):Int
 
-    @Query("UPDATE  prayer_notification SET state=:state")
+    @Query("UPDATE  prayer_notification SET state=:state where prayer_tag!='Notification'")
     abstract fun clearAllNotification(state:Int):Int
+
+    @Query("DELETE  FROM  prayer_notification where prayer_tag!='Notification'")
+    abstract fun deleteAllNotification():Int
 
     @Query("UPDATE  prayer_notification SET state=1 where id=:pid")
     abstract fun clearNotificationByID(pid:Int):Int
+
+    @Query("DELETE FROM prayer_notification WHERE id=:pid")
+    abstract fun deleteNotificationByID(pid: Int): Int
+
 
     @Query("SELECT * from prayer_notification where state=3 or state=2")
     abstract fun select_all_activate_notification():List<PrayerNotification>

@@ -72,10 +72,11 @@ internal class PrayerTimesRepository(
         //}
     }
 
-    suspend fun getNotificationData(date:String,prayer_tag:String) =
+    suspend fun getNotificationData(date:String,prayer_tag:String,finalState:Int = 1) =
         withContext(Dispatchers.IO)
         {
             try {
+
 
                 var prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
 
@@ -83,13 +84,52 @@ internal class PrayerTimesRepository(
                     prayerNotificationData[0]
                 else
                 {
-                    prayerNotificationDao?.insert(PrayerNotification(date = date, prayer_tag = prayer_tag))
+                    prayerNotificationDao?.insert(PrayerNotification(date = date, prayer_tag = prayer_tag, state = finalState))
                     prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
 
                     if(prayerNotificationData?.isNotEmpty() == true)
                         prayerNotificationData[0]
                     else null
                 }
+
+            }
+            catch (e:Exception)
+            {
+                null
+            }
+        }
+
+    suspend fun getNotificationDataOnly(date:String,prayer_tag:String,finalState:Int = 1) =
+        withContext(Dispatchers.IO)
+        {
+            try {
+
+                val prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
+
+                if(prayerNotificationData?.isNotEmpty() == true)
+                    prayerNotificationData[0]
+                else
+                    null
+
+            }
+            catch (e:Exception)
+            {
+                null
+            }
+        }
+
+    suspend fun addNotificationData(date:String,prayer_tag:String,finalState:Int = 1) =
+        withContext(Dispatchers.IO)
+        {
+            try {
+
+
+                    prayerNotificationDao?.insert(PrayerNotification(date = date, prayer_tag = prayer_tag, state = finalState))
+                    val prayerNotificationData = prayerNotificationDao?.select(date,prayer_tag)
+
+                    if(prayerNotificationData?.isNotEmpty() == true)
+                        prayerNotificationData[0]
+                    else null
 
             }
             catch (e:Exception)
@@ -110,13 +150,20 @@ internal class PrayerTimesRepository(
         {
             try {
 
-               val existingPrayerNotifyData =  getNotificationData(date = date, prayer_tag = prayer_tag)
 
-                Log.e("existingPrayerNotify",Gson().toJson(existingPrayerNotifyData))
-                if(existingPrayerNotifyData!=null && !isFromInsideSDK)
-                    return@withContext 1
+                    val existingPrayerNotifyData =
+                        getNotificationDataOnly(date = date, prayer_tag = prayer_tag)
 
-                var finalState = state
+                    if (existingPrayerNotifyData != null && !isFromInsideSDK && prayer_tag!="Notification") {
+                        Log.e("existingPrayerNotify", Gson().toJson(existingPrayerNotifyData))
+
+                        return@withContext 1
+                    }
+                    else
+                    getNotificationData(date = date, prayer_tag = prayer_tag)
+
+
+                val finalState = state
                 /*if(existingPrayerNotifyData?.state == 2 || existingPrayerNotifyData?.state == 3)
                     finalState = existingPrayerNotifyData.state*/
 
@@ -124,6 +171,11 @@ internal class PrayerTimesRepository(
                     val getNotificationData = prayerNotificationDao?.select(date,prayer_tag)
                     if(getNotificationData?.isNotEmpty() == true)
                     {
+                        val notificationData = getNotificationData[0]
+
+                        if(notificationData?.prayer_tag == "Notification" && notificationData.state == finalState)
+                            return@withContext 1
+
                         val pid = getNotificationData[0]?.id?:0
                         if(prayerTimesResponse!=null) {
                             val notifyTime = getPrayerTimeTagWise(prayer_tag, date, prayerTimesResponse)
@@ -156,6 +208,9 @@ internal class PrayerTimesRepository(
 
     private fun setNotification(time:Long,reqcode:Int)
     {
+
+        CancleExistingNotification(reqcode)
+
         val notifyIntent = Intent(DeenSDKCore.appContext, AlarmReceiver::class.java)
         notifyIntent.putExtra("pid",reqcode)
 
@@ -174,6 +229,24 @@ internal class PrayerTimesRepository(
             time,
             notifyPendingIntent
         )
+    }
+
+    private fun CancleExistingNotification(reqcode: Int)
+    {
+        val notifyIntent = Intent(DeenSDKCore.appContext, AlarmReceiver::class.java)
+        notifyIntent.putExtra("pid",reqcode)
+
+        val notifyPendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(
+                DeenSDKCore.appContext,
+                reqcode,
+                notifyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
+
+        val alarmManager = DeenSDKCore.appContext?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(notifyPendingIntent)
+        notifyPendingIntent.cancel()
     }
 
 
@@ -231,7 +304,17 @@ internal class PrayerTimesRepository(
     suspend fun getDateWiseNotificationData(date:String) =
         withContext(Dispatchers.IO)
         {
+
+            val getStatus = getNotificationData(
+                date = "",
+                prayer_tag = "Notification",
+                finalState = 0
+            )
+
+            if(getStatus?.state == 1)
             prayerNotificationDao?.select(date)
+            else
+                arrayListOf()
         }
 
     suspend fun setPrayerTrack(date:String,prayer_tag: String,bol:Boolean) =
@@ -271,12 +354,16 @@ internal class PrayerTimesRepository(
     suspend fun clearPrayerNotification():Int =
         withContext(Dispatchers.IO)
         {
-            try {
+
+            return@withContext prayerNotificationDao?.deleteAllNotification()?:0
+
+            /*try {
 
                 val prayerNotificationData = prayerNotificationDao?.select_all_activate_notification()
 
                 if(prayerNotificationData?.isNotEmpty() == true)
-                    return@withContext prayerNotificationDao?.clearAllNotification(1)?:0
+                    //return@withContext prayerNotificationDao?.clearAllNotification(1)?:0
+                    return@withContext prayerNotificationDao?.deleteAllNotification()?:0
 
                 else
                     1
@@ -285,7 +372,7 @@ internal class PrayerTimesRepository(
             catch (e:Exception)
             {
                 0
-            }
+            }*/
         }
 
     suspend fun enableAllPrayerNotification(

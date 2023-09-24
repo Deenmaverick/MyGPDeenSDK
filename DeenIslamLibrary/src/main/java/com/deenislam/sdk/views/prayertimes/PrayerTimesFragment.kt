@@ -1,7 +1,11 @@
 package com.deenislam.sdk.views.prayertimes
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +55,8 @@ import java.util.*
 internal class PrayerTimesFragment : BaseRegularFragment(),
     otherFagmentActionCallback,
     prayerTimeAdapterCallback,
-    ViewInflationListener
+    ViewInflationListener,
+    PrayerTimeNotification
 {
     private lateinit var prayerTimesAdapter:PrayerTimesAdapter
     private var linearLayoutManager: LinearLayoutManager? = null
@@ -272,6 +277,11 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                     }
                 }
 
+                is PrayerNotificationResource.NotificationStateRequired ->
+                {
+                    forceUserToEnableNotification()
+                }
+
                 is PrayerNotificationResource.prayerTrackFailed ->  requireContext().toast("Failed to set prayer track")
                 is PrayerNotificationResource.prayerTrackData ->
                 {
@@ -287,6 +297,21 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 CommonResource.EMPTY -> Unit
             }
         }
+    }
+
+    private fun forceUserToEnableNotification()
+    {
+            MaterialAlertDialogBuilder(requireContext(), com.google.android.material.R.style.MaterialAlertDialog_MaterialComponents)
+                .setTitle(localContext.getString(R.string.alert))
+                .setMessage(localContext.getString(R.string.ask_user_to_enable_ptn))
+                .setPositiveButton(localContext.getString(R.string.okay)) { _, _ ->
+                    DeenSDKCore.SetPrayerTimeCallback(this@PrayerTimesFragment)
+                    DeenSDKCore.prayerNotification(isEnabled = true,context = DeenSDKCore.baseContext!!, callback = DeenSDKCore.GetDeenCallbackListner()!!)
+                    requireContext().toast("Request processing...")
+
+                }
+                .setNegativeButton(localContext.getString(R.string.cancel), null)
+                .show()
     }
 
     fun loadPage()
@@ -492,8 +517,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         ViewCompat.setTranslationZ(notify_progressLayout, 10F)
         notify_progressLayout.visible(true)
 
-        notificationDialog.show()
-
         dialog_okBtn.let {btn->
             btn.setOnClickListener {
                 btn.text = LoadingButton().getInstance(requireContext()).loader(btn)
@@ -543,6 +566,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             notification_off_btn.isChecked = true
 
         notify_progressLayout.visible(false)
+        notificationDialog.show()
     }
 
     private fun muezzinListLayout(bol:Boolean)
@@ -633,4 +657,16 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             return PrayerTimesViewModel(prayerTimesRepository) as T
         }
     }
+
+    override fun isSDKCoreNotificationEnable() {
+
+        lifecycleScope.launch {
+            viewmodel.getDateWisePrayerNotificationData(prayerdate)
+        }
+    }
+}
+
+interface PrayerTimeNotification
+{
+    fun isSDKCoreNotificationEnable()
 }

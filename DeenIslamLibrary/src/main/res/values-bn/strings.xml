@@ -248,4 +248,5 @@
     <string name="continue_txt">চালিয়ে যান</string>
     <string name="dhaka">ঢাকা</string>
     <string name="islamic">ইসলামিক</string>
+    <string name="ask_user_to_enable_ptn">আপনি কি নামাজের নটিফিকেশন চালু করতে চান?</string>
 </resources>

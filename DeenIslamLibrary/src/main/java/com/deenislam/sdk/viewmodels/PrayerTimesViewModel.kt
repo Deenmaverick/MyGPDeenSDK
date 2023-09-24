@@ -52,7 +52,18 @@ internal class PrayerTimesViewModel(
     fun getNotificationData(date: String, prayer_tag: String)
     {
         viewModelScope.launch {
+
+            val getStatus = prayerTimesRepository.getNotificationData(
+                date = "",
+                prayer_tag = "Notification",
+                finalState = 0
+            )
+
+            if(getStatus?.state == 1)
             _prayerTimesNotification.value = PrayerNotificationResource.notificationData(prayerTimesRepository.getNotificationData(date,prayer_tag))
+            else
+                _prayerTimesNotification.value = PrayerNotificationResource.NotificationStateRequired
+
         }
     }
 

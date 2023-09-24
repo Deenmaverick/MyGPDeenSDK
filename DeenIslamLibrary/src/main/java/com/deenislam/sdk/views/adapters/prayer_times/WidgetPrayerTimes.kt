@@ -9,6 +9,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.libs.notification.NotificationPermission
@@ -19,6 +20,9 @@ import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -240,7 +244,6 @@ internal class WidgetPrayerTimes(
         rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_off))
 
         dateWisePrayerNotificationData?.forEach {
-
 
             if (it.prayer_tag == prayer_tag
                 && it.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))

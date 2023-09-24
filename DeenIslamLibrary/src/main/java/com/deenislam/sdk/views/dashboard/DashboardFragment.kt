@@ -250,7 +250,15 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                     prayerTimesDao = null
                 )
 
-                prayerTimesRepository.clearPrayerNotification()
+               // prayerTimesRepository.clearPrayerNotification()
+
+                prayerTimesRepository.updatePrayerNotification(
+                    "",
+                    "Notification",
+                    0,
+                    "",
+                    null
+                )
 
             }
 
@@ -320,6 +328,14 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
                 ) == 1
             )
                 prayerNotifyCount++
+
+            prayerTimesRepository.updatePrayerNotification(
+                "",
+                "Notification",
+                1,
+                "",
+                null
+            )
 
             Log.e("DEEN_NOTIFY",prayerNotifyCount.toString())
 
