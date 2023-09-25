@@ -23,18 +23,6 @@
             android:layout_marginEnd="@dimen/space_16">
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/chooseNisabTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/deen_txt_black_deep"
-                android:layout_marginTop="@dimen/space_16"
-                android:text="Nisab (updated 22/03/2023)"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/chooseCurrency"
@@ -52,8 +40,22 @@
                 app:strokeColor="@color/deen_border"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chooseNisabTxt"
+                app:layout_constraintTop_toTopOf="parent"
                 />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/chooseNisabTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_goneMarginTop="@dimen/space_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/deen_txt_black_deep"
+                android:layout_marginTop="@dimen/space_16"
+                android:text="জেনে নিন স্বর্ণ ও রুপার বর্তমান মুল্য"
+                app:layout_constraintTop_toBottomOf="@+id/chooseCurrency"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
 
             <com.google.android.material.card.MaterialCardView
@@ -69,7 +71,7 @@
                 app:cardCornerRadius="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chooseCurrency">
+                app:layout_constraintTop_toBottomOf="@+id/chooseNisabTxt">
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/covertedNisab"

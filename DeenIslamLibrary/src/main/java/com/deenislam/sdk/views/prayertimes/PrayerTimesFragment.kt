@@ -199,6 +199,18 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     override fun onResume() {
         super.onResume()
 
+        if (isNotificationClicked) {
+            NotificationPermission().getInstance().reCheckNotificationPermission(requireContext())
+
+            Log.e("isNotificationPermitted",
+                NotificationPermission().getInstance().isNotificationPermitted().toString()
+            )
+            if(NotificationPermission().getInstance().isNotificationPermitted()  && pryaerNotificationData.size>0) {
+                updatePrayerNotificationDataOnly(pryaerNotificationData)
+                isNotificationClicked = false
+            }
+        }
+
     }
 
     override fun onPause() {
@@ -580,7 +592,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
     override fun clickNotification(position: String) {
 
-        if(NotificationPermission().isNotificationPermitted()) {
+        if(NotificationPermission().isNotificationPermitted(requireContext())) {
             Log.e("Notification", position)
             when (position) {
                 "pt1" -> {
@@ -626,7 +638,10 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             }
         }
         else {
-            NotificationPermission().getInstance().showSettingDialog(localContext,requireContext())
+
+                NotificationPermission().getInstance().showSettingDialog(localContext,
+                    requireContext()
+                )
             isNotificationClicked = true
         }
     }

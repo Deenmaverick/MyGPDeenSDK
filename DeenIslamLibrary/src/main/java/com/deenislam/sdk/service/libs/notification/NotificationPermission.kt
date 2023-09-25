@@ -75,9 +75,16 @@ internal class NotificationPermission {
             if (ContextCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED) {
                 if (isShowDialog) {
                     if (fragment.shouldShowRequestPermissionRationale(permission)) {
-                        NotificationPermission().getInstance()
-                            .showSettingDialog(mContext, activityContext)
+                        ActivityCompat.requestPermissions(
+                            activityContext as Activity,
+                            arrayOf(permission),
+                            100
+                        )
                     }/* else {
+
+                    NotificationPermission().getInstance()
+                            .showSettingDialog(mContext, activityContext)
+
                         NotificationPermission().getInstance().showSettingDialog(mContext, activityContext)
                     }*/
                 }
@@ -145,9 +152,15 @@ internal class NotificationPermission {
         }
     }
 
-    fun isNotificationPermitted():Boolean {
+    fun isNotificationPermitted(context: Context? = null):Boolean {
 
         return if (Build.VERSION.SDK_INT >= 33) {
+            instance?.setPermissionGranted(
+                context?.let {
+                    ContextCompat.checkSelfPermission(
+                        it,
+                        Manifest.permission.POST_NOTIFICATIONS)
+                } == PackageManager.PERMISSION_GRANTED)
             instance?.hasNotificationPermissionGranted ?: false
         } else
             true

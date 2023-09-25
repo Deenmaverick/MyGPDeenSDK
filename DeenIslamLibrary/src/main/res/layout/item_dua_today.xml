@@ -86,7 +86,6 @@
             android:layout_marginStart="@dimen/space_12"
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_12"
-            android:maxLines="2"
           android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_txt_ash"
             app:layout_constraintEnd_toEndOf="parent"

@@ -61,7 +61,7 @@ internal class ZakatSavedAdapter(
             super.onBind(position)
 
             val data = savedZakatList[position]
-            val timedate = data.EntryDate.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd MMMM, yyyy • hh:mm")
+            val timedate = data.EntryDate.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd MMMM, yyyy")
 
             val dateCardText = data.EntryDate.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd\nMMMM")
             datetime.text = timedate.timeLocale().monthNameLocale()

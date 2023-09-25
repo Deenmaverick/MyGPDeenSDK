@@ -136,10 +136,10 @@ internal class IslamicNameViewFragment : BaseRegularFragment(), IslamicNameAdapt
 
         viewBtn.setOnClickListener {
 
-            if(gender == "male")
-                gender = "female"
+            gender = if(gender == "male")
+                "female"
             else
-                gender = "male"
+                "male"
 
             loadApiData()
             setupViewBtn()

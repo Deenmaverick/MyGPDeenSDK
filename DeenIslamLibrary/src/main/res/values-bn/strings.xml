@@ -119,7 +119,7 @@
     <string name="none">অসীম</string>
     <string name="recent_counts">সাম্প্রতিক গণনা</string>
     <string name="no_recent_count_available">কোনো সাম্প্রতিক গণনা নেই</string>
-    <string name="the_distance_from_kaaba_is_unknown">The distance from Kaaba is unknown</string>
+    <string name="the_distance_from_kaaba_is_unknown">আপনার অবস্থান থেকে কাবার দূরত্ব জানা যায়নি</string>
     <string name="calibrate_your_phone">আপনার ফোন ক্যালিব্রেট করুন</string>
     <string name="tilt_and_move_your_phone_3_times_like_this">আপনার ফোনটি এভাবে ৩ বার কাত করুন এবং সরান:</string>
     <string name="compass_accuracy">কম্পাস নির্ভুলতা:</string>
