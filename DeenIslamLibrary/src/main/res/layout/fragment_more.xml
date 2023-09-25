@@ -289,7 +289,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/ic_contact"/>
+                    android:src="@drawable/deen_ic_contact"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"

@@ -247,7 +247,7 @@ internal class DashboardBillboardAdapter(
 
     private fun widget2_view(position: Int)
     {
-        if (billboardData.size>0 && billboardBanner.size>=position) {
+        if (billboardData.size>0 && position in billboardBanner.indices /*billboardBanner.size>=position*/) {
             if (billboardBanner.isEmpty() || billboardData[position].Text == "PrayerTime")
                 return
 
