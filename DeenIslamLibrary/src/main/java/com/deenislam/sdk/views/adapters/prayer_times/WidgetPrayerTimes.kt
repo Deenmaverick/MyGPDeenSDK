@@ -245,12 +245,14 @@ internal class WidgetPrayerTimes(
 
         dateWisePrayerNotificationData?.forEach {
 
+            Log.e("setNotificationState",it.state.toString()+" "+prayer_tag)
+
+
             if (it.prayer_tag == prayer_tag
-                && it.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))
-                && NotificationPermission().getInstance().isNotificationPermitted())
+                && it.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")))
+                /*&& NotificationPermission().getInstance().isNotificationPermitted())*/
             {
 
-                Log.e("setNotificationState",it.state.toString()+" "+prayer_tag)
 
 
                 prayerData?.let {
@@ -269,6 +271,8 @@ internal class WidgetPrayerTimes(
                     }
                     3->
                     {
+                        Log.e("TrackingData_HELLO",Gson().toJson(it))
+
                         //if(NotificationPermission().getInstance().hasAlarm(rightBtn.context,it.id))
                             rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_sound))
                     }

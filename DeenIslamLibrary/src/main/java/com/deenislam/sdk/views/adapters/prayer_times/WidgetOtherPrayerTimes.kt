@@ -140,7 +140,7 @@ internal class WidgetOtherPrayerTimes(
            // Log.e("notifyDAta",prayer_tag+ Gson().toJson(it))
             if (it.prayer_tag == prayer_tag
                 && it.date == (prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy"))
-                && NotificationPermission().getInstance().isNotificationPermitted())
+                /*&& NotificationPermission().getInstance().isNotificationPermitted()*/)
             {
 
                 prayerData?.let {

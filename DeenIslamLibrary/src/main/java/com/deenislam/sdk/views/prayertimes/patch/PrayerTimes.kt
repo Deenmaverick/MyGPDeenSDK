@@ -14,6 +14,7 @@ import com.deenislam.sdk.views.adapters.prayer_times.prayerTimeAdapterCallback
 internal class PrayerTimes {
 
     private var widgetPrayerTimes:WidgetPrayerTimes ? =null
+    private var prayerTimes:RecyclerView ? = null
     companion object
     {
         var instance: PrayerTimes? = null
@@ -31,12 +32,12 @@ internal class PrayerTimes {
     fun load(view:View, callback: prayerTimeAdapterCallback?)
     {
         val title:AppCompatTextView = view.findViewById(R.id.title)
-        val prayerTimes:RecyclerView = view.findViewById(R.id.prayertime)
+        instance?.prayerTimes = view.findViewById(R.id.prayertime)
         title.text = view.context.resources.getString(R.string.prayer_times)
 
         instance?.widgetPrayerTimes = WidgetPrayerTimes(callback)
 
-        prayerTimes.apply {
+        instance?.prayerTimes?.apply {
             adapter = instance?.widgetPrayerTimes
         }
     }
@@ -48,7 +49,9 @@ internal class PrayerTimes {
     )
     {
         instance?.widgetPrayerTimes?.updateData(prayerTimesResponse,dateWisePrayerNotificationData,prayerMomentRangeData)
-
+       /* instance?.prayerTimes?.post {
+            instance?.widgetPrayerTimes?.notifyDataSetChanged()
+        }*/
     }
 
     fun updateTrackingData(data: Data)
