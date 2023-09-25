@@ -64,7 +64,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:layout_marginTop="@dimen/space_12"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:background="@drawable/custom_input"
@@ -79,10 +79,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_surah"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="match_parent"
+            android:padding="0dp"
             android:hint="@string/search"
-            android:paddingTop="@dimen/space_13.5"
-            android:paddingBottom="@dimen/space_13.5"
             android:inputType="text"
             />
 

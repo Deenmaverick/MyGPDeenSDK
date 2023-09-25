@@ -499,18 +499,6 @@ fun String.dayNameLocale(): String =
     }
     else this
 
-fun Fragment.bindOnBackPressedCallback(callback: () -> Unit) {
-    val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            callback.invoke()
-        }
-    }
-
-    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
-
-    viewLifecycleOwner.lifecycleScope.launch {
-        viewLifecycleOwner.lifecycle.whenStateAtLeast(Lifecycle.State.DESTROYED) {
-            onBackPressedCallback.remove()
-        }
-    }
+fun String.stripHtml(): String {
+    return this.replace(Regex("<.*?>"), "")
 }

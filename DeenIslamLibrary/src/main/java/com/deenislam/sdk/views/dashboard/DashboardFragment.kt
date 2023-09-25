@@ -158,7 +158,11 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
           loadingState()
             lifecycleScope.launch {
                 dashboardViewModel.getDashboard("Dhaka", getLanguage(), prayerdate)
-                prayerNotification(DeenSDKCore.isPrayerNotificationEnabled(requireContext()))
+
+                DeenSDKCore.baseContext?.let {
+                    prayerNotification(DeenSDKCore.isPrayerNotificationEnabled(it))
+                }
+
             }
     }
 

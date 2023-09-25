@@ -34,7 +34,15 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
 
         languageBtn.setOnClickListener {
-            setLocale(this,"bn")
+            //setLocale(this,"bn")
+            if(msisdn.text.isNotEmpty()){
+                DeenSDKCore.clearAllPrayerNotification(
+                    context = this,
+                    callback = this@DeenSDKActivity
+                )
+            }else{
+                Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
+            }
         }
 
         initSDKbtn.setOnClickListener {
@@ -75,11 +83,9 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         }
 
         prayernotifyon.setOnClickListener {
-            val baseContext = this
             if(msisdn.text.isNotEmpty()){
                 DeenSDKCore.prayerNotification(
                     isEnabled = true,
-                    isClearData = true,
                     context = this,
                     callback = this@DeenSDKActivity
                 )
@@ -92,7 +98,6 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
             if(msisdn.text.isNotEmpty()){
                 DeenSDKCore.prayerNotification(
                     isEnabled = false,
-                    isClearData = true,
                     context = this,
                     callback = this@DeenSDKActivity
                 )

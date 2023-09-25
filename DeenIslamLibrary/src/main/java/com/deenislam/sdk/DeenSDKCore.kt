@@ -325,7 +325,29 @@ object DeenSDKCore {
     }
 
     @JvmStatic
-    fun prayerNotification(isEnabled: Boolean,isClearData:Boolean = false, context: Context,callback: DeenSDKCallback)
+    fun prayerNotification(isEnabled: Boolean, context: Context,callback: DeenSDKCallback)
+    {
+        internalPrayerNotification(
+            isEnabled = isEnabled,
+            isClearData = false,
+            context = context,
+            callback = callback
+        )
+    }
+
+    @JvmStatic
+    fun clearAllPrayerNotification(context: Context,callback: DeenSDKCallback)
+    {
+        internalPrayerNotification(
+            isEnabled = false,
+            isClearData = true,
+            context = context,
+            callback = callback
+        )
+    }
+
+    @JvmStatic
+    private fun internalPrayerNotification(isEnabled: Boolean,isClearData:Boolean = false, context: Context,callback: DeenSDKCallback)
     {
 
         this.isTodayNotificationSet = false

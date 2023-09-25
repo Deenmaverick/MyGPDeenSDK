@@ -12,6 +12,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.hadith.preview.Data
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.stripHtml
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton
 
@@ -85,10 +86,10 @@ internal class HadithPreviewAdapter(
 
                     duaCat.text = duaCat.context.getString(R.string.hadith_preview_pos,data.HadithNumber.numberLocale())
 
-                    var duaSubData = ""
-                    var arabicNameData = ""
+                    var duaSubData = data.HadithText.stripHtml()
+                    var arabicNameData = data.HadithArabicText.stripHtml()
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         duaSubData = Html.fromHtml(
                             data.HadithText,
                             Html.FROM_HTML_MODE_LEGACY
@@ -107,7 +108,7 @@ internal class HadithPreviewAdapter(
                         arabicNameData = Html.fromHtml(
                             data.HadithArabicText
                         ).toString()
-                    }
+                    }*/
 
                     duaSubData = "<html><body style='text-align:justify;'>$duaSubData</body></html>"
 
