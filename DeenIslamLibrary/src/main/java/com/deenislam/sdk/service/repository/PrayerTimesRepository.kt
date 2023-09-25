@@ -209,7 +209,7 @@ internal class PrayerTimesRepository(
     private fun setNotification(time:Long,reqcode:Int)
     {
 
-        CancleExistingNotification(reqcode)
+        //CancleExistingNotification(reqcode)
 
         val notifyIntent = Intent(DeenSDKCore.appContext, AlarmReceiver::class.java)
         notifyIntent.putExtra("pid",reqcode)

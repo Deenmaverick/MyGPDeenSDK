@@ -264,12 +264,12 @@ internal class WidgetPrayerTimes(
                 {
                     2->
                     {
-                        if(NotificationPermission().getInstance().hasAlarm(rightBtn.context,it.id))
+                        //if(NotificationPermission().getInstance().hasAlarm(rightBtn.context,it.id))
                             rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_default))
                     }
                     3->
                     {
-                        if(NotificationPermission().getInstance().hasAlarm(rightBtn.context,it.id))
+                        //if(NotificationPermission().getInstance().hasAlarm(rightBtn.context,it.id))
                             rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.ic_notifications_sound))
                     }
 
