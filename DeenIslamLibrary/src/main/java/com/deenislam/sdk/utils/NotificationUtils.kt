@@ -1,5 +1,6 @@
 package com.deenislam.sdk.utils
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -19,6 +20,7 @@ import com.deenislam.sdk.views.main.MainActivity
 private val NOTIFICATION_ID = 0
 private val REQUEST_CODE = 0
 private val FLAGS = 0
+@SuppressLint("LaunchActivityFromNotification")
 fun NotificationManager.sendNotification(
     title:String,
     messageBody: String,
@@ -74,6 +76,7 @@ fun NotificationManager.sendNotification(
 
     val DismissIntent = Intent(DeenSDKCore.appContext, AlarmReceiver::class.java)
     DismissIntent.putExtra("dismiss","ok")
+    DismissIntent.putExtra("notification_id", notification_id)
 
     val DismissPendingIntent: PendingIntent =
         PendingIntent.getBroadcast(
@@ -89,7 +92,7 @@ fun NotificationManager.sendNotification(
         .setSmallIcon(R.drawable.bl_islamic_icon)
         .setContentTitle(title)
         .setContentText(messageBody)
-        .setContentIntent(contentPendingIntent)
+        .setContentIntent(DismissPendingIntent)
         .setDeleteIntent(DismissPendingIntent)
         .setAutoCancel(true)
         .setLargeIcon(getBitmapFromVectorDrawable(applicationContext,R.drawable.bl_islamic_icon))

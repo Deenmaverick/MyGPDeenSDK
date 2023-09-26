@@ -44,6 +44,8 @@ internal class AlarmReceiver : BroadcastReceiver() {
                 val service = Intent(context, AlarmReceiverService::class.java)
                 service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )
                 service.putExtra("dismiss",intent.extras?.getString("dismiss").toString() )
+                service.putExtra("notification_id",intent.extras?.getInt("notification_id",-1)?:-1)
+
                 context.startService(service)
              /*   val service = Intent(context, Notificationservice::class.java)
                 service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )

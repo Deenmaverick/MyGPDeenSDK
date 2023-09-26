@@ -39,6 +39,7 @@ internal class AlarmReceiverService: Service() {
         AzanPlayer.releaseMediaPlayer()
 
         val prayer_notification_id = intent?.extras?.getInt("pid",0)?:0
+        val system_notification_id = intent?.extras?.getInt("notification_id",-1)?:-1
 
         Log.e("AlarmReceiver_Prayer", prayer_notification_id.toString())
 
@@ -52,6 +53,11 @@ internal class AlarmReceiverService: Service() {
 
         if(isNotificationDismiss == "ok")
             AzanPlayer.releaseMediaPlayer()
+
+        if (system_notification_id != -1) {
+            val notificationManager = serviceContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.cancel(system_notification_id)
+        }
 
 
         return super.onStartCommand(intent, flags, startId)
