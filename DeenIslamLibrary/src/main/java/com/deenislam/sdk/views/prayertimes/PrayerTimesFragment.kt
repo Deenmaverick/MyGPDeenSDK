@@ -132,7 +132,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val mainview = layoutInflater.inflate(R.layout.fragment_prayer_times,container,false)
+        val mainview = localInflater.inflate(R.layout.fragment_prayer_times,container,false)
 
         //init view
         prayerMain = mainview.findViewById(R.id.prayerMain)

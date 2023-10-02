@@ -2,13 +2,11 @@ package com.deenislam.sdk.views.dashboard
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +18,6 @@ import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
-import com.deenislam.sdk.views.main.MainActivity
 import kotlinx.coroutines.launch
 
 

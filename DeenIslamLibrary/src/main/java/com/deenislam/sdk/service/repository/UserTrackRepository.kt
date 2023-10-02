@@ -1,5 +1,6 @@
 package com.deenislam.sdk.service.repository;
 
+import android.util.Log
 import com.deenislam.sdk.service.network.ApiCall
 import com.deenislam.sdk.service.network.api.AuthenticateService
 import com.deenislam.sdk.utils.RequestBodyMediaType
@@ -20,5 +21,17 @@ internal class UserTrackRepository(
         body.put("device", device)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         authenticateService?.userTrack(parm = requestBody)
+    }
+
+    suspend fun userSessionTrack(msisdn:String,sessionStart:Long,SessionEnd:Long) = makeApicall {
+
+        val body = JSONObject()
+        body.put("msisdn", msisdn)
+        body.put("sessionStart", sessionStart)
+        body.put("sessionEnd", SessionEnd)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        authenticateService?.userSessionTrack(parm = requestBody)
+
+        Log.e("MyBLSDK","OKK")
     }
 } 

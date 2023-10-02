@@ -40,7 +40,7 @@
 
         <activity
             android:theme="@style/DeenSDKTheme.NoActionBar"
-            android:name="com.deenislam.sdk.views.main.MainActivity"
+            android:name="com.deenislam.sdk.views.main.MainActivityDeenSDK"
             android:hardwareAccelerated="true"
             android:exported="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -58,7 +58,20 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".service.libs.sessiontrack.SessionReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
+
         <service android:name=".service.libs.notification.AlarmReceiverService" />
+        <service android:name=".service.libs.sessiontrack.SessionReceiverService" />
+
 
         <!-- <receiver
              android:name=".service.libs.notification.SnoozeReceiver"

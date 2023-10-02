@@ -281,13 +281,13 @@ internal class DashboardBillboardAdapter(
                 }
             }
         }
-        
+
         return  count
     }
 
     override fun getItemViewType(position: Int): Int {
 
-         /*if(position == ceil(itemCount.toDouble() / 2).toInt())*/
+        /*if(position == ceil(itemCount.toDouble() / 2).toInt())*/
         return if(billboardData[position].Text == "PrayerTime")
             PRAYER_VIEW
         else
@@ -325,14 +325,14 @@ internal class DashboardBillboardAdapter(
         override fun onBind(position: Int, viewtype: Int) {
             super.onBind(position, viewtype)
 
-                when (viewtype) {
-                    PRAYER_VIEW -> {
-                        widget1_view()
-                    }
-                    BILLBOARD_VIEW -> {
-                        widget2_view(position)
-                    }
+            when (viewtype) {
+                PRAYER_VIEW -> {
+                    widget1_view()
                 }
+                BILLBOARD_VIEW -> {
+                    widget2_view(position)
+                }
+            }
 
 
             if (position == 0) {

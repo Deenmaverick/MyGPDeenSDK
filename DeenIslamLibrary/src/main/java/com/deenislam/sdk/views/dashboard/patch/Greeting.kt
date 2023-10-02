@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.show
 
 internal class Greeting {
 
@@ -34,18 +36,27 @@ internal class Greeting {
 
     }
 
-    fun update(data: PrayerTimesResponse)
+    fun update(data: PrayerTimesResponse?)
     {
-        instance?.greeting_txt?.text = data.Data.wish
 
-        when(data.Data.moment)
+        if(data!=null) {
+
+            instance?.greeting_txt?.rootView?.show()
+
+            instance?.greeting_txt?.text = data.Data.wish
+
+            when (data.Data.moment) {
+                "Morning" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sunrise_fill)
+                "Noon" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sun_fill)
+                "Afternoon" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_cloud_sun_fill)
+                "Evening" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sunset_fill)
+                "Night" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_isha)
+
+            }
+        }
+        else
         {
-            "Morning" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sunrise_fill)
-            "Noon" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sun_fill)
-            "Afternoon" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_cloud_sun_fill)
-            "Evening" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sunset_fill)
-            "Night" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_isha)
-
+            instance?.greeting_txt?.rootView?.hide()
         }
     }
 }

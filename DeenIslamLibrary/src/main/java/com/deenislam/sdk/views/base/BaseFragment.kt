@@ -32,7 +32,7 @@ import com.deenislam.sdk.utils.isBottomNavFragment
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
-import com.deenislam.sdk.views.main.MainActivity
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.main.actionCallback
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -92,7 +92,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     fun changeLanguage(language:String)
     {
         //DeenSDKCore.SetDeenLanguage(language)
-        (activity as MainActivity).changeLanguage()
+        (activity as MainActivityDeenSDK).changeLanguage()
     }
     private fun isBacktoHome(bol:Boolean)
     {
@@ -239,12 +239,12 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         }
 
 
-        (activity as MainActivity).setupOtherFragment(bol)
+        (activity as MainActivityDeenSDK).setupOtherFragment(bol)
     }
 
     fun setupAction(action1:Int,action2:Int,callback: actionCallback)
     {
-        (activity as MainActivity).setupActionbar(action1,action2,callback)
+        (activity as MainActivityDeenSDK).setupActionbar(action1,action2,callback)
     }
 
     fun setupActionForOtherFragment(
@@ -311,16 +311,16 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     fun changeMainViewPager(page:Int)
     {
-        (activity as MainActivity).setViewPager(page)
+        (activity as MainActivityDeenSDK).setViewPager(page)
     }
 
     fun setupAction(action1:Int,action2:Int,callback: actionCallback,title:String)
     {
-        (activity as MainActivity).setupActionbar(title)
-        (activity as MainActivity).setupActionbar(action1,action2,callback)
+        (activity as MainActivityDeenSDK).setupActionbar(title)
+        (activity as MainActivityDeenSDK).setupActionbar(action1,action2,callback)
     }
 
-    fun isDashboardVisible() = (activity as MainActivity).isDashboardVisible()
+    fun isDashboardVisible() = (activity as MainActivityDeenSDK).isDashboardVisible()
 
     fun gotoFrag(destination:Int,data:Bundle?=null,navOptions: NavOptions?=null)
     {
@@ -340,7 +340,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {
-        (activity as MainActivity).disableBackPress()
+        (activity as MainActivityDeenSDK).disableBackPress()
         //isBacktoHome(isBacktoHome)
         childFragment = fragment
 
@@ -369,7 +369,7 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
-            (activity as MainActivity).enableBackPress()
+            (activity as MainActivityDeenSDK).enableBackPress()
         }
         super.onStop()
     }

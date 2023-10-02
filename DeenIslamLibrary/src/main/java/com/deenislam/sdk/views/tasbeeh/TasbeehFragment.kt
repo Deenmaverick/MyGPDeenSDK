@@ -28,7 +28,7 @@ import com.deenislam.sdk.views.adapters.tasbeeh.TasbeehDuaAdapter
 import com.deenislam.sdk.views.adapters.tasbeeh.TasbeehRecentCountAdapter
 import com.deenislam.sdk.views.adapters.tasbeeh.tasbeehDuaCallback
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislam.sdk.views.main.MainActivity
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -206,7 +206,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
 
-            MainActivity.instance?.bottomNavClicked = true
+            MainActivityDeenSDK.instance?.bottomNavClicked = true
 
             when (item.itemId) {
 

@@ -26,7 +26,7 @@ import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
-import com.deenislam.sdk.views.main.MainActivity
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
 import kotlinx.coroutines.launch
@@ -78,7 +78,7 @@ internal abstract class BaseRegularFragment: Fragment() {
     fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {
         Log.e("setupBackPressCallback","OK")
-        (activity as MainActivity).disableBackPress()
+        (activity as MainActivityDeenSDK).disableBackPress()
         //isBacktoHome(isBacktoHome)
         childFragment = fragment
         onBackPressedCallback =
@@ -91,17 +91,19 @@ internal abstract class BaseRegularFragment: Fragment() {
     fun changeLanguage(language:String)
     {
         //DeenSDKCore.SetDeenLanguage(language)
-        (activity as MainActivity).changeLanguage()
+        (activity as MainActivityDeenSDK).changeLanguage()
     }
 
-    fun destoryDeenSDK() = (activity as MainActivity).closeDeenSDK()
+    fun destoryDeenSDK() = (activity as MainActivityDeenSDK).closeDeenSDK()
 
     fun setTrackingID(id:Long)
     {
-        (activity as MainActivity).setTrackingID(id)
+        tryCatch {
+            (activity as MainActivityDeenSDK).setTrackingID(id)
+        }
     }
 
-    fun getTrackingID() = (activity as MainActivity).getTrackingID()
+    fun getTrackingID() = (activity as MainActivityDeenSDK).getTrackingID()
 
     fun getLanguage():String = DeenSDKCore.GetDeenLanguage()
 
@@ -186,17 +188,17 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun changeMainViewPager(page:Int)
     {
-        (activity as MainActivity).setViewPager(page)
+        (activity as MainActivityDeenSDK).setViewPager(page)
     }
 
     fun gotoDashboard()
     {
-        (activity as MainActivity).initDashboard()
+        (activity as MainActivityDeenSDK).initDashboard()
     }
 
     fun showBottomNav(bol:Boolean)
     {
-        (activity as MainActivity).showBottomNav(bol)
+        (activity as MainActivityDeenSDK).showBottomNav(bol)
     }
 
     fun setupOtherFragment(bol:Boolean)
@@ -214,7 +216,7 @@ internal abstract class BaseRegularFragment: Fragment() {
                 )
             }
         }
-        (requireActivity() as MainActivity).setupOtherFragment(bol)
+        (requireActivity() as MainActivityDeenSDK).setupOtherFragment(bol)
     }
 
     fun setupActionForOtherFragment(action1:Int,action2:Int,callback: otherFagmentActionCallback?=null,actionnBartitle:String,backEnable:Boolean=true,view: View,isBackIcon:Boolean = false)
@@ -276,29 +278,29 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun setupAction(action1:Int,action2:Int,callback: actionCallback)
     {
-        (activity as MainActivity).setupActionbar(action1,action2,callback)
+        (activity as MainActivityDeenSDK).setupActionbar(action1,action2,callback)
     }
 
     fun setupAction(action1:Int,action2:Int,callback: actionCallback?=null,title:String,backEnable:Boolean=false)
     {
-        (activity as MainActivity).setupActionbar(title,backEnable)
-        (activity as MainActivity).setupActionbar(action1,action2,callback)
+        (activity as MainActivityDeenSDK).setupActionbar(title,backEnable)
+        (activity as MainActivityDeenSDK).setupActionbar(action1,action2,callback)
     }
 
     fun setupSearchbar(callback: searchCallback?=null)
     {
-        (activity as MainActivity).setupSearchbar(callback)
+        (activity as MainActivityDeenSDK).setupSearchbar(callback)
     }
 
     fun hideSearchbar()
     {
-        (activity as MainActivity).hideSearch()
+        (activity as MainActivityDeenSDK).hideSearch()
     }
 
     fun setupAction(action1:Int,action2:Int,title:String,backEnable:Boolean=false)
     {
-        (activity as MainActivity).setupActionbar(title,backEnable)
-        (activity as MainActivity).setupActionbar(action1,action2)
+        (activity as MainActivityDeenSDK).setupActionbar(title,backEnable)
+        (activity as MainActivityDeenSDK).setupActionbar(action1,action2)
     }
 
     inline fun <T : View> prepareStubView(
@@ -323,7 +325,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
-            (activity as MainActivity).enableBackPress()
+            (activity as MainActivityDeenSDK).enableBackPress()
         }
         super.onStop()
     }

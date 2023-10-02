@@ -18,5 +18,8 @@ internal interface AuthenticateService {
     @POST("Tracker/TrackUser")
     suspend fun userTrack(@Body parm: RequestBody): BasicResponse
 
+    @POST("Tracker/SessionTrack")
+    suspend fun userSessionTrack(@Body parm: RequestBody): BasicResponse
+
 
 }

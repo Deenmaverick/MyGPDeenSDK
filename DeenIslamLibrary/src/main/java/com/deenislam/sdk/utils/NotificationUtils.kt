@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
-import com.deenislam.sdk.views.main.MainActivity
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 
 private val NOTIFICATION_ID = 0
 private val REQUEST_CODE = 0
@@ -32,7 +32,7 @@ fun NotificationManager.sendNotification(
 
     Log.e("RECIVER_NOTIFY","CALLED")
     // Create the content intent for the notification which launches the MainActivity
-    val contentIntent = Intent(applicationContext, MainActivity::class.java)
+    val contentIntent = Intent(applicationContext, MainActivityDeenSDK::class.java)
 
     val contentPendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         PendingIntent.getBroadcast(

@@ -465,9 +465,8 @@ fun ViewPager2.setCurrentItem(
 
 fun get9DigitRandom(): Long {
     val random = Random
-    val part1 = random.nextInt(1000, 10000)  // generates a random 4-digit number
-    val part2 = random.nextInt(10000, 100000)  // generates a random 5-digit number
-    val trackingID = "$part1$part2".toLong() // concatenate the two numbers
+    val part1 = random.nextInt(1000, 10000).toString()  // generates a random 4-digit number
+    val part2 = random.nextInt(10000, 100000).toString()  // generates a random 5-digit number
 
-    return trackingID
+    return "$part1$part2".toLong()
 }

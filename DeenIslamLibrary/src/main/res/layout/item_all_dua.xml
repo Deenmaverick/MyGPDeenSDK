@@ -33,10 +33,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/menuTitile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_16"
                 android:text="Menu Name"
+                android:gravity="center"
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"

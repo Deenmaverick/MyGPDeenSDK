@@ -16,7 +16,7 @@ import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.getRCDestination
-import com.deenislam.sdk.views.main.MainActivity
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.prayertimes.PrayerTimeNotification
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -188,7 +188,7 @@ object DeenSDKCore {
         }
 
         val intent =
-            Intent(baseContext, MainActivity::class.java)
+            Intent(baseContext, MainActivityDeenSDK::class.java)
         intent.putExtra("destination",R.id.dashboardFakeFragment)
         baseContext?.startActivity(intent)
 
@@ -209,7 +209,7 @@ object DeenSDKCore {
         }
 
         val intent =
-            Intent(baseContext, MainActivity::class.java)
+            Intent(baseContext, MainActivityDeenSDK::class.java)
         intent.putExtra("destination",getDestination)
         baseContext?.startActivity(intent)
 
@@ -224,7 +224,7 @@ object DeenSDKCore {
         }
 
         val intent =
-            Intent(baseContext, MainActivity::class.java)
+            Intent(baseContext, MainActivityDeenSDK::class.java)
         intent.putExtra("destination",R.id.tasbeehFragment)
         baseContext?.startActivity(intent)
 
@@ -279,7 +279,7 @@ object DeenSDKCore {
         }
 
         val intent =
-            Intent(baseContext, MainActivity::class.java)
+            Intent(baseContext, MainActivityDeenSDK::class.java)
         intent.putExtra("destination",R.id.prayerTimesFragment)
         baseContext?.startActivity(intent)
        /* this.appContext = context.applicationContext

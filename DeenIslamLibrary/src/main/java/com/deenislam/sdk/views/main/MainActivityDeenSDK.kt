@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -33,6 +34,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
+import com.deenislam.sdk.service.libs.notification.AlarmReceiverService
+import com.deenislam.sdk.service.libs.sessiontrack.SessionReceiver
+import com.deenislam.sdk.service.libs.sessiontrack.SessionReceiverService
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
@@ -46,7 +50,7 @@ import com.google.android.material.textfield.TextInputEditText
 import java.util.Locale
 
 
-internal class MainActivity : AppCompatActivity() {
+internal class MainActivityDeenSDK : AppCompatActivity() {
 
     private lateinit var navHostFragment:NavHostFragment
     private lateinit var navController:NavController
@@ -58,6 +62,7 @@ internal class MainActivity : AppCompatActivity() {
     lateinit var localContext:Context
 
     private var trackingID:Long = 0
+    private var sessionStartTime:Long = System.currentTimeMillis()/1000
 
     private val _viewPager: ViewPager2 by lazy { findViewById(R.id.viewPager) }
     private val frameContainerView: FragmentContainerView by lazy { findViewById(R.id.fragmentContainerView) }
@@ -82,7 +87,7 @@ internal class MainActivity : AppCompatActivity() {
 
     companion object
     {
-        var instance: MainActivity? = null
+        var instance: MainActivityDeenSDK? = null
     }
 
     fun resetBottomNavClick()
@@ -160,6 +165,8 @@ internal class MainActivity : AppCompatActivity() {
             setupBackPressCallback()
         }
 
+        sessionStartTime = System.currentTimeMillis()/1000
+
     }
 
     fun closeDeenSDK()
@@ -224,19 +231,58 @@ internal class MainActivity : AppCompatActivity() {
 
 
     override fun onPause() {
-        super.onPause()
+        sendSessionToServer()
 
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
         }
+
+        super.onPause()
     }
     override fun onDestroy() {
-        super.onDestroy()
+
         if(this::onBackPressedCallback.isInitialized) {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
         }
+
+        super.onDestroy()
+
+    }
+
+    private fun sendSessionToServer()
+    {
+      /*  val service = Intent(this, SessionReceiverService::class.java)
+        service.putExtra("msisdn",DeenSDKCore.GetDeenMsisdn())
+        service.putExtra("sessionStart",sessionStartTime)
+        service.putExtra("sessionEnd",System.currentTimeMillis()/1000)
+        this.startService(service)
+*/
+        Log.e("SDKDEEN_DES","OK")
+
+        val notifyIntent = Intent(DeenSDKCore.appContext, SessionReceiver::class.java)
+        notifyIntent.putExtra("msisdn",DeenSDKCore.GetDeenMsisdn())
+        notifyIntent.putExtra("sessionStart",sessionStartTime)
+        notifyIntent.putExtra("sessionEnd",System.currentTimeMillis()/1000)
+
+        val notifyPendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(
+                DeenSDKCore.appContext,
+                200,
+                notifyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
+
+        val alarmManager = DeenSDKCore.appContext?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        AlarmManagerCompat.setExactAndAllowWhileIdle(
+            alarmManager,
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            SystemClock.elapsedRealtime() + 1000,
+            notifyPendingIntent
+        )
+
+
     }
 
     fun changeLanguage()
@@ -277,12 +323,12 @@ internal class MainActivity : AppCompatActivity() {
     }*/
 
 
-    fun getInstance():MainActivity
+    fun getInstance():MainActivityDeenSDK
     {
         if (instance == null)
             instance = this
 
-        return instance as MainActivity
+        return instance as MainActivityDeenSDK
     }
 
     private fun createChannel(channelId: String, channelName: String,description:String) {
