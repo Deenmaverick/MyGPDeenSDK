@@ -9,7 +9,7 @@ internal class UserTrackViewModel(
     private val repository: UserTrackRepository
 ) : ViewModel() {
 
-    fun trackUser(language:String,msisdn:String,pagename:String,trackingID:Long)
+    fun trackUser(language:String,msisdn:String,pagename:String,trackingID:Int)
     {
         viewModelScope.launch {
             repository.userTrack(

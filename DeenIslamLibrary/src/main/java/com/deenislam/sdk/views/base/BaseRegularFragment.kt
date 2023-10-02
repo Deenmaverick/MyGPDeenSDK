@@ -96,7 +96,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun destoryDeenSDK() = (activity as MainActivityDeenSDK).closeDeenSDK()
 
-    fun setTrackingID(id:Long)
+    fun setTrackingID(id:Int)
     {
         tryCatch {
             (activity as MainActivityDeenSDK).setTrackingID(id)

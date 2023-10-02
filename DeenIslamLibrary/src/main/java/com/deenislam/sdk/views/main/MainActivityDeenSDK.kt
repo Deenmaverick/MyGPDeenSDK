@@ -61,7 +61,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
 
     lateinit var localContext:Context
 
-    private var trackingID:Long = 0
+    private var trackingID:Int = 0
     private var sessionStartTime:Long = System.currentTimeMillis()/1000
 
     private val _viewPager: ViewPager2 by lazy { findViewById(R.id.viewPager) }
@@ -310,7 +310,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
     }
 
     fun getTrackingID() = trackingID
-    fun setTrackingID(id:Long)
+    fun setTrackingID(id:Int)
     {
         trackingID =id
     }
