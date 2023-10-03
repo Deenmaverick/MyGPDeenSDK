@@ -102,10 +102,8 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
         }
 
         listView.apply {
-            post {
-                adapter = zakatSavedAdapter
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            }
+            adapter = zakatSavedAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
 
     }

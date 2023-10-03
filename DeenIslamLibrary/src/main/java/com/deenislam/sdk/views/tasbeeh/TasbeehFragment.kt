@@ -1,6 +1,9 @@
 package com.deenislam.sdk.views.tasbeeh
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -121,12 +124,15 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         super.onViewCreated(view, savedInstanceState)
 
         //loadpage()
-        view.postDelayed({
+        /*view.postDelayed({
             // Code to execute after the animation
             loadpage()
-        }, 300)
+        }, 300)*/
+        Log.e("TASBEEN_LOAD123","Ok")
+        loadpage()
 
     }
+
 
 
 
@@ -135,6 +141,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
         if(!firstload)
         {
+
             lifecycleScope.launch {
                 setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
@@ -206,7 +213,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
 
-            MainActivityDeenSDK.instance?.bottomNavClicked = true
+            //MainActivityDeenSDK.instance?.bottomNavClicked = true
 
             when (item.itemId) {
 
@@ -321,11 +328,11 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
                 trackcount = track4Count++
             }
 
-            if(trackcount>targetCount && targetCount!=-1)
+            if(trackcount>=targetCount && targetCount!=-1)
             {
                 countView.setProgress(100F)
                 countTxt.text = trackcount.toString().numberLocale()
-                targetCountTxt.text = "/${targetCount.toString()}"
+                targetCountTxt.text = "/${targetCount}".numberLocale()
             }
             else if(trackcount<targetCount && count!=-1)
             {

@@ -97,7 +97,7 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         allDuaBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
         allDuaBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
-        if(firstload)
+       /* if(firstload)
         loadpage()
         else
         view.postDelayed({
@@ -105,7 +105,9 @@ internal class DailyDuaFragment : BaseRegularFragment() {
             loadpage()
         }, 300)
 
-        firstload = true
+        firstload = true*/
+
+        loadpage()
     }
 
     override fun onBackPress() {

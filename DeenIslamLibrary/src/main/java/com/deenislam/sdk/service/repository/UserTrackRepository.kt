@@ -11,7 +11,7 @@ internal class UserTrackRepository(
     private val authenticateService:AuthenticateService?
 ) : ApiCall {
 
-    suspend fun userTrack(language:String,msisdn:String,pagename:String,trackingID:Int,device:String="sdk") = makeApicall {
+    suspend fun userTrack(language:String,msisdn:String,pagename:String,trackingID:Long,device:String="sdk") = makeApicall {
 
         val body = JSONObject()
         body.put("language", language)

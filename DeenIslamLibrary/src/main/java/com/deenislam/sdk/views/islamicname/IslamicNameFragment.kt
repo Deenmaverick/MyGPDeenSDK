@@ -91,7 +91,7 @@ internal class IslamicNameFragment : BaseRegularFragment() {
 
 
 
-        if(firstload)
+       /* if(firstload)
         loadPage()
         else
         view.postDelayed({
@@ -99,7 +99,9 @@ internal class IslamicNameFragment : BaseRegularFragment() {
             loadPage()
         }, 300)
 
-        firstload = true
+        firstload = true*/
+
+        loadPage()
 
     }
 

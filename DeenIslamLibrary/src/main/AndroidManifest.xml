@@ -42,9 +42,7 @@
             android:theme="@style/DeenSDKTheme.NoActionBar"
             android:name="com.deenislam.sdk.views.main.MainActivityDeenSDK"
             android:hardwareAccelerated="true"
-            android:exported="true"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTop">
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
 
         <receiver

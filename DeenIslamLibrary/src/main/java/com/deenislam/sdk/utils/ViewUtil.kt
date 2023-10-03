@@ -179,6 +179,7 @@ fun String.prayerMomentLocale():String
             "Maghrib" -> "মাগরিব"
             "Isha" -> "এশা"
             "Tahajjud End" -> "তাহাজ্জুদ শেষ"
+            "Tahajjud" -> "তাহাজ্জুদ"
             "Sunrise" ->  "সূর্যোদয়"
             "Suhoor (End)" -> "সেহরি শেষ"
             "Iftaar (Start)" -> "ইফতার শুরু"

@@ -93,7 +93,7 @@ internal class HadithFragment : BaseRegularFragment() {
         hadithBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
         hadithBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
-        if(firstload)
+       /* if(firstload)
         loadPage()
         else
         view.postDelayed({
@@ -101,7 +101,9 @@ internal class HadithFragment : BaseRegularFragment() {
             loadPage()
         }, 300)
 
-        firstload = true
+        firstload = true*/
+
+        loadPage()
 
 
     }

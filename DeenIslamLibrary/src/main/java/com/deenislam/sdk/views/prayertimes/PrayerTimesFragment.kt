@@ -102,16 +102,16 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         super.OnCreate()
         setupBackPressCallback(this,true)
 
-        NotificationPermission().getInstance().setupLauncher(this,localContext,true, activityContext = requireContext())
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+      /*  NotificationPermission().getInstance().setupLauncher(this,localContext,true, activityContext = requireContext())
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, *//* forward= *//* false).apply {
             duration = 300L
         }
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, *//* forward= *//* true).apply {
             duration = 300L
         }
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, *//* forward= *//* false).apply {
             duration = 300L
-        }
+        }*/
 
         val prayerTimesRepository = PrayerTimesRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
@@ -150,6 +150,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         if (viewmodel.listState != null) {
             linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
         }
@@ -168,13 +169,15 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         if(prayerMain.isEmpty())
         {
-            if(firstload)
+            /*if(firstload)
             loadPage()
             else
             view.postDelayed({
                 // Code to execute after the animation
                 loadPage()
-            }, 300)
+            }, 300)*/
+
+            loadPage()
         }
 
 
@@ -348,14 +351,13 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             adapter = prayerTimesAdapter
             layoutManager = linearLayoutManager
             isNestedScrollingEnabled = false
-            post {
-                initObserver()
-            }
         }
 
         no_internet_retryBtn.setOnClickListener {
             loadDataAPI()
         }
+
+        initObserver()
 
     }
 

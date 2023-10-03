@@ -81,8 +81,7 @@
     <fragment
         android:id="@+id/tasbeehFragment"
         android:name="com.deenislam.sdk.views.tasbeeh.TasbeehFragment"
-        android:label="fragment_tasbeeh"
-        tools:layout="@layout/fragment_tasbeeh" />
+        android:label="fragment_tasbeeh" />
     <fragment
         android:id="@+id/alQuranFragment"
         android:name="com.deenislam.sdk.views.quran.AlQuranFragment"

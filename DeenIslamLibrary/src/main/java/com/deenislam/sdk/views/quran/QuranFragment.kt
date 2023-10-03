@@ -90,13 +90,15 @@ internal class QuranFragment : BaseRegularFragment() {
       /*  postponeEnterTransition()
         loadpage()
         startPostponedEnterTransition()*/
-        if(firstload)
+       /* if(firstload)
         loadpage()
         else
         view.postDelayed({
             // Code to execute after the animation
             loadpage()
-        }, 300)
+        }, 300)*/
+
+        loadpage()
 
     }
 

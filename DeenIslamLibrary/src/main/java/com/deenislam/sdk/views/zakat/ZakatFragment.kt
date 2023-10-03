@@ -93,7 +93,7 @@ internal class ZakatFragment : BaseRegularFragment() {
 
 
 
-        if(firstload)
+     /*   if(firstload)
         loadPage()
         else
         view.postDelayed({
@@ -101,7 +101,9 @@ internal class ZakatFragment : BaseRegularFragment() {
             loadPage()
         }, 300)
 
-        firstload = true
+        firstload = true*/
+
+        loadPage()
 
     }
 

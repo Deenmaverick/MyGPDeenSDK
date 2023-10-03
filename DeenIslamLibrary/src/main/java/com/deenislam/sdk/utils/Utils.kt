@@ -35,8 +35,7 @@ import java.io.Reader
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
-import java.util.Random
-
+import kotlin.random.Random
 
 fun View.visible(isvisible:Boolean)
 {
@@ -463,11 +462,18 @@ fun ViewPager2.setCurrentItem(
 
 }
 
-fun get9DigitRandom(): Int {
+/*fun get9DigitRandom(): Int {
     val random = Random()
     val part1 = random.nextInt(9000) + 1000  // generates a random 4-digit number
     val part2 = random.nextInt(90000) + 10000  // generates a random 5-digit number
 
     return "$part1$part2".toInt()
+}*/
+
+fun get9DigitRandom(): Long {
+    val part1 = (1000..9999).random()   // generates a random 4-digit number
+    val part2 = (10000..99999).random() // generates a random 5-digit number
+
+    return "$part1$part2".toLong()
 }
 

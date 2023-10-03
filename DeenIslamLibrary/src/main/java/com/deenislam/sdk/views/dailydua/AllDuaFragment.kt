@@ -116,15 +116,13 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
 
                 layoutManager = gridLayoutManager
 
-            post {
-                initObserver()
-
-                if(!firstload)
-                    loadApiData()
-                firstload = true
-
-            }
         }
+
+        initObserver()
+
+        if(!firstload)
+            loadApiData()
+        firstload = true
 
     }
 

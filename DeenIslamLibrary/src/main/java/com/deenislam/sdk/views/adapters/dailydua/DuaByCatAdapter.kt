@@ -63,7 +63,9 @@ internal class DuaByCatAdapter(
             shareBtn.hide()
             if(duaList.size>0) {
                 val dua = duaList[position]
-                duaCat.text = "${dua.SubCategoryName}-${position+1}".numberLocale()
+                //duaCat.text = "${dua.SubCategoryName}-${position+1}".numberLocale()
+
+                duaCat.text = dua.Title
 
                 if(dua.TextInArabic.isEmpty())
                     arabicName.hide()

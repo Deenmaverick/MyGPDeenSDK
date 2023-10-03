@@ -24,13 +24,17 @@ import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.repository.UserTrackRepository
-import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.utils.AsyncViewStub
+import com.deenislam.sdk.utils.LocaleUtil
+import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Locale
 
 
 internal abstract class BaseRegularFragment: Fragment() {
@@ -96,11 +100,9 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun destoryDeenSDK() = (activity as MainActivityDeenSDK).closeDeenSDK()
 
-    fun setTrackingID(id:Int)
+    fun setTrackingID(id:Long)
     {
-        tryCatch {
-            (activity as MainActivityDeenSDK).setTrackingID(id)
-        }
+        (activity as MainActivityDeenSDK).setTrackingID(id)
     }
 
     fun getTrackingID() = (activity as MainActivityDeenSDK).getTrackingID()

@@ -73,7 +73,7 @@ internal class HadithChapterAdapter(
                 {
                     val chapter = chapterList[position]
 
-                    countTxt.text = (chapter.ChapterNo).toString()
+                    countTxt.text = (chapter.ChapterNo).toString().numberLocale()
                     name.text = chapter.Name
                     count.text = count.context.getString(R.string.hadith_chapter_available_count,chapter.HadithStartNumber.toString().numberLocale(),chapter.HadithEndNumber.toString().numberLocale())
 

@@ -61,7 +61,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
 
     lateinit var localContext:Context
 
-    private var trackingID:Int = 0
+    private var trackingID:Long = 0
     private var sessionStartTime:Long = System.currentTimeMillis()/1000
 
     private val _viewPager: ViewPager2 by lazy { findViewById(R.id.viewPager) }
@@ -85,23 +85,21 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
 
     private var isDisableBackPress = false
 
-    companion object
+    /*companion object
     {
         var instance: MainActivityDeenSDK? = null
-    }
+    }*/
 
-    fun resetBottomNavClick()
+   /* fun resetBottomNavClick()
     {
         instance?.bottomNavClicked = false
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //instance = this
         setContentView(R.layout.activity_main_deen)
-
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
-        instance = this
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
         frameContainerView.visible(true)
@@ -110,7 +108,6 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
         searchInput.hint = localContext.getString(R.string.search)
         // test notification
         createChannel("Prayer Time","Prayer Time","Prayer Alert")
-
         //Log.e("CUR_TIME_NOTIFY",Calendar.getInstance().timeInMillis.toString())
       /*  setNotification(  SystemClock.elapsedRealtime()+600,1)
         setNotification(SystemClock.elapsedRealtime()+1200,2)
@@ -310,7 +307,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
     }
 
     fun getTrackingID() = trackingID
-    fun setTrackingID(id:Int)
+    fun setTrackingID(id:Long)
     {
         trackingID =id
     }
@@ -323,13 +320,13 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
     }*/
 
 
-    fun getInstance():MainActivityDeenSDK
+   /* fun getInstance():MainActivityDeenSDK
     {
         if (instance == null)
             instance = this
 
         return instance as MainActivityDeenSDK
-    }
+    }*/
 
     private fun createChannel(channelId: String, channelName: String,description:String) {
         //create a channel
@@ -465,7 +462,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
 
     fun setViewPager(page:Int)
     {
-        instance?.bottomNavClicked = true
+        //instance?.bottomNavClicked = true
         childFragmentAnimForward = _viewPager.currentItem<page
         _viewPager.setCurrentItem(page,false)
     }

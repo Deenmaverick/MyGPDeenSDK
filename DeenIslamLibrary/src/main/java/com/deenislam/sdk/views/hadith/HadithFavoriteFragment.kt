@@ -328,7 +328,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
         btn2?.text = btn2?.let { LoadingButton().getInstance(requireContext()).loader(it) }
 
         lifecycleScope.launch {
-            favData?.Id?.let { viewModel.setFavHadith(false,it,getLanguage(),adapterPosition) }
+            favData?.Id?.let { viewModel.setFavHadith(true,it,getLanguage(),adapterPosition) }
         }
 
     }
