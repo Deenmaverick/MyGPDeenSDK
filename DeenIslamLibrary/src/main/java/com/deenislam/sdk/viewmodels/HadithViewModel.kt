@@ -155,8 +155,12 @@ internal class HadithViewModel(
 
     fun clear()
     {
-        _hadithFavLiveData.value = CommonResource.CLEAR
         _hadithPreviewLiveData.value = CommonResource.CLEAR
+    }
+
+    fun clearFavLiveData()
+    {
+        _hadithFavLiveData.value = CommonResource.CLEAR
     }
 
 }

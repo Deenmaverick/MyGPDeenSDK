@@ -34,9 +34,14 @@ internal class HadithFavAdapter(
 
     fun delItem(position: Int)
     {
-        hadithDataList.removeAt(if(position ==1)0 else position)
+        /*hadithDataList.removeAt(if(position ==1)0 else position)
         notifyItemRemoved(position)
-        notifyItemRangeChanged(position, hadithDataList.size - position)
+        notifyItemRangeChanged(position, hadithDataList.size - position)*/
+
+        val oldList = ArrayList(hadithDataList)
+        hadithDataList.removeAt(position)
+        val diffResult = DiffUtil.calculateDiff(UserDiffCallback(oldList, hadithDataList))
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun getItemCount(): Int = hadithDataList.size

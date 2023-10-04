@@ -110,8 +110,6 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
             loadApiData()
         }
 
-        initObserver()
-
         loadingState()
 
         hadithFavAdapter = HadithFavAdapter(this@HadithFavoriteFragment)
@@ -153,47 +151,20 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
             }
         })
 
+        initObserver()
+
         loadApiData()
     }
 
     private fun fetchNextPageData() {
 
         Log.e("fetchNextPageData","called")
-        //val from = hadithFavAdapter.itemCount
-       // val to = hadithData.size
-
-        //if (totalHadithCount != hadithFavAdapter.itemCount && nextPageAPICalled) {
-            lifecycleScope.launch {
+        lifecycleScope.launch {
                 pageNo++
                 loadApiData()
                 isNextEnabled = false
             }
-       // }
-       /* else
-        {
-            if (from == 0 && totalHadithCount <= pageItemCount) {
-                hadithFavAdapter.update(ArrayList(hadithData))
-                //alQuranAyatAdapter.notifyItemRangeInserted(from,to)
-            }
-            else if(hadithFavAdapter.itemCount != hadithData.size)
-            {
-                if(from<to) {
-                    listView.setOnTouchListener { _, _ -> true }
-                    listView.post {
-                        hadithFavAdapter.update(ArrayList(hadithData.subList(from, to)))
-                        listView.setOnTouchListener(null)
-                    }
-                    //alQuranAyatAdapter.notifyItemRangeInserted(from, to)
-                }
-            }
 
-
-            listView.post {
-                // binding.container.setScrollingEnabled(true)
-                isScrollAtEnd = false
-                nextPageAPICalled = false
-            }
-        }*/
     }
 
     private fun morePageBottomLoading(bol:Boolean)
@@ -280,7 +251,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
                     if (hadithFavAdapter.itemCount == 0) {
 
                         lifecycleScope.launch {
-                            viewModel.clear()
+                            viewModel.clearFavLiveData()
                         }
                         emptyState()
                     }
