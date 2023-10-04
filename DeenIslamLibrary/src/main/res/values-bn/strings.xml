@@ -249,4 +249,22 @@
     <string name="dhaka">ঢাকা</string>
     <string name="islamic">ইসলামিক</string>
     <string name="ask_user_to_enable_ptn">আপনি কি নামাজের নটিফিকেশন চালু করতে চান?</string>
+    <string name="something_went_wrong_try_again">কোন ত্রুটি হয়েছে! আবার চেষ্টা কর</string>
+    <string name="tasbeeh_count_reset_successfully">তাসবীহ গণনা সফলভাবে পুনরায় সেট করা হয়েছে</string>
+    <string name="failed_to_set_prayer_track">নামাজের ট্র্যাক সেট করতে ব্যর্থ হয়েছে </string>
+    <string name="failed_to_remove_favorite_item">প্রিয় আইটেম সরাতে ব্যর্থ হয়েছে</string>
+    <string name="favorite_list_updated_successful">প্রিয় তালিকা সফলভাবে আপডেট করা হয়েছে</string>
+    <string name="favorite_item_updated_successful">প্রিয় আইটেম সফলভাবে আপডেট করা হয়েছে</string>
+    <string name="failed_to_add_favorite_name">প্রিয় নাম যোগ করতে ব্যর্থ হয়েছে</string>
+    <string name="pt_notification_update_txt">%1$s নটিফিকেশন জন্য সেটিং আপডেট করা হয়েছে</string>
+    <string name="pt_notification_expire_txt">%1$s নির্বাচিত তারিখের জন্য নামাজের অ্যালার্মের মেয়াদ শেষ হয়ে গেছে</string>
+    <string name="notification_setting_update_failed">নটিফিকেশন সেটিং আপডেট ব্যর্থ হয়েছে!</string>
+    <string name="request_processing">আপনার অনুরোধটি প্রক্রিয়াধীন করা হচ্ছে</string>
+    <string name="failed_to_save_this_calculation">এই হিসাব সংরক্ষণ করতে ব্যর্থ হয়েছে৷</string>
+    <string name="calculation_has_been_saved">হিসাব সংরক্ষণ করা হয়েছে</string>
+    <string name="failed_to_update_this_calculation">এই গণনা আপডেট করতে ব্যর্থ হয়েছে</string>
+    <string name="calculation_has_been_updated">হিসাব আপডেট করা হয়েছে</string>
+    <string name="failed_to_delete_history">আপনার ডাটা মুছে ফেলতে ব্যর্থ হয়েছে৷</string>
+    <string name="history_deleted_successful">আপনার ডাটা সফলভাবে মুছে ফেলা হয়েছে</string>
+
 </resources>

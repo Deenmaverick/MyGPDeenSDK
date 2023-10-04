@@ -249,4 +249,21 @@
     <string name="dhaka">Dhaka</string>
     <string name="islamic">Islamic</string>
     <string name="ask_user_to_enable_ptn">Do you want to enable the prayer Notification?</string>
+    <string name="something_went_wrong_try_again">Something went wrong! Try again</string>
+    <string name="tasbeeh_count_reset_successfully">Tasbeeh count reset successfully</string>
+    <string name="failed_to_set_prayer_track">Failed to set prayer track</string>
+    <string name="failed_to_remove_favorite_item">Failed to remove favorite item</string>
+    <string name="favorite_list_updated_successful">Favorite list updated successful</string>
+    <string name="favorite_item_updated_successful">Favorite item updated successful</string>
+    <string name="failed_to_add_favorite_name">Failed to add favorite name</string>
+    <string name="pt_notification_update_txt">Notification setting updated for %1$s prayer</string>
+    <string name="pt_notification_expire_txt">%1$s prayer alarm was expired for selected date time</string>
+    <string name="notification_setting_update_failed">Notification setting update failed!</string>
+    <string name="request_processing">Request processing...</string>
+    <string name="failed_to_save_this_calculation">Failed to save this calculation!</string>
+    <string name="calculation_has_been_saved">Calculation has been saved</string>
+    <string name="failed_to_update_this_calculation">Failed to update this calculation</string>
+    <string name="calculation_has_been_updated">Calculation has been updated</string>
+    <string name="failed_to_delete_history">Failed to delete history</string>
+    <string name="history_deleted_successful">History deleted successful</string>
 </resources>

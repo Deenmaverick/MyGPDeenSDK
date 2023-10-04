@@ -175,7 +175,7 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
                 CommonResource.ACTION_API_CALL_FAILED ->
                 {
                     customAlertDialog?.dismissDialog()
-                    requireContext().toast("Something went wrong! Try again")
+                    requireContext().toast(localContext.getString(R.string.something_went_wrong_try_again))
                 }
 
                 is DailyDuaResource.setFavDua ->

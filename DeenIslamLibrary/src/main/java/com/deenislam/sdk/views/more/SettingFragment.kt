@@ -110,7 +110,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
         {
             when(it)
             {
-                is SettingResource.languageFailed -> requireContext().toast("Something went wrong")
+                is SettingResource.languageFailed -> requireContext().toast(localContext.getString(R.string.something_went_wrong_try_again))
                 is SettingResource.settingData -> {
 
                     localLanguage = if(it.data?.language == "en")

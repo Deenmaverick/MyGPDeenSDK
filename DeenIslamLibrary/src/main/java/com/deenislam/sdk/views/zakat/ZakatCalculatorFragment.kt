@@ -257,24 +257,24 @@ internal class ZakatCalculatorFragment : BaseRegularFragment(), ZakatCalculatorC
                 CommonResource.API_CALL_FAILED ->
                 {
                     callback?.zakatAPIResponse(false)
-                    requireContext().toast("Failed to save this calculation!")
+                    requireContext().toast(localContext.getString(R.string.failed_to_save_this_calculation))
                 }
                 ZakatResource.zakatHistoryAdded ->
                 {
                     callback?.zakatAPIResponse(true)
-                    requireContext().toast("Calculation has been saved")
+                    requireContext().toast(localContext.getString(R.string.calculation_has_been_saved))
                 }
 
                 ZakatResource.historyUpdateFailed ->
                 {
                     callback?.zakatAPIResponse(false)
-                    requireContext().toast("Failed to update this calculation")
+                    requireContext().toast(localContext.getString(R.string.failed_to_update_this_calculation))
                 }
 
                 ZakatResource.historyUpdateSuccess ->
                 {
                     callback?.zakatAPIResponse(true)
-                    requireContext().toast("Calculation has been updated")
+                    requireContext().toast(localContext.getString(R.string.calculation_has_been_updated))
                 }
             }
         }

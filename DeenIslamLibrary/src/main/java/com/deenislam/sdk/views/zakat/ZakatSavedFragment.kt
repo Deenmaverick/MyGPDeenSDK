@@ -136,7 +136,7 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
                     btn2?.isClickable = true
                     LoadingButton().getInstance(requireContext()).removeLoader()
                     customAlertDialog?.dismissDialog()
-                    requireContext().toast("Failed to delete history")
+                    requireContext().toast(localContext.getString(R.string.failed_to_delete_history))
                 }
                 is ZakatResource.historyDeleted ->
                 {
@@ -147,7 +147,7 @@ internal class ZakatSavedFragment : BaseRegularFragment(), CustomDialogCallback,
                     zakatSavedAdapter.delItem(adapterPosition)
                     if (zakatSavedAdapter.itemCount == 0)
                         emptyState()
-                    requireContext().toast("History deleted successful")
+                    requireContext().toast(localContext.getString(R.string.history_deleted_successful))
                 }
 
                 is CommonResource.CLEAR -> Unit

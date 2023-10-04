@@ -239,7 +239,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
                     btn2?.isClickable = true
                     LoadingButton().getInstance(requireContext()).removeLoader()
                     customAlertDialog?.dismissDialog()
-                    requireContext().toast("Failed to remove favorite item")
+                    requireContext().toast(localContext.getString(R.string.failed_to_remove_favorite_item))
                 }
                 is HadithResource.setFavHadith ->
                 {
@@ -255,7 +255,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
                         }
                         emptyState()
                     }
-                    requireContext().toast("Favorite list updated successful")
+                    requireContext().toast(localContext.getString(R.string.favorite_list_updated_successful))
                 }
 
             }

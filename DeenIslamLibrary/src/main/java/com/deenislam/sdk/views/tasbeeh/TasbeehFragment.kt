@@ -362,7 +362,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
                 is TasbeehResource.userPref -> soundViewState(it.userPref)
                 is TasbeehResource.resetDuaData ->
                 {
-                    requireContext().toast("Tasbeeh count reset successfully")
+                    requireContext().toast(localContext.getString(R.string.tasbeeh_count_reset_successfully))
                     track4Count = 0
                     todayResetBtn?.isEnabled = true
                     totalResetBtn?.isEnabled = true

@@ -284,11 +284,11 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                                 viewmodel.getDateWisePrayerNotificationData(prayerdate)
                             }*/
                             viewState(it.data)
-                            requireContext().toast("Notification setting updated for $notification_prayer_name prayer")
+                            requireContext().toast(localContext.getString(R.string.pt_notification_update_txt,notification_prayer_name))
                             notificationDialog.dismiss()
                         }
-                        2-> requireContext().toast("$notification_prayer_name prayer alarm was expired for selected date time")
-                        0 ->  requireContext().toast("Notification setting update failed!")
+                        2-> requireContext().toast(localContext.getString(R.string.pt_notification_expire_txt,notification_prayer_name))
+                        0 ->  requireContext().toast(localContext.getString(R.string.notification_setting_update_failed))
 
                     }
                 }
@@ -298,7 +298,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                     forceUserToEnableNotification()
                 }
 
-                is PrayerNotificationResource.prayerTrackFailed ->  requireContext().toast("Failed to set prayer track")
+                is PrayerNotificationResource.prayerTrackFailed ->  requireContext().toast(localContext.getString(R.string.failed_to_set_prayer_track))
                 is PrayerNotificationResource.prayerTrackData ->
                 {
 
@@ -326,7 +326,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                         isEnabled = true,
                         context = DeenSDKCore.baseContext!!,
                         callback = DeenSDKCore.GetDeenCallbackListner()!!)
-                    requireContext().toast("Request processing...")
+                    requireContext().toast(localContext.getString(R.string.request_processing))
 
                 }
                 .setNegativeButton(localContext.getString(R.string.cancel), null)
@@ -519,7 +519,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     {
         prayerTimesResponse?.let {
             if(getPrayerTimeTagWise(prayer_tag=prayer_tag,date=prayerdate, data = it)<=0) {
-                requireContext().toast("$titile prayer alarm expired for selected date time")
+                requireContext().toast(localContext.getString(R.string.pt_notification_expire_txt,titile))
                 return
             }
         }

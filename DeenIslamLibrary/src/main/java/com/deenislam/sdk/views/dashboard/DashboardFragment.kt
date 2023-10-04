@@ -374,7 +374,8 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         {
             when(it)
             {
-                is PrayerNotificationResource.prayerTrackFailed ->  requireContext().toast("Failed to set prayer track")
+                is PrayerNotificationResource.prayerTrackFailed ->  requireContext().toast(localContext.getString(
+                                    R.string.failed_to_set_prayer_track))
                 is PrayerNotificationResource.prayerTrackData ->
                 {
 

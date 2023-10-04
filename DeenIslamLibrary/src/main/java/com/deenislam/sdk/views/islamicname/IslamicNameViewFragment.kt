@@ -172,7 +172,7 @@ internal class IslamicNameViewFragment : BaseRegularFragment(), IslamicNameAdapt
 
                 CommonResource.EMPTY -> emptyState()
                 is IslamicNameResource.islamicNames -> viewState(it.data)
-                is IslamicNameResource.favFailed -> requireContext().toast("Failed to add favorite name")
+                is IslamicNameResource.favFailed -> requireContext().toast(localContext.getString(R.string.failed_to_add_favorite_name))
                 is IslamicNameResource.favDone -> islamicNameAdapter.favUpdate(it.adapaterPosition,it.bol)
 
             }

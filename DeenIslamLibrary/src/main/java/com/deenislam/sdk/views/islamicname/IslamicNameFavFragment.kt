@@ -133,7 +133,7 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
                     btn2?.isClickable = true
                     LoadingButton().getInstance(requireContext()).removeLoader()
                     customAlertDialog?.dismissDialog()
-                    requireContext().toast("Failed to remove favorite item")
+                    requireContext().toast(localContext.getString(R.string.failed_to_remove_favorite_item))
                 }
                 is IslamicNameResource.favremoved ->
                 {
@@ -148,7 +148,7 @@ internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallb
                         emptyState()
 
 
-                    requireContext().toast("Favorite item updated successful")
+                    requireContext().toast(localContext.getString(R.string.favorite_item_updated_successful))
                 }
 
                 is CommonResource.CLEAR -> Unit
