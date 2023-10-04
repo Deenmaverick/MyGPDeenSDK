@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.hadith.preview.Data
@@ -22,10 +23,13 @@ internal class HadithFavAdapter(
                 .inflate(R.layout.item_daily_dua_favorite, parent, false)
         )
 
-    fun update(data: ArrayList<Data>)
+    fun update(data: List<Data>)
     {
-        hadithDataList.addAll(data)
-        notifyItemInserted(itemCount)
+        val diffResult = DiffUtil.calculateDiff(UserDiffCallback(hadithDataList, data))
+        hadithDataList = data as ArrayList<Data>
+        diffResult.dispatchUpdatesTo(this)
+       /* hadithDataList.addAll(data)
+        notifyItemInserted(itemCount)*/
     }
 
     fun delItem(position: Int)
@@ -75,6 +79,25 @@ internal class HadithFavAdapter(
 
         }
     }
+
+    internal class UserDiffCallback(
+        private val oldList: List<Data>,
+        private val newList: List<Data>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].Id == newList[newItemPosition].Id
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
+        }
+    }
+
 }
 internal interface hadithFavCallback
 {

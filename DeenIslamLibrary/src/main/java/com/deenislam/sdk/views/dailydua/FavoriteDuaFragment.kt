@@ -81,8 +81,8 @@ internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallbac
             callback = this@FavoriteDuaFragment,
             context = requireContext(),
             btn1Text = localContext.getString(R.string.cancel),
-            btn2Text = localContext.getString(R.string.unfavorite),
-            titileText = localContext.getString(R.string.want_to_unfavorite),
+            btn2Text = localContext.getString(R.string.delete),
+            titileText = localContext.getString(R.string.want_to_delete),
             subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
         )
 

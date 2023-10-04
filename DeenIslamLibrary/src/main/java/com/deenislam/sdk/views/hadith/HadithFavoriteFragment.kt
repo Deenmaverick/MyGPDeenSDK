@@ -45,15 +45,12 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
     private lateinit var last_item_loading_progress: CircularProgressIndicator
 
     private lateinit var hadithFavAdapter: HadithFavAdapter
-    private val hadithData :ArrayList<Data> = arrayListOf()
 
     private var customAlertDialog: CustomAlertDialog? =null
 
-    var isScrollAtEnd = false
     private var isNextEnabled  = true
     private var pageNo:Int = 1
     private var pageItemCount:Int = 30
-    private var nextPageAPICalled:Boolean = false
     private var totalHadithCount = 0
 
     private var favData: Data? =null
@@ -144,7 +141,6 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
                     Log.e("RecyclerView_Listview", "Reached the end")
                     // NestedScrollView has scrolled to the end
                     if(isNextEnabled && hadithFavAdapter.itemCount>0) {
-                        nextPageAPICalled = true
                         fetchNextPageData()
                         Log.e("ALQURAN_SCROLL","END")
                         morePageBottomLoading(true)
@@ -157,22 +153,23 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
             }
         })
 
+        loadApiData()
     }
 
     private fun fetchNextPageData() {
 
         Log.e("fetchNextPageData","called")
-        val from = hadithFavAdapter.itemCount
-        val to = hadithData.size
+        //val from = hadithFavAdapter.itemCount
+       // val to = hadithData.size
 
-        if (totalHadithCount != hadithFavAdapter.itemCount && nextPageAPICalled) {
+        //if (totalHadithCount != hadithFavAdapter.itemCount && nextPageAPICalled) {
             lifecycleScope.launch {
                 pageNo++
                 loadApiData()
-                nextPageAPICalled = false
+                isNextEnabled = false
             }
-        }
-        else
+       // }
+       /* else
         {
             if (from == 0 && totalHadithCount <= pageItemCount) {
                 hadithFavAdapter.update(ArrayList(hadithData))
@@ -196,7 +193,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
                 isScrollAtEnd = false
                 nextPageAPICalled = false
             }
-        }
+        }*/
     }
 
     private fun morePageBottomLoading(bol:Boolean)
@@ -228,10 +225,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
         noInternetLayout.show()
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadApiData()
-    }
+
 
     private fun loadApiData()
     {
@@ -253,19 +247,12 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
 
                     morePageBottomLoading(false)
 
+                    isNextEnabled = it.value.Pagination.isNext
                     totalHadithCount =  it.value.TotalData
 
                     Log.e("totalHadithCount",totalHadithCount.toString())
-
-                    it.value.Data?.forEach {
-                            hadith->
-                        val check = hadithData.indexOfFirst { it.Id == hadith.Id}
-                        if(check <=0)
-                            hadithData.add(hadith)
-                    }
-
-                    isNextEnabled = (hadithFavAdapter.itemCount < totalHadithCount) && (totalHadithCount>pageItemCount*pageNo)
-                    it.value.Data?.let { it1 -> viewState() }
+                   // isNextEnabled = (hadithFavAdapter.itemCount < totalHadithCount) && (totalHadithCount>pageItemCount*pageNo)
+                    it.value.Data?.let { it1 -> viewState(it1) }
                 }
 
             }
@@ -290,8 +277,13 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
                     LoadingButton().getInstance(requireContext()).removeLoader()
                     customAlertDialog?.dismissDialog()
                     hadithFavAdapter.delItem(adapterPosition)
-                    if (hadithFavAdapter.itemCount == 0)
+                    if (hadithFavAdapter.itemCount == 0) {
+
+                        lifecycleScope.launch {
+                            viewModel.clear()
+                        }
                         emptyState()
+                    }
                     requireContext().toast("Favorite list updated successful")
                 }
 
@@ -299,9 +291,9 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
         }
     }
 
-    private fun viewState()
+    private fun viewState(data: List<Data>)
     {
-        hadithFavAdapter.update(hadithData)
+        hadithFavAdapter.update(data)
 
         listView.post {
             progressLayout.hide()
