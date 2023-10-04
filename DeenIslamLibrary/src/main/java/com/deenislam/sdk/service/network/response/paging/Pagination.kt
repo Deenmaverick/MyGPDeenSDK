@@ -1,6 +1,9 @@
 package com.deenislam.sdk.service.network.response.paging
 
-data class Pagination(
+import androidx.annotation.Keep
+
+@Keep
+internal data class Pagination(
     val TotalData: Int,
     val TotalPage: Int,
     val isNext: Boolean,
