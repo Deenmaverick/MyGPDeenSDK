@@ -39,7 +39,7 @@ internal class HadithFavAdapter(
         notifyItemRangeChanged(position, hadithDataList.size - position)*/
 
         val oldList = ArrayList(hadithDataList)
-        hadithDataList.removeAt(position)
+        hadithDataList.removeAt(if(position ==1)0 else position)
         val diffResult = DiffUtil.calculateDiff(UserDiffCallback(oldList, hadithDataList))
         diffResult.dispatchUpdatesTo(this)
     }
@@ -61,24 +61,25 @@ internal class HadithFavAdapter(
         override fun onBind(position: Int) {
             super.onBind(position)
 
+
             surahInfo.show()
 
-            itemTitle.text = hadithDataList[position].ChapterName
+            itemTitle.text = hadithDataList[absoluteAdapterPosition].ChapterName
 
-            if(hadithDataList[position].HadithText.length>120)
-                duaTxt.text = "${hadithDataList[position].HadithText.substring(0,120)}..."
+            if(hadithDataList[absoluteAdapterPosition].HadithText.length>120)
+                duaTxt.text = "${hadithDataList[absoluteAdapterPosition].HadithText.substring(0,120)}..."
             else
-                duaTxt.text = hadithDataList[position].HadithText
+                duaTxt.text = hadithDataList[absoluteAdapterPosition].HadithText
 
-            surahInfo.text = "—${hadithDataList[position].BookName}"
+            surahInfo.text = "—${hadithDataList[absoluteAdapterPosition].BookName}"
 
             rightBtn.setOnClickListener {
-                callback.delFav(hadithDataList[position],position)
+                callback.delFav(hadithDataList[absoluteAdapterPosition],absoluteAdapterPosition)
             }
 
             itemView.setOnClickListener {
 
-                callback.gotHadithPreview(hadithDataList[position].ChapterNo,hadithDataList[position].BookId,hadithDataList[position].BookName)
+                callback.gotHadithPreview(hadithDataList[absoluteAdapterPosition].ChapterNo,hadithDataList[absoluteAdapterPosition].BookId,hadithDataList[absoluteAdapterPosition].BookName)
             }
 
 
