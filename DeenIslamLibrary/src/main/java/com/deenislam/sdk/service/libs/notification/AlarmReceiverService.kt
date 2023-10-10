@@ -97,10 +97,15 @@ internal class AlarmReceiverService: Service() {
 
                 if(it.state == 3) {
 
-                    if (prayerName == "Fajr")
+                   /* if (prayerName == "Fajr")
                         AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common_fajr)
                     else
-                        AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common)
+                        AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common)*/
+
+                    if (prayerName == "Fajr")
+                        AzanPlayer.playAdanFromUrl("https://islamic-content.sgp1.digitaloceanspaces.com/Content/SDK/Azan/azan_common_fajr.mp3")
+                    else
+                        AzanPlayer.playAdanFromUrl("https://islamic-content.sgp1.digitaloceanspaces.com/Content/SDK/Azan/azan_common.mp3")
 
                 }
 

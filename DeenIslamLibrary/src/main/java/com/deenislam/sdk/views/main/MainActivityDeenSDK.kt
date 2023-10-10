@@ -1,5 +1,6 @@
 package com.deenislam.sdk.views.main
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,6 +11,8 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -95,6 +98,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
         instance?.bottomNavClicked = false
     }*/
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //instance = this
@@ -125,6 +129,23 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
         searchBackBtn.setOnClickListener {
             searchCallback?.searchBack()
         }
+
+
+        searchInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchCallback?.searchSubmit(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         searchInput.setOnTouchListener { v, event ->
             val DRAWABLE_RIGHT = 2

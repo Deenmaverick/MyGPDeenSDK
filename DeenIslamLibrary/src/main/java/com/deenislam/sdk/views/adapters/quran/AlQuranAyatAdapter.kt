@@ -6,6 +6,7 @@ import android.text.SpannableString
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -65,8 +66,6 @@ internal class AlQuranAyatAdapter(
             else -> throw java.lang.IllegalArgumentException("View cannot null")
         }
 
-
-
     fun clear()
     {
         data = arrayListOf()
@@ -85,6 +84,8 @@ internal class AlQuranAyatAdapter(
             isPlaying = true
             notifyItemChanged(position)
         }
+
+        Log.e("isMediaPlaying",position.toString())
     }
 
     fun isMediaPause(position: Int)
@@ -98,6 +99,8 @@ internal class AlQuranAyatAdapter(
         if(position>=0)
         //notifyDataSetChanged()
             notifyItemChanged(position)
+
+        Log.e("isMediaPause",position.toString())
 
     }
 
@@ -523,6 +526,7 @@ internal class AlQuranAyatAdapter(
 
         private fun quranPlayBtnClick(pos:Int)
         {
+            pauseQuranAudio(previousCallbackPosition)
             if (previousCallbackPosition != pos) {
                 //isMediaPause(position)
                 previousCallbackPosition = pos
@@ -585,9 +589,7 @@ internal class AlQuranAyatAdapter(
                 } else {
                     previousCallbackPosition = 0
                     callback.isAyatPause()
-                    isMediaPause(position)
                 }
-
                 callback.playNextAyat(position + 1)
             }
             else
@@ -595,6 +597,7 @@ internal class AlQuranAyatAdapter(
                 callback.isAyatPause()
                 isMediaPause(position)
             }
+            isMediaPause(position)
         }
     }
 }

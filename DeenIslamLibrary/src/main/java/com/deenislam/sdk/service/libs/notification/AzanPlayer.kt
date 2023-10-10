@@ -46,6 +46,47 @@ internal object AzanPlayer {
 
     }
 
+    fun playAdanFromUrl(url:String)
+    {
+        try {
+
+            releaseMediaPlayer()
+
+            if(mMediaPlayer == null)
+                mMediaPlayer = MediaPlayer()
+
+            mMediaPlayer?.apply {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    val attributes = AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build()
+                    setAudioAttributes(attributes)
+                } else {
+                    setAudioStreamType(android.media.AudioManager.STREAM_MUSIC)  // Deprecated method, but necessary for older devices
+                }
+
+
+                setDataSource(url)
+                prepareAsync()
+            }
+
+
+
+            mMediaPlayer?.setOnPreparedListener {
+                it?.start()
+            }
+
+        }
+        catch (e:Exception)
+        {
+            Log.e("AzanPlayer",e.toString())
+        }
+
+    }
+
+
     fun releaseMediaPlayer() {
         tryCatch {
             //mMediaPlayer?.stop()

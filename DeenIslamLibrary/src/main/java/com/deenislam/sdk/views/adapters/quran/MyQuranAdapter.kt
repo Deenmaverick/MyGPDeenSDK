@@ -54,7 +54,7 @@ internal class MyQuranAdapter(
 
                 2->
                 {
-                    menuIcon.setImageDrawable(AppCompatResources.getDrawable(itemView.context,R.drawable.ic_local_library))
+                    //menuIcon.setImageDrawable(AppCompatResources.getDrawable(itemView.context,R.drawable.ic_local_library))
                     menuName.text = "My Playlist"
                 }
 

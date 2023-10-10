@@ -12,7 +12,6 @@ import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.deenislam.sdk.DeenSDKCore
-import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.utils.sendNotification
@@ -98,11 +97,11 @@ internal class AlarmReceiver : BroadcastReceiver() {
 
                     if(it.state == 3) {
 
-                        if (prayerName == "Fajr")
+                     /*   if (prayerName == "Fajr")
                             AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common_fajr)
                         else
                             AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common)
-
+*/
                     }
 
 

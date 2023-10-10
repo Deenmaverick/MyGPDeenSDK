@@ -8,8 +8,6 @@ import com.deenislam.sdk.service.network.response.dashboard.Service
 import com.deenislam.sdk.utils.GridSpacingItemDecoration
 import com.deenislam.sdk.views.adapters.MenuAdapter
 import com.deenislam.sdk.views.adapters.MenuCallback
-import com.deenislam.sdk.views.base.BaseMenu
-import com.google.gson.Gson
 
 internal class Menu {
 
