@@ -60,7 +60,7 @@ internal class ZakatSavedAdapter(
         override fun onBind(position: Int) {
             super.onBind(position)
 
-            val data = savedZakatList[position]
+            val data = savedZakatList[absoluteAdapterPosition]
             val timedate = data.EntryDate.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd MMMM, yyyy")
 
             val dateCardText = data.EntryDate.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd\nMMMM")
@@ -89,7 +89,7 @@ internal class ZakatSavedAdapter(
             }
 
             delBtn.setOnClickListener {
-                callback.delHistory(data,position)
+                callback.delHistory(data,absoluteAdapterPosition)
             }
 
 

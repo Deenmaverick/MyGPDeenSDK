@@ -330,7 +330,7 @@ internal class DashboardBillboardAdapter(
                     widget1_view()
                 }
                 BILLBOARD_VIEW -> {
-                    widget2_view(position)
+                    widget2_view(absoluteAdapterPosition)
                 }
             }
 

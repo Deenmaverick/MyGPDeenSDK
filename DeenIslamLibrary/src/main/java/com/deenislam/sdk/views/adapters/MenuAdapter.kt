@@ -83,7 +83,7 @@ internal class MenuAdapter(
        override fun onBind(position: Int, viewtype: Int) {
            super.onBind(position,viewtype)
 
-           val getMenu: Service = menuList[position]
+           val getMenu: Service = menuList[absoluteAdapterPosition]
 
            when (viewtype) {
                    ONBOARDING_MENU -> {

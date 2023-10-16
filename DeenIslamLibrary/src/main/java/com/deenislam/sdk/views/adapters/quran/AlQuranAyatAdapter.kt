@@ -326,7 +326,7 @@ internal class AlQuranAyatAdapter(
 
                     binding_list?.surayAyat?.text = data[position].verse_key
 
-                    binding_list?.btnPlay?.setOnClickListener {
+                    binding_list?.btnPlay?. setOnClickListener {
                         quranPlayBtnClick(position)
                     }
 
@@ -361,7 +361,7 @@ internal class AlQuranAyatAdapter(
                         )
 
                         if (isMiniPlayerCall) {
-                            playQuranAudio(position)
+                            playQuranAudio(absoluteAdapterPosition)
                             isMiniPlayerCall = false
                         }
 
@@ -493,7 +493,7 @@ internal class AlQuranAyatAdapter(
 
 
                     if (isMiniPlayerCall) {
-                        playQuranAudio(position)
+                        playQuranAudio(absoluteAdapterPosition)
                         isMiniPlayerCall = false
                     }
 
@@ -578,18 +578,25 @@ internal class AlQuranAyatAdapter(
 
             if(auto_play_next) {
                 if (position + 1 < data.size) {
+
+                    if(previousCallbackPosition>=0)
+                        isMediaPause(previousCallbackPosition)
+
                     CoroutineScope(Dispatchers.IO).launch {
                         AudioManager().getInstance().playAudioFromUrl(
                             "${BASE_QURAN_VERSE_AUDIO_URL}${data[position + 1].audio.url}",
                             position + 1
                         )
                     }
+
                     if (previousCallbackPosition != position + 1)
                         previousCallbackPosition = position + 1
                 } else {
                     previousCallbackPosition = 0
                     callback.isAyatPause()
+                    isMediaPause(position)
                 }
+
                 callback.playNextAyat(position + 1)
             }
             else
@@ -597,7 +604,6 @@ internal class AlQuranAyatAdapter(
                 callback.isAyatPause()
                 isMediaPause(position)
             }
-            isMediaPause(position)
         }
     }
 }

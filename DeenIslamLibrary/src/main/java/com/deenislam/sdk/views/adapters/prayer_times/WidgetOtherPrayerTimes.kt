@@ -72,7 +72,7 @@ internal class WidgetOtherPrayerTimes(
             disableRadio.visible(true)
 
             rightBtn.setOnClickListener {
-                callback?.clickNotification("opt"+(position+1))
+                callback?.clickNotification("opt"+(absoluteAdapterPosition+1))
             }
 
             setNotificationState("opt"+(position+1),rightBtn)

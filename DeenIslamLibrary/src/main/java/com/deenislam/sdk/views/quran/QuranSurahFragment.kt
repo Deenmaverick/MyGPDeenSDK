@@ -74,7 +74,7 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainview = inflater.inflate(R.layout.fragment_quran_surah, container, false)
+        val mainview = localInflater.inflate(R.layout.fragment_quran_surah, container, false)
 
         // init view
         surahListRC = mainview.findViewById(R.id.surahListRC)

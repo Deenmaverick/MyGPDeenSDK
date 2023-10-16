@@ -35,7 +35,7 @@ internal class MyQuranAdapter(
             super.onBind(position)
 
             itemView.setOnClickListener {
-                myQuranCallback.menuClicked(position)
+                myQuranCallback.menuClicked(absoluteAdapterPosition)
             }
 
             when(position)

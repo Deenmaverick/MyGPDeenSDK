@@ -102,7 +102,7 @@ internal class WidgetPrayerTimes(
             prayerCheck.visible(("pt"+(position+1)).checkCompulsoryprayerByTag())
 
             rightBtn.setOnClickListener {
-                callback?.clickNotification("pt"+(position+1))
+                callback?.clickNotification("pt"+(absoluteAdapterPosition+1))
             }
 
             setNotificationState("pt"+(position+1),rightBtn)
@@ -212,7 +212,7 @@ internal class WidgetPrayerTimes(
 
                             it1 ->
 
-                        val prayer_tag = "pt"+(position+1)
+                        val prayer_tag = "pt"+(absoluteAdapterPosition+1)
 
                         val notifyTime = prayerData?.let { getPrayerTimeTagWise(prayer_tag, it1, it) }
 
