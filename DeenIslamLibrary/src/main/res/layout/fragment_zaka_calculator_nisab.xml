@@ -33,6 +33,7 @@
                 android:layout_marginTop="@dimen/space_8"
                 android:text="@string/bangladeshi_taka_bdt"
                 android:textAlignment="textStart"
+                android:gravity="start|center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/deen_txt_black_deep"
                 android:backgroundTint="@color/deen_white"
