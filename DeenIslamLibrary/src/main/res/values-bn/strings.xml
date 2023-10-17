@@ -75,7 +75,7 @@
 
     <!--Billboard-->
 
-    <string name="billboard_have_you_prayed">আপনি কি %1$s নামাজ পরেছেন?</string>
+    <string name="billboard_have_you_prayed">আপনি কি %1$s নামাজ পড়েছেন?</string>
     <string name="it_s_time_for">এখন সময়</string>
     <string name="billboard_next_prayer">পরবর্তী নামাজ: %1$s</string>
     <string name="billboard_all_prayers">সকল নামাজ</string>
