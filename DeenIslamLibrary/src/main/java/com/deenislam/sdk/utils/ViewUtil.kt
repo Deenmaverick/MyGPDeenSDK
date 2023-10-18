@@ -174,7 +174,7 @@ fun String.prayerMomentLocale():String
         {
             "Fajr" -> "ফজর"
             "Ishraq" -> "ইশরাক"
-            "Dhuhr" -> "যোহর"
+            "Dhuhr" -> "জোহর"
             "Asr" -> "আসর"
             "Maghrib" -> "মাগরিব"
             "Isha" -> "এশা"
