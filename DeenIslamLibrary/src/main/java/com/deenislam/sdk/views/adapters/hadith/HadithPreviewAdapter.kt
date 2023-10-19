@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.hadith.preview.Data
@@ -22,7 +23,7 @@ internal class HadithPreviewAdapter(
     private val callback: HadithPreviewCallback
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
-    private val haditDataList: ArrayList<Data> = arrayListOf()
+    private var haditDataList: ArrayList<Data> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
 
         when(viewType)
@@ -43,8 +44,14 @@ internal class HadithPreviewAdapter(
 
     fun update(data: List<Data>)
     {
-        haditDataList.addAll(data)
-        notifyItemInserted(itemCount)
+        val diffResult = DiffUtil.calculateDiff(
+            DataDiffCallback(
+                haditDataList,
+                data
+            )
+        )
+        haditDataList = data as ArrayList<Data>
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun update(position: Int, fav: Boolean)
@@ -161,6 +168,24 @@ internal class HadithPreviewAdapter(
 
                 }
             }
+        }
+    }
+
+    internal class DataDiffCallback(
+        private val oldList: List<Data>,
+        private val newList: List<Data>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].Id == newList[newItemPosition].Id
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
         }
     }
 }

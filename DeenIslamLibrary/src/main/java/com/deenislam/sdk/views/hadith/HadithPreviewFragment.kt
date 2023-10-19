@@ -149,12 +149,9 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
                 if (!recyclerView.canScrollVertically(1)) {
                     // RecyclerView has reached the end.
                     // Load more data here if you are implementing pagination.
-                    Log.e("RecyclerView_Listview", "Reached the end")
                     // NestedScrollView has scrolled to the end
                     if(isNextEnabled && hadithPreviewAdapter.itemCount>0) {
-                        nextPageAPICalled = true
                         fetchNextPageData()
-                        Log.e("ALQURAN_SCROLL","END")
                         morePageBottomLoading(true)
                     }
                     else
@@ -197,41 +194,10 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
 
     private fun fetchNextPageData() {
 
-        Log.e("fetchNextPageData","called")
-        val from = hadithPreviewAdapter.getDataSize()
-        val to = hadithData.size
-
-        if (totalHadithCount != hadithPreviewAdapter.getDataSize() && nextPageAPICalled) {
-            lifecycleScope.launch {
-                pageNo++
-                loadApiData(pageNo)
-                nextPageAPICalled = false
-            }
-        }
-        else
-        {
-            if (from == 0 && totalHadithCount <= pageItemCount) {
-                hadithPreviewAdapter.update(ArrayList(hadithData))
-                //alQuranAyatAdapter.notifyItemRangeInserted(from,to)
-            }
-            else if(hadithPreviewAdapter.getDataSize() != hadithData.size)
-            {
-                if(from<to) {
-                    listView.setOnTouchListener { _, _ -> true }
-                    listView.post {
-                        hadithPreviewAdapter.update(ArrayList(hadithData.subList(from, to)))
-                        listView.setOnTouchListener(null)
-                    }
-                    //alQuranAyatAdapter.notifyItemRangeInserted(from, to)
-                }
-            }
-
-
-            listView.post {
-                // binding.container.setScrollingEnabled(true)
-                isScrollAtEnd = false
-                nextPageAPICalled = false
-            }
+        lifecycleScope.launch {
+            pageNo++
+            loadApiData()
+            isNextEnabled = false
         }
     }
 
@@ -258,15 +224,8 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
 
                     Log.e("totalHadithCount",totalHadithCount.toString())
 
-                    it.value.Data?.forEach {
-                            hadith->
-                        val check = hadithData.indexOfFirst { it.Id!= hadith.Id}
-                        if(check <=0)
-                            hadithData.add(hadith)
-                    }
-
-                    isNextEnabled = hadithPreviewAdapter.itemCount < totalHadithCount
-                    it.value.Data?.let { it1 -> viewState() }
+                    isNextEnabled = it.value.Pagination.isNext
+                    it.value.Data?.let { it1 -> viewState(it1) }
                 }
                 is HadithResource.setFavHadith -> updateFavorite(it.position,it.fav)
 
@@ -301,9 +260,9 @@ internal class HadithPreviewFragment : BaseRegularFragment(),HadithPreviewCallba
         noInternetLayout.show()
     }
 
-    private fun viewState()
+    private fun viewState(data: List<Data>)
     {
-        hadithPreviewAdapter.update(hadithData)
+        hadithPreviewAdapter.update(data)
 
         listView.post {
             progressLayout.hide()

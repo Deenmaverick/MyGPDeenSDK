@@ -36,7 +36,7 @@ private const val LIST_MODE = 0
 private const val READING_MODE = 1
 internal class AlQuranAyatAdapter(
     private val callback: AlQuranAyatCallback,
-    private val isReadingMode: Boolean = false
+    private var isReadingMode: Boolean = false
 ) :  RecyclerView.Adapter<BaseViewHolderBinding>() {
 
     private var data: ArrayList<Verse> = arrayListOf()
@@ -71,6 +71,12 @@ internal class AlQuranAyatAdapter(
         data = arrayListOf()
         previousCallbackPosition = -1
         isPlaying = false
+        notifyDataSetChanged()
+    }
+
+    fun updateMode(isReadingMode: Boolean)
+    {
+        this.isReadingMode = isReadingMode
         notifyDataSetChanged()
     }
 

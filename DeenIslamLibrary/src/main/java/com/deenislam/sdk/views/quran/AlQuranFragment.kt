@@ -725,7 +725,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         pageItemCount = 30
         surahDetailsData.clear()
         alQuranAyatAdapter.clear()
-        alQuranAyatAdapter = AlQuranAyatAdapter(this@AlQuranFragment,isReadingMode)
+        alQuranAyatAdapter.updateMode(isReadingMode)
         resetAyatList()
         setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_list_mode,this@AlQuranFragment,pageTitle,true,requireView())
 
@@ -743,7 +743,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         pageItemCount = 10
         surahDetailsData.clear()
         alQuranAyatAdapter.clear()
-        alQuranAyatAdapter = AlQuranAyatAdapter(this@AlQuranFragment)
+        alQuranAyatAdapter.updateMode(isReadingMode)
         resetAyatList()
         setupActionForOtherFragment(R.drawable.ic_search,R.drawable.ic_reading_mode,this@AlQuranFragment,pageTitle,true,requireView())
 
