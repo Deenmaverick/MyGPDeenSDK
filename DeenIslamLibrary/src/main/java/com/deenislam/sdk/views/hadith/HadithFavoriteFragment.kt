@@ -50,7 +50,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
 
     private var isNextEnabled  = true
     private var pageNo:Int = 1
-    private var pageItemCount:Int = 30
+    private var pageItemCount:Int = 10
     private var totalHadithCount = 0
 
     private var favData: Data? =null
@@ -270,11 +270,18 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
             progressLayout.hide()
             nodataLayout.hide()
             noInternetLayout.hide()
+            lifecycleScope.launch {
+                viewModel.clearFavLiveData()
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        isNextEnabled  = true
+        pageNo = 1
+        favData =null
+        adapterPosition = -1
         lifecycleScope.launch {
             viewModel.clear()
         }

@@ -4,8 +4,10 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
@@ -86,28 +88,8 @@ internal class AlarmReceiverService: Service() {
                     NotificationManager::class.java
                 ) as NotificationManager
 
-                notificationManager.sendNotification(
-                    applicationContext = context,
-                    title = "Prayer Alert!",
-                    messageBody = "it's time for $prayerName",
-                    largeImg = null,
-                    channelID = "Prayer Time",
-                    notification_id = prayer_notification_id
-                )
 
-                if(it.state == 3) {
 
-                   /* if (prayerName == "Fajr")
-                        AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common_fajr)
-                    else
-                        AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common)*/
-
-                    if (prayerName == "Fajr")
-                        AzanPlayer.playAdanFromUrl("https://islamic-content.sgp1.digitaloceanspaces.com/Content/SDK/Azan/azan_common_fajr.mp3")
-                    else
-                        AzanPlayer.playAdanFromUrl("https://islamic-content.sgp1.digitaloceanspaces.com/Content/SDK/Azan/azan_common.mp3")
-
-                }
 
 
                 val pid = it.id
@@ -124,6 +106,38 @@ internal class AlarmReceiverService: Service() {
                     )
 
                     prayerTimesRepository.refill_prayer_notification_for_alarm_service(prayerDate)
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if(!notificationManager.areNotificationsEnabled())
+                        return
+                }
+                else if(!NotificationManagerCompat.from(this).areNotificationsEnabled())
+                    return
+
+
+
+                notificationManager.sendNotification(
+                    applicationContext = context,
+                    title = "Prayer Alert!",
+                    messageBody = "it's time for $prayerName",
+                    largeImg = null,
+                    channelID = "Prayer Time",
+                    notification_id = prayer_notification_id
+                )
+
+                if(it.state == 3) {
+
+                    /* if (prayerName == "Fajr")
+                         AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common_fajr)
+                     else
+                         AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common)*/
+
+                    if (prayerName == "Fajr")
+                        AzanPlayer.playAdanFromUrl("https://islamic-content.sgp1.digitaloceanspaces.com/Content/SDK/Azan/azan_common_fajr.mp3")
+                    else
+                        AzanPlayer.playAdanFromUrl("https://islamic-content.sgp1.digitaloceanspaces.com/Content/SDK/Azan/azan_common.mp3")
+
                 }
 
             }

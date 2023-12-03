@@ -23,13 +23,26 @@ internal class HadithFavAdapter(
                 .inflate(R.layout.item_daily_dua_favorite, parent, false)
         )
 
-    fun update(data: List<Data>)
+    /*fun update(data: List<Data>)
     {
         val diffResult = DiffUtil.calculateDiff(UserDiffCallback(hadithDataList, data))
         hadithDataList = data as ArrayList<Data>
         diffResult.dispatchUpdatesTo(this)
-       /* hadithDataList.addAll(data)
-        notifyItemInserted(itemCount)*/
+       *//* hadithDataList.addAll(data)
+        notifyItemInserted(itemCount)*//*
+    }*/
+
+
+    fun update(data: List<Data>) {
+        val newData = ArrayList(hadithDataList)
+        newData.addAll(data)
+
+        // Remove duplicates using a HashSet
+        val uniqueData = newData.distinctBy { it.Id } // assuming 'id' is a unique identifier
+
+        val diffResult = DiffUtil.calculateDiff(UserDiffCallback(hadithDataList, uniqueData))
+        hadithDataList = ArrayList(uniqueData)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun delItem(position: Int)
