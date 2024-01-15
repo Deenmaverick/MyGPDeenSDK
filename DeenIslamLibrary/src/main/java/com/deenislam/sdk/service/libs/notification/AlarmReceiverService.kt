@@ -88,10 +88,6 @@ internal class AlarmReceiverService: Service() {
                     NotificationManager::class.java
                 ) as NotificationManager
 
-
-
-
-
                 val pid = it.id
                 val prayerDate = it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)
 

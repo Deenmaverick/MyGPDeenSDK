@@ -585,7 +585,6 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             "Compass" -> gotoFrag(R.id.compassFragment)
             "Dua" -> gotoFrag(R.id.dailyDuaFragment)
             "Quran" -> gotoFrag(R.id.quranFragment)
-            "Tasbeeh" -> gotoFrag(R.id.tasbeehFragment)
 
 
         }

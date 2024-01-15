@@ -77,7 +77,7 @@ internal class HadithCollectionAdapter(
 
                     ic_hadith_book.imageLoad(
                         url = BASE_CONTENT_URL_SGP+"Hadith/hadithbook/"+hadith.Name+".png",
-                        ic_small = true
+                        placeholder_1_1 = true
                     )
 
                     nameArabic.text = hadith.ArabicTitle

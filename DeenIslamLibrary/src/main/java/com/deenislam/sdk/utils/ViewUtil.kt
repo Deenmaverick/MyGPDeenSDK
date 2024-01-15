@@ -1,20 +1,31 @@
 package com.deenislam.sdk.utils
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.net.Uri
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStateAtLeast
 import coil.decode.SvgDecoder
 import coil.load
+import coil.request.CachePolicy
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 
 
@@ -37,36 +48,49 @@ internal inline fun <T : View> prepareStubView(
 
 fun AppCompatImageView.imageLoad(
     url:String,
-    ic_small:Boolean=false,
-    ic_medium:Boolean=false,
-    ic_large:Boolean=false
+    placeholder_16_9:Boolean=false,
+    placeholder_1_1:Boolean=false,
+    placeholder_4_3:Boolean=false,
+    size:Int = 0,
+    custom_placeholder_1_1:Int = R.drawable.placeholder_1_1,
+    isCacheEnable:Boolean = true,
+    customMemoryKey:String = ""
 )
 {
     val context = this.context
 
-    val progressBar = CircularProgressDrawable(context)
-    this.setImageDrawable(progressBar) // Set the CircularProgressDrawable as the placeholder
+    var finalUrl = url
 
-    this.load(url)
+    if(size>0)
+        finalUrl = url.replace("<size>", size.toString(),true)
+
+
+    this.load(finalUrl)
     {
 
-        val fileExtension = getFileExtension(url)
-        if(fileExtension == "svg")
-        decoder(SvgDecoder(context))
-        if(ic_small)
-            error(R.drawable.ic_small_download_empty)
-        if(ic_medium)
-            error(R.drawable.placeholder_1_1)
+        allowHardware(false)
+        if(customMemoryKey.isNotEmpty())
+            memoryCacheKey(customMemoryKey)
 
+        if(!isCacheEnable) {
+            memoryCachePolicy(CachePolicy.DISABLED)
+            diskCachePolicy(CachePolicy.DISABLED)
+        }
 
-        listener(
-            onSuccess = { _, _ ->
-                progressBar.stop()
-            },
-            onError = { _, _ ->
-                progressBar.stop()
-            }
-        )
+        if(placeholder_16_9) {
+            placeholder(R.drawable.deen_placeholder_16_9)
+            error(R.drawable.deen_placeholder_16_9)
+        }
+        else if(placeholder_1_1) {
+            placeholder(custom_placeholder_1_1)
+            error(custom_placeholder_1_1)
+        }
+        else if(placeholder_4_3) {
+            placeholder(R.drawable.deen_placeholder_4_3)
+            error(R.drawable.deen_placeholder_4_3)
+        }
+
+        crossfade(false)
 
 
     }
@@ -502,4 +526,65 @@ fun String.dayNameLocale(): String =
 
 fun String.stripHtml(): String {
     return this.replace(Regex("<.*?>"), "")
+}
+
+fun Context.shareView(view:View,customShareText:String?=null){
+
+    try {
+        val uniqueID = generateUniqueNumber()
+        view.measure(
+            View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+
+        view.post {
+            val cachePath = File(this.cacheDir, "images")
+            cachePath.mkdirs() // don't forget to make the directory
+            val stream =
+                FileOutputStream("$cachePath/$uniqueID.png") // overwrites this image every time
+            captureScreen(view)?.compress(Bitmap.CompressFormat.JPEG, 100, stream)?: return@post
+            stream.close()
+
+            val imagePath = File(this.cacheDir, "images")
+            val newFile = File(imagePath, "$uniqueID.png")
+            val contentUri: Uri =
+                FileProvider.getUriForFile(this, "com.deenislam.sdk.fileprovider", newFile)
+
+
+            val textShareContent = customShareText?.let { it }?: "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // temp permission for receiving app to read this file
+            shareIntent.setDataAndType(contentUri, this.contentResolver.getType(contentUri))
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
+            startActivity(Intent.createChooser(shareIntent, "Choose an app"))
+
+            view.requestLayout()
+        }
+
+    } catch (e: IOException) {
+        Log.e("shareViewError",e.toString())
+    }
+}
+
+fun captureScreen(v: View): Bitmap? {
+    return try {
+        val b =
+            Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
+        val c = Canvas(b)
+        v.layout(v.left, v.top, v.right, v.bottom)
+        v.draw(c)
+        b
+    } catch (e: Exception) {
+
+        Log.e("shareViewError",e.toString())
+        null
+    }
+
+}
+
+fun View.setStarMargin(margin:Int) {
+    (this.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = margin
 }

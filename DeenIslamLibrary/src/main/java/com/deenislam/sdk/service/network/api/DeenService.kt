@@ -1,6 +1,7 @@
 package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.BasicResponse
+import com.deenislam.sdk.service.network.response.allah99name.Allah99NameResponse
 import com.deenislam.sdk.service.network.response.dailydua.alldua.AllDuaResponse
 import com.deenislam.sdk.service.network.response.dailydua.duabycategory.DuaByCategory
 import com.deenislam.sdk.service.network.response.dailydua.favdua.FavDua
@@ -13,6 +14,7 @@ import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetai
 import com.deenislam.sdk.service.network.response.quran.SurahList
 import com.deenislam.sdk.service.network.response.zakat.SavedZakatResponse
 import com.deenislam.sdk.service.network.response.zakat.nisab.NisabResponse
+import com.deenislamic.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -132,5 +134,14 @@ internal interface DeenService {
     @POST("PrayerTime/PrayerTimeDateWiseX")
     suspend fun prayerTimeSDK(@Body parm: RequestBody): PrayerTimesResponse
 
+    @POST("NameOfAllah")
+    suspend fun get99NameOfAllah(@Body parm: RequestBody): Allah99NameResponse
+
+    // Islamic Education Video
+    @POST("IslamicVideos/Islamiceducationstories")
+    suspend fun getIslamicEducationVideos(@Body parm: RequestBody): IslamiceducationVideoResponse
+
+    @POST("IslamicVideos/AddIslamicContentHistory")
+    suspend fun addIslamicContentHistory(@Body parm: RequestBody): BasicResponse
 
 }

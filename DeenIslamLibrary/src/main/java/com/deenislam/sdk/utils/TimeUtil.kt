@@ -25,3 +25,7 @@ fun String.convertDateTime(pattern:String = "dd/M/yyyy hh:mm:ss aa",day:Int=0):L
 
     return convertedDateTime.time
 }
+
+fun generateUniqueNumber(): Int {
+    return System.currentTimeMillis().toInt()
+}

@@ -560,7 +560,7 @@ internal class AlQuranAyatAdapter(
             }
         }
 
-        override fun isPlaying(position: Int, duration: Int?) {
+        override fun isPlaying(position: Int, duration: Int?, surahID: Int) {
             CoroutineScope(Dispatchers.Main).launch {
                 isMediaPlaying(position)
                 callback.isAyatPlaying(position,duration)
@@ -580,7 +580,7 @@ internal class AlQuranAyatAdapter(
             }
         }
 
-        override fun isComplete(position: Int) {
+        override fun isComplete(position: Int, surahID: Int) {
 
             if(auto_play_next) {
                 if (position + 1 < data.size) {

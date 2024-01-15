@@ -310,5 +310,72 @@
             android:name="title"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/allah99NamesFragment"
+        android:name="com.deenislam.sdk.views.allah99names.Allah99NamesFragment"
+        android:label="Allah99NamesFragment" />
+    <action
+        android:id="@+id/action_global_allah99NamesFragment"
+        app:destination="@id/allah99NamesFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/allah99NamesDetailsFragment"
+        android:name="com.deenislam.sdk.views.allah99names.Allah99NamesDetailsFragment"
+        android:label="Allah99NamesDetailsFragment" >
+        <argument
+            android:name="namePos"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="nameList"
+            app:argType="com.deenislam.sdk.service.network.response.allah99name.Data[]" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_allah99NamesDetailsFragment"
+        app:destination="@id/allah99NamesDetailsFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/educationVideoFragment"
+        android:name="com.deenislam.sdk.views.islamiceducationvideo.EducationVideoFragment"
+        android:label="EducationVideoFragment">
+
+        <argument
+            android:name="videoList"
+            app:argType="com.deenislam.sdk.service.network.response.common.CommonCardData[]"
+            />
+        <argument
+            android:name="videoPosition"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_educationVideoFragment"
+        app:destination="@id/educationVideoFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamicEducationVideoHomeFragment"
+        android:name="com.deenislam.sdk.views.islamiceducationvideo.IslamicEducationVideoHomeFragment"
+        android:label="IslamicEducationVideoHomeFragment" />
+
+    <action
+        android:id="@+id/action_global_islamicEducationVideoHomeFragment"
+        app:destination="@id/islamicEducationVideoHomeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
 
 </navigation>

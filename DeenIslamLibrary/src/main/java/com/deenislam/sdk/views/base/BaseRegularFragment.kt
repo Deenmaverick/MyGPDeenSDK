@@ -6,6 +6,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.content.res.AppCompatResources
@@ -15,6 +16,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
@@ -28,11 +31,14 @@ import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
 import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -49,6 +55,13 @@ internal abstract class BaseRegularFragment: Fragment() {
     lateinit var localInflater: LayoutInflater
     private lateinit var childFragment: Fragment
     private var lastClickTime = 0L
+
+    // Common view ( loading,no internet etc)
+    private  var progressLayout: LinearLayout? = null
+    private  var nodataLayout: NestedScrollView? = null
+    private  var noInternetLayout: NestedScrollView? =null
+    private  var noInternetRetry: MaterialButton? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -376,6 +389,60 @@ internal abstract class BaseRegularFragment: Fragment() {
         }*/
     }
 
+    fun setupCommonLayout(mainview:View) {
+
+        nodataLayout = mainview.findViewById(R.id.nodataLayout)
+        noInternetLayout = mainview.findViewById(R.id.no_internet_layout)
+        noInternetRetry = noInternetLayout?.findViewById(R.id.no_internet_retry)
+        progressLayout = mainview.findViewById(R.id.progressLayout)
+
+        progressLayout?.let {
+            ViewCompat.setTranslationZ(it, 10F)
+        }
+
+        noInternetLayout?.let {
+            ViewCompat.setTranslationZ(it, 10F)
+        }
+
+        nodataLayout?.let {
+            ViewCompat.setTranslationZ(it, 10F)
+        }
+
+        noInternetRetry?.setOnClickListener {
+            noInternetRetryClicked()
+        }
+
+    }
+
+    open fun noInternetRetryClicked() {}
+
+    fun baseLoadingState()
+    {
+        progressLayout?.visible(true)
+        nodataLayout?.visible(false)
+        noInternetLayout?.visible(false)
+    }
+
+    fun baseEmptyState()
+    {
+        progressLayout?.hide()
+        nodataLayout?.show()
+        noInternetLayout?.hide()
+    }
+
+    fun baseNoInternetState()
+    {
+        progressLayout?.hide()
+        nodataLayout?.hide()
+        noInternetLayout?.show()
+    }
+
+    fun baseViewState()
+    {
+        progressLayout?.hide()
+        nodataLayout?.hide()
+        noInternetLayout?.hide()
+    }
 
 }
 

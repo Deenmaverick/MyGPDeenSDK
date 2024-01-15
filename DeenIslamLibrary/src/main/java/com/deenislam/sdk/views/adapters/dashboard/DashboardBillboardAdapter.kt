@@ -257,7 +257,7 @@ internal class DashboardBillboardAdapter(
 
             billboardBanner[position].imageLoad(
                 url = billboardData[position].contentBaseUrl + "/" + billboardData[position].imageurl1,
-                ic_medium = true
+                placeholder_1_1 = true
             )
         }
     }

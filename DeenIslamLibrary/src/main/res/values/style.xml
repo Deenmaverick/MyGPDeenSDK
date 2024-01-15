@@ -98,4 +98,9 @@
         <attr name="imageAspectRatio" format="float"/>
     </declare-styleable>
 
+    <style name="deen_round_floating_button">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

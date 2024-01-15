@@ -266,4 +266,14 @@
     <string name="calculation_has_been_updated">Calculation has been updated</string>
     <string name="failed_to_delete_history">Failed to delete history</string>
     <string name="history_deleted_successful">History deleted successful</string>
+    <string name="allah99nameHeadText">“The most beautiful names belong to Allah, So call on him by them”</string>
+    <string name="quran_ref_for_99name">Holy Qur\'an 7:180</string>
+    <string name="allah_99_name">Allah 99 name</string>
+    <string name="fazilat">Fazilat</string>
+    <string name="auto_play">Auto play</string>
+    <string name="list_view">List view</string>
+    <string name="grid_view">Grid view</string>
+    <string name="more_videos">More Videos</string>
+    <string name="islamic_education_video">Islamic Education Video</string>
+    <string name="recently_played">Recently Played</string>
 </resources>

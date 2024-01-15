@@ -266,5 +266,15 @@
     <string name="calculation_has_been_updated">হিসাব আপডেট করা হয়েছে</string>
     <string name="failed_to_delete_history">আপনার ডাটা মুছে ফেলতে ব্যর্থ হয়েছে৷</string>
     <string name="history_deleted_successful">আপনার ডাটা সফলভাবে মুছে ফেলা হয়েছে</string>
+    <string name="allah99nameHeadText">"সবচেয়ে সুন্দর নাম আল্লাহর, তাই তাকে ডাকো"</string>
+    <string name="quran_ref_for_99name">পবিত্র কোরআন ৭:১৮০</string>
+    <string name="allah_99_name">আসমাউল হুসনা</string>
+    <string name="fazilat">ফজিলত</string>
+    <string name="auto_play">অটো প্লে</string>
+    <string name="list_view">তালিকা দেখুন</string>
+    <string name="more_videos">আরও ভিডিও</string>
+    <string name="grid_view">গ্রিড ভিউ</string>
+    <string name="islamic_education_video">ইসলামিক শিক্ষনীয় ভিডিও</string>
+    <string name="recently_played">সম্প্রতি দেখেছেন</string>
 
 </resources>
