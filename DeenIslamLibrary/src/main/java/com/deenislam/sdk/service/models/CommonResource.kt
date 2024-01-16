@@ -10,12 +10,14 @@ internal interface CommonResource
 {
     object API_CALL_FAILED:CommonResource, PrayerTimeResource, PrayerCalendarResource, SurahResource,
         AlQuranResource, HadithResource, DailyDuaResource, ZakatResource, IslamicNameResource,
-        DashboardResource, Allah99NameResource, IslamicEducationVideoResource
+        DashboardResource, Allah99NameResource, IslamicEducationVideoResource, IslamicEventsResource,
+        SubCatCardListResource, PrayerLearningResource
 
     object LOADING:CommonResource
     object EMPTY:CommonResource, PrayerCalendarResource, PrayerTimeResource,
         PrayerNotificationResource, AlQuranResource, SurahResource, HadithResource, DailyDuaResource,
-        ZakatResource, IslamicNameResource, IslamicEducationVideoResource
+        ZakatResource, IslamicNameResource, IslamicEducationVideoResource, IslamicEventsResource,
+        SubCatCardListResource, PrayerLearningResource
 
     object ACTION_API_CALL_FAILED:CommonResource, DailyDuaResource, IslamicNameResource,
         HadithResource, PrayerNotificationResource

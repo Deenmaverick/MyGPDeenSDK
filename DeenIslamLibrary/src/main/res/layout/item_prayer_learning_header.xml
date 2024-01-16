@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/heading"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/space_8"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:text="Standing"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:textColor="@color/deen_primary"
+    app:backgroundTint="@color/deen_card_bg"
+    android:backgroundTint="@color/deen_card_bg"
+    app:cornerRadius="18dp"
+    app:strokeColor="@color/deen_border"
+    app:strokeWidth="0dp"
+    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

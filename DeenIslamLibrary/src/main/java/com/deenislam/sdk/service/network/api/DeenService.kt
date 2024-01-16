@@ -2,12 +2,16 @@ package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.BasicResponse
 import com.deenislam.sdk.service.network.response.allah99name.Allah99NameResponse
+import com.deenislam.sdk.service.network.response.common.subcatcardlist.SubCatResponse
 import com.deenislam.sdk.service.network.response.dailydua.alldua.AllDuaResponse
 import com.deenislam.sdk.service.network.response.dailydua.duabycategory.DuaByCategory
 import com.deenislam.sdk.service.network.response.dailydua.favdua.FavDua
 import com.deenislam.sdk.service.network.response.dailydua.todaydua.TodayDua
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
+import com.deenislam.sdk.service.network.response.islamicevent.IslamicEventListResponse
 import com.deenislam.sdk.service.network.response.prayer_calendar.PrayerCalendarResponse
+import com.deenislam.sdk.service.network.response.prayerlearning.PrayerLearningAllCategory
+import com.deenislam.sdk.service.network.response.prayerlearning.visualization.VisualizationResponse
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
 import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetails
@@ -143,5 +147,39 @@ internal interface DeenService {
 
     @POST("IslamicVideos/AddIslamicContentHistory")
     suspend fun addIslamicContentHistory(@Body parm: RequestBody): BasicResponse
+
+    // Islamic Event
+    @POST("Islamic/getIslamicEvents")
+    suspend fun getIslamicEvents(@Body parm: RequestBody): IslamicEventListResponse
+
+    @POST("Islamic/getIslamicEventsbyCategory")
+    suspend fun getIslamicEventSubCat(@Body parm: RequestBody): SubCatResponse
+
+    // Hajj And Umrah
+
+    @POST("Hajj/GetHajjPatch")
+    suspend fun getHajjAndUmrahPatch(@Body parm: RequestBody): DashboardResponse
+
+    @POST("Hajj/getHajjMenubyCategory")
+    suspend fun getHajjAndUmrahSubCat(@Body parm: RequestBody): SubCatResponse
+
+    @POST("Hajj/getHajjGuide")
+    suspend fun getHajjGuide(@Body parm: RequestBody): SubCatResponse
+
+    @POST("Hajj/HajjGuideTracking")
+    suspend fun updateHajjMapTracker(@Body parm: RequestBody): BasicResponse
+
+
+    // Prayer Learning
+    @POST("PrayerLearning/AllCategories")
+    suspend fun getPrayerLearningAllCategory(@Body parm: RequestBody): PrayerLearningAllCategory
+
+    @POST("PrayerLearning/Prayervisualization")
+    suspend fun getPrayerLearningVisual(@Body parm: RequestBody): VisualizationResponse
+
+    @POST("PrayerLearning/AllprayerlearningByCategory")
+    suspend fun getPrayerLearningSubCat(@Body parm: RequestBody): SubCatResponse
+
+
 
 }

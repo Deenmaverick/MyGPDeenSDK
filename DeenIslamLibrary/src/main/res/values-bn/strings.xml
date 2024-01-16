@@ -276,5 +276,11 @@
     <string name="grid_view">গ্রিড ভিউ</string>
     <string name="islamic_education_video">ইসলামিক শিক্ষনীয় ভিডিও</string>
     <string name="recently_played">সম্প্রতি দেখেছেন</string>
+    <string name="islamic_event">ইসলামিক ইভেন্ট</string>
+    <string name="prayer_visual_for_men">পুরুষদের নামাজের নিয়ম</string>
+    <string name="prayer_visual_for_women">নারীদের নামাজের নিয়ম</string>
+    <string name="prayer_learning">নামাজ শিক্ষা</string>
+    <string name="previous_step">পূর্ববর্তী ধাপ</string>
+    <string name="next_step">পরবর্তী ধাপ</string>
 
 </resources>

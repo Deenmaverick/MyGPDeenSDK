@@ -10,7 +10,7 @@ import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.views.adapters.islamiceducationvideo.EducationGridAdapter
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 
-class EducationVideoGrid(
+internal class EducationVideoGrid(
     itemView: View,
     pageTitle: String,
     private val educationVideos: List<CommonCardData>

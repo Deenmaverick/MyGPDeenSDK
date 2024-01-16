@@ -378,4 +378,106 @@
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
 
+    <fragment
+        android:id="@+id/subCatBasicCardDetailsFragment"
+        android:name="com.deenislam.sdk.views.common.subcatcardlist.SubCatBasicCardDetailsFragment"
+        android:label="SubCatBasicCardDetailsFragment" >
+        <argument
+            android:name="data"
+            app:argType="com.deenislam.sdk.service.network.response.common.subcatcardlist.Data"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+
+        <argument
+            android:name="dataName"
+            app:argType="com.deenislam.sdk.service.network.response.islamicname.IslamicNameHomeResponse$Data$Item"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <argument
+            android:name="shareable"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_subCatBasicCardDetailsFragment"
+        app:destination="@id/subCatBasicCardDetailsFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/subCatCardListFragment"
+        android:name="com.deenislam.sdk.views.common.subcatcardlist.SubCatCardListFragment"
+        android:label="SubCatCardListFragment" >
+        <argument
+            android:name="categoryID"
+            app:argType="integer" />
+        <argument
+            android:name="pageTitle"
+            app:argType="string" />
+        <argument
+            android:name="pageTag"
+            app:argType="string" />
+        <argument
+            android:name="shareable"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_subCatCardListFragment"
+        app:destination="@id/subCatCardListFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamicEventHomeFragment"
+        android:name="com.deenislam.sdk.views.islamicevent.IslamicEventHomeFragment"
+        android:label="IslamicEventHomeFragment" />
+
+    <action
+        android:id="@+id/action_global_islamicEventHomeFragment"
+        app:destination="@id/islamicEventHomeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/prayerLearningDetailsFragment"
+        android:name="com.deenislam.sdk.views.prayerlearning.PrayerLearningDetailsFragment"
+        android:label="PrayerLearningDetailsFragment" >
+        <argument
+            android:name="gender"
+            app:argType="string" />
+        <argument
+            android:name="pageTitle"
+            app:argType="string" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_prayerLearningDetailsFragment"
+        app:destination="@id/prayerLearningDetailsFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/prayerLearningFragment"
+        android:name="com.deenislam.sdk.views.prayerlearning.PrayerLearningFragment"
+        android:label="PrayerLearningFragment" />
+
+    <action
+        android:id="@+id/action_global_prayerLearningFragment"
+        app:destination="@id/prayerLearningFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
 </navigation>

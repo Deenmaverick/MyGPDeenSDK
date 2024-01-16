@@ -11,7 +11,7 @@ import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.views.adapters.common.CommonCardAdapter
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 
-class IslamicEducationVideo(itemView: View, pageTitle: String, val recentWatchedList: ArrayList<CommonCardData> = ArrayList()) {
+internal class IslamicEducationVideo(itemView: View, pageTitle: String, val recentWatchedList: ArrayList<CommonCardData> = ArrayList()) {
 
     private val itemTitle: AppCompatTextView = itemView.findViewById(R.id.itemTitle)
     private val listview: RecyclerView = itemView.findViewById(R.id.listview)

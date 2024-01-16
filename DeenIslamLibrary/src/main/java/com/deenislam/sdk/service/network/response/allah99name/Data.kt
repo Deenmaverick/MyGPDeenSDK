@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class Data(
+internal data class Data(
     val Arabic: String,
     val ContentUrl: String,
     val Fazilat: String,

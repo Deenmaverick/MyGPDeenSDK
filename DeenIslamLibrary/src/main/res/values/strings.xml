@@ -276,4 +276,10 @@
     <string name="more_videos">More Videos</string>
     <string name="islamic_education_video">Islamic Education Video</string>
     <string name="recently_played">Recently Played</string>
+    <string name="islamic_event">Islamic Event</string>
+    <string name="prayer_visual_for_men">Prayer Visual for men</string>
+    <string name="prayer_visual_for_women">Prayer Visual for Women</string>
+    <string name="prayer_learning">Prayer Learning</string>
+    <string name="previous_step">Previous step</string>
+    <string name="next_step">Next step</string>
 </resources>

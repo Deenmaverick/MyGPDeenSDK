@@ -2,7 +2,7 @@ package com.deenislam.sdk.service.libs.media3
 
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 
-interface VideoPlayerCallback {
+internal interface VideoPlayerCallback {
     fun playVideo(position: Int=-1)
     {
 

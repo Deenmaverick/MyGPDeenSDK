@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class Content(
+internal data class Content(
     val Id: Int,
     val category: String,
     val categoryID: Int,

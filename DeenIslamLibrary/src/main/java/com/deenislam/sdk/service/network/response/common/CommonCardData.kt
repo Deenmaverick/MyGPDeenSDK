@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class CommonCardData(
+internal data class CommonCardData(
     val Id: Int = 0,
     val category: String? = null,
     val categoryID: Int = 0,
@@ -38,4 +38,4 @@ data class CommonCardData(
         .build()
 }
 
-fun List<CommonCardData>.toMediaItems() = this.map { it.toMediaItem() }
+internal fun List<CommonCardData>.toMediaItems() = this.map { it.toMediaItem() }
