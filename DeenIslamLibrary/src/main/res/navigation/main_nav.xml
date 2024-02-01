@@ -479,5 +479,23 @@
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
+    <fragment
+        android:id="@+id/ijtemaLiveFragment"
+        android:name="com.deenislam.sdk.views.ijtema.IjtemaLiveFragment"
+        android:label="IjtemaLiveFragment" >
+        <argument
+            android:name="videoid"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_ijtemaLiveFragment"
+        app:destination="@id/ijtemaLiveFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
 
 </navigation>

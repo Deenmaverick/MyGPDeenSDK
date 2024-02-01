@@ -228,6 +228,7 @@ internal class ExoVideoManager(
                 }
 
             }
+
         })
     }
 
@@ -300,16 +301,21 @@ internal class ExoVideoManager(
         exoPlayer.setMediaSource(mediaSource)
         exoPlayer.prepare()
 
-        if (isAutoPlay) {
+
             // Listen for when the media is ready to be played
             exoPlayer.addListener(object : Player.Listener {
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     if (playbackState == ExoPlayer.STATE_READY) {
+                        if (isAutoPlay)
                         exoPlayer.play() // Start playback when ready
                     }
                 }
+
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    super.onIsPlayingChanged(isPlaying)
+                    playPauseIconSync(isPlaying)
+                }
             })
-        }
 
     }
 
@@ -324,8 +330,10 @@ internal class ExoVideoManager(
     }
 
     fun playPauseVideo() {
-        if (exoPlayer.isPlaying)
+        if (exoPlayer.isPlaying) {
+            isPauseClicked = true
             pauseVideoPlayer()
+        }
         else
             playVideoPlayer()
     }
@@ -533,7 +541,6 @@ internal class ExoVideoManager(
             }
             false->
             {
-                isPauseClicked = true
                 vPlayerControlBtnPlay.setImageResource(R.drawable.ic_play_fill)
                 controlsRunnable(true)
             }

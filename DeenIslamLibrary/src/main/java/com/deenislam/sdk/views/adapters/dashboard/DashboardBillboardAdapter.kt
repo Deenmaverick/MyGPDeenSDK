@@ -252,7 +252,7 @@ internal class DashboardBillboardAdapter(
                 return
 
             billboardBanner[position].setOnClickListener {
-                dashboardPatchCallback.dashboardPatchClickd(billboardData[position].Text)
+                dashboardPatchCallback.dashboardPatchClickd(billboardData[position].Text,billboardData[position])
             }
 
             billboardBanner[position].imageLoad(

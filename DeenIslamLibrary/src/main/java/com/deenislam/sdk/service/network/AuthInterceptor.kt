@@ -1,11 +1,13 @@
 package com.deenislam.sdk.service.network
 
 import com.deenislam.sdk.DeenSDKCore
-import com.deenislam.sdk.service.database.dao.UserPrefDao
 import okhttp3.Interceptor
 import okhttp3.Response
 
-internal class AuthInterceptor():Interceptor {
+internal class AuthInterceptor :Interceptor {
+
+    var isEnabled = true
+
     override fun intercept(chain: Interceptor.Chain): Response {
 
         /*val acceessToken =  runBlocking {
@@ -30,7 +32,13 @@ internal class AuthInterceptor():Interceptor {
             .header("devicemodel", "")
             .header("Authorization", "Bearer $acceessToken")
             .build()
-        return chain.proceed(request)
+        //return chain.proceed(request)
+
+        return if (isEnabled) {
+            chain.proceed(request)
+        } else {
+            chain.proceed(chain.request())
+        }
     }
 
 

@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 
 @Keep
 internal data class Banner(
-    val ArabicText: Any,
+    val ArabicText: String,
     val FeatureID: Int,
     val Id: Int,
     val IsActive: Any,
@@ -17,5 +17,6 @@ internal data class Banner(
     val imageurl2: Any,
     val imageurl3: Any,
     val imageurl4: Any,
-    val imageurl5: Any
+    val imageurl5: Any,
+    val MText:String
 )

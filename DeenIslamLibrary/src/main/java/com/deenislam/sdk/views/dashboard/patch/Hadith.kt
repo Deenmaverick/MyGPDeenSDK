@@ -5,7 +5,6 @@ import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.res.ResourcesCompat
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.utils.hide

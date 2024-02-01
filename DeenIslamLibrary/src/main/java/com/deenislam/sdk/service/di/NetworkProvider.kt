@@ -7,9 +7,11 @@ import com.deenislam.sdk.service.network.api.DeenService
 import com.deenislam.sdk.service.network.api.HadithService
 import com.deenislam.sdk.service.network.api.IslamicNameService
 import com.deenislam.sdk.service.network.api.QuranService
+import com.deenislam.sdk.service.network.api.YoutubeService
 import com.deenislam.sdk.utils.BASE_AUTH_API_URL
 import com.deenislam.sdk.utils.BASE_DEEN_SERVICE_API_URL
 import com.deenislam.sdk.utils.BASE_QURAN_API_URL
+import com.deenislam.sdk.utils.BASE_YOUTUBE_VIDEO_API
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,6 +25,7 @@ internal class NetworkProvider {
     private var authService:AuthenticateService ? = null
     private var hadithService:HadithService ? = null
     private var islamicNameService:IslamicNameService ? = null
+    private var youtubeService:YoutubeService ? = null
 
     companion object {
         var instance: NetworkProvider? = null
@@ -41,7 +44,8 @@ internal class NetworkProvider {
         isQuranService:Boolean = false,
         isHadithService: Boolean = false,
         isHadithServiceTest: Boolean = false,
-        isIslamicNameService: Boolean = false
+        isIslamicNameService: Boolean = false,
+        isYoutubeService: Boolean = false,
     )
     {
         if(instance?.authInterceptor==null) {
@@ -140,6 +144,16 @@ internal class NetworkProvider {
             }
         }
 
+        if(instance?.youtubeService == null && isYoutubeService) {
+            instance?.okHttpClient?.let {
+                instance?.youtubeService = buildAPI(
+                    api = YoutubeService::class.java,
+                    baseUrl = BASE_YOUTUBE_VIDEO_API,
+                    okHttpClient = it
+                )
+            }
+        }
+
     }
 
     private fun<Api> buildAPI(
@@ -181,6 +195,16 @@ internal class NetworkProvider {
     fun provideIslamicNameService(): IslamicNameService? {
         initInstance(isIslamicNameService = true)
         return instance?.islamicNameService
+    }
+
+    fun provideYoutubeService(): YoutubeService? {
+        initInstance(isYoutubeService = true)
+        return instance?.youtubeService
+    }
+
+    fun provideAuthInterceptor(): AuthInterceptor? {
+        initInstance()
+        return instance?.authInterceptor
     }
 
 }

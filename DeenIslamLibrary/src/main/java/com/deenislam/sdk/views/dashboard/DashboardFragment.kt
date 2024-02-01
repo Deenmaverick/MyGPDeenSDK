@@ -21,6 +21,7 @@ import com.deenislam.sdk.service.models.DashboardResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.ApiResource
+import com.deenislam.sdk.service.network.response.dashboard.Banner
 import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.DashboardRepository
@@ -29,6 +30,7 @@ import com.deenislam.sdk.utils.MENU_AL_QURAN
 import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
 import com.deenislam.sdk.utils.MENU_DUA
 import com.deenislam.sdk.utils.MENU_HADITH
+import com.deenislam.sdk.utils.MENU_IJTEMA
 import com.deenislam.sdk.utils.MENU_ISLAMIC_NAME
 import com.deenislam.sdk.utils.MENU_PRAYER_TIME
 import com.deenislam.sdk.utils.MENU_QIBLA_COMPASS
@@ -564,6 +566,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             MENU_DIGITAL_TASBEEH -> gotoFrag(R.id.tasbeehFragment)
             MENU_QIBLA_COMPASS -> gotoFrag(R.id.compassFragment)
             MENU_ISLAMIC_NAME -> gotoFrag(R.id.islamicNameFragment)
+            MENU_IJTEMA -> gotoFrag(R.id.action_global_ijtemaLiveFragment)
         }
     }
 
@@ -571,7 +574,7 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         dataState()
     }
 
-    override fun dashboardPatchClickd(patch:String) {
+    override fun dashboardPatchClickd(patch: String, banner: Banner?) {
 
         when(patch)
         {
@@ -585,7 +588,16 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
             "Compass" -> gotoFrag(R.id.compassFragment)
             "Dua" -> gotoFrag(R.id.dailyDuaFragment)
             "Quran" -> gotoFrag(R.id.quranFragment)
+            "ijtema" -> {
 
+                banner?.let {
+                    val bundle = Bundle()
+                    bundle.putString("videoid", it.MText)
+                    bundle.putString("title",it.ArabicText)
+                    gotoFrag(R.id.action_global_ijtemaLiveFragment,bundle)
+                }
+
+            }
 
         }
     }

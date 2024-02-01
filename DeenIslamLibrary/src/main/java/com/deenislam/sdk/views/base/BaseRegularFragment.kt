@@ -234,7 +234,16 @@ internal abstract class BaseRegularFragment: Fragment() {
         (requireActivity() as MainActivityDeenSDK).setupOtherFragment(bol)
     }
 
-    fun setupActionForOtherFragment(action1:Int,action2:Int,callback: otherFagmentActionCallback?=null,actionnBartitle:String,backEnable:Boolean=true,view: View,isBackIcon:Boolean = false)
+    fun setupActionForOtherFragment(
+        action1:Int,
+        action2:Int,
+        callback: otherFagmentActionCallback?=null,
+        actionnBartitle:String,
+        backEnable:Boolean=true,
+        view: View,
+        isBackIcon:Boolean = false,
+        isDarkActionBar:Boolean = false
+    )
     {
 
         val action1Btn:AppCompatImageView = view.findViewById(R.id.action1)
@@ -251,6 +260,11 @@ internal abstract class BaseRegularFragment: Fragment() {
             }
             title.text = actionnBartitle
             title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_txt_black_deep))
+
+            if(isDarkActionBar)
+                title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_white))
+            else
+                title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_txt_black_deep))
 
         }
         else
