@@ -1,7 +1,7 @@
 package com.deenislam.sdk.utils
 
-const val BASE_AUTH_API_URL = "https://devapi.deenislamic.com/api/"
-const val BASE_DEEN_SERVICE_API_URL = "https://devservices.deenislamic.com/api/"
+const val BASE_AUTH_API_URL = "https://api.deenislamic.com/api/"
+const val BASE_DEEN_SERVICE_API_URL = "https://services.deenislamic.com/api/"
 const val BASE_CONTENT_URL = "http://27.131.15.12:801/contents/"
 const val BASE_HADITH_API_URL = "https://api.sunnah.com/v1/"
 const val BASE_HADITH_API_TEST_URL = "https://sunnah.com/ajax/"
