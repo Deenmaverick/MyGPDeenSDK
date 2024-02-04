@@ -75,7 +75,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
     private fun initViewPager()
     {
         mPageDestination = arrayListOf(
-            DashboardFragment()
+            DashboardFragment(arguments)
         )
 
         mainViewPagerAdapter = MainViewPagerAdapter(

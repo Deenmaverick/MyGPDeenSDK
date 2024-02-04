@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.libs.media3.ExoVideoManager
@@ -18,9 +19,11 @@ import com.deenislam.sdk.service.models.PodcastResource
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 import com.deenislam.sdk.service.repository.YoutubeVideoRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.PodcastViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.exoplayer2.ui.PlayerView
@@ -41,16 +44,15 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
     private lateinit var viewmodel: PodcastViewModel
     private var wakeLock: PowerManager.WakeLock? = null
 
-
     override fun OnCreate() {
         super.OnCreate()
 
         // init viewmodel
         val repository = YoutubeVideoRepository(
-            youtubeService = NetworkProvider().getInstance().provideYoutubeService(),
-            authInterceptor = NetworkProvider().getInstance().provideAuthInterceptor()
-        )
+            youtubeService = NetworkProvider().getInstance().provideYoutubeService())
         viewmodel = PodcastViewModel(repository)
+
+        setupBackPressCallback(this,true)
 
         CallBackProvider.setFragment(this)
 
@@ -62,7 +64,6 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
     ): View? {
         // Inflate the layout for this fragment
         val mainview = localInflater.inflate(R.layout.fragment_ijtema_live,container,false)
-
 
         //init view
 
@@ -96,15 +97,17 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupBackPressCallback(this)
-
-        if (!isDetached) {
-            view.postDelayed({
-                loadpage()
-            }, 300)
+        lifecycleScope.launch {
+            setTrackingID(get9DigitRandom())
+            userTrackViewModel.trackUser(
+                language = getLanguage(),
+                msisdn = DeenSDKCore.GetDeenMsisdn(),
+                pagename = "live_ijtema",
+                trackingID = getTrackingID()
+            )
         }
-        else
-            loadpage()
+
+       loadpage()
 
     }
 
@@ -172,9 +175,22 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
         if(exoVideoManager.isVideoPlayerFullScreen()) {
             exoVideoManager.toggleFullScreen(requireActivity())
         }
-        else
+        else {
+
+            if(isVisible) {
+                lifecycleScope.launch {
+                    userTrackViewModel.trackUser(
+                        language = getLanguage(),
+                        msisdn = DeenSDKCore.GetDeenMsisdn(),
+                        pagename = "live_ijtema",
+                        trackingID = getTrackingID()
+                    )
+                }
+            }
             super.onBackPress()
+        }
     }
+
 
     override fun videoPlayerToggleFullScreen(isFullScreen: Boolean) {
         if(isFullScreen)

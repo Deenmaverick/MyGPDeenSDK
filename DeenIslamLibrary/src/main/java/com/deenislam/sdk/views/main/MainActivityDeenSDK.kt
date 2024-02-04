@@ -20,7 +20,6 @@ import android.widget.ImageButton
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -37,9 +36,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
-import com.deenislam.sdk.service.libs.notification.AlarmReceiverService
 import com.deenislam.sdk.service.libs.sessiontrack.SessionReceiver
-import com.deenislam.sdk.service.libs.sessiontrack.SessionReceiverService
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
@@ -163,7 +160,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
 
         intent.getIntExtra("destination",0).let {
             if(it>0)
-                stackNavigation(destination = it)
+                stackNavigation(destination = it,intent)
         }
 
         intent.getStringExtra("logout").let {
@@ -436,45 +433,6 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
     }
 
 
-     fun initDashboard()
-    {
-        clearAllInstance()
-        dashboardComponent(true)
-
-            mPageDestination = arrayListOf(
-                DashboardFragment(),
-                /*QuranFragment(),
-                PrayerTimesFragment(),
-                MoreFragment()*/
-            )
-
-            mainViewPagerAdapter = MainViewPagerAdapter(
-                fragmentManager = supportFragmentManager,
-                lifecycle = lifecycle,
-                mPageDestination
-            )
-
-
-        _viewPager.apply {
-                adapter = mainViewPagerAdapter
-                isUserInputEnabled = false
-                overScrollMode = View.OVER_SCROLL_NEVER
-                offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
-                reduceDragSensitivity(2)
-                //setPageTransformer(SlidePageTransformer())
-            }
-
-        //_viewPager.setPageTransformer(SlidePageTransformer())
-
-
-        if (_viewPager.getChildAt(0) is RecyclerView) {
-                _viewPager.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER;
-            }
-
-
-
-    }
-
     private fun clearAllInstance()
     {
         Billboard().getInstance().clearInstance()
@@ -618,7 +576,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
         navController.navigate(destination)
     }
 
-    private fun stackNavigation(destination:Int)
+    private fun stackNavigation(destination:Int,intent: Intent)
     {
         //showBottomNav(destination.isBottomNavFragment)
         when(destination)
@@ -626,7 +584,7 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
             R.id.dashboardFakeFragment ->
             {
 
-                navController.navigate(destination)
+                navController.navigate(destination,intent.extras)
 
             }
             else ->

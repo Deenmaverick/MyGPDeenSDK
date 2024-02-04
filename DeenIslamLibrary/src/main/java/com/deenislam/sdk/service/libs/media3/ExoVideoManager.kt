@@ -56,8 +56,11 @@ internal class ExoVideoManager(
 
     private var storedVideoList:ArrayList<CommonCardData>? = null
 
+    private var isControllerShowing = false
+
 
     val hideControlsRunnable = Runnable {
+        isControllerShowing = false
         videoPlayerControlHide()
         //playerView.hideController()
     }
@@ -414,11 +417,13 @@ internal class ExoVideoManager(
         }
 
         playerView.setOnClickListener {
-            if (playerView.isControllerVisible) {
+            isControllerShowing = if (isControllerShowing) {
                 hideAllControls()
+                false
             } else {
                 videoPlayerControlShow()
                 playerView.showController()
+                true
             }
             setupVideoType(isLiveVideo = isLiveVideo)
         }
@@ -467,7 +472,7 @@ internal class ExoVideoManager(
         bottomControlShowWithAnim(vPlayerBottomLayer)
     }
 
-    fun controlsRunnable(isRemoved:Boolean = false)
+    private fun controlsRunnable(isRemoved:Boolean = false)
     {
         if(isRemoved)
             handler.removeCallbacks(hideControlsRunnable)

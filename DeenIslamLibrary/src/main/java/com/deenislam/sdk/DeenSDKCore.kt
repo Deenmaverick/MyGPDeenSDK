@@ -200,17 +200,29 @@ object DeenSDKCore {
             return
         }
 
-        val getDestination = rc.getRCDestination()
+        when(rc){
+            "live_ijtema" -> {
 
-        if(getDestination == 0) {
-            DeenCallBackListener?.onDeenSDKRCFailed()
-            return
+                val intent =
+                    Intent(baseContext, MainActivityDeenSDK::class.java)
+                intent.putExtra("destination",R.id.dashboardFakeFragment)
+                intent.putExtra("rc",rc)
+                baseContext?.startActivity(intent)
+            }
+            else->{
+                val getDestination = rc.getRCDestination()
+
+                if(getDestination == 0) {
+                    DeenCallBackListener?.onDeenSDKRCFailed()
+                    return
+                }
+
+                val intent =
+                    Intent(baseContext, MainActivityDeenSDK::class.java)
+                intent.putExtra("destination",getDestination)
+                baseContext?.startActivity(intent)
+            }
         }
-
-        val intent =
-            Intent(baseContext, MainActivityDeenSDK::class.java)
-        intent.putExtra("destination",getDestination)
-        baseContext?.startActivity(intent)
 
     }
 

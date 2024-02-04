@@ -31,7 +31,15 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val prayernotifyoff:AppCompatButton = findViewById(R.id.prayernotifyoff)
         val checkNotifyBtn:AppCompatButton = findViewById(R.id.checkNotifyBtn)
         val languageBtn:AppCompatButton = findViewById(R.id.languageBtn)
+        val ijtemaBtn:AppCompatButton = findViewById(R.id.ijtemaBtn)
 
+        ijtemaBtn.setOnClickListener {
+            if(msisdn.text.isNotEmpty()){
+                DeenSDKCore.openFromRC("live_ijtema")
+            }else{
+                Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         languageBtn.setOnClickListener {
             //setLocale(this,"bn")

@@ -57,7 +57,7 @@ import java.util.Date
 import java.util.Locale
 
 
-internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
+internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
     actionCallback, MenuCallback, prayerTimeCallback , ViewInflationListener,
     DashboardPatchCallback {
 
@@ -445,6 +445,31 @@ internal class DashboardFragment : BaseFragment<FragmentDashboardBinding>(Fragme
         binding.progressLayout.root.visible(false)/*
         binding.progressLayout.root.visible(false)
         binding.noInternetLayout.root.visible(false)*/
+
+        when(customargs?.getString("rc")){
+
+            "live_ijtema" ->{
+                dashboardPatchMain.getDashboardData()?.let {
+                    it.Banners.let {banner->
+
+                        val ijtemaBanners = banner.filter { bannerData -> bannerData.ContentType == "ijtema" }
+
+                        ijtemaBanners.forEach {
+                            ijtemaData ->
+
+                            val bundle = Bundle()
+                            bundle.putString("videoid", ijtemaData.MText)
+                            bundle.putString("title",ijtemaData.ArabicText)
+                            gotoFrag(R.id.action_global_ijtemaLiveFragment,bundle)
+
+                        }
+
+                    }
+                }
+            }
+        }
+
+        customargs = null
     }
 
     private fun nointernetState()

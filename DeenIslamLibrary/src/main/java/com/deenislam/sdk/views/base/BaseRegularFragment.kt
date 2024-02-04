@@ -206,10 +206,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         (activity as MainActivityDeenSDK).setViewPager(page)
     }
 
-    fun gotoDashboard()
-    {
-        (activity as MainActivityDeenSDK).initDashboard()
-    }
+
 
     fun showBottomNav(bol:Boolean)
     {

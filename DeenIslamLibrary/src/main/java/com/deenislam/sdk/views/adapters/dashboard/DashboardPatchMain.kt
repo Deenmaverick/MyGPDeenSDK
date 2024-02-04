@@ -73,6 +73,8 @@ internal class DashboardPatchAdapter(
         Billboard().getInstance().updatePrayerTracker(data)
     }
 
+    fun getDashboardData() = dashboardData
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder
     {

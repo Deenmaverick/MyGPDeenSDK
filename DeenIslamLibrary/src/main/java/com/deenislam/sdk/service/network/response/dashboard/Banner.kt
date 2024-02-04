@@ -18,5 +18,6 @@ internal data class Banner(
     val imageurl3: Any,
     val imageurl4: Any,
     val imageurl5: Any,
-    val MText:String
+    val MText:String,
+    val ContentType:String
 )

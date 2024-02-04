@@ -20,6 +20,7 @@ internal class NetworkProvider {
 
     private var authInterceptor:AuthInterceptor ? =null
     private var okHttpClient:OkHttpClient ? =null
+    private var okHttpClientNoAuth:OkHttpClient ? =null
     private var deenService:DeenService ? = null
     private var quranService:QuranService ? = null
     private var authService:AuthenticateService ? = null
@@ -80,6 +81,13 @@ internal class NetworkProvider {
                 //}
             }
 
+        }
+
+        if(instance?.okHttpClientNoAuth == null){
+            instance?.okHttpClientNoAuth =
+                OkHttpClient.Builder()
+                    //.addInterceptor(loggingInterceptor)
+                    .build()
         }
 
 
@@ -145,7 +153,7 @@ internal class NetworkProvider {
         }
 
         if(instance?.youtubeService == null && isYoutubeService) {
-            instance?.okHttpClient?.let {
+            instance?.okHttpClientNoAuth?.let {
                 instance?.youtubeService = buildAPI(
                     api = YoutubeService::class.java,
                     baseUrl = BASE_YOUTUBE_VIDEO_API,
@@ -206,5 +214,4 @@ internal class NetworkProvider {
         initInstance()
         return instance?.authInterceptor
     }
-
 }
