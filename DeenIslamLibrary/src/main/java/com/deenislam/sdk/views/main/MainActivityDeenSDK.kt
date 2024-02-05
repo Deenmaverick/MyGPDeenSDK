@@ -37,6 +37,8 @@ import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.service.libs.sessiontrack.SessionReceiver
+import com.deenislam.sdk.service.weakref.dashboard.DashboardBillboardPatchClass
+import com.deenislam.sdk.service.weakref.dashboard.DashboardPatchClass
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
@@ -262,6 +264,8 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
             onBackPressedCallback.remove()
         }
 
+        DashboardPatchClass.clearReferences()
+        DashboardBillboardPatchClass.clearReferences()
         super.onDestroy()
 
     }
@@ -430,12 +434,6 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
             stackNavigation(destination = R.id.loginFragment)
         }*/
 
-    }
-
-
-    private fun clearAllInstance()
-    {
-        Billboard().getInstance().clearInstance()
     }
 
 

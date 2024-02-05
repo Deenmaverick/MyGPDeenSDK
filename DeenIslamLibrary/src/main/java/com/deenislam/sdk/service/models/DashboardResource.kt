@@ -4,5 +4,5 @@ import com.deenislam.sdk.service.network.response.dashboard.Data
 
 internal interface DashboardResource {
 
-    data class DashboardData(val data: Data) :DashboardResource
+    data class DashboardData(val data: List<Data>) :DashboardResource
 }

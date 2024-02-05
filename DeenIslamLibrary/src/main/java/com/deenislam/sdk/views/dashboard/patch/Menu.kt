@@ -1,55 +1,46 @@
 package com.deenislam.sdk.views.dashboard.patch;
 
-import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.network.response.dashboard.Service
-import com.deenislam.sdk.utils.GridSpacingItemDecoration
-import com.deenislam.sdk.views.adapters.MenuAdapter
-import com.deenislam.sdk.views.adapters.MenuCallback
+import com.deenislam.sdk.service.network.response.dashboard.Item
+import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.views.adapters.common.gridmenu.MenuAdapter
+import com.google.android.material.button.MaterialButton
 
-internal class Menu {
+internal class Menu(private val widget: View,private val items: List<Item>) {
 
-    private var dashboardRecycleMenu:RecyclerView ? = null
-    private var menuAdapter:MenuAdapter ? = null
-    companion object
-    {
-        var instance: Menu? = null
+    private lateinit var seeMoreMenu: MaterialButton
+    private var menuAdapter: MenuAdapter? = null
+
+    init {
+        load()
     }
 
-    fun getInstance(): Menu {
-        if (instance == null)
-            instance = Menu()
+    private fun load() {
+        val dashboardRecycleMenu: RecyclerView = widget.findViewById(R.id.dashboard_recycle_menu)
+        seeMoreMenu = widget.findViewById(R.id.seeMoreMenu)
 
-        return instance as Menu
-    }
+        if (items.size > 8)
+            seeMoreMenu.show()
+        else
+            seeMoreMenu.hide()
 
-    fun load(widget: View, viewPool: RecyclerView.RecycledViewPool?, menuCallback: MenuCallback?) {
+        menuAdapter = MenuAdapter(items, viewType = 2)
 
-        instance?.dashboardRecycleMenu = widget.findViewById(R.id.dashboard_recycle_menu)
+        dashboardRecycleMenu.adapter = menuAdapter
 
-       // val menu = BaseMenu().getInstance().getDashboardMenu(widget.context)
-
-        val spacing = widget.context.resources.getDimensionPixelSize(R.dimen.space_10)
-        val spanCount = 4
-        val includeEdge = true
-
-        instance?.menuAdapter = MenuAdapter(2, menuCallback = menuCallback)
-
-
-        instance?.dashboardRecycleMenu?.apply {
-            adapter = instance?.menuAdapter
-            addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
-            viewPool?.let { setRecycledViewPool(it) }
+        seeMoreMenu.setOnClickListener {
+            menuAdapter?.seeMoreMenu()
+            if (menuAdapter?.isSeeMoreMenu() == true) {
+                seeMoreMenu.text = seeMoreMenu.context.getString(R.string.see_less)
+                seeMoreMenu.icon = ContextCompat.getDrawable(widget.context, R.drawable.deen_ic_dropdown_expand)
+            } else {
+                seeMoreMenu.text = seeMoreMenu.context.getString(R.string.see_more)
+                seeMoreMenu.icon = ContextCompat.getDrawable(widget.context, R.drawable.ic_dropdown)
+            }
         }
-
-    }
-
-    fun update(services: List<Service>)
-    {
-        Log.e("UPDATE_MENU", instance?.menuAdapter.toString())
-
-        instance?.menuAdapter?.update(services)
     }
 }

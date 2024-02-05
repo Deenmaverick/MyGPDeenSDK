@@ -12,8 +12,12 @@ internal interface AuthenticateService {
     @POST("User/Loginsdk")
     suspend fun login(@Body parm: RequestBody): LoginResponse
 
-    @POST("Dashboard/GetDashboardData")
+  /*  @POST("Dashboard/GetDashboardData")
     suspend fun getDashboardData(@Body parm: RequestBody): DashboardResponse
+*/
+    @POST("Dashboard/GetDashboardDataV3")
+    suspend fun getDashboardDataV3(@Body parm: RequestBody): DashboardResponse
+
 
     @POST("Tracker/TrackUser")
     suspend fun userTrack(@Body parm: RequestBody): BasicResponse

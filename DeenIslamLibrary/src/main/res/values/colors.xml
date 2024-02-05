@@ -31,5 +31,6 @@
     <color name="deen_stroke_card">#4EABE0</color>
     <color name="deen_stroke_card1">#F99941</color>
     <color name="deen_brand_error">#E65645</color>
+    <color name="deen_menu_bg">#EBEBEB</color>
 
 </resources>

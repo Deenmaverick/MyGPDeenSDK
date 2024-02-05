@@ -282,4 +282,7 @@
     <string name="prayer_learning">Prayer Learning</string>
     <string name="previous_step">Previous step</string>
     <string name="next_step">Next step</string>
+    <string name="select_a_district">Select a District</string>
+    <string name="see_more">See More</string>
+    <string name="see_less">See Less</string>
 </resources>

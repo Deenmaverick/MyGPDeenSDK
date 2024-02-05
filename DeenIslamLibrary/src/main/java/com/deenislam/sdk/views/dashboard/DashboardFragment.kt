@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
@@ -21,11 +22,12 @@ import com.deenislam.sdk.service.models.DashboardResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.ApiResource
-import com.deenislam.sdk.service.network.response.dashboard.Banner
 import com.deenislam.sdk.service.network.response.dashboard.Data
+import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.DashboardRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.MENU_AL_QURAN
 import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
 import com.deenislam.sdk.utils.MENU_DUA
@@ -43,9 +45,9 @@ import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
-import com.deenislam.sdk.views.adapters.MenuCallback
+import com.deenislam.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislam.sdk.views.adapters.dashboard.DashboardPatchAdapter
-import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
+import com.deenislam.sdk.views.adapters.dashboard.PrayerTimeCallback
 import com.deenislam.sdk.views.base.BaseFragment
 import com.deenislam.sdk.views.main.actionCallback
 import kotlinx.coroutines.CoroutineScope
@@ -58,21 +60,23 @@ import java.util.Locale
 
 
 internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
-    actionCallback, MenuCallback, prayerTimeCallback , ViewInflationListener,
+    actionCallback, MenuCallback, PrayerTimeCallback, ViewInflationListener,
     DashboardPatchCallback {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var prayerViewModel:  PrayerTimesViewModel
-
-    private val dashboardPatchMain:DashboardPatchAdapter by lazy { DashboardPatchAdapter(
-        callback = this@DashboardFragment,
-        menuCallback = this@DashboardFragment,
-        viewInflationListener = this@DashboardFragment,
-        dashboardPatchCallback = this@DashboardFragment
-    ) }
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var dashboardPatchMain: DashboardPatchAdapter
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
 
     private var prayerTrackLastWakt = ""
+    private var currentState = "dhaka"
+
+    // pagging locally dashboard data
+    private var dashboardData:List<Data> ? = null
+    private var hasMoreData = true
+    private var itemsToLoadAhead = 5
+    private var lastVisibleItemPosition = 0
 
     override fun OnCreate() {
         super.OnCreate()
@@ -80,6 +84,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
        /* isHomePage(true)
         setupBackPressCallback(this)
 */
+        CallBackProvider.setFragment(this)
+
         val dashboardRepository = DashboardRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
 
         val prayerTimesRepository = PrayerTimesRepository(
@@ -122,6 +128,30 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         ViewCompat.setTranslationZ(binding.noInternetLayout.root, 10F)
         binding.noInternetLayout.root.isClickable = true
         binding.progressLayout.root.isClickable = true
+
+
+        binding.dashboardMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val visibleItemCount = linearLayoutManager.childCount
+                val totalItemCount = linearLayoutManager.itemCount
+                val firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition()
+
+                if ((visibleItemCount + firstVisibleItem) >= totalItemCount && firstVisibleItem >= 0) {
+                    if (firstVisibleItem > lastVisibleItemPosition) {
+                        lastVisibleItemPosition = firstVisibleItem
+                        itemsToLoadAhead = 3
+                        // Load next page here
+                        if (hasMoreData && dashboardPatchMain.itemCount < (dashboardData?.size ?: 0)) {
+                            loadNextPage()
+                        }
+                    }
+                }
+            }
+        })
+
+
         initObserver()
         loadPage()
         binding.noInternetLayout.noInternetRetry.setOnClickListener {
@@ -130,12 +160,22 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     }
 
+    private fun loadNextPage() {
+        val newItems = fetchData(dashboardPatchMain.itemCount, itemsToLoadAhead) // You start from the current adapter size as an offset
+        newItems?.let {
+            if (it.size < itemsToLoadAhead) {
+                hasMoreData = false
+            }
+            hasMoreData = false
+            dashboardPatchMain.updateDashData(it)
+        }
+    }
 
+    private fun fetchData(offset: Int, limit: Int): List<Data>? {
+        val end = dashboardData?.size?.let { (offset + limit).coerceAtMost(it) }  // Ensure we don't go past the end of the list
+        return end?.let { dashboardData?.subList(offset, it) }
+    }
 
-   /* override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        prayerTimesResponse?.let { updatePrayerAdapterOnly(it) }
-    }*/
 
     override fun onResume() {
         super.onResume()
@@ -146,20 +186,23 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         Log.e("DASHBOARD_NEW",isDashboardVisible().toString())
     }
 
-    /*override fun setMenuVisibility(menuVisible: Boolean) {
+    override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
         if(menuVisible)
         {
-            Log.e("setMenuVisibility","DAASHBOARD")
+          /*  Log.e("setMenuVisibility","DAASHBOARD")
             setupAction(R.drawable.ic_menu,0,this@DashboardFragment,localContext.resources.getString(R.string.app_name))
+        */
+
+            CallBackProvider.setFragment(this)
         }
-    }*/
+    }
 
     fun loadDataAPI()
     {
           loadingState()
             lifecycleScope.launch {
-                dashboardViewModel.getDashboard("Dhaka", getLanguage(), prayerdate)
+                dashboardViewModel.getDashboard(currentState, getLanguage(), prayerdate)
 
                 DeenSDKCore.baseContext?.let {
                     prayerNotification(DeenSDKCore.isPrayerNotificationEnabled(it))
@@ -413,9 +456,10 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     }
 
-    private fun viewState(data: Data)
+    private fun viewState(data: List<Data>)
     {
-        lifecycleScope.launch {
+        dashboardData = data
+        /*lifecycleScope.launch {
 
             val dashbTask = async { dashboardPatchMain.updateDashData(data) }
 
@@ -426,6 +470,14 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 //binding.progressLayout.root.visible(false)
                 binding.noInternetLayout.root.visible(false)
             }//?:nointernetState()
+        }*/
+
+        loadNextPage()
+
+        prayerTimesResponse?.let {
+            dashboardPatchMain.updatePrayerTime(it)
+            //binding.progressLayout.root.visible(false)
+            binding.noInternetLayout.root.visible(false)
         }
     }
 
@@ -442,24 +494,26 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     private fun dataState()
     {
         binding.dashboardMain.visible(true)
-        binding.progressLayout.root.visible(false)/*
         binding.progressLayout.root.visible(false)
-        binding.noInternetLayout.root.visible(false)*/
+        binding.progressLayout.root.visible(false)
+        binding.noInternetLayout.root.visible(false)
 
-        when(customargs?.getString("rc")){
+        Log.e("dashboardMain","VIEW")
+
+      /*  when(customargs?.getString("rc")){
 
             "live_ijtema" ->{
                 dashboardPatchMain.getDashboardData()?.let {
-                    it.Banners.let {banner->
+                    it.let {banner->
 
-                        val ijtemaBanners = banner.filter { bannerData -> bannerData.ContentType == "ijtema" }
+                        val ijtemaBanners = banner.filter { bannerData -> bannerData.AppDesign == "ijtema" }
 
                         ijtemaBanners.forEach {
                             ijtemaData ->
 
                             val bundle = Bundle()
-                            bundle.putString("videoid", ijtemaData.MText)
-                            bundle.putString("title",ijtemaData.ArabicText)
+                            bundle.putString("videoid", ijtemaData.Items[0].ArabicText)
+                            bundle.putString("title",ijtemaData.MText)
                             gotoFrag(R.id.action_global_ijtemaLiveFragment,bundle)
 
                         }
@@ -467,7 +521,9 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                     }
                 }
             }
-        }
+        }*/
+
+        hasMoreData = true
 
         customargs = null
     }
@@ -494,11 +550,12 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
         //dashboardPatchMain.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-        val linearLayoutManager =
+         linearLayoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
 
 
         binding.dashboardMain.apply {
+                dashboardPatchMain = DashboardPatchAdapter()
                 adapter = dashboardPatchMain
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 isNestedScrollingEnabled = false
@@ -579,9 +636,15 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         }
     }
 
-    override fun menuClicked(tag: String) {
 
-        when(tag)
+    override fun onAllViewsInflated() {
+        dataState()
+    }
+
+
+
+    override fun menuClicked(pagetag: String, getMenu: Item?) {
+        when(pagetag)
         {
             MENU_PRAYER_TIME ->  gotoFrag(R.id.prayerTimesFragment)
             MENU_AL_QURAN -> gotoFrag(R.id.quranFragment)
@@ -595,35 +658,25 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         }
     }
 
-    override fun onAllViewsInflated() {
-        dataState()
-    }
-
-    override fun dashboardPatchClickd(patch: String, banner: Banner?) {
-
+    override fun dashboardPatchClickd(patch: String, data: Item?) {
         when(patch)
         {
-            "Verse" -> gotoFrag(R.id.quranFragment)
-            "Hadith" -> gotoFrag(R.id.hadithFragment)
-            "Zakat" -> gotoFrag(R.id.zakatFragment)
-            "Tasbeeh" -> gotoFrag(R.id.tasbeehFragment)
-            "IslamicName" -> gotoFrag(R.id.islamicNameFragment)
-            "Qibla" -> gotoFrag(R.id.compassFragment)
-            "DailyDua" -> gotoFrag(R.id.dailyDuaFragment)
-            "Compass" -> gotoFrag(R.id.compassFragment)
-            "Dua" -> gotoFrag(R.id.dailyDuaFragment)
-            "Quran" -> gotoFrag(R.id.quranFragment)
+            "qr","qrs" -> gotoFrag(R.id.quranFragment)
+            "hd","hdd" -> gotoFrag(R.id.hadithFragment)
+            "zk" -> gotoFrag(R.id.zakatFragment)
+            "tb" -> gotoFrag(R.id.tasbeehFragment)
+            "in" -> gotoFrag(R.id.islamicNameFragment)
+            "cp" -> gotoFrag(R.id.compassFragment)
+            "du" -> gotoFrag(R.id.dailyDuaFragment)
             "ijtema" -> {
 
-                banner?.let {
+                data?.let {
                     val bundle = Bundle()
                     bundle.putString("videoid", it.MText)
                     bundle.putString("title",it.ArabicText)
                     gotoFrag(R.id.action_global_ijtemaLiveFragment,bundle)
                 }
-
             }
-
         }
     }
 

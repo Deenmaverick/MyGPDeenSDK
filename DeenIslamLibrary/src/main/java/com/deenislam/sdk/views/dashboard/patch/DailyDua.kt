@@ -1,5 +1,6 @@
 package com.deenislam.sdk.views.dashboard.patch;
 
+import android.util.Log
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
@@ -8,59 +9,61 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
+import com.deenislam.sdk.service.network.response.dashboard.Item
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.ViewPagerHorizontalRecyler
 import com.deenislam.sdk.views.adapters.dailydua.DailyDuaPatchAdapter
 
-internal class DailyDua {
+internal class DailyDua(private val view: View,private val items: List<Item>) {
 
-    private var adapter: DailyDuaPatchAdapter? =null
+    private var dailyDuaPatchAdapter: DailyDuaPatchAdapter? =null
     private var dailyDuaRC: RecyclerView? = null
+    private var icon: AppCompatImageView ? = null
+    private var titile: AppCompatTextView ? = null
+    private val dashboardPatchCallback = CallBackProvider.get<DashboardPatchCallback>()
 
-    companion object {
-        var instance: DailyDua? = null
+    init {
+        load()
     }
 
-    fun getInstance(): DailyDua {
-        if (instance == null)
-            instance = DailyDua()
-
-        return instance as DailyDua
-    }
-
-
-    fun load(view: View, dashboardPatchCallback: DashboardPatchCallback)
+    fun load()
     {
-        val icon: AppCompatImageView = view.findViewById(R.id.icon)
-        val titile: AppCompatTextView = view.findViewById(R.id.titile)
 
-        view.setOnClickListener {
-            dashboardPatchCallback.dashboardPatchClickd("DailyDua")
+        Log.e("dashboardPatchCallback",dashboardPatchCallback.toString())
+
+        icon = view.findViewById(R.id.icon)
+        titile = view.findViewById(R.id.titile)
+
+
+        icon?.let {
+
+            it.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    it.context,
+                    R.drawable.ic_menu_dua
+                )
+            )
+
+            titile?.text = it.context.getString(R.string.daily_dua)
         }
 
-        icon.setImageDrawable(
-            AppCompatResources.getDrawable(
-                icon.context,
-                R.drawable.ic_menu_dua
-            )
-        )
-        titile.text = icon.context.getString(R.string.daily_dua)
 
-        instance?.dailyDuaRC = view.findViewById(R.id.listview)
-        instance?.adapter = DailyDuaPatchAdapter(dashboardPatchCallback)
 
-        instance?.dailyDuaRC?.apply {
+        dailyDuaRC = view.findViewById(R.id.listview)
+        dailyDuaPatchAdapter = DailyDuaPatchAdapter(dashboardPatchCallback)
 
-            adapter = instance?.adapter
+        dailyDuaRC?.apply {
+
+            adapter = dailyDuaPatchAdapter
             onFlingListener = null
             PagerSnapHelper().attachToRecyclerView(this)
             ViewPagerHorizontalRecyler().getInstance().load(this)
             overScrollMode = View.OVER_SCROLL_NEVER
         }
 
+        dailyDuaPatchAdapter?.update(items)
+
     }
 
-    fun update(dailydua: List<com.deenislam.sdk.service.network.response.dashboard.DailyDua>)
-    {
-        instance?.adapter?.update(dailydua)
-    }
+
 }

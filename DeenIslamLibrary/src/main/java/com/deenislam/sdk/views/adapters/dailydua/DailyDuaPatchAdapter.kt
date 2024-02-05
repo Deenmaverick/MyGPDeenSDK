@@ -7,15 +7,17 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
-import com.deenislam.sdk.service.network.response.dashboard.DailyDua
+import com.deenislam.sdk.service.network.response.dashboard.Item
+import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.views.base.BaseViewHolder
+import com.google.android.material.button.MaterialButton
 
 internal class DailyDuaPatchAdapter(
-    private val dashboardPatchCallback: DashboardPatchCallback
+    private val dashboardPatchCallback: DashboardPatchCallback?
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
-    private var dailyDuaData:ArrayList<DailyDua> = arrayListOf()
+    private var dailyDuaData:ArrayList<Item> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
@@ -23,7 +25,7 @@ internal class DailyDuaPatchAdapter(
                 .inflate(R.layout.item_daily_dua_home, parent, false)
         )
 
-    fun update(dailydua: List<DailyDua>)
+    fun update(dailydua: List<Item>)
     {
         dailyDuaData.clear()
         dailyDuaData.addAll(dailydua)
@@ -39,14 +41,19 @@ internal class DailyDuaPatchAdapter(
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
         private val dailyDuaImg:AppCompatImageView = itemView.findViewById(R.id.dailyDuaImg)
+        private val shareBtn: MaterialButton = itemView.findViewById(R.id.shareBtn)
 
         override fun onBind(position: Int) {
             super.onBind(position)
 
+            val data = dailyDuaData[position]
             itemView.setOnClickListener {
-                dashboardPatchCallback.dashboardPatchClickd("DailyDua")
+                dashboardPatchCallback?.dashboardPatchClickd(data.ContentType, data)
             }
-            dailyDuaImg.imageLoad(dailyDuaData[position].contentBaseUrl+"/"+dailyDuaData[position].ImageUrl)
+            dailyDuaImg.imageLoad(data.contentBaseUrl+"/"+data.imageurl1, placeholder_1_1 =
+            true)
+
+            shareBtn.hide()
 
         }
     }

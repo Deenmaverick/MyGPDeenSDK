@@ -1,164 +1,89 @@
 package com.deenislam.sdk.views.dashboard.patch
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.callback.DashboardPatchCallback
-import com.deenislam.sdk.service.network.response.dashboard.Banner
+import com.deenislam.sdk.service.models.ramadan.StateModel
+import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
-import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.utils.ProminentLayoutManager
+import com.deenislam.sdk.utils.ViewPagerHorizontalRecyler
+import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.setLinearSnapHelper
 import com.deenislam.sdk.views.adapters.dashboard.DashboardBillboardAdapter
-import com.deenislam.sdk.views.adapters.dashboard.prayerTimeCallback
 
-internal class Billboard() {
+internal class Billboard(
+    private val widget: View,
+    private val billboardData: List<Item>
+) {
 
-    private var dashboardBillboardAdapter:DashboardBillboardAdapter ? =null
-    private lateinit var  dashboardBillboard: RecyclerView
-    private var linearLayoutManager:ProminentLayoutManager ? = null
-    private var isAlreadyScrolled:Boolean = false
-    private var billboardBannerData:List<Banner> ? = arrayListOf()
-    companion object
-    {
-        var instance: Billboard? =null
+    private var dashboardBillboardAdapter: DashboardBillboardAdapter? = null
+    private val dashboardBillboard: RecyclerView = widget.findViewById(R.id.inf)
+    private var linearLayoutManager: ProminentLayoutManager? = null
+    private var isAlreadyScrolled: Boolean = false
+
+    init {
+        load()
     }
 
-    fun clearInstance()
-    {
-        instance = null
-    }
+    private fun load() {
 
-
-    fun getInstance(): Billboard
-    {
-        if(instance == null)
-            instance = Billboard()
-
-        return instance as Billboard
-    }
-
-    fun load(
-        widget: View,
-        viewPool: RecyclerView.RecycledViewPool?,
-        callback: prayerTimeCallback? = null,
-        dashboardPatchCallback: DashboardPatchCallback
-    )
-    {
-        instance?.dashboardBillboard  = widget.findViewById(R.id.inf)
-
-        instance?.dashboardBillboard?.visibility = View.INVISIBLE
-
-        instance?.linearLayoutManager = ProminentLayoutManager(widget.context, scaleDownBy = 0.09F)
-
-        instance?.linearLayoutManager?.orientation = LinearLayoutManager.HORIZONTAL
-        //instance?.dashboardBillboard?.layoutManager = linearLayoutManager
-        //linearLayoutManager.initialPrefetchItemCount = 4
-
-        var screenWidth = widget.context.resources.displayMetrics.run {
-            widthPixels / density
+        linearLayoutManager = linearLayoutManager ?: ProminentLayoutManager(widget.context, scaleDownBy = 0.09F).apply {
+            orientation = LinearLayoutManager.HORIZONTAL
         }
 
-        screenWidth -= 305
-        screenWidth = (screenWidth/2)
+        dashboardBillboardAdapter = DashboardBillboardAdapter(billboardData)
 
-        /*  CoroutineScope(Dispatchers.Main).launch {
-              instance?.linearLayoutManager?.scrollToPositionWithOffset(2, screenWidth.dp)
-          }*/
-
-        instance?.dashboardBillboardAdapter = DashboardBillboardAdapter(callback,dashboardPatchCallback)
-
-        instance?.dashboardBillboard?.apply {
-            layoutManager = instance?.linearLayoutManager
-            adapter = instance?.dashboardBillboardAdapter
-            dashboardBillboard.onFlingListener = null
+        dashboardBillboard.apply {
+            layoutManager = linearLayoutManager
+            adapter = dashboardBillboardAdapter
+            onFlingListener = null
             setLinearSnapHelper()
-            //pagerSnapHelper.attachToRecyclerView(dashboardBillboard)
-            viewPool?.let { setRecycledViewPool(it) }
-            //setItemViewCacheSize(3)
             overScrollMode = View.OVER_SCROLL_NEVER
             ViewPagerHorizontalRecyler().getInstance().load(this)
-
-            /*  post {
-                  CoroutineScope(Dispatchers.Main).launch {
-                      instance?.linearLayoutManager?.scrollToPositionWithOffset(2, screenWidth.dp)
-                  }
-              }*/
-
         }
     }
 
-    fun update(data: PrayerTimesResponse)
-    {
-        instance?.let {
+    fun update(data: PrayerTimesResponse) {
 
-            if(it::dashboardBillboard.isInitialized) {
+        Log.e("prayerData","LOAD")
+        dashboardBillboardAdapter?.update(data)
 
-                //instance?.dashboardBillboardAdapter?.notifyDataSetChanged()
-
-                instance?.dashboardBillboardAdapter?.update(data)
-
-
-                //if (!instance?.isAlreadyScrolled!!) {
-
-                instance?.dashboardBillboard?.apply {
-
-                    instance?.dashboardBillboard?.visible(true)
-
-                    var screenWidth = this.context.resources.displayMetrics.run {
-                        widthPixels / density
-                    }
-
-                    screenWidth -= 305
-                    screenWidth = (screenWidth / 2)
-
-                    post {
-
-
-                        val ptPosition = instance?.billboardBannerData?.indexOfFirst {
-                                bData ->
-                            bData.Text == "PrayerTime"
-                        }?:0
-
-
-                        instance?.isAlreadyScrolled = true
-                        instance?.linearLayoutManager?.scrollToPositionWithOffset(
-                            ptPosition,
-                            screenWidth.dp
-                        )
-
-                        instance?.dashboardBillboardAdapter?.notifyDataSetChanged()
-                    }
-
+        dashboardBillboard.apply {
+            val screenWidth = getScreenWidth()
+            post {
+                val ptPosition = billboardData.indexOfFirst { bData ->
+                    bData.ContentType == "pt"
                 }
-
+                isAlreadyScrolled = true
+                linearLayoutManager?.scrollToPositionWithOffset(ptPosition, screenWidth.dp)
+                dashboardBillboardAdapter?.notifyDataSetChanged()
             }
-
         }
     }
 
-    fun updatePrayerTracker(data: Data)
+    fun updatePrayerTracker(data: Data) {
+        dashboardBillboardAdapter?.updatePrayerTracker(data)
+        dashboardBillboard.post {
+            val ptPosition = billboardData.indexOfFirst { bData ->
+                bData.ContentType == "pt"
+            }
+            dashboardBillboardAdapter?.notifyItemChanged(ptPosition)
+        }
+    }
+
+    private fun getScreenWidth(): Float {
+        return widget.context.resources.displayMetrics.run {
+            widthPixels / density - 305
+        } / 2
+    }
+
+    fun updateState(state: StateModel)
     {
-        if(instance!=null && instance!!::dashboardBillboard.isInitialized) {
-
-            instance?.dashboardBillboardAdapter?.updatePrayerTracker(data)
-
-            instance?.dashboardBillboard?.post {
-                instance?.dashboardBillboardAdapter?.notifyDataSetChanged()
-            }
-        }
+        Log.e("updateStateD","OK")
+        dashboardBillboardAdapter?.updateState(state)
     }
-
-    fun updateBillboard(data: List<Banner>)
-    {
-        instance?.billboardBannerData = data
-        if(instance!=null && instance!!::dashboardBillboard.isInitialized) {
-            instance?.dashboardBillboardAdapter?.updateBillboard(data)
-            instance?.dashboardBillboard?.post {
-                instance?.dashboardBillboardAdapter?.notifyDataSetChanged()
-            }
-
-        }
-    }
-
 }

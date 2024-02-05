@@ -5,8 +5,6 @@
     app:cardCornerRadius="@dimen/space_16"
     app:cardElevation="0dp"
     tools:viewBindingIgnore="true"
-    app:cardBackgroundColor="@color/deen_white"
-    style="@style/Widget.MaterialComponents.CardView"
     android:layout_marginStart="@dimen/space_4"
     android:layout_marginEnd="@dimen/space_4"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -17,10 +15,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-  <!--  <include
-        android:id="@+id/shimmerContainer"
-        layout="@layout/item_dashboard_prayer_time_shimmer"/>
--->
+    <!--  <include
+          android:id="@+id/shimmerContainer"
+          layout="@layout/item_dashboard_prayer_time_shimmer"/>
+  -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
@@ -83,7 +81,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_16"
-            android:text="3/5"
             android:textColor="@color/deen_white"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintTop_toTopOf="@id/namazTask"
@@ -121,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_16"
-            android:text="7:30 - 11:30 PM"
+            android:text="--"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/deen_white"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -146,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_16.5"
-            android:text="-5:39:30"
+            android:text="--"
             android:textStyle="bold"
             android:textColor="@color/deen_white"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -184,6 +181,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/stateBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_16"
@@ -193,10 +191,10 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stateTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/dhaka"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/deen_white"
                 app:layout_constraintLeft_toLeftOf="parent"

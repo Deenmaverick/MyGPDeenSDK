@@ -4,7 +4,9 @@ import androidx.annotation.Keep
 
 @Keep
 internal data class DashboardResponse(
-    val Data: Data,
+    val Data: List<Data>,
     val Message: String,
-    val Success: Boolean
+    val Success: Boolean,
+    val ProfileUrl:String?,
+    val isPeronalMenu:Boolean
 )

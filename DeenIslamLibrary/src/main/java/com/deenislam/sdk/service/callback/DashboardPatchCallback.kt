@@ -1,7 +1,7 @@
 package com.deenislam.sdk.service.callback
 
-import com.deenislam.sdk.service.network.response.dashboard.Banner
+import com.deenislam.sdk.service.network.response.dashboard.Item
 
 internal interface DashboardPatchCallback {
-    fun dashboardPatchClickd(patch: String, banner: Banner?=null)
+    fun dashboardPatchClickd(patch: String, data: Item?=null)
 }
