@@ -3,60 +3,40 @@ package com.deenislam.sdk.views.dashboard.patch;
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.imageLoad
+import java.util.Calendar
 
-internal class Greeting {
+internal class Greeting(widget: View, items: List<Item>) {
 
-    private var greeting_txt:AppCompatTextView ? =null
-    private var greetingIcon:AppCompatImageView ? = null
+    private var greetingTxt: AppCompatTextView = widget.findViewById(R.id.greeting_txt)
+    private var greetingDate: AppCompatTextView = widget.findViewById(R.id.greetingDate)
+    private var greetingIcon: AppCompatImageView = widget.findViewById(R.id.greetingIcon)
 
-    companion object
-    {
-        var instance: Greeting? =null
-    }
-    fun getInstance(): Greeting
-    {
-        if(instance == null)
-            instance = Greeting()
+    init {
 
-        return instance as Greeting
-    }
-
-    fun load(widget: View, viewPool: RecyclerView.RecycledViewPool?)
-    {
-        greeting_txt = widget.findViewById(R.id.greeting_txt)
-        greetingIcon = widget.findViewById(R.id.greetingIcon)
-
-        //greetingIcon.setBackgroundResource(ContextCompat.gete)
-
-    }
-
-    fun update(data: PrayerTimesResponse?)
-    {
-
-        if(data!=null) {
-
-            instance?.greeting_txt?.rootView?.show()
-
-            instance?.greeting_txt?.text = data.Data.wish
-
-            when (data.Data.moment) {
-                "Morning" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sunrise_fill)
-                "Noon" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sun_fill)
-                "Afternoon" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_cloud_sun_fill)
-                "Evening" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_sunset_fill)
-                "Night" -> instance?.greetingIcon?.setImageResource(R.drawable.ic_isha)
-
-            }
+        if (items.isNotEmpty()) {
+            val data = items[0]
+            greetingTxt.text = data.Title
+            greetingDate.text = data.Text
+            greetingIcon.imageLoad(data.contentBaseUrl + "/" + data.imageurl1)
+        } else {
+            widget.hide()
         }
-        else
-        {
-            instance?.greeting_txt?.rootView?.hide()
+    }
+
+    private fun getGreetingMessage(): String {
+        val c = Calendar.getInstance()
+        val timeOfDay = c.get(Calendar.HOUR_OF_DAY)
+        val localContext = greetingTxt.context
+        return when (timeOfDay) {
+            in 0..11 -> localContext?.getString(R.string.text_good_morning).toString()
+            in 12..15 -> localContext?.getString(R.string.text_good_afternoon).toString()
+            in 16..20 -> localContext?.getString(R.string.text_good_evening).toString()
+            in 21..23 -> localContext?.getString(R.string.text_good_night).toString()
+            else -> localContext?.getString(R.string.text_good_afternoon).toString()
         }
     }
 }

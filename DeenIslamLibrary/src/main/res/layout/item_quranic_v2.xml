@@ -94,7 +94,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:visibility="gone"
                 android:id="@+id/icPlay"
-                android:src="@drawable/deen_ic_play_oval"
+                android:src="@drawable/ic_play_oval"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_8"
@@ -114,74 +114,92 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_12"
-                android:layout_marginTop="@dimen/space_10"
-                android:layout_marginEnd="@dimen/space_12"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/deen_txt_black_deep"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/space_4"
+                    android:layout_marginStart="@dimen/space_12"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:layout_marginEnd="@dimen/space_12"
+                    android:text="Text Content"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/deen_txt_black_deep"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/midContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_12"
+                    android:layout_marginEnd="@dimen/space_12"
+                    android:paddingBottom="@dimen/space_4"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/deen_txt_black_deep"
+                    app:layout_constraintTop_toBottomOf="@+id/textContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/subContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_12"
-                android:layout_marginTop="@dimen/space_4"
-                android:layout_marginEnd="@dimen/space_12"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/deen_txt_ash"
-                app:layout_constraintTop_toBottomOf="@+id/textContent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/subContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_12"
+                    android:layout_marginEnd="@dimen/space_12"
+                    android:text="Sub Content"
+                    android:paddingBottom="@dimen/space_6"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/deen_txt_ash"
+                    app:layout_constraintTop_toBottomOf="@+id/midContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:visibility="gone"
-                android:id="@+id/progress"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_8"
-                android:layout_marginStart="@dimen/space_12"
-                app:trackCornerRadius="@dimen/space_8"
-                android:indeterminate="false"
-                app:indicatorColor="@color/deen_brand_secondary"
-                style="Widget.Material3.LinearProgressIndicator"
-                app:trackColor="@color/deen_gray"
-                android:progress="10"
-                android:max="100"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/subContent"
-                />
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:visibility="gone"
+                    android:id="@+id/progress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:layout_marginStart="@dimen/space_12"
+                    app:trackCornerRadius="@dimen/space_8"
+                    android:indeterminate="false"
+                    app:indicatorColor="@color/deen_brand_secondary"
+                    style="Widget.Material3.LinearProgressIndicator"
+                    app:trackColor="@color/deen_gray"
+                    android:progress="10"
+                    android:max="100"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/subContent"
+                    />
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/mainBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Button"
-                android:clickable="false"
-                android:paddingStart="@dimen/space_12"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/deen_primary"
-                app:cornerRadius="6dp"
-                app:iconSize="@dimen/sapce_20"
-                app:icon="@drawable/ic_next"
-                app:iconGravity="textEnd"
-                app:iconTint="@color/deen_primary"
-                app:layout_constraintTop_toBottomOf="@+id/progress"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/mainBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:clickable="false"
+                    android:paddingStart="@dimen/space_12"
+                    android:paddingEnd="0dp"
+                    android:text="Button"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/deen_primary"
+                    app:cornerRadius="6dp"
+                    app:icon="@drawable/ic_next"
+                    app:iconGravity="textEnd"
+                    app:iconSize="@dimen/sapce_20"
+                    app:iconTint="@color/deen_primary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progress" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -209,7 +227,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bannerList"
@@ -225,7 +243,7 @@
                 android:id="@+id/ic_play_oval_List"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/deen_ic_play_oval"
+                android:src="@drawable/ic_play_oval"
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

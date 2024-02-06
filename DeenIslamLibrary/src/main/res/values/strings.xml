@@ -285,4 +285,8 @@
     <string name="select_a_district">Select a District</string>
     <string name="see_more">See More</string>
     <string name="see_less">See Less</string>
+    <string name="text_good_morning">Good Morning</string>
+    <string name="text_good_afternoon">Good Afternoon</string>
+    <string name="text_good_evening">Good Evening</string>
+    <string name="text_good_night">Good Night</string>
 </resources>

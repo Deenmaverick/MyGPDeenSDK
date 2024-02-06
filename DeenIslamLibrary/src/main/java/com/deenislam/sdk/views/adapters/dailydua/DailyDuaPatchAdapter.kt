@@ -41,7 +41,6 @@ internal class DailyDuaPatchAdapter(
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
         private val dailyDuaImg:AppCompatImageView = itemView.findViewById(R.id.dailyDuaImg)
-        private val shareBtn: MaterialButton = itemView.findViewById(R.id.shareBtn)
 
         override fun onBind(position: Int) {
             super.onBind(position)
@@ -52,8 +51,6 @@ internal class DailyDuaPatchAdapter(
             }
             dailyDuaImg.imageLoad(data.contentBaseUrl+"/"+data.imageurl1, placeholder_1_1 =
             true)
-
-            shareBtn.hide()
 
         }
     }

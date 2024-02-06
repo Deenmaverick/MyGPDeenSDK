@@ -129,6 +129,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         binding.noInternetLayout.root.isClickable = true
         binding.progressLayout.root.isClickable = true
 
+        binding.dashboardMain.itemAnimator = null
+
 
         binding.dashboardMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

@@ -17,11 +17,13 @@ import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.prepareStubView
+import com.deenislam.sdk.utils.transformCommonCardListPatchModel
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.views.dashboard.patch.Allah99Names
 import com.deenislam.sdk.views.dashboard.patch.Billboard
 import com.deenislam.sdk.views.dashboard.patch.Compass
 import com.deenislam.sdk.views.dashboard.patch.DailyDua
+import com.deenislam.sdk.views.dashboard.patch.Greeting
 import com.deenislam.sdk.views.dashboard.patch.Menu
 import com.deenislam.sdk.views.dashboard.patch.QuranicItem
 import com.deenislam.sdk.views.dashboard.patch.SingleCardList
@@ -308,9 +310,9 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
                         }
 
-                       /* TYPE_WIDGET2 -> {
+                        TYPE_WIDGET2 -> {
                             Greeting(itemView, data.Items)
-                        }*/
+                        }
 
                         TYPE_WIDGET3 -> {
 
@@ -369,15 +371,13 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                             helper.loadHajjPrereg(data.Items)
                         }*/
 
-                       /* TYPE_WIDGET14 -> {
+                        TYPE_WIDGET14 -> {
                             (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 0
-                            LivePodcastRecentPatch(
+                            SingleCardList(
                                 itemView,
-                                data.Title,
-                                items = data.Items.map { transformCommonCardListPatchModel(it, itemTitle = it.MText, itemSubTitle = "", itemBtnText = it.Meaning) },
-                                iconDrawable = R.drawable.ic_quran_learning
+                                data
                             ).load()
-                        }*/
+                        }
 
                        /* PATCH_TASBEEH -> {
 

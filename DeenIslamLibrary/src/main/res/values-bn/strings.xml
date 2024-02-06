@@ -285,4 +285,8 @@
     <string name="select_a_district">জেলা নির্বাচন করুন</string>
     <string name="see_more">আরও দেখুন</string>
     <string name="see_less">সংক্ষিপ্ত করুন</string>
+    <string name="text_good_morning">শুভ সকাল</string>
+    <string name="text_good_afternoon">শুভ অপরাহ্ন</string>
+    <string name="text_good_evening">শুভ সন্ধ্যা</string>
+    <string name="text_good_night">শুভ রাত্রি</string>
 </resources>
