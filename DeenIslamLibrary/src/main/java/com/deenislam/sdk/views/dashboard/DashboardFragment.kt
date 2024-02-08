@@ -1,7 +1,19 @@
 package com.deenislam.sdk.views.dashboard
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
@@ -28,6 +40,8 @@ import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesRespons
 import com.deenislam.sdk.service.repository.DashboardRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.MAKKAH_LATITUDE
+import com.deenislam.sdk.utils.MAKKAH_LONGITUDE
 import com.deenislam.sdk.utils.MENU_AL_QURAN
 import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
 import com.deenislam.sdk.utils.MENU_DUA
@@ -40,6 +54,7 @@ import com.deenislam.sdk.utils.MENU_ZAKAT
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.getWaktNameByTag
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.prayerMomentLocaleForToast
 import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.utils.visible
@@ -48,12 +63,17 @@ import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislam.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislam.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislam.sdk.views.adapters.dashboard.PrayerTimeCallback
+import com.deenislam.sdk.views.adapters.dashboard.TYPE_WIDGET11
+import com.deenislam.sdk.views.adapters.dashboard.TYPE_WIDGET7
 import com.deenislam.sdk.views.base.BaseFragment
+import com.deenislam.sdk.views.compass.PERMISSION_CODE
 import com.deenislam.sdk.views.main.actionCallback
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -61,7 +81,7 @@ import java.util.Locale
 
 internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
     actionCallback, MenuCallback, PrayerTimeCallback, ViewInflationListener,
-    DashboardPatchCallback {
+    DashboardPatchCallback, SensorEventListener {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var prayerViewModel:  PrayerTimesViewModel
@@ -77,7 +97,14 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     private var hasMoreData = true
     private var itemsToLoadAhead = 5
     private var lastVisibleItemPosition = 0
-
+    // Compass
+    private var compassBG = ""
+    private lateinit var mSensorManager: SensorManager
+    private var isPageShowing = false
+    private var locationListener: LocationListener? = null
+    private var bearing: Double? = null
+    private var locationManager: LocationManager? = null
+    private var isLocationEnabledDialogShow: Boolean = false
     override fun OnCreate() {
         super.OnCreate()
 
@@ -111,7 +138,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     override fun onPause() {
         super.onPause()
-        Log.e("DASHBOARD_NEW","onPause")
+        mSensorManager.unregisterListener(this)
     }
 
 
@@ -122,7 +149,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mSensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         loadingState()
         ViewCompat.setTranslationZ(binding.progressLayout.root, 10F)
         ViewCompat.setTranslationZ(binding.noInternetLayout.root, 10F)
@@ -160,6 +187,33 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             loadDataAPI()
         }
 
+        locationListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                val latitude = location.latitude
+                val longitude = location.longitude
+
+                val bearingPoint = getBearingBetweenTwoPoints(latitude, longitude)
+
+                bearing = if (bearingPoint > 0) {
+                    bearingPoint
+                } else {
+                    90 + bearingPoint
+                }
+
+                initKaabaDistance(latitude, longitude)
+            }
+
+            @Deprecated("Deprecated in Java")
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+            }
+
+            override fun onProviderEnabled(provider: String) {
+            }
+
+            override fun onProviderDisabled(provider: String) {
+            }
+        }
+
     }
 
     private fun loadNextPage() {
@@ -183,10 +237,24 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         super.onResume()
 
             loadPage()
-      /*  if(isDashboardVisible())
-        setupBackPressCallback(this)*/
-        Log.e("DASHBOARD_NEW",isDashboardVisible().toString())
+
+        if (isPageShowing && isPatchVisible(TYPE_WIDGET7)) {
+            val mSensor = mSensorManager.getDefaultSensor(3)
+            if (mSensor != null) {
+                mSensorManager.registerListener(this, mSensor, 1)
+            }
+        }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        locationListener?.let {
+            locationManager?.removeUpdates(it)
+            locationListener = null
+        }
+    }
+
+
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
@@ -461,6 +529,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     private fun viewState(data: List<Data>)
     {
         dashboardData = data
+
+        val matchingItem: Data? = data.find { it.AppDesign == "Compass" }
+        matchingItem?.let {
+            if(it.Items.isNotEmpty())
+                compassBG = it.Items[0].imageurl1
+        }
+
         /*lifecycleScope.launch {
 
             val dashbTask = async { dashboardPatchMain.updateDashData(data) }
@@ -567,6 +642,57 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 post {
 
                     loadDataAPI()
+
+                    this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                            if (!isPatchVisible(TYPE_WIDGET11))
+                                dashboardPatchMain.getAllah99NameInstance()?.stop99NamePlaying()
+
+                            if (!isPatchVisible(TYPE_WIDGET7))
+                                mSensorManager.unregisterListener(this@DashboardFragment)
+                            else {
+                                val mSensor = mSensorManager.getDefaultSensor(3)
+                                if (mSensor != null) {
+                                    mSensorManager.registerListener(this@DashboardFragment, mSensor, 1)
+                                }
+                            }
+
+                        }
+
+                        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                            super.onScrollStateChanged(recyclerView, newState)
+
+                            when (newState) {
+                                RecyclerView.SCROLL_STATE_IDLE -> {
+                                    // RecyclerView has stopped scrolling
+                                }
+
+                                RecyclerView.SCROLL_STATE_DRAGGING -> {
+                                    // RecyclerView is being dragged by the user
+                                    if (!isPatchVisible(TYPE_WIDGET11))
+                                        dashboardPatchMain.getAllah99NameInstance()?.stop99NamePlaying()
+
+                                    if (!isPatchVisible(TYPE_WIDGET7))
+                                        mSensorManager.unregisterListener(this@DashboardFragment)
+                                    else {
+                                        val mSensor = mSensorManager.getDefaultSensor(3)
+                                        if (mSensor != null) {
+                                            mSensorManager.registerListener(
+                                                this@DashboardFragment,
+                                                mSensor,
+                                                1
+                                            )
+                                        }
+                                    }
+                                }
+
+                                RecyclerView.SCROLL_STATE_SETTLING -> {
+                                    // RecyclerView is settling into a final position
+                                }
+                            }
+                        }
+                    })
                 }
             }
 
@@ -641,9 +767,107 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     override fun onAllViewsInflated() {
         dataState()
+        isPageShowing = true
+        val mSensor = mSensorManager.getDefaultSensor(3)
+        if (mSensor != null) {
+            mSensorManager.registerListener(this, mSensor, 1)
+        }
     }
 
 
+    private fun initKaabaDistance(latitude: Double, longitude: Double) {
+        val distance = getDistance(
+            latitude,
+            longitude,
+            MAKKAH_LATITUDE,
+            MAKKAH_LONGITUDE
+        ).toDouble()
+        val distanceOfMakkah = localContext.getString(
+            R.string.compass_distance_of_makka,
+            "${DecimalFormat("##.##").format(distance / 1000)}".numberLocale()
+        )
+
+        dashboardPatchMain.updateCompass(distanceOfMakkah)
+    }
+
+    fun getDistance(lat_a: Double, lng_a: Double, lat_b: Double, lng_b: Double): Int {
+        var miter = 0
+        try {
+            val earthRadius = 3958.75
+            val latDiff = Math.toRadians(lat_b - lat_a)
+            val lngDiff = Math.toRadians(lng_b - lng_a)
+            val a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+                    Math.cos(Math.toRadians(lat_a)) * Math.cos(Math.toRadians(lat_b)) *
+                    Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2)
+            val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+            val distance = earthRadius * c
+            val meterConversion = 1609
+            miter = (distance * meterConversion.toFloat().toInt()).toInt()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return miter
+    }
+
+    fun degreesToRadians(degrees: Double): Double {
+        return degrees * (3.1416 / 180.0)
+    }
+
+    fun radiansToDegrees(radians: Double): Double {
+        return radians * (180.0 / 3.1416)
+    }
+
+    fun getBearingBetweenTwoPoints(longitude: Double, latitude: Double): Double {
+        val lat1 = degreesToRadians(degrees = longitude)
+        val lon1 = degreesToRadians(degrees = latitude)
+
+        val lat2 = degreesToRadians(degrees = MAKKAH_LATITUDE)
+        val lon2 = degreesToRadians(degrees = MAKKAH_LONGITUDE)
+
+        val dLon = lon2 - lon1
+
+        val y = Math.sin(dLon) * Math.cos(lat2)
+        val x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
+        val radiansBearing = Math.atan2(y, x)
+        return radiansToDegrees(radiansBearing)
+    }
+
+    private fun isPatchVisible(design: String): Boolean {
+        var result = false
+        val firstVisiblePosition = linearLayoutManager.findFirstVisibleItemPosition()
+        val lastVisiblePosition = linearLayoutManager.findLastVisibleItemPosition()
+
+        if (firstVisiblePosition != RecyclerView.NO_POSITION && lastVisiblePosition != RecyclerView.NO_POSITION) {
+            for (position in firstVisiblePosition..lastVisiblePosition) {
+                // Handle or check each visible position here
+                // For example, you might print them:
+                if (dashboardPatchMain.getViewTypePosition(design) == position)
+                    result = true
+            }
+        }
+
+        return result
+
+    }
+
+    override fun onSensorChanged(sensorEvent: SensorEvent?) {
+
+        if (isPatchVisible(TYPE_WIDGET7)) {
+
+            val degree = Math.round(sensorEvent?.values!!.get(0))
+
+            val degreeTxt = localContext.getString(
+                R.string.compass_degree_txt,
+                "${degree.toString() + 0x00B0.toChar()}".numberLocale()
+            )
+
+            dashboardPatchMain.updateCompass(-degree.toFloat(), degreeTxt)
+        }
+
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+    }
 
     override fun menuClicked(pagetag: String, getMenu: Item?) {
         when(pagetag)
@@ -654,7 +878,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             MENU_DUA -> gotoFrag(R.id.dailyDuaFragment)
             MENU_ZAKAT -> gotoFrag(R.id.zakatFragment)
             MENU_DIGITAL_TASBEEH -> gotoFrag(R.id.tasbeehFragment)
-            MENU_QIBLA_COMPASS -> gotoFrag(R.id.compassFragment)
+            MENU_QIBLA_COMPASS -> {
+                val bundle = Bundle()
+                bundle.putString("compassBG",compassBG)
+                gotoFrag(R.id.compassFragment,bundle)
+            }
             MENU_ISLAMIC_NAME -> gotoFrag(R.id.islamicNameFragment)
             MENU_IJTEMA -> gotoFrag(R.id.action_global_ijtemaLiveFragment)
         }
@@ -668,7 +896,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             "zk" -> gotoFrag(R.id.zakatFragment)
             "tb" -> gotoFrag(R.id.tasbeehFragment)
             "in" -> gotoFrag(R.id.islamicNameFragment)
-            "cp" -> gotoFrag(R.id.compassFragment)
+            "cp" -> {
+                val bundle = Bundle()
+                bundle.putString("compassBG",compassBG)
+                gotoFrag(R.id.compassFragment,bundle)
+            }
             "du" -> gotoFrag(R.id.dailyDuaFragment)
             "ijtema" -> {
 
@@ -679,6 +911,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                     gotoFrag(R.id.action_global_ijtemaLiveFragment,bundle)
                 }
             }
+            else -> context?.toast("Coming soon")
         }
     }
 

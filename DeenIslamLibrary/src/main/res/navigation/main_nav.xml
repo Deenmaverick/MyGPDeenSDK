@@ -197,7 +197,13 @@
     <fragment
         android:id="@+id/compassFragment"
         android:name="com.deenislam.sdk.views.compass.CompassFragment"
-        android:label="CompassFragment" />
+        android:label="CompassFragment">
+        <argument
+            android:name="compassBG"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.deenislam.sdk.views.more.SettingFragment"

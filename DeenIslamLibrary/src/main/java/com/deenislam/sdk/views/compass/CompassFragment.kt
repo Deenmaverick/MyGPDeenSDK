@@ -26,11 +26,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.marginTop
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.MAKKAH_LATITUDE
 import com.deenislam.sdk.utils.MAKKAH_LONGITUDE
 import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.base.BaseRegularFragment
@@ -60,13 +63,15 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
     private lateinit var mSensorManager: SensorManager
 
     private lateinit var accuracy:AppCompatTextView
-
+    private lateinit var compassBg:AppCompatImageView
     private var firstload = false
 
 
     private var dialog:Dialog ? = null
     private var bearing: Double? = null
     private var isLocationEnabledDialogShow:Boolean = false
+
+    private val navArgs:CompassFragmentArgs by navArgs()
 
 
     override fun OnCreate() {
@@ -100,6 +105,12 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         distanceTxt = mainView.findViewById(R.id.distanceTxt)
         actionbar = mainView.findViewById(R.id.actionbar)
         this.container = mainView.findViewById(R.id.container)
+        compassBg = mainView.findViewById(R.id.compassBg)
+
+        navArgs.compassBG?.let {
+            compassBg.imageLoad(url = BASE_CONTENT_URL_SGP +it, placeholder_1_1 = true, custom_placeholder_1_1 = R.drawable.compass_dial, customMemoryKey = "compassBG")
+
+        }
 
         setupActionForOtherFragment(0,0,null,localContext.getString(R.string.qibla_compass),true,mainView)
         return mainView
@@ -107,7 +118,6 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         if(!firstload)
         {

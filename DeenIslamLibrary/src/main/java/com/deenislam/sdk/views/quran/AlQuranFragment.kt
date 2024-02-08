@@ -819,7 +819,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun playNextAyat(position: Int) {
 
-        if(position<totalVerseCount && !isReadingMode) {
+        if(position<totalVerseCount && !isReadingMode && position<binding.ayatList.childCount) {
             binding.ayatList.post {
                 val y: Float =
                     binding.ayatList.y + binding.ayatList.getChildAt(position).y

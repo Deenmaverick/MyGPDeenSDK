@@ -127,7 +127,8 @@ internal class DashboardBillboardAdapter(
                     val billboardData = filterBillboardData[position]
                     billboardBanner?.imageLoad(
                         url = billboardData.contentBaseUrl + "/" + billboardData.imageurl1,
-                        placeholder_1_1 = true
+                        placeholder_1_1 = true,
+                        customMemoryKey = "billboard_"+billboardData.Id.toString()
                     )
 
                     billboardBanner?.setOnClickListener {
