@@ -911,7 +911,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                     gotoFrag(R.id.action_global_ijtemaLiveFragment,bundle)
                 }
             }
-            else -> context?.toast("Coming soon")
+            else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }
 
