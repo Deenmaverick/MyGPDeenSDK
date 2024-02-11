@@ -290,4 +290,8 @@
     <string name="text_good_evening">শুভ সন্ধ্যা</string>
     <string name="text_good_night">শুভ রাত্রি</string>
     <string name="feature_coming_soon">বিষয়বস্তু শীঘ্রই যোগ করা হবে</string>
+    <string name="title_khatam_e_quran">খতমে কুরআন</string>
+    <string name="title_continue_watching">দেখা অব্যাহত রাখুন</string>
+    <string name="alhamdulillah">আলহামদুলিল্লাহ</string>
+    <string name="txt_next_para">পরবর্তী পারা</string>
 </resources>

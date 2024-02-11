@@ -54,4 +54,6 @@ const val ACTION_START_ALARM_LOOPER = "alarm.loopers.START"
 // makkah location
 const val MAKKAH_LATITUDE = 21.4204009
 const val MAKKAH_LONGITUDE = 39.8257354
+const val COURSE_SLUG_QURAN_ACADEMY = "al-quran-course"
+const val QURAN_ACADEMY_GAKK_API_KEY = "AFe3P41zmOw6gS0UVqw2Q216kFuJYo9t4xt0x6Ph"
 

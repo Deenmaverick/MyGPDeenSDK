@@ -504,4 +504,30 @@
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
 
+    <fragment
+        android:id="@+id/khatamEQuranHomeFragment"
+        android:name="com.deenislam.sdk.views.khatamquran.KhatamEQuranHomeFragment"
+        android:label="KhatamEQuranHomeFragment">
+        <action
+            android:id="@+id/action_khatam_quran_home_to_video"
+            app:destination="@id/khatamEQuranVideoFragment"
+            app:enterAnim="@anim/slide_enter"
+            app:exitAnim="@anim/slide_exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/khatamEQuranVideoFragment"
+        android:name="com.deenislam.sdk.views.khatamquran.KhatamEQuranVideoFragment"
+        android:label="KhatamEQuranVideoFragment">
+        <argument
+            android:name="khatamQuranvideoList"
+            app:argType="com.deenislam.sdk.service.network.response.common.CommonCardData[]"
+            />
+        <argument
+            android:name="khatamQuranvideoPosition"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>

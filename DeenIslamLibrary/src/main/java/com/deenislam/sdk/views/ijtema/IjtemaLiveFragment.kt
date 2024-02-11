@@ -1,11 +1,11 @@
 package com.deenislam.sdk.views.ijtema
 
-import android.content.Context
 import android.os.Bundle
-import android.os.PowerManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
@@ -23,11 +23,11 @@ import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
-import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.PodcastViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.exoplayer2.ui.PlayerView
 import kotlinx.coroutines.launch
+
 
 internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
 
@@ -42,7 +42,7 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
     private lateinit var vPlayerControlAction1: AppCompatImageView
     private lateinit var actionbar: ConstraintLayout
     private lateinit var viewmodel: PodcastViewModel
-    private var wakeLock: PowerManager.WakeLock? = null
+    //private var wakeLock: PowerManager.WakeLock? = null
 
     override fun OnCreate() {
         super.OnCreate()
@@ -55,7 +55,6 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
         setupBackPressCallback(this,true)
 
         CallBackProvider.setFragment(this)
-
     }
 
     override fun onCreateView(
@@ -90,7 +89,6 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
         )
 
         exoVideoManager.setupActionbar(isBackBtn = false, title = navArgs.title)
-
         return mainview
     }
 
@@ -137,16 +135,26 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
     }
 
     private fun acquireWakeLock() {
-        val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = powerManager.newWakeLock(
-            PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ON_AFTER_RELEASE,
-            "MyApp:VideoPlayerWakeLock"
+
+       /* //This code holds the CPU
+        val gfgPowerDraw = context?.getSystemService(POWER_SERVICE) as PowerManager?
+        Log.e("gfgPowerDraw",gfgPowerDraw.toString())
+        wakeLock = gfgPowerDraw?.newWakeLock(
+            PowerManager.SCREEN_BRIGHT_WAKE_LOCK ,
+            "DeenSDK::AchieveWakeLock"
         )
-        wakeLock?.acquire()
+        wakeLock?.acquire() // 20 minutes*/
+
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
+
     private fun releaseWakeLock() {
-        wakeLock?.release()
+        /*wakeLock?.release()
+        wakeLock = null*/
+        Log.e("releaseWakeLock","OK")
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
     }
 
 
@@ -208,7 +216,7 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
 
     override fun onPause() {
         super.onPause()
-        exoVideoManager.playPauseVideo()
+        exoVideoManager.pauseVideo()
         releaseWakeLock()
     }
 
@@ -219,11 +227,14 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
     }
 
     override fun videoPlayerReady(isPlaying: Boolean, mediaData: CommonCardData?) {
-        super.videoPlayerReady(isPlaying, mediaData)
-
         if(isPlaying)
             acquireWakeLock()
-        else
-            releaseWakeLock()
+        /*else
+            releaseWakeLock()*/
+    }
+
+    override fun pauseVideo(position: Int)
+    {
+        releaseWakeLock()
     }
 }

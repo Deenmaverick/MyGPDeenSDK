@@ -290,4 +290,8 @@
     <string name="text_good_evening">Good Evening</string>
     <string name="text_good_night">Good Night</string>
     <string name="feature_coming_soon">Content will be added soon</string>
+    <string name="title_khatam_e_quran">Khatam e Quran</string>
+    <string name="title_continue_watching">Continue Watching</string>
+    <string name="alhamdulillah">Alhamdulillah!</string>
+    <string name="txt_next_para">Next Para</string>
 </resources>

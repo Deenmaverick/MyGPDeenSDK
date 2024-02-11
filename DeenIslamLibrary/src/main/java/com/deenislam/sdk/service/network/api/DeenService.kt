@@ -9,6 +9,7 @@ import com.deenislam.sdk.service.network.response.dailydua.favdua.FavDua
 import com.deenislam.sdk.service.network.response.dailydua.todaydua.TodayDua
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislam.sdk.service.network.response.islamicevent.IslamicEventListResponse
+import com.deenislam.sdk.service.network.response.khatamquran.KhatamQuranVideosResponse
 import com.deenislam.sdk.service.network.response.prayer_calendar.PrayerCalendarResponse
 import com.deenislam.sdk.service.network.response.prayerlearning.PrayerLearningAllCategory
 import com.deenislam.sdk.service.network.response.prayerlearning.visualization.VisualizationResponse
@@ -19,6 +20,9 @@ import com.deenislam.sdk.service.network.response.quran.SurahList
 import com.deenislam.sdk.service.network.response.zakat.SavedZakatResponse
 import com.deenislam.sdk.service.network.response.zakat.nisab.NisabResponse
 import com.deenislamic.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
+import com.deenislamic.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
+import com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz.QuranCLassQuizQuestionResponse
+import com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz.result.AnswerSubmitResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -180,6 +184,41 @@ internal interface DeenService {
     @POST("PrayerLearning/AllprayerlearningByCategory")
     suspend fun getPrayerLearningSubCat(@Body parm: RequestBody): SubCatResponse
 
+
+    // Khatam e Quran Video
+    @POST("Quran/KhotomeQuran")
+    suspend fun getKhatamQuranVideos(@Body parm: RequestBody): KhatamQuranVideosResponse
+
+    @POST("Quran/RecentKhotomeQuran")
+    suspend fun getRecentKhatamQuranVideos(@Body parm: RequestBody): KhatamQuranVideosResponse
+    @POST("Quran/AddKhotomeQuranHistory")
+    suspend fun addKhatamQuranContentHistory(@Body parm: RequestBody): BasicResponse
+
+
+    // Quran Learning
+
+    @POST("Courses/GetQuranClassPatch")
+    suspend fun getQuranLearnHomePatch(@Body parm: RequestBody): DashboardResponse
+
+    @POST("Courses/CoursesContentById")
+    suspend fun getDigitalQuranClass(@Body parm: RequestBody): DigitalQuranClassResponse
+
+    // Quran Class Quiz
+    @POST("Courses/coursequiz")
+    suspend fun getQuranClassQuizQuestions(
+        @Body parm: RequestBody
+    ): QuranCLassQuizQuestionResponse
+
+    @POST("Courses/coursehistorycreateupdate")
+    suspend fun updateQuranClassVideoWatch(
+        @Body parm: RequestBody
+    ): BasicResponse
+
+
+    @POST("Courses/coursequizanswersubmit")
+    suspend fun submitQuizAnswer(
+        @Body parm: RequestBody
+    ): AnswerSubmitResponse
 
 
 }

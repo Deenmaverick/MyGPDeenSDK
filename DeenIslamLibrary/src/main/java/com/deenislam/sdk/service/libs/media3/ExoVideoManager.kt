@@ -96,6 +96,10 @@ internal class ExoVideoManager(
         setupVideoType(isLiveVideo)
         setupCustomControlBehavior()
         vPlayerControlBtnPlay.setOnClickListener {
+            if(exoPlayer.isPlaying)
+                callback?.pauseVideo()
+            else
+                callback?.playVideo()
             playPauseVideo()
         }
         playerView.controllerAutoShow = false
@@ -316,6 +320,10 @@ internal class ExoVideoManager(
 
                 override fun onIsPlayingChanged(isPlaying: Boolean) {
                     super.onIsPlayingChanged(isPlaying)
+                    callback?.videoPlayerReady(
+                        isPlaying,
+                        storedVideoList?.find { it.Id.toString() == exoPlayer.currentMediaItem?.mediaId }
+                    )
                     playPauseIconSync(isPlaying)
                 }
             })
@@ -339,6 +347,14 @@ internal class ExoVideoManager(
         }
         else
             playVideoPlayer()
+    }
+
+    fun pauseVideo() {
+        exoPlayer.pause()
+    }
+
+    fun playVideo(){
+        exoPlayer.play()
     }
 
 
