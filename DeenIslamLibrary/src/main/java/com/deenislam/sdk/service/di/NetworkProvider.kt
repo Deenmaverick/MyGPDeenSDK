@@ -3,15 +3,22 @@ package com.deenislam.sdk.service.di;
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.network.AuthInterceptor
 import com.deenislam.sdk.service.network.api.AuthenticateService
+import com.deenislam.sdk.service.network.api.DashboardService
 import com.deenislam.sdk.service.network.api.DeenService
 import com.deenislam.sdk.service.network.api.HadithService
 import com.deenislam.sdk.service.network.api.IslamicNameService
+import com.deenislam.sdk.service.network.api.NagadPaymentService
+import com.deenislam.sdk.service.network.api.PaymentService
 import com.deenislam.sdk.service.network.api.QuranService
+import com.deenislam.sdk.service.network.api.QuranShikkhaService
 import com.deenislam.sdk.service.network.api.YoutubeService
 import com.deenislam.sdk.utils.BASE_AUTH_API_URL
 import com.deenislam.sdk.utils.BASE_DEEN_SERVICE_API_URL
+import com.deenislam.sdk.utils.BASE_PAYMENT_API_URL
 import com.deenislam.sdk.utils.BASE_QURAN_API_URL
+import com.deenislam.sdk.utils.BASE_QURAN_SHIKKHA_API_URL
 import com.deenislam.sdk.utils.BASE_YOUTUBE_VIDEO_API
+import com.deenislam.sdk.utils.NAGAD_BASE_PAYMENT_API_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,6 +34,10 @@ internal class NetworkProvider {
     private var hadithService:HadithService ? = null
     private var islamicNameService:IslamicNameService ? = null
     private var youtubeService:YoutubeService ? = null
+    private var dashboardService:DashboardService ? = null
+    private var quranShikkhaService:QuranShikkhaService ? = null
+    private var paymentService:PaymentService ? = null
+    private var nagadPaymentService:NagadPaymentService ? = null
 
     companion object {
         var instance: NetworkProvider? = null
@@ -47,15 +58,19 @@ internal class NetworkProvider {
         isHadithServiceTest: Boolean = false,
         isIslamicNameService: Boolean = false,
         isYoutubeService: Boolean = false,
+        isDashboardService: Boolean = false,
+        isQuranShikkhaService: Boolean = false,
+        isPaymentService: Boolean = false,
+        isNagadPaymentService: Boolean = false
     )
     {
         if(instance?.authInterceptor==null) {
 
-            val userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+          /*  val userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
             var acceessToken = DeenSDKCore.GetDeenToken()
 
                 val userData = userPrefDao?.select()
-
+*/
            /* userData?.let {
 
                 Log.e("AUTH_DATA_1", Gson().toJson(it))
@@ -162,6 +177,46 @@ internal class NetworkProvider {
             }
         }
 
+        if(instance?.dashboardService == null && isDashboardService) {
+            instance?.okHttpClient?.let {
+                instance?.dashboardService = buildAPI(
+                    api = DashboardService::class.java,
+                    baseUrl = BASE_AUTH_API_URL,
+                    okHttpClient = it
+                )
+            }
+        }
+
+        if(instance?.quranShikkhaService == null && isQuranShikkhaService) {
+            instance?.okHttpClient?.let {
+                instance?.quranShikkhaService = buildAPI(
+                    api = QuranShikkhaService::class.java,
+                    baseUrl = BASE_QURAN_SHIKKHA_API_URL,
+                    okHttpClient = it
+                )
+            }
+        }
+
+        if(instance?.paymentService == null && isPaymentService) {
+            instance?.okHttpClient?.let {
+                instance?.paymentService = buildAPI(
+                    api = PaymentService::class.java,
+                    baseUrl = BASE_PAYMENT_API_URL,
+                    okHttpClient = it
+                )
+            }
+        }
+
+        if(instance?.nagadPaymentService == null && isNagadPaymentService) {
+            instance?.okHttpClient?.let {
+                instance?.nagadPaymentService = buildAPI(
+                    api = NagadPaymentService::class.java,
+                    baseUrl = NAGAD_BASE_PAYMENT_API_URL,
+                    okHttpClient = it
+                )
+            }
+        }
+
     }
 
     private fun<Api> buildAPI(
@@ -213,5 +268,25 @@ internal class NetworkProvider {
     fun provideAuthInterceptor(): AuthInterceptor? {
         initInstance()
         return instance?.authInterceptor
+    }
+
+    fun provideDashboardService(): DashboardService? {
+        initInstance(isDashboardService = true)
+        return instance?.dashboardService
+    }
+
+    fun provideQuranShikkhaService(): QuranShikkhaService? {
+        initInstance(isQuranShikkhaService = true)
+        return instance?.quranShikkhaService
+    }
+
+    fun providePaymentService(): PaymentService? {
+        initInstance(isPaymentService = true)
+        return instance?.paymentService
+    }
+
+    fun provideNagadPaymentService(): NagadPaymentService? {
+        initInstance(isNagadPaymentService = true)
+        return instance?.nagadPaymentService
     }
 }

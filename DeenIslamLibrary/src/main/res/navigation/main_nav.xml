@@ -529,5 +529,350 @@
             android:name="khatamQuranvideoPosition"
             app:argType="integer" />
     </fragment>
+    <action
+        android:id="@+id/action_global_khatamEQuranHomeFragment"
+        app:destination="@id/khatamEQuranHomeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <action
+        android:id="@+id/action_global_khatamEQuranVideoFragment"
+        app:destination="@id/khatamEQuranVideoFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_pdfViewerFragment"
+        app:destination="@id/pdfViewerFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/pdfViewerFragment"
+        android:name="com.deenislam.sdk.views.pdfviewer.PdfViewerFragment"
+        android:label="PdfViewerFragment" >
+        <argument
+            android:name="pageTitle"
+            app:argType="string" />
+        <argument
+            android:name="pdfUrl"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="pdfFile"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/quranLearningTpFragment"
+        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningTpFragment"
+        android:label="QuranLearningTpFragment" />
+
+    <action
+        android:id="@+id/action_global_paymentListFragment"
+        app:destination="@id/paymentListFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/paymentListFragment"
+        android:name="com.deenislam.sdk.views.payment.PaymentListFragment"
+        android:label="fragment_payment_list"
+        tools:layout="@layout/fragment_payment_list" >
+        <argument
+            android:name="payment"
+            app:argType="com.deenislam.sdk.service.models.payment.PaymentModel" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_basicWebViewFragment"
+        app:destination="@id/basicWebViewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_paymentWebViewFragment"
+        app:destination="@id/paymentWebViewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/paymentWebViewFragment"
+        android:name="com.deenislam.sdk.views.payment.PaymentWebViewFragment"
+        android:label="fragment_payment_web_view"
+        tools:layout="@layout/fragment_payment_web_view" >
+        <argument
+            android:name="paymentUrl"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="redirectPage"
+            app:argType="integer" />
+        <argument
+            android:name="paySuccessMessage"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/quranLearningDetailsFragment"
+        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningDetailsFragment"
+        android:label="QuranLearningDetailsFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="courseId"
+            app:argType="integer" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_quranLearningDetailsFragment"
+        app:destination="@id/quranLearningDetailsFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_quranLearningQuizResultFragment"
+        app:destination="@id/quranLearningQuizResultFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/quranLearningQuizResultFragment"
+        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningQuizResultFragment"
+        android:label="fragment_quran_learning_quiz_result"
+        tools:layout="@layout/fragment_quran_learning_quiz_result" >
+        <argument
+            android:name="answerSheet"
+            app:argType="com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.AnswerSheet[]" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_quranLearningTpFragment"
+        app:destination="@id/quranLearningTpFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_quranLearningQuizFragment"
+        app:destination="@id/quranLearningQuizFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+
+    <fragment
+        android:id="@+id/quranLearningQuizFragment"
+        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningQuizFragment"
+        android:label="fragment_quran_learning_quiz"
+        tools:layout="@layout/fragment_quran_learning_quiz" >
+        <argument
+            android:name="courseID"
+            app:argType="integer" />
+        <argument
+            android:name="contentID"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_quranLearningFragment"
+        app:destination="@id/quranLearningFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/quranLearningFragment"
+        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningFragment"
+        android:label="QuranLearningFragment" />
+
+    <action
+        android:id="@+id/action_global_allDuaPreviewFragment"
+        app:destination="@id/allDuaPreviewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_khatamEquranHomeFragment"
+        app:destination="@id/khatamEQuranHomeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_hadithPreviewFragment"
+        app:destination="@id/hadithPreviewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_islamiFazaelFragment"
+        app:destination="@id/islamiFazaelFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamiFazaelFragment"
+        android:name="com.deenislam.sdk.views.islamifazael.IslamiFazaelFragment"
+        android:label="IslamiFazaelFragment" />
+
+    <action
+        android:id="@+id/action_global_fazaelByCatFragment"
+        app:destination="@id/fazaelByCatFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/fazaelByCatFragment"
+        android:name="com.deenislam.sdk.views.islamifazael.FazaelByCatFragment"
+        android:label="FazaelByCatFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="catid"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_islamiMasailFragment"
+        app:destination="@id/islamiMasailFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamiMasailFragment"
+        android:name="com.deenislam.sdk.views.islamimasaIl.IslamiMasailFragment"
+        android:label="IslamiMasailFragment" />
+
+    <action
+        android:id="@+id/action_global_masailQuestionByCatFragment"
+        app:destination="@id/masailQuestionByCatFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/masailQuestionByCatFragment"
+        android:name="com.deenislam.sdk.views.islamimasaIl.MasailQuestionByCatFragment"
+        android:label="MasailQuestionByCatFragment" >
+        <argument
+            android:name="catid"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_createMasailQuestionFragment"
+        app:destination="@id/createMasailQuestionFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/createMasailQuestionFragment"
+        android:name="com.deenislam.sdk.views.islamimasaIl.CreateMasailQuestionFragment"
+        android:label="CreateMasailQuestionFragment" />
+
+    <action
+        android:id="@+id/action_global_masailAnswerFragment"
+        app:destination="@id/masailAnswerFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/masailAnswerFragment"
+        android:name="com.deenislam.sdk.views.islamimasaIl.MasailAnswerFragment"
+        android:label="MasailAnswerFragment" >
+    <argument
+        android:name="qid"
+        app:argType="integer" />
+    <argument
+        android:name="isShare"
+        app:argType="boolean"
+        android:defaultValue="false" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_fastingTrackerFragment"
+        app:destination="@id/fastingTrackerFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/fastingTrackerFragment"
+        android:name="com.deenislam.sdk.views.ramadan.FastingTrackerFragment"
+        android:label="fragment_fasting_tracker"
+        tools:layout="@layout/fragment_fasting_tracker" >
+        <argument
+            android:name="fastingCardData"
+            app:argType="com.deenislam.sdk.service.network.response.ramadan.FastTracker" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ramadanFragment"
+        android:name="com.deenislam.sdk.views.ramadan.RamadanFragment"
+        android:label="RamadanFragment" />
+    <action
+        android:id="@+id/action_global_ramadanFragment"
+        app:destination="@id/ramadanFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_ramadanOtherDayFragment"
+        app:destination="@id/ramadanOtherDayFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/ramadanOtherDayFragment"
+        android:name="com.deenislam.sdk.views.ramadan.RamadanOtherDayFragment"
+        android:label="RamadanOtherDayFragment" />
 
 </navigation>

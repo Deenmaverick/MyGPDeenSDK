@@ -7,7 +7,7 @@ import okhttp3.Response
 internal class AuthInterceptor :Interceptor {
 
     var isEnabled = true
-
+    var tempAccessToken = ""
     override fun intercept(chain: Interceptor.Chain): Response {
 
         /*val acceessToken =  runBlocking {
@@ -30,10 +30,12 @@ internal class AuthInterceptor :Interceptor {
             .header("client", "1.1")
             .header("deviceid", "")
             .header("devicemodel", "")
-            .header("Authorization", "Bearer $acceessToken")
+            .header("Authorization", "Bearer ${
+                tempAccessToken.ifEmpty { acceessToken }
+            }")
             .build()
         //return chain.proceed(request)
-
+        tempAccessToken = ""
         return if (isEnabled) {
             chain.proceed(request)
         } else {

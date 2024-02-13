@@ -3,7 +3,6 @@ package com.deenislam.sdk.views.adapters.common
 import android.app.Dialog
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
@@ -23,8 +22,8 @@ internal class CommonStateList(
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var customAlertDialogView : View
     private lateinit var ramadanSearchStateAdapter: RamadanSearchStateAdapter
-    private var selectedState: StateModel? = null
-    private val stateArray:ArrayList<StateModel>  = arrayListOf(
+    private var selectedState:StateModel ? = null
+    private var stateArray:ArrayList<StateModel>  = arrayListOf(
         StateModel("dhaka", "Dhaka (ঢাকা)"),
         StateModel("barisal", "Barisal (বরিশাল)"),
         StateModel("khulna", "Khulna (খুলনা)"),
@@ -90,6 +89,7 @@ internal class CommonStateList(
         StateModel("jamalpur", "Jamalpur (জামালপুর)"),
         StateModel("netrokona", "Netrokona (নেত্রকোনা)")
     )
+    private var customTitle:String?=null
 
     init {
         itemView.setOnClickListener {
@@ -98,8 +98,19 @@ internal class CommonStateList(
 
     }
 
+    fun setCustomState(customState: List<StateModel>) {
+        stateArray.clear()
+        stateArray.addAll(customState)
+        if(customState.isNotEmpty())
+            selectedState =  customState[0]
+    }
 
-     fun setupDialog()
+    fun setCustomTitle(title: String) {
+        customTitle = title
+    }
+
+
+    fun setupDialog()
     {
         val context = itemView.rootView.context
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(context, R.style.DeenMaterialAlertDialog_Rounded)
@@ -111,7 +122,7 @@ internal class CommonStateList(
         val dismissBtn = customAlertDialogView.findViewById<ImageButton>(R.id.closeBtn)
         val title: AppCompatTextView = customAlertDialogView.findViewById(R.id.title)
 
-        title.text = context.getString(R.string.select_a_district)
+        title.text = customTitle?.let { it }?:context.getString(R.string.select_a_district)
 
         ramadanSearchStateAdapter = RamadanSearchStateAdapter(stateArray,selectedState)
 
@@ -146,9 +157,10 @@ internal class CommonStateList(
     }
 
     fun stateSelected(stateModel: StateModel) {
-        Log.e("updateState","DPT")
         selectedState = stateModel
         dialog?.dismiss()
     }
+
+    fun getSelectedState() = selectedState
 
 }

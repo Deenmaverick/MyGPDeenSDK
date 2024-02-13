@@ -30,6 +30,7 @@ import com.deenislam.sdk.service.models.IslamicEducationVideoResource
 import com.deenislam.sdk.service.models.quran.learning.QuranLearningResource
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 import com.deenislam.sdk.service.repository.KhatamEquranVideoRepository
+import com.deenislam.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
@@ -97,6 +98,11 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
         val repository = KhatamEquranVideoRepository(
             deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = KhatamQuranViewModel(repository)
+        viewmodelQuranLearning =QuranLearningViewModel(QuranLearningRepository(
+            quranShikkhaService = NetworkProvider().getInstance().provideQuranShikkhaService(),
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            dashboardService = NetworkProvider().getInstance().provideDashboardService()
+        ))
         CallBackProvider.setFragment(this)
 
     }

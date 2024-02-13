@@ -2,6 +2,9 @@ package com.deenislam.sdk.utils
 
 const val BASE_AUTH_API_URL = "https://api.deenislamic.com/api/"
 const val BASE_DEEN_SERVICE_API_URL = "https://services.deenislamic.com/api/"
+const val BASE_QURAN_SHIKKHA_API_URL = "https://api.quranshikkha.app/api/v2/"
+const val BASE_PAYMENT_API_URL = "https://payment.islamicservice.net/"
+const val NAGAD_BASE_PAYMENT_API_URL = "https://nagadpayment.islamicservice.net/api/"
 const val BASE_CONTENT_URL = "http://27.131.15.12:801/contents/"
 const val BASE_HADITH_API_URL = "https://api.sunnah.com/v1/"
 const val BASE_HADITH_API_TEST_URL = "https://sunnah.com/ajax/"
@@ -11,8 +14,12 @@ const val YOUTUBE_VIDEO_KEY="STEHLGCilw_Y9_11qcW8AIzaSyAO_FJ2SlqU8Q4"
     //"https://api.quran.com/api/v4/"
 const val BASE_CONTENT_URL_SGP = "https://islamic-content.sgp1.digitaloceanspaces.com/"
 const val BASE_QURAN_VERSE_AUDIO_URL = "https://verses.quran.com/"
-const val PRIVACY_URL = "https://www.docs.google.com/document/d/150eDuTEfEEAT4YieKL31RZj8hHjFsN2WDgl-wDhvFEs/edit?usp=sharing"
-const val TERMS_URL = "https://www.docs.google.com/document/d/1CY2LDWQpQMLDQUaE7G5umfXrVDC0cA2aaiLZpYWyoPI/edit"
+
+const val PRIVACY_URL = "https://deenislamic.com/privacy_policy.html"
+const val DIGITAL_QURAN_CLASS_TC = "https://docs.google.com/document/d/1ghdRU9Qva5vuNXIMak1D4R7EEnLWhUje4ohJFb8LgO0/edit?usp=sharing"
+const val QURAN_SHIKKHA_PAYMENT_TC = "https://docs.google.com/document/d/1UNKbtp7f1uzpeqQZsCYLSdNEpjVpp9A0vlE9qZwTBqU/edit?usp=sharing"
+const val TERMS_URL = "https://www.docs.google.com/document/d/129QQoNcPiCMgfr2G6MBbjKal74JOYFro_hcwrnajFuU/edit?usp=sharing"
+
 const val MENU_HAJJ_AND_UMRAH = "HajjUmrah"
 const val MENU_PRAYER_TIME= "prayerTime"
 const val MENU_AL_QURAN = "ALQuran"
@@ -56,4 +63,5 @@ const val MAKKAH_LATITUDE = 21.4204009
 const val MAKKAH_LONGITUDE = 39.8257354
 const val COURSE_SLUG_QURAN_ACADEMY = "al-quran-course"
 const val QURAN_ACADEMY_GAKK_API_KEY = "AFe3P41zmOw6gS0UVqw2Q216kFuJYo9t4xt0x6Ph"
-
+const val PRODUCT_ID_QURAN_CLASS_350_TK = "quran_class_350_tk"
+const val PRODUCT_ID_QURAN_CLASS_450_TK = "quran_class_450_tk"

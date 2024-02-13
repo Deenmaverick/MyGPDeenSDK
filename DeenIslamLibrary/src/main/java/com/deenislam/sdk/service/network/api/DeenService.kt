@@ -9,20 +9,27 @@ import com.deenislam.sdk.service.network.response.dailydua.favdua.FavDua
 import com.deenislam.sdk.service.network.response.dailydua.todaydua.TodayDua
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislam.sdk.service.network.response.islamicevent.IslamicEventListResponse
+import com.deenislam.sdk.service.network.response.islamifazael.IslamiFazaelResponse
+import com.deenislam.sdk.service.network.response.islamifazael.bycat.FazaelByCatResponse
+import com.deenislam.sdk.service.network.response.islamimasail.answer.MasailAnswerResponse
+import com.deenislam.sdk.service.network.response.islamimasail.catlist.IslamiMasailCatResponse
+import com.deenislam.sdk.service.network.response.islamimasail.questionbycat.MasailQuestionByCatResponse
 import com.deenislam.sdk.service.network.response.khatamquran.KhatamQuranVideosResponse
 import com.deenislam.sdk.service.network.response.prayer_calendar.PrayerCalendarResponse
 import com.deenislam.sdk.service.network.response.prayerlearning.PrayerLearningAllCategory
 import com.deenislam.sdk.service.network.response.prayerlearning.visualization.VisualizationResponse
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
-import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetails
 import com.deenislam.sdk.service.network.response.quran.SurahList
+import com.deenislam.sdk.service.network.response.quran.surah_details.SurahDetails
+import com.deenislam.sdk.service.network.response.ramadan.RamadanResponse
+import com.deenislam.sdk.service.network.response.ramadan.calendar.RamadanCalendarResponse
 import com.deenislam.sdk.service.network.response.zakat.SavedZakatResponse
 import com.deenislam.sdk.service.network.response.zakat.nisab.NisabResponse
 import com.deenislamic.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
-import com.deenislamic.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
+import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
 import com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz.QuranCLassQuizQuestionResponse
-import com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz.result.AnswerSubmitResponse
+import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.result.AnswerSubmitResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -219,6 +226,78 @@ internal interface DeenService {
     suspend fun submitQuizAnswer(
         @Body parm: RequestBody
     ): AnswerSubmitResponse
+
+
+    // Ramadan
+    @POST("SeheriIftarTime/SeheriIftarTime")
+    suspend fun getOtherRamadanTime(@Body parm: RequestBody): RamadanResponse
+
+    @POST("SeheriIftarTime/RamadanSeheriIftarTime")
+    suspend fun getRamadanTime(@Body parm: RequestBody): RamadanResponse
+
+    @POST("SeheriIftarTime/GetRamadanPatch")
+    suspend fun getRamadanPatch(@Body parm: RequestBody): DashboardResponse
+
+
+    @POST("FastTracker/AddFastTrackingInfo")
+    suspend fun setRamadanTrack(@Body parm: RequestBody): BasicResponse
+
+    @POST("SeheriIftarTime/ramadanCalander")
+    suspend fun getRamadanCalendar(@Body parm: RequestBody): RamadanCalendarResponse
+
+    // Islami  Fazael
+
+    @POST("FazaelAndMasael/AllFazaelAndMasaelCategory")
+    suspend fun getAllIslamiFazael(
+        @Body parm: RequestBody
+    ): IslamiFazaelResponse
+
+    @POST("FazaelAndMasael/AllFazaelAndMasael")
+    suspend fun getFazaelByCat(
+        @Body parm: RequestBody
+    ): FazaelByCatResponse
+
+    // Islami Masail
+
+    @POST("Masail/MasailCategory")
+    suspend fun getMasailCat(
+        @Body parm: RequestBody
+    ): IslamiMasailCatResponse
+
+    @POST("Masail/MasailQuestionsByCategory")
+    suspend fun getMasailQuestionByCat(
+        @Body parm: RequestBody
+    ): MasailQuestionByCatResponse
+
+    @POST("Masail/AddFavoriteMasailQuestions")
+    suspend fun masailQuestionBookmar(
+        @Body parm: RequestBody
+    ): BasicResponse
+
+    @POST("Masail/MasailFavQuestionsByUser")
+    suspend fun getMasailFavList(
+        @Body parm: RequestBody
+    ): MasailQuestionByCatResponse
+
+    @POST("Masail/AddNewMasailQuestions")
+    suspend fun postMasailQuestion(
+        @Body parm: RequestBody
+    ): BasicResponse
+
+    @POST("Masail/MasailQuestionsByUser")
+    suspend fun getMyMasailQuestionList(
+        @Body parm: RequestBody
+    ): MasailQuestionByCatResponse
+
+    @POST("Masail/GetMasailPatch")
+    suspend fun GetMasailHomePatch(
+        @Body parm: RequestBody
+    ): DashboardResponse
+
+    @POST("Masail/MasailAnswerByQuestion")
+    suspend fun getMasailAnswer(
+        @Body parm: RequestBody
+    ): MasailAnswerResponse
 
 
 }

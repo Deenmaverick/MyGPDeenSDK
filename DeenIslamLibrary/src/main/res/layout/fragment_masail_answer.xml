@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/deen_background">
+
+    <include
+        android:id="@+id/actionbar"
+        layout="@layout/actiobar_other"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_16">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+               app:cardBackgroundColor="@color/deen_white"
+                app:cardCornerRadius="@dimen/space_8"
+                android:elevation="1dp"
+                app:strokeWidth="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_12">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/qHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/pattern"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/deen_ic_masail_pattern"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/quesTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/deen_txt_black_deep"
+                            android:text="@string/question"
+                            app:layout_constraintTop_toTopOf="@+id/pattern"
+                            app:layout_constraintStart_toStartOf="@+id/pattern"
+                            app:layout_constraintEnd_toEndOf="@+id/pattern"
+                            app:layout_constraintBottom_toTopOf="@+id/quesNo"
+                            app:layout_constraintVertical_chainStyle="packed"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/quesNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/deen_primary"
+                            tools:text="01"
+                            app:layout_constraintTop_toBottomOf="@+id/quesTxt"
+                            app:layout_constraintStart_toStartOf="@+id/quesTxt"
+                            app:layout_constraintEnd_toEndOf="@+id/quesTxt"
+                            app:layout_constraintBottom_toBottomOf="@+id/pattern"/>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/userLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_12"
+                            app:layout_constraintEnd_toStartOf="@+id/readCountLayuout"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/pattern">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/icUser"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/deen_ic_user_single"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/username"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/space_4"
+                                tools:text="আহমেদ সাকিব"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/deen_txt_ash"
+                                app:layout_constraintStart_toEndOf="@+id/icUser"
+                                app:layout_constraintTop_toTopOf="parent"/>
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/readCountLayuout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_12"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/userLayout"
+                            app:layout_constraintStart_toEndOf="@+id/userLayout">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/icBook"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginEnd="@dimen/space_4"
+                                android:src="@drawable/ic_quran_book_tafseer"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/readCount"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/readCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="১২০০ বার পঠিত"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/deen_txt_ash"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"/>
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/question"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/space_8"
+                            android:paddingBottom="0dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="@color/deen_txt_black_deep"
+                            app:layout_constraintEnd_toEndOf="@id/readCountLayuout"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toStartOf="@id/userLayout"
+                            app:layout_constraintTop_toBottomOf="@+id/userLayout"
+                            tools:text="অমুসলিমদের কি সালাম দেওয়া যাবে? অমুসলিম কেউ সালাম দিলে উত্তর কীভাবে দেবেন?" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <View
+                        android:id="@+id/border"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@color/deen_border"
+                        app:layout_constraintTop_toBottomOf="@+id/qHeader"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/answerHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textStyle="bold"
+                        android:textColor="@color/deen_brand_teal"
+                        android:text="@string/answer"
+                        app:layout_constraintTop_toBottomOf="@+id/border"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/answerTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/deen_txt_black_deep"
+                        tools:text="@string/answer"
+                        app:layout_constraintTop_toBottomOf="@+id/answerHint"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/referenceTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/deen_txt_ash"
+                        android:text="@string/answer"
+                        app:layout_constraintTop_toBottomOf="@+id/answerTxt"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fixedHint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/deen_txt_black_deep"
+                        android:text="@string/masail_answer_fixed_hint"
+                        app:layout_constraintTop_toBottomOf="@+id/referenceTxt"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/answererLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:padding="@dimen/space_8"
+                        android:backgroundTint="@color/deen_brand_accents_ultra_light"
+                        android:background="@drawable/corner_radius_white"
+                        app:layout_constraintTop_toBottomOf="@+id/fixedHint"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/ansbyHint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/deen_brand_teal"
+                            android:text="@string/answered"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/answererName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_8"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="@color/deen_txt_black_deep"
+                            android:textStyle="bold"
+                            tools:text="মুফতি মুহাম্মাদ সাদেকুর রহমান"
+                            app:layout_constraintTop_toBottomOf="@+id/ansbyHint"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/hujuzImg"/>
+
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/hujuzImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:scaleType="centerInside"
+                            android:paddingStart="@dimen/space_4"
+                            android:paddingEnd="@dimen/space_4"
+                            app:shapeAppearance="@style/DeenRoundedImageView"
+                            app:layout_constraintStart_toEndOf="@id/answererName"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@+id/answererName"
+                            app:layout_constraintTop_toTopOf="@+id/answererName"
+                            />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/locLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/space_8"
+                        android:paddingBottom="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/answererLayout"
+                        app:layout_constraintEnd_toStartOf="@+id/shareLayout">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/icLoc"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/deen_ic_location"
+                            android:tint="@color/deen_txt_ash"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/locTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_4"
+                            tools:text="ঢাকা, বাংলাদেশ"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/deen_txt_ash"
+                            app:layout_constraintStart_toEndOf="@+id/icLoc"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/timeLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/space_8"
+                        android:paddingBottom="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/locLayout"
+                        app:layout_constraintTop_toTopOf="@+id/locLayout"
+                        app:layout_constraintStart_toEndOf="@+id/locLayout">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/icTime"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginEnd="@dimen/space_4"
+                            android:src="@drawable/deen_ic_time"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/timeTxt"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/timeTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="১ মাস আগে"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/deen_txt_ash"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/boomarkLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
+                        tools:text="বুকমার্ক (৫৫)"
+                        android:textAlignment="textStart"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/deen_txt_black_deep"
+                        app:cornerRadius="0dp"
+                        app:icon="@drawable/deen_ic_bookmark"
+                        app:iconGravity="textStart"
+                        app:iconSize="@dimen/sapce_20"
+                        app:iconTint="@null"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/locLayout"
+                        app:layout_constraintEnd_toStartOf="@+id/shareLayout"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/shareLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
+                        tools:text="শেয়ার (১০)"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
+                        android:textAlignment="viewEnd"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/deen_txt_black_deep"
+                        app:cornerRadius="0dp"
+                        app:icon="@drawable/ic_share"
+                        app:iconGravity="textStart"
+                        app:iconSize="@dimen/sapce_20"
+                        app:iconTint="@color/deen_txt_ash"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/boomarkLayout"
+                        app:layout_constraintTop_toTopOf="@+id/boomarkLayout"
+                        app:layout_constraintStart_toEndOf="@+id/boomarkLayout"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+
+    <include
+        android:visibility="visible"
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_circle_progress"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/nodataLayout"
+        layout="@layout/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/no_internet_layout"
+        layout="@layout/no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

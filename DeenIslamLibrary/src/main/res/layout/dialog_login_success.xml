@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/deen_white"
+    tools:viewBindingIgnore="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="@dimen/space_24"
+        android:src="@drawable/deen_ic_check_done"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/greeting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_16"
+        android:layout_marginStart="@dimen/space_24"
+        android:layout_marginEnd="@dimen/space_24"
+        android:text="@string/alhamdulillah"
+        android:gravity="center"
+        android:textAppearance="@style/DeenTextAppearance.font20"
+        android:textColor="@color/deen_txt_black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/space_24"
+        android:layout_marginStart="@dimen/space_24"
+        android:layout_marginTop="@dimen/space_4"
+        android:gravity="center"
+        android:text="@string/you_have_successfully_signed_in"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/deen_txt_ash"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/greeting"  />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/okBtn"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/space_24"
+        android:layout_marginEnd="@dimen/space_24"
+        android:layout_marginBottom="@dimen/space_24"
+        android:paddingTop="@dimen/space_9.5"
+        android:paddingBottom="@dimen/space_9.5"
+        android:layout_marginTop="@dimen/space_27"
+        android:text="@string/ok_cap"
+        style="@style/DeenMaterialButtonStyle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/deen_white"
+        app:cornerRadius="18dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hint"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/okBtn"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,13 +18,13 @@ internal interface QuranLearningResource {
 
     object QSAOrderSuccess: QuranLearningResource
     data class HomePatch(val data: List<Data>) : QuranLearningResource
-    data class DigitalQuranClass(val data: com.deenislamic.service.network.response.quran.learning.digital_quran_class.Data) :
+    data class DigitalQuranClass(val data: com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.Data) :
         QuranLearningResource
     data class QuranClassSecureUrl(val value: String) : QuranLearningResource
 
-    data class QuranClassQuizQuestion(val data: List<com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz.Data>) :
+    data class QuranClassQuizQuestion(val data: List<com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.Data>) :
         QuranLearningResource
     object QuranClassVideoWatched: QuranLearningResource
-    data class QuranQuizResult(val data: com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz.result.Data) :
+    data class QuranQuizResult(val data: com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.result.Data) :
         QuranLearningResource
 }

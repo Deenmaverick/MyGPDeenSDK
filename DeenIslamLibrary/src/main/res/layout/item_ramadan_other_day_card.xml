@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@null"
+    app:cardCornerRadius="@dimen/space_8"
+    android:layout_marginBottom="1dp"
+    app:cardElevation="1dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/deen_brand_teal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_24"
+            android:layout_marginStart="@dimen/space_16"
+            tools:text="Sunday, 09 July 2023"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/arabicDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginStart="@dimen/space_16"
+            tools:text="Dhu al-Hijjah 21"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/deen_yellow"
+            app:layout_constraintTop_toBottomOf="@+id/datetime"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ramadan_moon"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/deen_ic_ramadan_moon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/suhoorCardview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_4"
+            app:strokeWidth="1dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/iftarCardview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ramadan_moon"
+            app:strokeColor="@color/deen_white_30">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_8">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ic_suhoor"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_sunrise_fill"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/suhoortxt"
+                    app:layout_constraintBottom_toBottomOf="@+id/suhoorTimeTxt"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/suhoortxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:layout_marginEnd="@dimen/space_4"
+                    android:text="@string/suhoor_time"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/deen_white_70"
+                    app:layout_constraintEnd_toStartOf="@+id/sehriNbt"
+                    app:layout_constraintStart_toEndOf="@id/ic_suhoor"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/suhoorTimeTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    tools:text="4:39 AM"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/deen_white"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/suhoortxt"
+                    app:layout_constraintStart_toStartOf="@id/suhoortxt"
+                    app:layout_constraintTop_toBottomOf="@+id/suhoortxt" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/sehriNbt"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:tint="@color/deen_white"
+                    android:src="@drawable/ic_notifications_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ic_suhoor"
+                    app:layout_constraintBottom_toBottomOf="@+id/ic_suhoor"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/iftarCardview"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_16"
+            app:cardElevation="0dp"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:strokeColor="@color/deen_white_30"
+            app:strokeWidth="1dp"
+            app:layout_constraintStart_toEndOf="@+id/suhoorCardview"
+            app:layout_constraintTop_toTopOf="@+id/suhoorCardview"
+            app:layout_constraintBottom_toBottomOf="@id/suhoorCardview"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_8">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ic_iftar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_sunset_fill"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iftartxt"
+                    app:layout_constraintBottom_toBottomOf="@+id/iftarTimetxt"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/iftartxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:layout_marginEnd="@dimen/space_4"
+                    android:text="@string/iftaar_time"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/deen_white_70"
+                    app:layout_constraintEnd_toStartOf="@+id/iftarNbt"
+                    app:layout_constraintStart_toEndOf="@id/ic_iftar"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/iftarTimetxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    tools:text="6:14 PM"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/deen_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/iftartxt"
+                    app:layout_constraintStart_toStartOf="@id/iftartxt"
+                    app:layout_constraintTop_toBottomOf="@+id/iftartxt" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iftarNbt"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:tint="@color/deen_white"
+                    android:src="@drawable/ic_notifications_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ic_iftar"
+                    app:layout_constraintBottom_toBottomOf="@+id/ic_iftar"/>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/askingLy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_19.5"
+            android:text="@string/are_you_fasting_today"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_white"
+            app:layout_constraintTop_toBottomOf="@+id/suhoorCardview"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <RadioButton
+            android:id="@+id/fastingCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginEnd="@dimen/space_16"
+            android:button="@drawable/radio_button_prayer_time"
+            android:minWidth="23dp"
+            android:minHeight="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/askingLy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/askingLy" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/fastingProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            app:trackCornerRadius="@dimen/space_8"
+            android:indeterminate="false"
+            app:indicatorColor="@color/deen_yellow"
+            android:progress="1"
+            style="Widget.Material3.LinearProgressIndicator"
+            app:trackColor="@color/deen_idle"
+            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="11dp"
+            app:layout_constraintEnd_toStartOf="@+id/ramadan_complete_txt"
+            app:layout_constraintTop_toBottomOf="@+id/askingLy"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ramadan_complete_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_16"
+            android:text="0/30"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/deen_white"
+            app:layout_constraintBottom_toBottomOf="@+id/fastingProgress"
+            app:layout_constraintTop_toTopOf="@+id/fastingProgress"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/monthlyTrackerTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginBottom="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_16"
+            android:text="@string/fasting_tracker"
+            android:drawableEnd="@drawable/ic_next"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ramadan_complete_txt"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

@@ -18,4 +18,12 @@ internal interface RamadanCallback {
     fun patchClicked(data: Item) {
 
     }
+
+    fun sehriCardClicked(sehriTime: String) {
+
+    }
+
+    fun iftarCardClicked(iftaar: String) {
+
+    }
 }

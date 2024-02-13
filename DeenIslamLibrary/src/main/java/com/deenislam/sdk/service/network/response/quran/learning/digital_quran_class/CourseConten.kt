@@ -1,9 +1,9 @@
-package com.deenislamic.service.network.response.quran.learning.digital_quran_class
+package com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class
 
 import androidx.annotation.Keep
 
 @Keep
-data class CourseConten(
+internal data class CourseConten(
     val BannerURL: String,
     val ContenTtitle: String,
     val ContentId: Int,

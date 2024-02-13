@@ -13,18 +13,20 @@ internal interface CommonResource
         AlQuranResource, HadithResource, DailyDuaResource, ZakatResource, IslamicNameResource,
         DashboardResource, Allah99NameResource, IslamicEducationVideoResource, IslamicEventsResource,
         SubCatCardListResource, PrayerLearningResource, KhatamQuranVideoResource,
-        QuranLearningResource
+        QuranLearningResource, PaymentResource, RamadanResource, IslamiFazaelResource,
+        IslamiMasailResource
 
     object LOADING:CommonResource
     object EMPTY:CommonResource, PrayerCalendarResource, PrayerTimeResource,
         PrayerNotificationResource, AlQuranResource, SurahResource, HadithResource, DailyDuaResource,
         ZakatResource, IslamicNameResource, IslamicEducationVideoResource, IslamicEventsResource,
-        SubCatCardListResource, PrayerLearningResource, KhatamQuranVideoResource
+        SubCatCardListResource, PrayerLearningResource, KhatamQuranVideoResource, RamadanResource,
+        IslamiFazaelResource, IslamiMasailResource
 
     object ACTION_API_CALL_FAILED:CommonResource, DailyDuaResource, IslamicNameResource,
         HadithResource, PrayerNotificationResource
 
     object CLEAR:CommonResource, ZakatResource, PrayerNotificationResource, SettingResource,
         DailyDuaResource, IslamicNameResource, HadithResource, KhatamQuranVideoResource,
-        QuranLearningResource
+        QuranLearningResource, PaymentResource, RamadanResource, IslamiMasailResource
 }

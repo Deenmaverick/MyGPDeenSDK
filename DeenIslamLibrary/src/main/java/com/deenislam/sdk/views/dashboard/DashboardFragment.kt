@@ -872,9 +872,9 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     override fun menuClicked(pagetag: String, getMenu: Item?) {
         when(pagetag)
         {
-            MENU_PRAYER_TIME ->  gotoFrag(R.id.prayerTimesFragment)
-            MENU_AL_QURAN -> gotoFrag(R.id.quranFragment)
-            MENU_HADITH -> gotoFrag(R.id.hadithFragment)
+            MENU_PRAYER_TIME ->  gotoFrag(R.id.action_global_ramadanFragment)
+            MENU_AL_QURAN -> gotoFrag(R.id.action_global_ramadanOtherDayFragment)
+            MENU_HADITH -> gotoFrag(R.id.action_global_quranLearningFragment)
             MENU_DUA -> gotoFrag(R.id.dailyDuaFragment)
             MENU_ZAKAT -> gotoFrag(R.id.zakatFragment)
             MENU_DIGITAL_TASBEEH -> gotoFrag(R.id.tasbeehFragment)

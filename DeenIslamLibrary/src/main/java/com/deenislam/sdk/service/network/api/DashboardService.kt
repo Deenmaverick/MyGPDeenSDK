@@ -2,8 +2,8 @@ package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.common.BasicResponse
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
-import com.deenislamic.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
-import com.deenislamic.service.network.response.quran.learning.digital_quran_class.QuranClassSecureUrlResponse
+import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
+import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.QuranClassSecureUrlResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST

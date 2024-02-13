@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".views.quran.learning.QuranLearningQuizResultFragment"
+    android:background="@color/deen_background">
+
+    <include
+        android:id="@+id/actionbar"
+        layout="@layout/actiobar_other"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/resultCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_16"
+        app:strokeWidth="0dp"
+        app:cardBackgroundColor="@color/deen_white"
+        app:cardElevation="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_16">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/deen_txt_black_deep"
+                android:textStyle="bold"
+                android:text="@string/you_have_completed_all_quizzes"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/totalQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                app:backgroundTint="@color/deen_white"
+                android:clickable="false"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/deen_txt_black_deep"
+                app:cornerRadius="30dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/deen_border"
+                app:iconSize="24dp"
+                app:icon="@drawable/deen_ic_question_primary"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/rightAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                app:backgroundTint="@color/deen_white"
+                android:clickable="false"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/deen_txt_black_deep"
+                app:cornerRadius="30dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/deen_border"
+                app:iconSize="24dp"
+                app:icon="@drawable/deen_ic_checkbox_oval"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
+                app:layout_constraintTop_toBottomOf="@+id/totalQuestion"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/wrongAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                app:backgroundTint="@color/deen_white"
+                android:clickable="false"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/deen_txt_black_deep"
+                app:cornerRadius="30dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/deen_border"
+                app:iconSize="24dp"
+                app:icon="@drawable/deen_ic_checkbox_oval_red"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
+                app:layout_constraintTop_toBottomOf="@+id/rightAnswer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/verdict"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                app:backgroundTint="@color/deen_white"
+                android:clickable="false"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/deen_txt_black_deep"
+                app:cornerRadius="30dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/deen_border"
+                app:iconSize="24dp"
+                app:icon="@drawable/deen_ic_thumb_up"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
+                app:layout_constraintTop_toBottomOf="@+id/wrongAnswer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/retryBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_16"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_16"
+        android:clickable="false"
+        android:text="@string/try_again"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/deen_txt_black_deep"
+        app:backgroundTint="@color/deen_white"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resultCard"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:strokeColor="@color/deen_border"
+        app:strokeWidth="1dp" />
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_16"
+        android:layout_marginEnd="@dimen/space_16"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginBottom="@dimen/space_16"
+        app:backgroundTint="@color/deen_primary"
+        android:text="@string/continueTxt"
+        android:clickable="false"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/deen_white"
+        app:cornerRadius="8dp"
+        app:strokeWidth="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/retryBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_circle_progress"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/nodataLayout"
+        layout="@layout/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/no_internet_layout"
+        layout="@layout/no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

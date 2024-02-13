@@ -11,17 +11,17 @@ import com.deenislam.sdk.utils.toRequestBody
 import org.json.JSONObject
 
 
-internal class QuranLearningRepository (
-    private val quranShikkhaService: QuranShikkhaService,
-    private val deenService: DeenService,
-    private val dashboardService: DashboardService
+internal class QuranLearningRepository(
+    private val quranShikkhaService: QuranShikkhaService?,
+    private val deenService: DeenService?,
+    private val dashboardService: DashboardService?
 ) : ApiCall {
 
     suspend fun getContentList(
         token: String
     ) = makeApicall {
 
-        quranShikkhaService.getContentList(
+        quranShikkhaService?.getContentList(
             accesstoken = token,
             card_slug = COURSE_SLUG_QURAN_ACADEMY,
             count = 200
@@ -30,7 +30,7 @@ internal class QuranLearningRepository (
     }
 
     suspend fun getUserInfo(msisdn:String) = makeApicall {
-        quranShikkhaService.getUser(apikey = QURAN_ACADEMY_GAKK_API_KEY, userPhone = msisdn)
+        quranShikkhaService?.getUser(apikey = QURAN_ACADEMY_GAKK_API_KEY, userPhone = msisdn)
     }
 
     suspend fun botMyOrder(msisdn: String) = makeApicall {
@@ -41,7 +41,7 @@ internal class QuranLearningRepository (
         body.put("course_slug",COURSE_SLUG_QURAN_ACADEMY)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
-        quranShikkhaService.createUser(apikey = QURAN_ACADEMY_GAKK_API_KEY, requestBody)
+        quranShikkhaService?.createUser(apikey = QURAN_ACADEMY_GAKK_API_KEY, requestBody)
     }
 
     suspend fun getContentByID(
@@ -49,7 +49,7 @@ internal class QuranLearningRepository (
         id:String
     ) = makeApicall {
 
-        quranShikkhaService.getContentByID(
+        quranShikkhaService?.getContentByID(
             accesstoken = token,
             id = id,
             hls = "true"
@@ -64,7 +64,7 @@ internal class QuranLearningRepository (
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
-        deenService.getQuranLearnHomePatch(requestBody)
+        deenService?.getQuranLearnHomePatch(requestBody)
 
     }
 
@@ -75,13 +75,13 @@ internal class QuranLearningRepository (
         body.put("courseId",courseId)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
-        deenService.getDigitalQuranClass(requestBody)
+        deenService?.getDigitalQuranClass(requestBody)
 
     }
 
     suspend fun getDigitalQuranSecureUrl(url:String) = makeApicall {
 
-        dashboardService.getQuranClassSecureUrl(url)
+        dashboardService?.getQuranClassSecureUrl(url)
 
     }
 
@@ -93,7 +93,7 @@ internal class QuranLearningRepository (
         body.put("contentID",contentID)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
-        deenService.getQuranClassQuizQuestions(requestBody)
+        deenService?.getQuranClassQuizQuestions(requestBody)
 
     }
 
@@ -115,14 +115,14 @@ internal class QuranLearningRepository (
         body.put("watchDuration",watchDuration)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
-        deenService.updateQuranClassVideoWatch(requestBody)
+        deenService?.updateQuranClassVideoWatch(requestBody)
 
     }
 
     suspend fun submitQuizAnswer(answerSheet: String) = makeApicall {
         // val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
-        deenService.submitQuizAnswer(answerSheet.toRequestBody(RequestBodyMediaType))
+        deenService?.submitQuizAnswer(answerSheet.toRequestBody(RequestBodyMediaType))
 
     }
 } 

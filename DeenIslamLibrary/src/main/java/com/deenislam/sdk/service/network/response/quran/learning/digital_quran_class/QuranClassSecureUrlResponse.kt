@@ -1,8 +1,8 @@
-package com.deenislamic.service.network.response.quran.learning.digital_quran_class
+package com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class
 
 import androidx.annotation.Keep
 
 @Keep
-data class QuranClassSecureUrlResponse(
+internal data class QuranClassSecureUrlResponse(
     val url: String
 )

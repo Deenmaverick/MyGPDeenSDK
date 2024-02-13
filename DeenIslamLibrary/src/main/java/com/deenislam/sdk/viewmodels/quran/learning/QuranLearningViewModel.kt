@@ -41,7 +41,7 @@ internal class QuranLearningViewModel (
                 is ApiResource.Failure -> _quranShikkhaAcademyLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success ->
                 {
-                    if(response.value.code == 200)
+                    if(response.value?.code == 200)
                         _quranShikkhaAcademyLiveData.value = QuranLearningResource.QSAContentList(response.value.data)
                     else
                         _quranShikkhaAcademyLiveData.value = CommonResource.API_CALL_FAILED
@@ -75,7 +75,7 @@ internal class QuranLearningViewModel (
                 is ApiResource.Failure -> _quranShikkhaContentLiveData.value = QuranLearningResource.QSAContentByIDFailed
                 is ApiResource.Success ->{
 
-                    if(response.value.code == 200)
+                    if(response.value?.code == 200)
                         _quranShikkhaContentLiveData.value = QuranLearningResource.QSAContentByID(response.value.data,contentData)
                     else
                         _quranShikkhaContentLiveData.value = QuranLearningResource.QSAContentByIDFailed
@@ -98,7 +98,7 @@ internal class QuranLearningViewModel (
                 is ApiResource.Failure -> _quranLearningLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
 
-                    if(response.value.Data.isNotEmpty())
+                    if(response.value?.Data?.isNotEmpty() == true)
                         _quranLearningLiveData.value = QuranLearningResource.HomePatch(response.value.Data)
                     else
                         _quranLearningLiveData.value = CommonResource.API_CALL_FAILED
@@ -114,7 +114,7 @@ internal class QuranLearningViewModel (
             {
                 is ApiResource.Failure -> _quranLearningLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
-                    if(response.value.Success)
+                    if(response.value?.Success == true)
                         _quranLearningLiveData.value = QuranLearningResource.DigitalQuranClass(response.value.Data)
                     else
                         _quranLearningLiveData.value = CommonResource.API_CALL_FAILED
@@ -131,7 +131,7 @@ internal class QuranLearningViewModel (
             {
                 is ApiResource.Failure -> Unit
                 is ApiResource.Success ->{
-                    if(response.value.url.isNotEmpty())
+                    if(response.value?.url?.isNotEmpty() == true)
                         _quranLearningLiveData.value = QuranLearningResource.QuranClassSecureUrl(response.value.url)
                     else Unit
                 }
@@ -152,7 +152,7 @@ internal class QuranLearningViewModel (
                 is ApiResource.Failure -> _quranLearningQuizLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
 
-                    if(response.value.Data.isNotEmpty())
+                    if(response.value?.Data?.isNotEmpty() == true)
                         _quranLearningQuizLiveData.value = QuranLearningResource.QuranClassQuizQuestion(response.value.Data)
                     else
                         _quranLearningQuizLiveData.value = CommonResource.API_CALL_FAILED
@@ -189,7 +189,7 @@ internal class QuranLearningViewModel (
                 is ApiResource.Failure -> Unit
                 is ApiResource.Success -> {
 
-                    if(response.value.Success)
+                    if(response.value?.Success == true)
                         _quranLearningQuizLiveData.value = QuranLearningResource.QuranClassVideoWatched
 
 
@@ -207,7 +207,7 @@ internal class QuranLearningViewModel (
                 is ApiResource.Failure -> _quranLearningQuizLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
 
-                    if(response.value.Success)
+                    if(response.value?.Success == true)
                         _quranLearningQuizLiveData.value = QuranLearningResource.QuranQuizResult(response.value.Data)
                     else
                         _quranLearningQuizLiveData.value = CommonResource.API_CALL_FAILED
