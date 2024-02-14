@@ -30,6 +30,10 @@ import com.deenislamic.service.network.response.islamiceducationvideo.Islamicedu
 import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
 import com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz.QuranCLassQuizQuestionResponse
 import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.result.AnswerSubmitResponse
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.AyatResponse
+import com.deenislam.sdk.service.network.response.quran.qurangm.paralist.ParaListResponse
+import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.SurahListResponse
+import com.deenislam.sdk.service.network.response.quran.tafsir.TafsirResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -298,6 +302,34 @@ internal interface DeenService {
     suspend fun getMasailAnswer(
         @Body parm: RequestBody
     ): MasailAnswerResponse
+
+    // Al-Quran
+    @POST("Quran/GetQuranHomePatch")
+    suspend fun getQuranHomePatch(@Body parm: RequestBody): DashboardResponse
+
+    @POST("Quran/SurahV2")
+    suspend fun getSurahList(@Body parm: RequestBody): SurahListResponse
+
+    @POST("Quran/ParaQC")
+    suspend fun getParaList(@Body parm: RequestBody): ParaListResponse
+
+    @POST("Quran/AyathfromSurahQC")
+    suspend fun getVersesByChapter(@Body parm: RequestBody): AyatResponse
+
+    @POST("Quran/ReadAyathfromSurahQC")
+    suspend fun getReadingVersesByChapter(@Body parm: RequestBody): AyatResponse
+
+    @POST("Quran/AyathfromParaQC")
+    suspend fun getVersesByPara(@Body parm: RequestBody): AyatResponse
+
+    @POST("Quran/ReadAyathfromParaQC")
+    suspend fun getReadingVersesByPara(@Body parm: RequestBody): AyatResponse
+
+    @POST("Quran/addFavoriteAyathQC")
+    suspend fun updateFavAyat(@Body parm: RequestBody):  BasicResponse
+
+    @POST("Quran/getTafsir")
+    suspend fun getTafsir(@Body parm: RequestBody): TafsirResponse
 
 
 }

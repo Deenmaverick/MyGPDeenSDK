@@ -24,7 +24,7 @@ internal data class PlayerSettingPref(
     var auto_play_next:Boolean = true,
 
     @ColumnInfo(name = "recitation", defaultValue = "1")
-    val recitation:Int = 1,
+    var recitation:Int = 1,
 
     @ColumnInfo(name = "transliteration", defaultValue = "1")
     var transliteration:Boolean = true,
@@ -34,5 +34,14 @@ internal data class PlayerSettingPref(
 
     @ColumnInfo(name = "translation_language", defaultValue = "bn")
     val translation_language:String = "bn",
+
+    @ColumnInfo(name = "bn_translator", defaultValue = "0")
+    var bn_translator:Int = 0,
+
+    @ColumnInfo(name = "en_translator", defaultValue = "0")
+    var en_translator:Int = 0,
+
+    @ColumnInfo(name = "tafsir", defaultValue = "0")
+    var tafsir:Int = 0,
 
 )

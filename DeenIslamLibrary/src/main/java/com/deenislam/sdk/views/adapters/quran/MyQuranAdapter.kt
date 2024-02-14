@@ -20,7 +20,7 @@ internal class MyQuranAdapter(
                 .inflate(R.layout.item_my_quran, parent, false)
         )
 
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int = 1
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)
@@ -42,19 +42,13 @@ internal class MyQuranAdapter(
             {
                 0->
                 {
-                    menuIcon.setImageDrawable(AppCompatResources.getDrawable(itemView.context,R.drawable.ic_favorite))
-                    menuName.text = "Favorites"
-                }
-
-                1->
-                {
                     menuIcon.setImageDrawable(AppCompatResources.getDrawable(itemView.context,R.drawable.ic_checked_circle))
-                    menuName.text = "Downloads"
+                    menuName.text = menuName.context.getString(R.string.download_list)
                 }
 
-                2->
+               /* 2->
                 {
-                    //menuIcon.setImageDrawable(AppCompatResources.getDrawable(itemView.context,R.drawable.ic_local_library))
+                    menuIcon.setImageDrawable(AppCompatResources.getDrawable(itemView.context,R.drawable.ic_local_library))
                     menuName.text = "My Playlist"
                 }
 
@@ -68,7 +62,7 @@ internal class MyQuranAdapter(
                 {
                     menuIcon.setImageDrawable(AppCompatResources.getDrawable(itemView.context,R.drawable.ic_dua))
                     menuName.text = "Quranic Dua"
-                }
+                }*/
             }
 
         }

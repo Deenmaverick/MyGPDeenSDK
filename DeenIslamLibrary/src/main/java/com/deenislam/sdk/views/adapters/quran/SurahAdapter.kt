@@ -6,61 +6,47 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
-import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
-import com.deenislam.sdk.utils.RECYCLERFOOTER
-import com.deenislam.sdk.utils.RECYCLER_DATA_AVAILABLE
+import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.getLocalContext
-import com.deenislam.sdk.utils.getSurahNameBn
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
 
-internal class SurahAdapter(
-    private val surahCallback: SurahCallback?=null
-) : RecyclerView.Adapter<BaseViewHolder>(), Filterable {
+internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable {
 
-    private val surahList: ArrayList<Chapter> = arrayListOf()
-    private var surahFilter : List<Chapter> = surahList
+    private val surahCallback = CallBackProvider.get<SurahCallback>()
+
+    private var surahList: ArrayList<Data> = arrayListOf()
+    private var surahFilter : List<Data> = surahList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
-        when(viewType)
-        {
-            RECYCLER_DATA_AVAILABLE ->
-                ViewHolder(
-                    LayoutInflater.from(parent.context.getLocalContext())
-                        .inflate(R.layout.item_quran_popular_surah, parent, false)
-                )
+        ViewHolder(
+            LayoutInflater.from(parent.context.getLocalContext())
+                .inflate(R.layout.item_quran_popular_surah, parent, false)
+        )
 
-            else ->
-                ViewHolder(
-                    LayoutInflater.from(parent.context.getLocalContext())
-                        .inflate(R.layout.layout_footer, parent, false)
-                )
-
-
-        }
-
-
-    fun update(data: List<Chapter>)
+    fun update(data: List<Data>)
     {
-        surahList.clear()
-        surahList.addAll(data)
-        notifyDataSetChanged()
+        val diffResult = DiffUtil.calculateDiff(
+            DataDiffCallback(
+                surahList,
+                data
+            )
+        )
+        surahList = data as ArrayList<Data>
+        surahFilter = surahList
+        diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun getItemViewType(position: Int): Int =
-        when (surahFilter.size) {
-            position -> RECYCLERFOOTER
-            else -> RECYCLER_DATA_AVAILABLE
-        }
-    override fun getItemCount(): Int = surahFilter.size+1
+    override fun getItemCount(): Int = surahFilter.size
 
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        holder.onBind(position,getItemViewType(position))
+        holder.onBind(position)
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
@@ -70,31 +56,26 @@ internal class SurahAdapter(
         private val arbSurah:AppCompatTextView by lazy { itemView.findViewById(R.id.arbSurah) }
         private val surahSub:AppCompatTextView by lazy { itemView.findViewById(R.id.surahSub) }
 
-        override fun onBind(position: Int, viewtype: Int) {
-            super.onBind(position, viewtype)
+        override fun onBind(position: Int) {
+            super.onBind(position)
 
-            when(viewtype)
-            {
-                RECYCLER_DATA_AVAILABLE->
-                {
-                    val surahPost = position+1
+            val surahPost = position+1
 
-                    surahCount.text = surahFilter[position].id.toString().numberLocale()
-                    surahName.text =
-                        if(DeenSDKCore.GetDeenLanguage() == "bn") (surahFilter[position].id-1).getSurahNameBn()
-                        else
-                            surahFilter[position].name_simple
+            surahCount.text = surahFilter[position].SurahId.toString().numberLocale()
+            surahName.text =
+                    /* if(BaseApplication.getLanguage() == "bn") (surahFilter[position].SurahId-1).getSurahNameBn()
+                     else*/
+                surahFilter[position].SurahName
 
-                    arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
-                    surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahFilter[position].translated_name.name+" • ",surahFilter[position].verses_count.toString().numberLocale())
+            arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
+            surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahFilter[position].SurahNameMeaning+" • ",
+                surahFilter[position].TotalAyat.numberLocale())
 
-                    itemView.setOnClickListener {
-                        surahCallback?.surahClick(surahFilter[position])
-                    }
-                }
+            itemView.setOnClickListener {
+                surahCallback?.surahClick(surahFilter[position])
             }
-        }
 
+        }
     }
 
     override fun getFilter(): Filter {
@@ -103,11 +84,13 @@ internal class SurahAdapter(
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charString = constraint?.toString() ?: ""
                 surahFilter = if (charString.isEmpty()) surahList else {
-                    val filteredList = ArrayList<Chapter>()
+                    val filteredList = ArrayList<Data>()
                     surahList
-                        .filter {
-                            (it.name_simple.lowercase().contains(constraint.toString().lowercase()))
+                        .filter {(
+                                it.rKey.lowercase().contains(constraint.toString().lowercase()) ||
+                                        it.rKey.lowercase().contains(constraint.toString().lowercase())
 
+                                )
                         }
                         .forEach { filteredList.add(it) }
                     filteredList
@@ -121,10 +104,28 @@ internal class SurahAdapter(
                 surahFilter = if (results?.values == null)
                     ArrayList()
                 else
-                    results.values as ArrayList<Chapter>
+                    results.values as ArrayList<Data>
 
                 notifyDataSetChanged()
             }
+        }
+    }
+
+    internal inner class DataDiffCallback(
+        private val oldList: List<Data>,
+        private val newList: List<Data>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].Id == newList[newItemPosition].Id
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
         }
     }
 }

@@ -85,7 +85,7 @@ internal class AudioManager {
                     if (position >= 0 && isCallback)
                         instance?.apAdapterCallback?.isPlaying(
                             position,
-                            instance?.mediaPlayer?.duration,
+                            instance?.mediaPlayer?.duration?.toLong(),
                             0
                         )
 
@@ -207,7 +207,7 @@ internal class AudioManager {
 
         if(position>=0)
             instance?.apAdapterCallback?.isPlaying(
-                duration = instance?.mediaPlayer?.duration,
+                duration = instance?.mediaPlayer?.duration?.toLong(),
                 surahID = 0
             )
     }

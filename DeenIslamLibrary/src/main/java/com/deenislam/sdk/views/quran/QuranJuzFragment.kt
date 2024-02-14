@@ -4,76 +4,48 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
-import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.quran.AlQuranResource
-import com.deenislam.sdk.service.models.quran.SurahResource
-import com.deenislam.sdk.service.network.response.quran.juz.Juz
-import com.deenislam.sdk.service.network.response.quran.juz.JuzResponse
-import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
-import com.deenislam.sdk.service.network.response.quran.qurannew.surah.SurahList
+import com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data
+import com.deenislam.sdk.service.network.response.quran.qurangm.paralist.ParaListResponse
 import com.deenislam.sdk.service.repository.quran.AlQuranRepository
-import com.deenislam.sdk.service.repository.quran.SurahRepository
-import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.show
-import com.deenislam.sdk.utils.tryCatch
-import com.deenislam.sdk.utils.visible
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.viewmodels.quran.AlQuranViewModel
-import com.deenislam.sdk.viewmodels.quran.SurahViewModel
 import com.deenislam.sdk.views.adapters.quran.JuzCallback
 import com.deenislam.sdk.views.adapters.quran.QuranJuzAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
+internal class QuranJuzFragment : BaseRegularFragment(), JuzCallback, QuranPlayerCallback {
+
+    private lateinit var viewmodel: AlQuranViewModel
 
     private lateinit var  juzRC: RecyclerView
-    private lateinit var progressLayout:LinearLayout
-    private lateinit var no_internet_layout: NestedScrollView
-    private lateinit var nodataLayout: NestedScrollView
-    private lateinit var no_internet_retryBtn: MaterialButton
 
-    private var juzList: List<Juz> = arrayListOf()
-    private lateinit var quranJuzAdapter:QuranJuzAdapter
+    private var juzList: List<Data> = arrayListOf()
+    private lateinit var quranJuzAdapter: QuranJuzAdapter
+    private lateinit var mainContainer:ConstraintLayout
 
     private var firstload:Int = 0
 
-    private lateinit var  viewmodel: AlQuranViewModel
-    private lateinit var surahViewmodel: SurahViewModel
-
-    private var surahList: ArrayList<Chapter> = arrayListOf()
+    private var pageNo:Int = 1
+    private var pageItemCount:Int = 30
 
     override fun OnCreate() {
         super.OnCreate()
 
         val repository = AlQuranRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
-            quranService = NetworkProvider().getInstance().provideQuranService()
+            quranService = null
         )
+
         viewmodel = AlQuranViewModel(repository)
-
-        val surahRepository = SurahRepository(
-            deenService = NetworkProvider().getInstance().provideDeenService(),
-            quranService = NetworkProvider().getInstance().provideQuranService()
-        )
-
-        val factory = VMFactory(surahRepository)
-        surahViewmodel = ViewModelProvider(
-            requireActivity(),
-            factory
-        )[SurahViewModel::class.java]
-
     }
 
     override fun onCreateView(
@@ -85,182 +57,106 @@ internal class QuranJuzFragment() : BaseRegularFragment(), JuzCallback {
 
         //init view
         juzRC = mainview.findViewById(R.id.surahListRC)
-        progressLayout = mainview.findViewById(R.id.progressLayout)
-        no_internet_layout = mainview.findViewById(R.id.no_internet_layout)
-        nodataLayout = mainview.findViewById(R.id.nodataLayout)
-        no_internet_retryBtn = no_internet_layout.findViewById(R.id.no_internet_retry)
-
+        mainContainer = mainview.findViewById(R.id.mainContainer)
+        setupCommonLayout(mainview)
 
         return mainview
     }
 
-    override fun onResume() {
-        super.onResume()
+
+
+    fun setupActionBar()
+    {
         val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
         setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,actionbar)
 
+        juzRC.post {
+            val miniPlayerHeight = getMiniPlayerHeight()
+            juzRC.setPadding(0,juzRC.paddingTop,0,miniPlayerHeight)
+        }
     }
 
-    override fun onBackPress() {
 
-        if(isVisible) {
-            lifecycleScope.launch {
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = DeenSDKCore.GetDeenMsisdn(),
-                    pagename = "quran",
-                    trackingID = getTrackingID()
-                )
-            }
-        }
 
-        tryCatch { super.onBackPress() }
-
+    override fun onResume() {
+        super.onResume()
+        //CallBackProvider.setFragment(this)
+        setupActionBar()
+        initView()
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
-        if(menuVisible)
-        {
-            if(firstload == 0)
-                loadAPI()
-            firstload = 1
+
+        if(menuVisible) {
+            CallBackProvider.setFragment(this)
         }
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        ViewCompat.setTranslationZ(progressLayout, 10F)
-        ViewCompat.setTranslationZ(no_internet_layout, 10F)
-        ViewCompat.setTranslationZ(nodataLayout, 10F)
-
-        initView()
-
-    }
-
 
     private fun initView()
     {
+        if(firstload != 0)
+            return
+        firstload = 1
 
-        quranJuzAdapter = QuranJuzAdapter(this@QuranJuzFragment)
+
+        quranJuzAdapter = QuranJuzAdapter()
         juzRC.apply {
             adapter = quranJuzAdapter
             overScrollMode = View.OVER_SCROLL_NEVER
-            post {
-                initObserver()
-            }
         }
 
-        no_internet_retryBtn.setOnClickListener {
-            loadAPI()
-        }
+        initObserver()
+        loadAPI()
 
+    }
+
+    override fun noInternetRetryClicked() {
+        loadAPI()
     }
 
     private fun loadAPI()
     {
-        loadingState()
+        baseLoadingState()
         lifecycleScope.launch {
-            viewmodel.juzList()
+            viewmodel.getParaList(getLanguage(),pageNo,pageItemCount)
         }
     }
     private fun initObserver()
     {
-        viewmodel.juzLiveData.observe(viewLifecycleOwner)
+        viewmodel.paraListLiveData.observe(viewLifecycleOwner)
         {
             when(it)
             {
-                is AlQuranResource.juzList -> viewState(it.juzs)
-                is CommonResource.API_CALL_FAILED -> noInternetState()
-                is CommonResource.EMPTY -> emptyState()
+                is AlQuranResource.ParaList -> viewState(it.data)
+                is CommonResource.API_CALL_FAILED -> baseNoInternetState()
+                is CommonResource.EMPTY -> baseEmptyState()
             }
         }
 
-        surahViewmodel.surahlist.observe(viewLifecycleOwner)
-        {
-            when(it)
-            {
-                is SurahResource.getSurahList_quran_com ->
-                {
-                    surahList.clear()
-                    surahList.addAll(it.data)
-                    quranJuzAdapter.updateSurahList(it.data)
-                }
-
-            }
-        }
     }
 
 
-
-    private fun noInternetState()
+    private fun viewState(response: ParaListResponse)
     {
-        nodataLayout.hide()
-        progressLayout.hide()
-        no_internet_layout.show()
-    }
-
-    private fun emptyState()
-    {
-        progressLayout.hide()
-        nodataLayout.show()
-        no_internet_layout.hide()
-    }
-
-    private fun loadingState()
-    {
-        progressLayout.visible(true)
-        nodataLayout.visible(false)
-        no_internet_layout.visible(false)
-    }
-
-    private fun viewState(data: List<Juz>)
-    {
-        juzList = data
-        quranJuzAdapter.update(data)
+        juzList = response.Data
+        quranJuzAdapter.update(response.Data)
         juzRC.post {
-            if (juzList.isNotEmpty())
-            {
-
-                val verse_mapping = juzList[0].verse_mapping::class.java.declaredFields
-                var suraSubTxt = ""
-
-                if(surahList.size == 114) {
-                    for (surah in verse_mapping) {
-                        surah.isAccessible = true
-
-                        val value = surah.get(juzList[0].verse_mapping)
-
-                        if (value is String && value.isNotEmpty()) {
-                            suraSubTxt += "${surahList[surah.name.toInt()-1].name_simple} "
-                        }
-                    }
-                }
-
-                if(suraSubTxt.length>30)
-                    suraSubTxt = "${suraSubTxt.substring(0,30)}..."
-
-            }
-            progressLayout.visible(false)
-            nodataLayout.hide()
-            no_internet_layout.visible(false)
+            baseViewState()
         }
     }
 
-    override fun juzClicked(juz: Juz) {
+    override fun juzClicked(juz: Data) {
 
         val bundle = Bundle().apply {
             putParcelable("juz", juz)
-            putParcelable("juzList", JuzResponse(juzs = juzList))
-            putParcelable("suraList", SurahList(chapters = surahList))
+            putParcelableArray("juzList", juzList.toTypedArray())
+            //putParcelable("suraList", SurahList(chapters = surahList))
         }
-        gotoFrag(R.id.action_quranFragment_to_alQuranFragment,data = bundle)
+        gotoFrag(R.id.action_global_alQuranFragment,data = bundle)
     }
 
-    inner class VMFactory(
-        private val surahRepository: SurahRepository
-    ) : ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SurahViewModel(surahRepository) as T
-        }
+    override fun globalMiniPlayerClosed(){
+        juzRC.setPadding(0,juzRC.paddingTop,0,0)
     }
 }

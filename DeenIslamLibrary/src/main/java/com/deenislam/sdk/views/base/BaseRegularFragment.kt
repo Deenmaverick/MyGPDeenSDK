@@ -26,6 +26,7 @@ import androidx.navigation.fragment.findNavController
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
 import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.LocaleUtil
@@ -109,6 +110,25 @@ internal abstract class BaseRegularFragment: Fragment() {
     {
         //DeenSDKCore.SetDeenLanguage(language)
         (activity as MainActivityDeenSDK).changeLanguage()
+    }
+
+    fun getMiniPlayerHeight(): Int {
+       /* return if(activity!=null)
+            (activity as MainActivityDeenSDK).getMiniPlayerHeight()
+        else
+            0*/
+        return 0
+    }
+
+    fun playOfflineQuran(data: Data) {
+        Log.e("playBtnClicked","OK")
+        if(activity!=null)
+            (activity as MainActivityDeenSDK).playOfflineQuran(data = data)
+    }
+
+    fun stopOfflineQuran(surahId: Int) {
+        if(activity!=null)
+            (activity as MainActivityDeenSDK).stopOfflineQuran(surahId)
     }
 
     fun destoryDeenSDK() = (activity as MainActivityDeenSDK).closeDeenSDK()
@@ -461,4 +481,8 @@ internal interface otherFagmentActionCallback
 {
     fun action1()
     fun action2()
+
+    fun action3(){
+
+    }
 }

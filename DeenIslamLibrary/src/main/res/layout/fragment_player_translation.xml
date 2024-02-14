@@ -16,208 +16,93 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:id="@+id/transliterationLy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_4"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        <FrameLayout
+            android:id="@+id/transliterationLy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/transliteration"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/deen_txt_black_deep"
+                app:layout_constraintTop_toBottomOf="@+id/fontLayout"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/autoScrollSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:minHeight="15dp"
+                android:checked="true"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:thumbTint="@color/deen_switch_selector"
+                app:trackTint="@color/deen_txt_ash" />
+
+
+
+        </FrameLayout>
+
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/translationByTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/transliteration"
+            android:layout_marginTop="@dimen/space_16"
+            android:text="@string/bangla_translator"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/deen_txt_black_deep"
-            app:layout_constraintTop_toBottomOf="@+id/fontLayout"
+            android:textColor="@color/deen_txt_ash"
+            app:layout_constraintTop_toBottomOf="@+id/transliterationLy"
             app:layout_constraintStart_toStartOf="parent"/>
 
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/autoScrollSwitch"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/banglaTranList"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:minHeight="15dp"
-            android:checked="true"
-            android:scaleX="0.8"
-            android:scaleY="0.8" />
+            android:layout_marginTop="@dimen/space_4"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_muezzin"
+            app:layout_constraintTop_toBottomOf="@+id/translationByTxt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-
-
-    </FrameLayout>
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/fontsizeTxt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_12"
-        android:text="@string/translation_font_size"
-        android:textAlignment="textStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/deen_txt_ash"
-        app:layout_constraintEnd_toStartOf="@+id/defaultFontBtn"
-        app:layout_constraintTop_toBottomOf="@+id/transliterationLy"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/defaultFontBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/default_txt"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/deen_txt_ash"
-        app:layout_constraintTop_toTopOf="@+id/fontsizeTxt"
-        app:layout_constraintTop_toBottomOf="@+id/transliterationLy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fontsizeTxt"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/fontMinus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_8"
-        android:text="@string/font__a"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/deen_txt_ash"
-        app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <com.google.android.material.slider.Slider
-        android:id="@+id/fontControl"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_8"
-        android:paddingBottom="6dp"
-        app:labelBehavior="gone"
-        android:focusable="false"
-        app:haloRadius="@dimen/sapce_20"
-        app:thumbColor="@color/deen_white"
-        android:valueTo="100"
-        android:value="0"
-        android:stepSize="20"
-        app:trackHeight="2dp"
-        app:thumbRadius="8dp"
-        app:tickColorActive="@color/deen_txt_ash"
-        app:tickColorInactive="@color/deen_txt_ash"
-        app:layout_constraintBottom_toBottomOf="@id/fontMinus"
-        app:layout_constraintStart_toEndOf="@+id/fontMinus"
-        app:layout_constraintEnd_toStartOf="@+id/fontPlus"
-        app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/fontPlus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/font_a"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/deen_txt_ash"
-        app:layout_constraintTop_toTopOf="@+id/fontControl"
-        app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
-        app:layout_constraintStart_toEndOf="@+id/fontControl"
-        app:layout_constraintBottom_toBottomOf="@+id/fontControl"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/ArabicFontTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_16"
-        android:text="@string/translation_language"
-        android:textAlignment="textStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/deen_txt_ash"
-        app:layout_constraintTop_toBottomOf="@+id/fontControl"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-
-    <FrameLayout
-        android:id="@+id/langBnLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_15.5"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/ArabicFontTxt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/translationByTxt1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="বাংলা"
+            android:layout_marginTop="@dimen/space_16"
+            android:text="@string/english_translator"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/deen_primary"
-            app:layout_constraintTop_toBottomOf="@+id/fontLayout"
+            android:textColor="@color/deen_txt_ash"
+            app:layout_constraintTop_toBottomOf="@+id/banglaTranList"
             app:layout_constraintStart_toStartOf="parent"/>
 
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/englishTranList"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="0dp"
-            android:checked="true"
-            android:layout_gravity="end"
-            android:button="@drawable/radio_button"
-            android:minHeight="0dp"
-            android:clickable="false"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:visibility="gone"
-        android:id="@+id/langEnLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_15.5"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/langBnLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="English"
-            android:textAlignment="textStart"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/deen_txt_black_deep"
-            app:layout_constraintTop_toBottomOf="@+id/fontLayout"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginTop="@dimen/space_4"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_muezzin"
+            app:layout_constraintTop_toBottomOf="@+id/translationByTxt1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="0dp"
-            android:layout_gravity="end"
-            android:button="@drawable/radio_button"
-            android:minHeight="0dp"
-            android:clickable="false"/>
-
-    </FrameLayout>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:visibility="gone"
-        android:id="@+id/translationByTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_16"
-        android:text="@string/translation_by"
-        android:textAlignment="textStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/deen_txt_ash"
-        app:layout_constraintTop_toBottomOf="@+id/langEnLayout"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -5,68 +5,59 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
-import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
+import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
-import com.deenislam.sdk.service.models.quran.SurahResource
-import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
-import com.deenislam.sdk.service.network.response.quran.qurannew.surah.SurahList
-import com.deenislam.sdk.service.repository.quran.SurahRepository
+import com.deenislam.sdk.service.models.quran.AlQuranResource
+import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
+import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.SurahListResponse
+import com.deenislam.sdk.service.repository.quran.AlQuranRepository
+import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.hideKeyboard
 import com.deenislam.sdk.utils.show
-import com.deenislam.sdk.utils.tryCatch
-import com.deenislam.sdk.utils.visible
-import com.deenislam.sdk.viewmodels.quran.SurahViewModel
+import com.deenislam.sdk.viewmodels.quran.AlQuranViewModel
 import com.deenislam.sdk.views.adapters.quran.SurahAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
+import com.deenislam.sdk.views.main.actionCallback
 import com.deenislam.sdk.views.main.searchCallback
-import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, otherFagmentActionCallback,
-    searchCallback {
 
-    private lateinit var viewmodel:SurahViewModel
+internal class QuranSurahFragment : BaseRegularFragment(), SurahCallback, actionCallback,
+    searchCallback,
+    otherFagmentActionCallback, QuranPlayerCallback {
+
+    private lateinit var viewmodel: AlQuranViewModel
 
     private lateinit var surahListRC: RecyclerView
-    private lateinit var progressLayout:LinearLayout
-    private lateinit var no_internet_layout: NestedScrollView
-    private lateinit var no_internet_retryBtn: MaterialButton
-    private lateinit var surahAdapter:SurahAdapter
+    private lateinit var surahAdapter: SurahAdapter
+    private lateinit var mainContainer:ConstraintLayout
     private var firstload:Int = 0
 
     private var linearLayoutManager: LinearLayoutManager? = null
-    private var surahList: List<Chapter> = arrayListOf()
+    private var surahList: List<Data> = arrayListOf()
 
-    private lateinit var actionbar:ConstraintLayout
+    private var pageNo:Int = 1
+    private var pageItemCount:Int = 114
 
     override fun OnCreate() {
         super.OnCreate()
 
-        // init viewmodel
-        val repository = SurahRepository(
+        val repository = AlQuranRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
-            quranService = NetworkProvider().getInstance().provideQuranService()
+            quranService = null
         )
 
-        val factory = VMFactory(repository)
-        viewmodel = ViewModelProvider(
-            requireActivity(),
-            factory
-        )[SurahViewModel::class.java]
+        viewmodel = AlQuranViewModel(repository)
     }
 
     override fun onCreateView(
@@ -74,148 +65,138 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val mainview = localInflater.inflate(R.layout.fragment_quran_surah, container, false)
+        val mainview = inflater.inflate(R.layout.fragment_quran_surah, container, false)
 
         // init view
         surahListRC = mainview.findViewById(R.id.surahListRC)
-        progressLayout = mainview.findViewById(R.id.progressLayout)
-        no_internet_layout = mainview.findViewById(R.id.no_internet_layout)
-        no_internet_retryBtn = no_internet_layout.findViewById(R.id.no_internet_retry)
+        mainContainer = mainview.findViewById(R.id.mainContainer)
+        setupCommonLayout(mainview)
 
         return mainview
     }
 
-    override fun onResume() {
-        super.onResume()
 
-        actionbar = (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+    fun setupActionBar()
+    {
+
+        val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
 
         setupActionForOtherFragment(R.drawable.ic_search,0,this@QuranSurahFragment,localContext.resources.getString(R.string.al_quran),true,actionbar)
-        if (viewmodel.listState != null) {
-            linearLayoutManager?.onRestoreInstanceState(viewmodel.listState)
-        }
 
+
+        surahListRC.post {
+            val miniPlayerHeight = getMiniPlayerHeight()
+            surahListRC.setPadding(surahListRC.paddingStart,surahListRC.paddingTop,surahListRC.paddingEnd,if(miniPlayerHeight>0)miniPlayerHeight else surahListRC.paddingBottom)
+        }
     }
 
+    override fun onResume() {
+        super.onResume()
+        //CallBackProvider.setFragment(this)
+        setupActionBar()
+        if (viewmodel.surahListState != null) {
+            linearLayoutManager?.onRestoreInstanceState(viewmodel.surahListState)
+        }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initView()
     }
 
-
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
-        if(menuVisible)
-        {
-            if(firstload == 0)
-                loadAPI()
-            firstload = 1
 
+        if(menuVisible) {
+            CallBackProvider.setFragment(this)
         }
     }
 
     override fun onPause() {
         super.onPause()
         surahAdapter.filter.filter("")
-        actionbar.show()
         hideSearchbar()
-        requireContext().hideKeyboard(requireView())
-        viewmodel.listState = linearLayoutManager?.onSaveInstanceState()
+        val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+        actionbar.show()
+        view?.let { context?.hideKeyboard(it) }
+        viewmodel.surahListState = linearLayoutManager?.onSaveInstanceState()
     }
 
-    override fun onBackPress() {
-
-        if(isVisible) {
-            lifecycleScope.launch {
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = DeenSDKCore.GetDeenMsisdn(),
-                    pagename = "quran",
-                    trackingID = getTrackingID()
-                )
-            }
-            viewmodel.listState = null
-        }
-
-        tryCatch { super.onBackPress() }
-
-    }
 
     private fun initView()
     {
 
-        ViewCompat.setTranslationZ(progressLayout, 10F)
-        ViewCompat.setTranslationZ(no_internet_layout, 10F)
+        if(firstload != 0)
+            return
+        firstload = 1
 
-        surahAdapter = SurahAdapter(this@QuranSurahFragment)
+
+        surahAdapter = SurahAdapter()
         linearLayoutManager = LinearLayoutManager(requireContext())
         surahListRC.apply {
+            setPadding(16.dp,15.dp,16.dp,0)
             adapter = surahAdapter
             layoutManager = linearLayoutManager
             overScrollMode = View.OVER_SCROLL_NEVER
-            post {
-                initObserver()
-            }
+
         }
 
-        no_internet_retryBtn.setOnClickListener {
-            loadAPI()
-        }
 
+        initObserver()
+        loadAPI()
+
+
+    }
+
+    override fun noInternetRetryClicked() {
+        loadAPI()
     }
 
     private fun initObserver()
     {
-        viewmodel.surahlist.observe(viewLifecycleOwner)
+        viewmodel.surahListLiveData.observe(viewLifecycleOwner)
         {
             when(it)
             {
-                is SurahResource.getSurahList_quran_com -> viewState(it.data)
-                is CommonResource.API_CALL_FAILED -> noInternetState()
+                is AlQuranResource.SurahList -> viewState(it.data)
+                is CommonResource.API_CALL_FAILED -> baseNoInternetState()
+                is CommonResource.EMPTY -> baseEmptyState()
             }
         }
     }
 
     private fun loadAPI()
     {
+        baseLoadingState()
         lifecycleScope.launch {
-            viewmodel.getSurahList_Quran_Com(getLanguage())
+            viewmodel.getSurahList(getLanguage(),pageNo,pageItemCount)
         }
     }
 
-    private fun viewState(data: List<Chapter>)
+    private fun viewState(response: SurahListResponse)
     {
-        surahList = data
-        surahAdapter.update(data)
+
+        response.Data?.let {
+            surahList = it
+            surahAdapter.update(it)
+        }
         surahListRC.post {
-            progressLayout.visible(false)
-            no_internet_layout.visible(false)
+            baseViewState()
         }
-
     }
 
 
-    private fun noInternetState()
-    {
-        progressLayout.hide()
-        no_internet_layout.show()
-    }
-
-    override fun surahClick(surahListData: Chapter) {
+    override fun surahClick(surahListData: Data) {
 
         val bundle = Bundle().apply {
-            putParcelable("surah", surahListData)
-            putParcelable("suraList", SurahList(chapters = surahList))
+            putInt("surahID", surahListData.SurahId)
+            putString("surahName", surahListData.SurahName)
+            //putParcelable("suraList", SurahList(chapters = surahList))
         }
 
         surahAdapter.filter.filter("")
-        actionbar.show()
         hideSearchbar()
         hideKeyboard()
-
-        gotoFrag(R.id.action_quranFragment_to_alQuranFragment,data = bundle)
+        val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+        actionbar.show()
+        gotoFrag(R.id.action_global_alQuranFragment,data = bundle)
     }
 
 
@@ -223,7 +204,8 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
     override fun action1() {
 
         if(surahList.isNotEmpty()) {
-            actionbar.visibility = View.INVISIBLE
+            val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+            actionbar.hide()
             setupSearchbar(this@QuranSurahFragment)
         }
         //dialog_select_surah()
@@ -232,11 +214,11 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
     override fun action2() {
     }
 
-
     override fun searchBack() {
         requireContext().hideKeyboard(requireView())
-        actionbar.show()
         hideSearchbar()
+        val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+        actionbar.show()
         surahAdapter.filter.filter("")
     }
 
@@ -245,11 +227,7 @@ internal class QuranSurahFragment() : BaseRegularFragment(), SurahCallback, othe
         surahAdapter.filter.filter(query)
     }
 
-    inner class VMFactory(
-        private val surahRepository: SurahRepository
-    ) : ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SurahViewModel(surahRepository) as T
-        }
+    override fun globalMiniPlayerClosed(){
+        surahListRC.setPadding(surahListRC.paddingStart,surahListRC.paddingTop,surahListRC.paddingEnd,0)
     }
 }

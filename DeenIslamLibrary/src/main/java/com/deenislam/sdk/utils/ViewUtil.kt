@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import android.util.Log
 import android.view.View
@@ -587,4 +589,10 @@ fun captureScreen(v: View): Bitmap? {
 
 fun View.setStarMargin(margin:Int) {
     (this.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = margin
+}
+
+internal fun AppCompatImageView.setColorFilter( tintColor: Int) {
+    val colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_ATOP)
+    this.colorFilter = colorFilter
+    this.imageAlpha = 255 // If you want to change the alpha of the image along with the color
 }

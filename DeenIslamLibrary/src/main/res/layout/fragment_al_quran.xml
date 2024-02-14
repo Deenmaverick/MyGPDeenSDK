@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".views.tasbeeh.TasbeehFragment"
     android:background="@color/deen_background">
 
     <include
@@ -23,6 +22,7 @@
         android:layout_marginBottom="1dp"
         app:cardCornerRadius="0dp"
         app:cardElevation="1dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/actionbar"
@@ -33,6 +33,155 @@
             android:layout_gravity="center"
             android:background="@drawable/al_quran_header_group_bg"
             android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/reciterBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="1dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="@color/deen_white"
+                app:strokeWidth="0dp"
+                app:layout_constraintEnd_toStartOf="@+id/translationBtn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_6"
+                    android:background="@color/deen_white">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/deen_ic_qari"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:text="@string/reciter"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/deen_ic_chevron_right_16"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/translationBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="1dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="@color/deen_white"
+                app:strokeWidth="0dp"
+                app:layout_constraintStart_toEndOf="@+id/reciterBtn"
+                app:layout_constraintTop_toTopOf="@+id/reciterBtn"
+                app:layout_constraintEnd_toStartOf="@+id/tasfsirBtn">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_6"
+                    android:background="@color/deen_white">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/deen_ic_language_16"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:text="@string/translation"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/deen_ic_chevron_right_16"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tasfsirBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_8"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="1dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="@color/deen_white"
+                app:strokeWidth="0dp"
+                app:layout_constraintStart_toEndOf="@+id/translationBtn"
+                app:layout_constraintTop_toTopOf="@+id/reciterBtn"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_6"
+                    android:background="@color/deen_white">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/deen_ic_tafseer_16"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:text="@string/tafsir"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/deen_ic_chevron_right_16"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <View
+                android:id="@+id/border"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_height="1dp"
+                android:background="@color/deen_border"
+                app:layout_constraintTop_toBottomOf="@+id/reciterBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <LinearLayout
                 android:id="@+id/header_left_ly"
@@ -45,7 +194,7 @@
                 android:background="@drawable/al_quran_header_bg_1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/header_center_ly"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/border"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -71,14 +220,12 @@
                 android:id="@+id/header_center_ly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_5"
-                android:layout_marginBottom="@dimen/space_5"
                 android:orientation="vertical"
                 android:background="@drawable/al_quran_header_bg_2"
                 app:layout_constraintStart_toEndOf="@+id/header_left_ly"
                 app:layout_constraintEnd_toStartOf="@+id/header_right_ly"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toTopOf="@+id/header_left_ly"
+                app:layout_constraintBottom_toBottomOf="@+id/header_left_ly">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/surahName"
@@ -105,15 +252,13 @@
                 android:id="@+id/header_right_ly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_5"
-                android:layout_marginBottom="@dimen/space_5"
                 android:layout_marginEnd="@dimen/space_12"
                 android:orientation="vertical"
                 android:background="@drawable/al_quran_header_bg_1"
                 app:layout_constraintStart_toEndOf="@+id/header_center_ly"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/header_left_ly"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintBottom_toBottomOf="@+id/header_left_ly">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/ayatTotal"
@@ -139,6 +284,7 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -148,21 +294,78 @@
         android:fillViewport="true"
         android:overScrollMode="never"
         android:clipToPadding="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/arabicRecBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_10"
+                android:layout_marginEnd="@dimen/space_4"
+                android:text="@string/arabic_recite"
+                style="@style/DeenMaterialButtonStyle"
+                app:backgroundTint="@color/deen_white"
+                app:strokeColor="@color/deen_border"
+                app:strokeWidth="1dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/deen_txt_ash"
+                app:cornerRadius="100dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/banglaRecBtn"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/banglaRecBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4"
+                android:layout_marginEnd="@dimen/space_16"
+                android:text="@string/bangla_recite"
+                style="@style/DeenMaterialButtonStyle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/deen_white"
+                app:cornerRadius="100dp"
+                app:layout_constraintTop_toTopOf="@+id/arabicRecBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/arabicRecBtn"
+                app:layout_constraintBottom_toBottomOf="@+id/arabicRecBtn"
+                />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/cautionBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_8"
+                android:paddingBottom="@dimen/space_8"
+                app:layout_constraintTop_toBottomOf="@+id/banglaRecBtn"
+                app:layout_constraintEnd_toEndOf="@+id/banglaRecBtn"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_primary"
+                android:drawablePadding="2dp"
+                android:drawableEnd="@drawable/deen_ic_info_txt"
+                app:drawableTint="@color/deen_primary"
+                android:text="@string/warning"/>
+
+
             <LinearLayout
-                android:id="@+id/bismillahLy"
+                android:visibility="gone"
+                android:id="@+id/bismillahLyOld"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/al_quran_header_gradiant"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/arabicRecBtn">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
@@ -170,24 +373,67 @@
                     android:src="@drawable/ic_bismillah"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/space_29"
-                    android:layout_marginBottom="@dimen/space_10.5"/>
+                    android:layout_marginBottom="@dimen/space_8"/>
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/bismillahLy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_16"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bismillahLyOld">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/arbSurah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_4"
+                    android:fontFamily="@font/arbfont"
+                    android:layout_gravity="center"
+                    android:textAppearance="@style/DeenTextAppearance.font44"
+                    android:textColor="@color/deen_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:fontFamily="@font/arbfont"
+                    android:text="Sura"
+                    android:layout_gravity="center"
+                    android:textAppearance="@style/DeenTextAppearance.font44"
+                    android:textColor="@color/deen_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </LinearLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ayatList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 android:scrollbars="none"
+                android:contentDescription="@string/al_quran"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_quran_ayat"
-                app:layout_constraintTop_toBottomOf="@id/bismillahLy"
-                app:layout_constraintBottom_toTopOf="@+id/last_item_loading_progress"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-            </androidx.recyclerview.widget.RecyclerView>
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bismillahLy"
+                tools:listitem="@layout/item_quran_ayat" />
+
 
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -198,6 +444,7 @@
                 android:layout_marginStart="@dimen/space_12"
                 android:layout_marginEnd="@dimen/space_12"
                 android:layout_marginTop="@dimen/space_4"
+                android:paddingBottom="@dimen/space_8"
                 app:indicatorSize="@dimen/space_24"
                 app:trackThickness="2dp"
                 android:indeterminate="true"
@@ -208,6 +455,50 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/portableZoomLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:layout_marginEnd="@dimen/space_4"
+        android:layout_marginBottom="@dimen/space_8"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintVertical_bias="1.0">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/portableZoomLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_card_bg_deep_teal"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnZoomOut"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="0dp"
+            android:layout_marginTop="@dimen/space_6"
+            android:src="@drawable/deen_quran_zoom_out" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnZoomIn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/space_6"
+            android:padding="0dp"
+            android:src="@drawable/deen_quran_zoom_in" />
+
+
+    </LinearLayout>
+
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/bottomPlayerContainer"
@@ -222,26 +513,39 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+
     <include
         android:id="@+id/progressLayout"
         layout="@layout/layout_circle_progress"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actionbar" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
         android:id="@+id/nodataLayout"
         layout="@layout/no_data"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actionbar" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/no_internet_layout"
+        layout="@layout/no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <View
         android:id="@+id/dimView"
@@ -256,15 +560,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <include
-        android:id="@+id/no_internet_layout"
-        layout="@layout/no_internet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actionbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,24 +10,26 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.network.response.quran.juz.Juz
-import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
-import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
+import com.deenislam.sdk.utils.getSurahNameBn
+import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class SelectSurahAdapter(
-    private val surahList: List<Chapter>,
-    private val juzList: List<Juz>?,
+    private val surahList: List<Data>,
+    private val juzList: List<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?,
     private val callback: SelectSurahCallback,
     private val isSurahMode:Boolean
 ) : RecyclerView.Adapter<BaseViewHolder>(), Filterable {
 
-    var surahFilter : List<Chapter> = surahList
-    var juzFilter : List<Juz>? = juzList
+    var surahFilter : List<Data> = surahList
+    var juzFilter : List<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>? = juzList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent.context.getLocalContext())
+            LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_select_surah, parent, false)
         )
 
@@ -53,20 +55,16 @@ internal class SelectSurahAdapter(
                 arbSurah.show()
                 ic_right.hide()
 
-                val surahPost = surahFilter[position].id
+                val surahPost = surahFilter[position].SurahId
 
-                surahCount.text = surahFilter[position].id.toString().numberLocale()
+                surahCount.text = surahPost.toString().numberLocale()
                 surahName.text =
-                    if(DeenSDKCore.GetDeenLanguage() == "bn") (surahFilter[position].id-1).getSurahNameBn()
+                    if(DeenSDKCore.GetDeenLanguage() == "bn") (surahFilter[position].SurahId-1).getSurahNameBn()
                     else
-                        surahFilter[position].name_simple
-
-                arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
+                        surahFilter[position].SurahName
+                surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahFilter[position].SurahNameMeaning+" • ",surahFilter[position].TotalAyat.numberLocale())
                 arbSurah.text =
                     "${if (surahPost < 10) 0 else ""}${if (surahPost < 100) 0 else ""}${surahPost}"
-
-                surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahFilter[position].translated_name.name+" • ",surahFilter[position].verses_count.toString().numberLocale())
-
                 itemView.setOnClickListener {
                     callback.selectedSurah(surahPost - 1)
                 }
@@ -82,30 +80,10 @@ internal class SelectSurahAdapter(
 
                 val juzData = juzFilter?.get(position)
 
-                surahCount.text = juzData?.juz_number.toString().numberLocale()
-                surahName.text =   surahName.context.resources.getString(R.string.quran_para_adapter_title,juzData?.juz_number.toString().numberLocale())
+                surahCount.text = juzData?.JuzId.toString().numberLocale()
+                surahName.text = surahCount.context.resources.getString(R.string.quran_para_adapter_title,juzData?.JuzId.toString().numberLocale())
 
-                val verse_mapping = juzData?.verse_mapping?.let { it::class.java.declaredFields }
-                var suraSubTxt = ""
-
-                if(surahList.size == 114) {
-                    if (verse_mapping != null) {
-                        for (surah in verse_mapping) {
-                            surah.isAccessible = true
-
-                            val value = surah.get(juzData.verse_mapping)
-
-                            if (value is String && value.isNotEmpty()) {
-                                suraSubTxt += if(DeenSDKCore.GetDeenLanguage() == "bn") (surah.name.toInt()-1).getSurahNameBn() +" "
-                                else
-                                    "${surahList[surah.name.toInt()-1].name_simple} "
-                            }
-                        }
-                    }
-                }
-
-                if(suraSubTxt.length>30)
-                    suraSubTxt = "${suraSubTxt.substring(0,20)}..."
+                var suraSubTxt = juzData?.JuzName_bn
 
                 surahSub.text = suraSubTxt
 
@@ -123,11 +101,13 @@ internal class SelectSurahAdapter(
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charString = constraint?.toString() ?: ""
                 if (charString.isEmpty()) surahFilter = surahList else {
-                    val filteredList = ArrayList<Chapter>()
+                    val filteredList = ArrayList<Data>()
                     surahList
-                        .filter {
-                            (it.name_simple.lowercase().contains(constraint.toString().lowercase()))
+                        .filter {(
+                                it.rKey.lowercase().contains(constraint.toString().lowercase()) ||
+                                        it.rKey.lowercase().contains(constraint.toString().lowercase())
 
+                                )
                         }
                         .forEach { filteredList.add(it) }
                     surahFilter = filteredList
@@ -141,7 +121,7 @@ internal class SelectSurahAdapter(
                 surahFilter = if (results?.values == null)
                     ArrayList()
                 else
-                    results.values as ArrayList<Chapter>
+                    results.values as ArrayList<Data>
 
                 notifyDataSetChanged()
             }
@@ -149,8 +129,8 @@ internal class SelectSurahAdapter(
     }
 }
 
-internal interface SelectSurahCallback
+interface SelectSurahCallback
 {
-    fun selectedSurah(position: Int)
+    fun selectedSurah(position: Int, byService: Boolean=false)
     fun selectedJuz(position: Int)
 }

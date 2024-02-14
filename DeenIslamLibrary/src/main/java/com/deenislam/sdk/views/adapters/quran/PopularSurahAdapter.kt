@@ -94,7 +94,7 @@ internal class PopularSurahAdapter(
                     surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahList[position].translated_name.name+" • ",surahList[position].verses_count.toString().numberLocale())
 
                     itemView.setOnClickListener {
-                        callback.surahClick(surahList[position])
+                        //callback.surahClick(surahList[position])
                     }
                 }
             }

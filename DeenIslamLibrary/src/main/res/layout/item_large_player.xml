@@ -50,20 +50,20 @@
         app:layout_constraintBottom_toBottomOf="@id/ic_al_quran"
         app:layout_constraintTop_toTopOf="@id/ic_al_quran" />
 
-      <com.google.android.material.slider.Slider
-          android:id="@+id/playerProgress"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/space_8"
-          android:paddingBottom="2dp"
-          android:valueTo="100"
-          android:value="0"
-          app:trackHeight="2dp"
-          app:thumbRadius="4dp"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/ic_al_quran"
-      />
+    <com.google.android.material.slider.Slider
+        android:id="@+id/largePlayerProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        android:paddingBottom="2dp"
+        android:valueTo="100"
+        android:value="0"
+        app:trackHeight="2dp"
+        app:thumbRadius="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ic_al_quran"
+        />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ic_prev"
@@ -73,7 +73,7 @@
         android:src="@drawable/ic_prev"
         app:layout_constraintEnd_toStartOf="@id/ic_playBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playerProgress"/>
+        app:layout_constraintTop_toBottomOf="@+id/largePlayerProgress"/>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:visibility="gone"
@@ -85,7 +85,7 @@
         android:indeterminate="true"
         app:layout_constraintEnd_toStartOf="@+id/ic_next"
         app:layout_constraintStart_toEndOf="@+id/ic_prev"
-        app:layout_constraintTop_toBottomOf="@+id/playerProgress"/>
+        app:layout_constraintTop_toBottomOf="@+id/largePlayerProgress"/>
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -96,7 +96,7 @@
         android:src="@drawable/ic_play_fill"
         app:layout_constraintEnd_toStartOf="@+id/ic_next"
         app:layout_constraintStart_toEndOf="@+id/ic_prev"
-        app:layout_constraintTop_toBottomOf="@+id/playerProgress"/>
+        app:layout_constraintTop_toBottomOf="@+id/largePlayerProgress"/>
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -107,7 +107,7 @@
         android:src="@drawable/ic_next_play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ic_playBtn"
-        app:layout_constraintTop_toBottomOf="@+id/playerProgress"/>
+        app:layout_constraintTop_toBottomOf="@+id/largePlayerProgress"/>
 
 
     <com.google.android.material.card.MaterialCardView
@@ -139,7 +139,6 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/themeBtn"
-                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -156,7 +155,6 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/audioBtn"
-                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -173,7 +171,6 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/transalationBtn"
-                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -188,7 +185,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3"
-                 />
+                />
 
 
         </LinearLayout>

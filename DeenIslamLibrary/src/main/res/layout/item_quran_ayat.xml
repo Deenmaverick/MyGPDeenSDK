@@ -14,22 +14,22 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
     app:strokeWidth="0dp"
+    app:strokeColor="@color/deen_card_bg"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/space_12"
+        android:paddingEnd="@dimen/space_12">
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ayatArabic"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_12"
-            android:layout_marginStart="@dimen/space_12"
-            android:layout_marginEnd="@dimen/space_12"
-            android:text="ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢"
             android:fontFamily="@font/kfgqpc_uthmanic_script_hafs_regular"
             android:textAppearance="@style/DeenTextAppearance.font24"
             android:textColor="@color/deen_txt_black_deep"
@@ -39,12 +39,10 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/transliteration"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
-            android:layout_marginStart="@dimen/space_12"
-            android:layout_marginEnd="@dimen/space_12"
-            android:textAlignment="textStart"
+            android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,12 +52,9 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ayatBn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
-            android:layout_marginStart="@dimen/space_12"
-            android:layout_marginEnd="@dimen/space_12"
-            android:text="১. পরম করুণাময় ও অসীম দয়ালু আল্লাহর নামে শুরু করছি।"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,12 +63,9 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ayatEn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
-            android:layout_marginStart="@dimen/space_12"
-            android:layout_marginEnd="@dimen/space_12"
-            android:text="2. All praise is for Allah—Lord of all worlds,1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/deen_txt_black_deep"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,8 +77,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/space_12"
-            android:layout_marginStart="@dimen/space_12"
-            android:layout_marginEnd="@dimen/space_12"
             android:background="@color/deen_border"
             app:layout_constraintTop_toBottomOf="@+id/ayatEn"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,9 +87,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/space_4"
-            android:layout_marginStart="@dimen/space_12"
-            android:layout_marginEnd="@dimen/space_12"
-            android:text="1:1"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_txt_ash"
             app:layout_constraintTop_toBottomOf="@+id/border"
@@ -112,7 +99,6 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_12"
             android:layout_marginBottom="@dimen/space_8"
             android:src="@drawable/ic_3_dot"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -120,37 +106,31 @@
             app:layout_constraintTop_toBottomOf="@id/border"/>
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:visibility="gone"
-            android:id="@+id/btnDownload"
+            android:id="@+id/btnShare"
             android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_height="40dp"
             android:layout_marginEnd="@dimen/space_8"
-            android:layout_marginBottom="@dimen/space_8"
-            android:src="@drawable/ic_download_quran"
+            android:src="@drawable/ic_share"
+            android:tint="@color/deen_txt_ash"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnMore"
             app:layout_constraintTop_toBottomOf="@id/border"/>
 
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:visibility="gone"
             android:id="@+id/btnFav"
             android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_height="40dp"
             android:layout_marginEnd="@dimen/space_8"
-            android:layout_marginBottom="@dimen/space_8"
             android:src="@drawable/ic_fav_quran"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnDownload"
+            app:layout_constraintEnd_toStartOf="@+id/btnShare"
             app:layout_constraintTop_toBottomOf="@id/border"/>
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:visibility="gone"
             android:id="@+id/btnTafseer"
             android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_height="40dp"
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_8"
             android:layout_marginBottom="@dimen/space_8"
@@ -165,7 +145,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_8"
             app:tint="@color/deen_txt_ash"
             android:src="@drawable/ic_quran_play_fill"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -179,7 +158,6 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:padding="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_8"
             app:indicatorSize="18dp"
             app:trackThickness="2dp"
             android:indeterminate="true"

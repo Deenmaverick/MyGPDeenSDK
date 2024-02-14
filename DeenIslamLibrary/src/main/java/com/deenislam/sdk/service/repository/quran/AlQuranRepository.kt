@@ -25,10 +25,6 @@ internal class AlQuranRepository(
 
     }
 
-    suspend fun getVersesByChapter(language: String, page: Int, contentCount: Int,chapter_number:Int) = makeApicall {
-
-        quranService?.getVersesByChapter(language = language, words = true, page = page, per_page = contentCount, chapter_number = chapter_number)
-    }
 
     // juz list
 
@@ -36,8 +32,101 @@ internal class AlQuranRepository(
         quranService?.getJuzList()
     }
 
-    suspend fun getVersesByJuz(language: String, page: Int, contentCount: Int,juz_number:Int) = makeApicall {
 
-        quranService?.getVersesByJuz(language = language, words = true, page = page, per_page = contentCount, juz_number = juz_number)
+
+    // Al-Quran GM
+
+    suspend fun getQuranHomePatch(language: String) = makeApicall {
+
+        val body = JSONObject()
+        body.put("language",language)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.getQuranHomePatch(parm = requestBody)
     }
+
+    suspend fun getSurahList(language: String, page: Int, contentCount: Int) = makeApicall {
+
+        val body = JSONObject()
+        body.put("language",language)
+        body.put("page",page)
+        body.put("content",contentCount)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.getSurahList(parm = requestBody)
+    }
+
+    suspend fun getParaList(language: String, page: Int, contentCount: Int) = makeApicall {
+
+        val body = JSONObject()
+        body.put("language",language)
+        body.put("page",page)
+        body.put("content",contentCount)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.getParaList(parm = requestBody)
+    }
+
+    suspend fun getVersesByChapter(
+        language: String,
+        page: Int,
+        contentCount: Int,
+        chapter_number:Int,
+        isReadingMode: Boolean
+    ) = makeApicall {
+
+        val body = JSONObject()
+        body.put("SurahId",chapter_number)
+        body.put("language",language)
+        body.put("page",page)
+        body.put("content",contentCount)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        if(isReadingMode)
+            deenService?.getReadingVersesByChapter(parm = requestBody)
+        else
+            deenService?.getVersesByChapter(parm = requestBody)
+
+    }
+
+    suspend fun getVersesByJuz(language: String, page: Int, contentCount: Int,juz_number:Int,isReadingMode: Boolean) = makeApicall {
+
+        val body = JSONObject()
+        body.put("SurahId",juz_number)
+        body.put("language",language)
+        body.put("page",page)
+        body.put("content",contentCount)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        if(isReadingMode)
+            deenService?.getReadingVersesByPara(parm = requestBody)
+        else
+            deenService?.getVersesByPara(parm = requestBody)
+    }
+
+    suspend fun updateFavAyat(language: String, ContentId:Int,isFav:Boolean) = makeApicall {
+
+        val body = JSONObject()
+        body.put("ContentId",ContentId)
+        body.put("language",language)
+        body.put("isFavorite",!isFav)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        deenService?.updateFavAyat(parm = requestBody)
+    }
+
+    suspend fun getTafsir(surahID: Int, verseID: Int, ayatArabic: String, arabicFont: Int) = makeApicall {
+
+        val body = JSONObject()
+        body.put("SurahId",surahID)
+        body.put("VerseID",verseID)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        deenService?.getTafsir(parm = requestBody)
+    }
+
 }

@@ -5,17 +5,22 @@ import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.IBinder
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
@@ -35,10 +40,19 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
+import com.deenislam.sdk.service.libs.media3.QuranPlayer
+import com.deenislam.sdk.service.libs.media3.QuranPlayerBroadcast
+import com.deenislam.sdk.service.libs.media3.QuranPlayerOffline
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.service.libs.sessiontrack.SessionReceiver
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Ayath
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Qari
+import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
 import com.deenislam.sdk.service.weakref.dashboard.DashboardBillboardPatchClass
 import com.deenislam.sdk.service.weakref.dashboard.DashboardPatchClass
+import com.deenislam.sdk.service.weakref.main.MainActivityInstance
+import com.deenislam.sdk.utils.DraggableView
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
@@ -46,13 +60,16 @@ import com.deenislam.sdk.utils.reduceDragSensitivity
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
+import com.deenislam.sdk.views.adapters.quran.AlQuranAyatAdapter
 import com.deenislam.sdk.views.dashboard.DashboardFragment
 import com.deenislam.sdk.views.dashboard.patch.Billboard
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Locale
 
 
-internal class MainActivityDeenSDK : AppCompatActivity() {
+internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
     private lateinit var navHostFragment:NavHostFragment
     private lateinit var navController:NavController
@@ -87,20 +104,122 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
 
     private var isDisableBackPress = false
 
-    /*companion object
+    private var isQuranPlayerBound = false
+    private var isQuranOfflinePlayerBound = false
+
+    // Quran player basic data
+    private var quranQueuedData: ArrayList<Ayath> = arrayListOf()
+    private var quranQueuedPos: Int = -1
+    private var quranQueuedSurahList: ArrayList<Data> = arrayListOf()
+    private var quranQueuedJuzList:ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data> = arrayListOf()
+    private var quranQueuedSurahID: Int = -1
+    private var quranQueuedQarisData: ArrayList<Qari> = arrayListOf()
+    private var quranQueuedTotalVerseCount: Int = -1
+    private var quranQueuedPageNo: Int = -1
+    private var quranQueuedSelectedQari: Int = 931
+    private var quranQueuedIsSurahMode: Boolean = true
+    private var isQuranPlayInQueue = false
+    private var quranPlayerAdapterCallback: AlQuranAyatAdapter.ViewHolder ? = null
+    private var isQuranPlayerWasRunning = false
+
+    // offline
+    private var quranSurahQueuedData: Data? = null
+
+    // global mini player
+    private lateinit var mini_player: DraggableView
+    private lateinit var surahTitile:AppCompatTextView
+    private lateinit var surahAyat:AppCompatTextView
+    private lateinit var ic_prev:AppCompatImageView
+    private lateinit var ic_play_pause:AppCompatImageView
+    private lateinit var ic_next:AppCompatImageView
+    private lateinit var ic_close:AppCompatImageView
+    private lateinit var playerProgress: LinearProgressIndicator
+    private lateinit var playLoading: CircularProgressIndicator
+    private var countDownTimer: CountDownTimer?=null
+    private var currentSurahDetails: Data? = null
+
+
+    companion object
     {
         var instance: MainActivityDeenSDK? = null
-    }*/
+    }
 
-   /* fun resetBottomNavClick()
-    {
-        instance?.bottomNavClicked = false
-    }*/
+
+    val quranOnlineserviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as QuranPlayer.LocalBinder
+            MainActivityInstance.updateQuranPlayer(binder.getService())
+            isQuranPlayerBound = true
+            if(isQuranPlayInQueue)
+            {
+
+                isQuranPlayInQueue = false
+
+                MainActivityInstance.getQuranPlayerInstance()?.playQuran(
+                    data = quranQueuedData,
+                    pos = quranQueuedPos,
+                    surahList = quranQueuedSurahList,
+                    surahID = quranQueuedSurahID,
+                    qarisData = quranQueuedQarisData,
+                    totalVerseCount = quranQueuedTotalVerseCount,
+                    pageNo = quranQueuedPageNo,
+                    selectedQari = quranQueuedSelectedQari,
+                    isSurahMode = quranQueuedIsSurahMode,
+                    quranJuzList = quranQueuedJuzList
+                )
+
+                quranPlayerAdapterCallback?.let { setAdapterCallbackQuranPlayer(it) }
+            }
+
+            MainActivityInstance.getQuranPlayerInstance()?.setGlobalMiniPlayerCallback(this@MainActivityDeenSDK)
+            MainActivityInstance.getQuranPlayerInstance()?.initGlobalMiniPlayer()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isQuranPlayerBound = false
+            mini_player.hide()
+        }
+    }
+
+
+    val quranOfflineserviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as QuranPlayerOffline.LocalBinder
+            MainActivityInstance.updateQuranPlayerOffline(binder.getService())
+            isQuranOfflinePlayerBound = true
+            if(isQuranPlayInQueue)
+            {
+                isQuranPlayInQueue = false
+
+                quranSurahQueuedData?.let {
+                    MainActivityInstance.getQuranPlayerOfflineInstance()?.playQuran(
+                        data = it,
+                    )
+                }
+            }
+
+            MainActivityInstance.getQuranPlayerOfflineInstance()?.setGlobalMiniPlayerCallback(this@MainActivityDeenSDK)
+            MainActivityInstance.getQuranPlayerOfflineInstance()?.initGlobalMiniPlayer()
+
+            (mini_player.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = 0
+            mini_player.show()
+            ic_prev.hide()
+            ic_next.hide()
+            mini_player.post {
+                frameContainerView.setPadding(0,0,0,mini_player.height)
+            }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isQuranOfflinePlayerBound = false
+            mini_player.hide()
+        }
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //instance = this
+        instance = this
         setContentView(R.layout.activity_main_deen)
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -198,23 +317,6 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
 
     private fun setupBackPressCallback()
     {
-
-      /*  onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                Log.e("setupBackPressCallback",navController.previousBackStackEntry?.destination?.id.toString())
-                // Handle the back button event
-                if (navController.previousBackStackEntry?.destination?.id?.equals(
-                        navController.graph.startDestinationId
-                    ) != true &&
-                    navController.previousBackStackEntry?.destination?.id?.equals(
-                        R.id.blankFragment
-                    ) != true && navController.previousBackStackEntry?.destination?.id != null)
-                    navController.popBackStack()
-            }
-        }
-
-        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
-*/
         onBackPressedCallback =
             this.onBackPressedDispatcher.addCallback {
                 Log.e("setupBackPressCallback",navController.previousBackStackEntry?.destination?.id.toString())
@@ -232,18 +334,151 @@ internal class MainActivityDeenSDK : AppCompatActivity() {
             }
         onBackPressedCallback.isEnabled = true
 
-       /* onBackPressedCallback =
-            onBackPressedDispatcher.addCallback {
-                Log.e("setupBackPressCallback","NEW MAIN CALLBACK")
-                if (navController.previousBackStackEntry?.destination?.id?.equals(
-                        navController.graph.startDestinationId
-                    ) != true ||
-                    navController.previousBackStackEntry?.destination?.id?.equals(
-                        R.id.dashboardFakeFragment
-                    ) != true)
-                    navController.popBackStack()
+    }
+
+    fun playOfflineQuran(
+        data: Data
+    ) {
+
+
+        if(isQuranPlayerBound){
+            MainActivityInstance.getQuranPlayerInstance()?.stopQuranPlayer()
+        }
+
+        if (isQuranOfflinePlayerBound && MainActivityInstance.getQuranPlayerOfflineInstance() != null) {
+            // Call methods on the audioService as needed
+            MainActivityInstance.getQuranPlayerOfflineInstance()?.playQuran(
+                data = data
+            )
+
+            (mini_player.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = 0
+            mini_player.show()
+            ic_prev.hide()
+            ic_next.hide()
+            mini_player.post {
+                frameContainerView.setPadding(0,0,0,mini_player.height)
             }
-        onBackPressedCallback.isEnabled = true*/
+        }
+        else
+        {
+            quranSurahQueuedData = data
+            isQuranPlayInQueue = true
+            startQuranPlayerOfflineService()
+        }
+    }
+
+    private fun startQuranPlayerOfflineService()
+    {
+        // Start and bind to the quran player service
+        val intent = Intent(this, QuranPlayerOffline::class.java)
+        startService(intent)
+        bindService(intent, quranOfflineserviceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    fun isQuranMiniPlayerRunning(): Boolean {
+        return if(QuranPlayer.isServiceRunning)
+            true
+        else QuranPlayerOffline.isServiceRunning
+    }
+
+    fun stopOfflineQuran(surahId: Int) {
+
+        if(surahId == 0)
+            return
+
+        if(MainActivityInstance.getQuranPlayerOfflineInstance()?.getCurrentSurahID() == surahId)
+            MainActivityInstance.getQuranPlayerOfflineInstance()?.stopQuranPlayer()
+    }
+
+    fun playQuran(
+        data: ArrayList<Ayath>,
+        pos: Int,
+        surahList: ArrayList<Data>,
+        surahID: Int,
+        qarisData: ArrayList<Qari>,
+        totalVerseCount: Int,
+        pageNo: Int,
+        selectedQari: Int,
+        isSurahMode: Boolean,
+        quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?
+    ) {
+
+        if(isQuranOfflinePlayerBound){
+            MainActivityInstance.getQuranPlayerOfflineInstance()?.stopQuranPlayer()
+        }
+
+        if (isQuranPlayerBound && MainActivityInstance.getQuranPlayerInstance() != null) {
+            // Call methods on the audioService as needed
+            MainActivityInstance.getQuranPlayerInstance()?.playQuran(
+                data = data,
+                pos = pos,
+                surahList = surahList,
+                surahID = surahID,
+                qarisData = qarisData,
+                totalVerseCount = totalVerseCount,
+                pageNo = pageNo,
+                selectedQari = selectedQari,
+                isSurahMode = isSurahMode,
+                quranJuzList = quranJuzList
+            )
+        }
+        else
+        {
+            quranQueuedData = data
+            quranQueuedPos = pos
+            quranQueuedSurahList = surahList
+            quranQueuedJuzList = quranJuzList?: arrayListOf()
+            quranQueuedSurahID = surahID
+            quranQueuedQarisData = qarisData
+            quranQueuedTotalVerseCount = totalVerseCount
+            quranQueuedPageNo = pageNo
+            quranQueuedIsSurahMode = isSurahMode
+            quranQueuedSelectedQari = selectedQari
+            isQuranPlayInQueue = true
+            startQuranPlayerService()
+        }
+    }
+
+    private fun startQuranPlayerService()
+    {
+        // Start and bind to the quran player service
+        val intent = Intent(this, QuranPlayer::class.java)
+        startService(intent)
+        bindService(intent, quranOnlineserviceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+
+    fun updateQuranPlayer(qari: Int?=null) {
+        if (isQuranPlayerBound && MainActivityInstance.getQuranPlayerInstance() != null) {
+            MainActivityInstance.getQuranPlayerInstance()?.updateQuranPlayer(qari)
+        }
+    }
+
+    fun getCurrentSurahID(): Int {
+        return if (isQuranPlayerBound && MainActivityInstance.getQuranPlayerInstance() != null) {
+            // Call methods on the audioService as needed
+            MainActivityInstance.getQuranPlayerInstance()?.getCurrentSurahID()?:0
+        } else
+            0
+    }
+
+    fun pauseQuran()
+    {
+        val intent = Intent(this, QuranPlayerBroadcast::class.java)
+        intent.action = "pause_action"
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+        pendingIntent.send()
+    }
+
+    fun setAdapterCallbackQuranPlayer(viewHolder: AlQuranAyatAdapter.ViewHolder)
+    {
+        if (isQuranPlayerBound && MainActivityInstance.getQuranPlayerInstance() != null) {
+            // Call methods on the audioService as needed
+            MainActivityInstance.getQuranPlayerInstance()?.updateAdapterCallback(viewHolder)
+        }
+        else{
+            quranPlayerAdapterCallback = viewHolder
+        }
     }
 
 

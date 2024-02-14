@@ -1,8 +1,15 @@
 package com.deenislam.sdk.utils
 
+import android.content.Context
 import com.deenislam.sdk.DeenSDKCore
+import com.deenislam.sdk.service.models.quran.quranplayer.PlayerCommonSelectionData
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 import com.deenislam.sdk.service.network.response.dashboard.Item
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Qari
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.TafsirList
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Translator
+import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 internal fun transformCommonCardListPatchModel(
@@ -101,3 +108,82 @@ fun String.monthShortNameLocale(): String =
 
     }
     else this
+
+internal fun transformPatchToSurahData(newDataModel: Item): Data {
+
+    return Data(
+        ContentUrl= "",
+        Id= newDataModel.Id,
+        ImageUrl= "",
+        IsFavorite = false,
+        Order= newDataModel.Sequence,
+        SurahId= newDataModel.SurahId,
+        SurahName= newDataModel.MText,
+        SurahNameInArabic= "",
+        SurahNameMeaning= newDataModel.Meaning,
+        SurahOrigin= newDataModel.Text,
+        TotalAyat= newDataModel.ECount.toString(),
+        rKey= "",
+        wKey= ""
+    )
+}
+
+internal fun transformPlayerReciterData(newDataModel: Qari): PlayerCommonSelectionData {
+
+    return PlayerCommonSelectionData(
+        imageurl = newDataModel.imageurl?:"",
+        Id = newDataModel.title,
+        title = newDataModel.text
+    )
+}
+
+internal fun transformPlayerTranslatorData(newDataModel: Translator): PlayerCommonSelectionData {
+
+    return PlayerCommonSelectionData(
+        imageurl = newDataModel.imageurl,
+        Id = newDataModel.title,
+        title = newDataModel.text,
+        language = newDataModel.language
+    )
+}
+
+internal fun transformPlayerTafsirData(newDataModel: TafsirList): PlayerCommonSelectionData {
+
+    return PlayerCommonSelectionData(
+        imageurl = newDataModel.imageurl,
+        Id = newDataModel.title,
+        title = newDataModel.text,
+        language = newDataModel.language
+    )
+}
+
+internal fun Context.deleteSingleFile(fileAbsolutePath: String, fileName: String): Boolean {
+    try {
+        val file = File(filesDir, fileAbsolutePath)
+
+        if (file.exists()) {
+            val deleted = File(file, fileName).delete()
+            // Optionally, delete the directory if it's empty after file deletion
+            // file.delete()
+            return deleted
+        }
+    } catch (e: Exception) {
+        // Handle exceptions, e.g., log an error message
+        e.printStackTrace()
+    }
+    return false
+}
+
+internal fun Context.retrieveSingleFile(fileAbsolutePath: String): String? {
+    try {
+        val file = File(filesDir, fileAbsolutePath)
+
+        if (file.exists()) {
+            return file.readText()
+        }
+    } catch (e: Exception) {
+        // Handle exceptions, e.g., log an error message
+        e.printStackTrace()
+    }
+    return null
+}

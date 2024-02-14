@@ -24,14 +24,19 @@ import androidx.viewbinding.ViewBinding
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Ayath
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Qari
 import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.isBottomNavFragment
+import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.FragmentViewModel
 import com.deenislam.sdk.viewmodels.UserTrackViewModel
+import com.deenislam.sdk.views.adapters.quran.AlQuranAyatAdapter
 import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.main.actionCallback
 import kotlinx.coroutines.launch
@@ -253,13 +258,24 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         callback: otherFagmentActionCallback?=null,
         actionnBartitle:String,
         backEnable:Boolean=true,
-        view: View
+        view: View,
+        action3:Int=0,
+        actionIconColor:Int = 0
     )
     {
         val action1Btn: AppCompatImageView = view.findViewById(R.id.action1)
         val action2Btn: AppCompatImageView = view.findViewById(R.id.action2)
         val btnBack: AppCompatImageView = view.findViewById(R.id.btnBack)
         val title: AppCompatTextView = view.findViewById(R.id.title)
+        val action3Btn:AppCompatImageView = view.findViewById(R.id.action3)
+
+        if(actionIconColor!=0)
+        {
+            action1Btn.setColorFilter(ContextCompat.getColor(view.context,actionIconColor))
+            action2Btn.setColorFilter(ContextCompat.getColor(view.context,actionIconColor))
+            action3Btn.setColorFilter(ContextCompat.getColor(view.context,actionIconColor))
+
+        }
 
         if(backEnable)
         {
@@ -301,6 +317,16 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         else
             action2Btn.visible(false)
 
+        if(action3>0) {
+            action3Btn.setImageDrawable(AppCompatResources.getDrawable(view.context, action3))
+            action3Btn.show()
+            action3Btn.setOnClickListener {
+                callback?.action3()
+            }
+        }
+        else
+            action3Btn.hide()
+
         actionCallback = callback
 
         if(findNavController().currentDestination?.id?.isBottomNavFragment == false)
@@ -337,6 +363,61 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     open fun OnCreate(){
 
     }
+
+    fun playQuran(
+        data: ArrayList<Ayath>,
+        pos: Int,
+        surahList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data>,
+        surahID: Int,
+        qarisData: ArrayList<Qari>,
+        totalVerseCount: Int,
+        pageNo: Int,
+        selectedQari: Int,
+        isSurahMode: Boolean,
+        quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?
+    )
+    {
+
+        (activity as MainActivityDeenSDK).playQuran(
+            data = data,
+            pos = pos,
+            surahList = surahList,
+            surahID = surahID,
+            qarisData = qarisData,
+            totalVerseCount = totalVerseCount,
+            pageNo = pageNo,
+            selectedQari = selectedQari,
+            isSurahMode = isSurahMode,
+            quranJuzList = quranJuzList
+        )
+    }
+
+    fun updateQuranPlayer(qari: Int?=null) {
+
+        if(activity !=null)
+            (activity as MainActivityDeenSDK).updateQuranPlayer(qari)
+    }
+
+    fun pauseQuran()
+    {
+        if(activity !=null)
+            (activity as MainActivityDeenSDK).pauseQuran()
+    }
+
+    fun setAdapterCallbackQuranPlayer(viewHolder: AlQuranAyatAdapter.ViewHolder)
+    {
+        if(activity !=null)
+            (activity as MainActivityDeenSDK).setAdapterCallbackQuranPlayer(viewHolder)
+    }
+
+    fun getCurrentSurahIDFromQService():Int
+    {
+        return if(activity !=null)
+            (activity as MainActivityDeenSDK).getCurrentSurahID()
+        else
+            0
+    }
+
 
     fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {

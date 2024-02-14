@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/space_16"
+    android:layout_marginEnd="@dimen/space_16"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="@dimen/space_4"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/deen_white"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:strokeWidth="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_12">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icquran"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_al_quran_cat"
+            app:layout_constraintBottom_toBottomOf="@+id/totalAyat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/surahName"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/surahName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/deen_txt_black_deep"
+            app:layout_constraintBottom_toTopOf="@+id/totalAyat"
+            app:layout_constraintStart_toEndOf="@id/icquran"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/totalAyat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/deen_txt_black_deep"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/surahName"
+            app:layout_constraintTop_toBottomOf="@+id/surahName" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icPlayPause"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="@dimen/space_8"
+            android:src="@drawable/ic_play_fill"
+            app:layout_constraintBottom_toBottomOf="@id/icquran"
+            app:layout_constraintEnd_toStartOf="@+id/icDelete"
+            app:layout_constraintTop_toTopOf="@id/icquran"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icDelete"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/deen_brand_error"
+            app:layout_constraintBottom_toBottomOf="@id/icquran"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icquran"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

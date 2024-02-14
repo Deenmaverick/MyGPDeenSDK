@@ -108,4 +108,9 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="DeenTextAppearance.font44" parent="">
+        <item name="android:textSize">44sp</item>
+        <item name="android:color">@color/deen_txt_black</item>
+    </style>
+
 </resources>

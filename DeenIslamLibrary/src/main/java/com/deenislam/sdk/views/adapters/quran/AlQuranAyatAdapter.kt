@@ -1,5 +1,6 @@
 package com.deenislam.sdk.views.adapters.quran;
 
+import android.graphics.Typeface
 import android.os.Build
 import android.text.Html
 import android.text.SpannableString
@@ -13,19 +14,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.ItemQuranAyatBinding
 import com.deenislam.sdk.databinding.ItemQuranReadingBinding
 import com.deenislam.sdk.service.callback.AlQuranAyatCallback
 import com.deenislam.sdk.service.libs.media3.APAdapterCallback
 import com.deenislam.sdk.service.libs.media3.AudioManager
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Ayath
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Data
+import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Qari
 import com.deenislam.sdk.utils.BASE_QURAN_VERSE_AUDIO_URL
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.base.BaseViewHolderBinding
 import com.deenislam.sdk.service.network.response.quran.verses.Verse
+import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,20 +44,28 @@ private const val LIST_MODE = 0
 private const val READING_MODE = 1
 internal class AlQuranAyatAdapter(
     private val callback: AlQuranAyatCallback,
-    private var isReadingMode: Boolean = false
+    private var isReadingMode: Boolean = false,
+    private var isBnReading:Boolean = false
 ) :  RecyclerView.Adapter<BaseViewHolderBinding>() {
 
-    private var data: ArrayList<Verse> = arrayListOf()
+    private var data: ArrayList<Ayath> = arrayListOf()
+    private var qarisData: ArrayList<Qari> = arrayListOf()
+    private var audioFolderLocation = ""
     private var previousCallbackPosition:Int = -1
     private var isPlaying:Boolean = false
     private var isMiniPlayerCall:Boolean = false
     private var targetSpannableOffset: Int = 0
 
     // player setting
-    private var theme_font_size:Float = 24F
+    private var theme_font_size:Float = if(isBnReading) 18F else 24F
     private var translation_font_size:Float = 14F
     private var setting_transliteration = true
     private var auto_play_next = true
+    private var arabicFont:Int = 1
+    private var selectedQari = 931
+    private var en_translator = 131
+    private var bn_translator = 161
+    private var surahID = 0
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolderBinding =
@@ -60,15 +76,26 @@ internal class AlQuranAyatAdapter(
                 binding_read = ItemQuranReadingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
 
-            LIST_MODE ->  ViewHolder(
-                binding_list = ItemQuranAyatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
+            LIST_MODE -> {
+
+                Log.e("LIST_MODE","called")
+                ViewHolder(
+                    binding_list = ItemQuranAyatBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+            }
             else -> throw java.lang.IllegalArgumentException("View cannot null")
         }
 
+
+
+
     fun clear()
     {
-        data = arrayListOf()
+        data.clear()
         previousCallbackPosition = -1
         isPlaying = false
         notifyDataSetChanged()
@@ -80,6 +107,50 @@ internal class AlQuranAyatAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateReadingMode(isBnReading: Boolean)
+    {
+        this.isBnReading = isBnReading
+
+    }
+
+    fun updateQari(qari:Int)
+    {
+        if(qari!=1)
+            selectedQari = qari
+
+    }
+
+    fun getSelectedQari() = selectedQari
+
+    fun updateFavAyat(fav: Boolean, position: Int)
+    {
+        data[position].IsFavorite = fav
+        notifyItemChanged(position)
+    }
+
+    fun updateEnTranslator(translatorID:Int)
+    {
+        if(translatorID!=0)
+            en_translator = translatorID
+
+    }
+
+    fun getEnTranslator() = en_translator
+
+    fun updateBnTranslator(translatorID:Int)
+    {
+        if(translatorID!=0)
+            bn_translator = translatorID
+
+    }
+
+    /*  fun updatePlayerLoading(bol:Boolean)
+      {
+          updatePlayerLoading(bol)
+      }*/
+
+    fun getBnTranslator() = bn_translator
+
     fun isMediaPlaying(position: Int)
     {
         if(previousCallbackPosition>=0 && previousCallbackPosition!=position) {
@@ -90,14 +161,12 @@ internal class AlQuranAyatAdapter(
             isPlaying = true
             notifyItemChanged(position)
         }
-
-        Log.e("isMediaPlaying",position.toString())
     }
 
-    fun isMediaPause(position: Int)
+    fun isMediaPause(position: Int, byService: Boolean=false)
     {
         isPlaying = false
-        AudioManager().getInstance().releasePlayer()
+        callback.isAyatPause(byService)
         if(previousCallbackPosition>=0 && previousCallbackPosition!=position) {
             notifyItemChanged(previousCallbackPosition)
             //notifyDataSetChanged()
@@ -106,92 +175,139 @@ internal class AlQuranAyatAdapter(
         //notifyDataSetChanged()
             notifyItemChanged(position)
 
-        Log.e("isMediaPause",position.toString())
-
     }
 
-    fun miniPlayerCall()
+    fun miniPlayerCall(expand:Boolean = false,byService: Boolean = false)
     {
 
-        if(isPlaying) {
-            AudioManager().getInstance().releasePlayer()
-            callback.isAyatPause()
-            isPlaying = false
+        isPlaying = MainActivityDeenSDK.instance?.isQuranMiniPlayerRunning()?:false
 
-        }
-        else
+        if(expand)
         {
-            if(previousCallbackPosition<0)
-                previousCallbackPosition = 0
+            if(!isPlaying)
+            {
+                if (previousCallbackPosition < 0)
+                    previousCallbackPosition = 0
 
-            isPlaying = true
-            isMiniPlayerCall = true
+                isPlaying = true
+                isMiniPlayerCall = !byService
+
+                if (isReadingMode)
+                    notifyItemChanged(0)
+                else
+                    notifyItemChanged(previousCallbackPosition)
+
+            }
         }
+        else {
 
-        if(previousCallbackPosition>=0)
-            notifyItemChanged(previousCallbackPosition)
+            if (isPlaying) {
+                callback.isAyatPause(byService)
+                isPlaying = false
+
+            } else {
+                if (previousCallbackPosition < 0)
+                    previousCallbackPosition = 0
+
+                isPlaying = true
+                isMiniPlayerCall = !byService
+            }
+
+            if (previousCallbackPosition >= 0) {
+                if (isReadingMode)
+                    notifyItemChanged(0)
+                else
+                    notifyItemChanged(previousCallbackPosition)
+            }
+        }
     }
 
     fun miniPlayerPrevCall()
     {
-        if(previousCallbackPosition>=0)
-        {
+        /* if(previousCallbackPosition>0)
+         {
 
-            // change already playing item
-            isPlaying = false
-            isMiniPlayerCall = true
+             // change already playing item
+             isPlaying = false
+             isMiniPlayerCall = true
+             if(isReadingMode)
+                 notifyItemChanged(0)
+             notifyItemChanged(previousCallbackPosition)
 
-            notifyItemChanged(previousCallbackPosition)
+             previousCallbackPosition--
+             callback.isAyatPause()
 
-            previousCallbackPosition--
-            AudioManager().getInstance().releasePlayer()
-            callback.isAyatPause()
-
-            isPlaying = true
+             isPlaying = true
             //isMiniPlayerCall = true
 
-            //notifyDataSetChanged()
-            notifyItemChanged(previousCallbackPosition)
-        }
+             //notifyDataSetChanged()
+             if(isReadingMode)
+                 notifyItemChanged(0)
+             notifyItemChanged(previousCallbackPosition)
+         }
+         else*/
+        callback.playPrevSurah(true)
 
     }
 
     fun miniPlayerNextCall()
     {
 
-        if(previousCallbackPosition+1<data.size) {
+        /*if(previousCallbackPosition+1<data.size) {
 
             isPlaying = false
             isMiniPlayerCall = true
+            if(isReadingMode)
+                notifyItemChanged(0)
+            else
             notifyItemChanged(previousCallbackPosition)
 
             previousCallbackPosition++
-            AudioManager().getInstance().releasePlayer()
+            //AudioManager().getInstance().releasePlayer()
             callback.isAyatPause()
 
             isPlaying = true
-
+            if(isReadingMode)
+                notifyItemChanged(0)
             notifyItemChanged(previousCallbackPosition)
 
             //notifyDataSetChanged()
         }
+        else*/
+        callback.playNextSurah(true)
 
     }
 
 
-    fun update(surahData:ArrayList<Verse>)
+    fun update(surahData: Data, surahID: Int)
     {
-        data.addAll(surahData)
-        if(!isReadingMode)
-        // notifyItemRangeInserted(data.size - surahData.size, surahData.size)
-            notifyItemInserted(itemCount)
-        else
-            notifyItemRangeChanged(0,1)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            this@AlQuranAyatAdapter.surahID = surahID
+            data.addAll(surahData.Ayaths)
+
+            if(qarisData.isEmpty())
+                qarisData.addAll(surahData.Qaris)
+
+            withContext(Dispatchers.Main)
+            {
+                if(!isReadingMode)
+                // notifyItemRangeInserted(data.size - surahData.size, surahData.size)
+                    notifyItemInserted(itemCount)
+                else
+                    notifyItemRangeChanged(0,1)
+
+            }
+        }
+
     }
 
     fun update_theme_font_size(fontsize: Float)
     {
-        theme_font_size = fontsize
+        theme_font_size = if(isBnReading)
+            fontsize-6F
+        else
+            fontsize
         //notifyDataSetChanged()
     }
 
@@ -201,11 +317,15 @@ internal class AlQuranAyatAdapter(
         //notifyDataSetChanged()
     }
 
+    fun getTranslationFontSize() = translation_font_size
+
     fun update_transliteration(bol:Boolean)
     {
         setting_transliteration = bol
         //notifyDataSetChanged()
     }
+
+    fun isTransliterationEnable() = setting_transliteration
 
     fun update_auto_play_next(bol:Boolean)
     {
@@ -213,9 +333,27 @@ internal class AlQuranAyatAdapter(
         //notifyDataSetChanged()
     }
 
+    fun isAutoPlay() = auto_play_next
+
+    fun setArabicFont(font:Int)
+    {
+        arabicFont = font
+        //notifyDataSetChanged()
+    }
+
     fun getDataSize() = data.size
 
     fun getTargetIndexOffset() = targetSpannableOffset
+
+    private fun getQariWiseFolder(): String {
+        Log.e("updateQari",selectedQari.toString())
+        val idsToFilter = setOf(selectedQari)
+        //if(audioFolderLocation.isEmpty())
+        audioFolderLocation = qarisData.filter { it.title in idsToFilter }.getOrNull(0)?.contentFolder.toString()
+
+        return audioFolderLocation
+
+    }
 
     override fun getItemViewType(position: Int): Int {
         return if(isReadingMode)
@@ -229,34 +367,61 @@ internal class AlQuranAyatAdapter(
         holder.onBind(position,getItemViewType(position))
     }
 
-    inner class ViewHolder(
+
+    internal inner class ViewHolder(
         private val binding_list: ItemQuranAyatBinding? = null,
         private val binding_read: ItemQuranReadingBinding? = null
     ) : BaseViewHolderBinding(
-        if(binding_list!=null) binding_list.root
-        else if(binding_read !=null) binding_read.root
-        else null
+        when {
+            binding_list != null -> binding_list.root
+            binding_read != null -> binding_read.root
+            else -> null
+        }
+
     ),
         APAdapterCallback {
+
         init {
-            AudioManager().getInstance().setupAdapterResponseCallback(this@ViewHolder)
+            //AudioManager().getInstance().setupAdapterResponseCallback(this@ViewHolder)
+            callback.setAdapterCallback(this@ViewHolder)
         }
         override fun onBind(position: Int , viewtype: Int) {
-            super.onBind(position)
+            super.onBind(position,viewtype)
 
             when(viewtype) {
                 LIST_MODE -> {
-                    var ayatArabic = ""
-                    var wordToHighlight = ""
-                    var transliteration = ""
 
-                    data[position].words.forEach {
-                        ayatArabic += " " + it.text
-                        //wordToHighlight = it.text
-                        if (!it.transliteration.text.isNullOrEmpty()) {
-                            transliteration +=  it.transliteration.text +" "
+                    val getAyatData = data[position]
+                    var ayatArabic = ""
+                    //var wordToHighlight = ""
+                    val transliteration =
+                        if(DeenSDKCore.GetDeenLanguage() == "en")
+                            getAyatData.Transliteration_en.trim()
+                        else
+                            getAyatData.Transliteration_bn.trim()
+
+
+                    when(arabicFont){
+
+                        1-> {
+                            val customFont = ResourcesCompat.getFont(itemView.context, R.font.indopak)
+                            binding_list?.ayatArabic?.typeface = customFont
+                            ayatArabic = " ${getAyatData.Arabic_indopak}"
+                        }
+
+                        2-> {
+                            val customFont = ResourcesCompat.getFont(itemView.context, R.font.kfgqpc_font)
+                            binding_list?.ayatArabic?.typeface = customFont
+                            ayatArabic = " ${getAyatData.Arabic_uthmani}"
+                        }
+
+                        3-> {
+                            val customFont = ResourcesCompat.getFont(itemView.context, R.font.al_majed_quranic_font_regular)
+                            binding_list?.ayatArabic?.typeface = customFont
+                            ayatArabic = " ${getAyatData.Arabic_Custom}"
                         }
                     }
+
 
                     /*// hightlight word
 
@@ -292,17 +457,19 @@ internal class AlQuranAyatAdapter(
                     binding_list?.ayatEn?.setTextSize(TypedValue.COMPLEX_UNIT_SP,translation_font_size)
                     binding_list?.ayatBn?.setTextSize(TypedValue.COMPLEX_UNIT_SP,translation_font_size)
 
+                    val idsToFilter = setOf(en_translator,bn_translator)
+                    val getTransalationData = getAyatData.Translations.filter { it.TranslatorId in idsToFilter }
 
-                    if(data[position].translations.isNotEmpty()) {
+                    if(getTransalationData.isNotEmpty()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             binding_list?.ayatEn?.text = Html.fromHtml(
-                                data[position].translations[0].text,
+                                getTransalationData[0].Translation,
                                 Html.FROM_HTML_MODE_LEGACY
                             )
                         } else {
                             @Suppress("DEPRECATION")
                             binding_list?.ayatEn?.text = Html.fromHtml(
-                                data[position].translations[0].text
+                                getTransalationData[0].Translation
                             )
                         }
 
@@ -310,17 +477,18 @@ internal class AlQuranAyatAdapter(
                     else
                         binding_list?.ayatEn?.hide()
 
-                    if(data[position].translations.size>1) {
+
+                    if(getTransalationData.size>1) {
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             binding_list?.ayatBn?.text = Html.fromHtml(
-                                data[position].translations[1].text,
+                                getTransalationData[1].Translation,
                                 Html.FROM_HTML_MODE_LEGACY
                             )
                         } else {
                             @Suppress("DEPRECATION")
                             binding_list?.ayatBn?.text = Html.fromHtml(
-                                data[position].translations[1].text
+                                getTransalationData[1].Translation
                             )
                         }
 
@@ -329,11 +497,10 @@ internal class AlQuranAyatAdapter(
                         binding_list?.ayatBn?.hide()
 
 
+                    binding_list?.surayAyat?.text = getAyatData.VerseKey
 
-                    binding_list?.surayAyat?.text = data[position].verse_key
-
-                    binding_list?.btnPlay?. setOnClickListener {
-                        quranPlayBtnClick(position)
+                    binding_list?.btnPlay?.setOnClickListener {
+                        quranPlayBtnClick(absoluteAdapterPosition)
                     }
 
                     if (isPlaying && previousCallbackPosition == position) {
@@ -350,9 +517,12 @@ internal class AlQuranAyatAdapter(
                         binding_list?.quranCard?.setCardBackgroundColor(
                             ContextCompat.getColor(
                                 itemView.context,
-                                R.color.deen_card_bg
+                                R.color.deen_brand_accents_ultra_light
                             )
                         )
+
+                        binding_list?.quranCard?.strokeWidth = 2.dp
+
                         binding_list?.ayatArabic?.setTextColor(
                             ContextCompat.getColor(
                                 itemView.context,
@@ -365,6 +535,21 @@ internal class AlQuranAyatAdapter(
                                 R.color.deen_txt_black_deep
                             )
                         )
+
+
+                        binding_list?.ayatEn?.setTextColor(
+                            ContextCompat.getColor(
+                                itemView.context,
+                                R.color.deen_txt_black_deep
+                            )
+                        )
+                        binding_list?.transliteration?.setTextColor(
+                            ContextCompat.getColor(
+                                itemView.context,
+                                R.color.deen_txt_black_deep
+                            )
+                        )
+
 
                         if (isMiniPlayerCall) {
                             playQuranAudio(absoluteAdapterPosition)
@@ -388,13 +573,28 @@ internal class AlQuranAyatAdapter(
                                 R.color.deen_white
                             )
                         )
+                        binding_list?.quranCard?.strokeWidth = 0.dp
                         binding_list?.ayatArabic?.setTextColor(
                             ContextCompat.getColor(
                                 itemView.context,
                                 R.color.deen_txt_black_deep
                             )
                         )
+
                         binding_list?.ayatBn?.setTextColor(
+                            ContextCompat.getColor(
+                                itemView.context,
+                                R.color.deen_txt_ash
+                            )
+                        )
+
+                        binding_list?.ayatEn?.setTextColor(
+                            ContextCompat.getColor(
+                                itemView.context,
+                                R.color.deen_txt_ash
+                            )
+                        )
+                        binding_list?.transliteration?.setTextColor(
                             ContextCompat.getColor(
                                 itemView.context,
                                 R.color.deen_txt_ash
@@ -403,106 +603,179 @@ internal class AlQuranAyatAdapter(
 
                     }
 
+                    // favorite
+                    if(getAyatData.IsFavorite)
+                        binding_list?.btnFav?.setImageDrawable(
+                            AppCompatResources.getDrawable(
+                                binding_list.btnPlay.context,
+                                R.drawable.ic_favorite_primary_active
+                            )
+                        )
+                    else
+                        binding_list?.btnFav?.setImageDrawable(
+                            AppCompatResources.getDrawable(
+                                binding_list.btnPlay.context,
+                                R.drawable.ic_fav_quran
+                            )
+                        )
+
+                    binding_list?.btnFav?.setOnClickListener {
+                        callback.ayatFavClicked(data[absoluteAdapterPosition],absoluteAdapterPosition)
+                    }
+
+                    binding_list?.btnTafseer?.setOnClickListener {
+                        callback.tafsirBtnClicked(getAyatData.SurahId,getAyatData.VerseId,ayatArabic,arabicFont)
+                    }
+
+                    /*binding_list?.btnShare?.setOnClickListener {
+                        callback.customShareAyat(
+                            enText = binding_list.ayatEn.text.toString(),
+                            bnText = binding_list.ayatBn.text.toString(),
+                            arText = binding_list.ayatArabic.text.toString(),
+                            verseKey = getAyatData.VerseKey
+                        )
+                    }*/
+
                 }
 
                 READING_MODE -> {
 
+                    if(!isBnReading) {
 
-                    // String builder
+                        when(arabicFont){
 
-                    var startIndexForActive = 0
+                            1-> {
+                                val customFont =
+                                    ResourcesCompat.getFont(itemView.context, R.font.indopak)
+                                binding_read?.ayat?.typeface = customFont
+                            }
 
-                    val stringBuilder = StringBuilder()
-                    data.forEach {
+                            2-> {
+                                val customFont =
+                                    ResourcesCompat.getFont(itemView.context, R.font.kfgqpc_font)
+                                binding_read?.ayat?.typeface = customFont
+                            }
 
-                        var ayatArabic = ""
-
-                        it.words.forEach {
-                            ayatArabic += " " + it.text
-                            //wordToHighlight = it.text
+                            3-> {
+                                val customFont =
+                                    ResourcesCompat.getFont(itemView.context, R.font.al_majed_quranic_font_regular)
+                                binding_read?.ayat?.typeface = customFont
+                            }
                         }
 
-                        stringBuilder.append("${ayatArabic}")
                     }
+                    else
+                        binding_read?.ayat?.typeface = Typeface.DEFAULT
 
-                    val verseText = stringBuilder.toString()
-                    val spannableString = SpannableString(verseText)
 
-                    for ((index, data) in data.withIndex()) {
+                    if(data.isNotEmpty()) {
+                        // String builder
 
-                        val it = data
+                        var startIndexForActive = 0
 
-                        // detect verse click
-                        val clickableSpan = object : ClickableSpan() {
-                            override fun onClick(view: View) {
-                                // itemView.context.toast(it.verse_number.toString())
-                                quranPlayBtnClick(index)
-                                // Handle verse click event
-                            }
-                            override fun updateDrawState(ds: TextPaint) {
-                                // Remove underline
-                                ds.isUnderlineText = false
-                                if(isPlaying && previousCallbackPosition == index) {
-                                    playLoadingState(false)
-                                    ds.color = ContextCompat.getColor(
-                                        itemView.context,
-                                        R.color.deen_primary
-                                    )
-                                }
+                        val stringBuilder = StringBuilder()
+
+                        data.forEach {
+
+                            val ayatArabic =
+                                if(isBnReading) "${it.Transliteration_bn.trim()} "
                                 else
-                                    ds.color = ContextCompat.getColor(
-                                        itemView.context,
-                                        R.color.deen_txt_black_deep
-                                    )
+                                {
+                                    when (arabicFont) {
+                                        1 -> " ${it.Arabic_indopak}"
+                                        2 -> " ${it.Arabic_uthmani}"
+                                        else -> " ${it.Arabic_Custom}"
+                                    }
+                                }
 
+
+
+
+                            stringBuilder.append(ayatArabic)
+                        }
+
+
+                        val verseText = stringBuilder.toString()
+                        val spannableString = SpannableString(verseText)
+
+                        data.forEach {
+
+                            // detect verse click
+                            val clickableSpan = object : ClickableSpan() {
+                                override fun onClick(view: View) {
+                                    // itemView.context.toast(it.verse_number.toString())
+                                    quranPlayBtnClick(it.VerseId-1)
+                                    // Handle verse click event
+                                }
+                                override fun updateDrawState(ds: TextPaint) {
+                                    // Remove underline
+                                    ds.isUnderlineText = false
+                                    if(isPlaying && previousCallbackPosition == it.VerseId-1) {
+                                        //playLoadingState(false)
+                                        ds.color = ContextCompat.getColor(
+                                            itemView.context,
+                                            R.color.deen_primary
+                                        )
+                                    }
+                                    else
+                                        ds.color = ContextCompat.getColor(
+                                            itemView.context,
+                                            R.color.deen_txt_black_deep
+                                        )
+
+                                }
+                            }
+
+                            val ayatArabic =
+                                if(isBnReading) "${it.Transliteration_bn.trim()} "
+                                else
+                                {
+                                    when (arabicFont) {
+                                        1 -> " ${it.Arabic_indopak}"
+                                        2 -> " ${it.Arabic_uthmani}"
+                                        else -> " ${it.Arabic_Custom}"
+                                    }
+                                }
+
+
+                            val start = verseText.indexOf(ayatArabic)
+                            val end = start + ayatArabic.length
+
+                            if(isPlaying && previousCallbackPosition == it.VerseId-1 ) {
+                                startIndexForActive = start
+                                playLoadingState(false)
+                            }
+
+                            spannableString.setSpan(
+                                clickableSpan,
+                                start,
+                                end,
+                                SpannableString.SPAN_INCLUSIVE_INCLUSIVE
+                            )
+
+                            binding_read?.ayat?.apply {
+                                text = spannableString
+                                movementMethod = LinkMovementMethod.getInstance()
                             }
                         }
 
 
-                        var ayatArabic = ""
-
-                        it.words.forEach {
-                            ayatArabic += " " + it.text
-                            //wordToHighlight = it.text
+                        CoroutineScope(Dispatchers.Main).launch {
+                            binding_read?.ayat?.apply {
+                                if (startIndexForActive > 0)
+                                    targetSpannableOffset = this.layout.getLineTop(
+                                        this.layout.getLineForOffset(startIndexForActive)
+                                    )
+                                setTextSize(TypedValue.COMPLEX_UNIT_SP, theme_font_size)
+                            }
                         }
 
-
-                        val start = verseText.indexOf(ayatArabic)
-                        val end = start + ayatArabic.length
-
-                        //it.verse_number-1
-                        if(isPlaying && previousCallbackPosition == index )
-                            startIndexForActive = start
-
-                        spannableString.setSpan(
-                            clickableSpan,
-                            start,
-                            end,
-                            SpannableString.SPAN_INCLUSIVE_INCLUSIVE
-                        )
-
-                        binding_read?.ayat?.apply {
-                            text = spannableString
-                            movementMethod = LinkMovementMethod.getInstance()
+                        if (isMiniPlayerCall) {
+                            playQuranAudio(previousCallbackPosition)
+                            isMiniPlayerCall = false
                         }
+
                     }
-
-
-                    CoroutineScope(Dispatchers.Main).launch {
-                        binding_read?.ayat?.apply {
-                            if(startIndexForActive>0)
-                                targetSpannableOffset = this.layout.getLineTop(this.layout.getLineForOffset(startIndexForActive))
-                            setTextSize(TypedValue.COMPLEX_UNIT_SP,theme_font_size)
-                        }
-                    }
-
-
-
-                    if (isMiniPlayerCall) {
-                        playQuranAudio(absoluteAdapterPosition)
-                        isMiniPlayerCall = false
-                    }
-
 
                 }
 
@@ -519,22 +792,23 @@ internal class AlQuranAyatAdapter(
 
         private fun playQuranAudio(pos: Int)
         {
-                playLoadingState(true)
+            if(pos<0)
+                return
 
-                CoroutineScope(Dispatchers.IO).launch {
+            playLoadingState(true)
 
-                    AudioManager().getInstance().playAudioFromUrl(
-                        "${BASE_QURAN_VERSE_AUDIO_URL}${data[pos].audio.url}",
-                        pos
-                    )
-                }
+            callback.startPlayingQuran(data,pos)
+
+            /* CoroutineScope(Dispatchers.IO).launch {
+
+                 AudioManager().getInstance().playAudioFromUrl(getQuranAudioUrl("${BASE_CONTENT_URL_SGP}${data[pos].AudioUrl}",getQariWiseFolder()),pos)
+             }*/
         }
 
         private fun quranPlayBtnClick(pos:Int)
         {
-            pauseQuranAudio(previousCallbackPosition)
             if (previousCallbackPosition != pos) {
-                //isMediaPause(position)
+                isMediaPause(previousCallbackPosition)
                 previousCallbackPosition = pos
 
                 playQuranAudio(pos)
@@ -549,67 +823,84 @@ internal class AlQuranAyatAdapter(
 
         private fun pauseQuranAudio(pos:Int)
         {
-            CoroutineScope(Dispatchers.IO).launch {
+            playLoadingState(false)
+            /* CoroutineScope(Dispatchers.IO).launch {
+                // AudioManager().getInstance().pauseMediaPlayer(pos)
 
-                AudioManager().getInstance().pauseMediaPlayer(pos)
-
-                withContext(Dispatchers.Main)
-                {
-                    callback.isAyatPause()
-                }
-            }
+                 withContext(Dispatchers.Main)
+                 {
+                     callback.isAyatPause()
+                 }
+             }*/
+            isMediaPause(pos,false)
         }
 
-        override fun isPlaying(position: Int, duration: Int?, surahID: Int) {
+        override fun isPlaying(position: Int, duration: Long?, surahID: Int) {
+
+            playLoadingState(false)
+
+            if(this@AlQuranAyatAdapter.surahID != surahID)
+                return
+
             CoroutineScope(Dispatchers.Main).launch {
                 isMediaPlaying(position)
-                callback.isAyatPlaying(position,duration)
+                callback.isAyatPlaying(position, duration)
             }
         }
 
-        override fun isPause(position: Int) {
-            CoroutineScope(Dispatchers.Main).launch {
-                isMediaPause(position)
-            }
+        override fun isPause(position: Int,byService:Boolean) {
+            isMediaPause(position,byService)
         }
+
 
         override fun isStop(position: Int) {
-            CoroutineScope(Dispatchers.Main).launch {
+            /*CoroutineScope(Dispatchers.Main).launch {
                 isMediaPause(position)
                 callback.isAyatPause()
-            }
+            }*/
         }
 
         override fun isComplete(position: Int, surahID: Int) {
+            playLoadingState(false)
+
+            if(this@AlQuranAyatAdapter.surahID != surahID)
+                return
 
             if(auto_play_next) {
                 if (position + 1 < data.size) {
 
                     if(previousCallbackPosition>=0)
-                        isMediaPause(previousCallbackPosition)
-
-                    CoroutineScope(Dispatchers.IO).launch {
-                        AudioManager().getInstance().playAudioFromUrl(
-                            "${BASE_QURAN_VERSE_AUDIO_URL}${data[position + 1].audio.url}",
-                            position + 1
-                        )
-                    }
+                        isMediaPause(previousCallbackPosition,true)
 
                     if (previousCallbackPosition != position + 1)
                         previousCallbackPosition = position + 1
+
+                    miniPlayerCall(byService = true)
+
+                    /*CoroutineScope(Dispatchers.IO).launch {
+                        AudioManager().getInstance().playAudioFromUrl(getQuranAudioUrl(
+                            "${BASE_CONTENT_URL_SGP}${data[position+1].AudioUrl}",getQariWiseFolder()),
+                            position + 1
+                        )
+                    }*/
+
+
+
                 } else {
-                    previousCallbackPosition = 0
-                    callback.isAyatPause()
-                    isMediaPause(position)
+                    if(!auto_play_next)
+                        previousCallbackPosition = 0
+                    //callback.isAyatPause()
+                    isMediaPause(position,true)
                 }
 
                 callback.playNextAyat(position + 1)
             }
             else
             {
-                callback.isAyatPause()
-                isMediaPause(position)
+                //callback.isAyatPause()
+                isMediaPause(position,true)
             }
         }
     }
+
 }

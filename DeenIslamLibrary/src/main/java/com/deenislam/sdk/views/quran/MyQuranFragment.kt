@@ -4,56 +4,63 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
-import com.deenislam.sdk.utils.visible
+import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.views.adapters.quran.MyQuranAdapter
 import com.deenislam.sdk.views.adapters.quran.MyQuranCallback
 import com.deenislam.sdk.views.base.BaseRegularFragment
 
 
-internal class MyQuranFragment(
-    private val actionbar: ConstraintLayout
-) : BaseRegularFragment(), MyQuranCallback {
+internal class MyQuranFragment : BaseRegularFragment(), MyQuranCallback, QuranPlayerCallback {
 
-    private val  popularRC: RecyclerView by lazy { requireView().findViewById(R.id.surahListRC) }
-    private val progressLayout:LinearLayout by lazy { requireView().findViewById(R.id.progressLayout) }
-    private val no_internet_layout: NestedScrollView by lazy { requireView().findViewById(R.id.no_internet_layout)}
+    private lateinit var  listView: RecyclerView
+    private lateinit var mainContainer:ConstraintLayout
     private var firstload:Int = 0
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return localInflater.inflate(R.layout.fragment_quran_surah, container, false)
+        val mainview = localInflater.inflate(R.layout.fragment_quran_surah, container, false)
+
+        //init view
+        listView = mainview.findViewById(R.id.surahListRC)
+        mainContainer = mainview.findViewById(R.id.mainContainer)
+        setupCommonLayout(mainview)
+
+        return mainview
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        ViewCompat.setTranslationZ(progressLayout, 10F)
-        ViewCompat.setTranslationZ(no_internet_layout, 10F)
+    fun setupActionBar()
+    {
+        val actionbar  =  (parentFragment as? QuranFragment)?.getActionbar() as ConstraintLayout
+        setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.my_quran),true,actionbar)
 
-    }
-
-    override fun setMenuVisibility(menuVisible: Boolean) {
-        super.setMenuVisibility(menuVisible)
-        if (menuVisible)
-        {
-            setupActionForOtherFragment(0,0,null,"Al Quran",true,actionbar)
-
+        listView.post {
+            val miniPlayerHeight = getMiniPlayerHeight()
+            listView.setPadding(listView.paddingStart,listView.paddingTop,listView.paddingEnd,if(miniPlayerHeight>0) miniPlayerHeight else listView.paddingBottom)
         }
+
     }
 
     override fun onResume() {
         super.onResume()
+        setupActionBar()
         initView()
     }
+
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+
+        if(menuVisible) {
+            CallBackProvider.setFragment(this)
+        }
+    }
+
 
     private fun initView()
     {
@@ -61,14 +68,11 @@ internal class MyQuranFragment(
             return
         firstload = 1
 
-        progressLayout.visible(false)
-        no_internet_layout.visible(false)
-
-        popularRC.apply {
+        listView.apply {
             adapter = MyQuranAdapter(this@MyQuranFragment)
             overScrollMode = View.OVER_SCROLL_NEVER
             post {
-                progressLayout.visible(false)
+                baseViewState()
             }
         }
 
@@ -77,7 +81,13 @@ internal class MyQuranFragment(
     override fun menuClicked(position: Int) {
         when(position)
         {
-            0-> gotoFrag(R.id.quranFavoriteFragment)
+            0 -> gotoFrag(R.id.action_global_quranDownloadFragment)
+           /* 1 -> gotoFrag(R.id.dailyVerseFragment)
+            4 -> gotoFrag(R.id.quranicDuaFragment)*/
         }
+    }
+
+    override fun globalMiniPlayerClosed(){
+        listView.setPadding(listView.paddingStart,listView.paddingTop,listView.paddingEnd,0)
     }
 }

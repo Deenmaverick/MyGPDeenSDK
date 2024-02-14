@@ -82,30 +82,7 @@
         android:id="@+id/tasbeehFragment"
         android:name="com.deenislam.sdk.views.tasbeeh.TasbeehFragment"
         android:label="fragment_tasbeeh" />
-    <fragment
-        android:id="@+id/alQuranFragment"
-        android:name="com.deenislam.sdk.views.quran.AlQuranFragment"
-        android:label="fragment_al_quran"
-        tools:layout="@layout/fragment_al_quran" >
-        <argument
-            android:name="surah"
-            app:argType="com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="suraList"
-            app:argType="com.deenislam.sdk.service.network.response.quran.qurannew.surah.SurahList" />
-        <argument
-            android:name="juz"
-            app:argType="com.deenislam.sdk.service.network.response.quran.juz.Juz"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="juzList"
-            app:argType="com.deenislam.sdk.service.network.response.quran.juz.JuzResponse"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
+
     <fragment
         android:id="@+id/hadithFragment"
         android:name="com.deenislam.sdk.views.hadith.HadithFragment"
@@ -948,5 +925,63 @@
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_alQuranFragment"
+        app:destination="@id/alQuranFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/quranDownloadFragment"
+        android:name="com.deenislam.sdk.views.quran.QuranDownloadFragment"
+        android:label="QuranDownloadFragment" />
+    <action
+        android:id="@+id/action_global_quranDownloadFragment"
+        app:destination="@id/quranDownloadFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <action
+        android:id="@+id/action_global_dashboardFakeFragment"
+        app:destination="@id/dashboardFakeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/alQuranFragment"
+        android:name="com.deenislam.sdk.views.quran.AlQuranFragment"
+        android:label="fragment_al_quran"
+        tools:layout="@layout/fragment_al_quran" >
+        <argument
+            android:name="surah"
+            app:argType="com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="juz"
+            app:argType="com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data"
+            android:defaultValue="@null"
+            app:nullable="true" />
+        <argument
+            android:name="juzList"
+            app:argType="com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="surahID"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="surahName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
 </navigation>

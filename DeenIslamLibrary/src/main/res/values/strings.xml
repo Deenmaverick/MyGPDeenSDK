@@ -389,4 +389,25 @@
     <string name="necessary_duas">Necessary Duas</string>
     <string name="enbn">English</string>
     <string name="not_yet">Not yet</string>
+    <string name="recent_read_total_ayat">Total Verse: %1$s</string>
+    <string name="download_list">Download</string>
+    <string name="do_you_want_to_remove_this_download">Do you want to remove this download?</string>
+    <string name="reciter">Reciter</string>
+    <string name="tafsir">Tafsir</string>
+    <string name="arabic_recite">Arabic Recite</string>
+    <string name="bangla_recite">Bangla Recite</string>
+    <string name="warning">Caution</string>
+    <string name="choose_a_reciter">Choose a Reciter</string>
+    <string name="bangla_translator">Bangla Translator</string>
+    <string name="select_translation">Select Translation</string>
+    <string name="english_translator">English Translator</string>
+    <string name="bangla_tafsir">Bangla Tafsir</string>
+    <string name="quaran_caution_content">The pronunciation of Arabic in Bengali can be difficult because some Arabic letters are not pronounced in the language. Users are encouraged to avoid Bengali pronunciation whenever feasible. However, for those wishing to recite Arabic, it is recommended to first listen to an Arabic recitation and then attempt to pronounce it in alignment with the recitation. By adopting this method, you can avoid most issues, In Sha Allah!\n\nWe are constantly working on the development of our app and Islamic content. Your feedback is crucial in helping us identify and rectify any errors promptly. Stay with Deen on the path of Islamic living. </string>
+    <string name="want_to_download">Want to download?</string>
+    <string name="quran_offline_download_hint">You can download Holy Quran Surahs offline. In this case, your additional data charges will be applicable. With this offline Quran download, you can listen to the recitation of the Holy Quran without the internet, Insha\'Allah!</string>
+    <string name="indopak">IndoPak</string>
+    <string name="al_majeed">Al-Majeed</string>
+    <string name="demo_almajeed">"بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ "</string>
+    <string name="demo_indopakTxt">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ ۟</string>
+    <string name="demoUthamaniTxt">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢</string>
 </resources>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
-    android:elevation="@dimen/space_8"
+    android:elevation="1dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/deen_white">
 
@@ -30,6 +31,9 @@
         android:layout_marginBottom="@dimen/space_15"
         android:layout_marginStart="@dimen/space_8"
         android:text="@string/app_name"
+        android:maxLines="1"
+        android:textStyle="bold"
+        android:ellipsize="end"
         android:textColor="@color/deen_primary"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintEnd_toStartOf="@+id/action1"
@@ -37,14 +41,13 @@
         app:layout_constraintStart_toEndOf="@+id/btnBack"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/action1"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="48dp"
-        android:paddingStart="@dimen/space_4"
-        android:paddingEnd="@dimen/space_4"
-        android:layout_marginEnd="@dimen/space_16"
+        android:padding="@dimen/space_10"
+        android:layout_marginEnd="@dimen/space_4"
+        android:contentDescription="action1"
         android:src="@drawable/ic_notification"
         app:layout_constraintEnd_toStartOf="@id/action2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,15 +56,48 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/action2"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="48dp"
-        android:paddingStart="@dimen/space_4"
-        android:paddingEnd="@dimen/space_4"
-        android:layout_marginEnd="@dimen/space_16"
+        android:padding="@dimen/space_10"
+        android:contentDescription="action2"
+        android:layout_marginEnd="@dimen/space_4"
+        android:src="@drawable/ic_avatar"
+        app:layout_constraintEnd_toStartOf="@id/action3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:visibility="gone"
+        android:id="@+id/action3"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="@dimen/space_10"
+        android:contentDescription="action3"
+        android:layout_marginEnd="@dimen/space_4"
         android:src="@drawable/ic_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:visibility="gone"
+        android:id="@+id/action3Progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_10"
+        android:layout_marginEnd="@dimen/space_4"
+        app:indicatorColor="?attr/colorPrimary"
+        app:trackColor="@color/deen_border"
+        app:indicatorSize="22dp"
+        app:trackThickness="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

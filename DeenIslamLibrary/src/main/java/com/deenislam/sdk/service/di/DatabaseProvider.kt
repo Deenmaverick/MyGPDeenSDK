@@ -78,11 +78,37 @@ internal class DatabaseProvider {
             database.execSQL("ALTER TABLE tasbeeh_new RENAME TO tasbeeh")
 
 
-
             // playersettingpref
-            database.execSQL("CREATE TABLE IF NOT EXISTS `playersettingpref` (`id` INTEGER NOT NULL DEFAULT 1, `theme_font_size` REAL NOT NULL DEFAULT 0.0, `arabic_font` INTEGER NOT NULL DEFAULT 1, `auto_scroll` INTEGER NOT NULL DEFAULT 1, `auto_play_next` INTEGER NOT NULL DEFAULT 1, `recitation` INTEGER NOT NULL DEFAULT 1, `transliteration` INTEGER NOT NULL DEFAULT 1,`translation_font_size` REAL NOT NULL DEFAULT 0.0, `translation_language` TEXT NOT NULL DEFAULT 'bn', PRIMARY KEY(`id`))")
+            database.execSQL("CREATE TABLE IF NOT EXISTS `playersettingpref` " +
+                    "(" +
+                    "`id` INTEGER NOT NULL DEFAULT 1, " +
+                    "`theme_font_size` REAL NOT NULL DEFAULT 0.0, " +
+                    "`arabic_font` INTEGER NOT NULL DEFAULT 1, " +
+                    "`auto_scroll` INTEGER NOT NULL DEFAULT 1, " +
+                    "`auto_play_next` INTEGER NOT NULL DEFAULT 1, " +
+                    "`recitation` INTEGER NOT NULL DEFAULT 1, " +
+                    "`transliteration` INTEGER NOT NULL DEFAULT 1," +
+                    "`translation_font_size` REAL NOT NULL DEFAULT 0.0, " +
+                    "`translation_language` TEXT NOT NULL DEFAULT 'bn', " +
+                    "`bn_translator` INTEGER NOT NULL DEFAULT 0," +
+                    "`en_translator` INTEGER NOT NULL DEFAULT 0," +
+                    "`tafsir` INTEGER NOT NULL DEFAULT 0," +
+                    "PRIMARY KEY(`id`))")
             verify_all_playersettingpref_col(database)
-            database.execSQL("CREATE TABLE IF NOT EXISTS `playersettingpref_new` (`id` INTEGER NOT NULL DEFAULT 1, `theme_font_size` REAL NOT NULL DEFAULT 0.0, `arabic_font` INTEGER NOT NULL DEFAULT 1, `auto_scroll` INTEGER NOT NULL DEFAULT 1, `auto_play_next` INTEGER NOT NULL DEFAULT 1, `recitation` INTEGER NOT NULL DEFAULT 1, `transliteration` INTEGER NOT NULL DEFAULT 1, `translation_font_size` REAL NOT NULL DEFAULT 0.0, `translation_language` TEXT NOT NULL DEFAULT 'bn', PRIMARY KEY(`id`))")
+            database.execSQL("CREATE TABLE IF NOT EXISTS `playersettingpref_new` " +
+                    "(`id` INTEGER NOT NULL DEFAULT 1, " +
+                    "`theme_font_size` REAL NOT NULL DEFAULT 0.0, " +
+                    "`arabic_font` INTEGER NOT NULL DEFAULT 1, " +
+                    "`auto_scroll` INTEGER NOT NULL DEFAULT 1, " +
+                    "`auto_play_next` INTEGER NOT NULL DEFAULT 1, " +
+                    "`recitation` INTEGER NOT NULL DEFAULT 1, " +
+                    "`transliteration` INTEGER NOT NULL DEFAULT 1, " +
+                    "`translation_font_size` REAL NOT NULL DEFAULT 0.0, " +
+                    "`translation_language` TEXT NOT NULL DEFAULT 'bn', " +
+                    "`bn_translator` INTEGER NOT NULL DEFAULT 0," +
+                    "`en_translator` INTEGER NOT NULL DEFAULT 0," +
+                    "`tafsir` INTEGER NOT NULL DEFAULT 0," +
+                    "PRIMARY KEY(`id`))")
             database.execSQL("INSERT OR IGNORE INTO playersettingpref_new SELECT * FROM playersettingpref")
             database.execSQL("DROP TABLE playersettingpref")
             database.execSQL("ALTER TABLE playersettingpref_new RENAME TO playersettingpref")
@@ -112,6 +138,9 @@ internal class DatabaseProvider {
     private fun verify_all_playersettingpref_col(database: SupportSQLiteDatabase)
     {
         tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `translation_font_size` REAL NOT NULL DEFAULT '0.0'") }
+        tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `bn_translator` INTEGER NOT NULL DEFAULT 0") }
+        tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `en_translator` INTEGER NOT NULL DEFAULT 0") }
+        tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `tafsir` INTEGER NOT NULL DEFAULT 0") }
 
     }
 
