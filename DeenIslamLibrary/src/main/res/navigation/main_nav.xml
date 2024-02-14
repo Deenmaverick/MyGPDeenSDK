@@ -875,4 +875,78 @@
         android:name="com.deenislam.sdk.views.ramadan.RamadanOtherDayFragment"
         android:label="RamadanOtherDayFragment" />
 
+    <fragment
+        android:id="@+id/nearestMosqueWebviewFragment"
+        android:name="com.deenislam.sdk.views.nearestmosque.NearestMosqueWebviewFragment"
+        android:label="NearestMosqueWebviewFragment" />
+
+    <action
+        android:id="@+id/action_global_nearestMosqueWebviewFragment"
+        app:destination="@id/nearestMosqueWebviewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_prayerTimesFragment"
+        app:destination="@id/prayerTimesFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <action
+        android:id="@+id/action_global_quranFragment"
+        app:destination="@id/quranFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_hadithFragment"
+        app:destination="@id/hadithFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit"/>
+    <action
+        android:id="@+id/action_global_dailyDuaFragment"
+        app:destination="@id/dailyDuaFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_zakatFragment"
+        app:destination="@id/zakatFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_tasbeehFragment"
+        app:destination="@id/tasbeehFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_compassFragment"
+        app:destination="@id/compassFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <action
+        android:id="@+id/action_global_islamicNameFragment"
+        app:destination="@id/islamicNameFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
 </navigation>

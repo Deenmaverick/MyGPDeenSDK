@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Base64
 import android.util.Log
 import androidx.annotation.Keep
+import com.deenislam.sdk.service.database.AppPreference
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.network.ApiResource
@@ -65,6 +66,8 @@ object DeenSDKCore {
         this.DeenCallBackListener = callback
         this.token = token
 
+        AppPreference.init(context)
+
         try {
             val decoded = JWTdecode(token)
            msisdn = decoded.payload.name
@@ -78,6 +81,8 @@ object DeenSDKCore {
             {
                 checkAuth()
             }
+
+
 
             AuthenticateRepository(
                 authenticateService = NetworkProvider().getInstance().provideAuthService(),
@@ -149,6 +154,8 @@ object DeenSDKCore {
         this.baseContext = context
         this.appContext = context.applicationContext
         this.DeenCallBackListener = callback
+
+        AppPreference.init(context)
 
         CoroutineScope(Dispatchers.IO).launch {
 

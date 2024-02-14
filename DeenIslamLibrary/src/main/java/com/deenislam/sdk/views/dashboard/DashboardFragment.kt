@@ -47,9 +47,15 @@ import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
 import com.deenislam.sdk.utils.MENU_DUA
 import com.deenislam.sdk.utils.MENU_HADITH
 import com.deenislam.sdk.utils.MENU_IJTEMA
+import com.deenislam.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislam.sdk.utils.MENU_ISLAMIC_NAME
+import com.deenislam.sdk.utils.MENU_KHATAM_E_QURAN
+import com.deenislam.sdk.utils.MENU_PRAYER_LEARNING
 import com.deenislam.sdk.utils.MENU_PRAYER_TIME
 import com.deenislam.sdk.utils.MENU_QIBLA_COMPASS
+import com.deenislam.sdk.utils.MENU_QURAN_CLASS
+import com.deenislam.sdk.utils.MENU_RAMADAN
+import com.deenislam.sdk.utils.MENU_RAMADAN_OTHER_DAY
 import com.deenislam.sdk.utils.MENU_ZAKAT
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
@@ -872,36 +878,42 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     override fun menuClicked(pagetag: String, getMenu: Item?) {
         when(pagetag)
         {
-            MENU_PRAYER_TIME ->  gotoFrag(R.id.action_global_ramadanFragment)
-            MENU_AL_QURAN -> gotoFrag(R.id.action_global_ramadanOtherDayFragment)
-            MENU_HADITH -> gotoFrag(R.id.action_global_quranLearningFragment)
-            MENU_DUA -> gotoFrag(R.id.dailyDuaFragment)
-            MENU_ZAKAT -> gotoFrag(R.id.zakatFragment)
-            MENU_DIGITAL_TASBEEH -> gotoFrag(R.id.tasbeehFragment)
+            MENU_PRAYER_TIME ->  gotoFrag(R.id.action_global_prayerTimesFragment)
+            MENU_AL_QURAN -> gotoFrag(R.id.action_global_quranFragment)
+            MENU_HADITH -> gotoFrag(R.id.action_global_hadithFragment)
+            MENU_DUA -> gotoFrag(R.id.action_global_dailyDuaFragment)
+            MENU_ZAKAT -> gotoFrag(R.id.action_global_zakatFragment)
+            MENU_DIGITAL_TASBEEH -> gotoFrag(R.id.action_global_tasbeehFragment)
             MENU_QIBLA_COMPASS -> {
                 val bundle = Bundle()
                 bundle.putString("compassBG",compassBG)
-                gotoFrag(R.id.compassFragment,bundle)
+                gotoFrag(R.id.action_global_compassFragment,bundle)
             }
-            MENU_ISLAMIC_NAME -> gotoFrag(R.id.islamicNameFragment)
+            MENU_ISLAMIC_NAME -> gotoFrag(R.id.action_global_islamicNameFragment)
             MENU_IJTEMA -> gotoFrag(R.id.action_global_ijtemaLiveFragment)
+            MENU_ISLAMIC_EVENT -> gotoFrag(R.id.action_global_islamicEventHomeFragment)
+            MENU_PRAYER_LEARNING -> gotoFrag(R.id.action_global_prayerLearningFragment)
+            MENU_KHATAM_E_QURAN -> gotoFrag(R.id.action_global_khatamEquranHomeFragment)
+            MENU_QURAN_CLASS -> gotoFrag(R.id.action_global_quranLearningFragment)
+            MENU_RAMADAN_OTHER_DAY -> gotoFrag(R.id.action_global_ramadanOtherDayFragment)
+            MENU_RAMADAN -> gotoFrag(R.id.action_global_ramadanFragment)
         }
     }
 
     override fun dashboardPatchClickd(patch: String, data: Item?) {
         when(patch)
         {
-            "qr","qrs" -> gotoFrag(R.id.quranFragment)
-            "hd","hdd" -> gotoFrag(R.id.hadithFragment)
-            "zk" -> gotoFrag(R.id.zakatFragment)
-            "tb" -> gotoFrag(R.id.tasbeehFragment)
-            "in" -> gotoFrag(R.id.islamicNameFragment)
+            "qr","qrs" -> gotoFrag(R.id.action_global_quranFragment)
+            "hd","hdd" -> gotoFrag(R.id.action_global_hadithFragment)
+            "zk" -> gotoFrag(R.id.action_global_zakatFragment)
+            "tb" -> gotoFrag(R.id.action_global_tasbeehFragment)
+            "in" -> gotoFrag(R.id.action_global_islamicNameFragment)
             "cp" -> {
                 val bundle = Bundle()
                 bundle.putString("compassBG",compassBG)
-                gotoFrag(R.id.compassFragment,bundle)
+                gotoFrag(R.id.action_global_compassFragment,bundle)
             }
-            "du" -> gotoFrag(R.id.dailyDuaFragment)
+            "du" -> gotoFrag(R.id.action_global_dailyDuaFragment)
             "ijtema" -> {
 
                 data?.let {

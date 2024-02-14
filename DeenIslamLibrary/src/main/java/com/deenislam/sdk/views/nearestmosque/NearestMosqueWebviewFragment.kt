@@ -10,11 +10,9 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.ConsoleMessage
 import android.webkit.GeolocationPermissions
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
@@ -26,7 +24,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.deenislam.sdk.R
-import com.deenislam.sdk.service.AppPreference
+import com.deenislam.sdk.service.database.AppPreference
 import com.deenislam.sdk.utils.LocationHelper
 import com.deenislam.sdk.views.base.BaseRegularFragment
 

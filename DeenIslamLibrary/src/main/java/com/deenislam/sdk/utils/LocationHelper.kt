@@ -6,13 +6,13 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.util.Log
 import androidx.core.app.ActivityCompat
-import com.deenislam.sdk.service.AppPreference
+import com.deenislam.sdk.service.database.AppPreference
 import com.deenislam.sdk.service.models.UserLocation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 
-class LocationHelper(mContext: Context) {
+internal class LocationHelper(mContext: Context) {
     var context: Context
     var mFusedClient: FusedLocationProviderClient? = null
 
