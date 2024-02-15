@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.quran
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,12 +32,13 @@ internal class QuranHomeFragment : BaseRegularFragment(), SurahCallback, QuranPl
 
     //private lateinit var recentRC: RecyclerView
     private lateinit var listView:RecyclerView
-    private var firstload:Int = 0
+    private var firstload = false
 
     private lateinit var quranHomePatchAdapter: QuranHomePatchAdapter
     private lateinit var mainContainer:ConstraintLayout
 
     private lateinit var viewmodel:AlQuranViewModel
+
 
     override fun OnCreate() {
         super.OnCreate()
@@ -70,7 +72,17 @@ internal class QuranHomeFragment : BaseRegularFragment(), SurahCallback, QuranPl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        if(firstload) {
+            if(this::quranHomePatchAdapter.isInitialized) {
+                listView.apply {
+                    layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    adapter = quranHomePatchAdapter
+                }
+            }
+
+            baseViewState()
+        }
     }
 
 
@@ -93,7 +105,7 @@ internal class QuranHomeFragment : BaseRegularFragment(), SurahCallback, QuranPl
     override fun onResume() {
         super.onResume()
         setupActionBar()
-        initView()
+
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
@@ -101,19 +113,33 @@ internal class QuranHomeFragment : BaseRegularFragment(), SurahCallback, QuranPl
 
         if(menuVisible) {
             CallBackProvider.setFragment(this)
+            if(!firstload)
+                initView()
         }
     }
 
 
     private fun initView()
     {
-        if(firstload != 0)
+        if(firstload) {
+
+            if(this::quranHomePatchAdapter.isInitialized) {
+                listView.apply {
+                    layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    adapter = quranHomePatchAdapter
+                }
+            }
+
+            baseViewState()
             return
-        firstload = 1
+        }
 
 
         initObserver()
         loadAPI()
+
+        firstload = true
 
     }
 

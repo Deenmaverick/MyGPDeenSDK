@@ -32,15 +32,15 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
+import com.deenislam.sdk.service.libs.media3.AudioManager
+import com.deenislam.sdk.service.libs.media3.ExoVideoManager
 import com.deenislam.sdk.service.libs.media3.QuranPlayer
 import com.deenislam.sdk.service.libs.media3.QuranPlayerBroadcast
 import com.deenislam.sdk.service.libs.media3.QuranPlayerOffline
@@ -52,29 +52,26 @@ import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
 import com.deenislam.sdk.service.weakref.dashboard.DashboardBillboardPatchClass
 import com.deenislam.sdk.service.weakref.dashboard.DashboardPatchClass
 import com.deenislam.sdk.service.weakref.main.MainActivityInstance
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.DraggableView
 import com.deenislam.sdk.utils.LocaleUtil
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.reduceDragSensitivity
+import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
-import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.adapters.quran.AlQuranAyatAdapter
-import com.deenislam.sdk.views.dashboard.DashboardFragment
-import com.deenislam.sdk.views.dashboard.patch.Billboard
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 
 internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
-    private lateinit var navHostFragment:NavHostFragment
     private lateinit var navController:NavController
-    private lateinit var mPageDestination: ArrayList<Fragment>
-    private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
     private var actionCallback:actionCallback ? =null
     private var searchCallback:searchCallback ? =null
 
@@ -84,8 +81,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private var sessionStartTime:Long = System.currentTimeMillis()/1000
 
     private val _viewPager: ViewPager2 by lazy { findViewById(R.id.viewPager) }
-    private val frameContainerView: FragmentContainerView by lazy { findViewById(R.id.fragmentContainerView) }
-
+     private lateinit var frameContainerView: FragmentContainerView
 
     private val searchbar:ConstraintLayout by lazy { findViewById(R.id.searchbar) }
     private val searchBackBtn:AppCompatImageView by lazy { searchbar.findViewById(R.id.btnBack) }
@@ -98,7 +94,6 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private val btnBack:AppCompatImageView by lazy { actionbar.findViewById(R.id.btnBack) }
     private val title:AppCompatTextView by lazy { actionbar.findViewById(R.id.title) }
 
-    var bottomNavClicked:Boolean = false
     var childFragmentAnimForward:Boolean = false
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
@@ -135,9 +130,14 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private lateinit var ic_close:AppCompatImageView
     private lateinit var playerProgress: LinearProgressIndicator
     private lateinit var playLoading: CircularProgressIndicator
-    private var countDownTimer: CountDownTimer?=null
     private var currentSurahDetails: Data? = null
+    private var countDownTimer: CountDownTimer?=null
+    // Mini player drag element
+    private var initialX: Float = 0f
 
+    // Global video and Audio manager
+    private var globalExoVideoManager: ExoVideoManager? = null
+    private var globalAudioManager: AudioManager? = null
 
     companion object
     {
@@ -145,7 +145,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     }
 
 
-    val quranOnlineserviceConnection = object : ServiceConnection {
+    private val quranOnlineserviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as QuranPlayer.LocalBinder
             MainActivityInstance.updateQuranPlayer(binder.getService())
@@ -173,6 +173,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
             MainActivityInstance.getQuranPlayerInstance()?.setGlobalMiniPlayerCallback(this@MainActivityDeenSDK)
             MainActivityInstance.getQuranPlayerInstance()?.initGlobalMiniPlayer()
+
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -182,7 +183,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     }
 
 
-    val quranOfflineserviceConnection = object : ServiceConnection {
+    private val quranOfflineserviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as QuranPlayerOffline.LocalBinder
             MainActivityInstance.updateQuranPlayerOffline(binder.getService())
@@ -222,14 +223,27 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         instance = this
         setContentView(R.layout.activity_main_deen)
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        navController = navHostFragment.navController
+        frameContainerView = findViewById(R.id.fragmentContainerView)
+        navController = findNavController(R.id.fragmentContainerView)
+
+        // quran global mini player
+        mini_player = findViewById(R.id.mini_player)
+        surahTitile = mini_player.findViewById(R.id.surahTitile)
+        surahAyat = mini_player.findViewById(R.id.surahAyat)
+        ic_prev = mini_player.findViewById(R.id.ic_prev)
+        ic_play_pause = mini_player.findViewById(R.id.ic_play_pause)
+        ic_next = mini_player.findViewById(R.id.ic_next)
+        ic_close = mini_player.findViewById(R.id.ic_close)
+        playerProgress = mini_player.findViewById(R.id.playerProgress)
+        playLoading = mini_player.findViewById(R.id.playLoading)
+
         frameContainerView.visible(true)
         changeLanguage()
         //bottom_navigation.setupWithNavController(navController)
         searchInput.hint = localContext.getString(R.string.search)
         // test notification
         createChannel("Prayer Time","Prayer Time","Prayer Alert")
+        createSilentChannel("Quran","Quran","Quran Player")
         //Log.e("CUR_TIME_NOTIFY",Calendar.getInstance().timeInMillis.toString())
       /*  setNotification(  SystemClock.elapsedRealtime()+600,1)
         setNotification(SystemClock.elapsedRealtime()+1200,2)
@@ -279,6 +293,59 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             false
         }
 
+
+        // Global mini player
+
+        ic_play_pause.setOnClickListener {
+
+            MainActivityInstance.getQuranPlayerInstance()?.playPause()
+            MainActivityInstance.getQuranPlayerOfflineInstance()?.playPause()
+        }
+
+        ic_prev.setOnClickListener {
+            MainActivityInstance.getQuranPlayerInstance()?.playPrevSurah()
+        }
+
+        ic_next.setOnClickListener {
+            MainActivityInstance.getQuranPlayerInstance()?.playNextSurah()
+        }
+
+
+        mini_player.setDragReleaseCallback(object : DraggableView.DragReleaseCallback {
+            override fun onDragReleased() {
+                val callback = CallBackProvider.get<QuranPlayerCallback>()
+                MainActivityInstance.getQuranPlayerInstance()?.stopQuranPlayer()
+                MainActivityInstance.getQuranPlayerOfflineInstance()?.stopQuranPlayer()
+                callback?.globalMiniPlayerClosed()
+            }
+
+            override fun onMiniQuranPlayerClicked() {
+                currentSurahDetails?.let {
+                    val bundle = Bundle()
+                    bundle.putInt("surahID", it.SurahId)
+                    bundle.putString("surahName", it.SurahName)
+                    navController.navigate(R.id.action_global_alQuranFragment,bundle)
+                }
+            }
+        })
+
+        if (QuranPlayer.isServiceRunning) {
+            isQuranPlayerWasRunning = true
+            startQuranPlayerService()
+        }
+
+        if (QuranPlayerOffline.isServiceRunning) {
+            isQuranPlayerWasRunning = true
+            startQuranPlayerOfflineService()
+        }
+
+        initNavChangeObsever()
+
+        mini_player.post {
+            initialX = mini_player.x
+        }
+
+
         intent.getIntExtra("destination",0).let {
             if(it>0)
                 stackNavigation(destination = it,intent)
@@ -293,6 +360,9 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
         setupBackPressCallback()
 
+
+
+
     }
 
     override fun onResume() {
@@ -303,6 +373,131 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
         sessionStartTime = System.currentTimeMillis()/1000
 
+    }
+
+    override fun isQuranPlaying(position: Int, duration: Long?, totalAyat: Int) {
+        globalAudioManager?.pauseMediaPlayer()
+        globalExoVideoManager?.pauseVideoPlayer()
+        ic_play_pause.show()
+        playLoading.hide()
+
+        ic_play_pause.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_pause_fill
+            )
+        )
+
+        val progress:Double = 100.0/totalAyat
+
+        var currentProgress = progress * position
+
+        if(currentProgress <= 0.0)
+            currentProgress = 0.5
+        else if(currentProgress > 100.0)
+            currentProgress = 100.0
+
+
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer((duration?:0L).toLong(),1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+                duration?.let {
+                    val progressPerSecond = progress  / TimeUnit.MILLISECONDS.toSeconds(duration.toLong())
+                    currentProgress +=progressPerSecond
+
+                    val curProgress = currentProgress.toInt()
+
+                    if(currentProgress <= 0.0)
+                        currentProgress = 0.5
+                    else if(currentProgress > 100.0)
+                        currentProgress = 100.0
+
+                    playerProgress.progress = curProgress
+
+                }
+            }
+
+            override fun onFinish() {
+                countDownTimer?.cancel()
+            }
+        }
+        countDownTimer?.start()
+    }
+
+    override fun isQuranPause() {
+        ic_play_pause.show()
+        playLoading.hide()
+        countDownTimer?.cancel()
+        ic_play_pause.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_quran_play_fill
+            )
+        )
+    }
+
+    override fun isQuranStop() {
+
+        stopQuranPlayerService()
+        stopQuranOfflinePlayerService()
+
+
+        ic_play_pause.show()
+        playLoading.hide()
+
+        countDownTimer?.cancel()
+        ic_play_pause.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_quran_play_fill
+            )
+        )
+        mini_player.hide()
+        val callback = CallBackProvider.get<QuranPlayerCallback>()
+        callback?.globalMiniPlayerClosed()
+        frameContainerView.setPadding(0,0,0,0)
+    }
+
+    override fun updateSurahDetails(currentSurahDetails: Data) {
+
+        ic_play_pause.visibility = View.INVISIBLE
+        playLoading.show()
+        countDownTimer?.cancel()
+        ic_play_pause.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_quran_play_fill
+            )
+        )
+        playerProgress.progress = 0
+        this.currentSurahDetails = currentSurahDetails
+        surahTitile.text = currentSurahDetails.SurahName
+        surahAyat.text = this.getLocalContext().resources.getString(R.string.quran_popular_surah_ayat,currentSurahDetails.TotalAyat.numberLocale(),"")
+        /*if(navController.currentDestination?.id != R.id.alQuranFragment)
+        mini_player.show()
+        else
+            mini_player.hide()*/
+    }
+
+    private fun stopQuranPlayerService() {
+        if (isQuranPlayerBound) {
+            unbindService(quranOnlineserviceConnection)
+            isQuranPlayerBound = false
+        }
+
+        val intent = Intent(this, QuranPlayer::class.java)
+        stopService(intent)
+    }
+
+    private fun stopQuranOfflinePlayerService() {
+        if (isQuranOfflinePlayerBound) {
+            unbindService(quranOfflineserviceConnection)
+            isQuranOfflinePlayerBound = false
+        }
+
+        val intent = Intent(this, QuranPlayerOffline::class.java)
+        stopService(intent)
     }
 
     fun closeDeenSDK()
@@ -462,12 +657,39 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             0
     }
 
+    fun globalMiniPlayerForHome(height: Int) {
+
+        if (QuranPlayer.isServiceRunning) {
+            //val bottomNavHeight = resources.getDimensionPixelSize(com.google.android.material.R.dimen.design_bottom_navigation_height)
+            (mini_player.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = height
+            mini_player.show()
+            ic_next.show()
+            ic_prev.show()
+
+        }
+        else if (QuranPlayerOffline.isServiceRunning) {
+            //val bottomNavHeight = resources.getDimensionPixelSize(com.google.android.material.R.dimen.design_bottom_navigation_height)
+            (mini_player.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = height
+            mini_player.show()
+            ic_next.hide()
+            ic_prev.hide()
+        }
+    }
+
     fun pauseQuran()
     {
         val intent = Intent(this, QuranPlayerBroadcast::class.java)
         intent.action = "pause_action"
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
         pendingIntent.send()
+    }
+
+    fun getMiniPlayerHeight(): Int {
+        return if(QuranPlayer.isServiceRunning)
+            mini_player.height
+        else if(QuranPlayerOffline.isServiceRunning)
+            mini_player.height
+        else 0
     }
 
     fun setAdapterCallbackQuranPlayer(viewHolder: AlQuranAyatAdapter.ViewHolder)
@@ -498,6 +720,11 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
         }
+
+        val callback = CallBackProvider.get<QuranPlayerCallback>()
+        MainActivityInstance.getQuranPlayerInstance()?.stopQuranPlayer()
+        MainActivityInstance.getQuranPlayerOfflineInstance()?.stopQuranPlayer()
+        callback?.globalMiniPlayerClosed()
 
         DashboardPatchClass.clearReferences()
         DashboardBillboardPatchClass.clearReferences()
@@ -601,6 +828,32 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.RED
             notificationChannel.enableVibration(true)
+            notificationChannel.description = description
+
+            val notificationManager = getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
+
+        }
+    }
+
+    private fun createSilentChannel(channelId: String, channelName: String,description:String) {
+        //create a channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                // change importance of notication
+                NotificationManager.IMPORTANCE_LOW
+            )//disable badges for this channel
+                .apply {
+                    setShowBadge(false)
+                }
+
+            notificationChannel.enableLights(false)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(false)
             notificationChannel.description = description
 
             val notificationManager = getSystemService(
@@ -825,26 +1078,59 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
                 navController.navigate(R.id.dashboardFakeFragment)
                 navController.navigate(destination)
 
-               /* lifecycleScope.launch {
-
-                    withContext(Dispatchers.Main)
-                    {
-
-                        navController.navigate(destination)
-                        val dashboard =  async {
-                           // initDashboard()
-                            //setupOtherFragment(true)
-                        }
-                        dashboard.await()
-                        //setupOtherFragment(true)
-                    }
-
-                }*/
-
             }
         }
 
     }
+
+
+    private fun initNavChangeObsever() {
+        val destinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
+
+            when (destination.id) {
+
+                R.id.alQuranFragment -> {
+                    mini_player.hide()
+                    frameContainerView.setPadding(0,0,0,0)
+                }
+
+                R.id.dashboardFakeFragment ->{
+
+                    frameContainerView.setPadding(0,0,0,0)
+                }
+
+                else -> {
+
+                    if (QuranPlayer.isServiceRunning) {
+                        (mini_player.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = 0
+                        //mini_player.show()
+                        ic_prev.show()
+                        ic_next.show()
+                        mini_player.post {
+                            frameContainerView.setPadding(0,0,0,mini_player.height)
+                        }
+
+                    }
+                    else if(QuranPlayerOffline.isServiceRunning) {
+                        (mini_player.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = 0
+                        //mini_player.show()
+                        ic_prev.hide()
+                        ic_next.hide()
+                        mini_player.post {
+                            frameContainerView.setPadding(0,0,0,mini_player.height)
+                        }
+
+                    }
+                    else{
+                        frameContainerView.setPadding(0,0,0,0)
+                    }
+                }
+            }
+        }
+
+        navController.addOnDestinationChangedListener(destinationChangedListener)
+    }
+
 }
 
 internal interface actionCallback

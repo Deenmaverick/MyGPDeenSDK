@@ -378,20 +378,12 @@ internal class QuranPlayerOffline: Service(){
         Log.d("QuranPlayerService", "Unregistering receiver")
         LocalBroadcastManager.getInstance(this).unregisterReceiver(localReceiver)
 
-        // Cancel the CountDownTimer
-        countDownTimer?.cancel()
-
         Log.d("QuranPlayerService", "Releasing media player")
         releaseMediaPlayer()
 
         Log.d("QuranPlayerService", "Releasing media session")
+        if(this::mediaSession.isInitialized)
         mediaSession.release()
-
-        // Notify any callbacks about the service stop
-        Log.d("QuranPlayerService", "Notifying callbacks")
-        quranPlayerCallback?.isQuranStop()
-        quranPlayerCallback = null
-        notificationManager.cancelAll()
 
 
         // Stop foreground and remove notification
@@ -400,6 +392,13 @@ internal class QuranPlayerOffline: Service(){
         } else {
             stopForeground(true)
         }
+
+        notificationManager.cancelAll()
+
+        // Notify any callbacks about the service stop
+        Log.d("QuranPlayerService", "Notifying callbacks")
+        quranPlayerCallback?.isQuranStop()
+        quranPlayerCallback = null
 
         // Stop the service
         Log.d("QuranPlayerService", "Stopping self")
@@ -546,7 +545,7 @@ internal class QuranPlayerOffline: Service(){
         mMediaPlayer?.release()
         mMediaPlayer = null
         apAdapterCallback?.isPause(currentlyPlayingPos,true)
-        quranPlayerCallback?.isQuranPause()
+        quranPlayerCallback?.isQuranStop()
     }
 
     fun playerProgress(position: Int, duration: Int?) {

@@ -27,6 +27,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
+import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
@@ -59,6 +60,7 @@ import com.deenislam.sdk.utils.MENU_RAMADAN_OTHER_DAY
 import com.deenislam.sdk.utils.MENU_ZAKAT
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
+import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.getWaktNameByTag
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.prayerMomentLocaleForToast
@@ -87,7 +89,7 @@ import java.util.Locale
 
 internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
     actionCallback, MenuCallback, PrayerTimeCallback, ViewInflationListener,
-    DashboardPatchCallback, SensorEventListener {
+    DashboardPatchCallback, SensorEventListener, QuranPlayerCallback {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var prayerViewModel:  PrayerTimesViewModel
@@ -269,6 +271,12 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
           /*  Log.e("setMenuVisibility","DAASHBOARD")
             setupAction(R.drawable.ic_menu,0,this@DashboardFragment,localContext.resources.getString(R.string.app_name))
         */
+
+
+            val miniPlayerHeight = getMiniPlayerHeight()
+
+            binding.dashboardMain.setPadding(binding.dashboardMain.paddingStart,binding.dashboardMain.paddingTop,binding.dashboardMain.paddingRight,if(miniPlayerHeight>0) miniPlayerHeight else binding.dashboardMain.paddingBottom)
+
 
             CallBackProvider.setFragment(this)
         }
@@ -925,6 +933,10 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             }
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
+    }
+
+    override fun globalMiniPlayerClosed(){
+        binding.dashboardMain.setPadding(binding.dashboardMain.paddingStart,binding.dashboardMain.paddingTop,binding.dashboardMain.paddingRight,16.dp)
     }
 
 }

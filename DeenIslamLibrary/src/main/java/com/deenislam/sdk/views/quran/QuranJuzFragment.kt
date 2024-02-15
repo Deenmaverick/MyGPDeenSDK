@@ -32,7 +32,7 @@ internal class QuranJuzFragment : BaseRegularFragment(), JuzCallback, QuranPlaye
     private lateinit var quranJuzAdapter: QuranJuzAdapter
     private lateinit var mainContainer:ConstraintLayout
 
-    private var firstload:Int = 0
+    private var firstload = false
 
     private var pageNo:Int = 1
     private var pageItemCount:Int = 30
@@ -64,6 +64,14 @@ internal class QuranJuzFragment : BaseRegularFragment(), JuzCallback, QuranPlaye
     }
 
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if(firstload) {
+            loadReclyer()
+            baseViewState()
+        }
+    }
 
     fun setupActionBar()
     {
@@ -82,7 +90,7 @@ internal class QuranJuzFragment : BaseRegularFragment(), JuzCallback, QuranPlaye
         super.onResume()
         //CallBackProvider.setFragment(this)
         setupActionBar()
-        initView()
+
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
@@ -90,25 +98,37 @@ internal class QuranJuzFragment : BaseRegularFragment(), JuzCallback, QuranPlaye
 
         if(menuVisible) {
             CallBackProvider.setFragment(this)
+            if(!firstload)
+                initView()
         }
     }
 
     private fun initView()
     {
-        if(firstload != 0)
+
+        if(firstload) {
+            loadReclyer()
+            baseViewState()
             return
-        firstload = 1
+        }
 
+        loadReclyer()
 
+        initObserver()
+        loadAPI()
+
+        firstload = true
+
+    }
+
+    private fun loadReclyer(){
+
+        if(!this::quranJuzAdapter.isInitialized)
         quranJuzAdapter = QuranJuzAdapter()
         juzRC.apply {
             adapter = quranJuzAdapter
             overScrollMode = View.OVER_SCROLL_NEVER
         }
-
-        initObserver()
-        loadAPI()
-
     }
 
     override fun noInternetRetryClicked() {

@@ -27,6 +27,7 @@ import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.topControlHideWithAnim
 import com.deenislam.sdk.utils.topControlShowWithAnim
 import com.deenislam.sdk.utils.visible
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -204,6 +205,7 @@ internal class ExoVideoManager(
                 exo_progress.setPosition(exoPlayer.currentPosition)
                 exo_progress.setBufferedPosition(exoPlayer.bufferedPosition)
                 if (isPlaying) {
+                    MainActivityDeenSDK.instance?.pauseQuran()
                     handler.post(updateExoProgressRunnable)  // Start the periodic updates when playing
                 } else {
                     handler.removeCallbacks(updateExoProgressRunnable)  // Stop the updates when paused
@@ -332,11 +334,12 @@ internal class ExoVideoManager(
 
     fun getExoPlayer() = exoPlayer
 
-    private fun pauseVideoPlayer() {
+    fun pauseVideoPlayer() {
         exoPlayer.pause()
     }
 
     private fun playVideoPlayer() {
+        MainActivityDeenSDK.instance?.pauseQuran()
         exoPlayer.play()
     }
 

@@ -8,6 +8,7 @@ import android.util.Log
 import com.deenislam.sdk.service.callback.AudioManagerBasicCallback
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.tryCatch
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 
 internal class AudioManager {
 
@@ -88,7 +89,7 @@ internal class AudioManager {
                             instance?.mediaPlayer?.duration?.toLong(),
                             0
                         )
-
+                    MainActivityDeenSDK.instance?.pauseQuran()
                     if(isCallback)
                         audioManagerBasicCallback?.isMedia3Playing()
 
@@ -139,6 +140,7 @@ internal class AudioManager {
 
             releasePlayer(isCallback = isCallback)
             instance?.mediaPlayer = MediaPlayer.create(context, file).apply {
+                MainActivityDeenSDK.instance?.pauseQuran()
                 start()
             }
 
@@ -184,6 +186,7 @@ internal class AudioManager {
 
     fun resumeMediaPlayer()
     {
+        MainActivityDeenSDK.instance?.pauseQuran()
         instance?.mediaPlayer?.start()
         audioManagerBasicCallback?.isMedia3Playing()
 

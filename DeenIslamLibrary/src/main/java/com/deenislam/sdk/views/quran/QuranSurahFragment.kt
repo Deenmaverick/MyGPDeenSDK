@@ -41,7 +41,7 @@ internal class QuranSurahFragment : BaseRegularFragment(), SurahCallback, action
     private lateinit var surahListRC: RecyclerView
     private lateinit var surahAdapter: SurahAdapter
     private lateinit var mainContainer:ConstraintLayout
-    private var firstload:Int = 0
+    private var firstload = false
 
     private var linearLayoutManager: LinearLayoutManager? = null
     private var surahList: List<Data> = arrayListOf()
@@ -75,6 +75,15 @@ internal class QuranSurahFragment : BaseRegularFragment(), SurahCallback, action
         return mainview
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if(firstload) {
+            initRecyler()
+            baseViewState()
+        }
+
+    }
 
     fun setupActionBar()
     {
@@ -94,11 +103,11 @@ internal class QuranSurahFragment : BaseRegularFragment(), SurahCallback, action
         super.onResume()
         //CallBackProvider.setFragment(this)
         setupActionBar()
-        if (viewmodel.surahListState != null) {
+      /*  if (viewmodel.surahListState != null) {
             linearLayoutManager?.onRestoreInstanceState(viewmodel.surahListState)
-        }
+        }*/
 
-        initView()
+
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
@@ -106,6 +115,8 @@ internal class QuranSurahFragment : BaseRegularFragment(), SurahCallback, action
 
         if(menuVisible) {
             CallBackProvider.setFragment(this)
+            if(!firstload)
+                initView()
         }
     }
 
@@ -123,12 +134,24 @@ internal class QuranSurahFragment : BaseRegularFragment(), SurahCallback, action
     private fun initView()
     {
 
-        if(firstload != 0)
+        if(firstload) {
+            initRecyler()
+            baseViewState()
             return
-        firstload = 1
+        }
 
+        initRecyler()
+        initObserver()
 
-        surahAdapter = SurahAdapter()
+        loadAPI()
+
+        firstload = true
+
+    }
+    private fun initRecyler(){
+
+        if(!this::surahAdapter.isInitialized)
+            surahAdapter = SurahAdapter()
         linearLayoutManager = LinearLayoutManager(requireContext())
         surahListRC.apply {
             setPadding(16.dp,15.dp,16.dp,0)
@@ -137,12 +160,6 @@ internal class QuranSurahFragment : BaseRegularFragment(), SurahCallback, action
             overScrollMode = View.OVER_SCROLL_NEVER
 
         }
-
-
-        initObserver()
-        loadAPI()
-
-
     }
 
     override fun noInternetRetryClicked() {

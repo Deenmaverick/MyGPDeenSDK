@@ -44,10 +44,11 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
         actionbar = mainview.findViewById(R.id.actionbar)
         header = mainview.findViewById(R.id.header)
         _viewPager = mainview.findViewById(R.id.viewPager)
-        /*surahBtn = mainview.findViewById(R.id.surahBtn)
-        juzBtn = mainview.findViewById(R.id.juzBtn)
-        myquranBtn = mainview.findViewById(R.id.myquranBtn)
-        quranHomeBtn = mainview.findViewById(R.id.quranHomeBtn)*/
+
+        header.itemAnimator = null
+
+        setupActionForOtherFragment(0,0,null,localContext.resources.getString(R.string.al_quran),true,mainview)
+
 
         CallBackProvider.setFragment(this)
 
@@ -58,68 +59,48 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupBackPressCallback(this@QuranFragment)
+        //setupBackPressCallback(this@QuranFragment)
 
-        val headData = arrayListOf(
-            Head(0,localContext.getString(R.string.home)),
-            Head(1,localContext.getString(R.string.sura)),
-            Head(2,localContext.getString(R.string.juz)),
-            Head(3,localContext.getString(R.string.my_quran))
-        )
+        if (!isDetached) {
+            view.postDelayed({
+                loadpage()
+            }, 300)
+        }
+        else
+            loadpage()
 
+    }
 
-        header.apply {
-            val linearLayoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            layoutManager = linearLayoutManager
+    private fun loadpage(){
+
+        /*if(firstload)
+            return
+        firstload = true*/
+
+        if(!this::materialButtonHorizontalAdapter.isInitialized) {
+            val headData = arrayListOf(
+                Head(0, localContext.getString(R.string.home)),
+                Head(1, localContext.getString(R.string.sura)),
+                Head(2, localContext.getString(R.string.juz)),
+                Head(3, localContext.getString(R.string.my_quran))
+            )
+
             materialButtonHorizontalAdapter = MaterialButtonHorizontalAdapter(
                 head = headData,
                 activeBgColor = R.color.deen_primary,
                 activeTextColor = R.color.deen_white
             )
+
+        }
+
+
+        header.apply {
+            val linearLayoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = linearLayoutManager
+
             adapter = materialButtonHorizontalAdapter
         }
 
-
-        initView()
-
-    }
-
-    fun getActionbar(): ConstraintLayout = actionbar
-
-
-
-   /* override fun setMenuVisibility(menuVisible: Boolean) {
-        super.setMenuVisibility(menuVisible)
-
-        if(menuVisible) {
-            setupBackPressCallback(this@QuranFragment)
-            initView()
-
-            when (val getfragment =
-                childFragmentManager.findFragmentByTag("f${_viewPager.currentItem}")) {
-                is QuranHomeFragment -> getfragment.setupActionBar()
-                is QuranSurahFragment -> getfragment.setupActionBar()
-                is QuranJuzFragment -> getfragment.setupActionBar()
-                is MyQuranFragment -> getfragment.setupActionBar()
-            }
-        }
-    }*/
-
-
-
-    private fun initView()
-    {
-        if(firstload)
-            return
-        firstload = true
-
-        initViewPager()
-
-    }
-
-
-    private fun initViewPager()
-    {
 
         mPageDestination = arrayListOf(
             QuranHomeFragment(),
@@ -141,7 +122,7 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
             }
             isUserInputEnabled = false
             overScrollMode = View.OVER_SCROLL_NEVER
-            offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+            offscreenPageLimit = mPageDestination.size
         }
 
         if (_viewPager.getChildAt(0) is RecyclerView) {
@@ -154,21 +135,19 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
 
             }
         })
+
+        setupGlobalMiniPlayerForHome(0)
+
     }
 
+    fun getActionbar(): ConstraintLayout = actionbar
 
-    private fun changeViewPagerPos(pos:Int)
-    {
-        if(pos!=viewPagerPosition)
-            _viewPager.setCurrentItem(pos,true)
-    }
-
-    override fun onBackPress() {
+   /* override fun onBackPress() {
         if(!isVisible)
             super.onBackPress()
         else
             changeMainViewPager(0)
-    }
+    }*/
 
     override fun materialButtonHorizontalListClicked(absoluteAdapterPosition: Int) {
         _viewPager.setCurrentItem(absoluteAdapterPosition,true)

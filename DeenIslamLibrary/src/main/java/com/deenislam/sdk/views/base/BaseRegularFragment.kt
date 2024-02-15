@@ -321,6 +321,11 @@ internal abstract class BaseRegularFragment: Fragment() {
             setupOtherFragment(false)*/
     }
 
+    fun setupGlobalMiniPlayerForHome(height: Int) {
+
+        if(activity!=null)
+            (activity as MainActivityDeenSDK).globalMiniPlayerForHome(height)
+    }
 
     fun setupAction(action1:Int,action2:Int,callback: actionCallback)
     {

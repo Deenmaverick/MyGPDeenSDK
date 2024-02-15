@@ -120,7 +120,7 @@ internal class CommonStateList(
         val userInput = customAlertDialogView.findViewById<TextInputEditText>(R.id.search_surah)
         val stateList = customAlertDialogView.findViewById<RecyclerView>(R.id.surahList)
         val dismissBtn = customAlertDialogView.findViewById<ImageButton>(R.id.closeBtn)
-        val title: AppCompatTextView = customAlertDialogView.findViewById(R.id.title)
+        val title: AppCompatTextView = customAlertDialogView.findViewById(R.id.pageTitle)
 
         title.text = customTitle?.let { it }?:context.getString(R.string.select_a_district)
 

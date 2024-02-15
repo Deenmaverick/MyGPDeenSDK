@@ -542,12 +542,6 @@ internal class QuranPlayer: Service(){
             wakeLock?.release()
         }
 
-        // Notify any callbacks about the service stop
-        Log.d("QuranPlayerService", "Notifying callbacks")
-        quranPlayerCallback?.isQuranStop()
-        quranPlayerCallback = null
-        notificationManager.cancelAll()
-
 
         // Stop foreground and remove notification
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -556,10 +550,15 @@ internal class QuranPlayer: Service(){
             stopForeground(true)
         }
 
+        notificationManager.cancelAll()
         // Stop the service
         Log.d("QuranPlayerService", "Stopping self")
         //stopSelf()
 
+        // Notify any callbacks about the service stop
+        Log.d("QuranPlayerService", "Notifying callbacks")
+        quranPlayerCallback?.isQuranStop()
+        quranPlayerCallback = null
 
         Log.d("QuranPlayerService", "Service stopped")
     }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.deenislam.sdk.utils.DraggableView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/deen_ic_blur">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ic_al_quran"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginStart="@dimen/space_16"
+        android:layout_marginBottom="@dimen/space_8"
+        android:src="@drawable/ic_al_quran_cat"
+        app:layout_constraintBottom_toTopOf="@+id/playerProgress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/surahTitile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_16"
+        android:text="Al Fatiha"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/deen_txt_black_deep"
+        app:layout_constraintTop_toTopOf="@+id/ic_al_quran"
+        app:layout_constraintStart_toEndOf="@+id/ic_al_quran"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/surahAyat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7 Ayahs"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/deen_txt_ash"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_al_quran"
+        app:layout_constraintTop_toBottomOf="@+id/surahTitile"
+        app:layout_constraintStart_toStartOf="@+id/surahTitile"/>
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ic_prev"
+        android:layout_width="24dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/space_12"
+        app:tint="@color/deen_primary"
+        android:src="@drawable/deen_ic_prev_play"
+        app:layout_constraintEnd_toStartOf="@+id/ic_play_pause"
+        app:layout_constraintBottom_toBottomOf="@id/ic_play_pause"
+        app:layout_constraintTop_toTopOf="@id/ic_play_pause" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ic_play_pause"
+        android:layout_width="24dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/space_12"
+        app:tint="@color/deen_primary"
+        android:focusable="true"
+        android:clickable="true"
+        android:src="@drawable/ic_play_fill"
+        app:layout_constraintEnd_toStartOf="@+id/ic_next"
+        app:layout_constraintBottom_toBottomOf="@id/ic_al_quran"
+        app:layout_constraintTop_toTopOf="@id/ic_al_quran" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ic_next"
+        android:layout_width="24dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/space_16"
+        app:tint="@color/deen_primary"
+        android:src="@drawable/ic_next_play"
+        app:layout_constraintEnd_toStartOf="@+id/ic_close"
+        app:layout_constraintBottom_toBottomOf="@id/ic_play_pause"
+        app:layout_constraintTop_toTopOf="@id/ic_play_pause" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:visibility="gone"
+        android:id="@+id/ic_close"
+        android:layout_width="24dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/space_16"
+        app:tint="@color/deen_primary"
+        android:src="@drawable/baseline_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/ic_play_pause"
+        app:layout_constraintTop_toTopOf="@id/ic_play_pause" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:visibility="gone"
+        android:id="@+id/playLoading"
+        android:layout_width="18dp"
+        android:layout_height="0dp"
+        android:padding="@dimen/space_8"
+        app:indicatorSize="18dp"
+        app:trackThickness="2dp"
+        android:indeterminate="true"
+        app:layout_constraintStart_toStartOf="@+id/ic_play_pause"
+        app:layout_constraintEnd_toEndOf="@+id/ic_play_pause"
+        app:layout_constraintBottom_toBottomOf="@id/ic_al_quran"
+        app:layout_constraintTop_toTopOf="@id/ic_al_quran"/>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/playerProgress"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:trackColor="@color/deen_border"
+        app:trackThickness="2dp"
+        app:indicatorColor="@color/deen_primary"
+        android:progress="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</com.deenislam.sdk.utils.DraggableView>

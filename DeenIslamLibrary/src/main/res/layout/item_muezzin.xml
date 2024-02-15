@@ -6,6 +6,7 @@
 
 
     <com.google.android.material.imageview.ShapeableImageView
+
         android:id="@+id/shapeableImageView"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -18,17 +19,22 @@
         app:srcCompat="@drawable/item_azan_default" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
+        android:id="@+id/title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_8"
         android:text="Adhan (Medina)"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/deen_txt_black_deep"
+        android:textAlignment="textStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/icPlayPause"/>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icPlayPause"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="@dimen/space_8"
@@ -37,15 +43,15 @@
         app:layout_constraintEnd_toStartOf="@id/notification_only_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.appcompat.widget.AppCompatRadioButton
         android:id="@+id/notification_only_btn"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="@dimen/space_8"
-        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:minWidth="0dp"
-        android:minHeight="0dp"
+        android:layout_gravity="end"
         android:button="@drawable/radio_button"
+        android:minHeight="0dp"
         android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

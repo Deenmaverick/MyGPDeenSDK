@@ -18,7 +18,8 @@ internal class MyQuranFragment : BaseRegularFragment(), MyQuranCallback, QuranPl
 
     private lateinit var  listView: RecyclerView
     private lateinit var mainContainer:ConstraintLayout
-    private var firstload:Int = 0
+    private lateinit var myQuranAdapter: MyQuranAdapter
+    private var firstload = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +34,15 @@ internal class MyQuranFragment : BaseRegularFragment(), MyQuranCallback, QuranPl
         setupCommonLayout(mainview)
 
         return mainview
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if(firstload) {
+            initRecyler()
+            baseViewState()
+        }
     }
 
     fun setupActionBar()
@@ -50,7 +60,7 @@ internal class MyQuranFragment : BaseRegularFragment(), MyQuranCallback, QuranPl
     override fun onResume() {
         super.onResume()
         setupActionBar()
-        initView()
+
     }
 
     override fun setMenuVisibility(menuVisible: Boolean) {
@@ -58,24 +68,35 @@ internal class MyQuranFragment : BaseRegularFragment(), MyQuranCallback, QuranPl
 
         if(menuVisible) {
             CallBackProvider.setFragment(this)
+            if(!firstload)
+                initView()
         }
     }
 
 
     private fun initView()
     {
-        if(firstload != 0)
+        if(firstload) {
+            initRecyler()
+            baseViewState()
             return
-        firstload = 1
+        }
 
+        initRecyler()
+
+    }
+
+    private fun initRecyler(){
+
+        if(!this::myQuranAdapter.isInitialized)
+            myQuranAdapter = MyQuranAdapter(this@MyQuranFragment)
         listView.apply {
-            adapter = MyQuranAdapter(this@MyQuranFragment)
+            adapter = myQuranAdapter
             overScrollMode = View.OVER_SCROLL_NEVER
             post {
                 baseViewState()
             }
         }
-
     }
 
     override fun menuClicked(position: Int) {

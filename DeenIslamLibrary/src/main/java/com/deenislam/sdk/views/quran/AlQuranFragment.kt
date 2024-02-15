@@ -39,6 +39,7 @@ import com.deenislam.sdk.databinding.FragmentAlQuranBinding
 import com.deenislam.sdk.service.callback.AlQuranAyatCallback
 import com.deenislam.sdk.service.callback.common.DownloaderCallback
 import com.deenislam.sdk.service.di.DatabaseProvider
+import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.libs.alertdialog.CustomAlertDialog
 import com.deenislam.sdk.service.libs.alertdialog.CustomDialogCallback
 import com.deenislam.sdk.service.libs.downloader.QuranDownloadService
@@ -53,6 +54,7 @@ import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Qari
 import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.TafsirList
 import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Translator
 import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
+import com.deenislam.sdk.service.repository.quran.AlQuranRepository
 import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepository
 import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.CallBackProvider
@@ -198,6 +200,13 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             requireActivity(),
             factory
         )[PlayerControlViewModel::class.java]
+
+        val alQuranRepository = AlQuranRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            quranService = null
+        )
+
+        alQuranViewModel = AlQuranViewModel(alQuranRepository)
 
         scaleGestureDetector = ScaleGestureDetector(requireContext(), ScaleListener())
 
@@ -1782,6 +1791,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun isAyatPlaying(position: Int, duration: Long?) {
 
+        if(view == null)
+            return
+
         val qPlayerServiceSurahID = getCurrentSurahIDFromQService()
         if(qPlayerServiceSurahID!=0 && qPlayerServiceSurahID!=surahID) {
             alQuranAyatAdapter.isMediaPause(position,true)
@@ -1848,7 +1860,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun isAyatPause(byService:Boolean) {
 
-        Log.e("isAyatPause",byService.toString())
+        if(view == null)
+            return
+
         if(!byService)
             pauseQuran()
 
@@ -1881,6 +1895,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     }
 
     override fun isLoadingState(b: Boolean) {
+
+        if(view == null)
+            return
 
         binding.bottomPlayer.miniPlayer.icPlayPause.visible(!b)
         binding.bottomPlayer.largePlayer.icPlayBtn.visibility = if(b) View.INVISIBLE else View.VISIBLE

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
@@ -47,7 +48,9 @@
             android:name="com.deenislam.sdk.views.main.MainActivityDeenSDK"
             android:hardwareAccelerated="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
+            <nav-graph android:value="@navigation/main_nav" />
         </activity>
 
         <receiver
@@ -75,6 +78,22 @@
         <service android:name=".service.libs.notification.AlarmReceiverService" />
         <service android:name=".service.libs.sessiontrack.SessionReceiverService" />
 
+
+        <service android:name=".service.libs.media3.QuranPlayer" />
+        <service android:name=".service.libs.media3.QuranPlayerOffline" />
+        <service android:name=".service.libs.downloader.QuranDownloadService" />
+
+        <receiver android:name=".service.libs.media3.QuranPlayerBroadcast"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="stop_action" />
+                <action android:name="prev_action" />
+                <action android:name="play_action" />
+                <action android:name="next_action" />
+                <action android:name="stop_action" />
+            </intent-filter>
+        </receiver>
 
         <!-- <receiver
              android:name=".service.libs.notification.SnoozeReceiver"

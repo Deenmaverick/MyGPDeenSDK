@@ -226,6 +226,14 @@ internal abstract class BaseFragment<VB:ViewBinding>(
 
     }
 
+    fun getMiniPlayerHeight(): Int {
+
+        return if(activity!=null)
+            (activity as MainActivityDeenSDK).getMiniPlayerHeight()
+        else
+            0
+    }
+
 
     fun setupOtherFragment(bol:Boolean)
     {
@@ -377,19 +385,21 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?
     )
     {
+        activity?.let {
+            (it as MainActivityDeenSDK).playQuran(
+                data = data,
+                pos = pos,
+                surahList = surahList,
+                surahID = surahID,
+                qarisData = qarisData,
+                totalVerseCount = totalVerseCount,
+                pageNo = pageNo,
+                selectedQari = selectedQari,
+                isSurahMode = isSurahMode,
+                quranJuzList = quranJuzList
+            )
+        }
 
-        (activity as MainActivityDeenSDK).playQuran(
-            data = data,
-            pos = pos,
-            surahList = surahList,
-            surahID = surahID,
-            qarisData = qarisData,
-            totalVerseCount = totalVerseCount,
-            pageNo = pageNo,
-            selectedQari = selectedQari,
-            isSurahMode = isSurahMode,
-            quranJuzList = quranJuzList
-        )
     }
 
     fun updateQuranPlayer(qari: Int?=null) {
