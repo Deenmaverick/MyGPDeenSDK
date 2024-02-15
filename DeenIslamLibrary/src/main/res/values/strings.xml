@@ -389,4 +389,6 @@
     <string name="necessary_duas">Necessary Duas</string>
     <string name="enbn">English</string>
     <string name="not_yet">Not yet</string>
+    <string name="my_downloads">My Downloads</string>
+    <string name="my_favorites">My Favorites</string>
 </resources>

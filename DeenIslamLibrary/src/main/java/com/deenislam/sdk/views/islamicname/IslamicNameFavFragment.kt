@@ -31,7 +31,10 @@ import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
 
-internal class IslamicNameFavFragment : BaseRegularFragment(), CustomDialogCallback,
+internal class IslamicNameFavFragment(
+    private val isHideActionBar:Boolean = false,
+    private val checkFirstload: Boolean = false
+) : BaseRegularFragment(), CustomDialogCallback,
     IslamicNameFavAdapterCallback {
 
     private lateinit var listView: RecyclerView

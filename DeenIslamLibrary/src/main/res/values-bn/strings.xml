@@ -389,4 +389,7 @@
     <string name="necessary_duas">প্রয়োজনীয় দুআ</string>
     <string name="enbn">বাংলা</string>
     <string name="not_yet">এখনো না</string>
+    <string name="my_downloads">আমার ডাউনলোড</string>
+    <string name="my_favorites">আমার প্রিয় তালিকা</string>
+
 </resources>
