@@ -3,6 +3,7 @@ package com.deenislam.sdk
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.provider.AlarmClock
 import android.util.Base64
 import android.util.Log
 import androidx.annotation.Keep
@@ -17,6 +18,7 @@ import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.MilliSecondToStringTime
 import com.deenislam.sdk.utils.StringTimeToMillisecond
 import com.deenislam.sdk.utils.getRCDestination
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.prayertimes.PrayerTimeNotification
 import com.google.gson.Gson
@@ -246,46 +248,6 @@ object DeenSDKCore {
         intent.putExtra("destination",R.id.tasbeehFragment)
         baseContext?.startActivity(intent)
 
-        /*this.appContext = context.applicationContext
-        this.CallBackListener = callback
-        this.msisdn = msisdn*/
-
-        /*CoroutineScope(Dispatchers.IO).launch {
-
-            token = AuthenticateRepository(
-                authenticateService = NetworkProvider().getInstance().provideAuthService(),
-                userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
-            ).authDeen(msisdn)
-
-            *//*.apply {
-
-                if (!this.isNullOrEmpty())
-                {
-                    language = SettingRepository(
-                        userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
-                    ).getSetting()?.language?:"bn"
-
-                    Log.e("language1", language)
-                }
-            }*//*
-
-            withContext(Dispatchers.Main) {
-
-                if (token != null && token?.isNotEmpty() == true) {
-
-                    val intent =
-                        Intent(context, MainActivity::class.java)
-                    intent.putExtra("destination",R.id.tasbeehFragment)
-                    context.startActivity(intent)
-
-                    CallBackListener?.onAuthSuccess()
-
-                } else {
-                    CallBackListener?.onAuthFailed()
-                }
-            }
-
-        }*/
     }
 
     @JvmStatic
@@ -675,6 +637,50 @@ object DeenSDKCore {
         result.put("payload", payloadJson)
 
         return Gson().fromJson(result.toString(),JwtResponse::class.java)
+    }
+
+    @JvmStatic
+    fun setSehriAlaram(time: String){
+        initSetRamadanAlarm(time,1,"Sehri")
+    }
+
+    @JvmStatic
+    fun setIftarAlarm(time: String){
+        initSetRamadanAlarm(time,0,"Iftar")
+    }
+
+    private fun initSetRamadanAlarm(time:String,alarmType:Int,title:String){
+
+        tryCatch {
+            val sdf =
+                SimpleDateFormat(
+                    "HH:mm",
+                    Locale.ENGLISH
+                ) // or "hh:mm" for 12 hour format
+
+            val date = sdf.parse(time)
+
+            val calendar = Calendar.getInstance()
+            if (date != null) {
+                calendar.time = date
+                val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                val min = calendar.get(Calendar.MINUTE)
+
+                val i = Intent(AlarmClock.ACTION_SET_ALARM)
+
+                i.putExtra(AlarmClock.EXTRA_MESSAGE, title)
+
+                if (alarmType == 0) {
+                    i.putExtra(AlarmClock.EXTRA_HOUR, 12 + hour)
+                } else {
+                    i.putExtra(AlarmClock.EXTRA_HOUR, hour)
+                }
+
+                i.putExtra(AlarmClock.EXTRA_MINUTES, min)
+                baseContext?.startActivity(i)
+            }
+
+        }
     }
 
 

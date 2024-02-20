@@ -104,6 +104,11 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         isBacktoHome = bol
     }
 
+    fun ramadanCountDownTimerSetup(ramadanExpectedTimeInMill: Long) {
+        if(activity!=null)
+            (activity as MainActivityDeenSDK).ramadanCountDownTimerSetup(ramadanExpectedTimeInMill)
+    }
+
 
     fun BASE_CHECK_API_STATE()
     {

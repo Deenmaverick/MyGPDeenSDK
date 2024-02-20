@@ -61,6 +61,89 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
+        android:id="@+id/ramadanRemainCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/space_16"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
+        app:layout_constraintEnd_toEndOf="@+id/fragmentContainerView">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ramadanCloseBtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/deen_ic_close_red_round"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:visibility="visible"
+            android:id="@+id/ramadanRemCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            app:cardBackgroundColor="@color/deen_white"
+            app:cardCornerRadius="@dimen/space_12"
+            app:layout_constraintTop_toBottomOf="@+id/ramadanCloseBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:strokeWidth="0dp"
+            app:cardElevation="1.5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_12">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ramadanTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/deen_txt_ash"
+                    android:text="@string/ramadan_remaining"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icRamdan"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/deen_ic_ramadan_green"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintEnd_toStartOf="@+id/ramadanRemainTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/ramadanTxt"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ramadanRemainTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/space_4"
+                    android:paddingEnd="0dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:text="--"
+                    android:textColor="@color/deen_primary"
+                    app:layout_constraintBottom_toBottomOf="@+id/icRamdan"
+                    app:layout_constraintTop_toTopOf="@+id/icRamdan"
+                    app:layout_constraintStart_toEndOf="@+id/icRamdan"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

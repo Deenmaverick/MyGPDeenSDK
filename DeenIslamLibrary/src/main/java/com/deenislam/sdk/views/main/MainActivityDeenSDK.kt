@@ -2,6 +2,7 @@ package com.deenislam.sdk.views.main
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
+import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,6 +11,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -18,6 +20,7 @@ import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -53,15 +56,20 @@ import com.deenislam.sdk.service.weakref.dashboard.DashboardBillboardPatchClass
 import com.deenislam.sdk.service.weakref.dashboard.DashboardPatchClass
 import com.deenislam.sdk.service.weakref.main.MainActivityInstance
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.DayDiffForRamadan
 import com.deenislam.sdk.utils.DraggableView
 import com.deenislam.sdk.utils.LocaleUtil
+import com.deenislam.sdk.utils.TimeDiffForRamadan
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.adapters.quran.AlQuranAyatAdapter
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
@@ -138,6 +146,25 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     // Global video and Audio manager
     private var globalExoVideoManager: ExoVideoManager? = null
     private var globalAudioManager: AudioManager? = null
+
+    // floating view ramadan
+    private lateinit var ramadanRemainCard:ConstraintLayout
+    private lateinit var ramadanRemainTxt:AppCompatTextView
+    private lateinit var floatGestureDetector: GestureDetector
+    private lateinit var ramadanCloseBtn:AppCompatImageView
+    private var isRamadanRemainCardClosed = true
+    private lateinit var ramadanCustomAlertDialogView : View
+    private var ramadanExpectedTimeInMill:Long = 0
+    private var ramadanCountDownTimer: CountDownTimer?=null
+
+    // Custom dialog
+    private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
+    private lateinit var customAlertDialogView : View
+    private var dialog: Dialog? = null
+
+    // pip mode
+    private var xOffset = 0f
+    private var yOffset = 0f
 
     companion object
     {
@@ -236,6 +263,11 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         ic_close = mini_player.findViewById(R.id.ic_close)
         playerProgress = mini_player.findViewById(R.id.playerProgress)
         playLoading = mini_player.findViewById(R.id.playLoading)
+
+        //ramadan floating card
+        ramadanRemainCard = findViewById(R.id.ramadanRemainCard)
+        ramadanRemainTxt = findViewById(R.id.ramadanRemainTxt)
+        ramadanCloseBtn = findViewById(R.id.ramadanCloseBtn)
 
         frameContainerView.visible(true)
         changeLanguage()
@@ -339,12 +371,19 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             startQuranPlayerOfflineService()
         }
 
+        floatGestureDetector = GestureDetector(this, FloatCardGestureListener())
+
+
         initNavChangeObsever()
 
         mini_player.post {
             initialX = mini_player.x
         }
 
+        ramadanRemainCard.setOnTouchListener { _, event ->
+            floatGestureDetector.onTouchEvent(event)
+            handlePiPTouch(event)
+        }
 
         intent.getIntExtra("destination",0).let {
             if(it>0)
@@ -360,9 +399,27 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
         setupBackPressCallback()
 
+    }
 
+    // dragable mini player
+    private fun handlePiPTouch(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                xOffset = event.rawX - ramadanRemainCard.x
+                yOffset = event.rawY - ramadanRemainCard.y
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val newX = event.rawX - xOffset
+                val newY = event.rawY - yOffset
 
+                ramadanRemainCard.x = newX
+                ramadanRemainCard.y = newY
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
 
+            }
+        }
+        return true
     }
 
     override fun onResume() {
@@ -1129,6 +1186,141 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         }
 
         navController.addOnDestinationChangedListener(destinationChangedListener)
+    }
+
+
+    private inner class FloatCardGestureListener : GestureDetector.SimpleOnGestureListener() {
+
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+            // Handle click event here
+            return if (isTouchCloseBtn(e.x, e.y)) {
+                // Handle ImageView click event here
+                isRamadanRemainCardClosed = true
+                ramadanRemainCard.hide()
+                true
+            } else{
+                ramadanRemainCard.hide()
+                showRamadanRemainDialog()
+                true
+            }
+
+        }
+
+        override fun onDown(e: MotionEvent): Boolean {
+            return true
+        }
+
+        private fun isTouchCloseBtn(x: Float, y: Float): Boolean {
+            // Calculate ImageView's bounds relative to the parent ConstraintLayout
+            val imageViewBounds = Rect()
+            ramadanCloseBtn.getGlobalVisibleRect(imageViewBounds)
+            val parentLayoutLocation = IntArray(2)
+            ramadanRemainCard.getLocationOnScreen(parentLayoutLocation)
+            imageViewBounds.offset(-parentLayoutLocation[0], -parentLayoutLocation[1])
+
+            // Check if touch coordinates are within ImageView's bounds
+            return imageViewBounds.contains(x.toInt(), y.toInt())
+        }
+
+    }
+
+
+    private fun showRamadanRemainDialog(){
+
+        if(ramadanExpectedTimeInMill>0) {
+            materialAlertDialogBuilder =
+                MaterialAlertDialogBuilder(this, R.style.DeenMaterialAlertDialog_Rounded)
+
+            ramadanCustomAlertDialogView =
+                layoutInflater.inflate(R.layout.dialog_ramadan_remaining_time, null, false)
+
+            val dayleftTxt:AppCompatTextView = ramadanCustomAlertDialogView.findViewById(R.id.dayleftTxt)
+            val timerCountTxt:AppCompatTextView = ramadanCustomAlertDialogView.findViewById(R.id.timerCountTxt)
+            val progress:CircularProgressIndicator = ramadanCustomAlertDialogView.findViewById(R.id.progress)
+            val okBtn: MaterialButton = ramadanCustomAlertDialogView.findViewById(R.id.okBtn)
+
+            val totaltime = System.currentTimeMillis()
+            val progressPercentage = ((totaltime - ramadanExpectedTimeInMill).toDouble() / totaltime.toDouble() * 100).toInt()
+            progress.progress = progressPercentage
+
+            val remainDay = ramadanExpectedTimeInMill.DayDiffForRamadan().toInt()
+            val remainingDaysEng = when {
+                remainDay == 1 -> "01 day"
+                else -> "$remainDay days"
+            }
+
+            val remainingDaysBn = when {
+                remainDay == 1 -> "০১ দিন"
+                else -> "$remainDay দিন".numberLocale()
+            }
+
+            timerCountTxt.text =  ramadanExpectedTimeInMill.TimeDiffForRamadan().numberLocale()
+            dayleftTxt.text = if(DeenSDKCore.GetDeenLanguage() == "en") remainingDaysEng else remainingDaysBn
+
+
+            dialog = materialAlertDialogBuilder
+                .setView(ramadanCustomAlertDialogView)
+                .setCancelable(true)
+                .setOnDismissListener {
+                    ramadanRemainCard.show()
+                }
+                .show()
+
+
+            okBtn.setOnClickListener {
+                dialog?.dismiss()
+                navController.navigate(R.id.action_global_ramadanFragment, intent.extras)
+                ramadanRemainCard.hide()
+            }
+        }
+    }
+
+    fun ramadanCountDownTimerSetup(ramadanExpectedTimeInMill: Long) {
+
+        ramadanCountDownTimer?.cancel()
+        ramadanCountDownTimer = object : CountDownTimer(ramadanExpectedTimeInMill, 60000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+                this@MainActivityDeenSDK.ramadanExpectedTimeInMill = millisUntilFinished
+                tryCatch {
+                    val remainDay = millisUntilFinished.DayDiffForRamadan().toInt()
+                    val remainingDaysEng = when {
+                        remainDay == 1 -> "01 day"
+                        else -> "$remainDay days"
+                    }
+
+                    val remainingDaysBn = when {
+                        remainDay == 1 -> "০১ দিন"
+                        else -> "$remainDay দিন".numberLocale()
+                    }
+
+                    ramadanRemainTxt.text = if(DeenSDKCore.GetDeenLanguage() == "en") remainingDaysEng else remainingDaysBn
+
+                    if(this@MainActivityDeenSDK::ramadanCustomAlertDialogView.isInitialized){
+                        val dayleftTxt:AppCompatTextView = ramadanCustomAlertDialogView.findViewById(R.id.dayleftTxt)
+                        val timerCountTxt:AppCompatTextView = ramadanCustomAlertDialogView.findViewById(R.id.timerCountTxt)
+                        val progress:CircularProgressIndicator = ramadanCustomAlertDialogView.findViewById(R.id.progress)
+
+                        timerCountTxt.text =  millisUntilFinished.TimeDiffForRamadan().numberLocale()
+                        dayleftTxt.text = if(DeenSDKCore.GetDeenLanguage() == "en") remainingDaysEng else remainingDaysBn
+
+                        val totaltime = System.currentTimeMillis()
+                        val progressPercentage = ((totaltime - millisUntilFinished).toDouble() / totaltime.toDouble() * 100).toInt()
+                        progress.progress = progressPercentage
+
+                    }
+                }
+
+            }
+            override fun onFinish() {
+                ramadanCountDownTimer?.cancel()
+                ramadanRemainCard.hide()
+                isRamadanRemainCardClosed = true
+            }
+        }
+        ramadanCountDownTimer?.start()
+        isRamadanRemainCardClosed = false
+        ramadanRemainCard.show()
     }
 
 }

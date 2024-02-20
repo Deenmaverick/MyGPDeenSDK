@@ -11,6 +11,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/iftarAlarmBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sehriAlarmBtn"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Iftar Alarm"
+            android:textColor="@color/deen_black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sehriAlarmBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ijtemaBtn"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Sehri Alarm"
+            android:textColor="@color/deen_black" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/ijtemaBtn"
             android:layout_width="match_parent"

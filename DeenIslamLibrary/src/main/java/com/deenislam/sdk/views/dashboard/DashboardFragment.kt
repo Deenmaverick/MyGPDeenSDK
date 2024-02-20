@@ -65,6 +65,7 @@ import com.deenislam.sdk.utils.getWaktNameByTag
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.prayerMomentLocaleForToast
 import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
@@ -589,7 +590,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         binding.progressLayout.root.visible(false)
         binding.noInternetLayout.root.visible(false)
 
-        Log.e("dashboardMain","VIEW")
 
       /*  when(customargs?.getString("rc")){
 
@@ -617,6 +617,20 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         hasMoreData = true
 
         customargs = null
+
+        val getBannerData = dashboardPatchMain.getDashboardData().filter { it.AppDesign == "Banners" }
+        val getRamadanPatchData: Item? = getBannerData.flatMap { it.Items }.firstOrNull { it.ContentType == "rot" }
+
+        if (getRamadanPatchData != null && getRamadanPatchData.MText.isNotEmpty()) {
+            tryCatch {
+                val ramadanExpectedTimeInMill = getRamadanPatchData.MText.toLong() * 1000
+                val remainTime = ramadanExpectedTimeInMill - System.currentTimeMillis()
+                if (remainTime > 0) {
+                    ramadanCountDownTimerSetup(remainTime)
+                }
+            }
+        }
+
     }
 
     private fun nointernetState()

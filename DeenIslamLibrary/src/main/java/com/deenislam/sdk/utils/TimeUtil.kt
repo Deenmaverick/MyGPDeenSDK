@@ -29,3 +29,38 @@ fun String.convertDateTime(pattern:String = "dd/M/yyyy hh:mm:ss aa",day:Int=0):L
 fun generateUniqueNumber(): Int {
     return System.currentTimeMillis().toInt()
 }
+
+fun Long.DayDiffForRamadan(): String {
+    val days = (this / (1000 * 60 * 60 * 24))
+
+
+    var txtDays = days.toString()
+
+    if (days < 10)
+        txtDays = "0$days"
+
+
+    return "${txtDays}"
+}
+
+
+fun Long.TimeDiffForRamadan(): String {
+    val days = (this / (1000 * 60 * 60 * 24))
+    val remainingHours = (this / (1000 * 60 * 60)) % 24
+    val remainingMinutes = (this / (1000 * 60)) % 60
+
+    var txtDays = days.toString()
+    var txtHours = remainingHours.toString()
+    var txtMinutes = remainingMinutes.toString()
+
+    if (days < 10)
+        txtDays = "0$days"
+
+    if (remainingHours < 10)
+        txtHours = "0$remainingHours"
+
+    if (remainingMinutes < 10)
+        txtMinutes = "0$remainingMinutes"
+
+    return "${txtDays}:${txtHours}:${txtMinutes}"
+}

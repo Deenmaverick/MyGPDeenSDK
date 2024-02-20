@@ -32,6 +32,24 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val checkNotifyBtn:AppCompatButton = findViewById(R.id.checkNotifyBtn)
         val languageBtn:AppCompatButton = findViewById(R.id.languageBtn)
         val ijtemaBtn:AppCompatButton = findViewById(R.id.ijtemaBtn)
+        val sehriAlarmBtn:AppCompatButton = findViewById(R.id.sehriAlarmBtn)
+        val iftarAlarmBtn:AppCompatButton = findViewById(R.id.iftarAlarmBtn)
+
+        sehriAlarmBtn.setOnClickListener {
+            if(msisdn.text.isNotEmpty()){
+                DeenSDKCore.setSehriAlaram("5:26 AM")
+            }else{
+                Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        iftarAlarmBtn.setOnClickListener {
+            if(msisdn.text.isNotEmpty()){
+                DeenSDKCore.setIftarAlarm("5:33 PM")
+            }else{
+                Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         ijtemaBtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
