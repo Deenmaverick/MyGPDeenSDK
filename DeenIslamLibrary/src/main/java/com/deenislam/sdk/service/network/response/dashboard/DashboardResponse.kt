@@ -8,5 +8,6 @@ internal data class DashboardResponse(
     val Message: String,
     val Success: Boolean,
     val ProfileUrl:String?,
-    val isPeronalMenu:Boolean
+    val isPeronalMenu:Boolean,
+    val isPremium:String?=""
 )

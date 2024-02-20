@@ -17,6 +17,7 @@ import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.DailyDuaResource
 import com.deenislam.sdk.service.network.response.dailydua.duabycategory.Data
 import com.deenislam.sdk.service.repository.DailyDuaRepository
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.visible
@@ -188,6 +189,10 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(), DuaByCatCallback {
     }
 
     override fun favDua(isFavorite: Boolean, duaId: Int, position: Int) {
+        if(!Subscription.isSubscribe){
+            gotoFrag(R.id.action_global_subscriptionFragment)
+            return
+        }
         lifecycleScope.launch {
             viewmodel.setFavDua(isFavorite,duaId,getLanguage(),position)
         }

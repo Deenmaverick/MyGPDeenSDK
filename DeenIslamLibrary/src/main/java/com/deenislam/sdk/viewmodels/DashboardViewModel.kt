@@ -9,6 +9,7 @@ import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.repository.DashboardRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
+import com.deenislam.sdk.utils.Subscription
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -50,8 +51,11 @@ internal class DashboardViewModel(
                 is ApiResource.Failure -> _dashLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success ->
                 {
-                    if(dashResponse.value?.Success == true)
-                        _dashLiveData.value = DashboardResource.DashboardData(dashResponse.value.Data)
+                    if(dashResponse.value?.Success == true) {
+                        Subscription.isSubscribe = dashResponse.value.isPremium == "1BK"
+                        _dashLiveData.value =
+                            DashboardResource.DashboardData(dashResponse.value.Data)
+                    }
                     else
                         _dashLiveData.value = CommonResource.API_CALL_FAILED
                 }

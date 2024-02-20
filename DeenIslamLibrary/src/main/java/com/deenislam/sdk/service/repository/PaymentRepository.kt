@@ -10,11 +10,10 @@ import org.json.JSONObject
 
 internal class PaymentRepository(
     private val paymentService: PaymentService?,
-    private val nagadPaymentService: NagadPaymentService?
+    private val nagadPaymentService: NagadPaymentService?,
+    private val authInterceptor: AuthInterceptor?
 ) : ApiCall {
 
-
-    lateinit var authInterceptor: AuthInterceptor
     suspend fun login() = makeApicall {
 
         val body = JSONObject()
@@ -29,7 +28,7 @@ internal class PaymentRepository(
 
     suspend fun bKashPayment(serviceID: Int, msisdn: String, token: String) = makeApicall {
 
-        authInterceptor.tempAccessToken = token
+        authInterceptor?.tempAccessToken = token
 
         val body = JSONObject()
         body.put("serviceID", serviceID)
@@ -49,7 +48,7 @@ internal class PaymentRepository(
         reference: String? = null
     ) = makeApicall {
 
-        authInterceptor.tempAccessToken = token
+        authInterceptor?.tempAccessToken = token
 
         val body = JSONObject()
         body.put("serviceID", serviceID)
@@ -81,7 +80,7 @@ internal class PaymentRepository(
         token: String
     ) = makeApicall {
 
-        authInterceptor.tempAccessToken = token
+        authInterceptor?.tempAccessToken = token
         val body = JSONObject()
         body.put("service", service)
         body.put("msisdn", msisdn)
@@ -90,5 +89,20 @@ internal class PaymentRepository(
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         paymentService?.saveGpayInfo(requestBody)
+    }
+
+    suspend fun deenRecurringPayment(serviceID: Int, msisdn: String, token: String) = makeApicall {
+
+        authInterceptor?.tempAccessToken = token
+
+        val body = JSONObject()
+        body.put("serviceID", serviceID)
+        body.put("msisdn", msisdn)
+        body.put("device", "App")
+        body.put("callBackUrl", "https://www.google.com")
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        paymentService?.deenRecurringPayment(requestBody)
+
     }
 } 

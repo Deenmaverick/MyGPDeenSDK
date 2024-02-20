@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.PrayerLearningCallback
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -17,6 +18,8 @@ import com.deenislam.sdk.service.network.response.prayerlearning.Data
 import com.deenislam.sdk.service.repository.PrayerLearningRepository
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.MENU_PRAYER_LEARNING
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.PrayerLearningViewModel
 import com.deenislam.sdk.views.adapters.prayerlearning.PrayerLearningCatAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
@@ -35,6 +38,7 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
 
     override fun OnCreate() {
         super.OnCreate()
+        setupBackPressCallback(this,true)
         // init viewmodel
         val repository = PrayerLearningRepository(NetworkProvider().getInstance().provideDeenService())
         viewmodel = PrayerLearningViewModel(repository)
@@ -60,6 +64,20 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "prayer_learning",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
 
         if(firstload) {
             loadpage()
@@ -110,6 +128,22 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
         lifecycleScope.launch {
             viewmodel.getAllCat(getLanguage())
         }
+    }
+
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "prayer_learning",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
     }
 
     private fun initObserver()

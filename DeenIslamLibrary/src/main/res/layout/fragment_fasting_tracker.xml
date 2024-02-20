@@ -288,6 +288,17 @@
             </com.google.android.material.card.MaterialCardView>
 
 
+            <include
+                android:id="@+id/footer"
+                layout="@layout/layout_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_16"
+                app:layout_constraintTop_toBottomOf="@+id/trackingCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

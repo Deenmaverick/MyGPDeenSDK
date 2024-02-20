@@ -21,6 +21,7 @@ internal data class CommonCardData(
     val videourl: String? = null,
     var buttonTxt:String ? = null,
     var isPlaying:Boolean = false,
+    val isLive:Boolean = false,
     val DurationInSec: Int = 0,
     val DurationWatched: Int = 0,
     var IsCompleted: Boolean = false,

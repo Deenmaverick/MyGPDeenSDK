@@ -151,6 +151,10 @@ internal class AudioManager {
         }
     }
 
+    fun clearPlayerData(){
+        audioUrl = ""
+    }
+
     fun releasePlayer(position:Int=-1,crash:Boolean=false,isCallback: Boolean = true)
     {
         instance?.mediaPlayer?.reset()

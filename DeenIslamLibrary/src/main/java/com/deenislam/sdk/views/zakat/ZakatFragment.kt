@@ -91,7 +91,7 @@ internal class ZakatFragment : BaseRegularFragment() {
             }
         }
 
-
+        firstload  = true
 
      /*   if(firstload)
         loadPage()

@@ -42,7 +42,7 @@ internal class IslamicNameFavFragment(
     private lateinit var nodataLayout: NestedScrollView
     private lateinit var noInternetLayout: NestedScrollView
     private lateinit var noInternetRetry: MaterialButton
-
+    private var firstload = false
     private var customAlertDialog: CustomAlertDialog? =null
 
     private var favData: Data? =null
@@ -76,14 +76,14 @@ internal class IslamicNameFavFragment(
         noInternetRetry = noInternetLayout.findViewById(R.id.no_internet_retry)
 
         customAlertDialog = CustomAlertDialog().getInstance()
-        customAlertDialog?.setupDialog(
+        /*customAlertDialog?.setupDialog(
             callback = this@IslamicNameFavFragment,
             context = requireContext(),
             btn1Text = localContext.getString(R.string.cancel),
             btn2Text = localContext.getString(R.string.delete),
             titileText = localContext.getString(R.string.want_to_delete),
             subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
-        )
+        )*/
 
         return mainView
     }
@@ -107,7 +107,6 @@ internal class IslamicNameFavFragment(
 
         }
 
-        loadApiData()
 
     }
 
@@ -117,6 +116,31 @@ internal class IslamicNameFavFragment(
     {
         lifecycleScope.launch {
             viewmodel.getFavNames("male",getLanguage())
+        }
+    }
+
+
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+
+        if(menuVisible){
+            if(checkFirstload && !firstload) {
+                baseLoadingState()
+                loadApiData()
+            }else if(!checkFirstload)
+                loadApiData()
+
+            firstload = true
+
+            customAlertDialog?.setupDialog(
+                callback = this@IslamicNameFavFragment,
+                context = requireContext(),
+                btn1Text = localContext.getString(R.string.cancel),
+                btn2Text = localContext.getString(R.string.delete),
+                titileText = localContext.getString(R.string.want_to_delete),
+                subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
+            )
+
         }
     }
 

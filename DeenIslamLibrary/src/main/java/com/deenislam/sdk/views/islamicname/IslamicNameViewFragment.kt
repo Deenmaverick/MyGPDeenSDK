@@ -18,6 +18,7 @@ import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.IslamicNameResource
 import com.deenislam.sdk.service.network.response.islamicname.Data
 import com.deenislam.sdk.service.repository.IslamicNameRepository
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
@@ -213,8 +214,13 @@ internal class IslamicNameViewFragment : BaseRegularFragment(), IslamicNameAdapt
     }
 
     override fun favClick(data: Data, position: Int) {
-        lifecycleScope.launch {
 
+        if(!Subscription.isSubscribe){
+            gotoFrag(R.id.action_global_subscriptionFragment)
+            return
+        }
+
+        lifecycleScope.launch {
             viewmodel.modifyFavNames(
                 contentId = data.Id,
                 language =  getLanguage(),

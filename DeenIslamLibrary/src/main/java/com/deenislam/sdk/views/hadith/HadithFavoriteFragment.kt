@@ -85,14 +85,14 @@ internal class HadithFavoriteFragment(private val checkFirstload: Boolean = fals
         last_item_loading_progress = mainView.findViewById(R.id.last_item_loading_progress)
 
         customAlertDialog = CustomAlertDialog().getInstance()
-        customAlertDialog?.setupDialog(
+       /* customAlertDialog?.setupDialog(
             callback = this@HadithFavoriteFragment,
             context = requireContext(),
             btn1Text = localContext.getString(R.string.cancel),
             btn2Text = localContext.getString(R.string.delete),
             titileText = localContext.getString(R.string.want_to_delete),
             subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
-        )
+        )*/
 
 
         return mainView
@@ -154,12 +154,10 @@ internal class HadithFavoriteFragment(private val checkFirstload: Boolean = fals
 
         initObserver()
 
-        loadApiData()
     }
 
     private fun fetchNextPageData() {
 
-        Log.e("fetchNextPageData","called")
         lifecycleScope.launch {
                 pageNo++
                 loadApiData()
@@ -315,7 +313,7 @@ internal class HadithFavoriteFragment(private val checkFirstload: Boolean = fals
             putInt("bookId", bookId)
             putString("title", bookName)
         }
-        gotoFrag(R.id.action_hadithFragment_to_hadithPreviewFragment,data = bundle)
+        gotoFrag(R.id.action_global_hadithPreviewFragment,data = bundle)
     }
 
     override fun onPause() {

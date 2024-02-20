@@ -262,4 +262,53 @@ internal class PaymentViewModel(
     }
 
 
+    //Deen recurring payment
+    suspend fun recurringPayment(
+        serviceID: Int
+    ) {
+        viewModelScope.launch {
+
+
+            when (val loginResponse = paymentRepository.login()) {
+                is ApiResource.Failure -> _paymentLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success -> {
+                    if (loginResponse.value?.Success == true) {
+
+                        if (loginResponse.value.Data.isNotEmpty())
+                            processRecurringSub(
+                                serviceID = serviceID,
+                                msisdn = DeenSDKCore.GetDeenMsisdn(),
+                                token = loginResponse.value.Data
+                            )
+                        else
+                            _paymentLiveData.value = CommonResource.API_CALL_FAILED
+                    } else
+                        CommonResource.API_CALL_FAILED
+                }
+            }
+        }
+    }
+
+
+    private suspend fun processRecurringSub(serviceID: Int, msisdn: String, token: String) {
+        if (msisdn.isEmpty())
+            _paymentLiveData.value = CommonResource.API_CALL_FAILED
+        else {
+
+            viewModelScope.launch {
+                when (val sub = paymentRepository.deenRecurringPayment(serviceID, msisdn, token)) {
+                    is ApiResource.Failure -> _paymentLiveData.value =
+                        CommonResource.API_CALL_FAILED
+
+                    is ApiResource.Success -> {
+                        if (sub.value?.Success == true && sub.value.Message.isNotEmpty())
+                            _paymentLiveData.value = PaymentResource.PaymentUrl(sub.value.Data)
+                        else
+                            _paymentLiveData.value = CommonResource.API_CALL_FAILED
+                    }
+                }
+            }
+        }
+    }
+
 }

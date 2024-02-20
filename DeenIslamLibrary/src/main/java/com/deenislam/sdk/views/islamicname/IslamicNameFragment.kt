@@ -89,6 +89,7 @@ internal class IslamicNameFragment : BaseRegularFragment() {
             }
         }
 
+        firstload = true
 
 
        /* if(firstload)

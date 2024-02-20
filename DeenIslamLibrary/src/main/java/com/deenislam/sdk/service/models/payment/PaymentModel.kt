@@ -17,8 +17,9 @@ internal class PaymentModel(
     val isGpayEnable: Boolean = false,
     val serviceIDBkash: Int = 0,
     val serviceIDSSL: Int = 0,
-    val serviceIDNagad: String,
+    val serviceIDNagad: String = "",
     val serviceIDGpay: String? = null,
     val paySuccessMessage: String,
-    val tcUrl: String? = null
+    val tcUrl: String? = null,
+    val isRecurring:Boolean = false
 ) : Parcelable

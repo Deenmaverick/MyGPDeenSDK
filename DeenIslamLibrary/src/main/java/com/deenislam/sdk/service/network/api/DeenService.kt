@@ -8,6 +8,7 @@ import com.deenislam.sdk.service.network.response.dailydua.duabycategory.DuaByCa
 import com.deenislam.sdk.service.network.response.dailydua.favdua.FavDua
 import com.deenislam.sdk.service.network.response.dailydua.todaydua.TodayDua
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
+import com.deenislam.sdk.service.network.response.hajjandumrah.makkahlive.MakkahLiveVideoResponse
 import com.deenislam.sdk.service.network.response.islamicevent.IslamicEventListResponse
 import com.deenislam.sdk.service.network.response.islamifazael.IslamiFazaelResponse
 import com.deenislam.sdk.service.network.response.islamifazael.bycat.FazaelByCatResponse
@@ -15,6 +16,9 @@ import com.deenislam.sdk.service.network.response.islamimasail.answer.MasailAnsw
 import com.deenislam.sdk.service.network.response.islamimasail.catlist.IslamiMasailCatResponse
 import com.deenislam.sdk.service.network.response.islamimasail.questionbycat.MasailQuestionByCatResponse
 import com.deenislam.sdk.service.network.response.khatamquran.KhatamQuranVideosResponse
+import com.deenislam.sdk.service.network.response.podcast.category.PodcastCatResponse
+import com.deenislam.sdk.service.network.response.podcast.comment.PodcastCommentResponse
+import com.deenislam.sdk.service.network.response.podcast.content.PodcastContentResponse
 import com.deenislam.sdk.service.network.response.prayer_calendar.PrayerCalendarResponse
 import com.deenislam.sdk.service.network.response.prayerlearning.PrayerLearningAllCategory
 import com.deenislam.sdk.service.network.response.prayerlearning.visualization.VisualizationResponse
@@ -330,6 +334,43 @@ internal interface DeenService {
 
     @POST("Quran/getTafsir")
     suspend fun getTafsir(@Body parm: RequestBody): TafsirResponse
+
+
+    // Podcast
+    @POST("Podcasts/getPodcastPatch")
+    suspend fun getPodcastHomePatch(
+        @Body parm: RequestBody
+    ): DashboardResponse
+
+    @POST("Podcasts/podcastscontentbyid")
+    suspend fun getPodcastContent(
+        @Body parm: RequestBody
+    ): PodcastContentResponse
+
+    @POST("Podcasts/podcastscontentbycategoryid")
+    suspend fun getPodcastCategory(
+        @Body parm: RequestBody
+    ): PodcastCatResponse
+
+    @POST("Comment/GetComments")
+    suspend fun getPodcastAllComment(
+        @Body parm: RequestBody
+    ): PodcastCommentResponse
+
+    @POST("Comment/AddFavoriteComment")
+    suspend fun likeLivePodcastComment(
+        @Body parm: RequestBody
+    ): PodcastCommentResponse
+
+    @POST("Comment/AddComment")
+    suspend fun livePodcastAddComment(
+        @Body parm: RequestBody
+    ): PodcastCommentResponse
+
+    // Hajj And Umrah
+
+    @POST("LiveVideo/GetLivevideos")
+    suspend fun getMakkahLiveVideoes(@Body parm: RequestBody): MakkahLiveVideoResponse
 
 
 }

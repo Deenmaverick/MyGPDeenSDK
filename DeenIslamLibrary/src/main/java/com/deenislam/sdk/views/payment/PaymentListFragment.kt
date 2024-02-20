@@ -81,7 +81,8 @@ internal class PaymentListFragment : BaseRegularFragment() {
         super.OnCreate()
         val paymentRepository = PaymentRepository(
             paymentService = NetworkProvider().getInstance().providePaymentService(),
-            nagadPaymentService = NetworkProvider().getInstance().provideNagadPaymentService())
+            nagadPaymentService = NetworkProvider().getInstance().provideNagadPaymentService(),
+            authInterceptor = NetworkProvider().getInstance().provideAuthInterceptor())
 
         viewmodel = PaymentViewModel(paymentRepository)
 
@@ -391,7 +392,10 @@ internal class PaymentListFragment : BaseRegularFragment() {
 
         private fun bKashPayment() {
             lifecycleScope.launch {
-                viewmodel.bKashPayment(serviceID = paymentData.serviceIDBkash)
+                if(navArgs.payment.isRecurring)
+                    viewmodel.recurringPayment(serviceID = paymentData.serviceIDBkash)
+                else
+                    viewmodel.bKashPayment(serviceID = paymentData.serviceIDBkash)
             }
         }
 

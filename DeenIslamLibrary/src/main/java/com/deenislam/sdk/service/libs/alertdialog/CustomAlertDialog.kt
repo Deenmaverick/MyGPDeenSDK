@@ -1,6 +1,7 @@
 package com.deenislam.sdk.service.libs.alertdialog;
 
 import android.content.Context
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +63,7 @@ internal class CustomAlertDialog {
         }
 
         btn2?.setOnClickListener {
+            Log.e("CustomDCallback",instance?.customDialogCallback.toString())
             instance?.customDialogCallback?.clickBtn2()
         }
 

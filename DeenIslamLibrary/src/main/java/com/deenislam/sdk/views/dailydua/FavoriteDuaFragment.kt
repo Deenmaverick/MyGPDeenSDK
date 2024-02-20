@@ -79,14 +79,14 @@ internal class FavoriteDuaFragment(
         noInternetRetry = noInternetLayout.findViewById(R.id.no_internet_retry)
 
         customAlertDialog = CustomAlertDialog().getInstance()
-        customAlertDialog?.setupDialog(
+        /*customAlertDialog?.setupDialog(
             callback = this@FavoriteDuaFragment,
             context = requireContext(),
             btn1Text = localContext.getString(R.string.cancel),
             btn2Text = localContext.getString(R.string.delete),
             titileText = localContext.getString(R.string.want_to_delete),
             subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
-        )
+        )*/
 
         return mainView
     }
@@ -140,13 +140,34 @@ internal class FavoriteDuaFragment(
 
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            post {
-                loadApiData()
-            }
         }
 
     }
 
+
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+
+        if(menuVisible){
+            if(checkFirstload && !firstload) {
+                baseLoadingState()
+                loadApiData()
+            }else if(!checkFirstload)
+                loadApiData()
+
+            firstload = true
+
+            customAlertDialog?.setupDialog(
+                callback = this@FavoriteDuaFragment,
+                context = requireContext(),
+                btn1Text = localContext.getString(R.string.cancel),
+                btn2Text = localContext.getString(R.string.delete),
+                titileText = localContext.getString(R.string.want_to_delete),
+                subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
+            )
+
+        }
+    }
 
 
     private fun loadApiData()
@@ -247,7 +268,7 @@ internal class FavoriteDuaFragment(
             putString("catName", category)
             putInt("duaID", duaId)
         }
-        gotoFrag(R.id.action_dailyDuaFragment_to_allDuaPreviewFragment,data = bundle)
+        gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
     }
 
     override fun clickBtn1() {

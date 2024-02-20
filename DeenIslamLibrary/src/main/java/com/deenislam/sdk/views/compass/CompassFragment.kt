@@ -132,6 +132,8 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
             }
         }
 
+        firstload = true
+
         actionbar.post {
             val param = container.layoutParams as ViewGroup.MarginLayoutParams
             param.topMargin = container.marginTop+ actionbar.height

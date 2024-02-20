@@ -14,6 +14,8 @@ import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.prepareStubView
+import com.deenislam.sdk.views.adapters.common.FooterViewHolder
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable {
@@ -24,10 +26,21 @@ internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable
     private var surahFilter : List<Data> = surahList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
-        ViewHolder(
-            LayoutInflater.from(parent.context.getLocalContext())
-                .inflate(R.layout.item_quran_popular_surah, parent, false)
-        )
+
+        if(viewType>0 && viewType == itemCount - 1) {
+            FooterViewHolder(
+                LayoutInflater.from(parent.context.getLocalContext())
+                    .inflate(R.layout.layout_footer, parent, false)
+            )
+
+        }
+        else {
+            ViewHolder(
+                LayoutInflater.from(parent.context.getLocalContext())
+                    .inflate(R.layout.item_quran_popular_surah, parent, false)
+            )
+        }
+
 
     fun update(data: List<Data>)
     {
@@ -42,8 +55,11 @@ internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable
         diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun getItemCount(): Int = surahFilter.size
+    override fun getItemCount(): Int = surahFilter.size+if(surahFilter.isNotEmpty())1 else 0
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)
@@ -59,9 +75,9 @@ internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable
         override fun onBind(position: Int) {
             super.onBind(position)
 
-            val surahPost = position+1
+            val surahPost = absoluteAdapterPosition+1
 
-            surahCount.text = surahFilter[position].SurahId.toString().numberLocale()
+            surahCount.text = surahFilter[absoluteAdapterPosition].SurahId.toString().numberLocale()
             surahName.text =
                     /* if(BaseApplication.getLanguage() == "bn") (surahFilter[position].SurahId-1).getSurahNameBn()
                      else*/
@@ -72,7 +88,7 @@ internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable
                 surahFilter[position].TotalAyat.numberLocale())
 
             itemView.setOnClickListener {
-                surahCallback?.surahClick(surahFilter[position])
+                surahCallback?.surahClick(surahFilter[absoluteAdapterPosition])
             }
 
         }

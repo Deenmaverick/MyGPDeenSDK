@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.QuranLearningCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
@@ -16,6 +17,8 @@ import com.deenislam.sdk.service.models.quran.learning.QuranLearningResource
 import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.quran.learning.QuranLearningViewModel
 import com.deenislam.sdk.views.adapters.quran.learning.QuranLearningHomePatch
 import com.deenislam.sdk.views.base.BaseRegularFragment
@@ -72,6 +75,20 @@ internal class QuranLearningFragment : BaseRegularFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "quran_class",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+
         if(firstload)
             loadPage()
         else if (!isDetached) {
@@ -113,6 +130,22 @@ internal class QuranLearningFragment : BaseRegularFragment(),
                 }
             }
         }
+    }
+
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "quran_class",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
     }
 
     override fun noInternetRetryClicked() {

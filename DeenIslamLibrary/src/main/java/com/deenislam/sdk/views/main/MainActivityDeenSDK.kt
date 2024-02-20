@@ -741,6 +741,14 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         pendingIntent.send()
     }
 
+    fun stopQuran()
+    {
+        val intent = Intent(this, QuranPlayerBroadcast::class.java)
+        intent.action = "stop_action"
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+        pendingIntent.send()
+    }
+
     fun getMiniPlayerHeight(): Int {
         return if(QuranPlayer.isServiceRunning)
             mini_player.height

@@ -17,7 +17,6 @@ import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.prepareStubView
-import com.deenislam.sdk.utils.transformCommonCardListPatchModel
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.views.dashboard.patch.Allah99Names
 import com.deenislam.sdk.views.dashboard.patch.Billboard
@@ -54,6 +53,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     private var viewInflationListener = CallBackProvider.get<ViewInflationListener>()
 
     private var inflatedViewCount: Int = 0
+    private var totalsize = 0
 
     private var DashboardData: ArrayList<Data> =
         arrayListOf()
@@ -90,9 +90,10 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
             DashboardPatchClass.getBillboardInstance()?.updatePrayerTracker(data)
         }
 
-        fun updateDashData(data: List<Data>) {
+        fun updateDashData(data: List<Data>, totalsize: Int) {
             /*inflatedViewCount = 0
             DashboardData.clear()*/
+            this.totalsize = totalsize
             DashboardData.addAll(data)
 
             notifyItemRangeInserted(itemCount, data.size)
@@ -246,6 +247,13 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 }
 
             }
+
+            if(totalsize>0 && viewType == totalsize - 1) {
+                prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_footer) {
+
+                }
+            }
+
 
 
             completeViewLoad()

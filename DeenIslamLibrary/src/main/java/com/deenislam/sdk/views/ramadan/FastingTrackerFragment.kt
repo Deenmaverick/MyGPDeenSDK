@@ -19,6 +19,7 @@ import com.deenislam.sdk.service.network.response.ramadan.FastTracker
 import com.deenislam.sdk.service.network.response.ramadan.calendar.Calander
 import com.deenislam.sdk.service.network.response.ramadan.calendar.Data
 import com.deenislam.sdk.service.repository.RamadanRepository
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.dayNameLocale
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.monthNameLocale
@@ -165,12 +166,20 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
         }
 
         yesBtn.setOnClickListener {
+            if(!Subscription.isSubscribe){
+                gotoFrag(R.id.action_global_subscriptionFragment)
+                return@setOnClickListener
+            }
             lifecycleScope.launch {
                 viewmodel.setRamadanTrack(true,getLanguage())
             }
         }
 
         noBtn.setOnClickListener {
+            if(!Subscription.isSubscribe){
+                gotoFrag(R.id.action_global_subscriptionFragment)
+                return@setOnClickListener
+            }
             lifecycleScope.launch {
                 viewmodel.setRamadanTrack(false,getLanguage())
             }

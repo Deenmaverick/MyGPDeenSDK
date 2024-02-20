@@ -413,5 +413,36 @@
     <string name="ramadan_remaining">রমাদান বাকি আছে</string>
     <string name="my_downloads">আমার ডাউনলোড</string>
     <string name="my_favorites">আমার প্রিয় তালিকা</string>
-
+    <string name="get_premium">প্রিমিয়াম করুন</string>
+    <string name="subs_greeting_txt">মুসলিম সম্প্রদায়ের সাথে যোগ দিন এবং সঠিকভাবে ইসলাম শিখুন।</string>
+    <string name="cancel_auto_renewal_at_any_time">যেকোনো সময় অটো-রিনিউয়াল বাতিল করুন</string>
+    <string name="premium_features">Premium Features</string>
+    <string name="t_amp_c_privacy_policy">ব্যবহারের শর্তাবলী • গোপনীয়তা নীতি</string>
+    <string name="subscription">সাবস্ক্রিপশন</string>
+    <string name="join_the_islamic_ott_platform">ইসলামিক ওটিটি প্ল্যাটফর্মে যোগ দিন</string>
+    <string name="dailyPlanSubText">৳২.৬৭ • দৈনিক (অটো-রিনিউয়াল)</string>
+    <string name="weeklyPlanSubText">৳৭.৩৩ • প্রতি সপ্তাহে (অটো-রিনিউয়াল)</string>
+    <string name="monthlyPlanSubText">৳২০.০০ • প্রতি মাসে (অটো-রিনিউয়াল)</string>
+    <string name="subStartBtnText">বিসমিল্লাহ, %1$s প্যাকেজ চালু করুন</string>
+    <string name="select_a_plan">একটি প্যাকেজ নির্বাচন করুন</string>
+    <string name="monthly_subscription">মাসিক প্যাকেজ</string>
+    <string name="cancel_plan">অটো-রিনিউয়াল বাতিল করুন</string>
+    <string name="renew_plan">পুনরায় রিনিউ করুন</string>
+    <string name="subs_info_txt">পরবর্তী চার্জ হবে %1$s</string>
+    <string name="you_cancelled_the_subscription">আপনি প্যাকেজ রিনিউ বাতিল করেছেন</string>
+    <string name="subscription_expired">প্যাকেজের মেয়াদ শেষ</string>
+    <string name="your_payment_has_been_successful">আপনার পেমেন্ট সফল হয়েছে।</string>
+    <string name="like_count">লাইক (%1$s)</string>
+    <string name="title_eid_jamat">ঈদ জামাতের স্থান</string>
+    <string name="daily">দৈনিক</string>
+    <string name="weekly">সাপ্তাহিক</string>
+    <string name="monthly">মাসিক</string>
+    <string name="live_podcast">লাইভ পডকাস্ট</string>
+    <string name="there_is_no_live_at_the_moment">এই মুহূর্তে কোনো লাইভ নেই</string>
+    <string name="live_chat">সরাসরি কথোপকথন</string>
+    <string name="ask_a_question">প্রশ্ন জিজ্ঞাসা করুন</string>
+    <string name="watch_more">আরো দেখুন</string>
+    <string name="podcast">পডকাস্ট</string>
+    <string name="more_download_count">%1$sটি ডাউনলোড</string>
+    <string name="live_makkah_madina">লাইভ মক্কা মদিনা</string>
 </resources>

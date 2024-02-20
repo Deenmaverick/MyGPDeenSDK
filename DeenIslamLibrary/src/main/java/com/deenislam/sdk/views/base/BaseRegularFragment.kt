@@ -30,6 +30,7 @@ import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
 import com.deenislam.sdk.service.repository.UserTrackRepository
 import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.LocaleUtil
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
@@ -195,9 +196,6 @@ internal abstract class BaseRegularFragment: Fragment() {
             }*/
 
     }
-
-
-
 
     override fun onPause() {
         super.onPause()

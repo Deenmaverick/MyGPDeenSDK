@@ -23,11 +23,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.AppPreference
 import com.deenislam.sdk.utils.LocationHelper
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.base.BaseRegularFragment
-
+import kotlinx.coroutines.launch
 
 
 internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
@@ -47,6 +51,13 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
 
             loadWebVieww()
         }
+
+    private var firstload = false
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this,true)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,6 +80,21 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         locationHelper = LocationHelper(requireContext())
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "nearest_mosque",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        firstload = true
 
         if (!isDetached) {
             view.postDelayed({
@@ -94,6 +120,22 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
                 )
             )
         }
+    }
+
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "nearest_mosque",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
     }
 
     private fun isLocationPermissionGiven(context: Context): Boolean {

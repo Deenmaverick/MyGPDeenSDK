@@ -995,4 +995,102 @@
             android:defaultValue="@null" />
     </fragment>
 
+    <fragment
+        android:id="@+id/subscriptionFragment"
+        android:name="com.deenislam.sdk.views.subscription.SubscriptionFragment"
+        android:label="SubscriptionFragment" />
+    <action
+        android:id="@+id/action_global_subscriptionFragment"
+        app:destination="@id/subscriptionFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_livePodcastDetailsFragment"
+        app:destination="@id/livePodcastDetailsFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/livePodcastDetailsFragment"
+        android:name="com.deenislam.sdk.views.podcast.LivePodcastDetailsFragment"
+        android:label="LivePodcastDetailsFragment" >
+        <argument
+            android:name="videoid"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="pid"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_offlinePodcastDetailsFragment"
+        app:destination="@id/offlinePodcastDetailsFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/offlinePodcastDetailsFragment"
+        android:name="com.deenislam.sdk.views.podcast.OfflinePodcastDetailsFragment"
+        android:label="OfflinePodcastDetailsFragment" >
+        <argument
+            android:name="pid"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_podcastCategoryFragment"
+        app:destination="@id/podcastCategoryFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/podcastCategoryFragment"
+        android:name="com.deenislam.sdk.views.podcast.PodcastCategoryFragment"
+        android:label="PodcastCategoryFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="cid"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_livePodcastFragment"
+        app:destination="@id/livePodcastFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/livePodcastFragment"
+        android:name="com.deenislam.sdk.views.podcast.LivePodcastFragment"
+        android:label="LivePodcastFragment" />
+
+    <action
+        android:id="@+id/action_global_myDownloadFragment"
+        app:destination="@id/myDownloadFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/myDownloadFragment"
+        android:name="com.deenislam.sdk.views.mydownloads.MyDownloadFragment"
+        android:label="MyDownloadFragment" />
+
 </navigation>

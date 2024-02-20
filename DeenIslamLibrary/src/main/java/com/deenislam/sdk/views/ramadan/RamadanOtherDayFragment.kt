@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.RamadanCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
@@ -17,6 +18,9 @@ import com.deenislam.sdk.service.network.response.ramadan.Data
 import com.deenislam.sdk.service.network.response.ramadan.FastTracker
 import com.deenislam.sdk.service.repository.RamadanRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.Subscription
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.RamadanViewModel
 import com.deenislam.sdk.views.adapters.ramadan.OtherRamadanPatchAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
@@ -40,7 +44,7 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
 
     override fun OnCreate() {
         super.OnCreate()
-
+        setupBackPressCallback(this,true)
         // init viewmodel
         val repository = RamadanRepository(
             deenService = NetworkProvider().getInstance().provideDeenService())
@@ -76,20 +80,21 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBackPressCallback(this)
 
-      /*  if(firstload) {
-            loadpage()
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "ramadan_other_day",
+                    trackingID = getTrackingID()
+                )
+            }
         }
-        else if (!isDetached) {
-            view.postDelayed({
-                loadpage()
-            }, 300)
-        }
-        else
-            loadpage()
 
-        firstload = true*/
+        firstload = true
 
         if (!isDetached) {
             view.postDelayed({
@@ -197,6 +202,22 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
         }
     }
 
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "ramadan_other_day",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
+    }
+
     private fun loadApi()
     {
         baseLoadingState()
@@ -234,6 +255,10 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
     }
 
     override fun setFastingTrack(isFast: Boolean) {
+        if(!Subscription.isSubscribe){
+            gotoFrag(R.id.action_global_subscriptionFragment)
+            return
+        }
         lifecycleScope.launch {
             viewmodel.setRamadanTrack(isFast,getLanguage())
         }

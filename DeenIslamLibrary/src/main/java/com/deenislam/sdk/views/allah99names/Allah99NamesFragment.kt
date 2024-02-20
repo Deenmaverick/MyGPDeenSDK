@@ -11,6 +11,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.Allah99NameCallback
 import com.deenislam.sdk.service.callback.AudioManagerBasicCallback
@@ -23,6 +24,8 @@ import com.deenislam.sdk.service.repository.DeenServiceRepository
 import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.Allah99NameViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislamic.views.adapters.allah99names.Allah99NamesListAdapter
@@ -48,9 +51,8 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
     private var itemsToLoadAhead = 8
     override fun OnCreate() {
         super.OnCreate()
-
+        setupBackPressCallback(this,true)
         CallBackProvider.setFragment(this)
-
         // init viewmodel
         val repository = DeenServiceRepository(NetworkProvider().getInstance().provideDeenService())
         viewmodel = Allah99NameViewModel(repository)
@@ -90,6 +92,20 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "asmaul_husna",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
 
         if(firstload) {
             loadpage()
@@ -207,6 +223,21 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
     }
 
 
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "asmaul_husna",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
+    }
 
     private fun initObserver()
     {
@@ -259,6 +290,7 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
     override fun onDestroyView() {
         super.onDestroyView()
         audioManager.releasePlayer()
+        audioManager.clearPlayerData()
     }
 
     override fun isMedia3PlayComplete() {

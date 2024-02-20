@@ -58,6 +58,7 @@ import com.deenislam.sdk.service.repository.quran.AlQuranRepository
 import com.deenislam.sdk.service.repository.quran.quranplayer.PlayerControlRepository
 import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.invisible
@@ -79,6 +80,7 @@ import com.deenislam.sdk.views.adapters.quran.SelectSurahCallback
 import com.deenislam.sdk.views.adapters.quran.quranplayer.PlayerCommonSelectionList
 import com.deenislam.sdk.views.base.BaseFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.quran.quranplayer.PlayerAudioFragment
 import com.deenislam.sdk.views.quran.quranplayer.PlayerThemeFragment
 import com.deenislam.sdk.views.quran.quranplayer.PlayerTranslationFragment
@@ -625,6 +627,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         super.onDestroyView()
         isMiniPlayerAlreadySet = false
         AudioManager().getInstance().releasePlayer()
+        if(!isSurahMode){
+            MainActivityDeenSDK.instance?.stopQuran()
+        }
     }
 
     private fun clearPlayerControlBtn()
@@ -1964,6 +1969,10 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     }
 
     private fun downloadOfflineQuran(fileid:String){
+        if(!Subscription.isSubscribe){
+            gotoFrag(R.id.action_global_subscriptionFragment)
+            return
+        }
         // Assuming `quranDownloadService` is an instance of QuranDownloadService
         val downloadUrl = BASE_CONTENT_URL_SGP +"Content/Quran/Audio/Ayath/MishariRashidAlAfasy/Afasyzip/${fileid}.zip"
         Log.e("downloadUrl",downloadUrl)

@@ -13,6 +13,7 @@ import com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.views.adapters.common.FooterViewHolder
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 
@@ -22,10 +23,20 @@ internal class QuranJuzAdapter() : RecyclerView.Adapter<BaseViewHolder>() {
     private val callback = CallBackProvider.get<JuzCallback>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
-        ViewHolder(
-            LayoutInflater.from(parent.context.getLocalContext())
-                .inflate(R.layout.item_quran_juz, parent, false)
-        )
+
+        if(viewType>0 && viewType == itemCount - 1) {
+            FooterViewHolder(
+                LayoutInflater.from(parent.context.getLocalContext())
+                    .inflate(R.layout.layout_footer, parent, false)
+            )
+
+        }
+    else {
+            ViewHolder(
+                LayoutInflater.from(parent.context.getLocalContext())
+                    .inflate(R.layout.item_quran_juz, parent, false)
+            )
+        }
 
     fun update(data: List<Data>)
     {
@@ -33,7 +44,11 @@ internal class QuranJuzAdapter() : RecyclerView.Adapter<BaseViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = juzList.size
+    override fun getItemCount(): Int = juzList.size+if(juzList.isNotEmpty())1 else 0
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)

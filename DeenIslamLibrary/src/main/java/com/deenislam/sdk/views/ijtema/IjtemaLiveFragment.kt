@@ -17,7 +17,9 @@ import com.deenislam.sdk.service.libs.media3.ExoVideoManager
 import com.deenislam.sdk.service.libs.media3.VideoPlayerCallback
 import com.deenislam.sdk.service.models.PodcastResource
 import com.deenislam.sdk.service.network.response.common.CommonCardData
+import com.deenislam.sdk.service.repository.PodcastRepository
 import com.deenislam.sdk.service.repository.YoutubeVideoRepository
+import com.deenislam.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.hide
@@ -48,9 +50,21 @@ internal class IjtemaLiveFragment : BaseRegularFragment(), VideoPlayerCallback {
         super.OnCreate()
 
         // init viewmodel
-        val repository = YoutubeVideoRepository(
+        val youtubeVideoRepository = YoutubeVideoRepository(
             youtubeService = NetworkProvider().getInstance().provideYoutubeService())
-        viewmodel = PodcastViewModel(repository)
+        val podcastRepository = PodcastRepository(deenService = NetworkProvider().getInstance().provideDeenService())
+
+        val quranLearningRepository = QuranLearningRepository(
+            quranShikkhaService = NetworkProvider().getInstance().provideQuranShikkhaService(),
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            dashboardService = NetworkProvider().getInstance().provideDashboardService()
+        )
+
+        viewmodel = PodcastViewModel(
+            youtubeVideoRepository = youtubeVideoRepository,
+            podcastRepository = podcastRepository,
+            quranLearningRepository = quranLearningRepository
+        )
 
         setupBackPressCallback(this,true)
 

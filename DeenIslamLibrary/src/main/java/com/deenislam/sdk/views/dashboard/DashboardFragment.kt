@@ -1,9 +1,6 @@
 package com.deenislam.sdk.views.dashboard
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -13,7 +10,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
@@ -43,14 +39,18 @@ import com.deenislam.sdk.service.repository.PrayerTimesRepository
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.MAKKAH_LATITUDE
 import com.deenislam.sdk.utils.MAKKAH_LONGITUDE
+import com.deenislam.sdk.utils.MENU_99_NAME_OF_ALLAH
 import com.deenislam.sdk.utils.MENU_AL_QURAN
 import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
 import com.deenislam.sdk.utils.MENU_DUA
 import com.deenislam.sdk.utils.MENU_HADITH
 import com.deenislam.sdk.utils.MENU_IJTEMA
+import com.deenislam.sdk.utils.MENU_ISLAMIC_EDUCATION_VIDEO
 import com.deenislam.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislam.sdk.utils.MENU_ISLAMIC_NAME
 import com.deenislam.sdk.utils.MENU_KHATAM_E_QURAN
+import com.deenislam.sdk.utils.MENU_LIVE_PODCAST
+import com.deenislam.sdk.utils.MENU_NEAREST_MOSQUE
 import com.deenislam.sdk.utils.MENU_PRAYER_LEARNING
 import com.deenislam.sdk.utils.MENU_PRAYER_TIME
 import com.deenislam.sdk.utils.MENU_QIBLA_COMPASS
@@ -75,9 +75,7 @@ import com.deenislam.sdk.views.adapters.dashboard.PrayerTimeCallback
 import com.deenislam.sdk.views.adapters.dashboard.TYPE_WIDGET11
 import com.deenislam.sdk.views.adapters.dashboard.TYPE_WIDGET7
 import com.deenislam.sdk.views.base.BaseFragment
-import com.deenislam.sdk.views.compass.PERMISSION_CODE
 import com.deenislam.sdk.views.main.actionCallback
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -232,7 +230,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 hasMoreData = false
             }
             hasMoreData = false
-            dashboardPatchMain.updateDashData(it)
+            dashboardPatchMain.updateDashData(it,dashboardData?.size?:0)
         }
     }
 
@@ -919,6 +917,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             MENU_QURAN_CLASS -> gotoFrag(R.id.action_global_quranLearningFragment)
             MENU_RAMADAN_OTHER_DAY -> gotoFrag(R.id.action_global_ramadanOtherDayFragment)
             MENU_RAMADAN -> gotoFrag(R.id.action_global_ramadanFragment)
+            MENU_99_NAME_OF_ALLAH -> gotoFrag(R.id.action_global_allah99NamesFragment)
+            MENU_NEAREST_MOSQUE -> {
+                gotoFrag(R.id.action_global_nearestMosqueWebviewFragment)
+            }
+            MENU_LIVE_PODCAST -> gotoFrag(R.id.action_global_livePodcastFragment)
+            MENU_ISLAMIC_EDUCATION_VIDEO -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
+
         }
     }
 

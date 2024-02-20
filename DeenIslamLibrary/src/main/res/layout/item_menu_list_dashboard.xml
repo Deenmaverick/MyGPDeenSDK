@@ -1,43 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_8"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:viewBindingIgnore="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/menuCarview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="1dp"
-        android:layout_gravity="center"
+
+    <com.deenislam.sdk.utils.AspectRatioImageView
+        android:id="@+id/menuIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/deen_primary"
-        app:strokeWidth="0dp">
-
-        <LinearLayout
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/menu_bg">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/menuIcon"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_menu_kabah" />
-
-
-        </LinearLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -47,14 +25,14 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/space_8"
         android:layout_marginBottom="@dimen/space_16"
-        android:text="Menu Name"
+        tools:text="Menu Name"
         android:gravity="center"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/deen_txt_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuCarview" />
+        app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

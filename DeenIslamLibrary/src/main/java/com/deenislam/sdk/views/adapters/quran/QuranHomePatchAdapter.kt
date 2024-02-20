@@ -47,6 +47,12 @@ internal class QuranHomePatchAdapter(private val data: List<Data>) : RecyclerVie
             }
         }
 
+        if(viewType == itemCount - 1) {
+            prepareStubView<View>(rootView.findViewById(R.id.widget),R.layout.layout_footer) {
+
+            }
+        }
+
         return ViewHolder(mainView)
     }
 

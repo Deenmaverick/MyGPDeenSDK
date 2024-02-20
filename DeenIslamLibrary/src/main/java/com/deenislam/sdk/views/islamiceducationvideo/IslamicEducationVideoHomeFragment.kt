@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.IslamicEducationCallback
 import com.deenislam.sdk.service.callback.common.CommonCardCallback
@@ -19,6 +20,8 @@ import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.viewmodels.IslamicEducationViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.service.network.response.common.CommonCardData
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.adapters.islamiceducationvideo.IslamicEducationVideoHomeAdapter
 import kotlinx.coroutines.launch
 
@@ -35,6 +38,7 @@ internal class IslamicEducationVideoHomeFragment : BaseRegularFragment(), Islami
 
     override fun OnCreate() {
         super.OnCreate()
+        setupBackPressCallback(this,true)
         // init viewmodel
         val repository = IslamicEducationVideoRepository(NetworkProvider().getInstance().provideDeenService())
         viewmodel = IslamicEducationViewModel(repository)
@@ -72,6 +76,21 @@ internal class IslamicEducationVideoHomeFragment : BaseRegularFragment(), Islami
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_educational_video",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
 
         if(firstload) {
             loadpage()
@@ -131,6 +150,22 @@ internal class IslamicEducationVideoHomeFragment : BaseRegularFragment(), Islami
 
     override fun noInternetRetryClicked() {
         loadApi()
+    }
+
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_educational_video",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
     }
 
     override fun videoItemClick(position: Int) {

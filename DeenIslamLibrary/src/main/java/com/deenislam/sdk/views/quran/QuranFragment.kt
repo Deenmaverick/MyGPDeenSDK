@@ -7,16 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.common.MaterialButtonHorizontalListCallback
 import com.deenislam.sdk.service.network.response.prayerlearning.visualization.Head
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.adapters.common.MaterialButtonHorizontalAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
+import kotlinx.coroutines.launch
 
 
 internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalListCallback {
@@ -31,6 +36,10 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
 
     private var firstload =false
 
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this,true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +69,21 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
         super.onViewCreated(view, savedInstanceState)
 
         //setupBackPressCallback(this@QuranFragment)
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "quran",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        firstload = true
 
         if (!isDetached) {
             view.postDelayed({
@@ -142,12 +166,21 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
 
     fun getActionbar(): ConstraintLayout = actionbar
 
-   /* override fun onBackPress() {
-        if(!isVisible)
-            super.onBackPress()
-        else
-            changeMainViewPager(0)
-    }*/
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "quran",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
+    }
 
     override fun materialButtonHorizontalListClicked(absoluteAdapterPosition: Int) {
         _viewPager.setCurrentItem(absoluteAdapterPosition,true)

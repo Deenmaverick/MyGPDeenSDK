@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.PRIVACY_URL
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.TERMS_URL
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseRegularFragment
@@ -15,6 +16,7 @@ import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.transition.MaterialSharedAxis
+import java.io.File
 
 internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
@@ -24,7 +26,9 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     private lateinit var termsLayout:MaterialCardView
     private lateinit var privacyLayout:MaterialCardView
     private lateinit var favLayout:MaterialCardView
-
+    private lateinit var premiumLayout:MaterialCardView
+    private lateinit var downloadLayout:MaterialCardView
+    private lateinit var downloadCount:AppCompatTextView
     override fun OnCreate() {
         super.OnCreate()
        // setupBackPressCallback(this,true)
@@ -55,7 +59,9 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         termsLayout = mainview.findViewById(R.id.termsLayout)
         privacyLayout = mainview.findViewById(R.id.privacyLayout)
         favLayout = mainview.findViewById(R.id.favLayout)
-
+        premiumLayout = mainview.findViewById(R.id.premiumLayout)
+        downloadLayout = mainview.findViewById(R.id.downloadLayout)
+        downloadCount = mainview.findViewById(R.id.downloadCount)
 
         setupActionForOtherFragment(
             action1 = R.drawable.deen_ic_close,
@@ -66,6 +72,10 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
             view = mainview,
             isBackIcon = true
         )
+
+        premiumLayout.setOnClickListener {
+            gotoFrag(R.id.action_global_subscriptionFragment)
+        }
 
         return mainview
     }
@@ -84,6 +94,11 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
     private fun loadPage()
     {
+
+        downloadCount.text = localContext.getString(R.string.more_download_count,
+            (getQuranOfflineDownloadCount()).toString().numberLocale()
+        )
+
         username.text = DeenSDKCore.GetDeenMsisdn().numberLocale()
 
         settingLayout.setOnClickListener {
@@ -92,6 +107,14 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
         editProfileBtn.setOnClickListener {
 
+        }
+
+        downloadLayout.setOnClickListener {
+            if(!Subscription.isSubscribe){
+                gotoFrag(R.id.action_global_subscriptionFragment)
+                return@setOnClickListener
+            }
+            gotoFrag(R.id.action_global_myDownloadFragment)
         }
 
         termsLayout.setOnClickListener {
@@ -123,6 +146,10 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         }
 
         favLayout.setOnClickListener {
+            /*if(!Subscription.isSubscribe){
+                gotoFrag(R.id.action_global_subscriptionFragment)
+                return@setOnClickListener
+            }*/
             gotoFrag(R.id.action_global_myFavoritesFragment)
         }
     }
@@ -135,6 +162,23 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     override fun action2() {
     }
 
+    private fun getQuranOfflineDownloadCount(): Int {
+
+        val destinationFolder = File(requireContext().filesDir, "quran")
+        destinationFolder.mkdirs()
+        val subdirectories = destinationFolder.listFiles { file -> file.isDirectory }
+        val fileNameToCheck = "surahinfo.json"
+        var countDownload = 0
+
+        subdirectories?.forEach { subdirectory ->
+            val fileToCheck = File(subdirectory, fileNameToCheck)
+            if (fileToCheck.exists()) {
+                countDownload++
+            }
+        }
+
+        return countDownload
+    }
 
 
 }

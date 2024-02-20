@@ -99,7 +99,8 @@ internal class QuranLearningDetailsFragment : BaseRegularFragment(),
 
         val paymentRepository = PaymentRepository(
             paymentService = NetworkProvider().getInstance().providePaymentService(),
-            nagadPaymentService = NetworkProvider().getInstance().provideNagadPaymentService())
+            nagadPaymentService = NetworkProvider().getInstance().provideNagadPaymentService(),
+            authInterceptor = NetworkProvider().getInstance().provideAuthInterceptor())
 
         val factory = VMFactory(paymentRepository)
         paymentViewmodel = ViewModelProvider(

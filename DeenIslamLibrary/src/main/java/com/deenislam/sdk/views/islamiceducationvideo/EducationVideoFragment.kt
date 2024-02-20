@@ -286,6 +286,7 @@ internal class EducationVideoFragment : BaseRegularFragment(), VideoPlayerCallba
     override fun videoPlayerReady(isPlaying: Boolean, mediaData: CommonCardData?) {
 
       if (isPlaying) {
+          acquireWakeLock()
             mediaData?.let {
 
                 if(lastPostedPlayedID!=it.Id) {
@@ -297,7 +298,6 @@ internal class EducationVideoFragment : BaseRegularFragment(), VideoPlayerCallba
 
                 val newData = it.copy(isPlaying = true)
                 commonCardAdapter.updatePlayPauseIcon(newData)
-                Log.e("videoPlayerReady",Gson().toJson(mediaData))
 
             }
         } else {
@@ -305,6 +305,8 @@ internal class EducationVideoFragment : BaseRegularFragment(), VideoPlayerCallba
                 val newData = it.copy(isPlaying = false)
                 commonCardAdapter.updatePlayPauseIcon(newData)
             }
+
+          releaseWakeLock()
 
         }
 
@@ -325,6 +327,7 @@ internal class EducationVideoFragment : BaseRegularFragment(), VideoPlayerCallba
     override fun onPause() {
         super.onPause()
         exoVideoManager.playPauseVideo()
+        releaseWakeLock()
     }
 
 
@@ -333,6 +336,16 @@ internal class EducationVideoFragment : BaseRegularFragment(), VideoPlayerCallba
         exoVideoManager.playPauseVideo()
     }
 
+    private fun acquireWakeLock() {
+
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    private fun releaseWakeLock() {
+
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+    }
 
     private fun transformVideoData(newDataModel: CommonCardData): CommonCardData {
 

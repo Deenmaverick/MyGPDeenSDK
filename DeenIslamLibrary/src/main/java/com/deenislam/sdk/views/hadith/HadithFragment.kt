@@ -81,6 +81,8 @@ internal class HadithFragment : BaseRegularFragment() {
                 }
         }
 
+        firstload  = true
+
         hadithBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
         hadithBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 

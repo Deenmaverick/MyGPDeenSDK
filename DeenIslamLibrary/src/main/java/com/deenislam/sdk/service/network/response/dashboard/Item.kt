@@ -39,6 +39,7 @@ internal data class Item(
     val FeatureLogo:String? = "",
     val FeatureButton:String ? = "",
     val isVideo:Boolean = false,
+    val isLive:Boolean = false,
     val FeatureSize:String? = "",
     val Serial:Int = 0
 )
