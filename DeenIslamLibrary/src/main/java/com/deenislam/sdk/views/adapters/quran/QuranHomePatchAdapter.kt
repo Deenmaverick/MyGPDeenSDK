@@ -11,7 +11,7 @@ import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.prepareStubView
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.views.quran.patch.RecentRead
-import com.deenislamic.views.quran.patch.PopularSurah
+import com.deenislam.sdk.views.quran.patch.PopularSurah
 
 internal class QuranHomePatchAdapter(private val data: List<Data>) : RecyclerView.Adapter<BaseViewHolder>() {
 

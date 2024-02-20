@@ -4,65 +4,45 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SurahCallback
-import com.deenislam.sdk.service.network.response.quran.qurannew.surah.Chapter
-import com.deenislam.sdk.utils.getLocalContext
-import com.deenislam.sdk.utils.getSurahNameBn
+import com.deenislam.sdk.service.network.response.dashboard.Item
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.transformPatchToSurahData
 import com.deenislam.sdk.views.base.BaseViewHolder
 
 
 private const val NO_DATA = 0
 private const val DATA_AVAILABLE = 1
 private const val FOOTER = 2
-internal class PopularSurahAdapter(
-    private val callback: SurahCallback
-) : RecyclerView.Adapter<BaseViewHolder>() {
+internal class PopularSurahAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
-    private val surahList: ArrayList<Chapter> = arrayListOf()
+    private var surahList: ArrayList<Item> = arrayListOf()
+    private val callback = CallBackProvider.get<SurahCallback>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
+        ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_quran_popular_surah, parent, false)
+        )
 
-        when(viewType)
-        {
-            DATA_AVAILABLE ->
-                ViewHolder(
-                    LayoutInflater.from(parent.context.getLocalContext())
-                        .inflate(R.layout.item_quran_popular_surah, parent, false)
-                )
-
-            FOOTER ->
-                ViewHolder(
-                    LayoutInflater.from(parent.context.getLocalContext())
-                        .inflate(R.layout.layout_footer, parent, false)
-                )
-
-            else -> ViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_no_data, parent, false)
-            )
-
-        }
-
-
-    fun update(data: List<Chapter>)
+    fun update(data: List<Item>)
     {
-        surahList.clear()
-        surahList.addAll(data)
-        notifyItemInserted(itemCount)
+        val diffResult = DiffUtil.calculateDiff(
+            DataDiffCallback(
+                surahList,
+                data
+            )
+        )
+        surahList = data as ArrayList<Item>
+        diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun getItemViewType(position: Int): Int =
-        when (surahList.size) {
-            0 -> NO_DATA
-            position -> FOOTER
-            else -> DATA_AVAILABLE
-        }
 
-    override fun getItemCount(): Int = if(surahList.size==0) 2 else surahList.size+1
+    override fun getItemCount(): Int = surahList.size
 
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -71,34 +51,48 @@ internal class PopularSurahAdapter(
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
-        private val surahCount: AppCompatTextView by lazy { itemView.findViewById(R.id.surahCount) }
-        private val surahName: AppCompatTextView by lazy { itemView.findViewById(R.id.surahName) }
-        private val surahSub: AppCompatTextView by lazy { itemView.findViewById(R.id.surahSub) }
-        private val arbSurah: AppCompatTextView by lazy { itemView.findViewById(R.id.arbSurah) }
+        private val surahCount:AppCompatTextView by lazy { itemView.findViewById(R.id.surahCount) }
+        private val surahName:AppCompatTextView by lazy { itemView.findViewById(R.id.surahName) }
+        private val surahSub:AppCompatTextView by lazy { itemView.findViewById(R.id.surahSub) }
+        private val arbSurah:AppCompatTextView by lazy { itemView.findViewById(R.id.arbSurah) }
 
         override fun onBind(position: Int, viewtype: Int) {
-            super.onBind(position, viewtype)
-            when(viewtype)
-            {
-                DATA_AVAILABLE->
-                {
-                    val surahPost = position+1
+            super.onBind(position)
+            val surahPost = position+1
 
-                    surahCount.text = surahList[position].id.toString().numberLocale()
-                    surahName.text =
-                        if(DeenSDKCore.GetDeenLanguage() == "bn") (surahList[position].id-1).getSurahNameBn()
-                    else
-                        surahList[position].name_simple
-                    
-                    arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
-                    surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahList[position].translated_name.name+" • ",surahList[position].verses_count.toString().numberLocale())
 
-                    itemView.setOnClickListener {
-                        //callback.surahClick(surahList[position])
-                    }
-                }
+            surahCount.text = surahList[position].SurahId.toString().numberLocale()
+            surahName.text =
+                    /*  if(BaseApplication.getLanguage() == "bn") (surahList[position].SurahId-1).getSurahNameBn()
+                      else*/
+                surahList[position].MText
+
+            arbSurah.text = "${if(surahPost<10)0 else ""}${if(surahPost<100)0 else ""}${surahPost}"
+            surahSub.text = surahSub.context.resources.getString(R.string.quran_popular_surah_ayat,surahList[position].Meaning+" • ",
+                surahList[position].ECount.toString().numberLocale())
+
+            itemView.setOnClickListener {
+                callback?.surahClick(transformPatchToSurahData(surahList[position]))
             }
         }
-
     }
+
+    internal inner class DataDiffCallback(
+        private val oldList: List<Item>,
+        private val newList: List<Item>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].Id == newList[newItemPosition].Id
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
+        }
+    }
+
 }

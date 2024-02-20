@@ -152,10 +152,12 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private lateinit var ramadanRemainTxt:AppCompatTextView
     private lateinit var floatGestureDetector: GestureDetector
     private lateinit var ramadanCloseBtn:AppCompatImageView
+    private lateinit var ramadanTxt:AppCompatTextView
     private var isRamadanRemainCardClosed = true
     private lateinit var ramadanCustomAlertDialogView : View
     private var ramadanExpectedTimeInMill:Long = 0
     private var ramadanCountDownTimer: CountDownTimer?=null
+
 
     // Custom dialog
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
@@ -268,6 +270,8 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         ramadanRemainCard = findViewById(R.id.ramadanRemainCard)
         ramadanRemainTxt = findViewById(R.id.ramadanRemainTxt)
         ramadanCloseBtn = findViewById(R.id.ramadanCloseBtn)
+        ramadanTxt = findViewById(R.id.ramadanTxt)
+        ramadanTxt.text = this.getLocalContext().getString(R.string.ramadan_remaining)
 
         frameContainerView.visible(true)
         changeLanguage()
@@ -1151,6 +1155,17 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
     private fun initNavChangeObsever() {
         val destinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
+
+
+            if(destination.id == R.id.dashboardFakeFragment){
+                if(!isRamadanRemainCardClosed)
+                    ramadanRemainCard.show()
+                else
+                    ramadanRemainCard.hide()
+            }
+            else
+                ramadanRemainCard.hide()
+
 
             when (destination.id) {
 

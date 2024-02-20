@@ -40,6 +40,7 @@ internal class AlQuranRepository(
 
         val body = JSONObject()
         body.put("language",language)
+        body.put("device","sdk")
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.getQuranHomePatch(parm = requestBody)

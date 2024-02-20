@@ -1,4 +1,4 @@
-package com.deenislamic.views.quran.patch;
+package com.deenislam.sdk.views.quran.patch;
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
@@ -13,7 +13,7 @@ internal class PopularSurah(itemView: View, items: List<Item>) {
 
     private val listView: RecyclerView = itemView.findViewById(R.id.listview)
     private val itemTitle: AppCompatTextView = itemView.findViewById(R.id.itemTitle)
-    //private var popularSurahAdapter: PopularSurahAdapter
+    private var popularSurahAdapter: PopularSurahAdapter
 
     init {
 
@@ -23,9 +23,9 @@ internal class PopularSurah(itemView: View, items: List<Item>) {
 
         listView.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL,false)
-            /*popularSurahAdapter = PopularSurahAdapter()
+            popularSurahAdapter = PopularSurahAdapter()
             adapter = popularSurahAdapter
-            popularSurahAdapter.update(items)*/
+            popularSurahAdapter.update(items)
 
         }
     }

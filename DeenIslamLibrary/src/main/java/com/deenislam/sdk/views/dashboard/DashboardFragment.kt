@@ -49,6 +49,7 @@ import com.deenislam.sdk.utils.MENU_ISLAMIC_EDUCATION_VIDEO
 import com.deenislam.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislam.sdk.utils.MENU_ISLAMIC_NAME
 import com.deenislam.sdk.utils.MENU_KHATAM_E_QURAN
+import com.deenislam.sdk.utils.MENU_LIVE_MAKKAH_MADINA
 import com.deenislam.sdk.utils.MENU_LIVE_PODCAST
 import com.deenislam.sdk.utils.MENU_NEAREST_MOSQUE
 import com.deenislam.sdk.utils.MENU_PRAYER_LEARNING
@@ -65,6 +66,7 @@ import com.deenislam.sdk.utils.getWaktNameByTag
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.prayerMomentLocaleForToast
 import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
@@ -102,7 +104,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     // pagging locally dashboard data
     private var dashboardData:List<Data> ? = null
     private var hasMoreData = true
-    private var itemsToLoadAhead = 5
+    private var itemsToLoadAhead = 6
     private var lastVisibleItemPosition = 0
     // Compass
     private var compassBG = ""
@@ -173,6 +175,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 val visibleItemCount = linearLayoutManager.childCount
                 val totalItemCount = linearLayoutManager.itemCount
                 val firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition()
+
+                if (firstVisibleItem < lastVisibleItemPosition) {
+                    // Scrolling up
+                    lastVisibleItemPosition = firstVisibleItem
+                }
 
                 if ((visibleItemCount + firstVisibleItem) >= totalItemCount && firstVisibleItem >= 0) {
                     if (firstVisibleItem > lastVisibleItemPosition) {
@@ -921,9 +928,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             MENU_NEAREST_MOSQUE -> {
                 gotoFrag(R.id.action_global_nearestMosqueWebviewFragment)
             }
+            MENU_LIVE_MAKKAH_MADINA -> gotoFrag(R.id.action_global_makkahLiveFragment)
             MENU_LIVE_PODCAST -> gotoFrag(R.id.action_global_livePodcastFragment)
             MENU_ISLAMIC_EDUCATION_VIDEO -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
 
+            else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }
 
@@ -950,6 +959,74 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                     gotoFrag(R.id.action_global_ijtemaLiveFragment,bundle)
                 }
             }
+
+            // more patch
+
+            "pt" -> gotoFrag(R.id.action_global_prayerTimesFragment)
+            "ip" -> gotoFrag(R.id.action_global_livePodcastFragment)
+            "99noa" -> gotoFrag(R.id.action_global_allah99NamesFragment)
+            "pl" -> gotoFrag(R.id.action_global_prayerLearningFragment)
+            "lmm" -> gotoFrag(R.id.action_global_makkahLiveFragment)
+            "rot" -> gotoFrag(R.id.action_global_ramadanOtherDayFragment)
+            "rr" -> gotoFrag(R.id.action_global_ramadanFragment)
+            "hau" -> changeMainViewPager(3)
+            "ie" -> gotoFrag(R.id.action_global_islamicEventHomeFragment)
+            "qc" -> gotoFrag(R.id.action_global_quranLearningFragment)
+            "dqc" -> {
+
+                data?.let {
+                    val bundle = Bundle()
+                    bundle.putString("title", it.MText)
+                    bundle.putInt("courseId", data.Id)
+
+                    gotoFrag(R.id.action_global_quranLearningDetailsFragment, bundle)
+                }
+
+            }
+
+            "qsa" -> gotoFrag(R.id.action_global_quranLearningTpFragment)
+
+            "fhdd" -> {
+                val bundle = Bundle()
+                bundle.putInt("redirectPage",1)
+                gotoFrag(R.id.action_global_hadithFragment,bundle)
+            }
+
+            "fqrs" -> changeMainViewPager(1)
+
+            "khq" -> {
+
+                dashboardPatchMain.getDashboardData().let {
+
+                    var dataIndex = -1
+                    var itemIndex = 0
+
+                    it.forEachIndexed { index, dataValue ->
+                        dataValue.Items.forEachIndexed { innerIndex, item ->
+                            // Replace with the condition to check if the items match
+                            if (item.Id == data?.Id) {
+                                dataIndex = index
+                                itemIndex = innerIndex
+                                return@forEachIndexed
+                            }
+                        }
+                    }
+
+                    if(dataIndex !=-1) {
+                        val bundle = Bundle()
+                        bundle.putInt("khatamQuranvideoPosition", itemIndex)
+                        bundle.putParcelableArray("khatamQuranvideoList", it[dataIndex].Items.map { it1-> transformDashboardItemForKhatamQuran(it1) }.toTypedArray())
+                        gotoFrag(R.id.action_global_khatamEQuranVideoFragment, bundle)
+                    }
+
+                }
+
+                //gotoFrag(R.id.action_global_khatamEquranHomeFragment)
+
+            }
+            "ies" -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
+            "nm" -> gotoFrag(R.id.action_global_nearestMosqueWebviewFragment)
+
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }

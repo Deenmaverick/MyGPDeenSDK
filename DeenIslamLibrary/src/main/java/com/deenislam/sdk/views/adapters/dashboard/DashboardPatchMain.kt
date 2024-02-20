@@ -192,17 +192,17 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                     }
                 }
 
-                TYPE_WIDGET12 -> {
+               /* TYPE_WIDGET12 -> {
                     prepareStubView<View>(rootview, R.layout.dashboard_inc_item_horizontal_list) {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
                     }
-                }
+                }*/
 
-                TYPE_WIDGET13 -> {
+               /* TYPE_WIDGET13 -> {
                     prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
                     }
-                }
+                }*/
 
                 TYPE_WIDGET14 -> {
                     prepareStubView<View>(rootview, R.layout.layout_horizontal_listview_v2) {
@@ -216,11 +216,11 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                     }
                 }*/
 
-                PATCH_FAVORITE -> {
+                /*PATCH_FAVORITE -> {
                     prepareStubView<View>(rootview.findViewById(R.id.widget),R.layout.layout_horizontal_listview_v2) {
                         onBindViewHolder(ViewHolder(main_view,true),viewType)
                     }
-                }
+                }*/
 
                 PATCH_SINGLE_CARD -> {
                     prepareStubView<View>(rootview.findViewById(R.id.widget),R.layout.layout_quranic_v1) {

@@ -1093,4 +1093,17 @@
         android:name="com.deenislam.sdk.views.mydownloads.MyDownloadFragment"
         android:label="MyDownloadFragment" />
 
+    <action
+        android:id="@+id/action_global_makkahLiveFragment"
+        app:destination="@id/makkahLiveFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/makkahLiveFragment"
+        android:name="com.deenislam.sdk.views.hajjandumrah.makkahlive.MakkahLiveFragment"
+        android:label="MakkahLiveFragment" />
+
 </navigation>

@@ -14,7 +14,7 @@ internal class PodcastRepository(
 
         val body = JSONObject()
         body.put("language", language)
-
+        body.put("device", "sdk")
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.getPodcastHomePatch(requestBody)
 
