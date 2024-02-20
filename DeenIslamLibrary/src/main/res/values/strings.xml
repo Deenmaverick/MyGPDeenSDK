@@ -411,4 +411,6 @@
     <string name="demo_indopakTxt">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ ۟</string>
     <string name="demoUthamaniTxt">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢</string>
     <string name="ramadan_remaining">Ramadan is left</string>
+    <string name="my_downloads">My Downloads</string>
+    <string name="my_favorites">My Favorites</string>
 </resources>

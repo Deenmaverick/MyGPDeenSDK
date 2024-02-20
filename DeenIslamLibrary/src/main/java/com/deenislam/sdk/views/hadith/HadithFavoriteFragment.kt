@@ -34,7 +34,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.launch
 
-internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallback,
+internal class HadithFavoriteFragment(private val checkFirstload: Boolean = false) : BaseRegularFragment(), CustomDialogCallback,
     hadithFavCallback {
 
     private lateinit var listView: RecyclerView
@@ -56,6 +56,7 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
     private var favData: Data? =null
     private var adapterPosition:Int = -1
     private lateinit var viewModel:HadithViewModel
+    private var firstload = false
 
 
     override fun OnCreate() {
@@ -292,7 +293,6 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
     }
 
     override fun clickBtn2() {
-
         val btn2 = customAlertDialog?.getBtn2()
         btn2?.isClickable = false
         btn2?.text = btn2?.let { LoadingButton().getInstance(requireContext()).loader(it) }
@@ -318,4 +318,33 @@ internal class HadithFavoriteFragment : BaseRegularFragment(), CustomDialogCallb
         gotoFrag(R.id.action_hadithFragment_to_hadithPreviewFragment,data = bundle)
     }
 
+    override fun onPause() {
+        super.onPause()
+        lifecycleScope.launch {
+            viewModel.clear()
+        }
+    }
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+
+        if(menuVisible){
+            if(checkFirstload && !firstload) {
+                baseLoadingState()
+                loadApiData()
+            }else if(!checkFirstload)
+                loadApiData()
+
+            firstload = true
+
+            customAlertDialog?.setupDialog(
+                callback = this@HadithFavoriteFragment,
+                context = requireContext(),
+                btn1Text = localContext.getString(R.string.cancel),
+                btn2Text = localContext.getString(R.string.delete),
+                titileText = localContext.getString(R.string.want_to_delete),
+                subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
+            )
+
+        }
+    }
 }

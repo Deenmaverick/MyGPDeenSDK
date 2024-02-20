@@ -34,7 +34,9 @@ import com.deenislam.sdk.views.adapters.dailydua.FavoriteDuaAdapter
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-internal class FavoriteDuaFragment : BaseRegularFragment(), FavDuaAdapterCallback,
+internal class FavoriteDuaFragment(
+    private val checkFirstload: Boolean = false
+) : BaseRegularFragment(), FavDuaAdapterCallback,
     CustomDialogCallback {
 
     private lateinit var listView:RecyclerView

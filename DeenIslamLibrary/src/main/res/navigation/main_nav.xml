@@ -462,6 +462,13 @@
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
+    <action
+        android:id="@+id/action_global_myFavoritesFragment"
+        app:destination="@id/myFavoritesFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
     <fragment
         android:id="@+id/ijtemaLiveFragment"
         android:name="com.deenislam.sdk.views.ijtema.IjtemaLiveFragment"
@@ -856,6 +863,10 @@
         android:id="@+id/nearestMosqueWebviewFragment"
         android:name="com.deenislam.sdk.views.nearestmosque.NearestMosqueWebviewFragment"
         android:label="NearestMosqueWebviewFragment" />
+    <fragment
+        android:id="@+id/myFavoritesFragment"
+        android:name="com.deenislamic.views.myfavorites.MyFavoritesFragment"
+        android:label="MyFavoritesFragment" />
 
     <action
         android:id="@+id/action_global_nearestMosqueWebviewFragment"

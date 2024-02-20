@@ -23,6 +23,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     private lateinit var editProfileBtn:MaterialButton
     private lateinit var termsLayout:MaterialCardView
     private lateinit var privacyLayout:MaterialCardView
+    private lateinit var favLayout:MaterialCardView
 
     override fun OnCreate() {
         super.OnCreate()
@@ -53,6 +54,8 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         editProfileBtn = mainview.findViewById(R.id.editProfileBtn)
         termsLayout = mainview.findViewById(R.id.termsLayout)
         privacyLayout = mainview.findViewById(R.id.privacyLayout)
+        favLayout = mainview.findViewById(R.id.favLayout)
+
 
         setupActionForOtherFragment(
             action1 = R.drawable.deen_ic_close,
@@ -117,6 +120,10 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
                 putString("weburl", PRIVACY_URL)
             }
             gotoFrag(R.id.basicWebViewFragment,data = bundle)
+        }
+
+        favLayout.setOnClickListener {
+            gotoFrag(R.id.action_global_myFavoritesFragment)
         }
     }
 

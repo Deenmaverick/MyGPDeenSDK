@@ -11,7 +11,7 @@ import com.deenislam.sdk.service.network.response.islamicname.Data
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.views.base.BaseViewHolder
 
-internal class IslamicNameFavAdapter(
+internal class  IslamicNameFavAdapter(
     private val callback: IslamicNameFavAdapterCallback
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
