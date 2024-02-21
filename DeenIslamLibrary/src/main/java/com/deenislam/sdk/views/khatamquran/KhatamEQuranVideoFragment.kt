@@ -148,9 +148,9 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
         vPlayerControlAction1.hide()
         settingsLayout.hide()
         autoPlaySwitch.hide()
+        morePodcastTxt.hide()
         exo_prev.hide()
         exo_next.hide()
-        morePodcastTxt.hide()
 
         setupCommonLayout(mainview)
         exoVideoManager = ExoVideoManager(
@@ -208,7 +208,6 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
                 itemMarginTop = 8.dp,
                 itemMarginLeft = 0,
                 itemMarginRight = 0,
-                itemPaddingBottom = 12.dp,
                 bannerSize = 1280
             )
 
@@ -235,6 +234,9 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
 
 
     private fun setVideoData(listItem: CommonCardData?) {
+
+        videoList[position].title?.let { exoVideoManager.setupActionbar(isBackBtn = true, title = it) }
+
         tvStoryName.text = videoList[position].title
 
         lifecycleScope.launch {

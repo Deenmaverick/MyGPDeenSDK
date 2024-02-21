@@ -47,8 +47,6 @@ internal class ExoVideoManager(
     private val callback = CallBackProvider.get<VideoPlayerCallback>()
     private var isVideoListAutoPlay = false
     private var initialPlayerStart = false
-    private val btnNext: AppCompatImageView? by lazy { mainview.findViewById(R.id.exo_next) }
-    private val btnPrev: AppCompatImageView? by lazy {  mainview.findViewById(R.id.exo_prev) }
 
     // video player
     private var isFullScreen = false
@@ -79,6 +77,8 @@ internal class ExoVideoManager(
 
     // player control
     private val playerView: PlayerView = mainview.findViewById(R.id.playerView)
+    private val btnNext: AppCompatImageView? by lazy { playerView.findViewById(R.id.exo_next) }
+    private val btnPrev: AppCompatImageView? by lazy {  playerView.findViewById(R.id.exo_prev) }
     private val vPlayerControlBtnBack: AppCompatImageView = mainview.findViewById(R.id.vPlayerControlBtnBack)
     private val vPlayerControlTitle: AppCompatTextView = mainview.findViewById(R.id.vPlayerControlTitle)
     private val vPlayerControlAction2: AppCompatImageView = mainview.findViewById(R.id.vPlayerControlAction2)

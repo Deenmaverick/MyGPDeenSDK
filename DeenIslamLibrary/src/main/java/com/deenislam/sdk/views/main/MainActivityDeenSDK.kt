@@ -29,6 +29,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -55,18 +56,8 @@ import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
 import com.deenislam.sdk.service.weakref.dashboard.DashboardBillboardPatchClass
 import com.deenislam.sdk.service.weakref.dashboard.DashboardPatchClass
 import com.deenislam.sdk.service.weakref.main.MainActivityInstance
-import com.deenislam.sdk.utils.CallBackProvider
-import com.deenislam.sdk.utils.DayDiffForRamadan
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.utils.DraggableView
-import com.deenislam.sdk.utils.LocaleUtil
-import com.deenislam.sdk.utils.TimeDiffForRamadan
-import com.deenislam.sdk.utils.dp
-import com.deenislam.sdk.utils.getLocalContext
-import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.numberLocale
-import com.deenislam.sdk.utils.show
-import com.deenislam.sdk.utils.tryCatch
-import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.adapters.quran.AlQuranAyatAdapter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -865,21 +856,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         trackingID =id
     }
 
-   /* override fun attachBaseContext(newBase: Context) {
-        // replace "bn" with the desired locale
-        val locale = Locale(getLanguage())
-        val context: Context = ContextWrapper.wrap(newBase, locale)
-        super.attachBaseContext(context)
-    }*/
 
-
-   /* fun getInstance():MainActivityDeenSDK
-    {
-        if (instance == null)
-            instance = this
-
-        return instance as MainActivityDeenSDK
-    }*/
 
     private fun createChannel(channelId: String, channelName: String,description:String) {
         //create a channel
@@ -1250,20 +1227,27 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
     private fun showRamadanRemainDialog(){
 
+        val localContext = LocaleUtil.createLocaleContext(this, Locale(DeenSDKCore.GetDeenLanguage()))
+
+        val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
+
+        val localInflater = layoutInflater.cloneInContext(themedContext)
+
         if(ramadanExpectedTimeInMill>0) {
             materialAlertDialogBuilder =
                 MaterialAlertDialogBuilder(this, R.style.DeenMaterialAlertDialog_Rounded)
 
             ramadanCustomAlertDialogView =
-                layoutInflater.inflate(R.layout.dialog_ramadan_remaining_time, null, false)
+                localInflater.inflate(R.layout.dialog_ramadan_remaining_time, null, false)
 
             val dayleftTxt:AppCompatTextView = ramadanCustomAlertDialogView.findViewById(R.id.dayleftTxt)
             val timerCountTxt:AppCompatTextView = ramadanCustomAlertDialogView.findViewById(R.id.timerCountTxt)
             val progress:CircularProgressIndicator = ramadanCustomAlertDialogView.findViewById(R.id.progress)
             val okBtn: MaterialButton = ramadanCustomAlertDialogView.findViewById(R.id.okBtn)
 
-            val totaltime = System.currentTimeMillis()
-            val progressPercentage = ((totaltime - ramadanExpectedTimeInMill).toDouble() / totaltime.toDouble() * 100).toInt()
+            val progressTotalTime = ramadanExpectedTimeInMill.getMillis30DaysRamadan()+ramadanExpectedTimeInMill
+            val totaltime = if(progressTotalTime>0) progressTotalTime else System.currentTimeMillis()
+            val progressPercentage = ((ramadanExpectedTimeInMill.toDouble() / totaltime) * 100).toInt()
             progress.progress = progressPercentage
 
             val remainDay = ramadanExpectedTimeInMill.DayDiffForRamadan().toInt()
@@ -1327,9 +1311,13 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
                         timerCountTxt.text =  millisUntilFinished.TimeDiffForRamadan().numberLocale()
                         dayleftTxt.text = if(DeenSDKCore.GetDeenLanguage() == "en") remainingDaysEng else remainingDaysBn
 
-                        val totaltime = System.currentTimeMillis()
-                        val progressPercentage = ((totaltime - millisUntilFinished).toDouble() / totaltime.toDouble() * 100).toInt()
+                        val progressTotalTime = ramadanExpectedTimeInMill.getMillis30DaysRamadan()+ramadanExpectedTimeInMill
+                        val totaltime = if(progressTotalTime>0) progressTotalTime else System.currentTimeMillis()
+
+                        val progressPercentage = ((ramadanExpectedTimeInMill.toDouble() / totaltime) * 100).toInt()
                         progress.progress = progressPercentage
+
+
 
                     }
                 }

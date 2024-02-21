@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
+import com.deenislam.sdk.service.callback.Allah99NameCallback
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
@@ -36,39 +37,8 @@ import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.repository.DashboardRepository
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
-import com.deenislam.sdk.utils.CallBackProvider
-import com.deenislam.sdk.utils.MAKKAH_LATITUDE
-import com.deenislam.sdk.utils.MAKKAH_LONGITUDE
-import com.deenislam.sdk.utils.MENU_99_NAME_OF_ALLAH
-import com.deenislam.sdk.utils.MENU_AL_QURAN
-import com.deenislam.sdk.utils.MENU_DIGITAL_TASBEEH
-import com.deenislam.sdk.utils.MENU_DUA
-import com.deenislam.sdk.utils.MENU_HADITH
-import com.deenislam.sdk.utils.MENU_IJTEMA
-import com.deenislam.sdk.utils.MENU_ISLAMIC_EDUCATION_VIDEO
-import com.deenislam.sdk.utils.MENU_ISLAMIC_EVENT
-import com.deenislam.sdk.utils.MENU_ISLAMIC_NAME
-import com.deenislam.sdk.utils.MENU_KHATAM_E_QURAN
-import com.deenislam.sdk.utils.MENU_LIVE_MAKKAH_MADINA
-import com.deenislam.sdk.utils.MENU_LIVE_PODCAST
-import com.deenislam.sdk.utils.MENU_NEAREST_MOSQUE
-import com.deenislam.sdk.utils.MENU_PRAYER_LEARNING
-import com.deenislam.sdk.utils.MENU_PRAYER_TIME
-import com.deenislam.sdk.utils.MENU_QIBLA_COMPASS
-import com.deenislam.sdk.utils.MENU_QURAN_CLASS
-import com.deenislam.sdk.utils.MENU_RAMADAN
-import com.deenislam.sdk.utils.MENU_RAMADAN_OTHER_DAY
-import com.deenislam.sdk.utils.MENU_ZAKAT
-import com.deenislam.sdk.utils.MilliSecondToStringTime
-import com.deenislam.sdk.utils.StringTimeToMillisecond
-import com.deenislam.sdk.utils.dp
-import com.deenislam.sdk.utils.getWaktNameByTag
-import com.deenislam.sdk.utils.numberLocale
-import com.deenislam.sdk.utils.prayerMomentLocaleForToast
-import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.utils.transformDashboardItemForKhatamQuran
-import com.deenislam.sdk.utils.tryCatch
-import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.DashboardViewModel
 import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislam.sdk.views.adapters.common.gridmenu.MenuCallback
@@ -90,7 +60,7 @@ import java.util.Locale
 
 internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
     actionCallback, MenuCallback, PrayerTimeCallback, ViewInflationListener,
-    DashboardPatchCallback, SensorEventListener, QuranPlayerCallback {
+    DashboardPatchCallback, SensorEventListener, QuranPlayerCallback, Allah99NameCallback {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var prayerViewModel:  PrayerTimesViewModel
@@ -931,7 +901,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             MENU_LIVE_MAKKAH_MADINA -> gotoFrag(R.id.action_global_makkahLiveFragment)
             MENU_LIVE_PODCAST -> gotoFrag(R.id.action_global_livePodcastFragment)
             MENU_ISLAMIC_EDUCATION_VIDEO -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
-
+            MENU_ISLAMIC_BOYAN -> gotoFrag(R.id.action_global_islamicBoyanHomeFragment)
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }
@@ -1021,14 +991,32 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
                 }
 
-                //gotoFrag(R.id.action_global_khatamEquranHomeFragment)
 
             }
             "ies" -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
             "nm" -> gotoFrag(R.id.action_global_nearestMosqueWebviewFragment)
 
+            "ib" -> {
+
+
+                if(data!=null && data.SubCategoryId!=0){
+                    val bundle = Bundle()
+                    bundle.putInt("id", data.SubCategoryId)
+                    bundle.putString("videoType", "scholar")
+                    bundle.putString("title",data.ArabicText)
+                    gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
+                }else{
+                    gotoFrag(R.id.action_global_islamicBoyanHomeFragment)
+                }
+
+            }
+
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
+    }
+
+    override fun allahNameClicked(position: Int) {
+        gotoFrag(R.id.action_global_allah99NamesFragment)
     }
 
     override fun globalMiniPlayerClosed(){

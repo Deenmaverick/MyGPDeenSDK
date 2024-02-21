@@ -64,3 +64,16 @@ fun Long.TimeDiffForRamadan(): String {
 
     return "${txtDays}:${txtHours}:${txtMinutes}"
 }
+
+fun Long.getMillis30DaysRamadan(): Long {
+    val days = this / (1000 * 60 * 60 * 24)
+
+    return if (days >= 30) {
+        0
+    } else {
+        // If less than 30 days, calculate remaining milliseconds to reach 30 days
+        val remainingDays = 30 - days
+        val remainingMilliseconds = remainingDays * 24 * 60 * 60 * 1000 + (this % (24 * 60 * 60 * 1000))
+        remainingMilliseconds
+    }
+}

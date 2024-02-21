@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:viewBindingIgnore="true"
+    android:background="@color/deen_background">
+
+    <include
+        android:id="@+id/actionbar"
+        layout="@layout/actiobar_other"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_10"
+        android:paddingBottom="@dimen/space_10"
+        android:background="@color/deen_white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/boyanBtn"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_8"
+            android:layout_gravity="center"
+            android:padding="0dp"
+            android:text="@string/boyan"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_txt_ash"
+            app:cornerRadius="18dp"
+            app:strokeColor="@color/deen_border"
+            app:layout_constraintEnd_toStartOf="@+id/catBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/catBtn"
+            android:visibility="visible"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="0dp"
+            android:text="@string/categories"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_txt_ash"
+            app:cornerRadius="18dp"
+            app:strokeColor="@color/deen_border"
+            app:layout_constraintEnd_toStartOf="@+id/scholarsBtn"
+            app:layout_constraintStart_toEndOf="@+id/boyanBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/scholarsBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_16"
+            android:layout_gravity="center"
+            android:padding="0dp"
+            android:text="@string/scholars"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_txt_ash"
+            app:cornerRadius="18dp"
+            app:strokeColor="@color/deen_border"
+            app:layout_constraintStart_toEndOf="@+id/catBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

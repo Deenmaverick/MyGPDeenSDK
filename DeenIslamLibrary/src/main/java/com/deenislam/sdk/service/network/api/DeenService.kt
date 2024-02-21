@@ -2,6 +2,9 @@ package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.BasicResponse
 import com.deenislam.sdk.service.network.response.allah99name.Allah99NameResponse
+import com.deenislam.sdk.service.network.response.boyan.categoriespaging.BoyanCategoriesResponse
+import com.deenislam.sdk.service.network.response.boyan.scholarspaging.BoyanScholarResponse
+import com.deenislam.sdk.service.network.response.boyan.videopreview.BoyanVideoPreviewResponse
 import com.deenislam.sdk.service.network.response.common.subcatcardlist.SubCatResponse
 import com.deenislam.sdk.service.network.response.dailydua.alldua.AllDuaResponse
 import com.deenislam.sdk.service.network.response.dailydua.duabycategory.DuaByCategory
@@ -371,6 +374,32 @@ internal interface DeenService {
 
     @POST("LiveVideo/GetLivevideos")
     suspend fun getMakkahLiveVideoes(@Body parm: RequestBody): MakkahLiveVideoResponse
+
+    //Boyan
+    @POST("Boyan/GetBoyanPatch")
+    suspend fun getBoyanHome(
+        @Body parm: RequestBody
+    ): DashboardResponse
+
+    @POST("Boyan/BoyanCategory")
+    suspend fun getBoyanCategories(
+        @Body parm: RequestBody
+    ): BoyanCategoriesResponse
+
+    @POST("Boyan/BoyanScholars")
+    suspend fun getBoyanScholars(
+        @Body parm: RequestBody
+    ): BoyanScholarResponse
+
+    @POST("Boyan/BoyanListByScholars")
+    suspend fun getBoyanVideoPreview(
+        @Body parm: RequestBody
+    ): BoyanVideoPreviewResponse
+
+    @POST("Boyan/BoyanListByCategory")
+    suspend fun getBoyanCategoryVideoPreview(
+        @Body parm: RequestBody
+    ): BoyanVideoPreviewResponse
 
 
 }

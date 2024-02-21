@@ -244,8 +244,8 @@
     <string name="setting">সেটিং</string>
     <string name="terms_of_use">ব্যবহারের শর্তাবলী</string>
     <string name="privacy_policy">গোপনীয়তা নীতি</string>
-    <string name="deen_all_rights_reserved">© ২০২৩ দ্বীন। সমস্ত অধিকার সংরক্ষিত</string>
-    <string name="deen_version">দ্বীন - v1.0.3</string>
+    <string name="deen_all_rights_reserved">© ২০২৪ দ্বীন। সমস্ত অধিকার সংরক্ষিত</string>
+    <string name="deen_version">দ্বীন - v1.0.4</string>
     <string name="continue_txt">চালিয়ে যান</string>
     <string name="dhaka">ঢাকা</string>
     <string name="islamic">ইসলামিক</string>
@@ -445,4 +445,8 @@
     <string name="podcast">পডকাস্ট</string>
     <string name="more_download_count">%1$sটি ডাউনলোড</string>
     <string name="live_makkah_madina">লাইভ মক্কা মদিনা</string>
+    <string name="boyan">বয়ান</string>
+    <string name="scholars">স্কলার</string>
+    <string name="boyan_video">বয়ান ভিডিও</string>
+    <string name="belief_in_allah">Belief in Allah</string>
 </resources>

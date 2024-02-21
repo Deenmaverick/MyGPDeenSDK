@@ -1106,4 +1106,70 @@
         android:name="com.deenislam.sdk.views.hajjandumrah.makkahlive.MakkahLiveFragment"
         android:label="MakkahLiveFragment" />
 
+    <action
+        android:id="@+id/action_global_boyanVideoPreviewFragment"
+        app:destination="@id/boyanVideoPreviewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <fragment
+        android:id="@+id/boyanVideoFragment"
+        android:name="com.deenislam.sdk.views.islamicboyan.BoyanVideoFragment"
+        android:label="fragment_boyan_video"
+        tools:layout="@layout/fragment_boyan_video" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="videoType"
+            app:argType="string" />
+        <argument
+            android:name="videoUrl"
+            app:argType="string" />
+        <argument
+            android:name="videoName"
+            app:argType="string" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_boyanVideoFragment"
+        app:destination="@id/boyanVideoFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/boyanVideoPreviewFragment"
+        android:name="com.deenislam.sdk.views.islamicboyan.BoyanVideoPreviewFragment"
+        android:label="fragment_boyan_video_preview"
+        tools:layout="@layout/fragment_boyan_video_preview" >
+    <argument
+        android:name="id"
+        app:argType="integer" />
+    <argument
+        android:name="videoType"
+        app:argType="string" />
+    <argument
+        android:name="title"
+        app:argType="string"
+        app:nullable="true"
+        android:defaultValue="@null" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_islamicBoyanHomeFragment"
+        app:destination="@id/islamicBoyanHomeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamicBoyanHomeFragment"
+        android:name="com.deenislam.sdk.views.islamicboyan.IslamicBoyanHomeFragment"
+        android:label="fragment_islamic_boyan_home"
+        tools:layout="@layout/fragment_islamic_boyan_home" />
+
 </navigation>

@@ -15,14 +15,16 @@ internal interface CommonResource
         DashboardResource, Allah99NameResource, IslamicEducationVideoResource, IslamicEventsResource,
         SubCatCardListResource, PrayerLearningResource, KhatamQuranVideoResource,
         QuranLearningResource, PaymentResource, RamadanResource, IslamiFazaelResource,
-        IslamiMasailResource, SubscriptionResource, PodcastResource, HajjAndUmrahResource
+        IslamiMasailResource, SubscriptionResource, PodcastResource, HajjAndUmrahResource,
+        BoyanResource
 
     object LOADING:CommonResource
     object EMPTY:CommonResource, PrayerCalendarResource, PrayerTimeResource,
         PrayerNotificationResource, AlQuranResource, SurahResource, HadithResource, DailyDuaResource,
         ZakatResource, IslamicNameResource, IslamicEducationVideoResource, IslamicEventsResource,
         SubCatCardListResource, PrayerLearningResource, KhatamQuranVideoResource, RamadanResource,
-        IslamiFazaelResource, IslamiMasailResource, PodcastResource, HajjAndUmrahResource
+        IslamiFazaelResource, IslamiMasailResource, PodcastResource, HajjAndUmrahResource,
+        BoyanResource
 
     object ACTION_API_CALL_FAILED:CommonResource, DailyDuaResource, IslamicNameResource,
         HadithResource, PrayerNotificationResource

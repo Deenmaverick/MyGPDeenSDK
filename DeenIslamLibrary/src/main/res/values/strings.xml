@@ -244,8 +244,8 @@
     <string name="setting">Setting</string>
     <string name="terms_of_use">Terms of use</string>
     <string name="privacy_policy">Privacy policy</string>
-    <string name="deen_all_rights_reserved">© 2023 Deen. All rights reserved</string>
-    <string name="deen_version">Deen - v1.0.3</string>
+    <string name="deen_all_rights_reserved">© 2024 Deen. All rights reserved</string>
+    <string name="deen_version">Deen - v1.0.4</string>
     <string name="continue_txt">Continue</string>
     <string name="dhaka">Dhaka</string>
     <string name="islamic">Islamic</string>
@@ -445,4 +445,8 @@
     <string name="podcast">Podcast</string>
     <string name="more_download_count">%1$s Downloads</string>
     <string name="live_makkah_madina">Live Makkah Madina</string>
+    <string name="boyan">Boyan</string>
+    <string name="scholars">Scholars</string>
+    <string name="boyan_video">Boyan Video</string>
+    <string name="belief_in_allah">Belief in Allah</string>
 </resources>

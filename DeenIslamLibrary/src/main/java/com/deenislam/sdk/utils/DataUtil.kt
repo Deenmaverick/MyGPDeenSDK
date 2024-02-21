@@ -1,6 +1,7 @@
 package com.deenislam.sdk.utils
 
 import android.content.Context
+import android.content.res.AssetManager
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.models.quran.quranplayer.PlayerCommonSelectionData
 import com.deenislam.sdk.service.network.response.common.CommonCardData
@@ -10,6 +11,9 @@ import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.TafsirList
 import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Translator
 import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
 import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 
 internal fun transformCommonCardListPatchModel(
@@ -186,4 +190,18 @@ internal fun Context.retrieveSingleFile(fileAbsolutePath: String): String? {
         e.printStackTrace()
     }
     return null
+}
+
+fun Context.loadHtmlFromAssets(filename: String): String {
+    val assetManager: AssetManager = assets
+    return try {
+        val inputStream: InputStream = assetManager.open(filename)
+        val buffer = ByteArray(inputStream.available())
+        inputStream.read(buffer)
+        inputStream.close()
+        String(buffer, StandardCharsets.UTF_8)
+    } catch (e: IOException) {
+        e.printStackTrace()
+        ""
+    }
 }
