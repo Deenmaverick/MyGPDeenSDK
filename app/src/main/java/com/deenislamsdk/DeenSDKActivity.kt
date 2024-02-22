@@ -53,7 +53,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         ijtemaBtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
-                DeenSDKCore.openFromRC("khatam_e_quran")
+                DeenSDKCore.openFromRC("live_ijtema")
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }
@@ -73,7 +73,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         initSDKbtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
-                DeenSDKCore.authSDK(
+                DeenSDKCore.initDeen(
                     this,
                     msisdn.text.toString(),
                     this@DeenSDKActivity
