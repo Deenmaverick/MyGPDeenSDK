@@ -35,6 +35,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
@@ -144,7 +145,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private lateinit var floatGestureDetector: GestureDetector
     private lateinit var ramadanCloseBtn:AppCompatImageView
     private lateinit var ramadanTxt:AppCompatTextView
-    private var isRamadanRemainCardClosed = true
+    private var isRamadanRemainCardClosed = false
     private lateinit var ramadanCustomAlertDialogView : View
     private var ramadanExpectedTimeInMill:Long = 0
     private var ramadanCountDownTimer: CountDownTimer?=null
@@ -1135,7 +1136,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
 
             if(destination.id == R.id.dashboardFakeFragment){
-                if(!isRamadanRemainCardClosed)
+                if(!isRamadanRemainCardClosed && ramadanExpectedTimeInMill>0)
                     ramadanRemainCard.show()
                 else
                     ramadanRemainCard.hide()
@@ -1269,7 +1270,10 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
                 .setView(ramadanCustomAlertDialogView)
                 .setCancelable(true)
                 .setOnDismissListener {
+                    if(!isRamadanRemainCardClosed)
                     ramadanRemainCard.show()
+                    else
+                        ramadanRemainCard.hide()
                 }
                 .show()
 
@@ -1283,6 +1287,10 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     }
 
     fun ramadanCountDownTimerSetup(ramadanExpectedTimeInMill: Long) {
+
+        if(ramadanRemainCard.isShown || isRamadanRemainCardClosed) {
+            return
+        }
 
         ramadanCountDownTimer?.cancel()
         ramadanCountDownTimer = object : CountDownTimer(ramadanExpectedTimeInMill, 60000) {

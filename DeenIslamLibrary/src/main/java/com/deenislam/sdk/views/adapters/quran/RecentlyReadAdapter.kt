@@ -44,7 +44,9 @@ internal class RecentlyReadAdapter(private val items: List<Item>) : RecyclerView
             surahName.text = "${getData.SurahId}. ${getData.MText}".numberLocale()
             surahNameArabic.text =  "${if(getData.SurahId<10)0 else ""}${if(getData.SurahId<100)0 else ""}${getData.SurahId}"
             progress.hide()
-            totalAyath.text = totalAyath.context.getString(R.string.recent_read_total_ayat,getData.ECount.toString())
+            totalAyath.text = totalAyath.context.getString(R.string.recent_read_total_ayat,
+                getData.ECount.numberLocale()
+            )
 
             itemView.setOnClickListener {
                 callback?.surahClick(transformPatchToSurahData(items[absoluteAdapterPosition]))

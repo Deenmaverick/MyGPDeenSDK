@@ -28,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <androidx.appcompat.widget.AppCompatImageView
                 android:visibility="gone"
                 android:id="@+id/icLogo"
@@ -60,7 +59,9 @@
                 android:id="@+id/greetingTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/space_16"
+                android:paddingStart="@dimen/space_16"
+                android:paddingEnd="@dimen/space_16"
+                android:paddingTop="@dimen/space_16"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/deen_txt_black_deep"
                 android:textStyle="bold"
@@ -73,7 +74,7 @@
 
             <include
                 android:visibility="gone"
-                android:id="@+id/dailyPlan"
+                android:id="@+id/activePlan"
                 layout="@layout/item_subscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,33 +85,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/greetingTxt" />
 
-            <include
-                android:visibility="gone"
-                android:id="@+id/weeklyPlan"
-                layout="@layout/item_subscription"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/packList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_16"
-                android:layout_marginEnd="@dimen/space_16"
-                android:layout_marginTop="@dimen/space_16"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:scrollbars="none"
+                android:paddingTop="@dimen/space_16"
+                android:paddingStart="@dimen/space_16"
+                android:paddingEnd="@dimen/space_16"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@+id/activePlan"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dailyPlan" />
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-
-            <include
-                android:id="@+id/monthlyPlan"
-                layout="@layout/item_subscription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_16"
-                android:layout_marginEnd="@dimen/space_16"
-                android:layout_marginTop="@dimen/space_16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/weeklyPlan" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:id="@+id/cancelRenewHint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,7 +111,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/deen_txt_ash"
                 android:text="@string/cancel_auto_renewal_at_any_time"
-                app:layout_constraintTop_toBottomOf="@+id/monthlyPlan"
+                app:layout_constraintTop_toBottomOf="@+id/packList"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -146,22 +139,21 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:visibility="gone"
                 android:id="@+id/premiumFeatureTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_16"
                 android:paddingStart="@dimen/space_16"
                 android:paddingEnd="@dimen/space_16"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/deen_primary"
                 android:textStyle="bold"
                 android:text="@string/premium_features"
-                app:layout_constraintTop_toBottomOf="@+id/cancelRenewHint"
+                app:layout_constraintTop_toBottomOf="@+id/cancelBtn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
                 android:id="@+id/featureList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

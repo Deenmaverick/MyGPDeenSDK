@@ -58,7 +58,7 @@ internal class MakkahLiveFragment : BaseRegularFragment(), CommonCardCallback {
             action1 = 0,
             action2 = 0,
             callback = null,
-            actionnBartitle = getString(R.string.live_makkah_madina),
+            actionnBartitle = localContext.getString(R.string.live_makkah_madina),
             backEnable = true,
             view = mainview
         )

@@ -40,7 +40,7 @@ internal class BoyanViewModel(
                     CommonResource.API_CALL_FAILED
 
                 is ApiResource.Success -> {
-                    if (response.value?.Success == true)
+                    if (response.value?.Data?.isNotEmpty() == true)
                         _boyanLiveData.value = BoyanResource.BoyanHomeData(response.value.Data)
                     else
                         _boyanLiveData.value = CommonResource.EMPTY

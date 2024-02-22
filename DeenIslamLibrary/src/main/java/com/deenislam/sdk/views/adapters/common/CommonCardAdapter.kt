@@ -223,8 +223,10 @@ internal class CommonCardAdapter(
 
             // have any live icon
 
-            if(isShowLiveIcon)
+            if(isShowLiveIcon || getData.isLive)
                 icLive.show()
+            else
+                icLive.hide()
 
 
 

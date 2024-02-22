@@ -48,12 +48,15 @@ internal class LivePodcastRecentAdapter(private val items: List<Item>,
         private val progress:LinearProgressIndicator by lazy { itemView.findViewById(R.id.progress) }
         private val mainBtn:MaterialButton by lazy { itemView.findViewById(R.id.mainBtn) }
         private val icPlay:AppCompatImageView by lazy { itemView.findViewById(R.id.icPlay) }
+        private val icLive:AppCompatImageView by lazy { itemView.findViewById(R.id.icLive) }
+
         override fun onBind(position: Int) {
             super.onBind(position)
 
             val getData = items[position]
 
             icPlay.visible(isShowPlayIcon || getData.isVideo)
+            icLive.visible(getData.isLive)
             //itemView.layoutParams.width = 264.dp
             (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 0.dp
             (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 8.dp

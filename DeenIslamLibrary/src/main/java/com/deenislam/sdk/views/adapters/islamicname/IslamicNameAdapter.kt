@@ -53,7 +53,7 @@ internal class IslamicNameAdapter(
             super.onBind(position)
             val data = islamicNameData[position]
             name.text = data.Name
-            nameArabic.text = data.nameinarabic
+            //nameArabic.text = data.nameinarabic
             meaning.text = data.meaning
 
             if(data.IsFavorite)

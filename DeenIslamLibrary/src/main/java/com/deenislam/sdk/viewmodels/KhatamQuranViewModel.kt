@@ -32,9 +32,10 @@ internal class KhatamQuranViewModel(
         MutableLiveData()
     val addHistoryLiveData: MutableLiveData<IslamicEducationVideoResource> get() = _addHistoryLiveData
 
-    fun getKhatamQuranVideo(language: String) {
+    fun getKhatamQuranVideo(language: String, isRamadan: Boolean, date: String?) {
         viewModelScope.launch {
 
+            if(!isRamadan) {
                 val response =
                     async { repository.getRecentKhatamQuranVideos(language = language) }.await()
                 when (response) {
@@ -50,7 +51,9 @@ internal class KhatamQuranViewModel(
                     }
                 }
 
-            when (val response = repository.getKhatamQuranVideos(language = language)) {
+            }
+
+            when (val response = repository.getKhatamQuranVideos(language = language,isRamadan,date)) {
                 is ApiResource.Failure -> _khatamquranVideoLiveData.value =
                     CommonResource.API_CALL_FAILED
 

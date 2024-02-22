@@ -594,7 +594,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         customargs = null
 
         val getBannerData = dashboardPatchMain.getDashboardData().filter { it.AppDesign == "Banners" }
-        val getRamadanPatchData: Item? = getBannerData.flatMap { it.Items }.firstOrNull { it.ContentType == "rot" }
+        val getRamadanPatchData: Item? = getBannerData.flatMap { it.Items }.firstOrNull { it.ContentType == "rr" }
 
         if (getRamadanPatchData != null && getRamadanPatchData.MText.isNotEmpty()) {
             tryCatch {
@@ -891,9 +891,19 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             MENU_ISLAMIC_EVENT -> gotoFrag(R.id.action_global_islamicEventHomeFragment)
             MENU_PRAYER_LEARNING -> gotoFrag(R.id.action_global_prayerLearningFragment)
             MENU_KHATAM_E_QURAN -> gotoFrag(R.id.action_global_khatamEquranHomeFragment)
+            MENU_KHATAM_E_QURAN_RAMADAN -> {
+                val bundle = Bundle()
+                bundle.putBoolean("isRamadan",true)
+                bundle.putString("date",getMenu?.Meaning)
+                gotoFrag(R.id.action_global_khatamEquranHomeFragment,bundle)
+            }
             MENU_QURAN_CLASS -> gotoFrag(R.id.action_global_quranLearningFragment)
             MENU_RAMADAN_OTHER_DAY -> gotoFrag(R.id.action_global_ramadanOtherDayFragment)
-            MENU_RAMADAN -> gotoFrag(R.id.action_global_ramadanFragment)
+            MENU_RAMADAN -> {
+                val bundle = Bundle()
+                bundle.putString("date",getMenu?.Meaning)
+                gotoFrag(R.id.action_global_ramadanFragment,bundle)
+            }
             MENU_99_NAME_OF_ALLAH -> gotoFrag(R.id.action_global_allah99NamesFragment)
             MENU_NEAREST_MOSQUE -> {
                 gotoFrag(R.id.action_global_nearestMosqueWebviewFragment)
@@ -938,7 +948,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             "pl" -> gotoFrag(R.id.action_global_prayerLearningFragment)
             "lmm" -> gotoFrag(R.id.action_global_makkahLiveFragment)
             "rot" -> gotoFrag(R.id.action_global_ramadanOtherDayFragment)
-            "rr" -> gotoFrag(R.id.action_global_ramadanFragment)
+            "rr" -> {
+                val bundle = Bundle()
+                bundle.putString("date",data?.Meaning)
+                gotoFrag(R.id.action_global_ramadanFragment,bundle)
+            }
             "hau" -> changeMainViewPager(3)
             "ie" -> gotoFrag(R.id.action_global_islamicEventHomeFragment)
             "qc" -> gotoFrag(R.id.action_global_quranLearningFragment)
@@ -964,7 +978,15 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
             "fqrs" -> changeMainViewPager(1)
 
-            "khq" -> {
+
+            "rkhq" -> {
+
+                if(data?.FeatureTitle == "Banners"){
+                    val bundle = Bundle()
+                    bundle.putBoolean("isRamadan",true)
+                    gotoFrag(R.id.action_global_khatamEquranHomeFragment,bundle)
+                    return
+                }
 
                 dashboardPatchMain.getDashboardData().let {
 
@@ -974,7 +996,43 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                     it.forEachIndexed { index, dataValue ->
                         dataValue.Items.forEachIndexed { innerIndex, item ->
                             // Replace with the condition to check if the items match
-                            if (item.Id == data?.Id) {
+                            if (item.ContentType == data?.ContentType && item.Id == data.Id) {
+                                dataIndex = index
+                                itemIndex = innerIndex
+                                return@forEachIndexed
+                            }
+                        }
+                    }
+
+                    if(dataIndex !=-1) {
+                        val bundle = Bundle()
+                        bundle.putInt("khatamQuranvideoPosition", itemIndex)
+                        bundle.putBoolean("isRamadan",true)
+                        bundle.putParcelableArray("khatamQuranvideoList", it[dataIndex].Items.map { it1-> transformDashboardItemForKhatamQuran(it1) }.toTypedArray())
+                        gotoFrag(R.id.action_global_khatamEQuranVideoFragment, bundle)
+                    }
+
+                }
+
+
+            }
+
+            "khq" -> {
+
+                if(data?.FeatureTitle == "Banners"){
+                    gotoFrag(R.id.action_global_khatamEquranHomeFragment)
+                    return
+                }
+
+                dashboardPatchMain.getDashboardData().let {
+
+                    var dataIndex = -1
+                    var itemIndex = 0
+
+                    it.forEachIndexed { index, dataValue ->
+                        dataValue.Items.forEachIndexed { innerIndex, item ->
+                            // Replace with the condition to check if the items match
+                            if (item.ContentType == data?.ContentType && item.Id == data.Id) {
                                 dataIndex = index
                                 itemIndex = innerIndex
                                 return@forEachIndexed

@@ -7,8 +7,10 @@ import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.SubscriptionResource
 import com.deenislam.sdk.service.network.ApiResource
+import com.deenislam.sdk.service.network.response.payment.recurring.CheckRecurringResponse
 import com.deenislam.sdk.service.repository.PaymentRepository
 import com.deenislam.sdk.service.repository.SubscriptionRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -24,10 +26,9 @@ internal class SubscriptionViewModel(
     val autorenewLiveData:MutableLiveData<SubscriptionResource> get() = _autorenewLiveData
 
 
-    suspend fun checkRecurringStatus(){
+    suspend fun checkRecurringStatus(language: String){
 
         viewModelScope.launch {
-
 
             when (val loginResponse = paymentRepository.login()) {
                 is ApiResource.Failure -> _subscriptionLiveData.value = CommonResource.API_CALL_FAILED
@@ -37,7 +38,8 @@ internal class SubscriptionViewModel(
                         if (loginResponse.value.Data.isNotEmpty())
                             processRecurringCheck(
                                 msisdn = DeenSDKCore.GetDeenMsisdn(),
-                                token = loginResponse.value.Data
+                                token = loginResponse.value.Data,
+                                language
                             )
                         else
                             _subscriptionLiveData.value = CommonResource.API_CALL_FAILED
@@ -48,23 +50,43 @@ internal class SubscriptionViewModel(
         }
     }
 
-    private fun processRecurringCheck(msisdn: String, token: String){
+    private fun processRecurringCheck(msisdn: String, token: String, language: String){
         if (msisdn.isEmpty())
             _subscriptionLiveData.value = CommonResource.API_CALL_FAILED
         else {
 
             viewModelScope.launch {
-                when (val sub = repository.checkSubscription(token = token, msisdn = msisdn)) {
+
+                val sub = async {repository.checkSubscription(token = token, msisdn = msisdn)}.await()
+
+                var subsData: CheckRecurringResponse?=null
+
+                when (sub) {
                     is ApiResource.Failure -> _subscriptionLiveData.value =
                         CommonResource.API_CALL_FAILED
 
                     is ApiResource.Success -> {
                         if (sub.value?.Success == true && sub.value.Message.isNotEmpty())
-                            _subscriptionLiveData.value = SubscriptionResource.CheckSubs(sub.value)
+                            subsData = sub.value
                         else
                             _subscriptionLiveData.value = CommonResource.API_CALL_FAILED
                     }
                 }
+
+                when(val response = repository.getPageData(language)){
+                    is ApiResource.Failure -> _subscriptionLiveData.value = CommonResource.API_CALL_FAILED
+                    is ApiResource.Success -> {
+                        if(response.value?.Success == true){
+                            if(subsData!=null)
+                            _subscriptionLiveData.value = SubscriptionResource.CheckSubs(response.value.Data.copy(pageResponse = subsData))
+                            else
+                                _subscriptionLiveData.value = CommonResource.API_CALL_FAILED
+                        }else
+                            _subscriptionLiveData.value = CommonResource.API_CALL_FAILED
+                    }
+                }
+
+
             }
         }
     }
@@ -126,4 +148,5 @@ internal class SubscriptionViewModel(
     fun clearCheckSub(){
         _subscriptionLiveData.value = CommonResource.CLEAR
     }
+
 }

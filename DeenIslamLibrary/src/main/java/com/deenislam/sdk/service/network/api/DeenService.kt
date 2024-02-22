@@ -41,6 +41,7 @@ import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.AyatRespons
 import com.deenislam.sdk.service.network.response.quran.qurangm.paralist.ParaListResponse
 import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.SurahListResponse
 import com.deenislam.sdk.service.network.response.quran.tafsir.TafsirResponse
+import com.deenislam.sdk.service.network.response.subscription.SubscriptionPageResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -206,6 +207,10 @@ internal interface DeenService {
     // Khatam e Quran Video
     @POST("Quran/KhotomeQuran")
     suspend fun getKhatamQuranVideos(@Body parm: RequestBody): KhatamQuranVideosResponse
+
+    @POST("Quran/NewKhotomeQuranRamadan")
+    suspend fun getKhatamQuranRamadanVideos(@Body parm: RequestBody): KhatamQuranVideosResponse
+
 
     @POST("Quran/RecentKhotomeQuran")
     suspend fun getRecentKhatamQuranVideos(@Body parm: RequestBody): KhatamQuranVideosResponse
@@ -400,6 +405,7 @@ internal interface DeenService {
     suspend fun getBoyanCategoryVideoPreview(
         @Body parm: RequestBody
     ): BoyanVideoPreviewResponse
+
 
 
 }

@@ -449,4 +449,13 @@
     <string name="scholars">Scholars</string>
     <string name="boyan_video">Boyan Video</string>
     <string name="belief_in_allah">Belief in Allah</string>
+    <string name="ad_free_experience">Ad Free Experience</string>
+    <string name="no_ads_while_using_the_app">No ads while using the app</string>
+    <string name="offline_quran">Offline Quran</string>
+    <string name="listen_quran_offline">Listen Quran offline</string>
+    <string name="my_favorite">My Favorite</string>
+    <string name="access_all_your_favorites_in_one_place">Access all your favorites in one place</string>
+    <string name="check_out_the_exclusive_islamic_podcast">Check out the exclusive Islamic podcast</string>
+    <string name="tracker">Tracker</string>
+    <string name="premium_feature_ramadan_info">Track Ramadan</string>
 </resources>

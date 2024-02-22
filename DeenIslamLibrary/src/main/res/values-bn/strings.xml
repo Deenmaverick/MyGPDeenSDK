@@ -40,7 +40,7 @@
     <string name="sura">সূরা</string>
     <string name="juz">পারা</string>
     <string name="my_quran">আমার কোরআন</string>
-    <string name="continue_reading">Continue reading</string>
+    <string name="continue_reading">তিলাওয়াত করুন</string>
     <string name="empty_place">ফাঁকা জায়গা</string>
     <string name="no_data_msg">কোন বিষয়বস্তু নেই, বিষয়বস্তু এখানে যোগ করা হবে, ইনশাআল্লাহ</string>
     <string name="download">Download</string>
@@ -416,7 +416,7 @@
     <string name="get_premium">প্রিমিয়াম করুন</string>
     <string name="subs_greeting_txt">মুসলিম সম্প্রদায়ের সাথে যোগ দিন এবং সঠিকভাবে ইসলাম শিখুন।</string>
     <string name="cancel_auto_renewal_at_any_time">যেকোনো সময় অটো-রিনিউয়াল বাতিল করুন</string>
-    <string name="premium_features">Premium Features</string>
+    <string name="premium_features">প্রিমিয়াম ফিচার</string>
     <string name="t_amp_c_privacy_policy">ব্যবহারের শর্তাবলী • গোপনীয়তা নীতি</string>
     <string name="subscription">সাবস্ক্রিপশন</string>
     <string name="join_the_islamic_ott_platform">ইসলামিক ওটিটি প্ল্যাটফর্মে যোগ দিন</string>
@@ -449,4 +449,13 @@
     <string name="scholars">স্কলার</string>
     <string name="boyan_video">বয়ান ভিডিও</string>
     <string name="belief_in_allah">Belief in Allah</string>
+    <string name="ad_free_experience">বিজ্ঞাপন মুক্ত সার্ভিস</string>
+    <string name="no_ads_while_using_the_app">বিজ্ঞাপন মুক্ত সার্ভিস ব্যবহার করুন</string>
+    <string name="offline_quran">অফলাইন কুরআন</string>
+    <string name="listen_quran_offline">অফলাইনে কুরআন তিলাওয়াত  শুনুন</string>
+    <string name="my_favorite">প্রিয় তালিকা</string>
+    <string name="access_all_your_favorites_in_one_place">প্রিয় তালিকা তৈরি করুন</string>
+    <string name="check_out_the_exclusive_islamic_podcast">এক্সক্লুসিভ ইসলামিক পডকাস্ট দেখুন</string>
+    <string name="tracker">ট্র্যাকার</string>
+    <string name="premium_feature_ramadan_info">রমজান ট্র্যাক করুন</string>
 </resources>

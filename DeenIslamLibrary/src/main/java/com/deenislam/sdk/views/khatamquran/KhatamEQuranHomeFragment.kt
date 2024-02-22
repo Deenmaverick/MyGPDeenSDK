@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
@@ -28,6 +29,7 @@ internal class KhatamEQuranHomeFragment : BaseRegularFragment(), CommonCardCallb
     private lateinit var listMainEducationVideo: RecyclerView
     private var videoList: List<CommonCardData> = ArrayList()
     private var recentList: List<CommonCardData> = ArrayList()
+    private val navArgs:KhatamEQuranHomeFragmentArgs by navArgs()
 
     override fun OnCreate() {
         super.OnCreate()
@@ -84,7 +86,8 @@ internal class KhatamEQuranHomeFragment : BaseRegularFragment(), CommonCardCallb
 
     private fun loadApi() {
         lifecycleScope.launch {
-            viewmodel.getKhatamQuranVideo(getLanguage())
+            viewmodel.getKhatamQuranVideo(getLanguage(),navArgs.isRamadan,navArgs.date)
+
         }
     }
 

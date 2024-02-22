@@ -20,12 +20,14 @@ internal class RamadanRepository (
         deenService?.getOtherRamadanTime(parm = requestBody)
     }
 
-    suspend fun getRamadanTime(location:String,language:String) = makeApicall {
+    suspend fun getRamadanTime(location: String, language: String, date: String?) = makeApicall {
 
         val body = JSONObject()
         body.put("location", location)
         body.put("language", language)
-
+        date?.let {
+            body.put("firstDate", it)
+        }
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.getRamadanTime(parm = requestBody)
     }

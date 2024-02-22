@@ -18,6 +18,7 @@ import com.deenislam.sdk.service.repository.PodcastRepository
 import com.deenislam.sdk.service.repository.YoutubeVideoRepository
 import com.deenislam.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.viewmodels.PodcastViewModel
@@ -206,6 +207,11 @@ internal class PodcastCategoryFragment : BaseRegularFragment(),otherFagmentActio
     }
 
     override fun commonCardClicked(getData: CommonCardData, absoluteAdapterPosition: Int) {
+
+        if(!Subscription.isSubscribe){
+            gotoFrag(R.id.action_global_subscriptionFragment)
+            return
+        }
         if(getData.isLive) {
             if(getData.videourl?.isNotEmpty() == true) {
                 val bundle = Bundle()

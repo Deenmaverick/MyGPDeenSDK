@@ -44,14 +44,14 @@ internal class RamadanViewModel (
         }
     }
 
-    fun getRamadanTime(location:String,language:String)
+    fun getRamadanTime(location: String, language: String, date: String?)
     {
         viewModelScope.launch {
 
             var ramadanData: Data? = null
 
             val getPatch = async { repository.getRamadanPatch(language = language)}.await()
-            val response = async { repository.getRamadanTime(location = location, language = language)}.await()
+            val response = async { repository.getRamadanTime(location = location, language = language,date)}.await()
 
             when(response)
             {

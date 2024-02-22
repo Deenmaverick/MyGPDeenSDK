@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="@dimen/space_12"
+    android:paddingBottom="@dimen/space_12"
+    android:paddingStart="@dimen/space_16"
+    android:paddingEnd="@dimen/space_16"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <View
+            android:id="@+id/bar"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:background="@color/deen_primary"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/subText"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:textColor="@color/deen_txt_black_deep"
+            tools:text="Daily"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/icTick"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/deen_txt_ash"
+            tools:text="৳2.67 • Per Daily (Auto-Renewal)"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintEnd_toStartOf="@+id/icTick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icTick"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/space_8"
+            android:src="@drawable/deen_ic_check_done"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/subText"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

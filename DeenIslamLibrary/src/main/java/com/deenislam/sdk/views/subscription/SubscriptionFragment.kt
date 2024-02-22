@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.subscription
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,21 +12,25 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.SubscriptionCallback
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.SubscriptionResource
 import com.deenislam.sdk.service.models.payment.PaymentModel
-import com.deenislam.sdk.service.models.subscription.PremiumFeature
 import com.deenislam.sdk.service.network.response.payment.recurring.CheckRecurringResponse
-import com.deenislam.sdk.service.repository.IslamiMasailRepository
+import com.deenislam.sdk.service.network.response.subscription.PaymentType
 import com.deenislam.sdk.service.repository.PaymentRepository
 import com.deenislam.sdk.service.repository.SubscriptionRepository
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.LoadingButton
 import com.deenislam.sdk.utils.TERMS_URL
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.SubscriptionViewModel
+import com.deenislam.sdk.views.adapters.subscription.PackListAdapter
+import com.deenislam.sdk.views.adapters.subscription.PremiumFeatureAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
@@ -34,43 +39,19 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-internal class SubscriptionFragment : BaseRegularFragment() {
+internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback {
+
 
     private lateinit var viewmodel: SubscriptionViewModel
-
-    private lateinit var dailyPlan:MaterialCardView
-    private lateinit var weeklyPlan:MaterialCardView
-    private lateinit var monthlyPlan:MaterialCardView
+    private lateinit var packList:RecyclerView
+    private lateinit var activePlan:MaterialCardView
     private lateinit var featureList:RecyclerView
     private lateinit var nextBtn:MaterialButton
     private lateinit var cancelBtn:MaterialButton
     private lateinit var bottomCardview:LinearLayout
-    private lateinit var cancelRenewHint:AppCompatTextView
     private var selectedPlan = -1
     private var planStatus = "0BK"
-
-    private val premiumFeatures = arrayListOf(
-        PremiumFeature(
-            featureName = "Ad Free Experience",
-            featureSubText = "No ads while using the app"
-        ),
-        PremiumFeature(
-            featureName = "Offline Quran",
-            featureSubText = "Listen Quran offline"
-        ),
-        PremiumFeature(
-            featureName = "My Favorite",
-            featureSubText = "Access all your favorites in one place"
-        ),
-        PremiumFeature(
-            featureName = "Podcast",
-            featureSubText = "Comment and access all feature in podcast"
-        ),
-        PremiumFeature(
-            featureName = "Tracker",
-            featureSubText = "Track prayer and ramadan"
-        ),
-    )
+    private var selectedPaymentType:PaymentType?= null
 
     override fun OnCreate() {
         super.OnCreate()
@@ -83,7 +64,8 @@ internal class SubscriptionFragment : BaseRegularFragment() {
 
         val subscriptionRepository = SubscriptionRepository(
             paymentService = NetworkProvider().getInstance().providePaymentService(),
-            authInterceptor = NetworkProvider().getInstance().provideAuthInterceptor()
+            authInterceptor = NetworkProvider().getInstance().provideAuthInterceptor(),
+            authenticateService = NetworkProvider().getInstance().provideAuthService()
         )
 
         viewmodel = SubscriptionViewModel(paymentRepository = paymentRepository, repository = subscriptionRepository)
@@ -96,14 +78,12 @@ internal class SubscriptionFragment : BaseRegularFragment() {
         // Inflate the layout for this fragment
         val mainview = localInflater.inflate(R.layout.fragment_subscription,container,false)
 
-        dailyPlan = mainview.findViewById(R.id.dailyPlan)
-        weeklyPlan = mainview.findViewById(R.id.weeklyPlan)
-        monthlyPlan = mainview.findViewById(R.id.monthlyPlan)
+        activePlan = mainview.findViewById(R.id.activePlan)
         featureList = mainview.findViewById(R.id.featureList)
         nextBtn = mainview.findViewById(R.id.nextBtn)
         cancelBtn = mainview.findViewById(R.id.cancelBtn)
         bottomCardview = mainview.findViewById(R.id.bottomCardview)
-        cancelRenewHint = mainview.findViewById(R.id.cancelRenewHint)
+        packList = mainview.findViewById(R.id.packList)
 
         setupActionForOtherFragment(
             action1 = 0,
@@ -116,31 +96,13 @@ internal class SubscriptionFragment : BaseRegularFragment() {
 
         setupCommonLayout(mainview)
 
-        featureList.hide()
+        CallBackProvider.setFragment(this)
 
         return mainview
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupPlan()
-
-        dailyPlan.setOnClickListener {
-            nextBtn.text = localContext.getString(R.string.subStartBtnText,localContext.getString(R.string.daily))
-            setActivePlan(dailyPlan)
-        }
-
-        weeklyPlan.setOnClickListener {
-            nextBtn.text = localContext.getString(R.string.subStartBtnText,localContext.getString(R.string.weekly))
-            setActivePlan(weeklyPlan)
-        }
-
-        monthlyPlan.setOnClickListener {
-            selectedPlan = 2001
-            nextBtn.text = localContext.getString(R.string.subStartBtnText,localContext.getString(R.string.monthly))
-            setActivePlan(monthlyPlan)
-        }
 
         cancelBtn.setOnClickListener {
             nextBtn.isCheckable = false
@@ -151,28 +113,36 @@ internal class SubscriptionFragment : BaseRegularFragment() {
         }
 
         nextBtn.setOnClickListener {
-            if(selectedPlan>0){
 
+            selectedPaymentType?.let {
                 val bundle = Bundle()
                 val paymentModel = PaymentModel(
-                    title = localContext.getString(R.string.monthly_subscription),
-                    amount = "20.00",
+                    title = it.packageHeader,
+                    amount = it.packageAmount,
                     redirectPage = R.id.subscriptionFragment,
-                    isBkashEnable = true,
-                    isNagadEnable = false,
-                    isSSLEnable = false,
+                    isBkashEnable = it.isBkashEnable,
+                    isNagadEnable = it.isNagadEnable,
+                    isSSLEnable = it.isSSLEnable,
                     isGpayEnable = false,
-                    serviceIDBkash = selectedPlan,
+                    serviceIDBkash = it.serviceIDBkash,
+                    serviceIDNagad = it.serviceIDNagad,
+                    serviceIDSSL = it.serviceIDSSL,
                     paySuccessMessage = localContext.getString(R.string.your_payment_has_been_successful),
                     tcUrl = TERMS_URL,
                     isRecurring = true
                 )
                 bundle.putParcelable("payment", paymentModel)
                 gotoFrag(R.id.action_global_paymentListFragment,bundle)
+            }
+
+
+           /* if(selectedPlan>0){
+
+
 
             }else{
                 context?.toast(localContext.getString(R.string.select_a_plan))
-            }
+            }*/
         }
 
         initObserver()
@@ -182,78 +152,62 @@ internal class SubscriptionFragment : BaseRegularFragment() {
 
 
     private fun setActivePlan(
-        planCard: MaterialCardView?,
         activeColor: Int = R.color.deen_primary,
-        info:String = ""){
+        info:String = "",
+    packData:PaymentType?){
+        packList.hide()
+        packData?.let {
+            selectedPaymentType = it
+            val title: AppCompatTextView = activePlan.findViewById(R.id.title)
+            val subText: AppCompatTextView = activePlan.findViewById(R.id.subText)
+            val infoText: AppCompatTextView = activePlan.findViewById(R.id.infoText)
+            val icTick: AppCompatImageView = activePlan.findViewById(R.id.icTick)
 
-        setInactivePlan(dailyPlan)
-        setInactivePlan(weeklyPlan)
-        setInactivePlan(monthlyPlan)
+            title.text = it.packageTitle
+            subText.text = it.packageDescription
 
-        planCard?.let {
-
-            val title:AppCompatTextView = planCard.findViewById(R.id.title)
-            val subText:AppCompatTextView = planCard.findViewById(R.id.subText)
-            val infoText:AppCompatTextView = planCard.findViewById(R.id.infoText)
-            val icTick:AppCompatImageView = planCard.findViewById(R.id.icTick)
-
-            if(info.isNotEmpty()){
+            if (info.isNotEmpty()) {
                 infoText.text = info
                 infoText.show()
-            }
-            else
+            } else
                 infoText.hide()
 
             icTick.show()
 
             context?.let {
-                planCard.setCardBackgroundColor( ContextCompat.getColor(it,activeColor))
-                title.setTextColor(ContextCompat.getColor(it,R.color.deen_white))
-                subText.setTextColor(ContextCompat.getColor(it,R.color.deen_white))
+                activePlan.setCardBackgroundColor(ContextCompat.getColor(it, activeColor))
+                title.setTextColor(ContextCompat.getColor(it, R.color.deen_white))
+                subText.setTextColor(ContextCompat.getColor(it, R.color.deen_white))
             }
 
-            if(activeColor == R.color.deen_yellow){
-                icTick.setColorFilter(ContextCompat.getColor(requireContext(),R.color.deen_txt_black_deep))
+            if (activeColor == R.color.deen_yellow) {
+                icTick.setColorFilter(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.deen_txt_black_deep
+                    )
+                )
                 context?.let {
                     title.setTextColor(ContextCompat.getColor(it, R.color.deen_txt_black_deep))
                     subText.setTextColor(ContextCompat.getColor(it, R.color.deen_txt_black_deep))
                     infoText.setTextColor(ContextCompat.getColor(it, R.color.deen_txt_black))
                 }
-                cancelRenewHint.hide()
+                //cancelRenewHint.hide()
+            } else {
+                icTick.setColorFilter(ContextCompat.getColor(requireContext(), R.color.deen_yellow))
+                //cancelRenewHint.show()
             }
-            else{
-                icTick.setColorFilter(ContextCompat.getColor(requireContext(),R.color.deen_yellow))
-                cancelRenewHint.show()
-            }
+
+
+            activePlan.show()
         }
 
     }
 
-    private fun setInactivePlan(planCard: MaterialCardView) {
-
-        val title:AppCompatTextView = planCard.findViewById(R.id.title)
-        val subText:AppCompatTextView = planCard.findViewById(R.id.subText)
-        val icTick:AppCompatImageView = planCard.findViewById(R.id.icTick)
-
-        icTick.hide()
-
-        context?.let {
-            planCard.setCardBackgroundColor( ContextCompat.getColor(it,R.color.deen_white))
-            title.setTextColor(ContextCompat.getColor(it,R.color.deen_txt_black_deep))
-            subText.setTextColor(ContextCompat.getColor(it,R.color.deen_txt_ash))
-        }
-    }
-
-    private fun setPlan(planCard: MaterialCardView,planName:String,planSubText:String){
-        val title:AppCompatTextView = planCard.findViewById(R.id.title)
-        val subText:AppCompatTextView = planCard.findViewById(R.id.subText)
-        title.text = planName
-        subText.text = planSubText
-    }
 
     private fun loadapi(){
         lifecycleScope.launch {
-            viewmodel.checkRecurringStatus()
+            viewmodel.checkRecurringStatus(getLanguage())
         }
     }
 
@@ -270,9 +224,24 @@ internal class SubscriptionFragment : BaseRegularFragment() {
                     lifecycleScope.launch {
                         viewmodel.clearCheckSub()
                     }
-                    planStatus = it.value.Message
-                    selectedPlan = it.value.Data.ServiceID
-                    checkPaymentStatus(it.value)
+
+                    featureList.apply {
+                        adapter = PremiumFeatureAdapter(it.value.premiumFeatures)
+                    }
+
+                    packList.apply {
+                        adapter = PackListAdapter(it.value.paymentTypes.filter { pdata-> !pdata.isDataBundle })
+                    }
+
+                    selectedPlan = it.value.pageResponse?.Data?.ServiceID?:-1
+                    planStatus = it.value.pageResponse?.Message.toString()
+
+                    if(it.value.paymentTypes.isNotEmpty()){
+                        selectedPaymentType = it.value.paymentTypes[0]
+                        nextBtn.text = localContext.getString(R.string.subStartBtnText,selectedPaymentType?.packageTitle)
+                    }
+
+                    it.value.pageResponse?.let { it1 -> checkPaymentStatus(it1,it.value.paymentTypes) }
                     baseViewState()
                 }
             }
@@ -300,10 +269,9 @@ internal class SubscriptionFragment : BaseRegularFragment() {
                     }
                     if(it.planStatus == "1BK"){
 
-                        updateActivePlan(
-                            serviceID = selectedPlan,
-                            info = localContext.getString(R.string.you_cancelled_the_subscription),
-                            activeColor = R.color.deen_yellow
+                        setActivePlan(
+                            activeColor = R.color.deen_yellow,
+                            info = localContext.getString(R.string.you_cancelled_the_subscription), packData = selectedPaymentType
                         )
                         nextBtn.text = localContext.getString(R.string.renew_plan)
                         bottomCardview.show()
@@ -318,48 +286,57 @@ internal class SubscriptionFragment : BaseRegularFragment() {
         }
     }
 
-    private fun checkPaymentStatus(response: CheckRecurringResponse) {
-        if(response.Message == "1BK" && response.Data.isSubscribe){
-            updateActivePlan(
-                serviceID = response.Data.ServiceID,
-                info = localContext.getString(R.string.subs_info_txt,calculateAutoRenewTime(response.Data.EndDate))
-            )
-            cancelBtn.show()
-            bottomCardview.hide()
-        }
-        else if(response.Message == "1BK"){
-            updateActivePlan(
-                serviceID = response.Data.ServiceID,
-                info = localContext.getString(R.string.you_cancelled_the_subscription),
-                activeColor = R.color.deen_yellow
-            )
-            nextBtn.text = localContext.getString(R.string.renew_plan)
-            bottomCardview.show()
-        }
-        else if(response.Message == "2BK"){
-            updateActivePlan(
-                serviceID = response.Data.ServiceID,
-                activeColor = R.color.deen_brand_error,
-                info = localContext.getString(R.string.subscription_expired)
-            )
-            cancelBtn.show()
-            nextBtn.hide()
-        }
-    }
-
-
-    private fun updateActivePlan(
-        serviceID: Int,
-        activeColor:Int = R.color.deen_primary,
-        info:String = ""
+    private fun checkPaymentStatus(
+        response: CheckRecurringResponse,
+        paymentTypes: List<PaymentType>
     ) {
-        when(serviceID){
-            2001-> {
-                monthlyPlan.isClickable = false
-                setActivePlan(monthlyPlan,activeColor,info)
-            }
+
+        val activePackDetails = paymentTypes.firstOrNull {
+            val serviceid = response.Data.ServiceID
+            (it.serviceIDBkash == response.Data.ServiceID && serviceid>0) || (it.serviceIDSSL == response.Data.ServiceID && serviceid>0)
         }
+
+
+        activePackDetails?.let { packDetails ->
+
+            if(response.Message == "1BK" && response.Data.isSubscribe){
+
+                setActivePlan(info = localContext.getString(R.string.subs_info_txt,calculateAutoRenewTime(response.Data.EndDate)), packData = packDetails)
+
+                cancelBtn.visible(!packDetails.isDataBundle)
+                bottomCardview.hide()
+            }
+            else if(response.Message == "1BK"){
+
+                setActivePlan(
+                    info = localContext.getString(R.string.you_cancelled_the_subscription),
+                    activeColor = R.color.deen_yellow,  packData = packDetails
+                )
+
+                nextBtn.text = localContext.getString(R.string.renew_plan)
+                bottomCardview.show()
+            }
+            else if(response.Message == "2BK"){
+
+                setActivePlan(
+                    info = localContext.getString(R.string.subscription_expired),
+                    activeColor = R.color.deen_brand_error, packData = packDetails
+                )
+
+                cancelBtn.visible(!packDetails.isDataBundle)
+                nextBtn.hide()
+            }
+            else
+                resetSubscription()
+        }
+
     }
+
+    private fun resetSubscription(){
+        packList.show()
+        activePlan.hide()
+    }
+
 
     private fun calculateAutoRenewTime(endDate: String): String? {
 
@@ -375,31 +352,8 @@ internal class SubscriptionFragment : BaseRegularFragment() {
         return inputDateTime?.let { outputFormat.format(it) }
     }
 
-    private fun resetSubscription(){
-        setupPlan()
-        setActivePlan(null)
-        nextBtn.text = localContext.getString(R.string.select_a_plan)
-        selectedPlan = -1
+    override fun selectedPack(getdata: PaymentType) {
+        selectedPaymentType = getdata
     }
 
-    private fun setupPlan(){
-
-        setPlan(
-            planCard = dailyPlan,
-            planName = localContext.getString(R.string.daily),
-            planSubText = localContext.getString(R.string.dailyPlanSubText)
-        )
-
-        setPlan(
-            planCard = weeklyPlan,
-            planName = localContext.getString(R.string.weekly),
-            planSubText = localContext.getString(R.string.weeklyPlanSubText)
-        )
-
-        setPlan(
-            planCard = monthlyPlan,
-            planName = localContext.getString(R.string.monthly),
-            planSubText = localContext.getString(R.string.monthlyPlanSubText)
-        )
-    }
 }

@@ -15,18 +15,24 @@ internal class KhatamEquranVideoRepository(
     private val deenService: DeenService?
 ) :
     ApiCall {
-    suspend fun getKhatamQuranVideos(language: String) = makeApicall {
-        val destinationFolder = File(DeenSDKCore.appContext?.filesDir, "khatamquran/videos.json")
+    suspend fun getKhatamQuranVideos(language: String, isRamadan: Boolean, date: String?) = makeApicall {
+
+        val destinationFolder = File(DeenSDKCore.appContext?.filesDir, if(!isRamadan)"khatamquran/videos.json" else "khatamquran_ramadan/videos.json")
 
         if (!destinationFolder.exists()) {
             val body = JSONObject()
             body.put("language", language)
-
+            date?.let {
+                body.put("firstDate", it)
+            }
             val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+            if(!isRamadan)
             deenService?.getKhatamQuranVideos(parm = requestBody)
+            else
+                deenService?.getKhatamQuranRamadanVideos(parm = requestBody)
 
         } else {
-         readFromFile()
+         readFromFile(if(!isRamadan)"khatamquran/videos.json" else "khatamquran_ramadan/videos.json")
         }
 
     }
@@ -50,8 +56,8 @@ internal class KhatamEquranVideoRepository(
         deenService?.addKhatamQuranContentHistory(parm = requestBody)
     }
 
-    private fun readFromFile(): KhatamQuranVideosResponse {
-        val file = File(DeenSDKCore.appContext?.filesDir, "khatamquran/videos.json")
+    private fun readFromFile(fileLoc: String): KhatamQuranVideosResponse {
+        val file = File(DeenSDKCore.appContext?.filesDir, fileLoc)
 
         if (!file.exists()) {
             // Handle the case when the file doesn't exist or is empty

@@ -57,7 +57,7 @@ internal class  IslamicNameFavAdapter(
 
             val data = favData[position]
             name.text = data.Name
-            nameArabic.text = data.nameinarabic
+            //nameArabic.text = data.nameinarabic
             meaning.text = data.meaning
 
             rightBtn.setOnClickListener {

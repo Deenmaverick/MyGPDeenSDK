@@ -160,6 +160,7 @@
                     android:id="@+id/appCompatCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     app:layout_constraintEnd_toStartOf="@+id/tvAgreeTxt"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintHorizontal_chainStyle="packed"

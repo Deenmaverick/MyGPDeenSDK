@@ -18,6 +18,7 @@ import com.deenislam.sdk.service.repository.PodcastRepository
 import com.deenislam.sdk.service.repository.YoutubeVideoRepository
 import com.deenislam.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.toast
 import com.deenislam.sdk.utils.tryCatch
@@ -193,6 +194,10 @@ internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
                         context?.let { it.toast(localContext.getString(R.string.there_is_no_live_at_the_moment)) }
                 }
                 else {
+                    if(!Subscription.isSubscribe){
+                        gotoFrag(R.id.action_global_subscriptionFragment)
+                        return
+                    }
                     val bundle = Bundle()
                     bundle.putInt("pid",getData.Id)
                     gotoFrag(R.id.action_global_offlinePodcastDetailsFragment,bundle)

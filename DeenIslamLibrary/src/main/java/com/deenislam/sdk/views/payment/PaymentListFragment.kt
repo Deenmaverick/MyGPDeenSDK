@@ -197,6 +197,12 @@ internal class PaymentListFragment : BaseRegularFragment() {
         payBtn.text =
             localContext.getString(R.string.payincAmount, paymentData.amount).numberLocale()
 
+        // manual activate method
+
+        activePaymentMethod(paymentBkash)
+        paymentWebViewTitle = localContext.getString(R.string.bkash)
+        selectedPaymentMethod = "bKash"
+
         paymentTelco.setOnClickListener {
             activePaymentMethod(paymentTelco)
             paymentWebViewTitle = localContext.getString(R.string.telco_payment)

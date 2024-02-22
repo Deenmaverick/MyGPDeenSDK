@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_4"
-                android:text="আহমেদ সাকিব"
+                tools:text="আহমেদ সাকিব"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/deen_txt_ash"
                 app:layout_constraintStart_toEndOf="@+id/icUser"

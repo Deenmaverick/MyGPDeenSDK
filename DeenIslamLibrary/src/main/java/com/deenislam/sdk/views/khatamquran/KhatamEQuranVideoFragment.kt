@@ -149,8 +149,8 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
         settingsLayout.hide()
         autoPlaySwitch.hide()
         morePodcastTxt.hide()
-        exo_prev.hide()
-        exo_next.hide()
+        playerView.setShowNextButton(false)
+        playerView.setShowPreviousButton(false)
 
         setupCommonLayout(mainview)
         exoVideoManager = ExoVideoManager(
@@ -335,6 +335,9 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
     }
 
     private fun submitWatchDuration(listItem: CommonCardData?) {
+
+        if(navArgs.isRamadan)
+            return
 
             if (!(listItem?.IsCompleted!!)) {
                 lifecycleScope.launch {

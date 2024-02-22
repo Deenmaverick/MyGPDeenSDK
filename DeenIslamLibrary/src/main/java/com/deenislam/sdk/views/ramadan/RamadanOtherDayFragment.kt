@@ -188,7 +188,12 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             {
                 is CommonResource.API_CALL_FAILED -> baseNoInternetState()
                 is CommonResource.EMPTY -> baseEmptyState()
-                is RamadanResource.ramadanTime -> viewState(it.data)
+                is RamadanResource.ramadanTime -> {
+                    lifecycleScope.launch {
+                        viewmodel.clear()
+                    }
+                    viewState(it.data)
+                }
             }
 
         }

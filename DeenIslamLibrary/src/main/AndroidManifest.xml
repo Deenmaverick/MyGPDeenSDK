@@ -50,7 +50,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:exported="true">
-            <nav-graph android:value="@navigation/main_nav" />
         </activity>
 
         <receiver

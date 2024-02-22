@@ -3,6 +3,7 @@ package com.deenislam.sdk.service.network.api
 import com.deenislam.sdk.service.network.response.BasicResponse
 import com.deenislam.sdk.service.network.response.auth.login.LoginResponse
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
+import com.deenislam.sdk.service.network.response.subscription.SubscriptionPageResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -25,5 +26,10 @@ internal interface AuthenticateService {
     @POST("Tracker/SessionTrack")
     suspend fun userSessionTrack(@Body parm: RequestBody): BasicResponse
 
+    // Subscription
+    @POST("DeenPayment/getPaymentMethod")
+    suspend fun getSubscriptionPageData(
+        @Body parm: RequestBody
+    ): SubscriptionPageResponse
 
 }

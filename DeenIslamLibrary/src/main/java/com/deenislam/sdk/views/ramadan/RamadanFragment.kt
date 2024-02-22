@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
@@ -20,7 +21,6 @@ import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.service.network.response.ramadan.Data
 import com.deenislam.sdk.service.network.response.ramadan.FastTracker
-import com.deenislam.sdk.service.repository.KhatamEquranVideoRepository
 import com.deenislam.sdk.service.repository.RamadanRepository
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.MENU_ISLAMIC_EVENT
@@ -28,12 +28,9 @@ import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislam.sdk.utils.tryCatch
-import com.deenislam.sdk.viewmodels.KhatamQuranViewModel
-import com.deenislam.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislam.sdk.viewmodels.RamadanViewModel
 import com.deenislam.sdk.views.adapters.ramadan.RamadanPatchAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -47,10 +44,10 @@ internal class RamadanFragment : BaseRegularFragment(),
 {
 
     private lateinit var listview:RecyclerView
-
-    private lateinit var viewmodel: RamadanViewModel
+    private val navArgs:RamadanFragmentArgs by navArgs()
+    private lateinit var viewmodel: RamadanViewModel/*
     //private val islamicBookViewmodel by viewModels<IslamicBookViewModel>()
-    private lateinit var prayerTimeViewModel: PrayerTimesViewModel
+    private lateinit var prayerTimeViewModel: PrayerTimesViewModel*/
     private lateinit var ramadanPatchAdapter: RamadanPatchAdapter
 
     private var stateArray:ArrayList<StateModel> = arrayListOf()
@@ -206,7 +203,12 @@ internal class RamadanFragment : BaseRegularFragment(),
             {
                 is CommonResource.API_CALL_FAILED -> baseNoInternetState()
                 is CommonResource.EMPTY -> baseEmptyState()
-                is RamadanResource.RamadanPatch -> it.data?.let { it1 -> viewState(it1,it.patch) }?:baseNoInternetState()
+                is RamadanResource.RamadanPatch -> {
+                    lifecycleScope.launch {
+                        viewmodel.clear()
+                    }
+                    it.data?.let { it1 -> viewState(it1,it.patch) }?:baseNoInternetState()
+                }
             }
 
         }
@@ -238,7 +240,7 @@ internal class RamadanFragment : BaseRegularFragment(),
     {
         baseLoadingState()
         lifecycleScope.launch {
-            viewmodel.getRamadanTime(state,getLanguage())
+            viewmodel.getRamadanTime(state,getLanguage(),navArgs.date)
         }
     }
 
@@ -333,14 +335,14 @@ internal class RamadanFragment : BaseRegularFragment(),
                 gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
             }
 
-            /*"ib" ->{
+            "ib" ->{
 
                 val bundle = Bundle()
                 bundle.putInt("id", data.CategoryId)
                 bundle.putString("videoType", "category")
                 bundle.putString("title", data.ArabicText)
                 gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
-            }*/
+            }
 
             /*"ibook" ->{
 
@@ -353,7 +355,15 @@ internal class RamadanFragment : BaseRegularFragment(),
             }*/
 
             "khq" ->{
-                gotoFrag(R.id.action_global_khatamEquranHomeFragment)
+                val bundle = Bundle()
+                bundle.putString("date", data.Meaning)
+                gotoFrag(R.id.action_global_khatamEquranHomeFragment,bundle)
+            }
+
+            "rkhq" ->{
+                val bundle = Bundle()
+                bundle.putBoolean("isRamadan",true)
+                gotoFrag(R.id.action_global_khatamEquranHomeFragment,bundle)
             }
 
             "hd" ->{
@@ -384,13 +394,13 @@ internal class RamadanFragment : BaseRegularFragment(),
 
         when(getData.ContentType){
 
-           /* "ib" -> {
+            "ib" -> {
                 val bundle = Bundle()
                 bundle.putInt("id", getData.CategoryId)
                 bundle.putString("videoType", "category")
                 bundle.putString("pageTitle",getData.ArabicText)
                 gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
-            }*/
+            }
 
             /*"ibook" -> {
 
@@ -399,7 +409,7 @@ internal class RamadanFragment : BaseRegularFragment(),
                 }
             }*/
 
-            "khq" -> {
+            "khq","rkhq" -> {
 
 
                 patchDataList?.let {
@@ -410,7 +420,7 @@ internal class RamadanFragment : BaseRegularFragment(),
                     patchDataList?.forEachIndexed { index, data ->
                         data.Items.forEachIndexed { innerIndex, item ->
                             // Replace with the condition to check if the items match
-                            if (item.Id == getData.Id) {
+                            if (item.ContentType == getData.ContentType && item.Id == getData.Id) {
                                 dataIndex = index
                                 itemIndex = innerIndex
                                 return@forEachIndexed
@@ -421,6 +431,7 @@ internal class RamadanFragment : BaseRegularFragment(),
                 if(dataIndex !=-1) {
                     val bundle = Bundle()
                     bundle.putInt("khatamQuranvideoPosition", itemIndex)
+                    bundle.putBoolean("isRamadan",true)
                     bundle.putParcelableArray("khatamQuranvideoList", it[dataIndex].Items.map { it1-> transformDashboardItemForKhatamQuran(it1) }.toTypedArray())
                     gotoFrag(R.id.action_global_khatamEQuranVideoFragment, bundle)
                 }
@@ -428,6 +439,7 @@ internal class RamadanFragment : BaseRegularFragment(),
                 }
 
             }
+
 
         }
 
