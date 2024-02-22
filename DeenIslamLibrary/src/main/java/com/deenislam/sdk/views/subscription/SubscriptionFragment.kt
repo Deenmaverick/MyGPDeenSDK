@@ -21,13 +21,8 @@ import com.deenislam.sdk.service.network.response.payment.recurring.CheckRecurri
 import com.deenislam.sdk.service.network.response.subscription.PaymentType
 import com.deenislam.sdk.service.repository.PaymentRepository
 import com.deenislam.sdk.service.repository.SubscriptionRepository
-import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.utils.LoadingButton
-import com.deenislam.sdk.utils.TERMS_URL
-import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.show
-import com.deenislam.sdk.utils.toast
-import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.SubscriptionViewModel
 import com.deenislam.sdk.views.adapters.subscription.PackListAdapter
 import com.deenislam.sdk.views.adapters.subscription.PremiumFeatureAdapter
@@ -238,16 +233,18 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
                     }
 
                     packList.apply {
-                        adapter = PackListAdapter(it.value.paymentTypes.filter { pdata-> !pdata.isDataBundle })
+                        val filterPack = it.value.paymentTypes.filter { pdata-> !pdata.isDataBundle }
+                        if(filterPack.isNotEmpty()){
+                            selectedPaymentType = filterPack[0]
+                            nextBtn.text = localContext.getString(R.string.subStartBtnText,selectedPaymentType?.packageTitle)
+                        }
+                        adapter = PackListAdapter(filterPack)
                     }
 
                     selectedPlan = it.value.pageResponse?.Data?.ServiceID?:-1
                     planStatus = it.value.pageResponse?.Message.toString()
 
-                    if(it.value.paymentTypes.isNotEmpty()){
-                        selectedPaymentType = it.value.paymentTypes[0]
-                        nextBtn.text = localContext.getString(R.string.subStartBtnText,selectedPaymentType?.packageTitle)
-                    }
+
 
                     it.value.pageResponse?.let { it1 -> checkPaymentStatus(it1,it.value.paymentTypes) }
                     baseViewState()
@@ -308,14 +305,14 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
         activePackDetails?.let { packDetails ->
 
             if(response.Message == "1BK" && response.Data.isSubscribe){
-
+                Subscription.isSubscribe = true
                 setActivePlan(info = localContext.getString(R.string.subs_info_txt,calculateAutoRenewTime(response.Data.EndDate)), packData = packDetails)
 
                 cancelBtn.visible(!packDetails.isDataBundle)
                 bottomCardview.hide()
             }
             else if(response.Message == "1BK"){
-
+                Subscription.isSubscribe = true
                 setActivePlan(
                     info = localContext.getString(R.string.you_cancelled_the_subscription),
                     activeColor = R.color.deen_yellow,  packData = packDetails

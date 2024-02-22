@@ -218,9 +218,9 @@ internal class PaymentWebViewFragment : BaseRegularFragment(), CustomDialogCallb
                     if (status != null) {
 
                         when (status) {
-                            "Successful" -> paySuccess()
-                            "cancel" -> payCancel()
-                            "failure" -> payFailed()
+                            "Successful","SUCCEEDED" -> paySuccess()
+                            "cancel","CANCELLED" -> payCancel()
+                            "failure","FAILED" -> payFailed()
                             else -> payFailed()
                         }
                         webview.hide()
