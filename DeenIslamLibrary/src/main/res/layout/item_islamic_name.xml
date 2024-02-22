@@ -18,7 +18,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
@@ -28,9 +28,10 @@
             android:text="Aaban"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/nameArabic"/>
+            app:layout_constraintEnd_toStartOf="@+id/rightBtn"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
             android:id="@+id/nameArabic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +56,7 @@
             android:textColor="@color/deen_txt_ash"
             android:text="Clear, Eloquent, Lucid, Distinct"
             app:layout_constraintStart_toStartOf="@+id/name"
-            app:layout_constraintTop_toBottomOf="@+id/nameArabic"
+            app:layout_constraintTop_toBottomOf="@+id/name"
             app:layout_constraintEnd_toStartOf="@+id/rightBtn"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

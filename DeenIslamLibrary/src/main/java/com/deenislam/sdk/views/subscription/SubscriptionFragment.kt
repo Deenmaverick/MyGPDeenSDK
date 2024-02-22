@@ -172,15 +172,23 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
             } else
                 infoText.hide()
 
-            icTick.show()
-
-            context?.let {
-                activePlan.setCardBackgroundColor(ContextCompat.getColor(it, activeColor))
-                title.setTextColor(ContextCompat.getColor(it, R.color.deen_white))
-                subText.setTextColor(ContextCompat.getColor(it, R.color.deen_white))
+            var finalActiveColor = activeColor
+            //bundle check
+            if(it.isDataBundle) {
+                finalActiveColor = R.color.deen_primary
+                infoText.hide()
             }
 
-            if (activeColor == R.color.deen_yellow) {
+
+            icTick.show()
+
+            context?.let {getcontext->
+                activePlan.setCardBackgroundColor(ContextCompat.getColor(getcontext, finalActiveColor))
+                title.setTextColor(ContextCompat.getColor(getcontext, R.color.deen_white))
+                subText.setTextColor(ContextCompat.getColor(getcontext, R.color.deen_white))
+            }
+
+            if (finalActiveColor == R.color.deen_yellow) {
                 icTick.setColorFilter(
                     ContextCompat.getColor(
                         requireContext(),
@@ -314,6 +322,7 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
                 )
 
                 nextBtn.text = localContext.getString(R.string.renew_plan)
+                nextBtn.visible(!packDetails.isDataBundle)
                 bottomCardview.show()
             }
             else if(response.Message == "2BK"){
@@ -322,7 +331,7 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
                     info = localContext.getString(R.string.subscription_expired),
                     activeColor = R.color.deen_brand_error, packData = packDetails
                 )
-
+                nextBtn.visible(!packDetails.isDataBundle)
                 cancelBtn.visible(!packDetails.isDataBundle)
                 nextBtn.hide()
             }
