@@ -355,14 +355,13 @@ internal class RamadanFragment : BaseRegularFragment(),
             }*/
 
             "khq" ->{
-                val bundle = Bundle()
-                bundle.putString("date", data.Meaning)
-                gotoFrag(R.id.action_global_khatamEquranHomeFragment,bundle)
+                gotoFrag(R.id.action_global_khatamEquranHomeFragment)
             }
 
             "rkhq" ->{
                 val bundle = Bundle()
                 bundle.putBoolean("isRamadan",true)
+                bundle.putString("date", data.Meaning)
                 gotoFrag(R.id.action_global_khatamEquranHomeFragment,bundle)
             }
 

@@ -1123,7 +1123,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             else ->
             {
                 navController.navigate(R.id.dashboardFakeFragment)
-                navController.navigate(destination)
+                navController.navigate(destination,intent.extras)
 
             }
         }
@@ -1288,6 +1288,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
     fun ramadanCountDownTimerSetup(ramadanExpectedTimeInMill: Long) {
 
+
         if(ramadanRemainCard.isShown || isRamadanRemainCardClosed) {
             return
         }
@@ -1339,6 +1340,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         }
         ramadanCountDownTimer?.start()
         isRamadanRemainCardClosed = false
+        if( navController.currentDestination?.id == R.id.dashboardFakeFragment)
         ramadanRemainCard.show()
     }
 

@@ -566,20 +566,22 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         binding.noInternetLayout.root.visible(false)
 
 
-      /*  when(customargs?.getString("rc")){
+        when(customargs?.getString("rc")){
 
             "live_ijtema" ->{
-                dashboardPatchMain.getDashboardData()?.let {
+                dashboardPatchMain.getDashboardData().let {
+                    if(it.isEmpty())
+                        return
+
                     it.let {banner->
 
                         val ijtemaBanners = banner.filter { bannerData -> bannerData.AppDesign == "ijtema" }
 
-                        ijtemaBanners.forEach {
-                            ijtemaData ->
+                        ijtemaBanners.forEach { ijtemaData ->
 
                             val bundle = Bundle()
                             bundle.putString("videoid", ijtemaData.Items[0].ArabicText)
-                            bundle.putString("title",ijtemaData.MText)
+                            bundle.putString("title",ijtemaData.Items[0].MText)
                             gotoFrag(R.id.action_global_ijtemaLiveFragment,bundle)
 
                         }
@@ -587,7 +589,50 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                     }
                 }
             }
-        }*/
+
+            "khatam_e_quran_ramadan" ->{
+                dashboardPatchMain.getDashboardData().let {
+                    if(it.isEmpty())
+                        return
+
+                    it.let {banner->
+                        val getMenuData = dashboardPatchMain.getDashboardData().filter { it.AppDesign == "Services" }
+                        val getData: Item? = getMenuData.flatMap {menu-> menu.Items }.firstOrNull {menu-> menu.Text == MENU_KHATAM_E_QURAN_RAMADAN }
+                        getData?.let {
+                            item->
+                            val bundle = Bundle()
+                            bundle.putBoolean("isRamadan",true)
+                            bundle.putString("date",item.Meaning)
+                            gotoFrag(R.id.action_global_khatamEquranHomeFragment,bundle)
+
+                        }
+
+                    }
+                }
+            }
+
+            "ramadan" ->{
+                dashboardPatchMain.getDashboardData().let {
+                    if(it.isEmpty())
+                        return
+
+                    it.let {banner->
+                        val getMenuData = dashboardPatchMain.getDashboardData().filter { it.AppDesign == "Services" }
+                        val getData: Item? = getMenuData.flatMap {menu-> menu.Items }.firstOrNull {menu-> menu.Text == MENU_RAMADAN }
+                        getData?.let {
+                                item->
+                            val bundle = Bundle()
+                            bundle.putString("date",item.Meaning)
+                            gotoFrag(R.id.action_global_ramadanFragment,bundle)
+
+                        }
+
+                    }
+                }
+            }
+
+
+        }
 
         hasMoreData = true
 

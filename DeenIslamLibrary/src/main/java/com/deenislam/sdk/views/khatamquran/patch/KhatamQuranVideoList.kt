@@ -218,8 +218,8 @@ internal class KhatamQuranVideoList(
         if(itemMarginRight>=0)
             (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = itemMarginRight
 
-        if(absoluteAdapterPosition==itemCount-1)
-            (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 0
+       /* if(absoluteAdapterPosition==itemCount-1)
+            (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 0*/
 
 
         if(itemMarginBottom>=0)

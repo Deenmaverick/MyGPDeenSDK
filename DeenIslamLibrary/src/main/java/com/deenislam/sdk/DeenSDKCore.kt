@@ -210,7 +210,7 @@ object DeenSDKCore {
         }
 
         when(rc){
-            "live_ijtema" -> {
+            "live_ijtema","khatam_e_quran_ramadan","ramadan" -> {
 
                 val intent =
                     Intent(baseContext, MainActivityDeenSDK::class.java)
@@ -218,6 +218,7 @@ object DeenSDKCore {
                 intent.putExtra("rc",rc)
                 baseContext?.startActivity(intent)
             }
+
             else->{
                 val getDestination = rc.getRCDestination()
 
