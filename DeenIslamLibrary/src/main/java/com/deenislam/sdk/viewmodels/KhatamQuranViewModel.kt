@@ -43,9 +43,9 @@ internal class KhatamQuranViewModel(
                         CommonResource.API_CALL_FAILED
 
                     is ApiResource.Success -> {
-                        if (response.value?.success == true)
+                        if (response.value?.data?.isNotEmpty() == true)
                             _recentKhatamquranVideoLiveData.value =
-                                KhatamQuranVideoResource.khatamequranRecentVideos(response.value.data)
+                                KhatamQuranVideoResource.khatamequranRecentVideos(response.value.data!!)
                         else
                             _recentKhatamquranVideoLiveData.value = CommonResource.EMPTY
                     }
@@ -59,9 +59,9 @@ internal class KhatamQuranViewModel(
 
                 is ApiResource.Success -> {
                     response.value?.let { writeToFile(it) }
-                    if (response.value?.success == true)
+                    if (response.value?.data?.isNotEmpty() == true)
                         _khatamquranVideoLiveData.value =
-                            KhatamQuranVideoResource.khatamequranVideo(response.value.data)
+                            KhatamQuranVideoResource.khatamequranVideo(response.value.data!!)
                     else
                         _khatamquranVideoLiveData.value = CommonResource.EMPTY
                 }
@@ -77,9 +77,9 @@ internal class KhatamQuranViewModel(
                     CommonResource.API_CALL_FAILED
 
                 is ApiResource.Success -> {
-                    if (response.value?.success == true)
+                    if (response.value?.data?.isNotEmpty() == true)
                         _recentKhatamquranVideoLiveData.value =
-                            KhatamQuranVideoResource.khatamequranRecentVideos(response.value.data)
+                            KhatamQuranVideoResource.khatamequranRecentVideos(response.value.data!!)
                     else
                         _recentKhatamquranVideoLiveData.value = CommonResource.EMPTY
                 }
@@ -114,7 +114,7 @@ internal class KhatamQuranViewModel(
 
     private fun writeToFile(data: KhatamQuranVideosResponse) {
 
-        if (data.data.isEmpty()) {
+        if (data.data?.isEmpty() == true) {
             return
         }
         val file = File(DeenSDKCore.appContext?.filesDir, "khatamquran")

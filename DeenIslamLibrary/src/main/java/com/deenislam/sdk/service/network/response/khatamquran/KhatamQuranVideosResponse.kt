@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 @Keep
 internal data class KhatamQuranVideosResponse(
     @SerializedName("Data")
-    var `data`: List<CommonCardData>,
+    var `data`: List<CommonCardData>?,
     @SerializedName("Message")
     var message: String? = null,
     @SerializedName("Pagination")
