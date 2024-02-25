@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-internal class PrayerTime(view: View,private val prayerData: PrayerTimesResponse?) {
+internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse?) {
 
     private val prayerBG: AppCompatImageView = view.findViewById(R.id.prayerBG)
     private val prayerMoment: AppCompatTextView = view.findViewById(R.id.prayerMoment)
@@ -60,7 +60,7 @@ internal class PrayerTime(view: View,private val prayerData: PrayerTimesResponse
     {
 
         val getContext = prayerBG.context
-        stateTxt.text = getContext.resources.getString(R.string.dhaka)
+        //stateTxt.text = getContext.resources.getString(R.string.dhaka)
         val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.ENGLISH).format(Date())
         val prayerMomentRangeData: PrayerMomentRange? =  prayerData?.let { getPrayerTimeName(it,currentTime.StringTimeToMillisecond("hh:mm:ss aa") /*getPrayerTimeName(it,"08:01:45 PM".StringTimeToMillisecond("hh:mm:ss aa") */ ) }
 
@@ -138,6 +138,7 @@ internal class PrayerTime(view: View,private val prayerData: PrayerTimesResponse
             }
         }
 
+        if(commonStateList == null)
         commonStateList = CommonStateList(stateBtn)
     }
 
@@ -169,5 +170,10 @@ internal class PrayerTime(view: View,private val prayerData: PrayerTimesResponse
         commonStateList?.stateSelected(stateModel)
     }
 
+    fun updatePrayerTime(data: PrayerTimesResponse) {
+        prayerData = data
+        load()
+
+    }
 
 }

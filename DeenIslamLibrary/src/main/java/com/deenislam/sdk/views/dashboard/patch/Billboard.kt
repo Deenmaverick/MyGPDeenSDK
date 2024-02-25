@@ -60,7 +60,7 @@ internal class Billboard(
                 }
                 isAlreadyScrolled = true
                 linearLayoutManager?.scrollToPositionWithOffset(ptPosition, screenWidth.dp)
-                dashboardBillboardAdapter?.notifyDataSetChanged()
+               // dashboardBillboardAdapter?.notifyDataSetChanged()
             }
         }
     }

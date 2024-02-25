@@ -35,7 +35,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
@@ -148,6 +147,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private var isRamadanRemainCardClosed = false
     private lateinit var ramadanCustomAlertDialogView : View
     private var ramadanExpectedTimeInMill:Long = 0
+    private var ramadanDate:String=""
     private var ramadanCountDownTimer: CountDownTimer?=null
 
 
@@ -1269,9 +1269,9 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             dialog = materialAlertDialogBuilder
                 .setView(ramadanCustomAlertDialogView)
                 .setCancelable(true)
-                .setOnDismissListener {
+                .setOnCancelListener {
                     if(!isRamadanRemainCardClosed)
-                    ramadanRemainCard.show()
+                        ramadanRemainCard.show()
                     else
                         ramadanRemainCard.hide()
                 }
@@ -1279,19 +1279,24 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
 
             okBtn.setOnClickListener {
+                isRamadanRemainCardClosed = true
                 dialog?.dismiss()
-                navController.navigate(R.id.action_global_ramadanFragment, intent.extras)
+                val bundle = Bundle()
+                bundle.putString("date",ramadanDate)
+                navController.navigate(R.id.action_global_ramadanFragment, bundle)
                 ramadanRemainCard.hide()
+                isRamadanRemainCardClosed = false
             }
         }
     }
 
-    fun ramadanCountDownTimerSetup(ramadanExpectedTimeInMill: Long) {
-
+    fun ramadanCountDownTimerSetup(ramadanExpectedTimeInMill: Long, date: String) {
 
         if(ramadanRemainCard.isShown || isRamadanRemainCardClosed) {
             return
         }
+
+        ramadanDate = date
 
         ramadanCountDownTimer?.cancel()
         ramadanCountDownTimer = object : CountDownTimer(ramadanExpectedTimeInMill, 60000) {

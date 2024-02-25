@@ -9,6 +9,7 @@ import com.deenislam.sdk.service.database.entity.PrayerTimes
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
+import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
@@ -25,6 +26,10 @@ internal class PrayerTimesViewModel(
 
     private val _prayerTimesNotification:MutableLiveData<PrayerNotificationResource> = MutableLiveData()
     val prayerTimesNotification:MutableLiveData<PrayerNotificationResource> get() = _prayerTimesNotification
+
+    private val _selecteStateLiveData:MutableLiveData<PrayerTimeResource> = MutableLiveData()
+    val selecteStateLiveData:MutableLiveData<PrayerTimeResource> get() = _selecteStateLiveData
+
 
     var listState: Parcelable? = null
 
@@ -146,6 +151,11 @@ internal class PrayerTimesViewModel(
     fun clearPrayerNotificationLiveData()
     {
         _prayerTimesNotification.value = CommonResource.CLEAR
+    }
+
+    fun updateSelectedState(state: StateModel)
+    {
+        _selecteStateLiveData.value = PrayerTimeResource.selectedState(state)
     }
 
 }

@@ -175,7 +175,7 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
             }
 
 
-            icTick.show()
+            icTick.hide()
 
             context?.let {getcontext->
                 activePlan.setCardBackgroundColor(ContextCompat.getColor(getcontext, finalActiveColor))

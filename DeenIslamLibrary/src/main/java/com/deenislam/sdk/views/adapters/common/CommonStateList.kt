@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.common.ramadan.RamadanSearchStateAdapter
 import com.deenislam.sdk.service.models.ramadan.StateModel
+import com.deenislam.sdk.utils.getLocalContext
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 
@@ -122,7 +123,7 @@ internal class CommonStateList(
         val dismissBtn = customAlertDialogView.findViewById<ImageButton>(R.id.closeBtn)
         val title: AppCompatTextView = customAlertDialogView.findViewById(R.id.pageTitle)
 
-        title.text = customTitle?.let { it }?:context.getString(R.string.select_a_district)
+        title.text = customTitle?.let { it }?:context.getLocalContext().getString(R.string.select_a_district)
 
         ramadanSearchStateAdapter = RamadanSearchStateAdapter(stateArray,selectedState)
 

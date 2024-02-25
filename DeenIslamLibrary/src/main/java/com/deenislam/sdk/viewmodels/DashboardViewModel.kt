@@ -63,5 +63,20 @@ internal class DashboardViewModel(
         }
     }
 
+    suspend fun getPrayerTime(localtion:String,language:String,requiredDate:String){
+        viewModelScope.launch {
+            when(val prayerResponse = prayerTimesRepository.getPrayerTimes(localtion,language,requiredDate))
+            {
+                is ApiResource.Failure -> _prayerTimes.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                    if(prayerResponse.value?.Success == true)
+                        _prayerTimes.value = PrayerTimeResource.postPrayerTime(prayerResponse.value)
+                    else
+                        _prayerTimes.value = PrayerTimeResource.prayerTimeEmpty
+
+            }
+        }
+    }
+
 
 }

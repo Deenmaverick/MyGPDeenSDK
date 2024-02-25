@@ -73,6 +73,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         ) {
             // Log.e("prayerData",billboard.toString())
             prayerTimesResponse = data
+            DashboardPatchClass.getBillboardInstance()?.update(data)
 
            /* if (getViewTypePosition(TYPE_WIDGET1) > 0)
                 notifyItemChanged(getViewTypePosition(TYPE_WIDGET1))*/

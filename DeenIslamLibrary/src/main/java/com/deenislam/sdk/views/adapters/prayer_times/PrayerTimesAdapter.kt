@@ -15,9 +15,11 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.models.prayer_time.PrayerMomentRange
+import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.views.adapters.common.CommonStateList
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.views.prayertimes.patch.ForbiddenTimes
 import com.deenislam.sdk.views.prayertimes.patch.OtherPrayerTimes
@@ -58,6 +60,11 @@ internal class PrayerTimesAdapter(
     private lateinit var leftBtn:AppCompatImageView
     private lateinit var rightBtn:AppCompatImageView
     private lateinit var allPrayer:LinearLayout
+    private lateinit var stateBtn:LinearLayout
+    private lateinit var stateTxt:AppCompatTextView
+    private var commonStateList: CommonStateList? = null
+
+
     private var inflatedViewCount:Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder
@@ -81,6 +88,8 @@ internal class PrayerTimesAdapter(
                         nextPrayerTimeCount = this.findViewById(R.id.nextPrayerTime)
                         prayerBG = this.findViewById(R.id.prayerBG)
                         allPrayer = this.findViewById(R.id.allPrayer)
+                        stateBtn = this.findViewById(R.id.stateBtn)
+                        stateTxt =  this.findViewById(R.id.stateTxt)
                         allPrayer.setOnClickListener { callback?.clickMonthlyCalendar() }
 
                         widget1_view()
@@ -175,10 +184,13 @@ internal class PrayerTimesAdapter(
         widget1_view()
         widget2_view()
 
-        if(dateWisePrayerNotificationData?.isNotEmpty() == true) {
+        /*if(dateWisePrayerNotificationData?.isNotEmpty() == true) {
             widget3_view()
             widget4_view()
-        }
+        }*/
+
+        widget3_view()
+        widget4_view()
 
         if(inflatedViewCount>0)
             viewInflationListener.onAllViewsInflated()
@@ -193,6 +205,12 @@ internal class PrayerTimesAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateState(stateModel: StateModel)
+    {
+        if(this::stateTxt.isInitialized)
+        stateTxt.text = stateModel.stateValue
+        commonStateList?.stateSelected(stateModel)
+    }
 
     fun updateNotificationData(Notificationdata: ArrayList<PrayerNotification>?)
     {
@@ -277,8 +295,10 @@ internal class PrayerTimesAdapter(
                 countDownTimer?.start()
             }
 
-
         }
+
+        if(commonStateList==null)
+            commonStateList = CommonStateList(stateBtn)
 
 
     }

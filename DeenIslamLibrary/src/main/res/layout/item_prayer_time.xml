@@ -130,6 +130,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/stateBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_16"
@@ -139,6 +140,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stateTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

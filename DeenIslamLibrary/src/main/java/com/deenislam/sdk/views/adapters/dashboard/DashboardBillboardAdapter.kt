@@ -46,8 +46,7 @@ internal class DashboardBillboardAdapter(
 
         filterBillboardData = BillBoardData
 
-        Log.e("prayerData", Gson().toJson(filterBillboardData))
-
+        DashboardBillboardPatchClass.getPrayerTimeInstance()?.updatePrayerTime(data)
     }
 
     fun updatePrayerTracker(data: Data) {

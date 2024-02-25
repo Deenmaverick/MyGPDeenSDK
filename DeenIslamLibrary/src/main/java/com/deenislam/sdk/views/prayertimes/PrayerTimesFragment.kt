@@ -33,6 +33,7 @@ import com.deenislam.sdk.service.libs.notification.NotificationPermission
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
+import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislam.sdk.service.repository.PrayerTimesRepository
@@ -98,6 +99,9 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     private var isNotificationClicked:Boolean = false
     private var prayerTrackLastWakt = ""
 
+    private var currentState = "dhaka"
+    private var currentStateModel: StateModel? = null
+
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this,true)
@@ -160,13 +164,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         if(prayerMain.isEmpty())
         {
-            /*if(firstload)
-            loadPage()
-            else
-            view.postDelayed({
-                // Code to execute after the animation
-                loadPage()
-            }, 300)*/
 
             loadPage()
         }
@@ -183,7 +180,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                     trackingID = getTrackingID()
                 )
             }
-
             loadDataAPI()
         }
         firstload = true
@@ -218,11 +214,23 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     {
             loadingState()
             lifecycleScope.launch {
-                viewmodel.getPrayerTimes("Dhaka", getLanguage(), prayerdate)
+                viewmodel.getPrayerTimes(currentState, getLanguage(), prayerdate)
                 viewmodel.getDateWisePrayerNotificationData(prayerdate)
             }
     }
 
+
+    private fun initStateObserver() {
+        viewmodel.selecteStateLiveData.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is PrayerTimeResource.selectedState -> {
+                    currentState = it.state.state
+                    currentStateModel = it.state
+                }
+            }
+        }
+    }
 
     private fun initObserver()
     {
@@ -348,8 +356,9 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             loadDataAPI()
         }
 
+        initStateObserver()
         initObserver()
-
+        loadDataAPI()
     }
 
     private fun setupNotificationView()
@@ -423,6 +432,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
 
 
+
     private fun viewState(data: ArrayList<PrayerNotification>)
     {
 
@@ -434,6 +444,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         prayerTimesResponse?.let {
             prayerTimesAdapter.updateData(it,pryaerNotificationData)
+            currentStateModel?.let { it1 -> prayerTimesAdapter.updateState(it1) }
         }
 
     }

@@ -23,6 +23,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
 import com.deenislam.sdk.service.callback.Allah99NameCallback
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
+import com.deenislam.sdk.service.callback.RamadanCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
 import com.deenislam.sdk.service.di.DatabaseProvider
@@ -31,6 +32,7 @@ import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.DashboardResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
+import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.ApiResource
 import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.service.network.response.dashboard.Item
@@ -60,7 +62,11 @@ import java.util.Locale
 
 internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
     actionCallback, MenuCallback, PrayerTimeCallback, ViewInflationListener,
-    DashboardPatchCallback, SensorEventListener, QuranPlayerCallback, Allah99NameCallback {
+    DashboardPatchCallback,
+    SensorEventListener,
+    QuranPlayerCallback,
+    Allah99NameCallback,
+    RamadanCallback {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var prayerViewModel:  PrayerTimesViewModel
@@ -475,6 +481,21 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             }
         }
 
+        prayerViewModel.selecteStateLiveData.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is PrayerTimeResource.selectedState -> {
+                    currentState = it.state.state
+
+                    dashboardPatchMain.updateState(it.state)
+                    //prayerTimesAdapter.updateState(it.state)
+                    lifecycleScope.launch {
+                        dashboardViewModel.getPrayerTime(currentState, getLanguage(), prayerdate)
+                    }
+                }
+            }
+        }
+
         prayerViewModel.prayerTimesNotification.observe(viewLifecycleOwner)
         {
             when(it)
@@ -513,6 +534,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         if(prayerTimesResponse==null) {
             prayerTimesResponse = data
         }
+
+        updatePrayerAdapterOnly(data)
 
     }
 
@@ -646,7 +669,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 val ramadanExpectedTimeInMill = getRamadanPatchData.MText.toLong() * 1000
                 val remainTime = ramadanExpectedTimeInMill - System.currentTimeMillis()
                 if (remainTime > 0) {
-                    ramadanCountDownTimerSetup(remainTime)
+                    ramadanCountDownTimerSetup(remainTime,getRamadanPatchData.Meaning)
                 }
             }
         }
@@ -917,6 +940,12 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
     }
 
+    override fun stateSelected(stateModel: StateModel) {
+        lifecycleScope.launch {
+            prayerViewModel.updateSelectedState(stateModel)
+        }
+    }
+
     override fun menuClicked(pagetag: String, getMenu: Item?) {
         when(pagetag)
         {
@@ -1029,6 +1058,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 if(data?.FeatureTitle == "Banners"){
                     val bundle = Bundle()
                     bundle.putBoolean("isRamadan",true)
+                    bundle.putString("date", data.Meaning)
                     gotoFrag(R.id.action_global_khatamEquranHomeFragment,bundle)
                     return
                 }
