@@ -63,6 +63,7 @@ internal class QuranPlayer: Service(){
     private var audioFolderLocation = ""
     private var ayatList:ArrayList<Ayath> = arrayListOf()
     private var surahID:Int = 0
+    private var juzID:Int = 0
     private var surahList:ArrayList<Data> = arrayListOf()
     private var currentlyPlayingPos:Int = -1
     private var mMediaPlayer: MediaPlayer? = null
@@ -84,6 +85,7 @@ internal class QuranPlayer: Service(){
     // juz (para)
 
     private var quranJuzList:ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data> = arrayListOf()
+    private var quranJuz:com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data ? =null
 
 
     private val localReceiver = object : BroadcastReceiver() {
@@ -257,7 +259,10 @@ internal class QuranPlayer: Service(){
     }
 
     fun initGlobalMiniPlayer(){
-        getCurrentSurahDetails()?.let { quranPlayerCallback?.updateSurahDetails(it) }
+        if(isSurahMode)
+            getCurrentSurahDetails()?.let { quranPlayerCallback?.updateSurahDetails(it) }
+        else
+            getCurrentJuzDetails()?.let { quranPlayerCallback?.updateJuzDetails(it) }
 
         if(isPlayerPlaying) {
             quranPlayerCallback?.isQuranPlaying(
@@ -278,6 +283,7 @@ internal class QuranPlayer: Service(){
 
     private fun createNotification(): NotificationCompat.Builder {
 
+        val localeContext = this.getLocalContext()
         // custom notification view
         val miniCustomLayout = RemoteViews(packageName, R.layout.item_quran_player_notification)
         val largeCustomLayout = RemoteViews(packageName, R.layout.item_quran_player_large_notification)
@@ -294,6 +300,8 @@ internal class QuranPlayer: Service(){
 
 
         val currentSurahDetails = getCurrentSurahDetails()
+        val currentJuzDetails = getCurrentJuzDetails()
+
 
         // mini player
 
@@ -302,7 +310,7 @@ internal class QuranPlayer: Service(){
         else
             miniCustomLayout.setImageViewResource(R.id.ic_play_pause,R.drawable.ic_play_fill)
 
-        miniCustomLayout.setTextViewText(R.id.surahTitile,currentSurahDetails?.SurahName)
+        miniCustomLayout.setTextViewText(R.id.surahTitile,if(isSurahMode) currentSurahDetails?.SurahName else localeContext.getString(R.string.quran_para_adapter_title,currentJuzDetails?.JuzId.toString().numberLocale()))
         miniCustomLayout.setOnClickPendingIntent(R.id.icPrev, createActionIntent(ACTION_PREV))
         miniCustomLayout.setOnClickPendingIntent(R.id.ic_play_pause, if(isPlayerPlaying)createActionIntent(
             ACTION_PAUSE) else createActionIntent(ACTION_PLAY))
@@ -316,7 +324,7 @@ internal class QuranPlayer: Service(){
         else
             largeCustomLayout.setImageViewResource(R.id.ic_play_pause,R.drawable.ic_play_fill)
 
-        largeCustomLayout.setTextViewText(R.id.surahTitile,currentSurahDetails?.SurahName)
+        largeCustomLayout.setTextViewText(R.id.surahTitile,if(isSurahMode) currentSurahDetails?.SurahName else  localeContext.getString(R.string.quran_para_adapter_title,currentJuzDetails?.JuzId.toString().numberLocale()))
         largeCustomLayout.setOnClickPendingIntent(R.id.icPrev, createActionIntent(ACTION_PREV))
         largeCustomLayout.setOnClickPendingIntent(R.id.ic_play_pause, if(isPlayerPlaying)createActionIntent(
             ACTION_PAUSE) else createActionIntent(ACTION_PLAY))
@@ -348,6 +356,8 @@ internal class QuranPlayer: Service(){
         if(!isServiceRunning)
             return
 
+        val localeContext = this.getLocalContext()
+
         // custom notification view
         val miniCustomLayout = RemoteViews(packageName, R.layout.item_quran_player_notification)
         val largeCustomLayout = RemoteViews(packageName, R.layout.item_quran_player_large_notification)
@@ -363,6 +373,7 @@ internal class QuranPlayer: Service(){
             isPlayerPlaying = true
 
         val currentSurahDetails = getCurrentSurahDetails()
+        val currentJuzDetails = getCurrentJuzDetails()
 
 
         // mini player
@@ -372,7 +383,7 @@ internal class QuranPlayer: Service(){
         else
             miniCustomLayout.setImageViewResource(R.id.ic_play_pause,R.drawable.ic_play_fill)
 
-        miniCustomLayout.setTextViewText(R.id.surahTitile,currentSurahDetails?.SurahName)
+        miniCustomLayout.setTextViewText(R.id.surahTitile,if(isSurahMode) currentSurahDetails?.SurahName else localeContext.getString(R.string.quran_para_adapter_title,currentJuzDetails?.JuzId.toString().numberLocale()))
         miniCustomLayout.setOnClickPendingIntent(R.id.icPrev, createActionIntent(ACTION_PREV))
         miniCustomLayout.setOnClickPendingIntent(R.id.ic_play_pause, if(isPlayerPlaying)createActionIntent(
             ACTION_PAUSE) else createActionIntent(ACTION_PLAY))
@@ -386,14 +397,14 @@ internal class QuranPlayer: Service(){
         else
             largeCustomLayout.setImageViewResource(R.id.ic_play_pause,R.drawable.ic_play_fill)
 
-        largeCustomLayout.setTextViewText(R.id.surahTitile,currentSurahDetails?.SurahName)
+        largeCustomLayout.setTextViewText(R.id.surahTitile,if(isSurahMode) currentSurahDetails?.SurahName else localeContext.getString(R.string.quran_para_adapter_title,currentJuzDetails?.JuzId.toString().numberLocale()))
         largeCustomLayout.setOnClickPendingIntent(R.id.icPrev, createActionIntent(ACTION_PREV))
         largeCustomLayout.setOnClickPendingIntent(R.id.ic_play_pause, if(isPlayerPlaying)createActionIntent(
             ACTION_PAUSE) else createActionIntent(ACTION_PLAY))
         largeCustomLayout.setOnClickPendingIntent(R.id.icNext, createActionIntent(ACTION_NEXT))
         largeCustomLayout.setOnClickPendingIntent(R.id.icStop, createActionIntent(ACTION_STOP))
         largeCustomLayout.setInt(R.id.playerProgress, "setProgress", curProgress);
-        largeCustomLayout.setTextViewText(R.id.totalAyat,this.getLocalContext().resources.getString(R.string.quran_popular_surah_ayat,currentSurahDetails?.TotalAyat?.numberLocale(),""))
+        largeCustomLayout.setTextViewText(R.id.totalAyat,localeContext.resources.getString(R.string.quran_popular_surah_ayat,if(isSurahMode) currentSurahDetails?.TotalAyat?.numberLocale() else currentJuzDetails?.TotalAyat?.toString()?.numberLocale(),""))
         largeCustomLayout.setTextViewText(R.id.currentTime,formattedTime)
 
         notificationDarkLight(miniCustomLayout,largeCustomLayout)
@@ -436,12 +447,12 @@ internal class QuranPlayer: Service(){
             null
     }
 
-    private fun getCurrentJuzDetails(): Data? {
+    private fun getCurrentJuzDetails(): com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data? {
 
-        val getIndex = surahList.indexOfFirst { it.SurahId == surahID }
+        val getIndex = quranJuzList.indexOfFirst { it.JuzId == juzID }
 
         return if(getIndex!=-1) {
-            surahList[getIndex]
+            quranJuzList[getIndex]
         } else
             null
     }
@@ -473,10 +484,10 @@ internal class QuranPlayer: Service(){
             }
             ACTION_NEXT -> {
 
-                playNextSurah()
+                playNextSurahOrJuz()
             }
             ACTION_PREV -> {
-                playPrevSurah()
+                playPrevSurahOrJuz()
             }
 
             ACTION_STOP -> {
@@ -574,7 +585,8 @@ internal class QuranPlayer: Service(){
         pageNo: Int,
         selectedQari: Int,
         isSurahMode: Boolean,
-        quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?
+        quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?,
+        quranJuz: com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data?
     )
     {
 
@@ -601,6 +613,11 @@ internal class QuranPlayer: Service(){
             this.quranJuzList.clear()
         else
             this.surahList.clear()
+
+        this.quranJuz = quranJuz
+        quranJuz?.let {
+            juzID = it.JuzId
+        }
 
         currentlyPlayingPos = pos
         retryFetchNetwork = 0
@@ -640,8 +657,65 @@ internal class QuranPlayer: Service(){
                 processNextDataFromNetwork()
             }
         } else {
-            playNextSurah()
+            CoroutineScope(Dispatchers.Main).launch {
+                if(isSurahMode)
+                    playNextSurah()
+                else
+                    playNextJuz()
+            }
         }
+    }
+
+    fun playNextJuz()
+    {
+        //saveState()
+
+        if(juzID >30) {
+            pauseQuran(true)
+            return
+        }
+
+        releaseMediaPlayer()
+        currentPageNo = 1
+        currentlyPlayingPos = -1
+        currentPlayingTime = 0
+        curProgress = 0
+        formattedTime = "0:00".numberLocale()
+        ayatList.clear()
+        juzID++
+
+        //Log.e("playNextSurah",surahID.toString())
+
+        if(juzID <= 30) {
+            processNextDataFromNetwork()
+        }
+        else {
+            juzID = 30
+            pauseQuran(true)
+            return
+        }
+
+        isPlayerPlaying = true
+        updateNotification()
+
+        alQuranAyatCallback = CallBackProvider.get<AlQuranAyatCallback>()
+        alQuranAyatCallback?.playNextJuz(true)
+        getCurrentJuzDetails()?.let { quranPlayerCallback?.updateJuzDetails(it) }
+
+    }
+
+    fun playNextSurahOrJuz(){
+        if(isSurahMode)
+            playNextSurah()
+        else
+            playNextJuz()
+    }
+
+    fun playPrevSurahOrJuz(){
+        if(isSurahMode)
+            playPrevSurah()
+        else
+            playPrevJuz()
     }
 
 
@@ -717,6 +791,39 @@ internal class QuranPlayer: Service(){
         getCurrentSurahDetails()?.let { quranPlayerCallback?.updateSurahDetails(it) }
     }
 
+    fun playPrevJuz()
+    {
+
+        if(juzID-1<=0)
+        {
+            return
+        }
+
+        releaseMediaPlayer()
+        currentPageNo = 1
+        currentlyPlayingPos = -1
+        currentPlayingTime = 0
+        curProgress = 0
+        formattedTime = "0:00".numberLocale()
+        ayatList.clear()
+        juzID--
+        if(juzID > 0) {
+            processNextDataFromNetwork()
+        }
+        else {
+            juzID = 1
+            pauseQuran(true)
+            return
+        }
+
+        isPlayerPlaying = true
+        updateNotification()
+
+        alQuranAyatCallback = CallBackProvider.get<AlQuranAyatCallback>()
+        alQuranAyatCallback?.playPrevJuz(true)
+        getCurrentJuzDetails()?.let { quranPlayerCallback?.updateJuzDetails(it) }
+    }
+
     private fun getQariWiseFolder(): String {
         val idsToFilter = setOf(selectedQari)
         audioFolderLocation = qarisData.filter { it.title in idsToFilter }.getOrNull(0)?.contentFolder.toString()
@@ -730,21 +837,27 @@ internal class QuranPlayer: Service(){
     {
         CoroutineScope(Dispatchers.IO).launch {
 
-            when(val response = repository.getVersesByChapter(
+            when(val response = if(isSurahMode){repository.getVersesByChapter(
                 language = DeenSDKCore.GetDeenLanguage(),
                 page = currentPageNo,
                 contentCount = 10,
                 chapter_number = surahID,
                 isReadingMode = false
-            ))
+            )} else{
+                repository.getVersesByJuz(
+                    language = DeenSDKCore.GetDeenLanguage(),
+                    page = currentPageNo,
+                    contentCount = 10,
+                    juz_number = juzID,
+                    isReadingMode = false
+                )
+            })
             {
                 is ApiResource.Failure -> {
-
                     if(retryFetchNetwork<5){
                         processNextDataFromNetwork()
                     }
                     retryFetchNetwork++
-
                 }
                 is ApiResource.Success -> {
 
@@ -752,9 +865,11 @@ internal class QuranPlayer: Service(){
                         //ayatList = ArrayList( (ayatList + response.value.Data.Ayaths).distinctBy { it.VerseId })
 
                         if(response.value.Data.Ayaths.isNotEmpty())
-                        ayatList.addAll(response.value.Data.Ayaths)
-
-                        totalAyat = response.value.Data.SurahInfo?.TotalAyat?:0
+                            ayatList.addAll(response.value.Data.Ayaths)
+                        totalAyat = if(isSurahMode)
+                            response.value.Data.SurahInfo?.TotalAyat?:0
+                        else
+                            response.value.Pagination.TotalData
                         playNextAyat()
                     }
                     else{

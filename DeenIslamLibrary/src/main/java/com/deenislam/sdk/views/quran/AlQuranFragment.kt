@@ -185,6 +185,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     private var firstload = false
 
     private var surahID = 0
+    private var juzID = 0
     private var surahName:String ? = null
     private var isDownloading = false
     private var downloadFilenameByUser = ""
@@ -218,6 +219,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         surahID = args.surahID
         surahListData = args.surah
         quranJuz = args.juz
+        quranJuz?.let { juzID = it.JuzId }
         quranJuzList = args.juzList?.toCollection(ArrayList())
         pageTitle = surahName?:
                 localContext.resources.getString(R.string.quran_para_adapter_title,quranJuz?.JuzId.toString().numberLocale())
@@ -627,10 +629,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         super.onDestroyView()
         isMiniPlayerAlreadySet = false
         AudioManager().getInstance().releasePlayer()
-        if(!isSurahMode){
-            MainActivityDeenSDK.instance?.stopQuran()
         }
-    }
 
     private fun clearPlayerControlBtn()
     {
@@ -703,13 +702,19 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         binding.bottomPlayer.largePlayer.icPrev.setOnClickListener {
             //alQuranAyatAdapter.miniPlayerPrevCall()
-            playPrevSurah(true)
+            if(isSurahMode)
+                playPrevSurah(true)
+            else
+                playPrevJuz(true)
         }
 
         binding.bottomPlayer.largePlayer.icNext.setOnClickListener {
 
             //alQuranAyatAdapter.miniPlayerNextCall()
-            playNextSurah(true)
+            if(isSurahMode)
+                playNextSurah(true)
+            else
+                playNextJuz(true)
         }
 
 
@@ -1729,8 +1734,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     }
 
-    override fun selectedJuz(position: Int) {
-        alQuranAyatAdapter.miniPlayerCall()
+    override fun selectedJuz(position: Int, byService: Boolean) {
+        alQuranAyatAdapter.miniPlayerCall(byService = byService)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         dialog?.dismiss()
         loadingState()
@@ -1922,6 +1927,26 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         // }
     }
 
+    override fun playNextJuz(byService: Boolean) {
+        if(view == null)
+            return
+        isNextPrevSurahCalled = true
+        //surahListData?.SurahId?.let {
+        if(juzID < 30)
+            selectedJuz(juzID, byService)
+        // }
+    }
+
+    override fun playPrevJuz(byService: Boolean) {
+        if(view == null)
+            return
+        isNextPrevSurahCalled = true
+        // surahListData?.SurahId?.let {
+        if(juzID > 1)
+            selectedJuz(juzID-2,byService)
+        //}
+    }
+
     override fun playPrevSurah(byService: Boolean) {
         if(view == null)
             return
@@ -2083,7 +2108,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             pageNo = pageNo,
             selectedQari = alQuranAyatAdapter.getSelectedQari(),
             isSurahMode = isSurahMode,
-            quranJuzList = quranJuzList
+            quranJuzList = quranJuzList,
+            quranJuz = quranJuz
         )
 
     }

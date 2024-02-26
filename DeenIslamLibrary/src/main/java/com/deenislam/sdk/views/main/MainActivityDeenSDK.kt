@@ -106,6 +106,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private var quranQueuedPos: Int = -1
     private var quranQueuedSurahList: ArrayList<Data> = arrayListOf()
     private var quranQueuedJuzList:ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data> = arrayListOf()
+    private var quranQueuedJuz:com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data ? =null
     private var quranQueuedSurahID: Int = -1
     private var quranQueuedQarisData: ArrayList<Qari> = arrayListOf()
     private var quranQueuedTotalVerseCount: Int = -1
@@ -130,6 +131,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private lateinit var playerProgress: LinearProgressIndicator
     private lateinit var playLoading: CircularProgressIndicator
     private var currentSurahDetails: Data? = null
+    private var currentJuzDetails: com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data? = null
     private var countDownTimer: CountDownTimer?=null
     // Mini player drag element
     private var initialX: Float = 0f
@@ -186,7 +188,8 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
                     pageNo = quranQueuedPageNo,
                     selectedQari = quranQueuedSelectedQari,
                     isSurahMode = quranQueuedIsSurahMode,
-                    quranJuzList = quranQueuedJuzList
+                    quranJuzList = quranQueuedJuzList,
+                    quranJuz = quranQueuedJuz
                 )
 
                 quranPlayerAdapterCallback?.let { setAdapterCallbackQuranPlayer(it) }
@@ -331,11 +334,11 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         }
 
         ic_prev.setOnClickListener {
-            MainActivityInstance.getQuranPlayerInstance()?.playPrevSurah()
+            MainActivityInstance.getQuranPlayerInstance()?.playPrevSurahOrJuz()
         }
 
         ic_next.setOnClickListener {
-            MainActivityInstance.getQuranPlayerInstance()?.playNextSurah()
+            MainActivityInstance.getQuranPlayerInstance()?.playNextSurahOrJuz()
         }
 
 
@@ -533,6 +536,31 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             mini_player.hide()*/
     }
 
+    override fun updateJuzDetails(currentJuzDetails: com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data) {
+
+        val localeContext = this.getLocalContext()
+
+        ic_play_pause.visibility = View.INVISIBLE
+        playLoading.show()
+        countDownTimer?.cancel()
+        ic_play_pause.setImageDrawable(
+            AppCompatResources.getDrawable(
+                this,
+                R.drawable.ic_quran_play_fill
+            )
+        )
+        playerProgress.progress = 0
+        this.currentJuzDetails = currentJuzDetails
+
+
+        surahTitile.text = localeContext.getString(R.string.quran_para_adapter_title,currentJuzDetails.JuzId.toString().numberLocale())
+        surahAyat.text = localeContext.resources.getString(R.string.quran_popular_surah_ayat,currentJuzDetails.TotalAyat.toString().numberLocale(),"")
+        /*if(navController.currentDestination?.id != R.id.alQuranFragment)
+        mini_player.show()
+        else
+            mini_player.hide()*/
+    }
+
     private fun stopQuranPlayerService() {
         if (isQuranPlayerBound) {
             unbindService(quranOnlineserviceConnection)
@@ -648,7 +676,8 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         pageNo: Int,
         selectedQari: Int,
         isSurahMode: Boolean,
-        quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?
+        quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?,
+        quranJuz: com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data?
     ) {
 
         if(isQuranOfflinePlayerBound){
@@ -667,7 +696,8 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
                 pageNo = pageNo,
                 selectedQari = selectedQari,
                 isSurahMode = isSurahMode,
-                quranJuzList = quranJuzList
+                quranJuzList = quranJuzList,
+                quranJuz = quranJuz
             )
         }
         else
@@ -676,6 +706,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             quranQueuedPos = pos
             quranQueuedSurahList = surahList
             quranQueuedJuzList = quranJuzList?: arrayListOf()
+            quranQueuedJuz = quranJuz
             quranQueuedSurahID = surahID
             quranQueuedQarisData = qarisData
             quranQueuedTotalVerseCount = totalVerseCount
@@ -772,6 +803,11 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             onBackPressedCallback.isEnabled = false
             onBackPressedCallback.remove()
         }
+
+        val callback = CallBackProvider.get<QuranPlayerCallback>()
+        MainActivityInstance.getQuranPlayerInstance()?.stopQuranPlayer()
+        MainActivityInstance.getQuranPlayerOfflineInstance()?.stopQuranPlayer()
+        callback?.globalMiniPlayerClosed()
 
         super.onPause()
     }

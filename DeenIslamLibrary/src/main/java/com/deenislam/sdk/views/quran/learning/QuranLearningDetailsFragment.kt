@@ -362,16 +362,17 @@ internal class QuranLearningDetailsFragment : BaseRegularFragment(),
     override  fun courseCurriculumClickedV2(getData: CourseConten)
     {
 
-        if(!getData.Status){
-            requireContext().toast("Please complete previous class")
-            return
-        }
-
         if(!isSubscribe)
         {
             goPaymentPage()
             return
         }
+
+        if(!getData.Status){
+            requireContext().toast("Please complete previous class")
+            return
+        }
+
 
         selectedData = getData
 

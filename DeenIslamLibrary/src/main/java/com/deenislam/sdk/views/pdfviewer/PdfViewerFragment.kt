@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.pdfviewer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,12 +63,15 @@ internal class PdfViewerFragment : BaseRegularFragment() {
     private fun loadPdf(){
         navArgs.pdfUrl?.let {pdfurl->
             CoroutineScope(Dispatchers.IO).launch {
-                val result = fileDownloader?.downloadFile(pdfurl)
+                val result = fileDownloader?.downloadFile(pdfurl,".pdf")
                 result?.onSuccess { file ->
-                    pdfView.fromFile(file)
-                    baseViewState()
+                    withContext(Dispatchers.Main) {
+                        pdfView.fromFile(file)
+                        pdfView.show()
+                        baseViewState()
+                    }
                 }?.onFailure { exception ->
-                    withContext(Dispatchers.Default) {
+                    withContext(Dispatchers.Main) {
                         baseNoInternetState()
                     }
                 }
@@ -77,6 +81,7 @@ internal class PdfViewerFragment : BaseRegularFragment() {
         navArgs.pdfFile?.let {
 
             pdfView.fromFile(File(it))
+            pdfView.show()
             baseViewState()
         }
 

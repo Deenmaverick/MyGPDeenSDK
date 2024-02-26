@@ -254,13 +254,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             setupAction(R.drawable.ic_menu,0,this@DashboardFragment,localContext.resources.getString(R.string.app_name))
         */
 
-
             val miniPlayerHeight = getMiniPlayerHeight()
 
             binding.dashboardMain.setPadding(binding.dashboardMain.paddingStart,binding.dashboardMain.paddingTop,binding.dashboardMain.paddingRight,if(miniPlayerHeight>0) miniPlayerHeight else binding.dashboardMain.paddingBottom)
 
 
             CallBackProvider.setFragment(this)
+            nextPrayerCountownFinish()
         }
     }
 

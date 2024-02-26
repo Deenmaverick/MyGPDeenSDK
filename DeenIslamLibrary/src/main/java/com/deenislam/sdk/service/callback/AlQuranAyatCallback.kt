@@ -13,8 +13,9 @@ internal interface AlQuranAyatCallback
 
     fun isLoadingState(b: Boolean)
     fun playNextSurah(byService: Boolean)
+    fun playNextJuz(byService: Boolean)
     fun playPrevSurah(byService: Boolean)
-
+    fun playPrevJuz(byService: Boolean)
     fun tafsirBtnClicked(surahId: Int, verseId: Int, ayatArabic: String, arabicFont: Int)
 
     fun startPlayingQuran(data: ArrayList<Ayath>, pos: Int)

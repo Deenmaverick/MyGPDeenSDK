@@ -16,6 +16,10 @@ internal interface QuranPlayerCallback {
 
     }
 
+    fun updateJuzDetails(currentJuzDetails: com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data){
+
+    }
+
     fun updateSurahDetails(currentSurahDetails: Data){
 
     }

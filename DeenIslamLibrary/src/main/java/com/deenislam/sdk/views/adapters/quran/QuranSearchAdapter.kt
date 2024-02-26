@@ -132,5 +132,5 @@ internal class SelectSurahAdapter(
 interface SelectSurahCallback
 {
     fun selectedSurah(position: Int, byService: Boolean=false)
-    fun selectedJuz(position: Int)
+    fun selectedJuz(position: Int, byService: Boolean=false)
 }

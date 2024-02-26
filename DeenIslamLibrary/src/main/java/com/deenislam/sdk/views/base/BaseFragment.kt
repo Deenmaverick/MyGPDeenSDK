@@ -387,7 +387,8 @@ internal abstract class BaseFragment<VB:ViewBinding>(
         pageNo: Int,
         selectedQari: Int,
         isSurahMode: Boolean,
-        quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?
+        quranJuzList: ArrayList<com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data>?,
+        quranJuz: com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data?
     )
     {
         activity?.let {
@@ -401,7 +402,8 @@ internal abstract class BaseFragment<VB:ViewBinding>(
                 pageNo = pageNo,
                 selectedQari = selectedQari,
                 isSurahMode = isSurahMode,
-                quranJuzList = quranJuzList
+                quranJuzList = quranJuzList,
+                quranJuz = quranJuz
             )
         }
 

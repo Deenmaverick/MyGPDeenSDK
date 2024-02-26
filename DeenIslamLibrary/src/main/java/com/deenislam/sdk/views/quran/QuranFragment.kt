@@ -85,13 +85,8 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
 
         firstload = true
 
-        if (!isDetached) {
-            view.postDelayed({
-                loadpage()
-            }, 300)
-        }
-        else
-            loadpage()
+
+        loadpage()
 
     }
 

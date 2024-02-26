@@ -11,7 +11,7 @@ import java.net.URL
 
 internal class FileDownloader(private val context: Context) {
 
-    suspend fun downloadFile(url: String): Result<File> = withContext(Dispatchers.IO) {
+    suspend fun downloadFile(url: String,ext:String): Result<File> = withContext(Dispatchers.IO) {
         try {
             val connection = URL(url).openConnection() as HttpURLConnection
             connection.connect()
@@ -20,7 +20,7 @@ internal class FileDownloader(private val context: Context) {
                 return@withContext Result.failure(Exception("Server returned HTTP ${connection.responseCode} ${connection.responseMessage}"))
             }
 
-            val file = File(context.cacheDir, "downloaded_file")
+            val file = File(context.cacheDir, "quran_learning$ext")
             val inputStream = connection.inputStream
             val outputStream = FileOutputStream(file)
             val buffer = ByteArray(1024)
