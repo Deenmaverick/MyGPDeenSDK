@@ -85,7 +85,7 @@ internal class MakkahLiveFragment : BaseRegularFragment(), CommonCardCallback {
             }
         }
 
-        if(firstload) {
+        /*if(firstload) {
             loadpage()
         }
         else if (!isDetached) {
@@ -93,7 +93,7 @@ internal class MakkahLiveFragment : BaseRegularFragment(), CommonCardCallback {
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
     }

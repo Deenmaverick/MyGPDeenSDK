@@ -79,7 +79,7 @@ internal class IslamicEventHomeFragment : BaseRegularFragment(), IslamicEventCal
         }
 
 
-        if(firstload) {
+        /*if(firstload) {
             loadpage()
         }
         else if (!isDetached) {
@@ -87,7 +87,7 @@ internal class IslamicEventHomeFragment : BaseRegularFragment(), IslamicEventCal
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
         firstload = true

@@ -101,12 +101,12 @@ internal class CreateMasailQuestionFragment : BaseRegularFragment(), RamadanCall
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
     }

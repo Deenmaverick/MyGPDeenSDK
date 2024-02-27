@@ -10,15 +10,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.reduceDragSensitivity
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.launch
 
 
 internal class IslamicBoyanHomeFragment : BaseRegularFragment(), otherFagmentActionCallback {
@@ -39,6 +44,11 @@ internal class IslamicBoyanHomeFragment : BaseRegularFragment(), otherFagmentAct
 
     private var isAlreadyRedirect = false
 
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this,true)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +74,7 @@ internal class IslamicBoyanHomeFragment : BaseRegularFragment(), otherFagmentAct
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(firstload) {
+        /*if(firstload) {
             loadpage()
         }
         else if (!isDetached) {
@@ -72,7 +82,22 @@ internal class IslamicBoyanHomeFragment : BaseRegularFragment(), otherFagmentAct
                 loadpage()
             }, 300)
         }
-        else
+        else*/
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_boyan",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+
             loadpage()
 
         firstload = true
@@ -224,4 +249,19 @@ internal class IslamicBoyanHomeFragment : BaseRegularFragment(), otherFagmentAct
 
         dialog.show()
     }
+
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_boyan",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        tryCatch { super.onBackPress() }
+    }
+
 }

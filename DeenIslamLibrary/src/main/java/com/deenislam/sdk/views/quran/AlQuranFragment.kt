@@ -611,12 +611,12 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         if(!firstload) {
             // call api on page loaded
-            if (!isDetached) {
+            /*if (!isDetached) {
                 view.postDelayed({
                     loadApiData(pageNo, pageItemCount)
                 }, 300)
             }
-            else
+            else*/
                 loadApiData(pageNo, pageItemCount)
 
         }

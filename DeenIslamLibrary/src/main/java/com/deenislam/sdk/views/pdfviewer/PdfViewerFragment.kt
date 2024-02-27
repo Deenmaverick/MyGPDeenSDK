@@ -49,12 +49,12 @@ internal class PdfViewerFragment : BaseRegularFragment() {
         fileDownloader = DeenSDKCore.baseContext?.let { FileDownloader(it) }
 
 
-       if (!isDetached) {
+      /* if (!isDetached) {
             view.postDelayed({
                 loadPdf()
             }, 300)
         }
-        else
+        else*/
            loadPdf()
 
 

@@ -171,12 +171,12 @@ internal class QuranLearningDetailsFragment : BaseRegularFragment(),
 
         setupBackPressCallback(this)
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadPage()
             }, 300)
         }
-        else
+        else*/
             loadPage()
 
 

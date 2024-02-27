@@ -55,7 +55,7 @@ internal class BoyanHomeFragment : BaseRegularFragment(), HorizontalCardListCall
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(firstload) {
+        /*if(firstload) {
             loadpage()
         }
         else if (!isDetached) {
@@ -63,7 +63,7 @@ internal class BoyanHomeFragment : BaseRegularFragment(), HorizontalCardListCall
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
         firstload = true

@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.common.MaterialButtonHorizontalListCallback
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -18,11 +20,14 @@ import com.deenislam.sdk.service.models.IslamiMasailResource
 import com.deenislam.sdk.service.network.response.prayerlearning.visualization.Head
 import com.deenislam.sdk.service.repository.IslamiMasailRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.IslamiMasailViewModel
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.adapters.common.MaterialButtonHorizontalAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.base.otherFagmentActionCallback
+import kotlinx.coroutines.launch
 
 
 internal class IslamiMasailFragment : BaseRegularFragment(),
@@ -33,11 +38,13 @@ internal class IslamiMasailFragment : BaseRegularFragment(),
     private lateinit var materialButtonHorizontalAdapter: MaterialButtonHorizontalAdapter
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
-
+    private var firstload = false
     private lateinit var viewmodel: IslamiMasailViewModel
 
     override fun OnCreate() {
         super.OnCreate()
+
+        setupBackPressCallback(this,true)
 
         val repository = IslamiMasailRepository(
             deenService = NetworkProvider().getInstance().provideDeenService())
@@ -80,12 +87,28 @@ internal class IslamiMasailFragment : BaseRegularFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadpage()
             }, 300)
         }
-        else
+        else*/
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_masail",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        firstload = true
+
             loadpage()
 
     }
@@ -178,6 +201,21 @@ internal class IslamiMasailFragment : BaseRegularFragment(),
 
     override fun action2() {
 
+    }
+
+
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_masail",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        tryCatch { super.onBackPress() }
     }
 
     override fun materialButtonHorizontalListClicked(absoluteAdapterPosition: Int) {

@@ -159,7 +159,7 @@ internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallba
 
         initObserver()
 
-        if(firstload) {
+        /*if(firstload) {
             loadPage()
         }
         else if (!isDetached) {
@@ -167,7 +167,7 @@ internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallba
                 loadPage()
             }, 300)
         }
-        else
+        else*/
             loadPage()
 
         firstload = true

@@ -18,6 +18,7 @@ import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
+import java.lang.Exception
 
 internal class LivePodcastChatAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -95,7 +96,7 @@ internal class LivePodcastChatAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 placeholder_1_1 =true,
                 custom_placeholder_1_1 = R.drawable.ic_avatar)
 
-            user_name.text = getdata.UName
+            user_name.text = maskNumber(getdata.MSISDN.toString())
             comment_time.text = getdata.CTime
             user_comment.text = getdata.Text
             like_count.text = itemView.context.getString(R.string.like_count,getdata.LikeCount.toString().numberLocale())
@@ -114,6 +115,24 @@ internal class LivePodcastChatAdapter : RecyclerView.Adapter<BaseViewHolder>() {
             }
         }
     }
+
+    private fun maskNumber(number: String): String {
+        try {
+            if (number.length < 7) {
+                // Number is too short to mask
+                return "Unknown"
+            }
+
+            val firstThree = number.substring(0, 3)
+            val lastFour = number.substring(number.length - 3)
+            val maskedMiddle = "xxxx"
+
+            return "$firstThree$maskedMiddle$lastFour"
+        }catch (e:Exception){
+            return "Unknown"
+        }
+    }
+
 
     internal class DataDiffCallback(
         private val oldList: List<Comment>,

@@ -3,6 +3,7 @@ package com.deenislam.sdk.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.deenislam.sdk.service.libs.advertisement.Advertisement
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.DashboardResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerTimeResource
@@ -29,11 +30,25 @@ internal class DashboardViewModel(
     {
         viewModelScope.launch {
 
+            val getAdvertisement = async {  repository.getAdData(language) }.await()
             val getDashResponse = async {  repository.getDashboardData(language) }
             val getPrayerTimesResponse = async {  prayerTimesRepository.getPrayerTimes(localtion,language,requiredDate) }
 
             val dashResponse = getDashResponse.await()
             val prayerResponse = getPrayerTimesResponse.await()
+
+            when(getAdvertisement){
+
+                is ApiResource.Failure -> Unit
+                is ApiResource.Success -> {
+                    if(getAdvertisement.value?.Data?.isNotEmpty() == true){
+                        Advertisement.adData = getAdvertisement.value.Data.toMutableList()
+                        Advertisement.imageAdData = getAdvertisement.value.Data.filter { it.categoryName == "image_ad" }.toMutableList()
+                        Advertisement.videoAdData = getAdvertisement.value.Data.filter { it.categoryName == "video_ad" }.toMutableList()
+                    }
+
+                }
+            }
 
             when(prayerResponse)
             {
@@ -75,6 +90,12 @@ internal class DashboardViewModel(
                         _prayerTimes.value = PrayerTimeResource.prayerTimeEmpty
 
             }
+        }
+    }
+
+    suspend fun saveAdvertisementrecord(adID:Int,response:String){
+        viewModelScope.launch {
+            repository.saveAdvertisementrecord(adID,response)
         }
     }
 

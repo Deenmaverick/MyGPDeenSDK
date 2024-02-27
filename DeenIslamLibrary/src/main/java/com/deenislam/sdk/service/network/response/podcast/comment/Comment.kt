@@ -8,7 +8,7 @@ internal data class Comment(
     val CommentCount: Int,
     val Id: Int,
     val LikeCount: Int,
-    val MSISDN: String,
+    val MSISDN: String?,
     val PodcastId: Int,
     val Text: String,
     val UImage: String,

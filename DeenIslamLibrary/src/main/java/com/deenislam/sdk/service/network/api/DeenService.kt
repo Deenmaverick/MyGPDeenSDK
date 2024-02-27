@@ -1,6 +1,7 @@
 package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.BasicResponse
+import com.deenislam.sdk.service.network.response.advertisement.AdvertisementResponse
 import com.deenislam.sdk.service.network.response.allah99name.Allah99NameResponse
 import com.deenislam.sdk.service.network.response.boyan.categoriespaging.BoyanCategoriesResponse
 import com.deenislam.sdk.service.network.response.boyan.scholarspaging.BoyanScholarResponse
@@ -405,6 +406,7 @@ internal interface DeenService {
     suspend fun getBoyanCategoryVideoPreview(
         @Body parm: RequestBody
     ): BoyanVideoPreviewResponse
+
 
 
 

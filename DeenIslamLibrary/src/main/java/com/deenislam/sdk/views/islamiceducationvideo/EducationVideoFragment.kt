@@ -131,12 +131,12 @@ internal class EducationVideoFragment : BaseRegularFragment(), VideoPlayerCallba
         setupBackPressCallback(this)
 
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
     }

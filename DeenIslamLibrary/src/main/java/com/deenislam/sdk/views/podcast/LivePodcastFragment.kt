@@ -102,12 +102,12 @@ internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
         }
 
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadPage()
             }, 300)
         }
-        else
+        else*/
             loadPage()
 
     }

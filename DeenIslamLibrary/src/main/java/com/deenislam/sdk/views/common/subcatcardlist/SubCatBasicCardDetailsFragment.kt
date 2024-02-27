@@ -54,12 +54,12 @@ internal class SubCatBasicCardDetailsFragment : BaseRegularFragment() , otherFag
         super.onViewCreated(view, savedInstanceState)
         //setupBackPressCallback(this)
 
-        if (!isDetached) {
+       /* if (!isDetached) {
             view.postDelayed({
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
     }

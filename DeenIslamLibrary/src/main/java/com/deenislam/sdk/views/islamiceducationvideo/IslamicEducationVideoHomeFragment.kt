@@ -92,7 +92,7 @@ internal class IslamicEducationVideoHomeFragment : BaseRegularFragment(), Islami
         }
 
 
-        if(firstload) {
+        /*if(firstload) {
             loadpage()
         }
         else if (!isDetached) {
@@ -100,7 +100,7 @@ internal class IslamicEducationVideoHomeFragment : BaseRegularFragment(), Islami
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
         firstload = true

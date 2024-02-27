@@ -91,7 +91,7 @@ internal class BoyanVideoPreviewFragment : BaseRegularFragment(), BoyanVideoClic
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(firstload) {
+        /*if(firstload) {
             loadPage()
         }
         else if (!isDetached) {
@@ -99,7 +99,7 @@ internal class BoyanVideoPreviewFragment : BaseRegularFragment(), BoyanVideoClic
                 loadPage()
             }, 300)
         }
-        else
+        else*/
             loadPage()
 
         firstload = true

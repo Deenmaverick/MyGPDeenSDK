@@ -1,6 +1,7 @@
 package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.BasicResponse
+import com.deenislam.sdk.service.network.response.advertisement.AdvertisementResponse
 import com.deenislam.sdk.service.network.response.auth.login.LoginResponse
 import com.deenislam.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislam.sdk.service.network.response.subscription.SubscriptionPageResponse
@@ -31,5 +32,16 @@ internal interface AuthenticateService {
     suspend fun getSubscriptionPageData(
         @Body parm: RequestBody
     ): SubscriptionPageResponse
+
+    @POST("Advertisement/GetAdvertisement")
+    suspend fun getAdvertisement(
+        @Body parm: RequestBody
+    ): AdvertisementResponse
+
+    @POST("Advertisement/SaveAdvertisementRecord")
+    suspend fun saveAdvertisementrecord(
+        @Body parm: RequestBody
+    ): BasicResponse
+
 
 }

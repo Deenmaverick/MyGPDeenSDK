@@ -102,12 +102,12 @@ internal class PaymentWebViewFragment : BaseRegularFragment(), CustomDialogCallb
         super.onViewCreated(view, savedInstanceState)
         setupBackPressCallback(this)
 
-         if (!isDetached) {
+         /*if (!isDetached) {
             view.postDelayed({
                 loadWebVieww()
             }, 300)
         }
-        else
+        else*/
             loadWebVieww()
 
 

@@ -89,14 +89,14 @@ internal class QuranLearningFragment : BaseRegularFragment(),
         }
 
 
-        if(firstload)
+        /*if(firstload)
             loadPage()
         else if (!isDetached) {
             view.postDelayed({
                 loadPage()
             }, 300)
         }
-        else
+        else*/
             loadPage()
 
 

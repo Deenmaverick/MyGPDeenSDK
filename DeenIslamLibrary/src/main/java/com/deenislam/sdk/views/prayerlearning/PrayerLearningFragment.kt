@@ -79,7 +79,7 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
         }
 
 
-        if(firstload) {
+        /*if(firstload) {
             loadpage()
         }
         else if (!isDetached) {
@@ -87,7 +87,7 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
     }
 

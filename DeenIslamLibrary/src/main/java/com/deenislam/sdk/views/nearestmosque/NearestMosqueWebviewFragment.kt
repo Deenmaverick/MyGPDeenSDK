@@ -96,12 +96,12 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
 
         firstload = true
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 initLocation()
             }, 300)
         }
-        else
+        else*/
             initLocation()
 
 

@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.dashboard
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -8,6 +9,7 @@ import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.databinding.FragmentDashboardBinding
+import com.deenislam.sdk.service.callback.AdvertisementCallback
 import com.deenislam.sdk.service.callback.Allah99NameCallback
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.RamadanCallback
@@ -28,6 +31,7 @@ import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.callback.quran.QuranPlayerCallback
 import com.deenislam.sdk.service.di.DatabaseProvider
 import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.libs.advertisement.Advertisement
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.DashboardResource
 import com.deenislam.sdk.service.models.prayer_time.PrayerNotificationResource
@@ -66,7 +70,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     SensorEventListener,
     QuranPlayerCallback,
     Allah99NameCallback,
-    RamadanCallback {
+    RamadanCallback, AdvertisementCallback{
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var prayerViewModel:  PrayerTimesViewModel
@@ -461,6 +465,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     private fun initObserver()
     {
+
 
         dashboardViewModel.prayerTimes.observe(viewLifecycleOwner)
         {
@@ -943,6 +948,16 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     override fun stateSelected(stateModel: StateModel) {
         lifecycleScope.launch {
             prayerViewModel.updateSelectedState(stateModel)
+        }
+    }
+
+    override fun adClicked(items: com.deenislam.sdk.service.network.response.advertisement.Data) {
+        lifecycleScope.launch {
+           async {  dashboardViewModel.saveAdvertisementrecord(items.Id,"redirect") }.await()
+        }
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(items.redirecturl))
+        if (context?.packageManager?.let { intent.resolveActivity(it) } != null) {
+            context?.startActivity(intent)
         }
     }
 

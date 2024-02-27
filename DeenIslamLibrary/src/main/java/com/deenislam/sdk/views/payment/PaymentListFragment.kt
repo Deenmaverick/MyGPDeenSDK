@@ -175,13 +175,13 @@ internal class PaymentListFragment : BaseRegularFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (firstload)
+        /*if (firstload)
             loadPage()
         else if (!isDetached) {
             view.postDelayed({
                 loadPage()
             }, 300)
-        } else
+        } else*/
             loadPage()
 
         firstload = true

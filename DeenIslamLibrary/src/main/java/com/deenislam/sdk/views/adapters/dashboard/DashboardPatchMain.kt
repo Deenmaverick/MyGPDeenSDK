@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
+import com.deenislam.sdk.service.libs.advertisement.Advertisement
 import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
@@ -125,6 +126,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
             val rootview: AsyncViewStub = main_view.findViewById(R.id.widget)
 
+
             when (DashboardData[viewType].AppDesign) {
 
                 TYPE_WIDGET1 -> {
@@ -137,11 +139,19 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                     prepareStubView<View>(rootview, R.layout.dashboard_inc_greeting) {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
                     }
+
                 }
 
                 TYPE_WIDGET3 -> {
                     prepareStubView<View>(rootview, R.layout.dashboard_inc_menu) {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
+                    }
+
+                    val imageAd = Advertisement.getImageAd()
+                    imageAd?.let {
+                        prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
+                            loadAdvertisement(this,it)
+                        }
                     }
                 }
 
@@ -152,9 +162,11 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 }
 
                 TYPE_WIDGET5 -> {
+
                     prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
                     }
+
                 }
 
                 TYPE_WIDGET6 -> {
@@ -190,6 +202,13 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 TYPE_WIDGET11 -> {
                     prepareStubView<View>(rootview, R.layout.dashboard_inc_allah_99_names) {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
+                    }
+
+                    val imageAd = Advertisement.getImageAd()
+                    imageAd?.let {
+                        prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
+                            loadAdvertisement(this,it)
+                        }
                     }
                 }
 
@@ -227,6 +246,17 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                     prepareStubView<View>(rootview.findViewById(R.id.widget),R.layout.layout_quranic_v1) {
                         onBindViewHolder(ViewHolder(main_view,true),viewType)
                     }
+
+                    if(DashboardData[viewType].Items.isNotEmpty()){
+                        if(DashboardData[viewType].Items[0].ContentType == "hdd"){
+                            val imageAd = Advertisement.getImageAd()
+                            imageAd?.let {
+                                prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
+                                    loadAdvertisement(this,it)
+                                }
+                            }
+                        }
+                    }
                 }
 
                 PATCH_SINGLE_CARD_LIST -> {
@@ -250,11 +280,18 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
             }
 
             if(totalsize>0 && viewType == totalsize - 1) {
-                prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_footer) {
 
+                val imageAd = Advertisement.getImageAd()
+                imageAd?.let {
+                    prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
+                        loadAdvertisement(this,it)
+                    }
+                }
+
+                prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_footer) {
+                    this.setOnClickListener {  }
                 }
             }
-
 
 
             completeViewLoad()
@@ -289,13 +326,29 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
             //viewInflationListener.onAllViewsInflated()
         }
 
-        inner class ViewHolder(itemView: View, private val loaded: Boolean = false) :
+    private fun loadAdvertisement(
+        itemview: View,
+        data: com.deenislam.sdk.service.network.response.advertisement.Data
+    ) {
+        data.let {
+            (itemview.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 0
+            val helper = QuranicItem(itemview)
+            helper.loadImageAd(it)
+        }
+    }
+
+        inner class ViewHolder(
+            itemView: View,
+            private val loaded: Boolean = false,
+            private val imageAd:com.deenislam.sdk.service.network.response.advertisement.Data?=null
+        ) :
             BaseViewHolder(itemView) {
             override fun onBind(position: Int, viewtype: Int) {
                 super.onBind(position, viewtype)
 
+                Log.e("ImageAD",imageAd.toString()+viewtype+loaded)
 
-                if (loaded) {
+                if(loaded) {
                     val data = DashboardData[position]
 
                     when (data.AppDesign) {

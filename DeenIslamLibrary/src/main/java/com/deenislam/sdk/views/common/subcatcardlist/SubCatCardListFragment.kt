@@ -66,7 +66,7 @@ internal class SubCatCardListFragment : BaseRegularFragment(), BasicCardListCall
         super.onViewCreated(view, savedInstanceState)
         //setupBackPressCallback(this)
 
-        if(firstload) {
+       /* if(firstload) {
             loadpage()
         }
         else if (!isDetached) {
@@ -74,7 +74,7 @@ internal class SubCatCardListFragment : BaseRegularFragment(), BasicCardListCall
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
         firstload = true

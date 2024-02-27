@@ -107,7 +107,7 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
         }
 
 
-        if(firstload) {
+        /*if(firstload) {
             loadpage()
         }
         else if (!isDetached) {
@@ -115,7 +115,7 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
 
     }

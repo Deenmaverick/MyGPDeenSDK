@@ -458,4 +458,6 @@
     <string name="check_out_the_exclusive_islamic_podcast">Check out the exclusive Islamic podcast</string>
     <string name="tracker">Tracker</string>
     <string name="premium_feature_ramadan_info">Track Ramadan</string>
+    <string name="ramadan_dialog_important_note">* The start date of Ramadan may vary based on the moon.</string>
+    <string name="prepare_ramadan_txt">Prepare for Ramadan</string>
 </resources>

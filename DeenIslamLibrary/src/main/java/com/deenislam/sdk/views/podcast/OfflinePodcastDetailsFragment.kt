@@ -154,12 +154,12 @@ internal class OfflinePodcastDetailsFragment : BaseRegularFragment(), VideoPlaye
         super.onViewCreated(view, savedInstanceState)
         setupBackPressCallback(this)
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadPage()
             }, 300)
         }
-        else
+        else*/
             loadPage()
 
 

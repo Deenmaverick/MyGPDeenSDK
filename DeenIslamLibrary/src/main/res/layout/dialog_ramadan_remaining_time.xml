@@ -93,7 +93,7 @@
         android:layout_marginTop="@dimen/space_8"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/deen_txt_ash"
-        android:text="* রমাদান শুরুর তারিখ চাঁদের উপর ভিত্তি করে পরিবর্তিত হতে পারে।"
+        android:text="@string/ramadan_dialog_important_note"
         app:layout_constraintTop_toBottomOf="@+id/ramadanCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -106,7 +106,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="bold"
         android:textColor="@color/deen_txt_black_deep"
-        android:text="দ্বীন -এর সাথে রমাদানের প্রস্তুতি গ্রহন করুন "
+        android:text="@string/prepare_ramadan_txt"
         app:layout_constraintTop_toBottomOf="@+id/importantTxt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

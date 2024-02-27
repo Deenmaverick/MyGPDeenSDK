@@ -174,11 +174,11 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
         title.setStarMargin(10.dp)
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadpage()
             }, 300)
-        } else
+        } else*/
             loadpage()
 
     }

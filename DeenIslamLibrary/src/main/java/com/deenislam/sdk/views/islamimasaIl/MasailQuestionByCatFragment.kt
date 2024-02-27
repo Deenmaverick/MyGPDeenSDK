@@ -75,12 +75,12 @@ internal class MasailQuestionByCatFragment : BaseRegularFragment(), IslamiMasail
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!isDetached) {
+      /*  if (!isDetached) {
             view.postDelayed({
                 loadpage()
             }, 300)
         }
-        else
+        else*/
             loadpage()
     }
 

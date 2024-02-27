@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.IslamiFazaelCallback
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -14,6 +15,8 @@ import com.deenislam.sdk.service.models.IslamiFazaelResource
 import com.deenislam.sdk.service.network.response.islamifazael.Data
 import com.deenislam.sdk.service.repository.IslamiFazaelRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.get9DigitRandom
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.IslamiFazaelViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.views.adapters.islamifazael.IslamiFazaelListAdapter
@@ -29,6 +32,7 @@ internal class IslamiFazaelFragment : BaseRegularFragment(), IslamiFazaelCallbac
 
     override fun OnCreate() {
         super.OnCreate()
+        setupBackPressCallback(this,true)
 
         // init viewmodel
         val repository = IslamiFazaelRepository(
@@ -64,12 +68,27 @@ internal class IslamiFazaelFragment : BaseRegularFragment(), IslamiFazaelCallbac
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadpage()
             }, 300)
         }
-        else
+        else*/
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_fazael",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+
             loadpage()
     }
 
@@ -105,6 +124,20 @@ internal class IslamiFazaelFragment : BaseRegularFragment(), IslamiFazaelCallbac
         lifecycleScope.launch {
             viewmodel.getAllIslamiFazael(getLanguage())
         }
+    }
+
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_fazael",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        tryCatch { super.onBackPress() }
     }
 
     override fun FazaelCatClicked(getdata: Data) {

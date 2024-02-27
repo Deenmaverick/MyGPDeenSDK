@@ -56,7 +56,7 @@ internal class BoyanScholarsFragment : BaseRegularFragment(), BoyanScholarCallba
 
         initObserver()
 
-        if(firstload) {
+        /*if(firstload) {
             loadApiData()
         }
         else if (!isDetached) {
@@ -64,7 +64,7 @@ internal class BoyanScholarsFragment : BaseRegularFragment(), BoyanScholarCallba
                 loadApiData()
             }, 300)
         }
-        else
+        else*/
             loadApiData()
 
         firstload = true

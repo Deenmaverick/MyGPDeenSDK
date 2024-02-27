@@ -79,12 +79,12 @@ internal class QuranLearningQuizFragment : BaseRegularFragment(), QuranLearningC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadPage()
             }, 300)
         }
-        else
+        else*/
             loadPage()
     }
 

@@ -96,11 +96,11 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
 
         firstload = true
 
-        if (!isDetached) {
+        /*if (!isDetached) {
             view.postDelayed({
                 loadpage()
             }, 300)
-        }else
+        }else*/
             loadpage()
 
     }
