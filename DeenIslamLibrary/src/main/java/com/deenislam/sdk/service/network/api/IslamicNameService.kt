@@ -1,6 +1,7 @@
 package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.BasicResponse
+import com.deenislam.sdk.service.network.response.eidjamat.EidJamatListResponse
 import com.deenislam.sdk.service.network.response.islamicname.IslamicNameResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -16,6 +17,9 @@ internal interface IslamicNameService {
 
     @POST("IslamicName/GetAllNames")
     suspend fun getIslamicNames(@Body parm: RequestBody): IslamicNameResponse
+
+    @POST("Islamic/getEidJamatByDivision")
+    suspend fun getEidJamatListByDivision(@Body parm: RequestBody): EidJamatListResponse
 
 
 }

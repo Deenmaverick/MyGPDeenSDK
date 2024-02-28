@@ -1,6 +1,8 @@
 package com.deenislam.sdk.views.webview
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,42 +11,16 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.LinearLayout
-import androidx.core.view.ViewCompat
-import androidx.core.widget.NestedScrollView
 import androidx.navigation.fragment.navArgs
 import com.deenislam.sdk.R
-import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.show
-import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislam.sdk.views.base.otherFagmentActionCallback
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.transition.MaterialSharedAxis
 
 
-internal class BasicWebViewFragment : BaseRegularFragment(), otherFagmentActionCallback {
+internal class BasicWebViewFragment : BaseRegularFragment() {
 
     private lateinit var webview: WebView
-    private lateinit var progressLayout: LinearLayout
-    private lateinit var noInternetLayout: NestedScrollView
-    private lateinit var noInternetRetry: MaterialButton
-    private val args:BasicWebViewFragmentArgs by navArgs()
+    private val navargs:BasicWebViewFragmentArgs by navArgs()
 
-
-    override fun OnCreate() {
-        super.OnCreate()
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
-            duration = 300L
-        }
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
-            duration = 300L
-        }
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
-            duration = 300L
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,108 +33,119 @@ internal class BasicWebViewFragment : BaseRegularFragment(), otherFagmentActionC
         //init view
 
         webview = mainView.findViewById(R.id.webview)
-        progressLayout = mainView.findViewById(R.id.progressLayout)
-        noInternetLayout = mainView.findViewById(R.id.no_internet_layout)
-        noInternetRetry = noInternetLayout.findViewById(R.id.no_internet_retry)
 
-        setupActionForOtherFragment(0,0,null,args.title,true,mainView)
+        setupActionForOtherFragment(0,0,null,navargs.title,true,mainView)
 
+        setupCommonLayout(mainView)
         return mainView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Code to execute after the animation
-        ViewCompat.setTranslationZ(progressLayout, 10F)
-        ViewCompat.setTranslationZ(noInternetLayout, 10F)
-
-
-        //click retry button for get api data again
-        noInternetRetry.setOnClickListener {
-            webview.reload()
-        }
-
         loadWebVieww()
 
-        /*view.postDelayed({
-            // Code to execute after the animation
-            ViewCompat.setTranslationZ(progressLayout, 10F)
-            ViewCompat.setTranslationZ(noInternetLayout, 10F)
-
-
-            //click retry button for get api data again
-            noInternetRetry.setOnClickListener {
-                webview.reload()
-            }
-
-            loadWebVieww()
-        }, 300)*/
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun loadWebVieww()
     {
         val webSettings = webview.settings
-        //webSettings.javaScriptEnabled = true
+        webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
         webSettings.useWideViewPort = true
+        webSettings.displayZoomControls = false
+        webSettings.builtInZoomControls = true
+        webSettings.allowFileAccess = true
+        webSettings.setGeolocationEnabled(true)
+        //webview.clearCache(true)
 
 
         webview.webViewClient = object : WebViewClient() {
 
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-                return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+
+                return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     view.loadUrl(request.url.toString())
-                    loadingState()
+                    baseLoadingState()
                     true
                 } else {
                     view.loadUrl(request.toString()) // Note: request.toString() might not provide the same level of detail as request.url.toString() in newer versions
-                    loadingState()
+                    baseLoadingState()
                     true
                 }
             }
 
 
-                override fun onReceivedError(
-                    view: WebView?,
-                    request: WebResourceRequest?,
-                    error: WebResourceError?
-                ) {
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                        if(error?.errorCode == -2)
-                            noInternetState()
-                        super.onReceivedError(view, request, error)
-                    } else {
-                        if (request != null && error != null) {
-                            handleWebViewError(view, error.errorCode, error.description?.toString() ?: "", request.url.toString())
+                    if(error?.errorCode == -2)
+                        baseNoInternetState()
+                    super.onReceivedError(view, request, error)
+                } else {
+                    if (request != null && error != null) {
+                        var errorCode = -2
+
+                        var errorDescription: String? = null
+
+                        errorDescription = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            // Use the method on devices with API level 23 or higher
+                            errorCode = error.errorCode
+                            try {
+                                error.description.toString()
+                            } catch (e: NoSuchMethodError) {
+                                // Handle the absence of the method on older devices
+                                // Provide a default error description
+                                "An error occurred"
+                            }
+                        } else {
+                            // Handle the absence of the method on older devices
+                            "An error occurred"
                         }
+
+                        val url = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            request.url.toString()
+                        } else {
+                            request.toString()
+                        }
+
+                        handleWebViewError(view, errorCode, errorDescription, url)
                     }
                 }
+
+            }
 
 
 
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-            loadingState()
-            super.onPageStarted(view, url, favicon)
+                baseLoadingState()
+                super.onPageStarted(view, url, favicon)
+            }
+
+            override fun onLoadResource(view: WebView, url: String) {
+                super.onLoadResource(view, url)
+            }
+
+            override fun onPageFinished(view: WebView, url: String) {
+                super.onPageFinished(view, url)
+                webview.visibility = View.VISIBLE
+                baseViewState()
+            }
         }
 
-        override fun onLoadResource(view: WebView, url: String) {
+        baseLoadingState()
 
-            super.onLoadResource(view, url)
-        }
-
-        override fun onPageFinished(view: WebView, url: String) {
-
-            super.onPageFinished(view, url)
-            webview.visibility = View.VISIBLE
-            viewState()
-        }
-    }
-
-
-        loadingState()
-        webview.loadUrl(args.weburl)
+        if(navargs.weburl!=null)
+            webview.loadUrl(navargs.weburl!!)
+        else if(navargs.webpage!=null)
+            webview.loadDataWithBaseURL(null, navargs.webpage!!, "text/html", "UTF-8", null)
+        else
+            baseEmptyState()
 
     }
 
@@ -169,35 +156,15 @@ internal class BasicWebViewFragment : BaseRegularFragment(), otherFagmentActionC
         failingUrl: String?
     ) {
         if (errorCode == -2) {
-            noInternetState()
+            baseNoInternetState()
         }
         // Add more error handling cases if needed
 
         // Common error handling logic here
     }
 
-    private fun loadingState()
-    {
-        progressLayout.visible(true)
-        noInternetLayout.visible(false)
-    }
-
-    private fun noInternetState()
-    {
-        progressLayout.hide()
-        noInternetLayout.show()
-    }
-
-    private fun viewState()
-    {
-        progressLayout.hide()
-        noInternetLayout.hide()
-    }
-
-    override fun action1() {
-    }
-
-    override fun action2() {
+    override fun noInternetRetryClicked() {
+        loadWebVieww()
     }
 
 }

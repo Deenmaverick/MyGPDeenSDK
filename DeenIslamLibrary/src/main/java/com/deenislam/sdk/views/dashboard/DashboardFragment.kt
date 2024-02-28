@@ -1005,6 +1005,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             MENU_LIVE_PODCAST -> gotoFrag(R.id.action_global_livePodcastFragment)
             MENU_ISLAMIC_EDUCATION_VIDEO -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
             MENU_ISLAMIC_BOYAN -> gotoFrag(R.id.action_global_islamicBoyanHomeFragment)
+            MENU_EID_JAMAT -> gotoFrag(R.id.action_global_eidJamatHomeFragment)
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }
@@ -1162,6 +1163,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 }
 
             }
+
+            "ej" -> gotoFrag(R.id.action_global_eidJamatHomeFragment)
 
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }

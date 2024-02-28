@@ -165,9 +165,13 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
 
         webview.webViewClient = object : WebViewClient() {
 
-            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-                val url = request.url.toString()
+                val url = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    request.url.toString()
+                } else {
+                    request.toString()
+                }
 
                 // Check if the URL is a specific intent link
                 return if (isIntentLink(url)) {
@@ -183,7 +187,7 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
             }
 
 
-            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
             override fun onReceivedError(
                 view: WebView?,
                 request: WebResourceRequest?,
@@ -215,7 +219,13 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
                             "An error occurred"
                         }
 
-                        handleWebViewError(view, errorCode, errorDescription, request.url.toString())
+                        val url = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            request.url.toString()
+                        } else {
+                            request.toString()
+                        }
+
+                        handleWebViewError(view, errorCode, errorDescription, url)
                     }
                 }
 

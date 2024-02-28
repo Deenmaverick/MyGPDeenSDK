@@ -19,6 +19,11 @@ internal class IslamicNameViewModel (
     private val _islamicNamesLiveData:MutableLiveData<IslamicNameResource>  = MutableLiveData()
     val islamicNamesLiveData:MutableLiveData<IslamicNameResource> get() = _islamicNamesLiveData
 
+    private val _eidJamatLiveData:MutableLiveData<IslamicNameResource>  = MutableLiveData()
+    val eidJamatLiveData:MutableLiveData<IslamicNameResource> get() = _eidJamatLiveData
+
+
+
     fun getFavNames(gender:String,language:String)
     {
         viewModelScope.launch {
@@ -98,5 +103,20 @@ internal class IslamicNameViewModel (
     fun clear()
     {
         _favNamesLiveData.value = CommonResource.CLEAR
+    }
+
+    fun getEidJamatList(location: String) {
+        viewModelScope.launch {
+            when (val response = repository.getEidJamatList(location)) {
+                is ApiResource.Failure -> _eidJamatLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success -> {
+                    if (response.value?.success == true && response.value.data.isNotEmpty())
+                        _eidJamatLiveData.value =
+                            IslamicNameResource.eidJamatList(response.value.data)
+                    else
+                        _eidJamatLiveData.value = CommonResource.EMPTY
+                }
+            }
+        }
     }
 }

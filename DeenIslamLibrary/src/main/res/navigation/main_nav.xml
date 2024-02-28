@@ -288,10 +288,17 @@
         tools:layout="@layout/fragment_basic_web_view" >
         <argument
             android:name="weburl"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <argument
             android:name="title"
             app:argType="string" />
+        <argument
+            android:name="webpage"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/allah99NamesFragment"
@@ -1190,5 +1197,17 @@
         android:name="com.deenislam.sdk.views.islamicboyan.IslamicBoyanHomeFragment"
         android:label="fragment_islamic_boyan_home"
         tools:layout="@layout/fragment_islamic_boyan_home" />
+
+    <action
+        android:id="@+id/action_global_eidJamatHomeFragment"
+        app:destination="@id/eidJamatHomeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <fragment
+        android:id="@+id/eidJamatHomeFragment"
+        android:name="com.deenislam.sdk.views.eidjamat.EidJamatHomeFragment"
+        android:label="EidJamatHomeFragment" />
 
 </navigation>
