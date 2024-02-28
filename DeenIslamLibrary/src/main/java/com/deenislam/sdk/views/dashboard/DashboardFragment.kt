@@ -131,7 +131,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     }
 
 
-
     private var prayerTimesResponse:PrayerTimesResponse?=null
 
     private var firstload:Int = 0
@@ -240,6 +239,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         }
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         locationListener?.let {
@@ -266,6 +266,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             CallBackProvider.setFragment(this)
             nextPrayerCountownFinish()
         }
+
     }
 
     fun loadDataAPI()
@@ -927,6 +928,9 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     }
 
     override fun onSensorChanged(sensorEvent: SensorEvent?) {
+
+        if(!isVisible)
+            return
 
         if (isPatchVisible(TYPE_WIDGET7)) {
 

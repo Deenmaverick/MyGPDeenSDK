@@ -123,7 +123,7 @@ internal class BoyanViewModel(
             is ApiResource.Failure -> _boyanVideoPreviewLiveData.value = CommonResource.API_CALL_FAILED
             is ApiResource.Success ->
             {
-                if(response.value.Data.isNotEmpty())
+                if(response.value.Data?.isNotEmpty() == true)
                     _boyanVideoPreviewLiveData.value = BoyanResource.BoyanVideoData(response.value)
                 else
                     _boyanVideoPreviewLiveData.value = CommonResource.EMPTY
@@ -151,7 +151,7 @@ internal class BoyanViewModel(
             is ApiResource.Failure -> _boyanCategoryVideoPreviewLiveData.value = CommonResource.API_CALL_FAILED
             is ApiResource.Success ->
             {
-                if(response.value.Data.isNotEmpty())
+                if(response.value.Data?.isNotEmpty() == true)
                     _boyanCategoryVideoPreviewLiveData.value = BoyanResource.BoyanVideoData(response.value)
                 else
                     _boyanCategoryVideoPreviewLiveData.value = CommonResource.EMPTY

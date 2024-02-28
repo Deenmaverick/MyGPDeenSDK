@@ -1,5 +1,6 @@
 package com.deenislam.sdk.views.adapters.quran;
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
 
-        if(viewType>0 && viewType == itemCount - 1) {
+       /* if(viewType>0 && viewType == itemCount - 1) {
             FooterViewHolder(
                 LayoutInflater.from(parent.context.getLocalContext())
                     .inflate(R.layout.layout_footer, parent, false)
@@ -39,11 +40,15 @@ internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable
                 LayoutInflater.from(parent.context.getLocalContext())
                     .inflate(R.layout.item_quran_popular_surah, parent, false)
             )
-        }
+        }*/
+
+        ViewHolder(
+            LayoutInflater.from(parent.context.getLocalContext())
+                .inflate(R.layout.item_quran_popular_surah, parent, false)
+        )
 
 
-    fun update(data: List<Data>)
-    {
+    fun update(data: List<Data>) {
         val diffResult = DiffUtil.calculateDiff(
             DataDiffCallback(
                 surahList,
@@ -55,7 +60,7 @@ internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable
         diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun getItemCount(): Int = surahFilter.size+if(surahFilter.isNotEmpty())1 else 0
+    override fun getItemCount(): Int = surahFilter.size
 
     override fun getItemViewType(position: Int): Int {
         return position
@@ -75,9 +80,11 @@ internal class SurahAdapter : RecyclerView.Adapter<BaseViewHolder>(), Filterable
         override fun onBind(position: Int) {
             super.onBind(position)
 
-            val surahPost = absoluteAdapterPosition+1
+            Log.e("SurahAdapter",position.toString())
 
-            surahCount.text = surahFilter[absoluteAdapterPosition].SurahId.toString().numberLocale()
+            val surahPost = position+1
+
+            surahCount.text = surahFilter[position].SurahId.toString().numberLocale()
             surahName.text =
                     /* if(BaseApplication.getLanguage() == "bn") (surahFilter[position].SurahId-1).getSurahNameBn()
                      else*/

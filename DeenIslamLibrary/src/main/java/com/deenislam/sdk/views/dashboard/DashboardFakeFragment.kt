@@ -72,6 +72,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
         destoryDeenSDK()
     }
 
+
     private fun initViewPager()
     {
         mPageDestination = arrayListOf(

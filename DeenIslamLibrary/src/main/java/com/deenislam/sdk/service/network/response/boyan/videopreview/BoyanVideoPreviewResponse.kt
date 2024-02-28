@@ -5,7 +5,7 @@ import com.deenislam.sdk.service.network.response.paging.Pagination
 
 @Keep
 internal data class BoyanVideoPreviewResponse(
-    val Data: List<Data>,
+    val Data: List<Data>?,
     val Message: String,
     val Pagination: Pagination,
     val Success: Boolean

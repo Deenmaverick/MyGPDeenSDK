@@ -67,6 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
                         android:layout_weight="1"
+                        android:textColor="@color/deen_txt_black_deep"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:text="@string/reciter"/>
 
@@ -113,6 +114,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
                         android:layout_weight="1"
+                        android:textColor="@color/deen_txt_black_deep"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:text="@string/translation"/>
 
@@ -159,6 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
                         android:layout_weight="1"
+                        android:textColor="@color/deen_txt_black_deep"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:text="@string/tafsir"/>
 
