@@ -1317,9 +1317,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             okBtn.setOnClickListener {
                 isRamadanRemainCardClosed = true
                 dialog?.dismiss()
-                val bundle = Bundle()
-                bundle.putString("date",ramadanDate)
-                navController.navigate(R.id.action_global_ramadanFragment, bundle)
+                navController.navigate(R.id.action_global_ramadanOtherDayFragment)
                 ramadanRemainCard.hide()
                 isRamadanRemainCardClosed = false
             }

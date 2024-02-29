@@ -668,7 +668,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         customargs = null
 
         val getBannerData = dashboardPatchMain.getDashboardData().filter { it.AppDesign == "Banners" }
-        val getRamadanPatchData: Item? = getBannerData.flatMap { it.Items }.firstOrNull { it.ContentType == "rr" }
+        val getRamadanPatchData: Item? = getBannerData.flatMap { it.Items }.firstOrNull { it.ContentType == "rot" }
 
         if (getRamadanPatchData != null && getRamadanPatchData.MText.isNotEmpty()) {
             tryCatch {
