@@ -56,7 +56,7 @@ internal class BasicWebViewFragment : BaseRegularFragment() {
         webSettings.useWideViewPort = true
         webSettings.displayZoomControls = false
         webSettings.builtInZoomControls = true
-        webSettings.allowFileAccess = true
+        //webSettings.allowFileAccess = true
         webSettings.setGeolocationEnabled(true)
         //webview.clearCache(true)
 

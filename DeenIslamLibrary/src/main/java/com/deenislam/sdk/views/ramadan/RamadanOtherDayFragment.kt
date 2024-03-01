@@ -1,6 +1,8 @@
 package com.deenislam.sdk.views.ramadan
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +27,9 @@ import com.deenislam.sdk.viewmodels.RamadanViewModel
 import com.deenislam.sdk.views.adapters.ramadan.OtherRamadanPatchAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
     ViewInflationListener {
@@ -68,7 +73,7 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             action1 = 0,
             action2 = 0,
             callback = null,
-            actionnBartitle = localContext.getString(R.string.ramadan),
+            actionnBartitle = localContext.getString(R.string.ramadan_titlle),
             backEnable = true,
             view = mainview
         )
@@ -287,6 +292,46 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
 
     override fun onAllViewsInflated() {
         baseViewState()
+    }
+
+    override fun sehriCardClicked(sehriTime: String) {
+
+        initSetAlarm(sehriTime,1,"Sehri")
+
+    }
+
+    override fun iftarCardClicked(iftaar: String) {
+        initSetAlarm(iftaar,0,"Iftar")
+    }
+
+    private fun initSetAlarm(time:String,alarmType:Int,title:String){
+        val sdf =
+            SimpleDateFormat(
+                "HH:mm",
+                Locale.ENGLISH
+            ) // or "hh:mm" for 12 hour format
+
+        val date = sdf.parse(time)
+
+        val calendar = Calendar.getInstance()
+        if (date != null) {
+            calendar.time = date
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val min = calendar.get(Calendar.MINUTE)
+
+            val i = Intent(AlarmClock.ACTION_SET_ALARM)
+
+            i.putExtra(AlarmClock.EXTRA_MESSAGE, title)
+
+            if (alarmType == 0) {
+                i.putExtra(AlarmClock.EXTRA_HOUR, 12 + hour)
+            } else {
+                i.putExtra(AlarmClock.EXTRA_HOUR, hour)
+            }
+
+            i.putExtra(AlarmClock.EXTRA_MINUTES, min)
+            requireContext().startActivity(i)
+        }
     }
 
 }

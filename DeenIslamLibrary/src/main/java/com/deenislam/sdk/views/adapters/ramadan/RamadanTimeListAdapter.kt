@@ -109,7 +109,7 @@ internal class RamadanTimeListAdapter(
                     if(!isRamadan)
                         date.text = itemView.context.getString(R.string.date)
                     else
-                        date.text = itemView.context.getString(R.string.ramadan)
+                        date.text = itemView.context.getString(R.string.ramadan_titlle)
 
                 }
             }

@@ -1974,6 +1974,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun action3() {
 
+        if(!Subscription.isSubscribe){
+            gotoFrag(R.id.action_global_subscriptionFragment)
+            return
+        }
+
         customAlertDialog.setupDialog(
             callback = this@AlQuranFragment,
             context = requireContext(),
@@ -1994,10 +1999,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     }
 
     private fun downloadOfflineQuran(fileid:String){
-        if(!Subscription.isSubscribe){
-            gotoFrag(R.id.action_global_subscriptionFragment)
-            return
-        }
+
         // Assuming `quranDownloadService` is an instance of QuranDownloadService
         val downloadUrl = BASE_CONTENT_URL_SGP +"Content/Quran/Audio/Ayath/MishariRashidAlAfasy/Afasyzip/${fileid}.zip"
         Log.e("downloadUrl",downloadUrl)

@@ -120,7 +120,7 @@
         android:layout_marginTop="@dimen/space_16"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="@string/ramadan"
+        android:text="@string/ramadan_titlle"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/deen_white"
         app:cornerRadius="100dp"

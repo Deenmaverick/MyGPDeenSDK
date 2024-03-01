@@ -152,13 +152,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/mainBtn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:paddingStart="@dimen/space_16"
                 android:paddingEnd="0dp"
-                android:textAlignment="textStart"
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/deen_primary"
                 app:cornerRadius="6dp"

@@ -13,15 +13,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.GeolocationPermissions
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import androidx.activity.result.contract.ActivityResultContracts
-
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.deenislam.sdk.DeenSDKCore
@@ -39,24 +32,13 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
     private lateinit var webview: WebView
 
     private lateinit var locationHelper: LocationHelper
+    private val PERMISSION_REQUEST_CODE = 143
 
-    private val requestMultiplePermissions = activity?.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-
-            val granted = permissions.entries.all {
-                it.value
-            }
-            if (granted) {
-                locationHelper.requestLocation()
-            }
-
-            loadWebVieww()
-        }
 
     private var firstload = false
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this,true)
-
     }
 
     override fun onCreateView(
@@ -113,12 +95,29 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
             loadWebVieww()
 
         } else {
-            requestMultiplePermissions?.launch(
+            requestPermissions(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
-                )
+                ),
+                PERMISSION_REQUEST_CODE
             )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                // Permissions granted, proceed with location-related operations
+                locationHelper.requestLocation()
+            }
+            loadWebVieww()
         }
     }
 
@@ -158,7 +157,7 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
         webSettings.useWideViewPort = true
         webSettings.displayZoomControls = false
         webSettings.builtInZoomControls = true
-        webSettings.allowFileAccess = true
+        //webSettings.allowFileAccess = true
         webSettings.setGeolocationEnabled(true)
         //webview.clearCache(true)
 

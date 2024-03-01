@@ -107,21 +107,33 @@ internal class CustomCalendar(context: Context, attrs: AttributeSet? = null) : L
     }
 
     fun setMonth(date: String) {
-        val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
-        val parsedDate = dateFormat.parse(date) ?: throw IllegalArgumentException("Invalid date format: $date. It should be in the format yyyy/MM/dd.")
+        try {
 
-        val calendar = Calendar.getInstance()
-        calendar.time = parsedDate
+            val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+            val parsedDate = dateFormat.parse(date)
+                ?: throw IllegalArgumentException("Invalid date format: $date. It should be in the format yyyy/MM/dd.")
 
-        val monthNumber = calendar.get(Calendar.MONTH) + 1  // Adding 1 because Calendar.MONTH is 0-indexed
-        currentYear = calendar.get(Calendar.YEAR)
+            val calendar = Calendar.getInstance()
+            calendar.time = parsedDate
 
-        if (monthNumber in 1..12) {
-            currentMonthNumber = monthNumber
-            val updatedDays = getCurrentMonthDays(currentYear, currentMonthNumber, activeDaySet,inactiveDaySet)  // You'll need to update the function signature
-            calendarAdapter.updateDays(updatedDays)
-        } else {
-            throw IllegalArgumentException("Invalid month number: $monthNumber. It should be between 1 and 12.")
+            val monthNumber =
+                calendar.get(Calendar.MONTH) + 1  // Adding 1 because Calendar.MONTH is 0-indexed
+            currentYear = calendar.get(Calendar.YEAR)
+
+            if (monthNumber in 1..12) {
+                currentMonthNumber = monthNumber
+                val updatedDays = getCurrentMonthDays(
+                    currentYear,
+                    currentMonthNumber,
+                    activeDaySet,
+                    inactiveDaySet
+                )  // You'll need to update the function signature
+                calendarAdapter.updateDays(updatedDays)
+            } else {
+                throw IllegalArgumentException("Invalid month number: $monthNumber. It should be between 1 and 12.")
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
     }
 

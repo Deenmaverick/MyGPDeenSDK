@@ -92,7 +92,7 @@
         app:indicatorColor="?attr/colorPrimary"
         app:trackColor="@color/deen_border"
         app:indicatorSize="24dp"
-        app:trackThickness="12dp"
+        app:trackThickness="11dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"

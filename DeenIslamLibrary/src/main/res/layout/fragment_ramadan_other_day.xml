@@ -22,7 +22,7 @@
         android:paddingStart="@dimen/space_16"
         android:paddingEnd="@dimen/space_16"
         android:paddingBottom="@dimen/space_16"
-        android:contentDescription="@string/ramadan"
+        android:contentDescription="@string/ramadan_titlle"
         android:clipToPadding="false"
         android:nestedScrollingEnabled="false"
         android:scrollbars="none"

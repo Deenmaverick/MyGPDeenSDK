@@ -56,8 +56,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_4"
-            android:layout_marginStart="@dimen/space_40"
-            android:layout_marginEnd="@dimen/space_40"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/deen_white"
             android:textStyle="bold"
@@ -65,8 +63,8 @@
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/nameShape"
             app:layout_constraintTop_toBottomOf="@+id/nameCount"
-            app:layout_constraintEnd_toEndOf="@+id/nameShape"
-            app:layout_constraintStart_toStartOf="@+id/nameShape" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <androidx.appcompat.widget.AppCompatTextView

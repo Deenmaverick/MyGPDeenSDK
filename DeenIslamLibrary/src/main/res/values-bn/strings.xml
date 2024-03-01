@@ -344,7 +344,7 @@
     <string name="get_a_certificate">সার্টিফিকেট নিন</string>
     <string name="complete_the_course_and_unlock_the_certificate">কোর্সটি সম্পূর্ণ করুন এবং সার্টিফিকেট আনলক করুন</string>
     <string name="bdtandamount">%1$s টাকা</string>
-    <string name="ramadan">রোজা</string>
+    <string name="ramadan_titlle">রোজা</string>
     <string name="iftar_and_suhoor_timing">ইফতার ও সেহরীর সময়</string>
     <string name="Rahamat">রহমত</string>
     <string name="Magfirat">মাগফিরাত</string>

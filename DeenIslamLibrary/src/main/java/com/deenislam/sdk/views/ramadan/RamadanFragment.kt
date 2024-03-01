@@ -81,7 +81,7 @@ internal class RamadanFragment : BaseRegularFragment(),
             action1 = 0,
             action2 = 0,
             callback = null,
-            actionnBartitle = localContext.getString(R.string.ramadan),
+            actionnBartitle = localContext.getString(R.string.ramadan_titlle),
             backEnable = true,
             view = mainview
         )
