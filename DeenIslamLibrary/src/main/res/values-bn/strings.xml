@@ -410,7 +410,7 @@
     <string name="demo_almajeed">"بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ "</string>
     <string name="demo_indopakTxt">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ ۟</string>
     <string name="demoUthamaniTxt">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢</string>
-    <string name="ramadan_remaining">রমাদান বাকি আছে</string>
+    <string name="ramadan_remaining">রমজানের বাকি আছে</string>
     <string name="my_downloads">আমার ডাউনলোড</string>
     <string name="my_favorites">আমার প্রিয় তালিকা</string>
     <string name="get_premium">প্রিমিয়াম করুন</string>
@@ -458,7 +458,7 @@
     <string name="check_out_the_exclusive_islamic_podcast">এক্সক্লুসিভ ইসলামিক পডকাস্ট দেখুন</string>
     <string name="tracker">ট্র্যাকার</string>
     <string name="premium_feature_ramadan_info">রমজান ট্র্যাক করুন</string>
-    <string name="ramadan_dialog_important_note">* রমাদান শুরুর তারিখ চাঁদের উপর ভিত্তি করে পরিবর্তিত হতে পারে।</string>
+    <string name="ramadan_dialog_important_note">* রমজান শুরুর তারিখ চাঁদের উপর ভিত্তি করে পরিবর্তিত হতে পারে।</string>
     <string name="prepare_ramadan_txt">রমজানের প্রস্তুতি গ্রহন করুন</string>
     <string name="direction">ডিরেকশন</string>
 </resources>
