@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.RamadanCallback
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.database.entity.PrayerNotification
 import com.deenislam.sdk.service.di.DatabaseProvider
@@ -57,7 +58,8 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     otherFagmentActionCallback,
     prayerTimeAdapterCallback,
     ViewInflationListener,
-    PrayerTimeNotification
+    PrayerTimeNotification,
+    RamadanCallback
 {
     private lateinit var prayerTimesAdapter:PrayerTimesAdapter
     private var linearLayoutManager: LinearLayoutManager? = null
@@ -136,7 +138,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         no_internet_retryBtn = no_internet_layout.findViewById(R.id.no_internet_retry)
         mainContainer =  mainview.findViewById(R.id.container)
 
-
+        CallBackProvider.setFragment(this)
         setupActionForOtherFragment(R.drawable.ic_calendar,0,this@PrayerTimesFragment,localContext.getString(R.string.prayer_times),true,mainview)
 
         return mainview
@@ -227,6 +229,9 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 is PrayerTimeResource.selectedState -> {
                     currentState = it.state.state
                     currentStateModel = it.state
+                    prayerTimesAdapter.updateState(it.state)
+
+                    loadDataAPI()
                 }
             }
         }
@@ -686,6 +691,13 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             viewmodel.getDateWisePrayerNotificationData(prayerdate)
         }
     }
+
+    override fun stateSelected(stateModel: StateModel) {
+        lifecycleScope.launch {
+            viewmodel.updateSelectedState(stateModel)
+        }
+    }
+
 }
 
 interface PrayerTimeNotification
