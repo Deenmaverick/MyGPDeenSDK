@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.reduceDragSensitivity
 import com.deenislam.sdk.utils.tryCatch
@@ -155,6 +156,12 @@ internal class IslamicNameFragment : BaseRegularFragment() {
 
                     1->
                     {
+                        if(!Subscription.isSubscribe){
+                            gotoFrag(R.id.action_global_subscriptionFragment)
+                            _viewPager.setCurrentItem(0,true)
+                            return
+                        }
+
                         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
                         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
@@ -165,7 +172,13 @@ internal class IslamicNameFragment : BaseRegularFragment() {
         })
 
         nameBtn.setOnClickListener { _viewPager.currentItem = 0 }
-        favBtn.setOnClickListener { _viewPager.currentItem = 1 }
+        favBtn.setOnClickListener {
+            if(!Subscription.isSubscribe){
+                gotoFrag(R.id.action_global_subscriptionFragment)
+                return@setOnClickListener
+            }
+            _viewPager.currentItem = 1
+        }
     }
 
     private fun clearAllBtnSelection()

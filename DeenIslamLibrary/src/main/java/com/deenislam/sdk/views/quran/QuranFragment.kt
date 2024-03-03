@@ -16,6 +16,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.common.MaterialButtonHorizontalListCallback
 import com.deenislam.sdk.service.network.response.prayerlearning.visualization.Head
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
@@ -150,7 +151,15 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
 
         _viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                if(position == 3){
+                    if(!Subscription.isSubscribe){
+                        gotoFrag(R.id.action_global_subscriptionFragment)
+                        _viewPager.setCurrentItem(0,true)
+                        return
+                    }
+                }
                 viewPagerPosition = position
+
 
             }
         })
@@ -178,6 +187,13 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
     }
 
     override fun materialButtonHorizontalListClicked(absoluteAdapterPosition: Int) {
+        if(absoluteAdapterPosition == 3){
+            if(!Subscription.isSubscribe){
+                gotoFrag(R.id.action_global_subscriptionFragment)
+                materialButtonHorizontalAdapter.nextPrev(viewPagerPosition)
+                return
+            }
+        }
         _viewPager.setCurrentItem(absoluteAdapterPosition,true)
         materialButtonHorizontalAdapter.notifyItemChanged(absoluteAdapterPosition)
         header.smoothScrollToPosition(absoluteAdapterPosition)

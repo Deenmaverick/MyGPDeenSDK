@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.reduceDragSensitivity
 import com.deenislam.sdk.utils.tryCatch
@@ -172,6 +173,11 @@ internal class DailyDuaFragment : BaseRegularFragment() {
 
                     2->
                     {
+                        if(!Subscription.isSubscribe){
+                            gotoFrag(R.id.action_global_subscriptionFragment)
+                            changeViewPagerPos(1)
+                            return
+                        }
                         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
                         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
                     }
@@ -206,6 +212,10 @@ internal class DailyDuaFragment : BaseRegularFragment() {
         }
 
         favBtn.setOnClickListener {
+            if(!Subscription.isSubscribe){
+                gotoFrag(R.id.action_global_subscriptionFragment)
+                return@setOnClickListener
+            }
             changeViewPagerPos(2)
         }
     }
