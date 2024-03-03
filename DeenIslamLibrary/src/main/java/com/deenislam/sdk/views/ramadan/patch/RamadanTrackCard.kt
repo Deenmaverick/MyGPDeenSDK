@@ -70,10 +70,16 @@ internal class RamadanTrackCard(itemView: View, private val fastTracker: FastTra
         else
             fastTracker.totalTracked--
 
+        fastTracker.isFasting = fasting
+
+
         fastingProgress.progress = fastTracker.totalTracked
         ramadan_complete_txt.text = "${fastTracker.totalTracked}/${fastTracker.totalDays}"
         fastingCheck.isChecked = fasting
         isFasting = fasting
     }
+
+    fun getTrackData() = fastTracker
+
 
 }

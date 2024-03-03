@@ -10,7 +10,7 @@ internal data class FastTracker(
     val Date: String,
     val Iftaar: String,
     val Suhoor: String,
-    val isFasting: Boolean,
+    var isFasting: Boolean,
     val islamicDate: String,
     val totalDays: Int,
     var totalTracked: Int

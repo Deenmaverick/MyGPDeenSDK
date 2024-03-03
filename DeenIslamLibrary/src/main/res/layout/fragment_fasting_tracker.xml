@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toEndOf="parent">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingTop="@dimen/space_16"
                     android:paddingBottom="@dimen/space_16">
 
@@ -115,7 +115,7 @@
             <com.deenislam.sdk.service.libs.calendar.CustomCalendar
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toBottomOf="@+id/monthControl"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +137,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@color/deen_brand_teal"
                     android:orientation="vertical">
 
@@ -294,7 +294,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/space_16"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/trackingCard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -303,9 +302,10 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include
+        android:visibility="gone"
         android:id="@+id/progressLayout"
         layout="@layout/layout_circle_progress"
         android:layout_width="match_parent"

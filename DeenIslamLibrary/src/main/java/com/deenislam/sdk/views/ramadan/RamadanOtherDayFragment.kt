@@ -256,7 +256,7 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
     }
 
     override fun openMonthlyTracker() {
-
+        fastingCardData = otherRamadanPatchAdapter.getFastingTrackData()
         fastingCardData?.let {
             val bundle = Bundle()
             bundle.putParcelable("fastingCardData",it)

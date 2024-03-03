@@ -9,6 +9,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.response.ramadan.Data
+import com.deenislam.sdk.service.network.response.ramadan.FastTracker
 import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.dp
@@ -114,6 +115,10 @@ internal class RamadanPatchAdapter(
         {
             ramadanTrackCard?.updateFastingTrack(fasting)
         }
+
+    fun getFastingTrackData(): FastTracker? {
+        return ramadanTrackCard?.getTrackData()
+    }
 
         private fun completeViewLoad() {
             inflatedViewCount++
