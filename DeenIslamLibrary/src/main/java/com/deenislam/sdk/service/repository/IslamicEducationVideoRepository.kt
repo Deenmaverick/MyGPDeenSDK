@@ -29,4 +29,14 @@ internal class IslamicEducationVideoRepository(
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.addIslamicContentHistory(parm = requestBody)
     }
+
+    suspend fun getDuaAmolHome(language: String,date:String) = makeApicall {
+
+        val body = JSONObject()
+        body.put("language", language)
+        body.put("firstDate", date)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.getDuaAmolHome(parm = requestBody)
+    }
 } 

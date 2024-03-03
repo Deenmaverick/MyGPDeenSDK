@@ -60,4 +60,22 @@ internal class IslamicEducationViewModel(
             }
         }
     }
+
+    fun getDuaAmolHome(language: String,date:String) {
+        viewModelScope.launch {
+
+            when (val response = repository.getDuaAmolHome(language = language, date = date)) {
+                is ApiResource.Failure -> _educationVideoLiveData.value =
+                    CommonResource.API_CALL_FAILED
+
+                is ApiResource.Success -> {
+                    if (response.value?.Success == true)
+                        _educationVideoLiveData.value =
+                            IslamicEducationVideoResource.educationVideo(response.value.Data)
+                    else
+                        _educationVideoLiveData.value = CommonResource.EMPTY
+                }
+            }
+        }
+    }
 }

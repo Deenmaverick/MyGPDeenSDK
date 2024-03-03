@@ -1,4 +1,4 @@
-package com.deenislamic.views.adapters.allah99names;
+package com.deenislam.sdk.views.adapters.allah99names;
 
 import android.view.LayoutInflater
 import android.view.View

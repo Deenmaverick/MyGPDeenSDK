@@ -891,7 +891,7 @@
         android:label="NearestMosqueWebviewFragment" />
     <fragment
         android:id="@+id/myFavoritesFragment"
-        android:name="com.deenislamic.views.myfavorites.MyFavoritesFragment"
+        android:name="com.deenislam.sdk.views.myfavorites.MyFavoritesFragment"
         android:label="MyFavoritesFragment" />
 
     <action
@@ -1209,5 +1209,40 @@
         android:id="@+id/eidJamatHomeFragment"
         android:name="com.deenislam.sdk.views.eidjamat.EidJamatHomeFragment"
         android:label="EidJamatHomeFragment" />
+    <fragment
+        android:id="@+id/duaAmalHomeFragment"
+        android:name="com.deenislam.sdk.views.duaandamal.DuaAmalHomeFragment"
+        android:label="DuaAmalHomeFragment" >
+        <argument
+            android:name="date"
+            app:argType="string"
+            android:defaultValue="na" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_duaAmalHomeFragment"
+        app:destination="@id/duaAmalHomeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <fragment
+        android:id="@+id/duaAmalVideoPlayerFragment"
+        android:name="com.deenislam.sdk.views.duaandamal.DuaAmalVideoPlayerFragment"
+        android:label="DuaAmalVideoPlayerFragment">
+        <argument
+            android:name="videoList"
+            app:argType="com.deenislam.sdk.service.network.response.common.CommonCardData[]"
+            />
+        <argument
+            android:name="videoPosition"
+            app:argType="integer" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_duaAmalVideoPlayerFragment"
+        app:destination="@id/duaAmalVideoPlayerFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
 
 </navigation>

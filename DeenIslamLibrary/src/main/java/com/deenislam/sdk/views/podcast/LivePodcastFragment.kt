@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.LivePodcastCallback
 import com.deenislam.sdk.service.callback.common.HorizontalCardListCallback
 import com.deenislam.sdk.service.di.NetworkProvider
@@ -29,7 +30,7 @@ import kotlinx.coroutines.launch
 
 
 internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
-    HorizontalCardListCallback {
+    HorizontalCardListCallback, DashboardPatchCallback {
 
     private lateinit var listMain:RecyclerView
     private lateinit var viewmodel: PodcastViewModel
@@ -212,6 +213,12 @@ internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
             }
         }
 
+    }
+
+    override fun dashboardPatchClickd(patch: String, data: Item?) {
+        if (data != null) {
+            patchItemClicked(data)
+        }
     }
 
 }

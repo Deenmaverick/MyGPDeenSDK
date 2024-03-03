@@ -1,4 +1,4 @@
-package com.deenislamic.views.myfavorites
+package com.deenislam.sdk.views.myfavorites
 
 import android.os.Build
 import android.os.Bundle

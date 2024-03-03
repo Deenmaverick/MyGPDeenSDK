@@ -1006,6 +1006,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             MENU_ISLAMIC_EDUCATION_VIDEO -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
             MENU_ISLAMIC_BOYAN -> gotoFrag(R.id.action_global_islamicBoyanHomeFragment)
             MENU_EID_JAMAT -> gotoFrag(R.id.action_global_eidJamatHomeFragment)
+            MENU_DUA_AMOL -> {
+                val bundle = Bundle()
+                bundle.putString("date",getMenu?.Meaning)
+                gotoFrag(R.id.action_global_duaAmalHomeFragment,bundle)
+            }
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }
@@ -1165,6 +1170,14 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             }
 
             "ej" -> gotoFrag(R.id.action_global_eidJamatHomeFragment)
+            "ida" -> {
+
+                data?.let {
+                    val bundle = Bundle()
+                    bundle.putString("date", it.Meaning)
+                    gotoFrag(R.id.action_global_duaAmalHomeFragment, bundle)
+                }
+            }
 
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }

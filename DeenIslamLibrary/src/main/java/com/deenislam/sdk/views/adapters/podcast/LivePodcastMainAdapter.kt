@@ -13,9 +13,11 @@ import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.prepareStubView
 import com.deenislam.sdk.views.adapters.common.patch.MediumCardList
 import com.deenislam.sdk.views.base.BaseViewHolder
+import com.deenislam.sdk.views.dashboard.patch.QuranicItem
 import com.deenislam.sdk.views.dashboard.patch.SingleCardList
 
-internal class LivePodcastMainAdapter() : RecyclerView.Adapter<BaseViewHolder>() {
+private const val PATCH_SINGLE_IMAGE = "SingleImage"
+internal class LivePodcastMainAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     private var data:ArrayList<Data>  = arrayListOf()
 
@@ -39,6 +41,12 @@ internal class LivePodcastMainAdapter() : RecyclerView.Adapter<BaseViewHolder>()
 
                     onBindViewHolder(ViewHolder(main_view,true),viewType)
 
+                }
+            }
+
+            PATCH_SINGLE_IMAGE -> {
+                prepareStubView<View>(rootview.findViewById(R.id.widget),R.layout.layout_quranic_v1) {
+                    onBindViewHolder(ViewHolder(main_view,true),viewType)
                 }
             }
 
@@ -114,6 +122,10 @@ internal class LivePodcastMainAdapter() : RecyclerView.Adapter<BaseViewHolder>()
                             itemView,
                             getdata
                         ).load()
+                    }
+                    PATCH_SINGLE_IMAGE -> {
+                        val helper = QuranicItem(itemView)
+                        helper.loadSingleImage(getdata.Items)
                     }
                     /*2 -> SingleCardItemPatch(itemView, "Live Quran Class").load()
                     3 -> LivePodcastListPatch(itemView).load()*/

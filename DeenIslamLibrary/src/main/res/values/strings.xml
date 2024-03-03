@@ -245,7 +245,7 @@
     <string name="terms_of_use">Terms of use</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="deen_all_rights_reserved">© 2024 Deen. All rights reserved</string>
-    <string name="deen_version">Deen - v1.0.4</string>
+    <string name="deen_version">Deen - v1.0.41</string>
     <string name="continue_txt">Continue</string>
     <string name="dhaka">Dhaka</string>
     <string name="islamic">Islamic</string>
@@ -461,4 +461,5 @@
     <string name="ramadan_dialog_important_note">* The start date of Ramadan may vary based on the moon.</string>
     <string name="prepare_ramadan_txt">Prepare for Ramadan</string>
     <string name="direction">Direction</string>
+    <string name="dua_amol">Dua Amol</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.deenislamic.service.network.response.islamiceducationvideo
+package com.deenislam.sdk.service.network.response.islamiceducationvideo
 
 import androidx.annotation.Keep
 import com.deenislam.sdk.service.network.response.islamiceducationvideo.Data

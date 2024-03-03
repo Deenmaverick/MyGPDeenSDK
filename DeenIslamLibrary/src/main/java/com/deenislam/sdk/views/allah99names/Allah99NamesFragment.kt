@@ -28,7 +28,7 @@ import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.Allah99NameViewModel
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislamic.views.adapters.allah99names.Allah99NamesListAdapter
+import com.deenislam.sdk.views.adapters.allah99names.Allah99NamesListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 

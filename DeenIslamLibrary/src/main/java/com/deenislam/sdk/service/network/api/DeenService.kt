@@ -1,7 +1,6 @@
 package com.deenislam.sdk.service.network.api
 
 import com.deenislam.sdk.service.network.response.BasicResponse
-import com.deenislam.sdk.service.network.response.advertisement.AdvertisementResponse
 import com.deenislam.sdk.service.network.response.allah99name.Allah99NameResponse
 import com.deenislam.sdk.service.network.response.boyan.categoriespaging.BoyanCategoriesResponse
 import com.deenislam.sdk.service.network.response.boyan.scholarspaging.BoyanScholarResponse
@@ -34,15 +33,14 @@ import com.deenislam.sdk.service.network.response.ramadan.RamadanResponse
 import com.deenislam.sdk.service.network.response.ramadan.calendar.RamadanCalendarResponse
 import com.deenislam.sdk.service.network.response.zakat.SavedZakatResponse
 import com.deenislam.sdk.service.network.response.zakat.nisab.NisabResponse
-import com.deenislamic.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
+import com.deenislam.sdk.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
 import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
-import com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz.QuranCLassQuizQuestionResponse
+import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.QuranCLassQuizQuestionResponse
 import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.result.AnswerSubmitResponse
 import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.AyatResponse
 import com.deenislam.sdk.service.network.response.quran.qurangm.paralist.ParaListResponse
 import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.SurahListResponse
 import com.deenislam.sdk.service.network.response.quran.tafsir.TafsirResponse
-import com.deenislam.sdk.service.network.response.subscription.SubscriptionPageResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -407,6 +405,9 @@ internal interface DeenService {
         @Body parm: RequestBody
     ): BoyanVideoPreviewResponse
 
+    // Dua Amal
+    @POST("IslamicVideos/DuaAmol")
+    suspend fun getDuaAmolHome(@Body parm: RequestBody): IslamiceducationVideoResponse
 
 
 

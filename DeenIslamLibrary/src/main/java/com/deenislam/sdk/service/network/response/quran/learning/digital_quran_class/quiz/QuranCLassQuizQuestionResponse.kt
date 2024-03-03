@@ -1,4 +1,4 @@
-package com.deenislamic.service.network.response.quran.learning.digital_quran_class.quiz
+package com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz
 
 import androidx.annotation.Keep
 import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.Data
