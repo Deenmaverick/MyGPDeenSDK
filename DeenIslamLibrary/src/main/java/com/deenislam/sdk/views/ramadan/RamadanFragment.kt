@@ -3,6 +3,7 @@ package com.deenislam.sdk.views.ramadan
 import android.content.Intent
 import android.os.Bundle
 import android.provider.AlarmClock
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -277,6 +278,8 @@ internal class RamadanFragment : BaseRegularFragment(),
             ramadanPatchAdapter = RamadanPatchAdapter(data,stateArray,selectedState,patchDataList)
             adapter = ramadanPatchAdapter
         }
+
+        baseViewState()
     }
 
     private fun updateFastingTrack(fasting: Boolean)

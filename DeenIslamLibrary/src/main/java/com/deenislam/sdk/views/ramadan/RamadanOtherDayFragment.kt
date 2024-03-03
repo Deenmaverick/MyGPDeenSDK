@@ -247,6 +247,7 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             otherRamadanPatchAdapter = OtherRamadanPatchAdapter(data,stateArray,selectedState)
             adapter = otherRamadanPatchAdapter
         }
+        baseViewState()
     }
 
     private fun updateFastingTrack(fasting: Boolean)
