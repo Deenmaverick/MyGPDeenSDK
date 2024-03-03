@@ -50,17 +50,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_4"
-            android:layout_marginStart="@dimen/sapce_20"
-            android:layout_marginEnd="@dimen/sapce_20"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/deen_primary"
             android:textStyle="bold"
+            android:gravity="center"
             app:layout_constraintVertical_chainStyle="packed"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/nameShape"
             app:layout_constraintTop_toBottomOf="@+id/nameCount"
-            app:layout_constraintEnd_toEndOf="@+id/nameShape"
-            app:layout_constraintStart_toStartOf="@+id/nameShape" />
+            app:layout_constraintEnd_toEndOf="@+id/nameCount"
+            app:layout_constraintStart_toStartOf="@+id/nameCount" />
 
 
 

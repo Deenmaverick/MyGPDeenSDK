@@ -10,6 +10,7 @@ import com.deenislam.sdk.service.callback.ViewInflationListener
 import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.response.ramadan.Data
 import com.deenislam.sdk.service.network.response.ramadan.FastTracker
+import com.deenislam.sdk.service.weakref.ramadan.RamadanInstance
 import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.dp
@@ -30,8 +31,6 @@ internal class OtherRamadanPatchAdapter(
     private var inflatedViewCount: Int = 0
     private val viewCallback = CallBackProvider.get<ViewInflationListener>()
 
-    //view class instance
-    private var ramadanTrackCard: RamadanTrackCard? = null
 
     // Patch instance
     private var stateList: StateList? = null
@@ -75,11 +74,11 @@ internal class OtherRamadanPatchAdapter(
 
     fun updateFastingTrack(fasting: Boolean)
     {
-        ramadanTrackCard?.updateFastingTrack(fasting)
+        RamadanInstance.getRamadanCardInstance()?.updateFastingTrack(fasting)
     }
 
     fun getFastingTrackData(): FastTracker? {
-        return ramadanTrackCard?.getTrackData()
+        return RamadanInstance.getRamadanCardInstance()?.getTrackData()
     }
 
     private fun completeViewLoad() {
@@ -125,7 +124,7 @@ internal class OtherRamadanPatchAdapter(
 
                     1 -> {
 
-                        ramadanTrackCard = RamadanTrackCard(itemView,data.FastTracker)
+                        RamadanInstance.updateRamadanCard(RamadanTrackCard(itemView,data.FastTracker))
                     }
 
                     2 -> {

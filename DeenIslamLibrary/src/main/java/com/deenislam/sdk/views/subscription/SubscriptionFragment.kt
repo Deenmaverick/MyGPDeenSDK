@@ -1,7 +1,6 @@
 package com.deenislam.sdk.views.subscription
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +8,32 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.SubscriptionCallback
 import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.libs.alertdialog.CustomAlertDialog
+import com.deenislam.sdk.service.libs.alertdialog.CustomDialogCallback
 import com.deenislam.sdk.service.models.CommonResource
+import com.deenislam.sdk.service.models.PaymentResource
 import com.deenislam.sdk.service.models.SubscriptionResource
 import com.deenislam.sdk.service.models.payment.PaymentModel
 import com.deenislam.sdk.service.network.response.payment.recurring.CheckRecurringResponse
 import com.deenislam.sdk.service.network.response.subscription.PaymentType
 import com.deenislam.sdk.service.repository.PaymentRepository
 import com.deenislam.sdk.service.repository.SubscriptionRepository
-import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.LoadingButton
+import com.deenislam.sdk.utils.Subscription
+import com.deenislam.sdk.utils.TERMS_URL
+import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.toast
+import com.deenislam.sdk.utils.visible
+import com.deenislam.sdk.viewmodels.PaymentViewModel
 import com.deenislam.sdk.viewmodels.SubscriptionViewModel
 import com.deenislam.sdk.views.adapters.subscription.PackListAdapter
 import com.deenislam.sdk.views.adapters.subscription.PremiumFeatureAdapter
@@ -34,7 +45,8 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback {
+internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback,
+    CustomDialogCallback {
 
 
     private lateinit var viewmodel: SubscriptionViewModel
@@ -47,7 +59,8 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
     private var selectedPlan = -1
     private var planStatus = "0BK"
     private var selectedPaymentType:PaymentType?= null
-
+    private var customAlertDialog: CustomAlertDialog? =null
+    private lateinit var paymentViewmodel: PaymentViewModel
     override fun OnCreate() {
         super.OnCreate()
         // init viewmodel
@@ -64,6 +77,14 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
         )
 
         viewmodel = SubscriptionViewModel(paymentRepository = paymentRepository, repository = subscriptionRepository)
+
+
+        val factory = VMFactory(paymentRepository)
+        paymentViewmodel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PaymentViewModel::class.java]
+
     }
 
     override fun onCreateView(
@@ -92,6 +113,7 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
         setupCommonLayout(mainview)
 
         CallBackProvider.setFragment(this)
+        customAlertDialog = CustomAlertDialog().getInstance()
 
         return mainview
     }
@@ -100,11 +122,19 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
         super.onViewCreated(view, savedInstanceState)
 
         cancelBtn.setOnClickListener {
-            nextBtn.isCheckable = false
-            cancelBtn.text = LoadingButton().getInstance(requireContext()).loader(cancelBtn,R.color.deen_primary)
-            lifecycleScope.launch {
-                viewmodel.cancelAutoRenewal(planStatus,selectedPlan)
-            }
+
+            customAlertDialog?.setupDialog(
+                callback = this,
+                context = requireContext(),
+                btn1Text = localContext.getString(R.string.cancel),
+                btn2Text = localContext.getString(R.string.done),
+                titileText = localContext.getString(R.string.want_to_cancel),
+                subTitileText = localContext.getString(R.string.do_you_want_to_cancel_the_subscription)
+            )
+
+
+            customAlertDialog?.showDialog(false)
+
         }
 
         nextBtn.setOnClickListener {
@@ -145,6 +175,20 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
         loadapi()
     }
 
+    override fun clickBtn1() {
+        customAlertDialog?.dismissDialog()
+    }
+
+    override fun clickBtn2() {
+        val btn2 = customAlertDialog?.getBtn2()
+        btn2?.text = btn2?.let { LoadingButton().getInstance(requireContext()).loader(it) }
+
+        nextBtn.isCheckable = false
+        //cancelBtn.text = LoadingButton().getInstance(requireContext()).loader(cancelBtn,R.color.deen_primary)
+        lifecycleScope.launch {
+            viewmodel.cancelAutoRenewal(planStatus,selectedPlan)
+        }
+    }
 
     private fun setActivePlan(
         activeColor: Int = R.color.deen_primary,
@@ -245,7 +289,6 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
                     planStatus = it.value.pageResponse?.Message.toString()
 
 
-
                     it.value.pageResponse?.let { it1 -> checkPaymentStatus(it1,it.value.paymentTypes) }
                     baseViewState()
                 }
@@ -255,18 +298,25 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
         viewmodel.autorenewLiveData.observe(viewLifecycleOwner){
             when(it){
                 CommonResource.API_CALL_FAILED -> {
+                    customAlertDialog?.dismissDialog()
                     lifecycleScope.launch {
                         viewmodel.clearAutoRenew()
                     }
 
+                    val btn2 = customAlertDialog?.getBtn2()
+                    btn2?.isClickable = true
                     LoadingButton().getInstance(requireContext()).removeLoader()
+                    customAlertDialog?.dismissDialog()
+
                     cancelBtn.text = localContext.getString(R.string.cancel_plan)
                     nextBtn.isClickable = true
                     context?.toast("Failed to cancel Auto-Renewal")
                 }
                 is SubscriptionResource.AutoRenewCancel -> {
-
+                    val btn2 = customAlertDialog?.getBtn2()
+                    btn2?.isClickable = true
                     LoadingButton().getInstance(requireContext()).removeLoader()
+                    customAlertDialog?.dismissDialog()
                     cancelBtn.text = localContext.getString(R.string.cancel_plan)
                     nextBtn.isClickable = true
                     lifecycleScope.launch {
@@ -286,6 +336,29 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
                     else if(it.planStatus == "2BK"){
                        resetSubscription()
                     }
+                }
+            }
+        }
+
+        paymentViewmodel.paymentIPNLiveData.observe(viewLifecycleOwner)
+        {
+
+            if(CommonResource.CLEAR != it) {
+                paymentViewmodel.clearIPN()
+            }
+
+            when(it)
+            {
+                is PaymentResource.PaymentIPNSuccess -> {
+                    onBackPress()
+                }
+
+                is PaymentResource.PaymentIPNFailed -> {
+                    onBackPress()
+                }
+
+                is PaymentResource.PaymentIPNCancle -> {
+                    onBackPress()
                 }
             }
         }
@@ -360,6 +433,14 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
 
     override fun selectedPack(getdata: PaymentType) {
         selectedPaymentType = getdata
+    }
+
+    inner class VMFactory(
+        private val paymentRepository: PaymentRepository
+    ) : ViewModelProvider.Factory{
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return PaymentViewModel(paymentRepository) as T
+        }
     }
 
 }
