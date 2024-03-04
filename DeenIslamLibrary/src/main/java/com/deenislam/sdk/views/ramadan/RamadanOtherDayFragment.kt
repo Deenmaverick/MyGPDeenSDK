@@ -55,7 +55,6 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = RamadanViewModel(repository)
 
-        CallBackProvider.setFragment(this)
 
     }
 
@@ -79,7 +78,7 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
         )
 
         setupCommonLayout(mainview)
-
+        CallBackProvider.setFragment(this)
         return mainview
     }
 

@@ -1,5 +1,6 @@
 package com.deenislam.sdk.views.ramadan.patch;
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
@@ -27,7 +28,7 @@ internal class RamadanTrackCard(itemView: View, private val fastTracker: FastTra
     private val ramadan_complete_txt:AppCompatTextView = itemView.findViewById(R.id.ramadan_complete_txt)
     private val suhoorCardview:MaterialCardView = itemView.findViewById(R.id.suhoorCardview)
     private val iftarCardview:MaterialCardView = itemView.findViewById(R.id.iftarCardview)
-    private val callback = CallBackProvider.get<RamadanCallback>()
+    private var callback = CallBackProvider.get<RamadanCallback>()
     private var isFasting = false
 
     init {
@@ -54,6 +55,7 @@ internal class RamadanTrackCard(itemView: View, private val fastTracker: FastTra
         }
 
         suhoorCardview.setOnClickListener {
+            Log.e("suhoorCardview",callback.toString())
             callback?.sehriCardClicked(fastTracker.Suhoor)
         }
 
