@@ -463,4 +463,6 @@
     <string name="direction">Direction</string>
     <string name="dua_amol">Dua Amol</string>
     <string name="do_you_want_to_cancel_the_subscription">Do you want to cancel the subscription?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

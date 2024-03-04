@@ -463,4 +463,6 @@
     <string name="direction">ডিরেকশন</string>
     <string name="dua_amol">দোয়া ও আমল</string>
     <string name="do_you_want_to_cancel_the_subscription">আপনি কি সাবস্ক্রিপশন বাতিল করতে চান?</string>
+    <string name="yes">হ্যাঁ</string>
+    <string name="no">না</string>
 </resources>

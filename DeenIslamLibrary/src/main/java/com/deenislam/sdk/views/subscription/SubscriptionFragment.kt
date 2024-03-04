@@ -126,8 +126,8 @@ internal class SubscriptionFragment : BaseRegularFragment(),SubscriptionCallback
             customAlertDialog?.setupDialog(
                 callback = this,
                 context = requireContext(),
-                btn1Text = localContext.getString(R.string.cancel),
-                btn2Text = localContext.getString(R.string.done),
+                btn1Text = localContext.getString(R.string.no),
+                btn2Text = localContext.getString(R.string.yes),
                 titileText = localContext.getString(R.string.want_to_cancel),
                 subTitileText = localContext.getString(R.string.do_you_want_to_cancel_the_subscription)
             )
