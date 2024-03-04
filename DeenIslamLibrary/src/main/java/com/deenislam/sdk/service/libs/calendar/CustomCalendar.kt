@@ -140,7 +140,8 @@ internal class CustomCalendar(context: Context, attrs: AttributeSet? = null) : L
 
 }
 
-data class CalendarDay(
+@Keep
+internal data class CalendarDay(
     val day: String,
     val month: Int,
     val year: Int,
@@ -152,9 +153,8 @@ data class CalendarDay(
 )
 
 
-
 @Keep
-enum class MonthType {
+internal enum class MonthType {
     PREVIOUS, CURRENT, NEXT
 }
 
