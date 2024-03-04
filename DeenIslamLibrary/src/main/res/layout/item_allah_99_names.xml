@@ -53,12 +53,14 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nameArabic"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_4"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/deen_white"
             android:textStyle="bold"
+            android:gravity="center"
+            android:layoutDirection="rtl"
             app:layout_constraintVertical_chainStyle="packed"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/nameShape"

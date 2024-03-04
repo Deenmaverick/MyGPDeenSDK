@@ -54,6 +54,7 @@
             android:textColor="@color/deen_primary"
             android:textStyle="bold"
             android:gravity="center"
+            android:layoutDirection="rtl"
             app:layout_constraintVertical_chainStyle="packed"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/nameShape"

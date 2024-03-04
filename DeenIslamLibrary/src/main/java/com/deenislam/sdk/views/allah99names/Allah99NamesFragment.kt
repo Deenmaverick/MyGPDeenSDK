@@ -323,10 +323,12 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
 
     override fun isMedia3Stop() {
         btnPlayPause.setImageDrawable(
-            AppCompatResources.getDrawable(
-                requireContext(),
-                R.drawable.ic_play_fill
-            )
+            context?.let {
+                AppCompatResources.getDrawable(
+                    it,
+                    R.drawable.ic_play_fill
+                )
+            }
         )
     }
 

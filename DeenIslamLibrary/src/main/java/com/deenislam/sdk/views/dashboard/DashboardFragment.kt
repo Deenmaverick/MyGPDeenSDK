@@ -262,8 +262,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
             binding.dashboardMain.setPadding(binding.dashboardMain.paddingStart,binding.dashboardMain.paddingTop,binding.dashboardMain.paddingRight,if(miniPlayerHeight>0) miniPlayerHeight else binding.dashboardMain.paddingBottom)
 
-
             CallBackProvider.setFragment(this)
+            dashboardPatchMain.getAllah99NameInstance()?.reInitCallback()
             nextPrayerCountownFinish()
         }
 

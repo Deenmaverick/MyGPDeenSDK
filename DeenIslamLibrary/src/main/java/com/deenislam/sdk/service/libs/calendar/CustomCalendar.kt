@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.annotation.Keep
 import com.deenislam.sdk.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -152,6 +153,7 @@ data class CalendarDay(
 
 
 
+@Keep
 enum class MonthType {
     PREVIOUS, CURRENT, NEXT
 }
