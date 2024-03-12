@@ -180,7 +180,7 @@ internal class AlQuranAyatAdapter(
     fun miniPlayerCall(expand:Boolean = false,byService: Boolean = false)
     {
 
-        isPlaying = MainActivityDeenSDK.instance?.isQuranMiniPlayerRunning()?:false
+        //isPlaying = MainActivityDeenSDK.instance?.isQuranMiniPlayerRunning()?:false
 
         if(expand)
         {

@@ -521,6 +521,7 @@ internal class QuranPlayer: Service(){
     }
 
     fun getCurrentSurahID() = surahID
+    fun getCurrentJuzID() = juzID
 
     fun playPause()
     {

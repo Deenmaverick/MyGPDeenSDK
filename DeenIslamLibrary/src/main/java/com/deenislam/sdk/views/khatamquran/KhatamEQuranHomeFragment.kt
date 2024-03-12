@@ -177,7 +177,7 @@ internal class KhatamEQuranHomeFragment : BaseRegularFragment(), CommonCardCallb
 
     override fun commonCardClicked(getData: CommonCardData, absoluteAdapterPosition: Int) {
             val bundle = Bundle()
-            bundle.putInt("khatamQuranvideoPosition", absoluteAdapterPosition-1)
+            bundle.putInt("khatamQuranvideoPosition", absoluteAdapterPosition)
             if (getData.category.equals("Recent")) {
                 bundle.putParcelableArray("khatamQuranvideoList", recentList.toTypedArray())
             } else {

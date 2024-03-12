@@ -679,7 +679,19 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         if(isMiniPlayerAlreadySet)
             return
 
-
+        countDownTimer?.cancel()
+        binding.bottomPlayer.miniPlayer.icPlayPause.setImageDrawable(
+            AppCompatResources.getDrawable(
+                requireContext(),
+                R.drawable.ic_quran_play_fill
+            )
+        )
+        binding.bottomPlayer.largePlayer.icPlayBtn.setImageDrawable(
+            AppCompatResources.getDrawable(
+                requireContext(),
+                R.drawable.ic_quran_play_fill
+            )
+        )
         binding.bottomPlayer.miniPlayer.playerProgress.progress = 0
         totalVerseCount = quranJuz?.TotalAyat?:totalVerseCount
 
@@ -1688,7 +1700,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         if(position<0)
             return
 
-        alQuranAyatAdapter.miniPlayerCall(byService = byService)
+        //alQuranAyatAdapter.miniPlayerCall(byService = byService)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         dialog?.dismiss()
         pageNo = 1
@@ -1735,7 +1747,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     }
 
     override fun selectedJuz(position: Int, byService: Boolean) {
-        alQuranAyatAdapter.miniPlayerCall(byService = byService)
+        //alQuranAyatAdapter.miniPlayerCall(byService = byService)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         dialog?.dismiss()
         loadingState()
@@ -1744,6 +1756,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         isMiniPlayerAlreadySet = false
         surahDetailsData.clear()
         alQuranAyatAdapter.clear()
+        juzID = position
         quranJuz = quranJuzList?.get(position)
         pageTitle =  localContext.resources.getString(R.string.quran_para_adapter_title,quranJuzList?.get(position)?.JuzId.toString().numberLocale())
 
@@ -1804,10 +1817,18 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         if(view == null)
             return
 
-        val qPlayerServiceSurahID = getCurrentSurahIDFromQService()
-        if(qPlayerServiceSurahID!=0 && qPlayerServiceSurahID!=surahID) {
-            alQuranAyatAdapter.isMediaPause(position,true)
-            return
+        if(isSurahMode) {
+            val qPlayerServiceSurahID = getCurrentSurahIDFromQService()
+            if (qPlayerServiceSurahID != 0 && qPlayerServiceSurahID != surahID) {
+                //alQuranAyatAdapter.isMediaPause(position, true)
+                return
+            }
+        }else{
+            val qPlayerServiceJuzID = getCurrentJuzIDFromQService()
+            if (qPlayerServiceJuzID != 0 && qPlayerServiceJuzID != juzID) {
+                //alQuranAyatAdapter.isMediaPause(position, true)
+                return
+            }
         }
         //isLoadingState(false)
         //alQuranAyatAdapter.updatePlayerLoading(false)

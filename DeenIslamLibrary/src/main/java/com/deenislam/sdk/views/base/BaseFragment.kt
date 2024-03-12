@@ -435,6 +435,14 @@ internal abstract class BaseFragment<VB:ViewBinding>(
             0
     }
 
+    fun getCurrentJuzIDFromQService():Int
+    {
+        return if(activity !=null)
+            (activity as MainActivityDeenSDK).getCurrentJuzID()
+        else
+            0
+    }
+
 
     fun setupBackPressCallback(fragment: Fragment,isBacktoHome:Boolean=false)
     {

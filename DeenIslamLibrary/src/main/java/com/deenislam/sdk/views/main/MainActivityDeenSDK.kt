@@ -741,6 +741,14 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
             0
     }
 
+    fun getCurrentJuzID(): Int {
+        return if (isQuranPlayerBound && MainActivityInstance.getQuranPlayerInstance() != null) {
+            // Call methods on the audioService as needed
+            MainActivityInstance.getQuranPlayerInstance()?.getCurrentJuzID()?:0
+        } else
+            0
+    }
+
     fun globalMiniPlayerForHome(height: Int) {
 
         if (QuranPlayer.isServiceRunning) {
@@ -805,8 +813,6 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         }
 
         val callback = CallBackProvider.get<QuranPlayerCallback>()
-        MainActivityInstance.getQuranPlayerInstance()?.stopQuranPlayer()
-        MainActivityInstance.getQuranPlayerOfflineInstance()?.stopQuranPlayer()
         callback?.globalMiniPlayerClosed()
 
         super.onPause()
