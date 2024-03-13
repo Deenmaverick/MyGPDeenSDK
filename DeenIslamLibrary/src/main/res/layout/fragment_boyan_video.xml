@@ -17,6 +17,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <FrameLayout
+        android:id="@+id/btnFullscreen"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@id/playerWebView"
+        app:layout_constraintEnd_toEndOf="@id/playerWebView"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="@id/playerWebView"
+        app:layout_constraintTop_toTopOf="@id/playerWebView"
+        app:layout_constraintVertical_bias="0.97" />
+
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvStoryName"
         android:layout_width="0dp"

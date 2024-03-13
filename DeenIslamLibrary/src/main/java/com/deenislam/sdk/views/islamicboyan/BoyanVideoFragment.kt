@@ -1,56 +1,72 @@
 package com.deenislam.sdk.views.islamicboyan
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.AudioManagerBasicCallback
 import com.deenislam.sdk.service.callback.common.CommonCardCallback
+import com.deenislam.sdk.service.callback.common.YoutubeWebViewCallback
 import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.libs.media3.AudioManager
 import com.deenislam.sdk.service.models.BoyanResource
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.network.response.boyan.videopreview.Data
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 import com.deenislam.sdk.service.repository.BoyanRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.YouTubeJavaScriptInterface
 import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.enterFullScreen
+import com.deenislam.sdk.utils.exitFullScreen
+import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.loadHtmlFromAssets
+import com.deenislam.sdk.utils.setStarMargin
 import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.viewmodels.BoyanViewModel
 import com.deenislam.sdk.views.adapters.common.CommonCardAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislam.sdk.views.base.otherFagmentActionCallback
 import com.deenislam.sdk.views.islamicboyan.adapter.BoyanVideoClickCallback
 import com.deenislam.sdk.views.islamicboyan.adapter.BoyanVideoPreviewPagingAdapter
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.launch
 
 
-internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallback, otherFagmentActionCallback,
-    CommonCardCallback {
+internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallback,
+    CommonCardCallback, YoutubeWebViewCallback, AudioManagerBasicCallback {
 
     private lateinit var podcastViewTypeBtn: LinearLayout
     private lateinit var actionbar: ConstraintLayout
     private lateinit var ic_viewType: AppCompatImageView
     private lateinit var optionViewtypeTxt: AppCompatTextView
-
+    private lateinit var title: AppCompatTextView
+    private lateinit var view1: LinearLayout
     private lateinit var autoPlay: LinearLayout
     private lateinit var settings: LinearLayout
-
+    private lateinit var autoPlaySwitch: SwitchMaterial
     private lateinit var listView: RecyclerView
     private lateinit var last_item_loading_progress: CircularProgressIndicator
 
@@ -69,6 +85,7 @@ internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallba
 
     private var videoPreviewData :ArrayList<Data> = arrayListOf()
     private var commonCardData: ArrayList<CommonCardData> = arrayListOf()
+    private var currentPlayerData:CommonCardData ? = null
 
     private var isNextEnabled  = true
     private var pageNo:Int = 1
@@ -76,8 +93,10 @@ internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallba
     private var totalHadithCount = 0
 
     private var firstload: Boolean = false
-
+    private lateinit var audioManager: AudioManager
     private var isListView = false
+    private lateinit var btnFullscreen: FrameLayout
+    private var isFullScreen = false
 
     override fun OnCreate() {
         super.OnCreate()
@@ -99,33 +118,46 @@ internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallba
         txtviwVideoName.text = args.videoName
 
         actionbar = mainView.findViewById(R.id.actionbar)
+        view1 = mainView.findViewById(R.id.view1)
+        title = view1.findViewById(R.id.autoPlaytitle)
 
-        autoPlay = actionbar.findViewById(R.id.view1)
-        autoPlay.visibility = View.INVISIBLE
+        autoPlaySwitch = view1.findViewById(R.id.autoPlaySwitch)
+        autoPlaySwitch.hide()
         settings = actionbar.findViewById(R.id.view2)
-        settings.visibility = View.INVISIBLE
+        settings.hide()
 
         podcastViewTypeBtn = actionbar.findViewById(R.id.view3)
         listView = mainView.findViewById(R.id.listView)
         last_item_loading_progress = mainView.findViewById(R.id.last_item_loading_progress)
-
+        btnFullscreen = mainView.findViewById(R.id.btnFullscreen)
+        btnFullscreen.setOnClickListener {
+            onYoutubeFullscreenClicked()
+        }
         ic_viewType = actionbar.findViewById(R.id.ic_viewType)
         optionViewtypeTxt = actionbar.findViewById(R.id.optionViewtypeTxt)
-
+        val jsInterface = YouTubeJavaScriptInterface(this)
+        webview.addJavascriptInterface(jsInterface, "AndroidYouTubeInterface")
         setupCommonLayout(mainView)
         CallBackProvider.setFragment(this)
-
+        audioManager = AudioManager().getInstance()
         return mainView
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBackPressCallback(this)
+        title.text = localContext.getString(R.string.more_videos)
+        title.typeface = Typeface.DEFAULT_BOLD
+        title.setTextColor(ContextCompat.getColor(requireContext(), R.color.deen_txt_black_deep))
+        title.setStarMargin(10.dp)
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
+
 
         videoUrl = args.videoUrl
 
-        getHtml = requireContext().loadHtmlFromAssets("youtubeplayer.html")
-            .replace("#YOUTUBE_URL#", "https://www.youtube.com/embed/$videoUrl")
+        getHtml = requireContext().loadHtmlFromAssets("youtubeplayernew.html")
+            .replace("#YOUTUBE_URL#", videoUrl)
 
         val webSettings = webview.settings
         webSettings.javaScriptEnabled = true
@@ -135,7 +167,7 @@ internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallba
         webSettings.builtInZoomControls = false
         webSettings.allowFileAccess = true
         webSettings.setSupportZoom(false)
-
+        webSettings.mediaPlaybackRequiresUserGesture = false
         webSettings.allowFileAccess = true; // Add this line
         webSettings.allowContentAccess = true; // Add this line
         webSettings.setAllowUniversalAccessFromFileURLs(true); // Add this line
@@ -380,17 +412,73 @@ internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallba
         txtviwVideoName.text = getData.title
 
         videoUrl = getData.videourl!!
-        getHtml = requireContext().loadHtmlFromAssets("youtubeplayer.html")
-            .replace("#YOUTUBE_URL#","https://www.youtube.com/embed/"+videoUrl)
+        getHtml = requireContext().loadHtmlFromAssets("youtubeplayernew.html")
+            .replace("#YOUTUBE_URL#",videoUrl)
         webview.loadDataWithBaseURL(null, getHtml, "text/html", "UTF-8", null)
 
     }
 
-    override fun action1() {
+    override fun onYoutubePlayingState(){
+        Log.e("YoutubePlayer","Playing")
+        MainActivityDeenSDK.instance?.pauseQuran()
+        lifecycleScope.launch {
+            currentPlayerData?.let {
+                val newData = it.copy(isPlaying = true)
+                commonCardAdapter.updatePlayPauseIcon(newData)
+            }
+        }
 
     }
 
-    override fun action2() {
+    override fun onYoutubePauseState(){
+        lifecycleScope.launch {
+            currentPlayerData?.let {
+                val newData = it.copy(isPlaying = false)
+                commonCardAdapter.updatePlayPauseIcon(newData)
+            }
+        }
+    }
 
+    override fun onYoutubeEndedState(){
+        lifecycleScope.launch {
+            currentPlayerData?.let {
+                val newData = it.copy(isPlaying = false)
+                commonCardAdapter.updatePlayPauseIcon(newData)
+            }
+        }
+    }
+
+    override fun onYoutubeReadyState(){
+        Log.e("YoutubePlayer","Ready")
+    }
+
+    override fun isMedia3Pause(){
+        webview.evaluateJavascript("player.pauseVideo();", null);
+    }
+
+    override fun onYoutubeFullscreenClicked(){
+        if (!isFullScreen) {
+
+            // Go full-screen in landscape mode
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            val params = webview.layoutParams as ConstraintLayout.LayoutParams
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT
+            webview.layoutParams = params
+            activity?.enterFullScreen()
+            isFullScreen = true
+
+        } else {
+
+            // Exit full-screen and revert to the original orientation
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            val params = webview.layoutParams as ConstraintLayout.LayoutParams
+            params.width = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
+            params.height = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT  // Adjust the height as needed
+            webview.layoutParams = params
+            activity?.exitFullScreen()
+            isFullScreen = false
+
+        }
     }
 }

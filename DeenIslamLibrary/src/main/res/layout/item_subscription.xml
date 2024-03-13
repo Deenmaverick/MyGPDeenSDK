@@ -6,6 +6,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
     app:strokeWidth="0dp"
+    android:layout_marginTop="@dimen/space_12"
     android:layout_marginBottom="1dp"
     app:cardBackgroundColor="@color/deen_white"
     app:layout_constraintTop_toBottomOf="@+id/hintTxt"

@@ -114,7 +114,7 @@ internal class KhatamQuranVideoHomeAdapter(
                                 itemView = itemView,
                                 pageTitle = itemView.context.getString(R.string.title_khatam_e_quran),
                                 getData = getData,
-                                absoluteAdapterPosition = absoluteAdapterPosition,
+                                absoluteAdapterPosition = if(recentlyWatchedVideos.isNotEmpty()) absoluteAdapterPosition-1 else absoluteAdapterPosition,
                                 itemCount = khatamQuranVideos.size,
                                 isShowPlayIcon = true,
                                 isShowProgress = false,

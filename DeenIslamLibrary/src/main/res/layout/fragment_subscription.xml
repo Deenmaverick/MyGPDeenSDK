@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:scrollbars="none"
-                android:paddingTop="@dimen/space_16"
+                android:paddingTop="@dimen/space_8"
                 android:paddingStart="@dimen/space_16"
                 android:paddingEnd="@dimen/space_16"
                 android:nestedScrollingEnabled="false"
