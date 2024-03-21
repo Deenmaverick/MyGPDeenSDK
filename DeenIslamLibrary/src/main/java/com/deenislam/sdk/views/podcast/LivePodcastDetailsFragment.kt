@@ -24,7 +24,6 @@ import com.deenislam.sdk.service.repository.PodcastRepository
 import com.deenislam.sdk.service.repository.YoutubeVideoRepository
 import com.deenislam.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislam.sdk.utils.CallBackProvider
-import com.deenislam.sdk.utils.Subscription
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.utils.show
@@ -147,11 +146,6 @@ internal class LivePodcastDetailsFragment : BaseRegularFragment(), VideoPlayerCa
     private fun loadPage(){
 
         sendBtn.setOnClickListener {
-
-            if(!Subscription.isSubscribe){
-                gotoFrag(R.id.action_global_subscriptionFragment)
-                return@setOnClickListener
-            }
 
             if(ask_input.text.toString().length<5){
                 context?.toast("Comment required minimum 5 character")

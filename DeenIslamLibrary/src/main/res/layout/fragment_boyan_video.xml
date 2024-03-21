@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/deen_background"
+    tools:viewBindingIgnore="true"
     tools:context=".views.islamicboyan.BoyanVideoFragment">
 
     <WebView
@@ -27,7 +28,6 @@
         app:layout_constraintStart_toStartOf="@id/playerWebView"
         app:layout_constraintTop_toTopOf="@id/playerWebView"
         app:layout_constraintVertical_bias="0.97" />
-
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvStoryName"
@@ -55,20 +55,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStoryName" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/morePodcastTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="@string/more_videos"
-        android:layout_marginTop="@dimen/space_16"
-        android:layout_marginStart="@dimen/space_16"
-        android:layout_gravity="center_vertical"
-        android:textColor="@color/deen_txt_black_deep"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actionbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listView"
@@ -83,7 +69,7 @@
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@+id/morePodcastTxt"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

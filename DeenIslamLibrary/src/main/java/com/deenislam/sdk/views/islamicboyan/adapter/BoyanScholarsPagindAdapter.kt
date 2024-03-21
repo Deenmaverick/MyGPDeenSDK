@@ -61,12 +61,12 @@ internal class BoyanScholarsPagindAdapter(
 
 
             itemView.setOnClickListener {
-                callback.scholarClick(scholarItem.Id)
+                callback.scholarClick(scholarItem)
             }
         }
     }
 }
 
-interface BoyanScholarCallback {
-    fun scholarClick(scholarId: Int)
+internal interface BoyanScholarCallback {
+    fun scholarClick(data: Data)
 }

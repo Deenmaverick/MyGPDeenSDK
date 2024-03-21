@@ -53,6 +53,7 @@ import com.deenislam.sdk.views.adapters.dashboard.PrayerTimeCallback
 import com.deenislam.sdk.views.adapters.dashboard.TYPE_WIDGET11
 import com.deenislam.sdk.views.adapters.dashboard.TYPE_WIDGET7
 import com.deenislam.sdk.views.base.BaseFragment
+import com.deenislam.sdk.views.main.MainActivityDeenSDK
 import com.deenislam.sdk.views.main.actionCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -667,7 +668,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
         customargs = null
 
-        val getBannerData = dashboardPatchMain.getDashboardData().filter { it.AppDesign == "Banners" }
+       /* val getBannerData = dashboardPatchMain.getDashboardData().filter { it.AppDesign == "Banners" }
         val getRamadanPatchData: Item? = getBannerData.flatMap { it.Items }.firstOrNull { it.ContentType == "rot" }
 
         if (getRamadanPatchData != null && getRamadanPatchData.MText.isNotEmpty()) {
@@ -677,6 +678,34 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 if (remainTime > 0) {
                     ramadanCountDownTimerSetup(remainTime,getRamadanPatchData.Meaning)
                 }
+            }
+        }*/
+
+
+        // ramadan floating card
+        val getBannerData = dashboardPatchMain.getDashboardData().filter { it.AppDesign == "Banners" }
+        val getRamadanRegularPatchData: Item? = getBannerData.flatMap { it.Items }.firstOrNull { it.ContentType == "rot" }
+        val getRamadanPatchData: Item? = getBannerData.flatMap { it.Items }.firstOrNull { it.ContentType == "rr" }
+
+        if (getRamadanRegularPatchData != null && getRamadanRegularPatchData.MText.isNotEmpty()) {
+            tryCatch {
+                val ramadanExpectedTimeInMill = getRamadanRegularPatchData.MText.toLong() * 1000
+                val remainTime = ramadanExpectedTimeInMill - System.currentTimeMillis()
+                if (remainTime > 0) {
+                    ramadanCountDownTimerSetup(remainTime,getRamadanRegularPatchData.Meaning)
+                }
+            }
+        }else{
+
+            if(activity!=null && getRamadanPatchData!=null) {
+                prayerTimesResponse?.let {
+                    (activity as MainActivityDeenSDK).showRamadanDayFloatingCard(
+                        it.Data.IslamicDate.split(
+                            ","
+                        ).firstOrNull() ?: "--",it
+                    )
+                }
+
             }
         }
 

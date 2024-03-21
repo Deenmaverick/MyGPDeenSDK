@@ -45,12 +45,12 @@ internal class BoyanCategoriesPagingAdapter(
             name.text = categoryItem.category
 
             itemView.setOnClickListener {
-                callback.chapterClick(categoryItem.Id)
+                callback.chapterClick(categoryItem)
             }
         }
     }
 }
 
-interface BoyanCategoriesCallback {
-    fun chapterClick(boyanId: Int)
+internal interface BoyanCategoriesCallback {
+    fun chapterClick(data: Data)
 }

@@ -55,26 +55,15 @@ internal class BoyanHomeFragment : BaseRegularFragment(), HorizontalCardListCall
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*if(firstload) {
-            loadpage()
-        }
-        else if (!isDetached) {
-            view.postDelayed({
-                loadpage()
-            }, 300)
-        }
-        else*/
-            loadpage()
 
-        firstload = true
-    }
-
-    private fun loadpage() {
         initObserver()
         baseLoadingState()
 
-        loadApi()
+        if(!firstload)
+            loadApi()
+        firstload = true
     }
+
 
     private fun initObserver() {
         viewmodel.boyanLiveData.observe(viewLifecycleOwner)
@@ -106,6 +95,7 @@ internal class BoyanHomeFragment : BaseRegularFragment(), HorizontalCardListCall
         val bundle = Bundle()
         bundle.putInt("id", getData.Id)
         bundle.putString("videoType", "scholar")
+        bundle.putString("title",getData.Text)
         gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
     }
 
@@ -113,6 +103,7 @@ internal class BoyanHomeFragment : BaseRegularFragment(), HorizontalCardListCall
         val bundle = Bundle()
         bundle.putInt("id", getData.Id)
         bundle.putString("videoType", "category")
+        bundle.putString("title",getData.Text)
         gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
     }
 

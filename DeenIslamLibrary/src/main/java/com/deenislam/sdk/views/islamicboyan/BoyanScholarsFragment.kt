@@ -10,6 +10,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.BoyanResource
 import com.deenislam.sdk.service.models.CommonResource
+import com.deenislam.sdk.service.network.response.boyan.scholarspaging.Data
 import com.deenislam.sdk.service.repository.BoyanRepository
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.viewmodels.BoyanViewModel
@@ -52,22 +53,14 @@ internal class BoyanScholarsFragment : BaseRegularFragment(), BoyanScholarCallba
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        boyanScholarsPagingAdapter = BoyanScholarsPagindAdapter(this@BoyanScholarsFragment, "boyan")
+        if(!this::boyanScholarsPagingAdapter.isInitialized)
+            boyanScholarsPagingAdapter = BoyanScholarsPagindAdapter(this@BoyanScholarsFragment, "boyan")
+
+        listView.apply {
+            adapter = boyanScholarsPagingAdapter
+        }
 
         initObserver()
-
-        /*if(firstload) {
-            loadApiData()
-        }
-        else if (!isDetached) {
-            view.postDelayed({
-                loadApiData()
-            }, 300)
-        }
-        else*/
-            loadApiData()
-
-        firstload = true
     }
 
     private fun loadApiData()
@@ -100,10 +93,11 @@ internal class BoyanScholarsFragment : BaseRegularFragment(), BoyanScholarCallba
         }
     }
 
-    override fun scholarClick(scholarId: Int) {
+    override fun scholarClick(data: Data) {
         val bundle = Bundle()
-        bundle.putInt("id", scholarId)
+        bundle.putInt("id", data.Id)
         bundle.putString("videoType", "scholar")
+        bundle.putString("title", data.Name)
         gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
     }
 
@@ -115,6 +109,10 @@ internal class BoyanScholarsFragment : BaseRegularFragment(), BoyanScholarCallba
         super.setMenuVisibility(menuVisible)
         if (menuVisible){
             CallBackProvider.setFragment(this)
+            if(!firstload) {
+                loadApiData()
+            }
+            firstload = true
         }
     }
 }

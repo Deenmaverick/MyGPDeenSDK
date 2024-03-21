@@ -11,7 +11,6 @@ const val BASE_HADITH_API_TEST_URL = "https://sunnah.com/ajax/"
 const val BASE_QURAN_API_URL = "https://api.qurancdn.com/api/v4/"
 const val BASE_YOUTUBE_VIDEO_API = "https://www.youtube.com/youtubei/v1/"
 const val YOUTUBE_VIDEO_KEY="STEHLGCilw_Y9_11qcW8AIzaSyAO_FJ2SlqU8Q4"
-    //"https://api.quran.com/api/v4/"
 const val BASE_CONTENT_URL_SGP = "https://islamic-content.sgp1.digitaloceanspaces.com/"
 const val BASE_QURAN_VERSE_AUDIO_URL = "https://verses.quran.com/"
 
@@ -65,8 +64,7 @@ const val RECYCLER_DATA_AVAILABLE = 1
 const val RECYCLERFOOTER = 2
 const val RequestBodyMediaType = "application/json"
 
-// :notifications-api
-const val ACTION_START_ALARM_LOOPER = "alarm.loopers.START"
+
 // makkah location
 const val MAKKAH_LATITUDE = 21.4204009
 const val MAKKAH_LONGITUDE = 39.8257354

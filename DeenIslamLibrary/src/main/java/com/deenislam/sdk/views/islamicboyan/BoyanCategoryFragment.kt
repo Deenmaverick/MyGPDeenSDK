@@ -10,6 +10,7 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.BoyanResource
 import com.deenislam.sdk.service.models.CommonResource
+import com.deenislam.sdk.service.network.response.boyan.categoriespaging.Data
 import com.deenislam.sdk.service.repository.BoyanRepository
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.viewmodels.BoyanViewModel
@@ -54,22 +55,15 @@ internal class BoyanCategoryFragment : BaseRegularFragment(), BoyanCategoriesCal
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        boyanCategoriesPagingAdapter = BoyanCategoriesPagingAdapter(this@BoyanCategoryFragment)
+        if(!this::boyanCategoriesPagingAdapter.isInitialized)
+            boyanCategoriesPagingAdapter = BoyanCategoriesPagingAdapter(this@BoyanCategoryFragment)
 
+        listView.apply {
+            adapter = boyanCategoriesPagingAdapter
+        }
         initObserver()
 
-        if(firstload) {
-            loadApiData()
-        }
-        else if (!isDetached) {
-            view.postDelayed({
-                loadApiData()
-            }, 300)
-        }
-        else
-            loadApiData()
-
-        firstload = true
+        baseLoadingState()
 
     }
 
@@ -102,10 +96,11 @@ internal class BoyanCategoryFragment : BaseRegularFragment(), BoyanCategoriesCal
         }
     }
 
-    override fun chapterClick(boyanId: Int) {
+    override fun chapterClick(data: Data) {
         val bundle = Bundle()
-        bundle.putInt("id", boyanId)
+        bundle.putInt("id", data.Id)
         bundle.putString("videoType", "category")
+        bundle.putString("title",data.category)
         gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
     }
 
@@ -117,6 +112,10 @@ internal class BoyanCategoryFragment : BaseRegularFragment(), BoyanCategoriesCal
         super.setMenuVisibility(menuVisible)
         if (menuVisible){
             CallBackProvider.setFragment(this)
+            if(!firstload) {
+                loadApiData()
+            }
+            firstload = true
         }
     }
 }

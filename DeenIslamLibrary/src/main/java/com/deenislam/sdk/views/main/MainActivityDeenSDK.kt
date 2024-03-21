@@ -50,6 +50,7 @@ import com.deenislam.sdk.service.libs.media3.QuranPlayerBroadcast
 import com.deenislam.sdk.service.libs.media3.QuranPlayerOffline
 import com.deenislam.sdk.service.libs.notification.AlarmReceiver
 import com.deenislam.sdk.service.libs.sessiontrack.SessionReceiver
+import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Ayath
 import com.deenislam.sdk.service.network.response.quran.qurangm.ayat.Qari
 import com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data
@@ -149,6 +150,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     private var isRamadanRemainCardClosed = false
     private lateinit var ramadanCustomAlertDialogView : View
     private var ramadanExpectedTimeInMill:Long = 0
+    private var isRamadanRunning = false
     private var ramadanDate:String=""
     private var ramadanCountDownTimer: CountDownTimer?=null
 
@@ -1178,7 +1180,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
 
             if(destination.id == R.id.dashboardFakeFragment){
-                if(!isRamadanRemainCardClosed && ramadanExpectedTimeInMill>0)
+                if(!isRamadanRemainCardClosed && (ramadanExpectedTimeInMill>0 || isRamadanRunning))
                     ramadanRemainCard.show()
                 else
                     ramadanRemainCard.hide()
@@ -1276,7 +1278,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
         val localInflater = layoutInflater.cloneInContext(themedContext)
 
-        if(ramadanExpectedTimeInMill>0) {
+        if(ramadanExpectedTimeInMill>0 && !isRamadanRunning) {
             materialAlertDialogBuilder =
                 MaterialAlertDialogBuilder(this, R.style.DeenMaterialAlertDialog_Rounded)
 
@@ -1327,7 +1329,8 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
                 ramadanRemainCard.hide()
                 isRamadanRemainCardClosed = false
             }
-        }
+        }else
+            navController.navigate(R.id.action_global_ramadanFragment)
     }
 
     fun ramadanCountDownTimerSetup(ramadanExpectedTimeInMill: Long, date: String) {
@@ -1387,6 +1390,20 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         isRamadanRemainCardClosed = false
         if( navController.currentDestination?.id == R.id.dashboardFakeFragment)
         ramadanRemainCard.show()
+    }
+
+    fun showRamadanDayFloatingCard(ramadan: String, prayerTimesResponse: PrayerTimesResponse) {
+
+        if (ramadanRemainCard.isShown || isRamadanRemainCardClosed) {
+            return
+        }
+        isRamadanRunning = true
+        ramadanTxt.text = localContext.getString(R.string.ramadan_mubarak)
+        ramadanRemainTxt.text = ramadan
+        isRamadanRemainCardClosed = false
+        if( navController.currentDestination?.id == R.id.dashboardFakeFragment)
+            ramadanRemainCard.show()
+
     }
 
 }

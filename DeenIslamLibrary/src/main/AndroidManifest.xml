@@ -47,6 +47,7 @@
             android:theme="@style/DeenSDKTheme.NoActionBar"
             android:name="com.deenislam.sdk.views.main.MainActivityDeenSDK"
             android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:exported="true">

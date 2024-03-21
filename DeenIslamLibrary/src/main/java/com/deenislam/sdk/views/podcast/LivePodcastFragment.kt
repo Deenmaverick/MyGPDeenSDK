@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 
 internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
-    HorizontalCardListCallback, DashboardPatchCallback {
+    HorizontalCardListCallback {
 
     private lateinit var listMain:RecyclerView
     private lateinit var viewmodel: PodcastViewModel
@@ -215,10 +215,5 @@ internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
 
     }
 
-    override fun dashboardPatchClickd(patch: String, data: Item?) {
-        if (data != null) {
-            patchItemClicked(data)
-        }
-    }
 
 }
