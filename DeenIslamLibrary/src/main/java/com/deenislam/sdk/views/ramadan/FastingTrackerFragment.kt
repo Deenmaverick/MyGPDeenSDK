@@ -268,7 +268,7 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
 
 
             fastingProgress.progress = it.totalTracked
-            ramadan_complete_txt.text = "${it.totalTracked}/${it.totalDays}"
+            ramadan_complete_txt.text = "${it.totalTracked}/${it.totalDays}".numberLocale()
             //fastingCheck.isChecked = fasting
             isFasting = fasting
 

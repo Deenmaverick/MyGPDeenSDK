@@ -10,6 +10,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.deenislam.sdk.R
+import com.deenislam.sdk.utils.numberLocale
 import com.google.gson.Gson
 
 internal class CalendarAdapter(private val context: Context, private var days: List<CalendarDay>) : BaseAdapter() {
@@ -26,7 +27,7 @@ internal class CalendarAdapter(private val context: Context, private var days: L
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.custom_calendar_day, parent, false)
         val textView = view.findViewById<TextView>(R.id.dayText)
 
-        textView.text = day.day
+        textView.text = day.day.numberLocale()
 
         val calendar = java.util.Calendar.getInstance()
         // Set the specific year, month, and day for the calendar instance
