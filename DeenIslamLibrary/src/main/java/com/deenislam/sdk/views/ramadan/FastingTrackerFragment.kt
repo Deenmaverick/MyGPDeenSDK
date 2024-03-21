@@ -218,6 +218,10 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
         }
     }
 
+    override fun noInternetRetryClicked() {
+        loadApi()
+    }
+
     private fun viewState(data: Data)
     {
         monthlyCalanderData = ArrayList(data.calander)
