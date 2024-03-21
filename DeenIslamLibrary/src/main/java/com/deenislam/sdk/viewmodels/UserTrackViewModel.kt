@@ -21,4 +21,10 @@ internal class UserTrackViewModel(
         }
     }
 
+    suspend fun saveAdvertisementrecord(adID:Int,response:String){
+        viewModelScope.launch {
+            repository.saveAdvertisementrecord(adID,response)
+        }
+    }
+
 }

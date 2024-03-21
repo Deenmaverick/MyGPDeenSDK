@@ -1,7 +1,7 @@
 package com.deenislam.sdk.utils
 
-const val BASE_AUTH_API_URL = "https://api.deenislamic.com/api/"
-const val BASE_DEEN_SERVICE_API_URL = "https://services.deenislamic.com/api/"
+const val BASE_AUTH_API_URL = "https://devapi.deenislamic.com/api/"
+const val BASE_DEEN_SERVICE_API_URL = "https://devservices.deenislamic.com/api/"
 const val BASE_QURAN_SHIKKHA_API_URL = "https://api.quranshikkha.app/api/v2/"
 const val BASE_PAYMENT_API_URL = "https://payment.islamicservice.net/"
 const val NAGAD_BASE_PAYMENT_API_URL = "https://nagadpayment.islamicservice.net/api/"

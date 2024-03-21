@@ -34,4 +34,15 @@ internal class UserTrackRepository(
 
         Log.e("MyBLSDK","OKK")
     }
+
+    suspend fun saveAdvertisementrecord(adID:Int,response:String) = makeApicall {
+
+        val body = JSONObject()
+        body.put("adID", adID)
+        body.put("response", response)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        authenticateService?.saveAdvertisementrecord(parm = requestBody)
+
+    }
 } 

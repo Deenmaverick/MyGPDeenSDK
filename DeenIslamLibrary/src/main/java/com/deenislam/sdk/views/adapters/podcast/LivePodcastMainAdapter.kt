@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.libs.advertisement.Advertisement
 import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.utils.AsyncViewStub
 import com.deenislam.sdk.utils.PATCH_COMMON_CARD_LIST
@@ -78,7 +79,15 @@ internal class LivePodcastMainAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 }*/
         }
 
-        if(viewType>0 && viewType == itemCount - 1) {
+        if(viewType == itemCount - 1) {
+
+            val imageAd = Advertisement.getImageAd()
+            imageAd?.let {
+                prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
+                    loadAdvertisement(this,it)
+                }
+            }
+
             prepareStubView<View>(rootview.findViewById(R.id.widget),R.layout.layout_footer) {
 
             }
@@ -94,6 +103,17 @@ internal class LivePodcastMainAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         this.data.addAll(data)
         notifyItemRangeInserted(itemCount, data.size)
 
+    }
+
+    private fun loadAdvertisement(
+        itemview: View,
+        data: com.deenislam.sdk.service.network.response.advertisement.Data
+    ) {
+        data.let {
+            (itemview.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 0
+            val helper = QuranicItem(itemview)
+            helper.loadImageAd(it)
+        }
     }
 
     override fun getItemCount(): Int = data.size
