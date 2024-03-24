@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
-import com.deenislam.sdk.service.network.response.dashboard.Item
+import com.deenislam.sdk.service.network.response.dashboard.Data
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.ViewPagerHorizontalRecyler
 import com.deenislam.sdk.views.adapters.dailydua.DailyDuaPatchAdapter
 
-internal class DailyDua(private val view: View,private val items: List<Item>) {
+internal class DailyDua(private val view: View, private val data: Data) {
 
     private var dailyDuaPatchAdapter: DailyDuaPatchAdapter? =null
     private var dailyDuaRC: RecyclerView? = null
@@ -44,7 +44,7 @@ internal class DailyDua(private val view: View,private val items: List<Item>) {
                 )
             )
 
-            titile?.text = it.context.getString(R.string.daily_dua)
+            titile?.text = data.Title
         }
 
 
@@ -61,7 +61,7 @@ internal class DailyDua(private val view: View,private val items: List<Item>) {
             overScrollMode = View.OVER_SCROLL_NEVER
         }
 
-        dailyDuaPatchAdapter?.update(items)
+        dailyDuaPatchAdapter?.update(data.Items)
 
     }
 

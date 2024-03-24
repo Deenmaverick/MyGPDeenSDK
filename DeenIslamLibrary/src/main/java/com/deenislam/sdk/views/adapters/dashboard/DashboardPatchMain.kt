@@ -394,7 +394,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                         }
 
                         TYPE_WIDGET6 -> {
-                            DailyDua(itemView, data.Items)
+                            DailyDua(itemView, data)
                         }
 
                         TYPE_WIDGET7 -> {
