@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.AdvertisementCallback
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
+import com.deenislam.sdk.service.callback.common.PatchCallback
 import com.deenislam.sdk.service.network.response.advertisement.Data
 import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
@@ -28,6 +29,7 @@ internal class QuranicItem(private val itemView: View) {
     private var midContent: AppCompatTextView? = itemView.findViewById(R.id.midContent)
     private val ic_play_oval:AppCompatImageView ? = itemView.findViewById(R.id.ic_play_oval)
     private val dashboardPatchCallback = CallBackProvider.get<DashboardPatchCallback>()
+    private val patchCallback = CallBackProvider.get<PatchCallback>()
     private val adCallback = CallBackProvider.get<AdvertisementCallback>()
 
     fun loadCommomn()
@@ -396,6 +398,7 @@ internal class QuranicItem(private val itemView: View) {
             mainBtn?.hide()
 
             itemView.setOnClickListener {
+                patchCallback?.patchClicked(data)
                 dashboardPatchCallback?.dashboardPatchClickd(data.ContentType, data)
             }
 

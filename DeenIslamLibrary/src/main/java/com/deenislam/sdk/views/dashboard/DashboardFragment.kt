@@ -1207,6 +1207,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                     gotoFrag(R.id.action_global_duaAmalHomeFragment, bundle)
                 }
             }
+            "sub" -> gotoFrag(R.id.action_global_subscriptionFragment)
 
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }

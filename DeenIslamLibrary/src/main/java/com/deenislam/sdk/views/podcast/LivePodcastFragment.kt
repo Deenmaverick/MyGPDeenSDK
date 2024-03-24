@@ -3,6 +3,7 @@ package com.deenislam.sdk.views.podcast
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.AdvertisementCallback
-import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.LivePodcastCallback
 import com.deenislam.sdk.service.callback.common.HorizontalCardListCallback
+import com.deenislam.sdk.service.callback.common.PatchCallback
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.PodcastResource
@@ -29,12 +30,13 @@ import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.PodcastViewModel
 import com.deenislam.sdk.views.adapters.podcast.LivePodcastMainAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
+import com.google.gson.Gson
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
 internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
-    HorizontalCardListCallback, AdvertisementCallback {
+    HorizontalCardListCallback, AdvertisementCallback, PatchCallback {
 
     private lateinit var listMain:RecyclerView
     private lateinit var viewmodel: PodcastViewModel
@@ -185,7 +187,6 @@ internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
     }
 
     override fun patchItemClicked(getData: Item) {
-
         when(getData.ContentType){
             "ipd" -> {
                 if(getData.isLive) {
@@ -227,6 +228,10 @@ internal class LivePodcastFragment : BaseRegularFragment(), LivePodcastCallback,
         if (context?.packageManager?.let { intent.resolveActivity(it) } != null) {
             context?.startActivity(intent)
         }
+    }
+
+    override fun patchClicked(data: Item) {
+        patchItemClicked(data)
     }
 
 }
