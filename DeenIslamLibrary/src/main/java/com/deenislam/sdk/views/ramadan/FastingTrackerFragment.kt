@@ -227,7 +227,7 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
         monthlyCalanderData = ArrayList(data.calander)
 
         datetime.text = data.Month.numberLocale().monthNameLocale().dayNameLocale()
-        arabicDatetime.text = "${data.islamicMonthStart} ${getString(R.string.from)} ${data.islamicMonthEnd}"
+        arabicDatetime.text = "${data.islamicMonthStart} ${localContext.getString(R.string.from)} ${data.islamicMonthEnd}"
 
         val activeDaysArray = getActiveDays(data.calander)
         val inactiveDaysArray = getInactiveDays(data.calander)

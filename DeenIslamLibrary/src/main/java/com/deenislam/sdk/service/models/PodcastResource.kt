@@ -19,5 +19,7 @@ internal interface PodcastResource {
     data class PodcastCat(val data: List<com.deenislam.sdk.service.network.response.podcast.category.Data>) :PodcastResource
 
     data class PodcastComment(val data: com.deenislam.sdk.service.network.response.podcast.comment.Data) :PodcastResource
+    data class PodcastAddComment(val data: com.deenislam.sdk.service.network.response.podcast.comment.Data) :PodcastResource
+
     data class PodcastCommentLiked(val copy: Comment) :PodcastResource
 }

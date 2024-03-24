@@ -129,13 +129,10 @@ internal class PodcastViewModel(
 
         viewModelScope.launch {
             when(val response = podcastRepository.getPodcastAllComment(pid,language)){
-                is ApiResource.Failure -> _podcastCommentLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Failure -> Unit
                 is ApiResource.Success -> {
                     if(response.value?.Data?.comments?.isNotEmpty() == true){
                         _podcastCommentLiveData.value = PodcastResource.PodcastComment(response.value.Data)
-                    }
-                    else{
-                        _podcastCommentLiveData.value = CommonResource.EMPTY
                     }
                 }
             }
@@ -170,11 +167,12 @@ internal class PodcastViewModel(
     suspend fun addComment(pid:Int,comment:String) {
         viewModelScope.launch {
             when(val response = podcastRepository.addComment(pid,comment)){
-                is ApiResource.Failure -> Unit
+                is ApiResource.Failure -> _podcastCommentLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
                     if(response.value?.Data?.comments?.isNotEmpty() == true) {
-                        _podcastCommentLiveData.value = PodcastResource.PodcastComment(response.value.Data)
-                    }
+                        _podcastCommentLiveData.value = PodcastResource.PodcastAddComment(response.value.Data)
+                    }else
+                        _podcastCommentLiveData.value = CommonResource.API_CALL_FAILED
                 }
             }
         }

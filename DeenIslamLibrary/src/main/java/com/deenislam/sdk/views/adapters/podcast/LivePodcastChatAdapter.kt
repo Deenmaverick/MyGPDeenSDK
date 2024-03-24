@@ -16,6 +16,7 @@ import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.imageLoad
+import com.deenislam.sdk.utils.monthShortNameLocale
 import com.deenislam.sdk.utils.numberLocale
 import com.deenislam.sdk.views.base.BaseViewHolder
 import java.lang.Exception
@@ -97,7 +98,7 @@ internal class LivePodcastChatAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 custom_placeholder_1_1 = R.drawable.ic_avatar)
 
             user_name.text = maskNumber(getdata.MSISDN.toString())
-            comment_time.text = getdata.CTime
+            comment_time.text = getdata.CTime.numberLocale().monthShortNameLocale()
             user_comment.text = getdata.Text
             like_count.text = itemView.context.getString(R.string.like_count,getdata.LikeCount.toString().numberLocale())
 

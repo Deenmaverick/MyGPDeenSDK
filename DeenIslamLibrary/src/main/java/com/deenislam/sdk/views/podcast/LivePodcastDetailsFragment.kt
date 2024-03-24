@@ -17,6 +17,7 @@ import com.deenislam.sdk.service.callback.PodcastCallback
 import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.libs.media3.ExoVideoManager
 import com.deenislam.sdk.service.libs.media3.VideoPlayerCallback
+import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.PodcastResource
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 import com.deenislam.sdk.service.network.response.podcast.comment.Comment
@@ -49,7 +50,7 @@ internal class LivePodcastDetailsFragment : BaseRegularFragment(), VideoPlayerCa
     private lateinit var ask_input:TextInputEditText
     private lateinit var sendBtn:FloatingActionButton
     // player control
-
+    private lateinit var vPlayerControlAction1: AppCompatImageView
     private lateinit var vPlayerControlAction2: AppCompatImageView
     private lateinit var vPlayerControlBtnBack:AppCompatImageView
 
@@ -101,6 +102,7 @@ internal class LivePodcastDetailsFragment : BaseRegularFragment(), VideoPlayerCa
         actionbar = mainview.findViewById(R.id.actionbar)
         vPlayerControlBtnBack = mainview.findViewById(R.id.vPlayerControlBtnBack)
         liveVideoProgress = mainview.findViewById(R.id.liveVideoProgress)
+        vPlayerControlAction1 = mainview.findViewById(R.id.vPlayerControlAction1)
         vPlayerControlAction2 = mainview.findViewById(R.id.vPlayerControlAction2)
         chat_count = chatActionbar.findViewById(R.id.chat_count)
         ask_input = bottom_nav.findViewById(R.id.ask_input)
@@ -122,6 +124,8 @@ internal class LivePodcastDetailsFragment : BaseRegularFragment(), VideoPlayerCa
         )
 
         setupCommonLayout(mainview)
+
+        vPlayerControlAction1.hide()
 
         return mainview
     }
@@ -221,10 +225,21 @@ internal class LivePodcastDetailsFragment : BaseRegularFragment(), VideoPlayerCa
         viewmodel.podcastCommentLiveData.observe(viewLifecycleOwner){
             when(it){
                 is PodcastResource.PodcastComment -> {
+                    /*sendBtn.isClickable = true
+                    ask_input.setText("")*/
+                    chat_count.text = it.data.CommentCount.toString().numberLocale()
+                    livePodcastChatAdapter.update(it.data.comments)
+                }
+                is PodcastResource.PodcastAddComment -> {
                     sendBtn.isClickable = true
                     ask_input.setText("")
                     chat_count.text = it.data.CommentCount.toString().numberLocale()
                     livePodcastChatAdapter.update(it.data.comments)
+                }
+
+                is CommonResource.API_CALL_FAILED -> {
+                    sendBtn.isClickable = true
+                    context?.toast("Failed to comment. Try again")
                 }
             }
         }

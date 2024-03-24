@@ -142,7 +142,7 @@ internal class IslamiFazaelFragment : BaseRegularFragment(), IslamiFazaelCallbac
 
     override fun FazaelCatClicked(getdata: Data) {
         val bundle = Bundle()
-        bundle.putString("title",getdata.Title)
+        bundle.putString("title",getdata.category)
         bundle.putInt("catid",getdata.Id)
         gotoFrag(R.id.action_global_fazaelByCatFragment,bundle)
     }

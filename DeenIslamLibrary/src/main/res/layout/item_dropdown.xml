@@ -5,7 +5,7 @@
     app:cornerRadius="@dimen/space_8"
     android:text="Dhaka (ঢাকা)"
     android:padding="12dp"
-    android:textAlignment="textStart"
+    android:textAlignment="viewStart"
     android:gravity="start"
     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
     android:textColor="@color/deen_txt_black_deep"
