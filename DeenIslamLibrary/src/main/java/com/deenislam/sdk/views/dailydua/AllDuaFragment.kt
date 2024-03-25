@@ -200,6 +200,6 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
             putInt("category", id)
             putString("catName", category)
         }
-        gotoFrag(R.id.action_dailyDuaFragment_to_allDuaPreviewFragment,data = bundle)
+        gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
     }
 }

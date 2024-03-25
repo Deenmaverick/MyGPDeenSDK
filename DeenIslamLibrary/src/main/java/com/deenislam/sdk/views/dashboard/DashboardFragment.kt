@@ -1057,7 +1057,18 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 bundle.putString("compassBG",compassBG)
                 gotoFrag(R.id.action_global_compassFragment,bundle)
             }
-            "du" -> gotoFrag(R.id.action_global_dailyDuaFragment)
+            "du" -> {
+                if(data!=null && data.CategoryId!=0){
+                    val bundle = Bundle().apply {
+                        putInt("category", data.CategoryId)
+                        putString("catName", data.ArabicText)
+                    }
+                    gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
+
+                }else
+                    gotoFrag(R.id.action_global_dailyDuaFragment)
+
+            }
             "ijtema" -> {
 
                 data?.let {
@@ -1082,7 +1093,23 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 gotoFrag(R.id.action_global_ramadanFragment,bundle)
             }
             "hau" -> changeMainViewPager(3)
-            "ie" -> gotoFrag(R.id.action_global_islamicEventHomeFragment)
+            "ie" -> {
+
+                if(data!=null && data.CategoryId!=0){
+                    val bundle = Bundle()
+                    bundle.putInt("categoryID", data.CategoryId)
+                    bundle.putString("pageTitle",data.ArabicText)
+                    bundle.putString("pageTag", MENU_ISLAMIC_EVENT)
+                    bundle.putBoolean("shareable",false)
+
+                    gotoFrag(R.id.action_global_subCatCardListFragment,bundle)
+
+                }else
+                    gotoFrag(R.id.action_global_islamicEventHomeFragment)
+
+
+
+            }
             "qc" -> gotoFrag(R.id.action_global_quranLearningFragment)
             "dqc" -> {
 
@@ -1192,6 +1219,12 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                     bundle.putString("videoType", "scholar")
                     bundle.putString("title",data.ArabicText)
                     gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
+                }else if(data!=null && data.CategoryId!=0){
+                    val bundle = Bundle()
+                    bundle.putInt("id", data.CategoryId)
+                    bundle.putString("videoType", "category")
+                    bundle.putString("title",data.ArabicText)
+                    gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
                 }else{
                     gotoFrag(R.id.action_global_islamicBoyanHomeFragment)
                 }
@@ -1208,6 +1241,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 }
             }
             "sub" -> gotoFrag(R.id.action_global_subscriptionFragment)
+            "blnk" -> Unit
 
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
