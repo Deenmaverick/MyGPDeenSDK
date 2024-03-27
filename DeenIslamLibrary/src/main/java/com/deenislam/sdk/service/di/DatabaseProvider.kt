@@ -166,14 +166,16 @@ internal class DatabaseProvider {
 
         if (instance?.databse == null)
             instance?.databse =
-        Room.databaseBuilder(
-            DeenSDKCore.baseContext!!,
-            AppDatabase::class.java, "deenislam.db"
-        )
-            .addMigrations(MIGRATION_TEST)
-            //.allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
-            .build()
+                DeenSDKCore.baseContext?.let {
+                    Room.databaseBuilder(
+                        it,
+                        AppDatabase::class.java, "deenislam.db"
+                    )
+                        .addMigrations(MIGRATION_TEST)
+                        //.allowMainThreadQueries()
+                        .fallbackToDestructiveMigration()
+                        .build()
+                }
 
     }
 

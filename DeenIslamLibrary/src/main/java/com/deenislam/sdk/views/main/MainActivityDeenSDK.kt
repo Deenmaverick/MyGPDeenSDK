@@ -15,7 +15,9 @@ import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
@@ -809,9 +811,12 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     override fun onPause() {
         sendSessionToServer()
 
-        if(this::onBackPressedCallback.isInitialized) {
-            onBackPressedCallback.isEnabled = false
-            onBackPressedCallback.remove()
+        Handler(Looper.getMainLooper()).post {
+            if (this::onBackPressedCallback.isInitialized) {
+                onBackPressedCallback.isEnabled = false
+                onBackPressedCallback.remove()
+            }
+
         }
 
         val callback = CallBackProvider.get<QuranPlayerCallback>()
