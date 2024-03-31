@@ -23,7 +23,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:layout_marginStart="@dimen/space_8"
+            android:paddingStart="@dimen/space_8"
+            android:paddingEnd="@dimen/space_8"
             android:textColor="@color/deen_txt_black"
             android:textStyle="bold"
             tools:text="Ahmed kabir"
@@ -48,11 +49,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
+            android:paddingStart="@dimen/space_8"
+            android:paddingEnd="@dimen/space_8"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_txt_black_deep"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id a fringilla elit egestas. 🙌"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:layout_constraintStart_toStartOf="@+id/user_name"
+            app:layout_constraintEnd_toEndOf="@+id/comment_time"
             />
 
         <LinearLayout
