@@ -50,7 +50,7 @@ private val callback = CallBackProvider.get<IslamicEducationCallback>()
                 callback?.videoItemClick(position)
             }
 
-            val isLastItem = position == itemCount - 1
+           /* val isLastItem = position == itemCount - 1
             val isTotalCountOdd = itemCount % 2 != 0
 
             if (isLastItem && isTotalCountOdd) {
@@ -72,7 +72,7 @@ private val callback = CallBackProvider.get<IslamicEducationCallback>()
                 layoutParams.leftMargin = 8.dp
                 layoutParams.rightMargin = 8.dp
                 itemView.layoutParams = layoutParams
-            }
+            }*/
         }
     }
 }
