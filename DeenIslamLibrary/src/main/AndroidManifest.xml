@@ -48,7 +48,7 @@
             android:name="com.deenislam.sdk.views.main.MainActivityDeenSDK"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
             android:screenOrientation="portrait"
             android:exported="true">
         </activity>
