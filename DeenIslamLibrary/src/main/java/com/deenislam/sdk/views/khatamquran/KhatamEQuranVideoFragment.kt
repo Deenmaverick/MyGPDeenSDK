@@ -237,6 +237,7 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
     private fun setVideoData(listItem: CommonCardData?) {
 
         videoList[position].title?.let { exoVideoManager.setupActionbar(isBackBtn = true, title = it) }
+        exoVideoManager.setupActionbar(isBackBtn = true, title = videoList[position].title.toString())
 
         tvStoryName.text = videoList[position].title
 
