@@ -97,7 +97,8 @@ internal class QuranLearningTpFragment : BaseRegularFragment(), QuranLearningCal
         exoVideoManager = ExoVideoManager(
             context = requireContext(),
             isLiveVideo = false,
-            mainview = mainview
+            mainview = mainview,
+            activity = activity
         )
         exoVideoManager.setupActionbar(isBackBtn = true, title = localContext.getString(R.string.digital_quran_class))
 
@@ -179,6 +180,18 @@ internal class QuranLearningTpFragment : BaseRegularFragment(), QuranLearningCal
         super.onDestroyView()
     }
 
+
+
+    override fun onPause() {
+        super.onPause()
+        exoVideoManager.pauseVideo()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        exoVideoManager.playPauseVideo()
+    }
 
     private fun initObserver()
     {

@@ -326,7 +326,7 @@ internal class EducationVideoFragment : BaseRegularFragment(), VideoPlayerCallba
 
     override fun onPause() {
         super.onPause()
-        exoVideoManager.playPauseVideo()
+        exoVideoManager.pauseVideo()
         releaseWakeLock()
     }
 

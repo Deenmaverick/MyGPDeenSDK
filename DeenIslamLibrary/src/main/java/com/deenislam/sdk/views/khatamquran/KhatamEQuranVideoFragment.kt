@@ -156,7 +156,8 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
         exoVideoManager = ExoVideoManager(
             context = requireContext(),
             isLiveVideo = false,
-            mainview = mainview
+            mainview = mainview,
+            activity = activity
         )
         exoVideoManager.setupActionbar(isBackBtn = true, title = "")
 

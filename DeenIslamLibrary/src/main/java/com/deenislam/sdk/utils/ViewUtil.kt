@@ -1,5 +1,6 @@
 package com.deenislam.sdk.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,6 +11,7 @@ import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
@@ -595,4 +597,15 @@ internal fun AppCompatImageView.setColorFilter( tintColor: Int) {
     val colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_ATOP)
     this.colorFilter = colorFilter
     this.imageAlpha = 255 // If you want to change the alpha of the image along with the color
+}
+
+fun Activity.acquireWakeLock() {
+
+    this.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+}
+
+fun Activity.releaseWakeLock() {
+
+    this.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
 }

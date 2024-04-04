@@ -17,12 +17,14 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 import com.deenislam.sdk.service.network.response.common.toMediaItems
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.acquireWakeLock
 import com.deenislam.sdk.utils.bottomControlHideWithAnim
 import com.deenislam.sdk.utils.bottomControlShowWithAnim
 import com.deenislam.sdk.utils.dp
 import com.deenislam.sdk.utils.enterFullScreen
 import com.deenislam.sdk.utils.exitFullScreen
 import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.releaseWakeLock
 import com.deenislam.sdk.utils.show
 import com.deenislam.sdk.utils.topControlHideWithAnim
 import com.deenislam.sdk.utils.topControlShowWithAnim
@@ -40,7 +42,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSource
 internal class ExoVideoManager(
     context: Context,
     private val isLiveVideo: Boolean,
-    mainview: View
+    mainview: View,
+    private val activity: Activity? = null
 ) {
 
     private var exoPlayer: ExoPlayer = ExoPlayer.Builder(context).build()
@@ -205,9 +208,11 @@ internal class ExoVideoManager(
                 exo_progress.setPosition(exoPlayer.currentPosition)
                 exo_progress.setBufferedPosition(exoPlayer.bufferedPosition)
                 if (isPlaying) {
+                    activity?.acquireWakeLock()
                     MainActivityDeenSDK.instance?.pauseQuran()
                     handler.post(updateExoProgressRunnable)  // Start the periodic updates when playing
                 } else {
+                    activity?.releaseWakeLock()
                     handler.removeCallbacks(updateExoProgressRunnable)  // Stop the updates when paused
                 }
             }
@@ -228,12 +233,18 @@ internal class ExoVideoManager(
 
                 }
 
+                if (playbackState == ExoPlayer.STATE_BUFFERING) {
+
+                    activity?.acquireWakeLock()
+                }
+
                 if (playbackState == ExoPlayer.STATE_ENDED) {
                     exoPlayer.pause()
                     exoPlayer.seekTo(0)
                     exoPlayer.playWhenReady = false
                     vPlayerControlBtnPlay.setImageResource(R.drawable.ic_play_fill)
                     callback?.videoPlayerEnded()
+                    activity?.releaseWakeLock()
                 }
 
             }
@@ -367,6 +378,7 @@ internal class ExoVideoManager(
 
     fun onDestory()
     {
+        activity?.releaseWakeLock()
         releasePlayer()
         handler.removeCallbacks(updateExoProgressRunnable)
         handler.removeCallbacks(hideControlsRunnable)

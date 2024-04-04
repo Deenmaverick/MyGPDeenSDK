@@ -153,7 +153,8 @@ internal class QuranLearningDetailsFragment : BaseRegularFragment(),
         exoVideoManager = ExoVideoManager(
             context = requireContext(),
             isLiveVideo = false,
-            mainview = mainview
+            mainview = mainview,
+            activity = activity
         )
         exoVideoManager.setupActionbar(isBackBtn = true, title = navArgs.title)
 
@@ -534,6 +535,16 @@ internal class QuranLearningDetailsFragment : BaseRegularFragment(),
 
 
 
+    override fun onPause() {
+        super.onPause()
+        exoVideoManager.pauseVideo()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        exoVideoManager.playPauseVideo()
+    }
 
     inner class VMFactory(
         private val paymentRepository: PaymentRepository

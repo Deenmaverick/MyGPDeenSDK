@@ -13,6 +13,7 @@
         android:layout_height="0dp"
         app:hide_on_touch="false"
         app:show_buffering="always"
+        app:resize_mode="fit"
         app:buffered_color="@color/deen_white"
         android:background="@color/deen_black"
         app:controller_layout_id="@layout/layout_offline_video_custom_control"
