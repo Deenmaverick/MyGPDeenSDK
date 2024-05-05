@@ -1245,4 +1245,33 @@
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
 
+    <fragment
+        android:id="@+id/hajjGuideFragment"
+        android:name="com.deenislam.sdk.views.hajjandumrah.HajjGuideFragment"
+        android:label="fragment_hajj_guide"
+        tools:layout="@layout/fragment_hajj_guide" >
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_hajjGuideFragment"
+        app:destination="@id/hajjGuideFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <fragment
+        android:id="@+id/hajjAndUmrahFragment"
+        android:name="com.deenislam.sdk.views.hajjandumrah.HajjAndUmrahFragment"
+        android:label="HajjAndUmrahFragment" />
+    <action
+        android:id="@+id/action_global_hajjAndUmrahFragment"
+        app:destination="@id/hajjAndUmrahFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
 </navigation>

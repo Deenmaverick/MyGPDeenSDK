@@ -466,4 +466,8 @@
     <string name="yes">হ্যাঁ</string>
     <string name="no">না</string>
     <string name="ramadan_mubarak">খোশ আমদেদ</string>
+    <string name="hajj_umrah">হজ এবং উমরাহ</string>
+    <string name="the_hajj_guide">হজ গাইড</string>
+    <string name="have_you_done_this_step">আপনি এই পদক্ষেপ করেছেন?</string>
+    <string name="hajj_guide">হজ গাইড</string>
 </resources>

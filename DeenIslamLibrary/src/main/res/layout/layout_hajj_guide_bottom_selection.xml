@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="@dimen/space_16"
+    android:layout_marginEnd="@dimen/space_16"
+    android:paddingStart="@dimen/space_16"
+    android:paddingEnd="@dimen/space_16"
+    android:paddingBottom="@dimen/space_16"
+    android:elevation="@dimen/space_8"
+    tools:viewBindingIgnore="true"
+    app:behavior_hideable="false"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:background="@drawable/bg_top_corner_radius"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ic_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/space_7"
+        android:src="@drawable/ic_home_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_16"
+        android:text="@string/the_hajj_guide"
+        android:gravity="start"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/deen_txt_black_deep"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ic_bar"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/stepList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_16"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/titleTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/contentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        app:cardBackgroundColor="@color/deen_white"
+        app:cardCornerRadius="@dimen/space_8"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stepList"
+        app:strokeColor="@color/deen_border"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/space_12">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stepPos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="01"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/deen_txt_black_deep"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/stepTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/stepTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stepTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:text="Pre Hajj Preparation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/deen_txt_black_deep"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/icRight"
+                app:layout_constraintStart_toEndOf="@id/stepPos"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:text="Not yet"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_txt_ash"
+                app:layout_constraintStart_toStartOf="@id/stepTitle"
+                app:layout_constraintTop_toBottomOf="@+id/stepTitle" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icRight"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:tint="@color/deen_txt_black_deep"
+                android:src="@drawable/ic_dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/stepTitle"
+                app:layout_constraintTop_toTopOf="@+id/stepTitle" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
+                android:id="@+id/ContentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                app:layout_constraintTop_toBottomOf="@+id/status"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/contentTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="6"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/deen_txt_ash"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+                
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/hintTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:text="@string/have_you_done_this_step"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/deen_txt_black_deep"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/contentTxt"/>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/doneBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginEnd="@dimen/space_4"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/deen_primary"
+                    app:cornerRadius="18dp"
+                    android:text="@string/done"
+                    app:elevation="0dp"
+                    app:strokeColor="@color/deen_border"
+                    app:strokeWidth="1dp"
+                    app:layout_constraintEnd_toStartOf="@+id/notYetBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hintTxt"/>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/notYetBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/deen_primary"
+                    app:cornerRadius="18dp"
+                    android:text="@string/not_yet"
+                    app:strokeColor="@color/deen_border"
+                    app:strokeWidth="1dp"
+                    app:elevation="0dp"
+                    app:layout_constraintStart_toEndOf="@+id/doneBtn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/doneBtn"
+                    app:layout_constraintBottom_toBottomOf="@+id/doneBtn"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

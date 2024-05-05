@@ -466,4 +466,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ramadan_mubarak">Ramadan Mubarak</string>
+    <string name="hajj_umrah"><![CDATA[Hajj & Umrah]]></string>
+    <string name="the_hajj_guide">The Hajj Guide</string>
+    <string name="have_you_done_this_step">Have you done this step?</string>
+    <string name="hajj_guide">Hajj Guide</string>
 </resources>

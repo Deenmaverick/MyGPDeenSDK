@@ -997,7 +997,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     override fun menuClicked(pagetag: String, getMenu: Item?) {
         when(pagetag)
         {
-            MENU_PRAYER_TIME ->  gotoFrag(R.id.action_global_prayerTimesFragment)
+            MENU_PRAYER_TIME ->  gotoFrag(R.id.action_global_hajjAndUmrahFragment)
             MENU_AL_QURAN -> gotoFrag(R.id.action_global_quranFragment)
             MENU_HADITH -> gotoFrag(R.id.action_global_hadithFragment)
             MENU_DUA -> gotoFrag(R.id.action_global_dailyDuaFragment)
@@ -1040,6 +1040,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 bundle.putString("date",getMenu?.Meaning)
                 gotoFrag(R.id.action_global_duaAmalHomeFragment,bundle)
             }
+            MENU_HAJJ_AND_UMRAH -> gotoFrag(R.id.action_global_hajjAndUmrahFragment)
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }
@@ -1092,7 +1093,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 bundle.putString("date",data?.Meaning)
                 gotoFrag(R.id.action_global_ramadanFragment,bundle)
             }
-            "hau" -> changeMainViewPager(3)
+            "hau" -> gotoFrag(R.id.action_global_hajjAndUmrahFragment)
             "ie" -> {
 
                 if(data!=null && data.CategoryId!=0){

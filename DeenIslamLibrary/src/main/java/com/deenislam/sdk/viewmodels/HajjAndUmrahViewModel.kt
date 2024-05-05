@@ -43,5 +43,46 @@ internal class HajjAndUmrahViewModel(
         }
     }
 
+    fun getHajjAndUmrahPatch(language:String)
+    {
+        viewModelScope.launch {
+
+            when(val response = repository.getHajjAndUmrahPatch(language))
+            {
+                is ApiResource.Failure -> _hajjAndUmrahPatchLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Data?.isNotEmpty() == true)
+                        _hajjAndUmrahPatchLiveData.value = HajjAndUmrahResource.hajjAndUmrahPatch(response.value.Data)
+                    else
+                        _hajjAndUmrahPatchLiveData.value = CommonResource.EMPTY
+
+                }
+            }
+        }
+    }
+
+    fun updateHajjMaptracking(mapTag:String,isTrack:Boolean,indexPos:Int,language:String) {
+        viewModelScope.launch {
+
+            when(val response = repository.updateHajjMapTracker(
+                mapTag = mapTag,
+                isTrack = isTrack,
+                language = language
+            ))
+            {
+                is ApiResource.Failure -> _hajjMapTrackerLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Success == true)
+                        _hajjMapTrackerLiveData.value = HajjAndUmrahResource.hajjMapTracker(mapTag,isTrack,indexPos)
+                    else
+                        _hajjMapTrackerLiveData.value = CommonResource.API_CALL_FAILED
+
+                }
+            }
+        }
+    }
+
 
 }

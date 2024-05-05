@@ -167,33 +167,7 @@ internal abstract class BaseRegularFragment: Fragment() {
                 R.id.blankFragment
             ) != true && findNavController().previousBackStackEntry?.destination?.id != null)
             findNavController().popBackStack()
-        /*else
-            findNavController().popBackStack()*/
 
-       /* if(isVisible) {
-            isBackPressed = true
-
-            if (isBacktoHome) {
-                findNavController().popBackStack().apply {
-                    setupOtherFragment(false)
-                }
-            } else {
-
-                if (findNavController().previousBackStackEntry?.destination?.id?.equals(
-                        findNavController().graph.startDestinationId
-                    ) != true)
-                    findNavController().popBackStack()
-                else
-                    setupOtherFragment(false)
-            }
-        }*/
-
-            /*tryCatch {
-                lifecycleScope.launch(Dispatchers.IO)
-                {
-                    AudioManager().getInstance().releasePlayer()
-                }
-            }*/
 
     }
 

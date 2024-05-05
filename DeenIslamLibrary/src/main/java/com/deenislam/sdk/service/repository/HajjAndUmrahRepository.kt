@@ -19,5 +19,24 @@ internal class HajjAndUmrahRepository(
 
     }
 
+    suspend fun getHajjAndUmrahPatch(language:String) = makeApicall{
+        val body = JSONObject()
+        body.put("device", "sdk")
+        body.put("language", language)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        deenService?.getHajjAndUmrahPatch(parm = requestBody)
+
+    }
+
+    suspend fun updateHajjMapTracker(mapTag:String,isTrack:Boolean,language:String) = makeApicall{
+        val body = JSONObject()
+        body.put(mapTag, isTrack)
+        body.put("language", language)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        deenService?.updateHajjMapTracker(parm = requestBody)
+
+    }
 
 } 

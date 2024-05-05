@@ -113,4 +113,9 @@
         <item name="android:color">@color/deen_txt_black</item>
     </style>
 
+    <style name="DeenTextAppearance.font8" parent="">
+        <item name="android:textSize">8sp</item>
+        <item name="android:color">@color/deen_txt_black</item>
+    </style>
+
 </resources>

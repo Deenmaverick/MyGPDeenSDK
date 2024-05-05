@@ -20,3 +20,13 @@ internal fun MaterialButton.setInactiveState(backgroundColor:Int=0)
     this.strokeColor = ColorStateList.valueOf(ContextCompat.getColor(this.context,R.color.deen_border))
     this.setTextColor(ContextCompat.getColor(this.context,R.color.deen_txt_ash))
 }
+
+fun MaterialButton.setActiveState(textColor:Int,BackgroundColor:Int)
+{
+    this.setTextColor( ContextCompat.getColor(
+        this.context,
+        textColor
+    ))
+    this.setBackgroundColor(ContextCompat.getColor(this.context,BackgroundColor))
+
+}

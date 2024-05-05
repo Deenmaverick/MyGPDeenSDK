@@ -1,17 +1,24 @@
 package com.deenislam.sdk.views.adapters.common.gridmenu
 
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.common.BasicCardListCallback
 import com.deenislam.sdk.service.models.MenuModel
+import com.deenislam.sdk.service.network.response.common.subcatcardlist.Data
 import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.dp
+import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
@@ -24,6 +31,7 @@ internal class MenuAdapter(
     private val menuList: List<Item>? = null,
     private val onBoardingMenuList: ArrayList<MenuModel> ? = null,
     private val hajjAndUmrahMenuList: List<Item> ? = null,
+    private val hajjGuideStepList: List<Data>? = null,
     private val viewType: Int = 1
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -33,13 +41,14 @@ internal class MenuAdapter(
     private val basicCardListCallback = CallBackProvider.get<BasicCardListCallback>()
 
     var previousSelectedMenuIndex: Int = -1  // add this instance variable to keep track of the previous position
-    private var selectedMenuIndex = -1
+    private var selectedMenuIndex = 0
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         when(viewType)
         {
             DASHBOARD_MENU -> ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_menu_list_dashboard,parent,false))
+            HAJJ_STEP_SELECTION_MENU,HAJJ_AND_UMRAH_MENU -> ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_menu_list,parent,false))
             else -> throw java.lang.IllegalArgumentException("View cannot null")
         }
 
@@ -58,6 +67,7 @@ internal class MenuAdapter(
             }
 
             3-> hajjAndUmrahMenuList?.size?:0
+            4 -> hajjGuideStepList?.size?:0
             else -> onBoardingMenuList?.size?:0
         }
 
@@ -73,10 +83,10 @@ internal class MenuAdapter(
     fun updateSelectedIndex(pos: Int) {
         // Check if there was any previously selected position
         if (selectedMenuIndex != -1) {
-            previousSelectedMenuIndex = selectedMenuIndex  // store the current position to previous before updating it
-            notifyItemChanged(previousSelectedMenuIndex)  // refresh the previous position
+            val oldselect = selectedMenuIndex
+            selectedMenuIndex = pos  // update the current position
+            notifyItemChanged(oldselect)  // refresh the previous position
         }
-
         selectedMenuIndex = pos  // update the current position
         notifyItemChanged(selectedMenuIndex)  // refresh the current position
     }
@@ -132,6 +142,56 @@ internal class MenuAdapter(
                        getMenu?.Text?.let { it1 -> menuCallback?.menuClicked(it1,getMenu) }
                    }
 
+               }
+
+               HAJJ_STEP_SELECTION_MENU -> {
+                   val getMenu  = hajjGuideStepList?.get(absoluteAdapterPosition)
+
+                   val layoutParams = menuCardview.layoutParams
+                   layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                   menuCardview.layoutParams = layoutParams
+
+                   menuCardview.setPadding(16.dp,16.dp,16.dp,16.dp)
+
+                   (menuIcon.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 12.dp
+                   (menuIcon.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 12.dp
+                   (menuIcon.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 12.dp
+                   (menuIcon.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = 12.dp
+
+
+                   if(selectedMenuIndex == absoluteAdapterPosition) {
+                       menuCardview.setCardBackgroundColor(
+                           ContextCompat.getColor(
+                               menuCardview.context,
+                               R.color.deen_primary
+                           )
+                       )
+
+
+                       menuIcon.setColorFilter(ContextCompat.getColor(menuIcon.context,R.color.deen_white))
+                   }
+                   else
+                   {
+                       menuCardview.setCardBackgroundColor(ContextCompat.getColor(menuCardview.context,R.color.deen_txt_ash))
+
+                       menuIcon.setColorFilter(ContextCompat.getColor(menuIcon.context,R.color.deen_white_30))
+                   }
+
+                   menuIcon.imageLoad(BASE_CONTENT_URL_SGP+getMenu?.ImageUrl, placeholder_1_1 = true)
+
+                   menuTitile.hide()
+
+                   itemView.setOnClickListener {
+                       if (getMenu != null) {
+                           if(selectedMenuIndex!=absoluteAdapterPosition){
+                               val oldselection = selectedMenuIndex
+                               selectedMenuIndex = absoluteAdapterPosition
+                               notifyItemChanged(oldselection)
+                               notifyItemChanged(selectedMenuIndex)
+                           }
+                           basicCardListCallback?.basicCardListItemSelect(getMenu,absoluteAdapterPosition)
+                       }
+                   }
                }
 
            }

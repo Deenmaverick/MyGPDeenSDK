@@ -35,5 +35,6 @@
     <color name="deen_button_tertiary">#A3DE7C</color>
     <color name="deen_orange">#ef990e</color>
     <color name="deen_brand_accents_ultra_light">#F3F3F9</color>
-
+    <color name="deen_backgroundAlt">#E2D5B5</color>
+    <color name="deen_white_50">#80FFFFFF</color>
 </resources>
