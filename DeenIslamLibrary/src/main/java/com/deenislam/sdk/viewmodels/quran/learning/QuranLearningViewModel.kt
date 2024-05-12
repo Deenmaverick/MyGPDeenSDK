@@ -36,7 +36,17 @@ internal class QuranLearningViewModel (
     {
         viewModelScope.launch {
 
-            when(val response = quranLearningRepository.getContentList(token = DeenSDKCore.GetDeenToken()))
+            val getBotUser = async { quranLearningRepository.getUserInfo(DeenSDKCore.GetDeenMsisdn()) }
+            val botUser = getBotUser.await()
+
+            accessToken = when(botUser) {
+                is ApiResource.Failure -> ""
+                is ApiResource.Success -> {
+                    botUser.value?.data?.user_token?.accesstoken.toString()
+                }
+            }
+
+            when(val response = quranLearningRepository.getContentList(token = accessToken))
             {
                 is ApiResource.Failure -> _quranShikkhaAcademyLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success ->
