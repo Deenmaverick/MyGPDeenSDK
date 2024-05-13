@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.QuranLearningCallback
 import com.deenislam.sdk.service.callback.common.MaterialButtonHorizontalListCallback
+import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.quran.learning.QuranLearningResource
 import com.deenislam.sdk.service.network.response.prayerlearning.visualization.Head
@@ -24,6 +25,7 @@ import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.AnswerSheet
 import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.Data
 import com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.Option
+import com.deenislam.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
@@ -43,6 +45,18 @@ internal class QuranLearningQuizFragment : BaseRegularFragment(), QuranLearningC
     private lateinit var submitBtn:MaterialButton
     private val answerSheet:ArrayList<AnswerSheet> = arrayListOf()
     private var firstload = false
+
+    override fun OnCreate() {
+        super.OnCreate()
+
+        viewmodel =QuranLearningViewModel(
+            QuranLearningRepository(
+                quranShikkhaService = NetworkProvider().getInstance().provideQuranShikkhaService(),
+                deenService = NetworkProvider().getInstance().provideDeenService(),
+                dashboardService = NetworkProvider().getInstance().provideDashboardService()
+            )
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
