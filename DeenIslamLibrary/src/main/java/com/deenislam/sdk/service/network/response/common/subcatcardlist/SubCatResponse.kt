@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 import com.deenislam.sdk.service.network.response.common.subcatcardlist.Data
 
 @Keep
-data class SubCatResponse(
+internal data class SubCatResponse(
     val Data: List<Data>,
     val Message: String,
     val Success: Boolean,

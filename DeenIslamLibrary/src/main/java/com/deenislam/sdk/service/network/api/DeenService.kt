@@ -409,6 +409,11 @@ internal interface DeenService {
     @POST("IslamicVideos/DuaAmol")
     suspend fun getDuaAmolHome(@Body parm: RequestBody): IslamiceducationVideoResponse
 
+    @POST("Islamic/GetQurbaniPatch")
+    suspend fun getQurbaniPatch(@Body parm: RequestBody):  DashboardResponse
+
+    @POST("Islamic/getQurbaniTopicsbyCategory")
+    suspend fun getQurbaniContentByCat(@Body parm: RequestBody):  SubCatResponse
 
 
 }

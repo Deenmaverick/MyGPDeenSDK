@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class Data(
+internal data class Data(
     val Category: String?,
     val CategoryId: Int = 0,
     val Id: Int = 0,
@@ -18,5 +18,6 @@ data class Data(
     val TextInArabic: String?,
     val reference: String?,
     val Title: String?,
+    val details: List<Detail> ? = arrayListOf(),
     var IsTracked:Boolean
 ):Parcelable

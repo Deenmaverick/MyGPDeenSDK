@@ -16,7 +16,7 @@ internal interface CommonResource
         SubCatCardListResource, PrayerLearningResource, KhatamQuranVideoResource,
         QuranLearningResource, PaymentResource, RamadanResource, IslamiFazaelResource,
         IslamiMasailResource, SubscriptionResource, PodcastResource, HajjAndUmrahResource,
-        BoyanResource
+        BoyanResource, QurbaniResource
 
     object LOADING:CommonResource
     object EMPTY:CommonResource, PrayerCalendarResource, PrayerTimeResource,
@@ -24,7 +24,7 @@ internal interface CommonResource
         ZakatResource, IslamicNameResource, IslamicEducationVideoResource, IslamicEventsResource,
         SubCatCardListResource, PrayerLearningResource, KhatamQuranVideoResource, RamadanResource,
         IslamiFazaelResource, IslamiMasailResource, PodcastResource, HajjAndUmrahResource,
-        BoyanResource
+        BoyanResource, QurbaniResource
 
     object ACTION_API_CALL_FAILED:CommonResource, DailyDuaResource, IslamicNameResource,
         HadithResource, PrayerNotificationResource
