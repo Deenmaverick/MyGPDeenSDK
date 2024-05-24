@@ -11,16 +11,8 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.models.prayer_time.PrayerMomentRange
 import com.deenislam.sdk.service.models.ramadan.StateModel
 import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesResponse
-import com.deenislam.sdk.utils.CallBackProvider
-import com.deenislam.sdk.utils.StringTimeToMillisecond
-import com.deenislam.sdk.utils.TimeDiffForPrayer
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.utils.getPrayerTimeName
-import com.deenislam.sdk.utils.getWaktNameByTag
-import com.deenislam.sdk.utils.get_prayer_tag_by_name
-import com.deenislam.sdk.utils.numberLocale
-import com.deenislam.sdk.utils.prayerMomentLocale
-import com.deenislam.sdk.utils.timeLocale
-import com.deenislam.sdk.utils.visible
 import com.deenislam.sdk.views.adapters.common.CommonStateList
 import com.deenislam.sdk.views.adapters.dashboard.PrayerTimeCallback
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -61,8 +53,8 @@ internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse
 
         val getContext = prayerBG.context
         //stateTxt.text = getContext.resources.getString(R.string.dhaka)
-        val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.ENGLISH).format(Date())
-        val prayerMomentRangeData: PrayerMomentRange? =  prayerData?.let { getPrayerTimeName(it,currentTime.StringTimeToMillisecond("hh:mm:ss aa") /*getPrayerTimeName(it,"08:01:45 PM".StringTimeToMillisecond("hh:mm:ss aa") */ ) }
+        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
+        val prayerMomentRangeData: PrayerMomentRange? =  prayerData?.let { getPrayerTimeName(it,currentTime.stringTimeToEpochTime() /*getPrayerTimeName(it,"08:01:45 PM".StringTimeToMillisecond("hh:mm:ss aa") */ ) }
 
         askingLy.text = getContext.resources.getString(R.string.billboard_have_you_prayed,prayerMomentRangeData?.MomentName?.prayerMomentLocale())
         prayerTracker(true)

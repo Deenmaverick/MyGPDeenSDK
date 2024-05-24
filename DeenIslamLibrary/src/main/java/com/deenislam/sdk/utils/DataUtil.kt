@@ -3,6 +3,8 @@ package com.deenislam.sdk.utils
 import android.content.Context
 import android.content.res.AssetManager
 import com.deenislam.sdk.DeenSDKCore
+import com.deenislam.sdk.R
+import com.deenislam.sdk.service.models.quran.quranplayer.FontList
 import com.deenislam.sdk.service.models.quran.quranplayer.PlayerCommonSelectionData
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 import com.deenislam.sdk.service.network.response.dashboard.Item
@@ -205,4 +207,33 @@ fun Context.loadHtmlFromAssets(filename: String): String {
         e.printStackTrace()
         ""
     }
+}
+
+internal fun Context.getArabicFontList():ArrayList<FontList> {
+
+    return arrayListOf(
+        FontList(
+            fontname = this.getString(R.string.indopak),
+            fontid = "1"
+        ),
+        FontList(
+            fontname = this.getString(R.string.uthmanic_script_hafs_regular),
+            fontid = "2"
+        ),
+        FontList(
+            fontname = this.getString(R.string.al_majeed),
+            fontid = "3"
+        )
+
+    )
+
+}
+
+internal fun transformArabicFontData(font: FontList): PlayerCommonSelectionData {
+
+    return PlayerCommonSelectionData(
+        imageurl = null,
+        Id = font.fontid.toInt(),
+        title = font.fontname
+    )
 }

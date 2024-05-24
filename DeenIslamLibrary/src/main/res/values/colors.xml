@@ -37,4 +37,5 @@
     <color name="deen_brand_accents_ultra_light">#F3F3F9</color>
     <color name="deen_backgroundAlt">#E2D5B5</color>
     <color name="deen_white_50">#80FFFFFF</color>
+    <color name="deen_gray_secondary">#333333</color>
 </resources>

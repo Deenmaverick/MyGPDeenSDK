@@ -19,5 +19,6 @@ internal data class Data(
     val reference: String?,
     val Title: String?,
     val details: List<Detail> ? = arrayListOf(),
-    var IsTracked:Boolean
+    var IsTracked:Boolean,
+    var isExpanded:Boolean = false
 ):Parcelable

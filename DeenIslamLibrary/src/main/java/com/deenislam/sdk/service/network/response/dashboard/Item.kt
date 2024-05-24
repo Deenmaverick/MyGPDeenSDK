@@ -1,8 +1,11 @@
 package com.deenislam.sdk.service.network.response.dashboard
 
+import android.os.Parcelable
 import androidx.annotation.Keep
+import kotlinx.parcelize.Parcelize
 
 @Keep
+@Parcelize
 internal data class Item(
     val ArabicText: String,
     val ContentType: String,
@@ -42,4 +45,4 @@ internal data class Item(
     val isLive:Boolean = false,
     val FeatureSize:String? = "",
     val Serial:Int = 0
-)
+): Parcelable

@@ -470,4 +470,13 @@
     <string name="the_hajj_guide">The Hajj Guide</string>
     <string name="have_you_done_this_step">Have you done this step?</string>
     <string name="hajj_guide">Hajj Guide</string>
+    <string name="details">Details</string>
+    <string name="font_settings">Font settings</string>
+    <string name="arabic_font_size">Arabic Font Size</string>
+    <string name="bangla_font_size">Bangla Font Size</string>
+    <string name="copy_content">Copy Content</string>
+    <string name="qurbani">Qurbani</string>
+    <string name="visit">Visit</string>
+    <string name="online_haat">Online Haat</string>
+    <string name="sunset">Sunset</string>
 </resources>

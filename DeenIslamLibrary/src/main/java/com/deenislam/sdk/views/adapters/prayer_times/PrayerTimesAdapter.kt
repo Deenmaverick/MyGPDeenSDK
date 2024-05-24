@@ -249,10 +249,10 @@ internal class PrayerTimesAdapter(
 
         val getContext = prayerBG.context
 
-        val currentTime = SimpleDateFormat("hh:mm:ss aa", Locale.US).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.US).format(Date())
 
 
-        prayerMomentRangeData =  todayprayerData?.let { getPrayerTimeName(it,currentTime.StringTimeToMillisecond("hh:mm:ss aa") /*"3:42:06 AM".StringTimeToMillisecond("hh:mm:ss aa")*/ ) }
+        prayerMomentRangeData =  todayprayerData?.let { getPrayerTimeName(it,currentTime.stringTimeToEpochTime() /*"3:42:06 AM".StringTimeToMillisecond("hh:mm:ss aa")*/ ) }
 
         prayerMomentRangeData?.MomentName?.let { Log.e("UTIL_PRAYER1", it) }
 

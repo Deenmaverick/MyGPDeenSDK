@@ -98,6 +98,9 @@ dependencies {
     // light pdf viwer image based
     implementation "com.dmitryborodin:pdfview-android:1.1.0"
 
+    // Jsoup
+    implementation 'org.jsoup:jsoup:1.17.2'
+
 
 }
 //For Maven Publish

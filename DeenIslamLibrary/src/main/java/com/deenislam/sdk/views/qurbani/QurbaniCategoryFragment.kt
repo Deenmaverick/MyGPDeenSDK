@@ -4,35 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.QurbaniCallback
 import com.deenislam.sdk.service.callback.common.HorizontalCardListCallback
+import com.deenislam.sdk.service.di.NetworkProvider
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.QurbaniResource
+import com.deenislam.sdk.service.network.response.dashboard.Item
+import com.deenislam.sdk.service.repository.QurbaniRepository
 import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.Subscription
+import com.deenislam.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislam.sdk.viewmodels.QurbaniViewModel
 import com.deenislam.sdk.views.adapters.qurbani.QurbaniCategoryAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
-import com.deenislamic.BaseApplication
-import com.deenislamic.R
-import com.deenislamic.service.callback.QurbaniCallback
-import com.deenislamic.service.callback.common.HorizontalCardListCallback
-import com.deenislamic.service.models.IslamicBookResource
-import com.deenislamic.service.models.common.CommonResource
-import com.deenislamic.service.models.qurbani.QurbaniResource
-import com.deenislam.sdk.service.network.response.dashboard.Item
-import com.deenislamic.utils.singleton.CallBackProvider
-import com.deenislamic.utils.singleton.Subscription
-import com.deenislamic.utils.transformDashboardItemForKhatamQuran
-import com.deenislamic.viewmodels.IslamicBookViewModel
-import com.deenislamic.viewmodels.QurbaniViewModel
-import com.deenislamic.views.adapters.qurbani.QurbaniCategoryAdapter
-import com.deenislamic.views.base.BaseRegularFragment
-import com.deenislamic.views.main.MainActivity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
@@ -43,8 +30,17 @@ internal class QurbaniCategoryFragment : BaseRegularFragment(), QurbaniCallback,
     private lateinit var viewmodel: QurbaniViewModel
     private var firstload = false
     private lateinit var qurbaniCategoryAdapter: QurbaniCategoryAdapter
-    private lateinit var islamicBookViewmodel:IslamicBookViewModel
     private var patchDataList: List<com.deenislam.sdk.service.network.response.dashboard.Data> ? = null
+
+    override fun OnCreate() {
+        super.OnCreate()
+
+        val repository = QurbaniRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService()
+        )
+
+        viewmodel = QurbaniViewModel(repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,20 +93,7 @@ internal class QurbaniCategoryFragment : BaseRegularFragment(), QurbaniCallback,
              }
          }
 
-        islamicBookViewmodel.secureUrlLiveData.observe(viewLifecycleOwner)
-        {
-            when(it)
-            {
-                is IslamicBookResource.PdfSecureUrl -> {
 
-                    val bundle = Bundle()
-                    bundle.putString("pageTitle", it.bookTitle)
-                    bundle.putString("pdfUrl", it.url)
-                    gotoFrag(R.id.action_global_pdfViewerFragment, bundle)
-
-                }
-            }
-        }
     }
 
     override fun noInternetRetryClicked() {
@@ -139,13 +122,7 @@ internal class QurbaniCategoryFragment : BaseRegularFragment(), QurbaniCallback,
                 gotoFrag(R.id.action_global_qurbaniOnlineHaatFragment,bundle)
             }
 
-            "ibook" -> {
-                    val bundle = Bundle()
-                    bundle.putInt("id", menuData.SurahId)
-                    bundle.putString("bookType", "category")
-                    bundle.putString("title",menuData.ArabicText)
-                    gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
-            }
+
 
             "qsc" ->{
                 val bundle = Bundle()
@@ -169,19 +146,11 @@ internal class QurbaniCategoryFragment : BaseRegularFragment(), QurbaniCallback,
                 gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
             }
 
-            "ibook" -> {
 
-                lifecycleScope.launch {
-                    islamicBookViewmodel.getDigitalQuranSecureUrl(getData.imageurl2, false, getData.CategoryId, getData.ArabicText)
-                }
-            }
 
             "khq" -> {
 
-                if (!BaseApplication.checkUserLoginStatus()) {
-                    MainActivity.instance?.askUserLogin()
-                    return
-                }else if(!Subscription.isSubscribe){
+                if(!Subscription.isSubscribe){
                     gotoFrag(R.id.action_global_subscriptionFragment)
                     return
                 }
@@ -220,11 +189,5 @@ internal class QurbaniCategoryFragment : BaseRegularFragment(), QurbaniCallback,
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        lifecycleScope.launch {
-            islamicBookViewmodel.clearDownloader()
-        }
-    }
 
 }

@@ -470,4 +470,13 @@
     <string name="the_hajj_guide">হজ গাইড</string>
     <string name="have_you_done_this_step">আপনি এই পদক্ষেপ করেছেন?</string>
     <string name="hajj_guide">হজ গাইড</string>
+    <string name="details">বিস্তারিত</string>
+    <string name="font_settings">ফন্ট সেটিংস</string>
+    <string name="arabic_font_size">আরবি ফন্ট সাইজ</string>
+    <string name="bangla_font_size">বাংলা ফন্ট সাইজ</string>
+    <string name="copy_content">লেখা কপি করুন</string>
+    <string name="qurbani">কোরবানি</string>
+    <string name="visit">ভিজিট করুন</string>
+    <string name="online_haat">অনলাইন হাট</string>
+    <string name="sunset">সূর্যাস্ত</string>
 </resources>

@@ -108,6 +108,15 @@ internal class WidgetPrayerTimes(
             setNotificationState("pt"+(position+1),rightBtn)
             checkPrayerTracker("pt"+(position+1),prayerCheck)
 
+            if(position == 1) {
+                rightBtn.isClickable = false
+                rightBtn.setImageDrawable(AppCompatResources.getDrawable(rightBtn.context,R.drawable.deen_ic_notification_disabled))
+            }
+            else {
+                rightBtn.isClickable = true
+                rightBtn.show()
+                setNotificationState("pt"+(position+1),rightBtn)
+            }
 
             when(position+1)
             {

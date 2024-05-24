@@ -888,7 +888,14 @@
     <fragment
         android:id="@+id/nearestMosqueWebviewFragment"
         android:name="com.deenislam.sdk.views.nearestmosque.NearestMosqueWebviewFragment"
-        android:label="NearestMosqueWebviewFragment" />
+        android:label="NearestMosqueWebviewFragment" >
+        <argument
+            android:name="pageTitle"
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/myFavoritesFragment"
         android:name="com.deenislam.sdk.views.myfavorites.MyFavoritesFragment"
@@ -1269,6 +1276,70 @@
     <action
         android:id="@+id/action_global_hajjAndUmrahFragment"
         app:destination="@id/hajjAndUmrahFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/qurbaniDetailsFragment"
+        android:name="com.deenislam.sdk.views.qurbani.QurbaniDetailsFragment"
+        android:label="QurbaniDetailsFragment" >
+        <argument
+            android:name="data"
+            app:argType="com.deenislam.sdk.service.network.response.dashboard.Item" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_qurbaniDetailsFragment"
+        app:destination="@id/qurbaniDetailsFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/qurbaniOnlineHaatFragment"
+        android:name="com.deenislam.sdk.views.qurbani.QurbaniOnlineHaatFragment"
+        android:label="QurbaniOnlineHaatFragment" >
+        <argument
+            android:name="data"
+            app:argType="com.deenislam.sdk.service.network.response.dashboard.Item" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_qurbaniOnlineHaatFragment"
+        app:destination="@id/qurbaniOnlineHaatFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/qurbaniCommonContentFragment"
+        android:name="com.deenislam.sdk.views.qurbani.QurbaniCommonContentFragment"
+        android:label="QurbaniCommonContentFragment">
+        <argument
+            android:name="data"
+            app:argType="com.deenislam.sdk.service.network.response.dashboard.Item" />
+        <argument
+            android:name="pageTitle"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_qurbaniCommonContentFragment"
+        app:destination="@id/qurbaniCommonContentFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/qurbaniFragment"
+        android:name="com.deenislam.sdk.views.qurbani.QurbaniFragment"
+        android:label="QurbaniFragment" />
+    <action
+        android:id="@+id/action_global_qurbaniFragment"
+        app:destination="@id/qurbaniFragment"
         app:enterAnim="@anim/slide_enter"
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"

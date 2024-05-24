@@ -1028,7 +1028,10 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             }
             MENU_99_NAME_OF_ALLAH -> gotoFrag(R.id.action_global_allah99NamesFragment)
             MENU_NEAREST_MOSQUE -> {
-                gotoFrag(R.id.action_global_nearestMosqueWebviewFragment)
+                val bundle = Bundle()
+                bundle.putString("pageTitle",localContext.getString(R.string.nearest_mosque))
+                bundle.putString("query","mosque")
+                gotoFrag(R.id.action_global_nearestMosqueWebviewFragment,bundle)
             }
             MENU_LIVE_MAKKAH_MADINA -> gotoFrag(R.id.action_global_makkahLiveFragment)
             MENU_LIVE_PODCAST -> gotoFrag(R.id.action_global_livePodcastFragment)
@@ -1041,6 +1044,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 gotoFrag(R.id.action_global_duaAmalHomeFragment,bundle)
             }
             MENU_HAJJ_AND_UMRAH -> gotoFrag(R.id.action_global_hajjAndUmrahFragment)
+            MENU_QURBANI -> gotoFrag(R.id.action_global_qurbaniFragment)
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }
@@ -1137,6 +1141,14 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
             "rkhq" -> {
 
+                if(data?.FeatureName == "partnerQurbaniVideos"){
+
+                    if(!Subscription.isSubscribe){
+                        gotoFrag(R.id.action_global_subscriptionFragment)
+                        return
+                    }
+                }
+
                 if(data?.FeatureTitle == "Banners"){
                     val bundle = Bundle()
                     bundle.putBoolean("isRamadan",true)
@@ -1209,7 +1221,12 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
             }
             "ies" -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
-            "nm" -> gotoFrag(R.id.action_global_nearestMosqueWebviewFragment)
+            "nm" -> {
+                val bundle = Bundle()
+                bundle.putString("pageTitle",localContext.getString(R.string.nearest_mosque))
+                bundle.putString("query","mosque")
+                gotoFrag(R.id.action_global_nearestMosqueWebviewFragment,bundle)
+            }
 
             "ib" -> {
 
@@ -1243,7 +1260,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             }
             "sub" -> gotoFrag(R.id.action_global_subscriptionFragment)
             "blnk" -> Unit
-
+            "qurb" -> gotoFrag(R.id.action_global_qurbaniFragment)
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }

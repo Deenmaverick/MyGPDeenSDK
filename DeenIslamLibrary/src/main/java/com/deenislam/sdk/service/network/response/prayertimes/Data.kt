@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 @Keep
 internal data class Data(
     val Asr: String,
+    val Sunset:String,
     val Date: String,
     val Day: Int,
     val Fajr: String,

@@ -14,9 +14,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.AppPreference
@@ -33,7 +33,7 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
 
     private lateinit var locationHelper: LocationHelper
     private val PERMISSION_REQUEST_CODE = 143
-
+    private val navArgs:NearestMosqueWebviewFragmentArgs by navArgs()
 
     private var firstload = false
     override fun OnCreate() {
@@ -53,7 +53,7 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
 
         webview = mainView.findViewById(R.id.webview)
 
-        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.nearest_mosque),true,mainView)
+        setupActionForOtherFragment(0,0,null,navArgs.pageTitle,true,mainView)
 
         setupCommonLayout(mainView)
         return mainView
@@ -259,7 +259,7 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
 
         baseLoadingState()
 
-        webview.loadUrl("https://google.com/maps/search/mosque/@${AppPreference.getUserCurrentLocation().lat},${AppPreference.getUserCurrentLocation().lng}")
+        webview.loadUrl("https://google.com/maps/search/${navArgs.query}/@${AppPreference.getUserCurrentLocation().lat},${AppPreference.getUserCurrentLocation().lng}")
     }
 
     private fun handleWebViewError(
@@ -282,7 +282,7 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
 
     private fun handleIntentLink() {
 
-        val mapsUrl = "https://www.google.com/maps?q=mosque&hl=en"
+        val mapsUrl = "https://www.google.com/maps?q=${navArgs.query}&hl=en"
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mapsUrl))
             intent.setPackage("com.google.android.apps.maps")

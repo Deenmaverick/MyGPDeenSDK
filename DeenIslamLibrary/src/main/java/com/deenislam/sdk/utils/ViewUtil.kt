@@ -3,11 +3,13 @@ package com.deenislam.sdk.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
+import android.graphics.*
 import android.net.Uri
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StrikethroughSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +29,10 @@ import coil.request.CachePolicy
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.nodes.TextNode
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -608,4 +614,103 @@ fun Activity.releaseWakeLock() {
 
     this.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+}
+
+
+
+fun Element.extractTextWithStyle(): SpannableStringBuilder {
+    val spannableBuilder = SpannableStringBuilder()
+
+    // Process each child node (element or text node)
+    childNodes().forEach { childNode ->
+        when (childNode) {
+            is Element -> {
+                // Handle child element
+                val elementText = childNode.extractTextWithStyle()
+                if (elementText.isNotBlank()) {
+                    if (childNode.tagName().lowercase() == "li") {
+                        // Add a bullet point before the list item text
+                        spannableBuilder.append("\u2022 ") // Unicode character for bullet point
+                        spannableBuilder.append(elementText)
+                        spannableBuilder.append("\n")
+                    } else {
+                        spannableBuilder.append(elementText)
+                    }
+                }
+            }
+            is TextNode -> {
+                // Handle text node
+                val text = childNode.text()
+                if (text.isNotBlank()) {
+                    spannableBuilder.append(text)
+                }
+            }
+        }
+    }
+
+    // Apply style based on the tag name
+    when (tagName().lowercase()) {
+        "strong", "b" -> {
+            spannableBuilder.setSpan(StyleSpan(Typeface.BOLD), 0, spannableBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        "u" -> {
+            spannableBuilder.setSpan(UnderlineSpan(), 0, spannableBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        "s", "strike" -> {
+            spannableBuilder.setSpan(StrikethroughSpan(), 0, spannableBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        "i", "em" -> {
+            spannableBuilder.setSpan(StyleSpan(Typeface.ITALIC), 0, spannableBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        "br" -> {
+            spannableBuilder.append("\n")
+        }
+    }
+
+    return spannableBuilder
+}
+
+fun String.htmlFormat(): SpannableStringBuilder {
+    val spannableBuilder = SpannableStringBuilder()
+
+    // Parse the HTML string using Jsoup
+    val doc: Document = Jsoup.parseBodyFragment(this)
+    val bodyElement = doc.select("body").first()
+
+    var isFirstElement = true
+    bodyElement?.childNodes()?.forEachIndexed { index, node ->
+        if (node is Element) {
+            // Extract text content with style for each element
+            val extractedText = node.extractTextWithStyle()
+            if (extractedText.isNotBlank()) {
+                if (!isFirstElement) {
+                    spannableBuilder.append("\n") // Add new line except for the first element
+                } else {
+                    isFirstElement = false
+                }
+                spannableBuilder.append(extractedText)
+            }
+        } else if (node is TextNode) {
+            // Handle text node
+            val text = node.text()
+            if (text.isNotBlank()) {
+                if (!isFirstElement) {
+                    spannableBuilder.append("\n") // Add new line except for the first element
+                } else {
+                    isFirstElement = false
+                }
+                spannableBuilder.append(text)
+            }
+        }
+
+
+    }
+
+
+    // Remove trailing new lines if the last element's text is blank
+    while (spannableBuilder.endsWith("\n")) {
+        spannableBuilder.delete(spannableBuilder.length - 1, spannableBuilder.length)
+    }
+
+    return spannableBuilder
 }

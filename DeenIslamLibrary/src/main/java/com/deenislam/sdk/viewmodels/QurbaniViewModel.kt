@@ -23,7 +23,7 @@ internal class QurbaniViewModel (
             when(val response = qurbaniRepository.getQurabniPatch(language)){
                 is ApiResource.Failure -> _qurbaniLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
-                    if(response.value.Data.isNotEmpty()){
+                    if(response.value?.Data?.isNotEmpty() == true){
                         _qurbaniLiveData.value = QurbaniResource.QurbaniPatch(response.value.Data)
                     }else
                         _qurbaniLiveData.value = CommonResource.EMPTY
@@ -38,7 +38,7 @@ internal class QurbaniViewModel (
             when(val response = qurbaniRepository.getCoantentByCat(catid,language)){
                 is ApiResource.Failure -> _qurbaniLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
-                    if(response.value.Data.isNotEmpty())
+                    if(response.value?.Data?.isNotEmpty() == true)
                         _qurbaniLiveData.value = QurbaniResource.QurbaniContentByCat(response.value.Data)
                     else
                         _qurbaniLiveData.value = CommonResource.EMPTY

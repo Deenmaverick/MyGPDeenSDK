@@ -29,7 +29,7 @@ internal class WidgetOtherPrayerTimes(
     private var prayerData: PrayerTimesResponse? = null
     private var dateWisePrayerNotificationData:ArrayList<PrayerNotification>?= null
     private var prayerMomentRangeData: PrayerMomentRange? = null
-    private var todayDate: String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+    private var todayDate: String = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
@@ -52,7 +52,7 @@ internal class WidgetOtherPrayerTimes(
         prayerData = prayerTimesResponse
         dateWisePrayerNotificationData = notificationData
         this.prayerMomentRangeData =prayerMomentRangeData
-        todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+        todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date())
         notifyDataSetChanged()
     }
 
@@ -86,13 +86,15 @@ internal class WidgetOtherPrayerTimes(
                 {
                     prayerName.text = "Suhoor (End)".prayerMomentLocale()
                     timeTxt.text = ("${prayerData?.Data?.Sehri?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
-
+                    rightBtn.hide()
                 }
 
                 2->
                 {
                     prayerName.text = "Iftaar (Start)".prayerMomentLocale()
                     timeTxt.text = ("${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+
+                    rightBtn.hide()
                 }
 
 

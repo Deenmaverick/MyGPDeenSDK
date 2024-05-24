@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_8"
+    tools:viewBindingIgnore="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/deen_gray_secondary"
+                android:textStyle="bold"
+                tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.deenislam.sdk.utils.JustifiedTextView
+        android:id="@+id/subText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_8"
+        android:justificationMode="inter_word"
+        android:textColor="@color/deen_gray_secondary"
+        tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/arabicText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/al_majed_quranic_font_regular"
+                android:textColor="@color/deen_txt_black_deep"
+                tools:text="باب سُنَّةِ الأُضْحِيَّةِ وَقَالَ ابْنُ عُمَرَ هِيَ سُنَّةٌ وَمَعْرُوفٌ"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subText"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.deenislam.sdk.utils.JustifiedTextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_8"
+                android:justificationMode="inter_word"
+                android:textColor="@color/deen_gray_secondary"
+                tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/arabicText"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <com.deenislam.sdk.utils.JustifiedTextView
+                android:id="@+id/referance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_8"
+                android:justificationMode="inter_word"
+                android:textColor="@color/deen_gray_secondary"
+                tools:text="— ইসলামিক ফাউন্ডেশনঃ ৫১৪৮, আন্তর্জাতিকঃ ৫৫৪৬"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

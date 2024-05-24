@@ -23,7 +23,7 @@ internal class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
                 .inflate(R.layout.item_prayer_time_alt, parent, false)
         )
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind(position)
@@ -57,27 +57,27 @@ internal class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
                 1->
                 {
                     prayerName.text = "Sunrise".prayerMomentLocale()
-                    timeTxt.text = ("${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 
                 2->
                 {
                     prayerName.text = "Midday".prayerMomentLocale()
-                    timeTxt.text = ("${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Juhr?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(6*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 
-                /*3->
+                3->
                 {
-                    prayerName.text = "Sunset"
-                    timeTxt.text = "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Juhr?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}"
+                    prayerName.text = prayerName.context.getString(R.string.sunset)
+                    timeTxt.text = ("${prayerData?.Data?.Sunset?.StringTimeToMillisecond()?.minus(15*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Sunset?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
-                    timeTxt.text = "6:30 - 6:33 AM"
-                }*/
+                    //timeTxt.text = "6:30 - 6:33 AM"
+                }
 
             }
 

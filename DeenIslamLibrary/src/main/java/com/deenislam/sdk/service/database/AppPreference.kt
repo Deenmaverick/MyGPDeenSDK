@@ -3,6 +3,7 @@ package com.deenislam.sdk.service.database
 import android.content.Context
 import android.content.SharedPreferences
 import com.deenislam.sdk.service.models.UserLocation
+import com.deenislam.sdk.service.models.common.ContentSetting
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -15,6 +16,7 @@ internal object AppPreference {
     private const val PREF_FILE_NAME = "DeenPreference"
     private const val USER_CURRENT_LOCATION = "userCurrentLocation"
     private const val USER_CURRENT_STATE = "userCurrentState"
+    private const val CONTENT_SETTING = "ContentSetting"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(PREF_FILE_NAME, MODE)
@@ -54,5 +56,21 @@ internal object AppPreference {
         }
         val type: Type = genericType<UserLocation>()
         return mGSonInstance.fromJson(userCurLocString, type)
+    }
+
+    fun setContentSetting(contentSetting: ContentSetting){
+        preferences.edit {
+            it.putString(CONTENT_SETTING,Gson().toJson(contentSetting))
+        }
+    }
+
+    fun getContentSetting(): ContentSetting {
+        val jsonString = preferences.getString(CONTENT_SETTING, null)
+        return if (jsonString != null) {
+            Gson().fromJson(jsonString, ContentSetting::class.java)
+        } else {
+            // Return a default value if the JSON string is null
+            ContentSetting()
+        }
     }
 }

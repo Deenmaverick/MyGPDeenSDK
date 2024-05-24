@@ -6,8 +6,8 @@ import com.deenislam.sdk.utils.RequestBodyMediaType
 import com.deenislam.sdk.utils.toRequestBody
 import org.json.JSONObject
 
-internal class QurbaniRepository (
-    private val deenService: DeenService
+internal class QurbaniRepository(
+    private val deenService: DeenService?
 ) : ApiCall {
 
     suspend fun getQurabniPatch(language:String) =
@@ -17,7 +17,7 @@ internal class QurbaniRepository (
             body.put("device", "sdk")
             val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
-            deenService.getQurbaniPatch(parm = requestBody)
+            deenService?.getQurbaniPatch(parm = requestBody)
 
         }
 
@@ -28,7 +28,7 @@ internal class QurbaniRepository (
             body.put("Category", cat)
             val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
-            deenService.getQurbaniContentByCat(parm = requestBody)
+            deenService?.getQurbaniContentByCat(parm = requestBody)
 
         }
 

@@ -64,6 +64,7 @@ const val RECYCLER_DATA_AVAILABLE = 1
 const val RECYCLERFOOTER = 2
 const val RequestBodyMediaType = "application/json"
 const val HAJJ_MAP = "HajjMap"
+const val MENU_QURBANI = "qurbani"
 
 // makkah location
 const val MAKKAH_LATITUDE = 21.4204009

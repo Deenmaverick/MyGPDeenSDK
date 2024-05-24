@@ -52,7 +52,7 @@ object DeenSDKCore {
     @JvmStatic
     private var msisdn:String = ""
 
-    private var  prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(
+    private var  prayerDate = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(
         Date()
     )
 
@@ -379,7 +379,7 @@ object DeenSDKCore {
                                         "$prayerDate ${it.Data.Isha}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
                                     val currentTime =
-                                        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+                                        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
                                    if(currentTime<isha)
                                     setupPrayerNotification(prayerTimesRepository,it, prayerDate)
