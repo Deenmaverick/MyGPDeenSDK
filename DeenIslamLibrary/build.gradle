@@ -101,6 +101,9 @@ dependencies {
     // Jsoup
     implementation 'org.jsoup:jsoup:1.17.2'
 
+    //google play service
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
 
 }
 //For Maven Publish
