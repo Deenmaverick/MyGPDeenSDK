@@ -595,8 +595,10 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         binding.progressLayout.root.visible(false)
         binding.noInternetLayout.root.visible(false)
 
+        val isRcPremium = customargs?.getBoolean("isPremium",false)
+        val getRcCode = customargs?.getString("rc")
 
-        when(customargs?.getString("rc")){
+        when(getRcCode){
 
             "live_ijtema" ->{
                 dashboardPatchMain.getDashboardData().let {
@@ -659,6 +661,19 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
                     }
                 }
+            }
+            else ->{
+
+                val getDestination = getRcCode?.getRCDestination()
+
+                if(getDestination == 0) {
+                    return
+                }
+
+                if (getDestination != null) {
+                    gotoFrag(getDestination)
+                }
+
             }
 
 
