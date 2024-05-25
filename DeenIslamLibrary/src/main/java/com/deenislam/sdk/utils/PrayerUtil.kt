@@ -4,7 +4,61 @@ import com.deenislam.sdk.service.network.response.prayertimes.PrayerTimesRespons
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 internal fun getPrayerTimeTagWise(
+    prayer_tag: String,
+    date: String,
+    data: PrayerTimesResponse
+):Long {
+
+    val currentTime =
+        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+
+    return when (prayer_tag) {
+
+        "pt1" -> {
+
+            val fajr: Long = "$date ${data.Data.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  fajr-currentTime
+
+        }
+
+        "pt3" -> {
+            val dhuhr =
+                "$date ${data.Data.Juhr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  dhuhr- currentTime
+        }
+
+        "pt4" -> {
+            val asr =
+                "$date ${data.Data.Asr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  asr- currentTime
+        }
+
+        "pt5" -> {
+            val maghrib =
+                "$date ${data.Data.Magrib}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return maghrib - currentTime
+        }
+
+        "pt6" -> {
+            val isha =
+                "$date ${data.Data.Isha}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return isha - currentTime
+        }
+        else -> 0L
+    }
+
+}
+
+
+/*internal fun getPrayerTimeTagWise(
     prayer_tag: String,
     date: String,
     data: PrayerTimesResponse
@@ -15,21 +69,21 @@ internal fun getPrayerTimeTagWise(
 
        val nightTime =  "${SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())} 23:59:59".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
-    /*   if(currentTime>=nightTime)
+    *//*   if(currentTime>=nightTime)
     Log.e("PRAYER_NT", "$currentTime ${SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US).format(Date())}  $date ${data.Data.Isha}")
-*/
+*//*
 
     return when (prayer_tag) {
 
         "pt1" -> {
 
             val fajr: Long = "$date ${data.Data.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
-            /*if(currentTime<nightTime)
+            *//*if(currentTime<nightTime)
                 fajr =
                     "$date ${data.Data.Fajr}".convertDateTime("dd/MM/yyyy HH:mm:ss",1)
             else
              fajr =
-                "$date ${data.Data.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")*/
+                "$date ${data.Data.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")*//*
 
             return  fajr-currentTime
 
@@ -72,7 +126,7 @@ internal fun getPrayerTimeTagWise(
             return isha - currentTime
         }
 
-       /* "opt1" -> {
+       *//* "opt1" -> {
             val tahajjut: Long
             if(currentTime<nightTime)
              tahajjut =
@@ -82,7 +136,7 @@ internal fun getPrayerTimeTagWise(
                     "$date ${data.Data.Tahajjut}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
             return  tahajjut-currentTime
-        }*/
+        }*//*
 
         "opt1" -> {
 
@@ -97,7 +151,7 @@ internal fun getPrayerTimeTagWise(
             return  suhoor - currentTime
         }
 
-       /* "opt3" -> {
+       *//* "opt3" -> {
             val ishrak: Long
             if(currentTime<nightTime)
                 ishrak =
@@ -107,7 +161,7 @@ internal fun getPrayerTimeTagWise(
                 "$date ${data.Data.Ishrak}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
 
             return  ishrak - currentTime
-        }*/
+        }*//*
 
         "opt2" -> {
             val iftar =
@@ -118,7 +172,9 @@ internal fun getPrayerTimeTagWise(
         else -> 0L
     }
 
-}
+}*/
+
+
 
  fun get_prayer_tag_by_name(name:String): String =
     when(name)

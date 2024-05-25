@@ -1,7 +1,9 @@
 package com.deenislam.sdk.views.duaandamal
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,11 +29,7 @@ import com.deenislam.sdk.service.models.quran.learning.QuranLearningResource
 import com.deenislam.sdk.service.network.response.common.CommonCardData
 import com.deenislam.sdk.service.repository.IslamicEducationVideoRepository
 import com.deenislam.sdk.service.repository.quran.learning.QuranLearningRepository
-import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
-import com.deenislam.sdk.utils.CallBackProvider
-import com.deenislam.sdk.utils.dp
-import com.deenislam.sdk.utils.hide
-import com.deenislam.sdk.utils.show
+import com.deenislam.sdk.utils.*
 import com.deenislam.sdk.viewmodels.IslamicEducationViewModel
 import com.deenislam.sdk.viewmodels.quran.learning.QuranLearningViewModel
 import com.deenislam.sdk.views.adapters.common.CommonCardAdapter
@@ -76,6 +75,9 @@ internal class DuaAmalVideoPlayerFragment : BaseRegularFragment(), VideoPlayerCa
     private lateinit var tvStoryName: AppCompatTextView
     private lateinit var viewmodel: IslamicEducationViewModel
     private lateinit var viewmodelQuranLearning: QuranLearningViewModel
+    private lateinit var morePodcastTxt: AppCompatTextView
+    private lateinit var title: AppCompatTextView
+    private lateinit var view1: LinearLayout
 
     override fun OnCreate() {
         super.OnCreate()
@@ -120,6 +122,11 @@ internal class DuaAmalVideoPlayerFragment : BaseRegularFragment(), VideoPlayerCa
         vPlayerControlAction1 = mainview.findViewById(R.id.vPlayerControlAction1)
         vPlayerControlAction2 = mainview.findViewById(R.id.vPlayerControlAction2)
         vPlayerControlBtnPlay = mainview.findViewById(R.id.vPlayerControlBtnPlay)
+        view1 = mainview.findViewById(R.id.view1)
+        morePodcastTxt = mainview.findViewById(R.id.morePodcastTxt)
+        title = view1.findViewById(R.id.autoPlaytitle)
+
+        morePodcastTxt.hide()
         vPlayerControlAction1.hide()
         settingsLayout.hide()
         autplayLayout.hide()
@@ -138,6 +145,13 @@ internal class DuaAmalVideoPlayerFragment : BaseRegularFragment(), VideoPlayerCa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBackPressCallback(this)
+
+
+        title.text = localContext.getString(R.string.more_videos)
+        title.typeface = Typeface.DEFAULT_BOLD
+        title.setTextColor(ContextCompat.getColor(requireContext(), R.color.deen_txt_black_deep))
+        title.setStarMargin(10.dp)
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
 
 
         /*if (!isDetached) {

@@ -126,8 +126,8 @@ internal class WidgetPrayerTimes(
                     prayerName.text = "Fajr".prayerMomentLocale()
                     prayerNameArabic.text = "صلاة الفجْر"
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_sunrise_fill))
-                    timeTxt.text = ("${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${(prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.minus(60000L))?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
+                            "${(prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.minus(60000L))?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
                 2->
@@ -138,8 +138,7 @@ internal class WidgetPrayerTimes(
                     disableRadio.visible(true)
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_fajr_light))
 
-                    timeTxt.text = "${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.MilliSecondToStringTime()?:"0:00"}".numberLocale()
-
+                    timeTxt.text = "${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}".numberLocale()
                 }
 
                 3->
@@ -148,8 +147,8 @@ internal class WidgetPrayerTimes(
                     prayerNameArabic.text = "صلاة الظُّهْر"
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_sun_fill))
 
-                    timeTxt.text = ("${prayerData?.Data?.Juhr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Asr?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Juhr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Asr?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
 
                 }
@@ -160,8 +159,8 @@ internal class WidgetPrayerTimes(
                     prayerNameArabic.text = "صلاة العَصر"
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_cloud_sun_fill))
 
-                    timeTxt.text = ("${prayerData?.Data?.Asr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Asr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 
@@ -171,8 +170,8 @@ internal class WidgetPrayerTimes(
                     prayerNameArabic.text = "صلاة المَغرب"
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_sunset_fill))
 
-                    timeTxt.text = ("${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.minus(300000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
 
 
@@ -185,8 +184,8 @@ internal class WidgetPrayerTimes(
                     prayerNameArabic.text = "صلاة العِشاء"
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_isha))
 
-                    timeTxt.text = ("${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
+                            "${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 

@@ -3,6 +3,7 @@ package com.deenislam.sdk.views.adapters.duaamal
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.common.CommonCardData
@@ -70,7 +71,9 @@ internal class DualAmolHomeAdapter(
             if (loaded) {
                     when (viewtype) {
                         EDUCATIONAL_VIDEO -> {
-                            (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 0
+
+                            (itemView.findViewById<ConstraintLayout>(R.id.inf).layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 0
+
                             EducationVideoGrid(
                                 itemView,
                                 "",

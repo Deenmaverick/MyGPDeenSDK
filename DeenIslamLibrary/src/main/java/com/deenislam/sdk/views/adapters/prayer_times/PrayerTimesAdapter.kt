@@ -42,7 +42,6 @@ internal class PrayerTimesAdapter(
     private  var prayerList:ArrayList<Int> = arrayListOf(1,2,3,4,5)
     private lateinit var inc_prayer_times:LinearLayout
     private var updateDataState:Boolean = false
-    private var countDownTimer:CountDownTimer?=null
 
     private var prayerData:PrayerTimesResponse ? = null
     private var todayprayerData:PrayerTimesResponse ? = null
@@ -50,6 +49,7 @@ internal class PrayerTimesAdapter(
     private var  prayerMomentRangeData: PrayerMomentRange? = null
 
     // init view
+    private lateinit var timefor:AppCompatTextView
     private lateinit var  prayerMoment:AppCompatTextView
     private lateinit var  dateTimeArabic:AppCompatTextView
     private lateinit var dateTime:AppCompatTextView
@@ -82,6 +82,7 @@ internal class PrayerTimesAdapter(
                 TYPE_WIDGET1 -> {
 
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_prayer_time) {
+                        timefor = this.findViewById(R.id.timefor)
                         prayerMoment= this.findViewById(R.id.prayerMoment)
                         prayerMomentRange = this.findViewById(R.id.appCompatTextView)
                         nextPrayerName = this.findViewById(R.id.nextPrayerName)
@@ -256,6 +257,9 @@ internal class PrayerTimesAdapter(
 
         prayerMomentRangeData?.MomentName?.let { Log.e("UTIL_PRAYER1", it) }
 
+        timefor.show()
+        prayerMoment.setPadding(0,0,0,0)
+        prayerMomentRange.show()
 
         if(prayerMomentRangeData?.MomentName == "Fajr")
             prayerBG.setBackgroundResource(R.drawable.fajr)
@@ -269,8 +273,12 @@ internal class PrayerTimesAdapter(
             prayerBG.setBackgroundResource(R.drawable.isha)
         else if(prayerMomentRangeData?.MomentName == "Ishraq")
             prayerBG.setBackgroundResource(R.drawable.fajr)
-        else
-            prayerBG.setBackgroundColor(ContextCompat.getColor(getContext,R.color.deen_black))
+        else {
+            timefor.hide()
+            prayerMoment.setPadding(0,8.dp,0,0)
+            prayerMomentRange.hide()
+            prayerBG.setBackgroundColor(ContextCompat.getColor(getContext, R.color.deen_black))
+        }
 
         prayerMoment.text = prayerMomentRangeData?.MomentName?.prayerMomentLocale()
         prayerMomentRange.text = prayerMomentRangeData?.StartTime?.timeLocale() +" - " + prayerMomentRangeData?.EndTime?.timeLocale()
@@ -281,18 +289,18 @@ internal class PrayerTimesAdapter(
 
             if(it>0) {
                 nextPrayerTimeCount.text = "-"+prayerMomentRangeData?.nextPrayerTimeCount?.TimeDiffForPrayer()?.numberLocale()
-                countDownTimer?.cancel()
-                countDownTimer =object : CountDownTimer(it, 1000) {
+                com.deenislam.sdk.utils.singleton.CountDownTimer.prayerTimer?.cancel()
+                com.deenislam.sdk.utils.singleton.CountDownTimer.prayerTimer =object : CountDownTimer(it, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
                         nextPrayerTimeCount.text = "-"+millisUntilFinished.TimeDiffForPrayer().numberLocale()
                     }
 
                     override fun onFinish() {
-                        countDownTimer?.cancel()
+                        com.deenislam.sdk.utils.singleton.CountDownTimer.prayerTimer?.cancel()
                         callback?.nextPrayerCountownFinish()
                     }
                 }
-                countDownTimer?.start()
+                com.deenislam.sdk.utils.singleton.CountDownTimer.prayerTimer?.start()
             }
 
         }

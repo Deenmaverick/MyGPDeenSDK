@@ -481,4 +481,16 @@ internal class BoyanVideoFragment : BaseRegularFragment(), BoyanVideoClickCallba
 
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        webview.let {
+            it.clearHistory();
+            it.clearCache(true);
+            it.loadUrl("about:blank");
+            it.onPause();
+            it.removeAllViews();
+            it.destroy();
+        }
+    }
 }

@@ -1,7 +1,9 @@
 package com.deenislam.sdk.views.islamiceducationvideo.patch;
 
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
@@ -21,6 +23,7 @@ internal class EducationVideoGrid(
     private val listview: RecyclerView = itemView.findViewById(R.id.listview)
 
     init {
+
 
         if(pageTitle.isNotEmpty()) {
             itemTitle.text = pageTitle

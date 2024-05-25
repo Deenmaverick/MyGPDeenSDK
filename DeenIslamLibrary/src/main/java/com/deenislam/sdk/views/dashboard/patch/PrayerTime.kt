@@ -1,6 +1,7 @@
 package com.deenislam.sdk.views.dashboard.patch
 
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
@@ -22,6 +23,7 @@ import java.util.Locale
 
 internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse?) {
 
+    private var timefor:AppCompatTextView = view.findViewById(R.id.timefor)
     private val prayerBG: AppCompatImageView = view.findViewById(R.id.prayerBG)
     private val prayerMoment: AppCompatTextView = view.findViewById(R.id.prayerMoment)
     private val prayerMomentRange: AppCompatTextView = view.findViewById(R.id.appCompatTextView)
@@ -32,7 +34,6 @@ internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse
     private val progressTxt: AppCompatTextView = view.findViewById(R.id.progressTxt)
     private val namazTask: LinearProgressIndicator = view.findViewById(R.id.namazTask)
     private val prayerCheck: RadioButton = view.findViewById(R.id.prayerCheck)
-    private var countDownTimer:CountDownTimer?=null
     private val stateBtn:LinearLayout = view.findViewById(R.id.stateBtn)
     private val stateTxt:AppCompatTextView = view.findViewById(R.id.stateTxt)
     private var commonStateList:CommonStateList ? = null
@@ -42,6 +43,7 @@ internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse
         prayerBG.setBackgroundColor(ContextCompat.getColor(prayerBG.context, R.color.deen_black))
 
         allPrayer.setOnClickListener {
+            Log.e("ALLPTCALLBACK",callback.toString())
             callback?.allPrayerPage()
         }
 
@@ -71,6 +73,10 @@ internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse
         //prayerCheck.isEnabled = !(checkTrack!=null && checkTrack >=0)
         prayerCheck.isChecked = (checkTrack!=null && checkTrack >=0)
 
+        timefor.show()
+        prayerMoment.setPadding(0,0,0,0)
+        prayerMomentRange.show()
+
 
         if(prayerMomentRangeData?.MomentName == "Fajr")
             prayerBG.setBackgroundResource(R.drawable.fajr)
@@ -90,6 +96,9 @@ internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse
             //prayerBG.setBackgroundResource(R.drawable.isha)
             prayerTracker(false)
             prayerMomentRange.text = "--"
+            timefor.hide()
+            prayerMoment.setPadding(0,13.dp,0,0)
+            prayerMomentRange.hide()
             prayerBG.setBackgroundColor(
                 ContextCompat.getColor(getContext,
                     R.color.deen_black
@@ -114,19 +123,19 @@ internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse
         prayerMomentRangeData?.nextPrayerTimeCount?.let {
             if(it>0) {
                 nextPrayerTime.text = "-"+prayerMomentRangeData.nextPrayerTimeCount?.TimeDiffForPrayer()?.numberLocale()
-                countDownTimer?.cancel()
-                countDownTimer = object : CountDownTimer(it, 1000) {
+                com.deenislam.sdk.utils.singleton.CountDownTimer.prayerTimer?.cancel()
+                com.deenislam.sdk.utils.singleton.CountDownTimer.prayerTimer = object : CountDownTimer(it, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
                         nextPrayerTime.text = "-" + millisUntilFinished.TimeDiffForPrayer().numberLocale()
                     }
 
                     override fun onFinish() {
-                        countDownTimer?.cancel()
+                        com.deenislam.sdk.utils.singleton.CountDownTimer.prayerTimer?.cancel()
                         callback = CallBackProvider.get<PrayerTimeCallback>()
                         callback?.nextPrayerCountownFinish()
                     }
                 }
-                countDownTimer?.start()
+                com.deenislam.sdk.utils.singleton.CountDownTimer.prayerTimer?.start()
             }
         }
 
