@@ -25,5 +25,6 @@ fun String.getRCDestination():Int =
         "islamic_boyan" -> R.id.islamicBoyanHomeFragment
         "khatam_e_quran" -> R.id.khatamEQuranHomeFragment
         "qurbani" -> R.id.qurbaniFragment
+        "hajjandumrah" -> R.id.hajjAndUmrahFragment
         else -> 0
     }

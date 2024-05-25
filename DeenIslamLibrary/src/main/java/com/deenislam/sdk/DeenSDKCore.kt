@@ -220,6 +220,7 @@ object DeenSDKCore {
             }
 
             else->{
+
                 val getDestination = rc.getRCDestination()
 
                 if(getDestination == 0) {
