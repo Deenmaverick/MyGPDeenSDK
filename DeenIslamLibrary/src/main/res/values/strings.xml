@@ -245,7 +245,7 @@
     <string name="terms_of_use">Terms of use</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="deen_all_rights_reserved">© 2024 Deen. All rights reserved</string>
-    <string name="deen_version">Deen - v1.0.8</string>
+    <string name="deen_version">Deen - v1.0.9</string>
     <string name="continue_txt">Continue</string>
     <string name="dhaka">Dhaka</string>
     <string name="islamic">Islamic</string>
@@ -479,4 +479,11 @@
     <string name="visit">Visit</string>
     <string name="online_haat">Online Haat</string>
     <string name="sunset">Sunset</string>
+    <string name="start_the_journey">Start the journey</string>
+    <string name="makkah_masjid_al_haram">Makkah - Masjid al-Haram</string>
+    <string name="hajj_map_start_details">The Hajj journey starts from Masjid Al-Haram and ends at Mina</string>
+    <string name="hajj_map">Hajj Map</string>
+    <string name="storage_permission_is_required_to_save_photo">Storage permission is required to save photos.</string>
+    <string name="dua">Dua</string>
+
 </resources>

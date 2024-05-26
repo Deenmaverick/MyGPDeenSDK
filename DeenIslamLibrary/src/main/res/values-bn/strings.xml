@@ -245,7 +245,7 @@
     <string name="terms_of_use">ব্যবহারের শর্তাবলী</string>
     <string name="privacy_policy">গোপনীয়তা নীতি</string>
     <string name="deen_all_rights_reserved">© ২০২৪ দ্বীন। সমস্ত অধিকার সংরক্ষিত</string>
-    <string name="deen_version">দ্বীন - v1.0.8</string>
+    <string name="deen_version">দ্বীন - v1.0.9</string>
     <string name="continue_txt">চালিয়ে যান</string>
     <string name="dhaka">ঢাকা</string>
     <string name="islamic">ইসলামিক</string>
@@ -479,4 +479,11 @@
     <string name="visit">ভিজিট করুন</string>
     <string name="online_haat">অনলাইন হাট</string>
     <string name="sunset">সূর্যাস্ত</string>
+    <string name="start_the_journey">যাত্রা শুরু করুন</string>
+    <string name="makkah_masjid_al_haram">মক্কা থেকে মসজিদুল হারাম</string>
+    <string name="hajj_map_start_details">হজের যাত্রা শুরু হয় মসজিদুল হারাম থেকে এবং শেষ হয় মিনায়।</string>
+    <string name="hajj_map">হজ ম্যাপ</string>
+    <string name="storage_permission_is_required_to_save_photo">ফটো সংরক্ষণ করার জন্য স্টোরেজ অনুমতি প্রয়োজন।</string>
+    <string name="dua">দোয়া</string>
+
 </resources>

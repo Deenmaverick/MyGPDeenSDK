@@ -8,6 +8,7 @@
     android:layout_marginBottom="@dimen/space_4"
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
+    tools:viewBindingIgnore="true"
     app:cardBackgroundColor="@color/deen_white"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

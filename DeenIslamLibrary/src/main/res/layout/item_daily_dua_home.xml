@@ -4,6 +4,7 @@
     app:cardCornerRadius="@dimen/space_16"
     app:cardElevation="0dp"
     tools:viewBindingIgnore="true"
+    app:strokeWidth="0dp"
     style="@style/Widget.MaterialComponents.CardView"
     android:layout_marginStart="@dimen/space_4"
     android:layout_marginEnd="@dimen/space_4"

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardviw_category"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    tools:viewBindingIgnore="true"
     app:cardBackgroundColor="@color/deen_white"
     android:layout_marginStart="@dimen/space_4"
     android:layout_marginEnd="@dimen/space_4"

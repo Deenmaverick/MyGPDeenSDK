@@ -8,25 +8,33 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.callback.DashboardPatchCallback
+import com.deenislam.sdk.service.callback.common.HorizontalCardListCallback
 import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.libs.ImageViewPopupDialog
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.HajjAndUmrahResource
 import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.service.repository.HajjAndUmrahRepository
+import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.HAJJ_GUIDE
 import com.deenislam.sdk.utils.HAJJ_SUB_CAT
+import com.deenislam.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislam.sdk.viewmodels.HajjAndUmrahViewModel
 import com.deenislam.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislam.sdk.views.adapters.hajjandumrah.HajjAndUmrahHomePatchAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import kotlinx.coroutines.launch
 
-internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback {
+internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback,
+    HorizontalCardListCallback, DashboardPatchCallback {
 
     private lateinit var listView:RecyclerView
     private lateinit var viewmodel: HajjAndUmrahViewModel
     private var firstload = false
+    private var patchDataList: List<com.deenislam.sdk.service.network.response.dashboard.Data> ? = null
+
 
     override fun OnCreate() {
         super.OnCreate()
@@ -52,7 +60,7 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback {
             action2 = 0,
             callback = null,
             actionnBartitle = localContext.getString(R.string.hajj_umrah),
-            backEnable = false,
+            backEnable = true,
             view = mainview
         )
 
@@ -99,6 +107,9 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback {
 
     private fun viewState(data: List<com.deenislam.sdk.service.network.response.dashboard.Data>)
     {
+
+        patchDataList = data
+
         listView.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = HajjAndUmrahHomePatchAdapter(data)
@@ -134,9 +145,92 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback {
                     gotoFrag(R.id.action_global_hajjGuideFragment,bundle)
                 }
             }
+
+            "dua" -> {
+
+                getMenu?.SurahId?.let {
+                    val bundle = Bundle().apply {
+                        putInt("category", it)
+                        putString("catName", getMenu.ArabicText)
+                    }
+                    gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
+                }
+
+
+            }
             //HAJJ_MAP -> gotoFrag(R.id.action_global_hajjMapFragment)
         }
     }
 
+
+    override fun patchItemClicked(getData: Item) {
+
+        when(getData.ContentType){
+
+            "ib" -> {
+                val bundle = Bundle()
+                bundle.putInt("id", getData.CategoryId)
+                bundle.putString("videoType", "category")
+                bundle.putString("pageTitle",getData.ArabicText)
+                gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
+            }
+
+
+            "khq" -> {
+
+              /*  if(!Subscription.isSubscribe){
+                    gotoFrag(R.id.action_global_subscriptionFragment)
+                    return
+                }*/
+
+
+                patchDataList?.let {
+
+                    var dataIndex = -1
+                    var itemIndex = 0
+
+                    patchDataList?.forEachIndexed { index, data ->
+                        data.Items.forEachIndexed { innerIndex, item ->
+                            // Replace with the condition to check if the items match
+                            if (item.Id == getData.Id) {
+                                dataIndex = index
+                                itemIndex = innerIndex
+                                return@forEachIndexed
+                            }
+                        }
+                    }
+
+                    if(dataIndex !=-1) {
+                        val bundle = Bundle()
+                        bundle.putInt("khatamQuranvideoPosition", itemIndex)
+                        bundle.putParcelableArray("khatamQuranvideoList", it[dataIndex].Items.map { it1-> transformDashboardItemForKhatamQuran(it1) }.toTypedArray())
+                        gotoFrag(R.id.action_global_khatamEQuranVideoFragment, bundle)
+                    }
+
+                }
+
+            }
+
+
+
+        }
+
+    }
+
+    override fun dashboardPatchClickd(patch: String, data: Item?) {
+
+        when(patch){
+            "dua" -> {
+
+                val bundle = Bundle()
+                bundle.putString("title", localContext.getString(R.string.dua))
+                bundle.putString("imgUrl", "$BASE_CONTENT_URL_SGP${data?.imageurl1}")
+                //bundle.putString("content","${getdata.Title}:\n\n${getdata.Text}\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+
+                ImageViewPopupDialog.display(childFragmentManager, bundle)
+
+            }
+        }
+    }
 
 }

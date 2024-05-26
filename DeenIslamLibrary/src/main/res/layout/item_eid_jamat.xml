@@ -7,6 +7,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
     android:layout_marginTop="@dimen/space_8"
+    tools:viewBindingIgnore="true"
     android:layout_marginBottom="1dp"
     app:cardBackgroundColor="@color/deen_white"
     app:layout_constraintStart_toStartOf="parent"

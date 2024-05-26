@@ -38,4 +38,10 @@
     <color name="deen_backgroundAlt">#E2D5B5</color>
     <color name="deen_white_50">#80FFFFFF</color>
     <color name="deen_gray_secondary">#333333</color>
+    <color name="deen_red">#f90303</color>
+    <color name="deen_blue">#1650e4</color>
+    <color name="deen_green">#10e430</color>
+    <color name="deen_accent">#b117dc</color>
+    <color name="deen_dark_bg_60">#991F1F1F</color>
+    <color name="deen_black_33">#54000000</color>
 </resources>

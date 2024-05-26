@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.libs.ImageViewPopupDialog
 import com.deenislam.sdk.service.models.common.ContentSettingResource
 import com.deenislam.sdk.service.network.response.common.subcatcardlist.Data
 import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
@@ -86,7 +87,13 @@ internal class QurbaniContentFragment : BaseRegularFragment() {
 
             if(data!=null){
 
-
+                bannerImg.setOnClickListener {
+                    val bundle = Bundle()
+                    bundle.putString("title",localContext.getString(R.string.qurbani))
+                    bundle.putString("imgUrl","$BASE_CONTENT_URL_SGP${data.ImageUrl}")
+                    //bundle.putString("content","${getdata.Title}:\n\n${getdata.Text}\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+                    ImageViewPopupDialog.display(childFragmentManager,bundle)
+                }
 
                 bannerImg.imageLoad(url = "$BASE_CONTENT_URL_SGP${data.ImageUrl}", placeholder_1_1 = true)
 

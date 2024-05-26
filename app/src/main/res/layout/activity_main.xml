@@ -30,7 +30,7 @@
             android:id="@+id/sehriAlarmBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ijtemaBtn"
+            android:layout_below="@id/qurbaniBtn"
             android:layout_centerInParent="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -38,6 +38,36 @@
             android:layout_marginBottom="16dp"
             android:background="@color/deen_white"
             android:text="Sehri Alarm"
+            android:textColor="@color/deen_black" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/qurbaniBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hajjumrahBtn"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Qurbani"
+            android:textColor="@color/deen_black" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/hajjumrahBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ijtemaBtn"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Hajj And Umrah"
             android:textColor="@color/deen_black" />
 
         <androidx.appcompat.widget.AppCompatButton

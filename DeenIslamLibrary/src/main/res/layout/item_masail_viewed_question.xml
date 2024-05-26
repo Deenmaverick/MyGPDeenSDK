@@ -5,6 +5,7 @@
     android:layout_marginEnd="@dimen/space_8"
     android:layout_marginBottom="1dp"
     app:cardCornerRadius="8dp"
+    tools:viewBindingIgnore="true"
     app:cardElevation="1dp"
     app:cardBackgroundColor="@color/deen_white"
     app:layout_constraintEnd_toStartOf="@+id/learnquranBtn2"

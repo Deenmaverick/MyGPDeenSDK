@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="hajjMapStepDetails">
+        <item>While Hajj really begins before one leaves home, the first major rite pilgrims carry out is the perfomance of Tawaf and Sa\'i in Mecca: First pilgrims circles the Kaaba seven times (Tawaf). Then the pilgrims walk or run seven times between the hills of Safa and Marwah (Sa\'i), re-enacting th actions of Hajar, Abraham\'s wife, as she ran in despair between the two points in search of water after becoming stranded there.</item>
+        <item>On the eighth day of the lunar month of DhulHijjah, pilgrims head to Mina, where thousands upon thousands of tents have been set up to house them. Pilgrims will stay here overnight.</item>
+        <item>On the second day, pilgrims trek to the plain of Arafat - with Mt Arafat at its centre. This is where Prophet Muhammad gave his farewell sermon. Pilgrims remain here, offering prayers until sunset.</item>
+        <item>After the sun sets, pilgrims head to Muzdalifa for the night. There they collect pebbles to use in rites the following day.</item>
+        <item>Pilgrims return to the Jamaraat bridge in Mina for the ritual Stoning of the Devil. They throw pebbles at the largest of three consecutive columns representing the Devil. This day, the 10th day of DhulHijjah, is also Eidul-Adha for Muslims around the world. The day is marked by sacrificing livestock and sharing the meat with family and the poor.</item>
+        <item>After leaving the Jamaraat bridge in Mina, pilgrims perform another Tawaf in Mecca. But there is no rest for the weary and they return to Mina again for the night.</item>
+        <item>Pilgrims spend the night of day 3, as well as the next two days encamped at Mina. On both these days, they return to the Jamaraatbridge to throw pebbles at each of the three walls representing the devil, going in order from east to west. On the end of the fifth day, they have completed their Hajj.</item>
+    </array>
+
+    <array name="hajjMapTrackerPlace">
+        <item>Starting point - Mecca</item>
+        <item>Day 1 - Mina</item>
+        <item>Day 2 - Mount Arafat</item>
+        <item>Day 2 - Muzdalifa</item>
+        <item>Day 3 - Jamaraat bridge</item>
+        <item>Day 3 - Mecca</item>
+        <item>Day 4,5 - Mina encampment</item>
+    </array>
+</resources>

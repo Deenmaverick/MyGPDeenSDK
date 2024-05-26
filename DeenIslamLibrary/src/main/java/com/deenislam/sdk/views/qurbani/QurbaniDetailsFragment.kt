@@ -21,6 +21,7 @@ import com.deenislam.sdk.service.callback.AlQuranAyatCallback
 import com.deenislam.sdk.service.callback.QurbaniCallback
 import com.deenislam.sdk.service.database.AppPreference
 import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.libs.ImageViewPopupDialog
 import com.deenislam.sdk.service.models.CommonResource
 import com.deenislam.sdk.service.models.QurbaniResource
 import com.deenislam.sdk.service.models.common.ContentSetting
@@ -147,10 +148,15 @@ internal class QurbaniDetailsFragment : BaseRegularFragment(), QurbaniCallback,o
 
 
     override fun selectedQurbaniBanner(getdata: Data) {
+        val bundle = Bundle()
+        bundle.putString("title", localContext.getString(R.string.qurbani))
+        bundle.putString("imgUrl", "$BASE_CONTENT_URL_SGP${getdata.ImageUrl}")
+        //bundle.putString("content","${getdata.Title}:\n\n${getdata.Text}\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
 
+        ImageViewPopupDialog.display(childFragmentManager, bundle)
     }
 
-    private fun initObserver(){
+        private fun initObserver(){
         viewmodel.qurbaniLiveData.observe(viewLifecycleOwner){
             when(it){
                 is CommonResource.API_CALL_FAILED -> baseNoInternetState()

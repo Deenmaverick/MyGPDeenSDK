@@ -20,8 +20,6 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val configuration: Configuration = resources.configuration
-
         val msisdn:EditText = findViewById(R.id.phone_number)
         val authBtn:AppCompatButton = findViewById(R.id.login)
         val initSDKbtn:AppCompatButton = findViewById(R.id.initSDKbtn)
@@ -34,6 +32,8 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val ijtemaBtn:AppCompatButton = findViewById(R.id.ijtemaBtn)
         val sehriAlarmBtn:AppCompatButton = findViewById(R.id.sehriAlarmBtn)
         val iftarAlarmBtn:AppCompatButton = findViewById(R.id.iftarAlarmBtn)
+        val qurbaniBtn:AppCompatButton = findViewById(R.id.qurbaniBtn)
+        val hajjumrahBtn:AppCompatButton = findViewById(R.id.hajjumrahBtn)
 
         sehriAlarmBtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
@@ -51,9 +51,25 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
             }
         }
 
-        ijtemaBtn.setOnClickListener {
+        qurbaniBtn.setOnClickListener {
+            if(msisdn.text.isNotEmpty()){
+                DeenSDKCore.openFromRC("qurbani")
+            }else{
+                Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        hajjumrahBtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
                 DeenSDKCore.openFromRC("hajjandumrah")
+            }else{
+                Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        ijtemaBtn.setOnClickListener {
+            if(msisdn.text.isNotEmpty()){
+                DeenSDKCore.openFromRC("live_ijtema")
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }

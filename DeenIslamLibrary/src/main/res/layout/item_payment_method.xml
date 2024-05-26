@@ -5,13 +5,15 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
     app:strokeWidth="0dp"
+    tools:viewBindingIgnore="true"
     app:strokeColor="@color/deen_primary"
     app:cardBackgroundColor="@color/deen_white"
     app:layout_constraintTop_toBottomOf="@+id/hintTxt"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

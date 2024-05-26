@@ -50,15 +50,17 @@ internal class QurbaniCategoryFragment : BaseRegularFragment(), QurbaniCallback,
         val mainview = localInflater.inflate(R.layout.fragment_qurbani_category,container,false)
 
         listView = mainview.findViewById(R.id.listView)
-        setupCommonLayout(mainview)
 
         CallBackProvider.setFragment(this)
+
 
         return mainview
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupCommonLayout(view)
 
         initObserver()
 

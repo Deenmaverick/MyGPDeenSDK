@@ -36,11 +36,11 @@
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
+                    tools:src="@drawable/deen_placeholder_4_3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
 
 
                 <com.google.android.material.button.MaterialButton
@@ -55,12 +55,37 @@
                     android:minWidth="40dp"
                     android:minHeight="26dp"
                     android:padding="0dp"
+                    android:background="@color/deen_black_33"
+                    app:backgroundTint="@color/deen_black_33"
                     android:textColor="@color/deen_white"
                     app:strokeWidth="0dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/zoomBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_12"
+                    app:backgroundTint="@color/deen_black_33"
+                    android:alpha="0.8"
+                    android:clickable="false"
+                    app:cornerRadius="100dp"
+                    app:icon="@drawable/deen_ic_zoom_in"
+                    app:iconTint="@color/deen_white"
+                    app:iconSize="16dp"
+                    android:minWidth="26dp"
+                    android:minHeight="26dp"
+                    android:paddingStart="@dimen/space_4"
+                    android:paddingEnd="0dp"
+                    android:padding="0dp"
+                    app:strokeWidth="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/countBtn"
+                    app:layout_constraintTop_toTopOf="@+id/countBtn"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
 
 

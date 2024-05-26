@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    android:id="@+id/ramadanTimeCard"
+<com.google.android.material.card.MaterialCardView android:id="@+id/ramadanTimeCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/deen_white"
     app:cardCornerRadius="@dimen/space_8"
     android:layout_margin="1dp"
     app:cardElevation="1dp"
+    tools:viewBindingIgnore="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
