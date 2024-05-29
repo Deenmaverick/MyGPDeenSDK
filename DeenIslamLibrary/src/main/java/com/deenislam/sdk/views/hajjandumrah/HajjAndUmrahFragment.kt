@@ -1,12 +1,14 @@
 package com.deenislam.sdk.views.hajjandumrah
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.callback.DashboardPatchCallback
 import com.deenislam.sdk.service.callback.common.HorizontalCardListCallback
@@ -20,7 +22,9 @@ import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.HAJJ_GUIDE
 import com.deenislam.sdk.utils.HAJJ_SUB_CAT
+import com.deenislam.sdk.utils.get9DigitRandom
 import com.deenislam.sdk.utils.transformDashboardItemForKhatamQuran
+import com.deenislam.sdk.utils.tryCatch
 import com.deenislam.sdk.viewmodels.HajjAndUmrahViewModel
 import com.deenislam.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislam.sdk.views.adapters.hajjandumrah.HajjAndUmrahHomePatchAdapter
@@ -38,6 +42,10 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback,
 
     override fun OnCreate() {
         super.OnCreate()
+
+        setupBackPressCallback(this,true)
+
+
         val hajjAndUmrahRepository = HajjAndUmrahRepository(
             deenService = NetworkProvider().getInstance().provideDeenService()
         )
@@ -73,6 +81,19 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback,
         super.onViewCreated(view, savedInstanceState)
 
         CallBackProvider.setFragment(this)
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "hajjandumrah",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
 
         initObserver()
 
@@ -233,4 +254,18 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback,
         }
     }
 
+    override fun onBackPress() {
+
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "hajjandumrah",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        tryCatch { super.onBackPress() }
+    }
 }

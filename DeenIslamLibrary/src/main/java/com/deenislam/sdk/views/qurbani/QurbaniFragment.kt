@@ -8,12 +8,18 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.di.NetworkProvider
+import com.deenislam.sdk.service.repository.HajjAndUmrahRepository
 import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.viewmodels.HajjAndUmrahViewModel
 import com.deenislam.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislam.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.launch
 
 internal class QurbaniFragment : BaseRegularFragment() {
 
@@ -26,6 +32,13 @@ internal class QurbaniFragment : BaseRegularFragment() {
     private lateinit var mPageDestination: ArrayList<Fragment>
     private lateinit var mainViewPagerAdapter: MainViewPagerAdapter
     private var firstload = false
+
+    override fun OnCreate() {
+        super.OnCreate()
+
+        setupBackPressCallback(this,true)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +68,21 @@ internal class QurbaniFragment : BaseRegularFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "qurbani",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        firstload = true
 
         mPageDestination = arrayListOf(
             QurbaniCategoryFragment(),
@@ -123,6 +151,21 @@ internal class QurbaniFragment : BaseRegularFragment() {
                 viewPager.setCurrentItem(1,true)
         }
 
+    }
+
+    override fun onBackPress() {
+
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "qurbani",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        tryCatch { super.onBackPress() }
     }
 
 }
