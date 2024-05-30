@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.network.response.dashboard.Item
 import com.deenislam.sdk.utils.dp
-import com.deenislam.sdk.views.adapters.common.gridmenu.MenuAdapter
+import com.deenislam.sdk.views.adapters.hajjandumrah.HajjMenuAdapter
 
 internal class Menu(itemView: View, private val items: List<Item>) {
 
@@ -17,10 +17,7 @@ internal class Menu(itemView: View, private val items: List<Item>) {
         listView.apply {
             layoutManager = GridLayoutManager(this.context,3)
             setPadding(16.dp,16.dp,16.dp,0)
-            adapter = MenuAdapter(
-                hajjAndUmrahMenuList = items,
-                viewType = 3
-            )
+            adapter = HajjMenuAdapter( items)
         }
     }
 
