@@ -24,7 +24,7 @@ internal class HajjMenuAdapter (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(LayoutInflater.from(parent.context).inflate(
-            R.layout.item_menu_list,parent,false))
+            R.layout.deen_item_menu_list,parent,false))
 
     override fun getItemCount(): Int = menuList?.size?:0
 

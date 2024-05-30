@@ -20,7 +20,7 @@ internal class QurbaniMenuAdapter(private val data: List<Item>) : RecyclerView.A
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_menu_list, parent, false)
+                .inflate(R.layout.deen_item_menu_list, parent, false)
         )
 
     override fun getItemCount(): Int = data.size

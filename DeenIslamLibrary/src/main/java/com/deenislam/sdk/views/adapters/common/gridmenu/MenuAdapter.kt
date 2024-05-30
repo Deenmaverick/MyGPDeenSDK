@@ -1,8 +1,5 @@
 package com.deenislam.sdk.views.adapters.common.gridmenu
 
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +45,7 @@ internal class MenuAdapter(
         when(viewType)
         {
             DASHBOARD_MENU -> ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_menu_list_dashboard,parent,false))
-            HAJJ_STEP_SELECTION_MENU,HAJJ_AND_UMRAH_MENU -> ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_menu_list,parent,false))
+            HAJJ_STEP_SELECTION_MENU,HAJJ_AND_UMRAH_MENU -> ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.deen_item_menu_list,parent,false))
             else -> throw java.lang.IllegalArgumentException("View cannot null")
         }
 
