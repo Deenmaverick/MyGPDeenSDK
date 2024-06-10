@@ -23,7 +23,7 @@
         android:id="@+id/subText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/space_8"
+        android:paddingTop="@dimen/space_4"
         android:justificationMode="inter_word"
         android:textColor="@color/deen_gray_secondary"
         tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
