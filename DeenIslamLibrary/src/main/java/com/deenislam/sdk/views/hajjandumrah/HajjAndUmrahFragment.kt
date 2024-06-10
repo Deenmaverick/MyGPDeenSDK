@@ -1,7 +1,6 @@
 package com.deenislam.sdk.views.hajjandumrah
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,6 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback,
         super.OnCreate()
 
         setupBackPressCallback(this,true)
-
 
         val hajjAndUmrahRepository = HajjAndUmrahRepository(
             deenService = NetworkProvider().getInstance().provideDeenService()
@@ -149,13 +147,21 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback,
         when(pagetag)
         {
             HAJJ_SUB_CAT -> {
-                val bundle = Bundle()
+                /*val bundle = Bundle()
                 getMenu?.let {
                     bundle.putInt("categoryID", it.Reference.toInt())
                     bundle.putString("pageTitle",it.ArabicText)
                     bundle.putString("pageTag",pagetag)
                     bundle.putBoolean("shareable",true)
                     gotoFrag(R.id.action_global_subCatCardListFragment,bundle)
+                }*/
+
+                val bundle = Bundle()
+                getMenu?.let {
+                    bundle.putInt("categoryID", it.SurahId)
+                    bundle.putString("pageTitle",it.ArabicText)
+                    bundle.putString("pageTag",pagetag)
+                    gotoFrag(R.id.action_global_subContentFragment,bundle)
                 }
             }
 

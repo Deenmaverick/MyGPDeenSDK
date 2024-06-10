@@ -1381,4 +1381,26 @@
             android:defaultValue="@null" />
     </dialog>
 
+    <fragment
+        android:id="@+id/subContentFragment"
+        android:name="com.deenislam.sdk.views.common.subcontent.SubContentFragment"
+        android:label="SubContentFragment">
+        <argument
+            android:name="categoryID"
+            app:argType="integer" />
+        <argument
+            android:name="pageTitle"
+            app:argType="string" />
+        <argument
+            android:name="pageTag"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_subContentFragment"
+        app:destination="@id/subContentFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
 </navigation>

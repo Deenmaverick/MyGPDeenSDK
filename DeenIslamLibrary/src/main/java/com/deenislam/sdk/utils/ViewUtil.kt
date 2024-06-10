@@ -6,7 +6,10 @@ import android.content.Intent
 import android.graphics.*
 import android.net.Uri
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
 import android.text.style.StrikethroughSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
@@ -17,8 +20,10 @@ import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.FileProvider
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +33,8 @@ import coil.load
 import coil.request.CachePolicy
 import com.deenislam.sdk.DeenSDKCore
 import com.deenislam.sdk.R
+import com.deenislam.sdk.service.database.AppPreference
+import com.deenislam.sdk.utils.qurbani.getBanglaSize
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -618,6 +625,7 @@ fun Activity.releaseWakeLock() {
 
 
 
+/*
 fun Element.extractTextWithStyle(): SpannableStringBuilder {
     val spannableBuilder = SpannableStringBuilder()
 
@@ -713,4 +721,228 @@ fun String.htmlFormat(): SpannableStringBuilder {
     }
 
     return spannableBuilder
+}*/
+
+
+fun Element.extractTextWithStyle(): SpannableStringBuilder {
+    val spannableBuilder = SpannableStringBuilder()
+
+    // Process each child node (element or text node)
+    childNodes().forEach { childNode ->
+        when (childNode) {
+            is Element -> {
+                // Handle child element
+                val elementText = childNode.extractTextWithStyle()
+                if (elementText.isNotBlank()) {
+                    if (childNode.tagName().lowercase() == "li") {
+                        // Add a bullet point before the list item text
+                        spannableBuilder.append("\u2022 ") // Unicode character for bullet point
+                        spannableBuilder.append(elementText)
+                        spannableBuilder.append("\n")
+                    } else {
+                        spannableBuilder.append(elementText)
+                    }
+                }
+            }
+            is TextNode -> {
+                // Handle text node
+                val text = childNode.text()
+                if (text.isNotBlank()) {
+                    spannableBuilder.append(text)
+                }
+            }
+        }
+    }
+
+    // Apply style based on the tag name
+    when (tagName().lowercase()) {
+        "strong", "b" -> {
+            spannableBuilder.setSpan(StyleSpan(Typeface.BOLD), 0, spannableBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        "u" -> {
+            spannableBuilder.setSpan(UnderlineSpan(), 0, spannableBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        "s", "strike" -> {
+            spannableBuilder.setSpan(StrikethroughSpan(), 0, spannableBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        "i", "em" -> {
+            spannableBuilder.setSpan(StyleSpan(Typeface.ITALIC), 0, spannableBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        "br" -> {
+            spannableBuilder.append("\n")
+        }
+        "p" -> {
+            Log.e("extractTextWithStyle",text())
+            if (text().isBlank()) {
+                spannableBuilder.append("\n")
+            }
+            else if (hasEmptyInnerText()) { // Use hasEmptyInnerText() to check if inner text is empty or contains only whitespace
+                spannableBuilder.append("\n")
+            }
+        }
+
+    }
+
+    return spannableBuilder
+}
+
+fun Element.hasEmptyInnerText(): Boolean {
+    return if (text().isNotBlank()) {
+        false
+    } else {
+        children().all { it.hasEmptyInnerText() }
+    }
+}
+
+
+
+fun String.htmlFormat(): SpannableStringBuilder {
+    val spannableBuilder = SpannableStringBuilder()
+
+    // Parse the HTML string using Jsoup
+    val doc: Document = Jsoup.parseBodyFragment(this)
+    val bodyElement = doc.select("body").first()
+
+    var isFirstElement = true
+    bodyElement?.childNodes()?.forEachIndexed { index, node ->
+        if (node is Element) {
+            // Extract text content with style for each element
+            val extractedText = node.extractTextWithStyle()
+            if (extractedText.isNotBlank()) {
+                if (!isFirstElement) {
+                    spannableBuilder.append("\n") // Add new line except for the first element
+                } else {
+                    isFirstElement = false
+                }
+                spannableBuilder.append(extractedText)
+            }
+        } else if (node is TextNode) {
+            // Handle text node
+            val text = node.text()
+            if (text.isNotBlank()) {
+                if (!isFirstElement) {
+                    spannableBuilder.append("\n") // Add new line except for the first element
+                } else {
+                    isFirstElement = false
+                }
+                spannableBuilder.append(text)
+            }
+        }
+
+
+    }
+
+    Log.e("extractedText","$doc")
+
+
+    // Remove trailing new lines if the last element's text is blank
+    while (spannableBuilder.endsWith("\n")) {
+        spannableBuilder.delete(spannableBuilder.length - 1, spannableBuilder.length)
+    }
+
+    return spannableBuilder
+}
+
+
+fun SpannableStringBuilder.spanApplyArabicNew(context: Context) {
+    val contentSetting = AppPreference.getContentSetting()
+    var arabicFont: Typeface? = null
+    when (contentSetting.arabicFont) {
+        1 -> arabicFont = ResourcesCompat.getFont(context, R.font.indopakv2)
+        2 -> arabicFont = ResourcesCompat.getFont(context, R.font.kfgqpc_font)
+        3 -> arabicFont = ResourcesCompat.getFont(context, R.font.al_majed_quranic_font_regular)
+    }
+
+    // Regular expression to match Arabic text
+    val arabicRegex = "\\p{InArabic}+"
+
+    val regex = Regex(arabicRegex)
+    val matches = regex.findAll(this)
+    for (match in matches) {
+        val startIndex = match.range.first
+        val endIndex = match.range.last + 1
+
+        // Apply font size in SP to the entire Arabic text sequence
+        this.setSpan(
+            AbsoluteSizeSpan(contentSetting.arabicFontSize.getBanglaSize(24F).toInt(), true),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        // Apply custom font
+        arabicFont?.let {
+            this.setSpan(
+                CustomTypefaceSpan(it),
+                startIndex,
+                endIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+    }
+}
+
+fun SpannableStringBuilder.spanApplyReference() {
+    val contentSetting = AppPreference.getContentSetting()
+
+    val openBracket = "["
+    val closeBracket = "]"
+    var startIndex = this.indexOf(openBracket)
+
+    while (startIndex != -1) {
+        val endIndex = this.indexOf(closeBracket, startIndex + openBracket.length)
+        if (endIndex == -1) break // If no matching closing bracket is found, exit the loop
+
+        // Apply font size in SP
+        this.setSpan(
+            AbsoluteSizeSpan(contentSetting.banglaFontSize.getBanglaSize(14F).toInt(), true), // Change 14F to desired size
+            startIndex,
+            endIndex + closeBracket.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        // Find the next occurrence of the opening bracket
+        startIndex = this.indexOf(openBracket, endIndex + closeBracket.length)
+    }
+}
+
+fun AppCompatTextView.fixArabicComma() {
+    val mainFont = ResourcesCompat.getFont(context, R.font.al_majed_quranic_font_regular)
+    val commaChar = '،'
+    val fullText = text
+
+    if (fullText is Spannable) {
+        val existingSpans = fullText.getSpans(0, fullText.length, CustomTypefaceSpan::class.java)
+        for (span in existingSpans) {
+            fullText.removeSpan(span)
+        }
+
+        var index = fullText.indexOf(commaChar)
+        while (index >= 0) {
+            fullText.setSpan(
+                (if (index == 0) mainFont else Typeface.DEFAULT)?.let { CustomTypefaceSpan(it) },
+                index,
+                index + 1,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            index = fullText.indexOf(commaChar, index + 1)
+        }
+
+        text = fullText
+    } else {
+        val spannableText = SpannableString(fullText)
+
+        var index = fullText.indexOf(commaChar)
+        while (index >= 0) {
+            spannableText.setSpan(
+                (if (index == 0) mainFont else Typeface.DEFAULT)?.let { CustomTypefaceSpan(it) },
+                index,
+                index + 1,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            index = fullText.indexOf(commaChar, index + 1)
+        }
+
+        text = spannableText
+    }
 }

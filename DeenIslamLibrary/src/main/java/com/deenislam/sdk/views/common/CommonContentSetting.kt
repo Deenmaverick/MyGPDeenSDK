@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.AppPreference
 import com.deenislam.sdk.service.models.common.ContentSetting
-import com.deenislam.sdk.utils.*
+import com.deenislam.sdk.utils.CallBackProvider
+import com.deenislam.sdk.utils.getArabicFontList
+import com.deenislam.sdk.utils.hide
+import com.deenislam.sdk.utils.numberLocale
+import com.deenislam.sdk.utils.transformArabicFontData
 import com.deenislam.sdk.viewmodels.common.ContentSettingViewModel
 import com.deenislam.sdk.views.adapters.quran.quranplayer.PlayerCommonSelectionList
 import com.google.android.material.button.MaterialButton
@@ -27,22 +31,38 @@ internal object CommonContentSetting {
     private lateinit var contentSetting: ContentSetting
     private var lifecycleScope:LifecycleCoroutineScope ? = null
     private var dialog: Dialog? = null
+    private var langDialog: Dialog? = null
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var customAlertDialogView : WeakReference<View>
-    private var contentSettingViewModel: ContentSettingViewModel? = null
+
+    private lateinit var materialAlertDialogBuilder1: MaterialAlertDialogBuilder
+    private lateinit var customAlertDialogView1 : WeakReference<View>
+
+    private var contentSettingViewModel: ContentSettingViewModel ? = null
     private lateinit var arabicFontCommonSelectionList: PlayerCommonSelectionList
 
 
-    fun setup(viewmodel: ContentSettingViewModel, lifecycleCoroutineScope: LifecycleCoroutineScope){
+    fun setup(viewmodel: ContentSettingViewModel,lifecycleCoroutineScope: LifecycleCoroutineScope){
         this.contentSettingViewModel = viewmodel
         this.lifecycleScope = lifecycleCoroutineScope
     }
 
+    fun updateFontName(context: Context) {
+        contentSetting = AppPreference.getContentSetting()
+        customAlertDialogView.get()?.let {
+            val chooseArabicFont: MaterialButton = it.findViewById(R.id.chooseArabicFont)
+            chooseArabicFont.text = context.getArabicFontList().firstOrNull { trn-> trn.fontid == contentSetting.arabicFont.toString() }?.fontname.toString()
+
+        }
+        langDialog?.dismiss()
+    }
+
     fun showDialog(context: Context,localContext: Context, inflater: LayoutInflater) {
+
+        dialog?.dismiss()
 
         contentSetting = AppPreference.getContentSetting()
 
-        dialog?.dismiss()
 
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(context, R.style.DeenMaterialAlertDialog_Rounded)
         customAlertDialogView = WeakReference(inflater.inflate(R.layout.dialog_content_setting, null, false))
@@ -60,6 +80,20 @@ internal object CommonContentSetting {
                 dialog_select_arabic_font(context,localContext,inflater)
             }
 
+
+
+            //apply setting
+            val arbfontsize = (((contentSetting.arabicFontSize.coerceIn(0F, 100F) + 10) / 20).toInt() * 20).toFloat()
+            arabicFontSize.text = "${arbfontsize.toInt()}%".numberLocale()
+            arabicFontSlider.value =  arbfontsize
+
+            val bnfontsize = (((contentSetting.banglaFontSize.coerceIn(0F, 100F) + 10) / 20).toInt() * 20).toFloat()
+            banglaFontSize.text = "${bnfontsize.toInt()}%".numberLocale()
+            banglaFontSlider.value =  bnfontsize
+
+            chooseArabicFont.text = context.getArabicFontList().firstOrNull { trn-> trn.fontid == contentSetting.arabicFont.toString() }?.fontname.toString()
+
+
             arabicFontSlider.addOnChangeListener { _, value, _ ->
                 contentSetting.arabicFontSize = value
                 AppPreference.setContentSetting(contentSetting)
@@ -76,19 +110,6 @@ internal object CommonContentSetting {
                 }
             }
 
-
-            //apply setting
-            val arbfontsize = (((contentSetting.arabicFontSize.coerceIn(0F, 100F) + 10) / 20).toInt() * 20).toFloat()
-            arabicFontSize.text = "${arbfontsize.toInt()}%".numberLocale()
-            arabicFontSlider.value =  arbfontsize
-
-            val bnfontsize = (((contentSetting.banglaFontSize.coerceIn(0F, 100F) + 10) / 20).toInt() * 20).toFloat()
-            banglaFontSize.text = "${bnfontsize.toInt()}%".numberLocale()
-            banglaFontSlider.value =  bnfontsize
-
-            chooseArabicFont.text = context.getArabicFontList().firstOrNull { trn-> trn.fontid == contentSetting.arabicFont.toString() }?.fontname.toString()
-
-
             dialog = materialAlertDialogBuilder
                 .setView(it)
                 .setCancelable(true)
@@ -99,15 +120,16 @@ internal object CommonContentSetting {
 
     }
 
-    private fun dialog_select_arabic_font(context: Context,localContext: Context, inflater: LayoutInflater)
-    {
+    private fun dialog_select_arabic_font(context: Context,localContext: Context, inflater: LayoutInflater) {
 
-        materialAlertDialogBuilder = MaterialAlertDialogBuilder(context, R.style.DeenMaterialAlertDialog_Rounded)
-        customAlertDialogView = WeakReference(inflater.inflate(R.layout.dialog_translator_list, null, false))
+        langDialog?.dismiss()
+
+        materialAlertDialogBuilder1 = MaterialAlertDialogBuilder(context, R.style.DeenMaterialAlertDialog_Rounded)
+        customAlertDialogView1 = WeakReference(inflater.inflate(R.layout.dialog_translator_list, null, false))
 
         // Initialize and assign variable
 
-        customAlertDialogView.get()?.let {
+        customAlertDialogView1.get()?.let {
 
             val translationByTxt: AppCompatTextView = it.findViewById(R.id.translationByTxt)
             val banglaTranList: RecyclerView = it.findViewById(R.id.banglaTranList)
@@ -134,19 +156,23 @@ internal object CommonContentSetting {
             }
 
 
-            val updatedData = arabicFontCommonSelectionList.getData().map { data ->
-                data.copy(isSelected = data.Id == contentSetting.arabicFont)
+            contentSetting = AppPreference.getContentSetting()
+
+            if(this::arabicFontCommonSelectionList.isInitialized) {
+                val updatedData = arabicFontCommonSelectionList.getData().map { data ->
+                    data.copy(isSelected = data.Id == contentSetting.arabicFont)
+                }
+
+                arabicFontCommonSelectionList.update(updatedData)
             }
 
-            arabicFontCommonSelectionList.update(updatedData)
-
             dismissBtn?.setOnClickListener {
-                dialog?.dismiss()
+                langDialog?.dismiss()
             }
 
             // show dialog
 
-            dialog = materialAlertDialogBuilder
+            langDialog = materialAlertDialogBuilder1
                 .setView(it)
                 .setCancelable(true)
                 .show()
@@ -155,6 +181,7 @@ internal object CommonContentSetting {
     }
 
     fun closeDialog(){
+        langDialog?.dismiss()
         dialog?.dismiss()
     }
 }

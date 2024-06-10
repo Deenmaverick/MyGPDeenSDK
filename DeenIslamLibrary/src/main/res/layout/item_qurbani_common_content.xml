@@ -76,6 +76,8 @@
         app:iconGravity="textEnd"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
+        android:paddingTop="@dimen/space_8"
+        android:paddingBottom="@dimen/space_8"
         android:text="@string/see_more"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

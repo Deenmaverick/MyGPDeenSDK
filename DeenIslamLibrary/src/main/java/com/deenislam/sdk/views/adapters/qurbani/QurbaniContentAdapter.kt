@@ -11,10 +11,13 @@ import com.deenislam.sdk.R
 import com.deenislam.sdk.service.database.AppPreference
 import com.deenislam.sdk.service.network.response.common.subcatcardlist.Detail
 import com.deenislam.sdk.utils.JustifiedTextView
+import com.deenislam.sdk.utils.fixArabicComma
 import com.deenislam.sdk.utils.getLocalContext
 import com.deenislam.sdk.utils.hide
 import com.deenislam.sdk.utils.htmlFormat
 import com.deenislam.sdk.utils.qurbani.getBanglaSize
+import com.deenislam.sdk.utils.spanApplyArabicNew
+import com.deenislam.sdk.utils.spanApplyReference
 import com.deenislam.sdk.views.base.BaseViewHolder
 import org.jsoup.Jsoup
 
@@ -52,6 +55,22 @@ internal class QurbaniContentAdapter(private val details: List<Detail>) : Recycl
 
             title.text = getdata.Title
             subText.text = getdata.Text.htmlFormat()
+            arabicText.text = Jsoup.parse(getdata.TextInArabic).text()
+            content.text = getdata.Pronunciation.htmlFormat()
+            referance.text = getdata.reference.htmlFormat()
+
+            val getSingleTextFullContent = getdata.Text.htmlFormat()
+            if(Jsoup.parse(getdata.TextInArabic.replace("\\p{C}".toRegex(), "")).text().isEmpty()
+                && Jsoup.parse(getdata.Pronunciation.replace("\\p{C}".toRegex(), "")).text().isEmpty()
+                && Jsoup.parse(getdata.reference.replace("\\p{C}".toRegex(), "")).text().isEmpty()) {
+                getSingleTextFullContent.spanApplyArabicNew(itemView.context)
+                getSingleTextFullContent.spanApplyReference()
+            }
+
+            subText.text = getSingleTextFullContent
+
+            title.text = getdata.Title
+            //subText.text = getdata.Text.htmlFormat()
             arabicText.text = Jsoup.parse(getdata.TextInArabic).text()
             content.text = getdata.Pronunciation.htmlFormat()
             referance.text = getdata.reference.htmlFormat()
@@ -107,17 +126,20 @@ internal class QurbaniContentAdapter(private val details: List<Detail>) : Recycl
                 }
             }
 
-            if(getdata.Title.isEmpty()) {
+            arabicText.fixArabicComma()
+            subText.fixArabicComma()
+
+            if(Jsoup.parse(getdata.Title.replace("\\p{C}".toRegex(), "")).text().isEmpty()) {
                 title.hide()
                 subText.setPadding(0,0,0,0)
             }
-            if(getdata.Text.isEmpty())
+            if(Jsoup.parse(getdata.Text.replace("\\p{C}".toRegex(), "")).text().isEmpty())
                 subText.hide()
-            if(getdata.TextInArabic.isEmpty())
+            if(Jsoup.parse(getdata.TextInArabic.replace("\\p{C}".toRegex(), "")).text().isEmpty())
                 arabicText.hide()
-            if(getdata.Pronunciation.isEmpty())
+            if(Jsoup.parse(getdata.Pronunciation.replace("\\p{C}".toRegex(), "")).text().isEmpty())
                 content.hide()
-            if(getdata.reference.isEmpty())
+            if(Jsoup.parse(getdata.reference.replace("\\p{C}".toRegex(), "")).text().isEmpty())
                 referance.hide()
 
         }

@@ -3,11 +3,17 @@ package com.deenislam.sdk.views.adapters.hajjandumrah
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislam.sdk.R
 import com.deenislam.sdk.utils.AsyncViewStub
+import com.deenislam.sdk.utils.BASE_CONTENT_URL_SGP
+import com.deenislam.sdk.utils.CallBackProvider
 import com.deenislam.sdk.utils.getLocalContext
+import com.deenislam.sdk.utils.imageLoad
 import com.deenislam.sdk.utils.prepareStubView
+import com.deenislam.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislam.sdk.views.base.BaseViewHolder
 import com.deenislam.sdk.views.dashboard.patch.DailyDua
 import com.deenislam.sdk.views.dashboard.patch.SingleCardList
@@ -46,6 +52,13 @@ internal class HajjAndUmrahHomePatchAdapter(private val patchData: List<com.deen
                 }
             }
 
+            "singlemenuitem" -> {
+
+                prepareStubView<View>(rootview.findViewById(R.id.widget),R.layout.item_islamic_event_home) {
+                    onBindViewHolder(ViewHolder(main_view,true),viewType)
+                }
+            }
+
         }
 
         return  ViewHolder(main_view)
@@ -63,6 +76,12 @@ internal class HajjAndUmrahHomePatchAdapter(private val patchData: List<com.deen
     }
 
     inner class ViewHolder(itemView: View,private val loaded:Boolean = false) : BaseViewHolder(itemView) {
+
+        // Single menu item
+
+        private val menuName: AppCompatTextView by lazy { itemView.findViewById(R.id.menuName)}
+        private val ivEvent: AppCompatImageView by lazy {itemView.findViewById(R.id.ivEvent)}
+
 
         override fun onBind(position: Int, viewtype: Int) {
             super.onBind(position, viewtype)
@@ -86,6 +105,21 @@ internal class HajjAndUmrahHomePatchAdapter(private val patchData: List<com.deen
                             itemView,
                             data
                         ).load()
+                    }
+
+                    "singlemenuitem" -> {
+
+                        val getdata = data.Items.getOrNull(0)
+
+                        menuName.text = getdata?.ArabicText
+                        ivEvent.imageLoad(BASE_CONTENT_URL_SGP + getdata?.imageurl1, placeholder_1_1 = true)
+
+                        itemView.setOnClickListener {
+
+                            val menuCallback = CallBackProvider.get<MenuCallback>()
+
+                            getdata?.Text?.let { it1 -> menuCallback?.menuClicked(it1,getdata) }
+                        }
                     }
                 }
             }

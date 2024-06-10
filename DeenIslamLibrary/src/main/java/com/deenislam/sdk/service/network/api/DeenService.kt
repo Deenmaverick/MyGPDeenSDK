@@ -182,7 +182,7 @@ internal interface DeenService {
     @POST("Hajj/GetHajjPatch")
     suspend fun getHajjAndUmrahPatch(@Body parm: RequestBody): DashboardResponse
 
-    @POST("Hajj/getHajjMenubyCategory")
+    @POST("Hajj/getHajjMenubyCategoryNew")
     suspend fun getHajjAndUmrahSubCat(@Body parm: RequestBody): SubCatResponse
 
     @POST("Hajj/getHajjGuide")

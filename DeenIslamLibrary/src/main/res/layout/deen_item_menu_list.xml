@@ -40,7 +40,6 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_txt_black_deep"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/menuIcon"
             app:layout_constraintEnd_toEndOf="@+id/menuIcon"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />
