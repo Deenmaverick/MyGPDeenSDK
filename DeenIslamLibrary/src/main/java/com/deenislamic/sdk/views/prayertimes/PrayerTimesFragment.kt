@@ -471,7 +471,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun action1() {
-        gotoFrag(R.id.prayerCalendarFragment)
+        clickMonthlyCalendar()
     }
 
     override fun action2() {
