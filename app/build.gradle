@@ -22,11 +22,11 @@ android {
               keyAlias 'deen islam'*/
         }
     }
-    namespace 'com.deenislamsdk'
+    namespace 'com.mygpdeen'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.deenislamsdk"
+        applicationId "com.mygpdeen"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -104,7 +104,7 @@ dependencies {
     implementation 'com.orhanobut:logger:2.2.0'
 
     // lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    //implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"

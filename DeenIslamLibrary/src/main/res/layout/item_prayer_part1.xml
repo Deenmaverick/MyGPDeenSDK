@@ -39,7 +39,7 @@
                 android:layout_marginTop="@dimen/space_8"
                 android:textStyle="bold"
                 android:textColor="@color/deen_primary"
-                android:text="Monday, 8 May 2023"/>
+                tools:text="Monday, 8 May 2023"/>
 
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -67,8 +67,9 @@
                 android:layout_marginEnd="@dimen/space_8"
                 android:layout_marginTop="@dimen/space_4"
                 android:layout_marginBottom="@dimen/space_8"
-                android:textColor="@color/deen_txt_ash"
-                android:text="18 Shawwal 1444 AH • 25 Boishakh 1430"/>
+                android:textStyle="bold"
+                android:textColor="@color/deen_txt_black_deep"
+                tools:text="18 Shawwal 1444 AH • 25 Boishakh 1430"/>
 
 
 

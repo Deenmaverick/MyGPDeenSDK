@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-<com.deenislam.sdk.service.libs.photoview.PhotoView
+<com.deenislamic.sdk.service.libs.photoview.PhotoView
     android:id="@+id/photo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:viewBindingIgnore="true"
     android:background="@color/deen_background"
-    tools:context="com.deenislam.sdk.views.main.MainActivityDeenSDK">
+    tools:context="com.deenislamic.sdk.views.main.MainActivityDeenSDK">
 
     <include
         android:visibility="gone"

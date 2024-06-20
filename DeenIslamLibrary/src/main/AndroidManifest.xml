@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.deenislam.sdk">
+    package="com.deenislamic.sdk">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -46,7 +45,7 @@
 
         <activity
             android:theme="@style/DeenSDKTheme.NoActionBar"
-            android:name="com.deenislam.sdk.views.main.MainActivityDeenSDK"
+            android:name="com.deenislamic.sdk.views.main.MainActivityDeenSDK"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
@@ -55,7 +54,7 @@
         </activity>
 
         <receiver
-            android:name=".service.libs.notification.AlarmReceiver"
+            android:name="com.deenislamic.sdk.service.libs.notification.AlarmReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -66,7 +65,7 @@
         </receiver>
 
         <receiver
-            android:name=".service.libs.sessiontrack.SessionReceiver"
+            android:name="com.deenislamic.sdk.service.libs.sessiontrack.SessionReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -76,15 +75,15 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".service.libs.notification.AlarmReceiverService" />
-        <service android:name=".service.libs.sessiontrack.SessionReceiverService" />
+        <service android:name="com.deenislamic.sdk.service.libs.notification.AlarmReceiverService" />
+        <service android:name="com.deenislamic.sdk.service.libs.sessiontrack.SessionReceiverService" />
 
 
-        <service android:name=".service.libs.media3.QuranPlayer" />
-        <service android:name=".service.libs.media3.QuranPlayerOffline" />
-        <service android:name=".service.libs.downloader.QuranDownloadService" />
+        <service android:name="com.deenislamic.sdk.service.libs.media3.QuranPlayer" />
+        <service android:name="com.deenislamic.sdk.service.libs.media3.QuranPlayerOffline" />
+        <service android:name="com.deenislamic.sdk.service.libs.downloader.QuranDownloadService" />
 
-        <receiver android:name=".service.libs.media3.QuranPlayerBroadcast"
+        <receiver android:name="com.deenislamic.sdk.service.libs.media3.QuranPlayerBroadcast"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

@@ -485,5 +485,7 @@
     <string name="hajj_map">Hajj Map</string>
     <string name="storage_permission_is_required_to_save_photo">Storage permission is required to save photos.</string>
     <string name="dua">Dua</string>
+    <string name="prayer_calendar_footer_info">**Showing monthly calendar based on Islamic Foundation of Bangladesh.</string>
+    <string name="unable_to_share_try_again">Unable to share. Try again</string>
 
 </resources>

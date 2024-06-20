@@ -162,7 +162,7 @@
             app:layout_constraintStart_toEndOf="@id/tvSlash"
             tools:text="20:12" />
 
-        <com.deenislam.sdk.service.libs.media3.CustomTimeBar
+        <com.deenislamic.sdk.service.libs.media3.CustomTimeBar
             android:id="@+id/custom_exo_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

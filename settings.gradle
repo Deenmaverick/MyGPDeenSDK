@@ -13,6 +13,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }*/
-rootProject.name = "Deen Islam SDK"
+rootProject.name = "MyGP-Deen"
 include ':app'
 include ':DeenIslamLibrary'

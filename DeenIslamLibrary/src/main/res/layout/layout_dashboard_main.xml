@@ -8,7 +8,7 @@
     android:background="@color/deen_background"
     tools:viewBindingIgnore="true">
 
-    <com.deenislam.sdk.utils.AsyncViewStub
+    <com.deenislamic.sdk.utils.AsyncViewStub
         android:id="@+id/widget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

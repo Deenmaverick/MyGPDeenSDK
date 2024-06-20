@@ -2,7 +2,7 @@
 
     <application>
         <activity
-            android:name="com.deenislam.sdk.TestActivity"
+            android:name="com.deenislamic.sdk.TestActivity"
             android:exported="false"
 
             />

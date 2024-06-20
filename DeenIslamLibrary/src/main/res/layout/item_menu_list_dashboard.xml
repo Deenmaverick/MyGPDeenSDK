@@ -9,7 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <com.deenislam.sdk.utils.AspectRatioImageView
+    <com.deenislamic.sdk.utils.AspectRatioImageView
         android:id="@+id/menuIcon"
         android:layout_width="48dp"
         android:layout_height="48dp"

@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <com.deenislam.sdk.utils.HalfGaugeView
+                    <com.deenislamic.sdk.utils.HalfGaugeView
                         android:id="@+id/countView"
                         android:layout_width="match_parent"
                         android:layout_height="296dp"

@@ -92,7 +92,7 @@
 
 
     <!-- Existing GridView for the calendar -->
-    <com.deenislam.sdk.service.libs.calendar.NonScrollableGridView
+    <com.deenislamic.sdk.service.libs.calendar.NonScrollableGridView
         android:id="@+id/calendarGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

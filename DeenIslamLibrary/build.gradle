@@ -16,7 +16,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 19
+        minSdk 21
         targetSdk 33
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     def kotlin_version = "1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation("androidx.activity:activity-ktx:1.2.0")
     implementation 'com.google.android.material:material:1.3.0'
@@ -71,12 +71,12 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     //retrofit (Network)
-    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 
     //room database
-    def room_version = "2.5.2"
+    def room_version = "2.3.0"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
@@ -84,16 +84,16 @@ dependencies {
     //Async layout inflater
     implementation 'androidx.asynclayoutinflater:asynclayoutinflater:1.0.0'
 
-    implementation 'com.google.android.exoplayer:exoplayer:2.16.0'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.16.0'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:2.16.0'
-    implementation 'com.google.android.exoplayer:exoplayer-dash:2.16.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.16.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.16.1'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.16.1'
 
     // Coil image loader
     implementation 'io.coil-kt:coil:1.3.2'
     implementation 'io.coil-kt:coil-svg:1.3.2'
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    //implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
 
     // light pdf viwer image based
     implementation "com.dmitryborodin:pdfview-android:1.1.0"
@@ -101,6 +101,8 @@ dependencies {
     // Jsoup
     implementation 'org.jsoup:jsoup:1.17.2'
 
+    // Lifecyle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
 
 }
@@ -110,9 +112,9 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.findByName("release")
-                groupId = "com.deenislam.sdk"
-                artifactId = "mybl_deen_sdk"
-                version = "0.0.8-alpha"
+                groupId = "com.deenislamic.sdk"
+                artifactId = "mygp_deen"
+                version = "0.0.1-alpha"
             }
         }
     }

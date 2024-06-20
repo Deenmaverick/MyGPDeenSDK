@@ -7,11 +7,11 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.deenislam.sdk.views.dashboard.DashboardFragment"
+        android:name="com.deenislamic.sdk.views.dashboard.DashboardFragment"
         android:label="DashboardFragment"/>
     <fragment
         android:id="@+id/quranFragment"
-        android:name="com.deenislam.sdk.views.quran.QuranFragment"
+        android:name="com.deenislamic.sdk.views.quran.QuranFragment"
         android:label="fragment_quran"
         tools:layout="@layout/fragment_quran" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/prayerTimesFragment"
-        android:name="com.deenislam.sdk.views.prayertimes.PrayerTimesFragment"
+        android:name="com.deenislamic.sdk.views.prayertimes.PrayerTimesFragment"
         android:label="fragment_prayer_times"
         tools:layout="@layout/fragment_prayer_times" >
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/moreFragment"
-        android:name="com.deenislam.sdk.views.more.MoreFragment"
+        android:name="com.deenislamic.sdk.views.more.MoreFragment"
         android:label="fragment_more"
         tools:layout="@layout/fragment_more" >
         <action
@@ -44,11 +44,16 @@
     </fragment>
     <fragment
         android:id="@+id/prayerCalendarFragment"
-        android:name="com.deenislam.sdk.views.prayertimes.PrayerCalendarFragment"
-        android:label="PrayerCalendarFragment" />
+        android:name="com.deenislamic.sdk.views.prayertimes.PrayerCalendarFragment"
+        android:label="PrayerCalendarFragment" >
+        <argument
+            android:name="location"
+            app:argType="string"
+            android:defaultValue="Dhaka" />
+    </fragment>
     <fragment
         android:id="@+id/blankFragment"
-        android:name="com.deenislam.sdk.views.start.BlankFragment"
+        android:name="com.deenislamic.sdk.views.start.BlankFragment"
         android:label="fragment_blank"
         tools:layout="@layout/fragment_blank" >
        <!-- <action
@@ -75,17 +80,17 @@
     </fragment>
     <fragment
         android:id="@+id/quranFavoriteFragment"
-        android:name="com.deenislam.sdk.views.quran.QuranFavoriteFragment"
+        android:name="com.deenislamic.sdk.views.quran.QuranFavoriteFragment"
         android:label="fragment_quran_favorite"
         tools:layout="@layout/fragment_quran_favorite" />
     <fragment
         android:id="@+id/tasbeehFragment"
-        android:name="com.deenislam.sdk.views.tasbeeh.TasbeehFragment"
+        android:name="com.deenislamic.sdk.views.tasbeeh.TasbeehFragment"
         android:label="fragment_tasbeeh" />
 
     <fragment
         android:id="@+id/hadithFragment"
-        android:name="com.deenislam.sdk.views.hadith.HadithFragment"
+        android:name="com.deenislamic.sdk.views.hadith.HadithFragment"
         android:label="HadithFragment" >
         <action
             android:id="@+id/action_hadithFragment_to_hadithChapterFragment"
@@ -100,7 +105,7 @@
     </fragment>
     <fragment
         android:id="@+id/hadithPreviewFragment"
-        android:name="com.deenislam.sdk.views.hadith.HadithPreviewFragment"
+        android:name="com.deenislamic.sdk.views.hadith.HadithPreviewFragment"
         android:label="HadithPreviewFragment" >
         <argument
             android:name="chapterId"
@@ -114,7 +119,7 @@
     </fragment>
     <fragment
         android:id="@+id/hadithChapterFragment"
-        android:name="com.deenislam.sdk.views.hadith.HadithChapterFragment"
+        android:name="com.deenislamic.sdk.views.hadith.HadithChapterFragment"
         android:label="fragment_hadith_chapter"
         tools:layout="@layout/fragment_hadith_chapter" >
         <argument
@@ -128,7 +133,7 @@
     </fragment>
     <fragment
         android:id="@+id/dailyDuaFragment"
-        android:name="com.deenislam.sdk.views.dailydua.DailyDuaFragment"
+        android:name="com.deenislamic.sdk.views.dailydua.DailyDuaFragment"
         android:label="DailyDuaFragment" >
         <action
             android:id="@+id/action_dailyDuaFragment_to_allDuaPreviewFragment"
@@ -138,7 +143,7 @@
     </fragment>
     <fragment
         android:id="@+id/allDuaPreviewFragment"
-        android:name="com.deenislam.sdk.views.dailydua.AllDuaPreviewFragment"
+        android:name="com.deenislamic.sdk.views.dailydua.AllDuaPreviewFragment"
         android:label="AllDuaPreviewFragment" >
         <argument
             android:name="category"
@@ -153,17 +158,17 @@
     </fragment>
     <fragment
         android:id="@+id/zakatCalculatorFragment"
-        android:name="com.deenislam.sdk.views.zakat.ZakatCalculatorFragment"
+        android:name="com.deenislamic.sdk.views.zakat.ZakatCalculatorFragment"
         android:label="ZakatCalculatorFragment" >
         <argument
             android:name="zakatData"
-            app:argType="com.deenislam.sdk.service.network.response.zakat.Data"
+            app:argType="com.deenislamic.sdk.service.network.response.zakat.Data"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/zakatFragment"
-        android:name="com.deenislam.sdk.views.zakat.ZakatFragment"
+        android:name="com.deenislamic.sdk.views.zakat.ZakatFragment"
         android:label="ZakatFragment" >
         <action
             android:id="@+id/action_zakatFragment_to_zakatCalculatorFragment"
@@ -173,7 +178,7 @@
     </fragment>
     <fragment
         android:id="@+id/compassFragment"
-        android:name="com.deenislam.sdk.views.compass.CompassFragment"
+        android:name="com.deenislamic.sdk.views.compass.CompassFragment"
         android:label="CompassFragment">
         <argument
             android:name="compassBG"
@@ -183,12 +188,12 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.deenislam.sdk.views.more.SettingFragment"
+        android:name="com.deenislamic.sdk.views.more.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/islamicNameFragment"
-        android:name="com.deenislam.sdk.views.islamicname.IslamicNameFragment"
+        android:name="com.deenislamic.sdk.views.islamicname.IslamicNameFragment"
         android:label="IslamicNameFragment" >
         <action
             android:id="@+id/action_islamicNameFragment_to_islamicNameViewFragment"
@@ -198,7 +203,7 @@
     </fragment>
     <fragment
         android:id="@+id/islamicNameViewFragment"
-        android:name="com.deenislam.sdk.views.islamicname.IslamicNameViewFragment"
+        android:name="com.deenislamic.sdk.views.islamicname.IslamicNameViewFragment"
         android:label="IslamicNameViewFragment" >
         <argument
             android:name="gender"
@@ -209,7 +214,7 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFakeFragment"
-        android:name="com.deenislam.sdk.views.dashboard.DashboardFakeFragment"
+        android:name="com.deenislamic.sdk.views.dashboard.DashboardFakeFragment"
         android:label="DashboardFakeFragment" >
         <action
             android:id="@+id/action_dashboardFakeFragment_to_moreFragment"
@@ -283,7 +288,7 @@
     </fragment>
     <fragment
         android:id="@+id/basicWebViewFragment"
-        android:name="com.deenislam.sdk.views.webview.BasicWebViewFragment"
+        android:name="com.deenislamic.sdk.views.webview.BasicWebViewFragment"
         android:label="fragment_basic_web_view"
         tools:layout="@layout/fragment_basic_web_view" >
         <argument
@@ -302,7 +307,7 @@
     </fragment>
     <fragment
         android:id="@+id/allah99NamesFragment"
-        android:name="com.deenislam.sdk.views.allah99names.Allah99NamesFragment"
+        android:name="com.deenislamic.sdk.views.allah99names.Allah99NamesFragment"
         android:label="Allah99NamesFragment" />
     <action
         android:id="@+id/action_global_allah99NamesFragment"
@@ -314,7 +319,7 @@
 
     <fragment
         android:id="@+id/allah99NamesDetailsFragment"
-        android:name="com.deenislam.sdk.views.allah99names.Allah99NamesDetailsFragment"
+        android:name="com.deenislamic.sdk.views.allah99names.Allah99NamesDetailsFragment"
         android:label="Allah99NamesDetailsFragment" >
         <argument
             android:name="namePos"
@@ -322,7 +327,7 @@
             android:defaultValue="0" />
         <argument
             android:name="nameList"
-            app:argType="com.deenislam.sdk.service.network.response.allah99name.Data[]" />
+            app:argType="com.deenislamic.sdk.service.network.response.allah99name.Data[]" />
     </fragment>
 
     <action
@@ -335,12 +340,12 @@
 
     <fragment
         android:id="@+id/educationVideoFragment"
-        android:name="com.deenislam.sdk.views.islamiceducationvideo.EducationVideoFragment"
+        android:name="com.deenislamic.sdk.views.islamiceducationvideo.EducationVideoFragment"
         android:label="EducationVideoFragment">
 
         <argument
             android:name="videoList"
-            app:argType="com.deenislam.sdk.service.network.response.common.CommonCardData[]"
+            app:argType="com.deenislamic.sdk.service.network.response.common.CommonCardData[]"
             />
         <argument
             android:name="videoPosition"
@@ -357,7 +362,7 @@
 
     <fragment
         android:id="@+id/islamicEducationVideoHomeFragment"
-        android:name="com.deenislam.sdk.views.islamiceducationvideo.IslamicEducationVideoHomeFragment"
+        android:name="com.deenislamic.sdk.views.islamiceducationvideo.IslamicEducationVideoHomeFragment"
         android:label="IslamicEducationVideoHomeFragment" />
 
     <action
@@ -370,17 +375,17 @@
 
     <fragment
         android:id="@+id/subCatBasicCardDetailsFragment"
-        android:name="com.deenislam.sdk.views.common.subcatcardlist.SubCatBasicCardDetailsFragment"
+        android:name="com.deenislamic.sdk.views.common.subcatcardlist.SubCatBasicCardDetailsFragment"
         android:label="SubCatBasicCardDetailsFragment" >
         <argument
             android:name="data"
-            app:argType="com.deenislam.sdk.service.network.response.common.subcatcardlist.Data"
+            app:argType="com.deenislamic.sdk.service.network.response.common.subcatcardlist.Data"
             app:nullable="true"
             android:defaultValue="@null"/>
 
         <argument
             android:name="dataName"
-            app:argType="com.deenislam.sdk.service.network.response.islamicname.IslamicNameHomeResponse$Data$Item"
+            app:argType="com.deenislamic.sdk.service.network.response.islamicname.IslamicNameHomeResponse$Data$Item"
             app:nullable="true"
             android:defaultValue="@null"/>
         <argument
@@ -399,7 +404,7 @@
 
     <fragment
         android:id="@+id/subCatCardListFragment"
-        android:name="com.deenislam.sdk.views.common.subcatcardlist.SubCatCardListFragment"
+        android:name="com.deenislamic.sdk.views.common.subcatcardlist.SubCatCardListFragment"
         android:label="SubCatCardListFragment" >
         <argument
             android:name="categoryID"
@@ -426,7 +431,7 @@
 
     <fragment
         android:id="@+id/islamicEventHomeFragment"
-        android:name="com.deenislam.sdk.views.islamicevent.IslamicEventHomeFragment"
+        android:name="com.deenislamic.sdk.views.islamicevent.IslamicEventHomeFragment"
         android:label="IslamicEventHomeFragment" />
 
     <action
@@ -439,7 +444,7 @@
 
     <fragment
         android:id="@+id/prayerLearningDetailsFragment"
-        android:name="com.deenislam.sdk.views.prayerlearning.PrayerLearningDetailsFragment"
+        android:name="com.deenislamic.sdk.views.prayerlearning.PrayerLearningDetailsFragment"
         android:label="PrayerLearningDetailsFragment" >
         <argument
             android:name="gender"
@@ -459,7 +464,7 @@
 
     <fragment
         android:id="@+id/prayerLearningFragment"
-        android:name="com.deenislam.sdk.views.prayerlearning.PrayerLearningFragment"
+        android:name="com.deenislamic.sdk.views.prayerlearning.PrayerLearningFragment"
         android:label="PrayerLearningFragment" />
 
     <action
@@ -478,7 +483,7 @@
         app:popExitAnim="@anim/pop_exit" />
     <fragment
         android:id="@+id/ijtemaLiveFragment"
-        android:name="com.deenislam.sdk.views.ijtema.IjtemaLiveFragment"
+        android:name="com.deenislamic.sdk.views.ijtema.IjtemaLiveFragment"
         android:label="IjtemaLiveFragment" >
         <argument
             android:name="videoid"
@@ -497,7 +502,7 @@
 
     <fragment
         android:id="@+id/khatamEQuranHomeFragment"
-        android:name="com.deenislam.sdk.views.khatamquran.KhatamEQuranHomeFragment"
+        android:name="com.deenislamic.sdk.views.khatamquran.KhatamEQuranHomeFragment"
         android:label="KhatamEQuranHomeFragment">
         <action
             android:id="@+id/action_khatam_quran_home_to_video"
@@ -519,11 +524,11 @@
 
     <fragment
         android:id="@+id/khatamEQuranVideoFragment"
-        android:name="com.deenislam.sdk.views.khatamquran.KhatamEQuranVideoFragment"
+        android:name="com.deenislamic.sdk.views.khatamquran.KhatamEQuranVideoFragment"
         android:label="KhatamEQuranVideoFragment">
         <argument
             android:name="khatamQuranvideoList"
-            app:argType="com.deenislam.sdk.service.network.response.common.CommonCardData[]"
+            app:argType="com.deenislamic.sdk.service.network.response.common.CommonCardData[]"
             />
         <argument
             android:name="khatamQuranvideoPosition"
@@ -558,7 +563,7 @@
 
     <fragment
         android:id="@+id/pdfViewerFragment"
-        android:name="com.deenislam.sdk.views.pdfviewer.PdfViewerFragment"
+        android:name="com.deenislamic.sdk.views.pdfviewer.PdfViewerFragment"
         android:label="PdfViewerFragment" >
         <argument
             android:name="pageTitle"
@@ -576,7 +581,7 @@
     </fragment>
     <fragment
         android:id="@+id/quranLearningTpFragment"
-        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningTpFragment"
+        android:name="com.deenislamic.sdk.views.quran.learning.QuranLearningTpFragment"
         android:label="QuranLearningTpFragment" />
 
     <action
@@ -589,12 +594,12 @@
 
     <fragment
         android:id="@+id/paymentListFragment"
-        android:name="com.deenislam.sdk.views.payment.PaymentListFragment"
+        android:name="com.deenislamic.sdk.views.payment.PaymentListFragment"
         android:label="fragment_payment_list"
         tools:layout="@layout/fragment_payment_list" >
         <argument
             android:name="payment"
-            app:argType="com.deenislam.sdk.service.models.payment.PaymentModel" />
+            app:argType="com.deenislamic.sdk.service.models.payment.PaymentModel" />
     </fragment>
 
     <action
@@ -615,7 +620,7 @@
 
     <fragment
         android:id="@+id/paymentWebViewFragment"
-        android:name="com.deenislam.sdk.views.payment.PaymentWebViewFragment"
+        android:name="com.deenislamic.sdk.views.payment.PaymentWebViewFragment"
         android:label="fragment_payment_web_view"
         tools:layout="@layout/fragment_payment_web_view" >
         <argument
@@ -634,7 +639,7 @@
 
     <fragment
         android:id="@+id/quranLearningDetailsFragment"
-        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningDetailsFragment"
+        android:name="com.deenislamic.sdk.views.quran.learning.QuranLearningDetailsFragment"
         android:label="QuranLearningDetailsFragment" >
         <argument
             android:name="title"
@@ -661,12 +666,12 @@
 
     <fragment
         android:id="@+id/quranLearningQuizResultFragment"
-        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningQuizResultFragment"
+        android:name="com.deenislamic.sdk.views.quran.learning.QuranLearningQuizResultFragment"
         android:label="fragment_quran_learning_quiz_result"
         tools:layout="@layout/fragment_quran_learning_quiz_result" >
         <argument
             android:name="answerSheet"
-            app:argType="com.deenislam.sdk.service.network.response.quran.learning.digital_quran_class.quiz.AnswerSheet[]" />
+            app:argType="com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.quiz.AnswerSheet[]" />
     </fragment>
 
     <action
@@ -688,7 +693,7 @@
 
     <fragment
         android:id="@+id/quranLearningQuizFragment"
-        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningQuizFragment"
+        android:name="com.deenislamic.sdk.views.quran.learning.QuranLearningQuizFragment"
         android:label="fragment_quran_learning_quiz"
         tools:layout="@layout/fragment_quran_learning_quiz" >
         <argument
@@ -709,7 +714,7 @@
 
     <fragment
         android:id="@+id/quranLearningFragment"
-        android:name="com.deenislam.sdk.views.quran.learning.QuranLearningFragment"
+        android:name="com.deenislamic.sdk.views.quran.learning.QuranLearningFragment"
         android:label="QuranLearningFragment" />
 
     <action
@@ -746,7 +751,7 @@
 
     <fragment
         android:id="@+id/islamiFazaelFragment"
-        android:name="com.deenislam.sdk.views.islamifazael.IslamiFazaelFragment"
+        android:name="com.deenislamic.sdk.views.islamifazael.IslamiFazaelFragment"
         android:label="IslamiFazaelFragment" />
 
     <action
@@ -759,7 +764,7 @@
 
     <fragment
         android:id="@+id/fazaelByCatFragment"
-        android:name="com.deenislam.sdk.views.islamifazael.FazaelByCatFragment"
+        android:name="com.deenislamic.sdk.views.islamifazael.FazaelByCatFragment"
         android:label="FazaelByCatFragment" >
         <argument
             android:name="title"
@@ -779,7 +784,7 @@
 
     <fragment
         android:id="@+id/islamiMasailFragment"
-        android:name="com.deenislam.sdk.views.islamimasaIl.IslamiMasailFragment"
+        android:name="com.deenislamic.sdk.views.islamimasaIl.IslamiMasailFragment"
         android:label="IslamiMasailFragment" />
 
     <action
@@ -792,7 +797,7 @@
 
     <fragment
         android:id="@+id/masailQuestionByCatFragment"
-        android:name="com.deenislam.sdk.views.islamimasaIl.MasailQuestionByCatFragment"
+        android:name="com.deenislamic.sdk.views.islamimasaIl.MasailQuestionByCatFragment"
         android:label="MasailQuestionByCatFragment" >
         <argument
             android:name="catid"
@@ -812,7 +817,7 @@
 
     <fragment
         android:id="@+id/createMasailQuestionFragment"
-        android:name="com.deenislam.sdk.views.islamimasaIl.CreateMasailQuestionFragment"
+        android:name="com.deenislamic.sdk.views.islamimasaIl.CreateMasailQuestionFragment"
         android:label="CreateMasailQuestionFragment" />
 
     <action
@@ -825,7 +830,7 @@
 
     <fragment
         android:id="@+id/masailAnswerFragment"
-        android:name="com.deenislam.sdk.views.islamimasaIl.MasailAnswerFragment"
+        android:name="com.deenislamic.sdk.views.islamimasaIl.MasailAnswerFragment"
         android:label="MasailAnswerFragment" >
     <argument
         android:name="qid"
@@ -846,17 +851,17 @@
 
     <fragment
         android:id="@+id/fastingTrackerFragment"
-        android:name="com.deenislam.sdk.views.ramadan.FastingTrackerFragment"
+        android:name="com.deenislamic.sdk.views.ramadan.FastingTrackerFragment"
         android:label="fragment_fasting_tracker"
         tools:layout="@layout/fragment_fasting_tracker" >
         <argument
             android:name="fastingCardData"
-            app:argType="com.deenislam.sdk.service.network.response.ramadan.FastTracker" />
+            app:argType="com.deenislamic.sdk.service.network.response.ramadan.FastTracker" />
     </fragment>
 
     <fragment
         android:id="@+id/ramadanFragment"
-        android:name="com.deenislam.sdk.views.ramadan.RamadanFragment"
+        android:name="com.deenislamic.sdk.views.ramadan.RamadanFragment"
         android:label="RamadanFragment" >
         <argument
             android:name="date"
@@ -882,12 +887,12 @@
 
     <fragment
         android:id="@+id/ramadanOtherDayFragment"
-        android:name="com.deenislam.sdk.views.ramadan.RamadanOtherDayFragment"
+        android:name="com.deenislamic.sdk.views.ramadan.RamadanOtherDayFragment"
         android:label="RamadanOtherDayFragment" />
 
     <fragment
         android:id="@+id/nearestMosqueWebviewFragment"
-        android:name="com.deenislam.sdk.views.nearestmosque.NearestMosqueWebviewFragment"
+        android:name="com.deenislamic.sdk.views.nearestmosque.NearestMosqueWebviewFragment"
         android:label="NearestMosqueWebviewFragment" >
         <argument
             android:name="pageTitle"
@@ -898,7 +903,7 @@
     </fragment>
     <fragment
         android:id="@+id/myFavoritesFragment"
-        android:name="com.deenislam.sdk.views.myfavorites.MyFavoritesFragment"
+        android:name="com.deenislamic.sdk.views.myfavorites.MyFavoritesFragment"
         android:label="MyFavoritesFragment" />
 
     <action
@@ -980,7 +985,7 @@
 
     <fragment
         android:id="@+id/quranDownloadFragment"
-        android:name="com.deenislam.sdk.views.quran.QuranDownloadFragment"
+        android:name="com.deenislamic.sdk.views.quran.QuranDownloadFragment"
         android:label="QuranDownloadFragment" />
     <action
         android:id="@+id/action_global_quranDownloadFragment"
@@ -999,22 +1004,22 @@
 
     <fragment
         android:id="@+id/alQuranFragment"
-        android:name="com.deenislam.sdk.views.quran.AlQuranFragment"
+        android:name="com.deenislamic.sdk.views.quran.AlQuranFragment"
         android:label="fragment_al_quran"
         tools:layout="@layout/fragment_al_quran" >
         <argument
             android:name="surah"
-            app:argType="com.deenislam.sdk.service.network.response.quran.qurangm.surahlist.Data"
+            app:argType="com.deenislamic.sdk.service.network.response.quran.qurangm.surahlist.Data"
             app:nullable="true"
             android:defaultValue="@null" />
         <argument
             android:name="juz"
-            app:argType="com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data"
+            app:argType="com.deenislamic.sdk.service.network.response.quran.qurangm.paralist.Data"
             android:defaultValue="@null"
             app:nullable="true" />
         <argument
             android:name="juzList"
-            app:argType="com.deenislam.sdk.service.network.response.quran.qurangm.paralist.Data[]"
+            app:argType="com.deenislamic.sdk.service.network.response.quran.qurangm.paralist.Data[]"
             app:nullable="true"
             android:defaultValue="@null" />
         <argument
@@ -1030,7 +1035,7 @@
 
     <fragment
         android:id="@+id/subscriptionFragment"
-        android:name="com.deenislam.sdk.views.subscription.SubscriptionFragment"
+        android:name="com.deenislamic.sdk.views.subscription.SubscriptionFragment"
         android:label="SubscriptionFragment" />
     <action
         android:id="@+id/action_global_subscriptionFragment"
@@ -1050,7 +1055,7 @@
 
     <fragment
         android:id="@+id/livePodcastDetailsFragment"
-        android:name="com.deenislam.sdk.views.podcast.LivePodcastDetailsFragment"
+        android:name="com.deenislamic.sdk.views.podcast.LivePodcastDetailsFragment"
         android:label="LivePodcastDetailsFragment" >
         <argument
             android:name="videoid"
@@ -1073,7 +1078,7 @@
 
     <fragment
         android:id="@+id/offlinePodcastDetailsFragment"
-        android:name="com.deenislam.sdk.views.podcast.OfflinePodcastDetailsFragment"
+        android:name="com.deenislamic.sdk.views.podcast.OfflinePodcastDetailsFragment"
         android:label="OfflinePodcastDetailsFragment" >
         <argument
             android:name="pid"
@@ -1090,7 +1095,7 @@
 
     <fragment
         android:id="@+id/podcastCategoryFragment"
-        android:name="com.deenislam.sdk.views.podcast.PodcastCategoryFragment"
+        android:name="com.deenislamic.sdk.views.podcast.PodcastCategoryFragment"
         android:label="PodcastCategoryFragment" >
         <argument
             android:name="title"
@@ -1110,7 +1115,7 @@
 
     <fragment
         android:id="@+id/livePodcastFragment"
-        android:name="com.deenislam.sdk.views.podcast.LivePodcastFragment"
+        android:name="com.deenislamic.sdk.views.podcast.LivePodcastFragment"
         android:label="LivePodcastFragment" />
 
     <action
@@ -1123,7 +1128,7 @@
 
     <fragment
         android:id="@+id/myDownloadFragment"
-        android:name="com.deenislam.sdk.views.mydownloads.MyDownloadFragment"
+        android:name="com.deenislamic.sdk.views.mydownloads.MyDownloadFragment"
         android:label="MyDownloadFragment" />
 
     <action
@@ -1136,7 +1141,7 @@
 
     <fragment
         android:id="@+id/makkahLiveFragment"
-        android:name="com.deenislam.sdk.views.hajjandumrah.makkahlive.MakkahLiveFragment"
+        android:name="com.deenislamic.sdk.views.hajjandumrah.makkahlive.MakkahLiveFragment"
         android:label="MakkahLiveFragment" />
 
     <action
@@ -1148,7 +1153,7 @@
         app:popExitAnim="@anim/pop_exit" />
     <fragment
         android:id="@+id/boyanVideoFragment"
-        android:name="com.deenislam.sdk.views.islamicboyan.BoyanVideoFragment"
+        android:name="com.deenislamic.sdk.views.islamicboyan.BoyanVideoFragment"
         android:label="fragment_boyan_video"
         tools:layout="@layout/fragment_boyan_video" >
         <argument
@@ -1175,7 +1180,7 @@
 
     <fragment
         android:id="@+id/boyanVideoPreviewFragment"
-        android:name="com.deenislam.sdk.views.islamicboyan.BoyanVideoPreviewFragment"
+        android:name="com.deenislamic.sdk.views.islamicboyan.BoyanVideoPreviewFragment"
         android:label="fragment_boyan_video_preview"
         tools:layout="@layout/fragment_boyan_video_preview" >
     <argument
@@ -1201,7 +1206,7 @@
 
     <fragment
         android:id="@+id/islamicBoyanHomeFragment"
-        android:name="com.deenislam.sdk.views.islamicboyan.IslamicBoyanHomeFragment"
+        android:name="com.deenislamic.sdk.views.islamicboyan.IslamicBoyanHomeFragment"
         android:label="fragment_islamic_boyan_home"
         tools:layout="@layout/fragment_islamic_boyan_home" />
 
@@ -1214,11 +1219,11 @@
         app:popExitAnim="@anim/pop_exit" />
     <fragment
         android:id="@+id/eidJamatHomeFragment"
-        android:name="com.deenislam.sdk.views.eidjamat.EidJamatHomeFragment"
+        android:name="com.deenislamic.sdk.views.eidjamat.EidJamatHomeFragment"
         android:label="EidJamatHomeFragment" />
     <fragment
         android:id="@+id/duaAmalHomeFragment"
-        android:name="com.deenislam.sdk.views.duaandamal.DuaAmalHomeFragment"
+        android:name="com.deenislamic.sdk.views.duaandamal.DuaAmalHomeFragment"
         android:label="DuaAmalHomeFragment" >
         <argument
             android:name="date"
@@ -1234,11 +1239,11 @@
         app:popExitAnim="@anim/pop_exit" />
     <fragment
         android:id="@+id/duaAmalVideoPlayerFragment"
-        android:name="com.deenislam.sdk.views.duaandamal.DuaAmalVideoPlayerFragment"
+        android:name="com.deenislamic.sdk.views.duaandamal.DuaAmalVideoPlayerFragment"
         android:label="DuaAmalVideoPlayerFragment">
         <argument
             android:name="videoList"
-            app:argType="com.deenislam.sdk.service.network.response.common.CommonCardData[]"
+            app:argType="com.deenislamic.sdk.service.network.response.common.CommonCardData[]"
             />
         <argument
             android:name="videoPosition"
@@ -1254,7 +1259,7 @@
 
     <fragment
         android:id="@+id/hajjGuideFragment"
-        android:name="com.deenislam.sdk.views.hajjandumrah.HajjGuideFragment"
+        android:name="com.deenislamic.sdk.views.hajjandumrah.HajjGuideFragment"
         android:label="fragment_hajj_guide"
         tools:layout="@layout/fragment_hajj_guide" >
         <argument
@@ -1271,7 +1276,7 @@
         app:popExitAnim="@anim/pop_exit" />
     <fragment
         android:id="@+id/hajjAndUmrahFragment"
-        android:name="com.deenislam.sdk.views.hajjandumrah.HajjAndUmrahFragment"
+        android:name="com.deenislamic.sdk.views.hajjandumrah.HajjAndUmrahFragment"
         android:label="HajjAndUmrahFragment" />
     <action
         android:id="@+id/action_global_hajjAndUmrahFragment"
@@ -1283,11 +1288,11 @@
 
     <fragment
         android:id="@+id/qurbaniDetailsFragment"
-        android:name="com.deenislam.sdk.views.qurbani.QurbaniDetailsFragment"
+        android:name="com.deenislamic.sdk.views.qurbani.QurbaniDetailsFragment"
         android:label="QurbaniDetailsFragment" >
         <argument
             android:name="data"
-            app:argType="com.deenislam.sdk.service.network.response.dashboard.Item" />
+            app:argType="com.deenislamic.sdk.service.network.response.dashboard.Item" />
     </fragment>
 
     <action
@@ -1300,11 +1305,11 @@
 
     <fragment
         android:id="@+id/qurbaniOnlineHaatFragment"
-        android:name="com.deenislam.sdk.views.qurbani.QurbaniOnlineHaatFragment"
+        android:name="com.deenislamic.sdk.views.qurbani.QurbaniOnlineHaatFragment"
         android:label="QurbaniOnlineHaatFragment" >
         <argument
             android:name="data"
-            app:argType="com.deenislam.sdk.service.network.response.dashboard.Item" />
+            app:argType="com.deenislamic.sdk.service.network.response.dashboard.Item" />
     </fragment>
     <action
         android:id="@+id/action_global_qurbaniOnlineHaatFragment"
@@ -1316,11 +1321,11 @@
 
     <fragment
         android:id="@+id/qurbaniCommonContentFragment"
-        android:name="com.deenislam.sdk.views.qurbani.QurbaniCommonContentFragment"
+        android:name="com.deenislamic.sdk.views.qurbani.QurbaniCommonContentFragment"
         android:label="QurbaniCommonContentFragment">
         <argument
             android:name="data"
-            app:argType="com.deenislam.sdk.service.network.response.dashboard.Item" />
+            app:argType="com.deenislamic.sdk.service.network.response.dashboard.Item" />
         <argument
             android:name="pageTitle"
             app:argType="string" />
@@ -1335,7 +1340,7 @@
 
     <fragment
         android:id="@+id/qurbaniFragment"
-        android:name="com.deenislam.sdk.views.qurbani.QurbaniFragment"
+        android:name="com.deenislamic.sdk.views.qurbani.QurbaniFragment"
         android:label="QurbaniFragment" />
     <action
         android:id="@+id/action_global_qurbaniFragment"
@@ -1360,7 +1365,7 @@
 
     <dialog
         android:id="@+id/imageViewPopupDialog"
-        android:name="com.deenislam.sdk.service.libs.ImageViewPopupDialog"
+        android:name="com.deenislamic.sdk.service.libs.ImageViewPopupDialog"
         android:label="ImageViewPopupDialog" >
         <argument
             android:name="title"
@@ -1383,7 +1388,7 @@
 
     <fragment
         android:id="@+id/subContentFragment"
-        android:name="com.deenislam.sdk.views.common.subcontent.SubContentFragment"
+        android:name="com.deenislamic.sdk.views.common.subcontent.SubContentFragment"
         android:label="SubContentFragment">
         <argument
             android:name="categoryID"
@@ -1398,6 +1403,13 @@
     <action
         android:id="@+id/action_global_subContentFragment"
         app:destination="@id/subContentFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+    <action
+        android:id="@+id/action_global_prayerCalendarFragment"
+        app:destination="@id/prayerCalendarFragment"
         app:enterAnim="@anim/slide_enter"
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"

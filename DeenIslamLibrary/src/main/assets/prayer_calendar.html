@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prayer Calander</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.55">
+    <style type="text/css">
+        body {
+            font-family: Roboto, sans-serif;
+            background: #F8F8F8;
+            width:100%;
+            margin:0px;
+        }
+
+        hr {
+            background-color: rgba(0, 0, 0, 0.12);
+            border: none;
+            height: 1px;
+            margin: 0;
+        }
+
+        textarea {
+            background: transparent;
+            border: 0;
+            font-family: Roboto, Arial, sans-serif;
+            margin: 0;
+            outline: none;
+            padding: 0;
+            position: relative;
+            resize: none;
+            top: 11px;
+            word-wrap: break-word;
+        }
+
+        [class^='col-'] {
+            float: left;
+            padding: 0 0.5%;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 1px 0 rgba(0, 0, 0, .12);
+            color: rgba(0, 0, 0, .87);
+
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card::after {
+            clear: both;
+        }
+
+        .card::after,
+        .card::before {
+            content: "";
+            display: block;
+        }
+
+        .content {
+            margin: 0 auto;
+            max-width: 1440px;
+        }
+
+        .media {
+            position: relative;
+        }
+
+        .optional-header {
+            padding: 16px;
+            position: relative;
+            background-image: url('file:///android_asset/bg.png');
+            background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        }
+
+        .thumbnail {
+            border-radius: 50%;
+            float: left;
+            height: 40px;
+            position: relative;
+            width: 40px;
+        }
+
+        .thumbnail img {
+            background-color: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+
+        .thumbnail--40x40 img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo_title {
+            color: var(--brand-accents-primary, #1E8787);
+            text-align: center;
+            font-family: Hind Siliguri;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+
+        .logo_title_alt {
+            color: var(--brand-accents-primary, #141414);
+            text-align: center;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+
+        .main-header {
+            height: 100%;
+            position: relative;
+            display: flex;
+            justify-content: normal;
+            align-items: center;
+            background-image: url('android.resource://com.deenislamic.sdk/drawable/ic_logo');
+            background-size: cover;
+            background-position: top;
+            flex-direction: column;
+        }
+
+        .date_txt {
+            color: var(--brand-accents-dark-primary, #30535A);
+            text-align: center;
+            font-family: Outfit;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: bold;
+            line-height: 10px;
+            letter-spacing: -0.036px;
+            margin-top: 8px;
+        }
+
+        .location_txt {
+            color: var(--grayscale-primary, #141414);
+            text-align: center;
+            font-family: Inter;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-top: 4px;
+        }
+
+        .info_txt_alt {
+            color: var(--grayscale-secondary, #6B6B6B);
+            text-align: center;
+            font-family: Inter;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            padding:2px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        th,
+        td {
+            padding: 0;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #D4E7ED;
+            color: var(--grayscale-primary, #141414);
+            font-family: Inter;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: bold;
+            line-height: 18px;
+            text-align: center;
+        }
+
+        td {
+            color: var(--grayscale-primary, #141414);
+            text-align: center;
+            font-family: Inter;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            white-space: nowrap;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #EFEFEF;
+        }
+
+        tr:nth-child(even) {
+            background-color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="content">
+    <div class="col">
+        <div class="card" style="margin-top:0;margin-left:12px;margin-right:12px;margin-bottom:0;">
+
+
+            <div style="position: absolute; left: 0; right: 0; top: 0; height: 50%; background-repeat: repeat-x; background-size: contain; background-position: top; background-image: url('file:///android_asset/bg_header.webp');"></div>
+            <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 50%; background-repeat: repeat-x; background-size: contain; background-position: bottom; background-image: url('file:///android_asset/bg_footer.webp');"></div>
+
+            <div style="position: relative; z-index: 1; overflow: hidden;">
+                <div class="row" style="padding-top: 4px;">
+                    <div class="thumbnail--40x40"><img src="file:///android_asset/logo.svg" alt="" width="40" height="40"></div>
+
+                    <div class="logo_title">দ্বীন</div>
+
+                </div>
+
+                <div class="row">
+                    <div class="date_txt">#DATE_TXT#</div>
+                </div>
+
+                <div class="row">
+                    <div class="location_txt">#LOCATION_TXT#</div>
+                </div>
+
+                <div class="row">
+                    <div class="info_txt_alt">#INFO_TXT#</div>
+                </div>
+
+                <div class="row">
+
+                    <table>
+                        <thead style="margin-left: 6px;margin-right: 2px;">
+                        <tr>
+                            <th style="text-align:left;">#thDate#</th>
+                            <th>#thFajr#</th>
+                            <th>#thDhuhr#</th>
+                            <th>#thAsr#</th>
+                            <th>#thMaghrib#</th>
+                            <th>#thIsha#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #TABLE_CONTENT#
+
+
+                     <!--   <tr>
+                            <td style="text-align:left;">1 Apr 23</td>
+                            <td>4:23 am</td>
+                            <td>4:23 pm</td>
+                            <td>4:23 pm</td>
+                            <td>4:23 pm</td>
+                            <td>4:23 pm</td>
+                        </tr>-->
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr style="border-color: rgba(0, 0, 0, 0.12); margin: 2px 0;">
+
+                <div class="row" style="padding-top: 2px;">
+                    <div class="thumbnail--40x40"><img src="file:///android_asset/logo.svg" alt="" width="40" height="40"></div>
+
+                    <div class="logo_title_alt">www.deenislamic.com</div>
+
+                </div>
+
+                <hr style="border-color: rgba(0, 0, 0, 0.12); margin: 2px 0;">
+
+                <div class="row" style="margin-top:2px;
+                margin-bottom:4px;">
+                    <div class="info_txt_alt">#INFO_TXT_FOOTER#</div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

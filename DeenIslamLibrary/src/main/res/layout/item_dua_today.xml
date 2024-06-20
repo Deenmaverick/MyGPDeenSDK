@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.deenislam.sdk.utils.AspectRatioImageView
+        <com.deenislamic.sdk.utils.AspectRatioImageView
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="0dp"

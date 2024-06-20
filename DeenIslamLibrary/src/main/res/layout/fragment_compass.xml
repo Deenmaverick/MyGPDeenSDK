@@ -29,7 +29,7 @@
             android:layout_height="wrap_content">
 
 
-            <com.deenislam.sdk.utils.AspectRatioImageView
+            <com.deenislamic.sdk.utils.AspectRatioImageView
                 android:id="@+id/mapBg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
