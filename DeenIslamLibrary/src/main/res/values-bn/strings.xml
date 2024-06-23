@@ -487,5 +487,8 @@
     <string name="dua">দোয়া</string>
     <string name="prayer_calendar_footer_info">** ইসলামিক ফাউন্ডেশন অব বাংলাদেশের উপর ভিত্তি করে মাসিক ক্যালেন্ডার দেখানো হচ্ছে।</string>
     <string name="unable_to_share_try_again">শেয়ার করতে ব্যর্থ হয়েছে। আবার চেষ্টা কর</string>
-
+    <string name="pronunciation_html"><![CDATA[<p><strong>উচ্চারণ:</strong></p>]]></string>
+    <string name="meaning_html"><![CDATA[<strong>অর্থ:</strong>]]></string>
+    <string name="share">শেয়ার করুন</string>
+    <string name="ramadan">রোজা</string>
 </resources>

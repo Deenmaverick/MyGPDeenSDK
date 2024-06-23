@@ -40,7 +40,7 @@
             android:layout_marginStart="@dimen/space_16"
             tools:text="Dhu al-Hijjah 21"
             android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/deen_yellow"
             app:layout_constraintTop_toBottomOf="@+id/datetime"
             app:layout_constraintStart_toStartOf="parent"/>

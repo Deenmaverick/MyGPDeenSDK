@@ -71,7 +71,7 @@ internal interface DeenService {
     @POST("dua/AllCategories")
     suspend fun duaAllCategory(@Body parm: RequestBody): AllDuaResponse
 
-    @POST("dua/AllDuaByCategory")
+    @POST("dua/DuaByCategory")
     suspend fun duaByCategory(@Body parm: RequestBody): DuaByCategory
 
     @POST("dua/AllFavDua")
@@ -414,6 +414,10 @@ internal interface DeenService {
 
     @POST("Islamic/getQurbaniTopicsbyCategory")
     suspend fun getQurbaniContentByCat(@Body parm: RequestBody):  SubCatResponse
+
+
+    @POST("dua/GetduaPatch")
+    suspend fun duaAllPatch(@Body parm: RequestBody): DashboardResponse
 
 
 }

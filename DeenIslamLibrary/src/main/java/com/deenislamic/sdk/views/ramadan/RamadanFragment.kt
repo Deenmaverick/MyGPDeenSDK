@@ -6,6 +6,7 @@ import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,8 @@ import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.RamadanCallback
 import com.deenislamic.sdk.service.callback.ViewInflationListener
 import com.deenislamic.sdk.service.callback.common.HorizontalCardListCallback
+import com.deenislamic.sdk.service.database.AppPreference
+import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.RamadanResource
@@ -21,14 +24,18 @@ import com.deenislamic.sdk.service.models.ramadan.StateModel
 import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.network.response.ramadan.Data
 import com.deenislamic.sdk.service.network.response.ramadan.FastTracker
+import com.deenislamic.sdk.service.repository.PrayerTimesRepository
 import com.deenislamic.sdk.service.repository.RamadanRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.bangladeshStateArray
 import com.deenislamic.sdk.utils.get9DigitRandom
 import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
+import com.deenislamic.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislamic.sdk.viewmodels.RamadanViewModel
+import com.deenislamic.sdk.viewmodels.common.PrayerTimeVMFactory
 import com.deenislamic.sdk.views.adapters.ramadan.RamadanPatchAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import kotlinx.coroutines.launch
@@ -45,7 +52,10 @@ internal class RamadanFragment : BaseRegularFragment(),
 
     private lateinit var listview:RecyclerView
     private val navArgs:RamadanFragmentArgs by navArgs()
-    private lateinit var viewmodel: RamadanViewModel/*
+    private lateinit var viewmodel: RamadanViewModel
+    private lateinit var prayerViewModel:PrayerTimesViewModel
+
+    /*
     //private val islamicBookViewmodel by viewModels<IslamicBookViewModel>()
     private lateinit var prayerTimeViewModel: PrayerTimesViewModel*/
     private lateinit var ramadanPatchAdapter: RamadanPatchAdapter
@@ -53,7 +63,7 @@ internal class RamadanFragment : BaseRegularFragment(),
     private var stateArray:ArrayList<StateModel> = arrayListOf()
     private var selectedState:StateModel ? = null
     private var fastingCardData: FastTracker? = null
-    private var state = "dhaka"
+    private var currentState = "dhaka"
 
     private var patchDataList: List<com.deenislamic.sdk.service.network.response.dashboard.Data> ? = null
     private var firstload = false
@@ -65,6 +75,18 @@ internal class RamadanFragment : BaseRegularFragment(),
         val repository = RamadanRepository(
             deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = RamadanViewModel(repository)
+
+        val prayerTimesRepository = PrayerTimesRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao(),
+            prayerTimesDao = DatabaseProvider().getInstance().providePrayerTimesDao()
+        )
+
+        val factory = PrayerTimeVMFactory(prayerTimesRepository)
+        prayerViewModel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PrayerTimesViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -95,6 +117,18 @@ internal class RamadanFragment : BaseRegularFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        currentState = AppPreference.getPrayerTimeLoc().toString()
+
+        val filteredStates = bangladeshStateArray.firstOrNull { state ->
+            currentState.lowercase().contains(state.state.lowercase()) ||
+                    currentState.lowercase().contains(state.statebn.lowercase())
+        }
+
+        filteredStates?.let {
+            currentState = it.state
+            selectedState = it
+        }
 
         if(!firstload)
         {
@@ -240,7 +274,7 @@ internal class RamadanFragment : BaseRegularFragment(),
     {
         baseLoadingState()
         lifecycleScope.launch {
-            viewmodel.getRamadanTime(state,getLanguage(),navArgs.date)
+            viewmodel.getRamadanTime(currentState,getLanguage(),navArgs.date)
         }
     }
 
@@ -307,8 +341,12 @@ internal class RamadanFragment : BaseRegularFragment(),
     }
     override fun stateSelected(stateModel: StateModel) {
         ramadanPatchAdapter.updateDropdownSelectedState(stateModel)
-        state = stateModel.state
+        currentState = stateModel.state
         selectedState = stateModel
+        AppPreference.savePrayerTimeLoc(stateModel.state)
+        lifecycleScope.launch {
+            prayerViewModel.updateSelectedState(stateModel)
+        }
         loadApi()
     }
 

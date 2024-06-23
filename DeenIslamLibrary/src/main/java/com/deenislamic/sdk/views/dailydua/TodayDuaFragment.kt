@@ -1,10 +1,14 @@
 package com.deenislamic.sdk.views.dailydua
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
@@ -17,8 +21,10 @@ import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DailyDuaResource
 import com.deenislamic.sdk.service.network.response.dailydua.todaydua.Data
 import com.deenislamic.sdk.service.repository.DailyDuaRepository
+import com.deenislamic.sdk.utils.generateUniqueNumber
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.DailyDuaViewModel
@@ -27,6 +33,9 @@ import com.deenislamic.sdk.views.adapters.dailydua.TodayDuaCallback
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
@@ -189,5 +198,49 @@ internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
         lifecycleScope.launch {
             viewmodel.setFavDua(isFavorite,duaId,"en",position)
         }
+    }
+
+    override fun shareDua(duaImg: Bitmap) {
+
+        try {
+
+            val uniqueID = generateUniqueNumber()
+            // Save the bitmap to the cache directory
+            val cachePath = File(requireContext().cacheDir, "images")
+            cachePath.mkdirs() // Create the directory if it doesn't exist
+            val stream = FileOutputStream("$cachePath/$uniqueID.png")
+            duaImg.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            stream.close()
+
+            // Get the URI for the saved image
+
+            val imagePath = File(requireContext().cacheDir, "images")
+            val newFile = File(imagePath, "$uniqueID.png")
+            val contentUri: Uri =
+                FileProvider.getUriForFile(
+                    requireContext(),
+                    "com.deenislamic.sdk.fileprovider",
+                    newFile
+                )
+
+
+            val textShareContent =
+                "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
+
+
+            // Share the image with text
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            shareIntent.type = "image/*"  // Set the MIME type of the content
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
+            // Launch the intent
+            startActivity(Intent.createChooser(shareIntent, "Choose an app"))
+
+        } catch (e: IOException) {
+            requireContext().toast(localContext.getString(R.string.unable_to_share_try_again))
+        }
+
     }
 }

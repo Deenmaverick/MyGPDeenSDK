@@ -487,5 +487,8 @@
     <string name="dua">Dua</string>
     <string name="prayer_calendar_footer_info">**Showing monthly calendar based on Islamic Foundation of Bangladesh.</string>
     <string name="unable_to_share_try_again">Unable to share. Try again</string>
-
+    <string name="pronunciation_html"><![CDATA[<strong>Pronunciation:</strong>]]></string>
+    <string name="meaning_html"><![CDATA[<strong>Meaning:</strong>]]></string>
+    <string name="share">Share</string>
+    <string name="ramadan">Ramadan</string>
 </resources>

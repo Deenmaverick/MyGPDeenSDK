@@ -26,11 +26,11 @@ internal class RamadanViewModel (
     val ramadanCalendarLiveData:MutableLiveData<RamadanResource> get() = _ramadanCalendarLiveData
 
 
-    fun getOtherRamadanTime(location:String, language:String)
+    /*fun getOtherRamadanTime(location:String, language:String)
     {
         viewModelScope.launch {
 
-            when(val response = repository.getOtherRamadanTime(location = location, language = language))
+            when(val response = repository.getRamadanPatch(location = location, language = language))
             {
                 is ApiResource.Failure -> _ramadanLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success ->
@@ -39,6 +39,44 @@ internal class RamadanViewModel (
                         _ramadanLiveData.value = RamadanResource.ramadanTime(response.value.Data)
                     else
                         _ramadanLiveData.value = CommonResource.EMPTY
+                }
+            }
+        }
+    }*/
+
+
+    fun getOtherRamadanTime(
+        location: String,
+        language: String
+    ) {
+        viewModelScope.launch {
+
+            var ramadanData: Data ? = null
+
+            val getPatch = async { repository.getRamadanPatch(language = language)}.await()
+
+            when(val response = repository.getOtherRamadanTime(location = location, language = language))
+            {
+                is ApiResource.Failure -> _ramadanLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    /*if(response.value.Data.FastTime.isNotEmpty())
+                        _ramadanLiveData.value = RamadanResource.ramadanTime(response.value.Data)
+                    else
+                        _ramadanLiveData.value = CommonResource.EMPTY*/
+
+                    if(response.value?.Data?.FastTime?.isNotEmpty() == true)
+                        ramadanData = response.value.Data
+                    else
+                        _ramadanLiveData.value = CommonResource.EMPTY
+                }
+            }
+
+            when(getPatch){
+                is ApiResource.Failure ->  _ramadanLiveData.value = RamadanResource.RamadanPatch(ramadanData,null)
+                is ApiResource.Success -> {
+                    _ramadanLiveData.value = RamadanResource.RamadanPatch(ramadanData,getPatch.value?.Data)
+
                 }
             }
         }

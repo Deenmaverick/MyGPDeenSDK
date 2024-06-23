@@ -24,6 +24,7 @@ import com.deenislamic.sdk.service.repository.SubCatCardListRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.copyToClipboard
 import com.deenislamic.sdk.utils.htmlFormat
+import com.deenislamic.sdk.utils.shareLargeTextInChunks
 import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.viewmodels.SubCatCardListViewModel
 import com.deenislamic.sdk.viewmodels.common.ContentSettingVMFactory
@@ -168,7 +169,7 @@ PlayerCommonSelectionList.PlayerCommonSelectionListCallback,
         lifecycleScope.launch {
             contentSettingViewModel.update(contentSetting)
         }
-        CommonContentSetting.updateFontName(requireContext())
+        CommonContentSetting.updateFontName(localContext)
     }
 
     override fun qurbaniCommonContentClicked(absoluteAdapterPosition: Int, isExpanded: Boolean) {
@@ -184,7 +185,7 @@ PlayerCommonSelectionList.PlayerCommonSelectionListCallback,
 
         val optionList3Dot = arrayListOf(
             OptionList("copy",R.drawable.ic_content_copy,localContext.getString(R.string.copy_content)),
-            //OptionList("share",R.drawable.ic_share,localContext.getString(R.string.share))
+            OptionList("share",R.drawable.ic_share,localContext.getString(R.string.share))
 
         )
 
@@ -200,7 +201,7 @@ PlayerCommonSelectionList.PlayerCommonSelectionListCallback,
 
                 when(getdata.type){
 
-                   /* "share" -> {
+                    "share" -> {
 
                         var subContent = ""
 
@@ -224,7 +225,7 @@ PlayerCommonSelectionList.PlayerCommonSelectionListCallback,
 
                         context?.shareLargeTextInChunks("$content\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
 
-                    }*/
+                    }
 
                     "copy" -> {
 

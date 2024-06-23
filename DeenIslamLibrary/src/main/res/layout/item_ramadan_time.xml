@@ -2,28 +2,46 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:viewBindingIgnore="true"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/space_4">
-
+    android:layout_marginTop="@dimen/space_4"
+    tools:viewBindingIgnore="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="@dimen/space_4">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/date"
+        android:id="@+id/arabicDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_8"
+        android:paddingEnd="@dimen/space_8"
         android:text="@string/date"
         app:textAllCaps="true"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/deen_txt_black_deep"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        android:textAlignment="viewStart"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/deen_gray_secondary"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/engDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_8"
+        android:paddingEnd="@dimen/space_8"
+        android:text="@string/date"
+        app:textAllCaps="true"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/deen_gray_secondary"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/arabicDate"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
     <androidx.constraintlayout.widget.Guideline
+        android:visibility="gone"
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,6 +49,7 @@
         app:layout_constraintGuide_percent="0.25" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:visibility="gone"
         android:id="@+id/day"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -40,8 +59,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/deen_txt_black_deep"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/date"
-        app:layout_constraintStart_toEndOf="@+id/date" />
+        app:layout_constraintTop_toTopOf="@+id/arabicDate"
+        app:layout_constraintStart_toEndOf="@+id/arabicDate" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -55,12 +74,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:textAllCaps="true"
-        android:text="@string/suhoor"
+        tools:text="@string/suhoor"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/deen_txt_black_deep"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/deen_gray_secondary"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/date"
+        app:layout_constraintTop_toTopOf="@+id/arabicDate"
+        app:layout_constraintBottom_toBottomOf="@+id/engDate"
         app:layout_constraintStart_toEndOf="@+id/day" />
 
 
@@ -76,12 +97,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:textAllCaps="true"
-        android:text="@string/iftaar"
+        tools:text="@string/iftaar"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/deen_txt_black_deep"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/deen_gray_secondary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/date"
+        app:layout_constraintTop_toTopOf="@+id/arabicDate"
+        app:layout_constraintBottom_toBottomOf="@+id/engDate"
         app:layout_constraintStart_toEndOf="@+id/suhoor"/>
 
 
@@ -89,9 +112,9 @@
         android:id="@+id/border"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/space_12"
+        android:layout_marginTop="@dimen/space_8"
         android:background="@color/deen_border"
-        app:layout_constraintTop_toBottomOf="@+id/date"
+        app:layout_constraintTop_toBottomOf="@+id/engDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

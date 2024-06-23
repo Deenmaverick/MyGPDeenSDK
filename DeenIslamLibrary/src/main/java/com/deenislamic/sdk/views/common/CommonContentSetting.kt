@@ -63,7 +63,6 @@ internal object CommonContentSetting {
 
         contentSetting = AppPreference.getContentSetting()
 
-
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(context, R.style.DeenMaterialAlertDialog_Rounded)
         customAlertDialogView = WeakReference(inflater.inflate(R.layout.dialog_content_setting, null, false))
 
@@ -91,11 +90,12 @@ internal object CommonContentSetting {
             banglaFontSize.text = "${bnfontsize.toInt()}%".numberLocale()
             banglaFontSlider.value =  bnfontsize
 
-            chooseArabicFont.text = context.getArabicFontList().firstOrNull { trn-> trn.fontid == contentSetting.arabicFont.toString() }?.fontname.toString()
+            chooseArabicFont.text = localContext.getArabicFontList().firstOrNull { trn-> trn.fontid == contentSetting.arabicFont.toString() }?.fontname.toString()
 
 
             arabicFontSlider.addOnChangeListener { _, value, _ ->
                 contentSetting.arabicFontSize = value
+                arabicFontSize.text = "$value%".numberLocale()
                 AppPreference.setContentSetting(contentSetting)
                 lifecycleScope?.launch(Dispatchers.IO) {
                     contentSettingViewModel?.update(contentSetting)
@@ -104,6 +104,7 @@ internal object CommonContentSetting {
 
             banglaFontSlider.addOnChangeListener { _, value, _ ->
                 contentSetting.banglaFontSize = value
+                banglaFontSize.text = "$value%".numberLocale()
                 AppPreference.setContentSetting(contentSetting)
                 lifecycleScope?.launch(Dispatchers.IO) {
                     contentSettingViewModel?.update(contentSetting)

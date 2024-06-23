@@ -13,5 +13,6 @@ internal data class FastTracker(
     var isFasting: Boolean,
     val islamicDate: String,
     val totalDays: Int,
-    var totalTracked: Int
+    var totalTracked: Int,
+    var banglaDate:String
 ) : Parcelable

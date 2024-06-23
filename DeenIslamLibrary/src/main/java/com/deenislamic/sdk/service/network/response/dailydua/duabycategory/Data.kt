@@ -12,12 +12,16 @@ internal data class Data(
     val Latitude: Any,
     val Longitude: Any,
     val Pronunciation: String,
+    val Transliteration:String,
     val Serial: Int,
     val SubCategory: Any,
     val SubCategoryName: String,
     val Text: String,
+    val Benefit:String,
     val TextInArabic: String,
     val Title: String,
     val contentBaseUrl: String,
-    var IsFavorite: Boolean
+    var IsFavorite: Boolean,
+    val Source:String,
+    var isExpanded:Boolean = false
 )

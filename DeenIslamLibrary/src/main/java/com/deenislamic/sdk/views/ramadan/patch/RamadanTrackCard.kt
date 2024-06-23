@@ -30,18 +30,19 @@ internal class RamadanTrackCard(itemView: View, private val fastTracker: FastTra
     private val iftarCardview:MaterialCardView = itemView.findViewById(R.id.iftarCardview)
     private var callback = CallBackProvider.get<RamadanCallback>()
     private var isFasting = false
-
+    private var fastCountBak = 0
     init {
 
         (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 12.dp
 
-        datetime.text = fastTracker.Date.numberLocale().monthNameLocale().dayNameLocale()
-        arabicDate.text = fastTracker.islamicDate
+        datetime.text = "${fastTracker.Date.numberLocale().monthNameLocale().dayNameLocale()}${if(fastTracker.banglaDate.isNotEmpty()) " • "+ fastTracker.banglaDate else ""}"
+        arabicDate.text = /*fastTracker.islamicDate.split(",").firstOrNull()?:*/fastTracker.islamicDate
         suhoorTimeTxt.text = "${fastTracker.Suhoor}".numberLocale()
         iftarTimetxt.text = "${fastTracker.Iftaar}".numberLocale()
         fastingCheck.isChecked = fastTracker.isFasting
         fastingProgress.max = fastTracker.totalDays
         fastingProgress.progress = fastTracker.totalTracked
+        fastCountBak = fastTracker.totalTracked
         ramadan_complete_txt.text = "${fastTracker.totalTracked}/${fastTracker.totalDays}".numberLocale()
 
         isFasting = fastingCheck.isChecked
@@ -83,5 +84,8 @@ internal class RamadanTrackCard(itemView: View, private val fastTracker: FastTra
 
     fun getTrackData() = fastTracker
 
+    fun trackFailed(){
+        fastingCheck.isClickable = true
+    }
 
 }

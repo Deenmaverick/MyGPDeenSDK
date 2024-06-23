@@ -1415,4 +1415,29 @@
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
 
+    <fragment
+        android:id="@+id/youtubeVideoFragment"
+        android:name="com.deenislamic.sdk.views.youtubevideo.YoutubeVideoFragment"
+        android:label="YoutubeVideoFragment" >
+        <argument
+            android:name="data"
+            app:argType="com.deenislamic.sdk.service.network.response.dashboard.Item[]" />
+        <argument
+            android:name="selectedData"
+            app:argType="com.deenislamic.sdk.service.network.response.dashboard.Item"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="isHome"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_youtubeVideoFragment"
+        app:destination="@id/youtubeVideoFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
 </navigation>

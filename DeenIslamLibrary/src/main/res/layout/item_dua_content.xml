@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_8"
+    app:cardCornerRadius="@dimen/space_12"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/deen_white"
+    app:strokeWidth="0dp"
+    tools:viewBindingIgnore="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_12">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_12"
+            android:textColor="@color/deen_txt_black_deep"
+            android:textStyle="bold"
+            tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/bookmarkBtn"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
+            android:id="@+id/bookmarkBtn"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_8"
+            android:src="@drawable/deen_ic_bookmark"
+            android:tint="@color/deen_txt_black_deep"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintEnd_toStartOf="@+id/dotMenu"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
+            android:id="@+id/dotMenu"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_3_dot"
+            android:tint="@color/deen_txt_black_deep"
+            app:layout_constraintTop_toTopOf="@+id/bookmarkBtn"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/space_4"
+            android:textColor="@color/deen_gray_secondary"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/subText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/arabicText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_8"
+                android:paddingBottom="0dp"
+                android:fontFamily="@font/al_majed_quranic_font_regular"
+                android:textColor="@color/deen_txt_black_deep"
+                tools:text="باب سُنَّةِ الأُضْحِيَّةِ وَقَالَ ابْنُ عُمَرَ هِيَ سُنَّةٌ وَمَعْرُوفٌ"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <com.deenislamic.sdk.utils.JustifiedTextView
+                android:id="@+id/mainContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_8"
+                android:justificationMode="inter_word"
+                android:textColor="@color/deen_gray_secondary"
+                tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/arabicText"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <com.deenislamic.sdk.utils.JustifiedTextView
+                android:id="@+id/referance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_8"
+                android:justificationMode="inter_word"
+                android:textColor="@color/deen_gray_secondary"
+                tools:text="— ইসলামিক ফাউন্ডেশনঃ ৫১৪৮, আন্তর্জাতিকঃ ৫৫৪৬"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainContent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/seeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_dropdown"
+            app:iconTint="@color/deen_primary"
+            app:iconGravity="textEnd"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:minHeight="0dp"
+            android:text="@string/see_more"
+            android:clickable="false"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_primary"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/content"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

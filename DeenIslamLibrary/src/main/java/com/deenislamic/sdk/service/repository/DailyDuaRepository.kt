@@ -22,6 +22,17 @@ internal class DailyDuaRepository (
         }
 
 
+    suspend fun getAllDuaPatch(language:String) =
+        makeApicall {
+
+            val body = JSONObject()
+            body.put("language", language)
+            val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+            deenService?.duaAllPatch(parm = requestBody)
+
+        }
+
     suspend fun getDuaByCategory(cat:Int,language: String) =
         makeApicall {
 

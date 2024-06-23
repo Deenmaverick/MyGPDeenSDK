@@ -1,17 +1,21 @@
 package com.deenislamic.sdk.views.adapters.dailydua;
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.dailydua.todaydua.Data
 import com.deenislamic.sdk.utils.getLocalContext
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.invisible
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.views.base.BaseViewHolder
@@ -63,13 +67,15 @@ internal class TodayDuaAdapter(
 
             val  duaData =  todayDuaList[position]
             banner.show()
-            favshareBtn.hide()
+            //favshareBtn.hide()
             favBtn.hide()
 
-            banner.load("${duaData.contentBaseUrl}/${duaData.ImageUrl}")
+            banner.imageLoad(url = "${duaData.contentBaseUrl}/${duaData.ImageUrl}", placeholder_1_1 = true)
+
+           /* banner.load("${duaData.contentBaseUrl}/${duaData.ImageUrl}")
             {
                 //placeholder(R.drawable.placeholder_1_1)
-            }
+            }*/
 
             if(duaData.TextInArabic.isEmpty())
             {
@@ -87,8 +93,14 @@ internal class TodayDuaAdapter(
                 duaTxt.text = duaData.Pronunciation
             }
 
-            duaSub.text = duaData.Title
-            surahInfo.invisible()
+            if(duaData.Title.isEmpty())
+                duaSub.hide()
+            else {
+                duaSub.show()
+                duaSub.text = duaData.Title
+            }
+
+            surahInfo.hide()
 
             favBtn.setOnClickListener {
                 callback.favClick(duaData.IsFavorite,duaData.DuaId,position)
@@ -109,6 +121,16 @@ internal class TodayDuaAdapter(
 
             }
 
+            favshareBtn.setOnClickListener {
+                banner.doOnLayout {
+                    val drawable = banner.drawable
+                    if (drawable != null) {
+                        val bitmap = drawable.toBitmap()
+                        callback.shareDua(bitmap)
+                    }
+                }
+            }
+
         }
     }
 }
@@ -116,4 +138,5 @@ internal class TodayDuaAdapter(
 internal interface TodayDuaCallback
 {
     fun favClick(isFavorite: Boolean, duaId: Int, position: Int)
+    fun shareDua(duaImg: Bitmap)
 }

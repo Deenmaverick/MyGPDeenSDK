@@ -11,28 +11,40 @@ import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.callback.DashboardPatchCallback
+import com.deenislamic.sdk.service.callback.common.HorizontalCardListCallback
+import com.deenislamic.sdk.service.callback.quran.QuranPlayerCallback
 import com.deenislamic.sdk.service.di.NetworkProvider
+import com.deenislamic.sdk.service.libs.ImageViewPopupDialog
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DailyDuaResource
-import com.deenislamic.sdk.service.network.response.dailydua.alldua.Data
+import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.repository.DailyDuaRepository
+import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
+import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.RECYCLERFOOTER
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.DailyDuaViewModel
-import com.deenislamic.sdk.views.base.BaseRegularFragment
+import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.dailydua.AllDuaAdapter
-import com.deenislamic.sdk.views.adapters.dailydua.AllDuaCallback
+import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
+internal class AllDuaFragment : BaseRegularFragment(),
+    MenuCallback,
+    HorizontalCardListCallback,
+    DashboardPatchCallback,
+    QuranPlayerCallback {
 
     private lateinit var listView:RecyclerView
     private lateinit var progressLayout:LinearLayout
@@ -44,6 +56,8 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
     private lateinit var viewmodel: DailyDuaViewModel
 
     private var firstload:Boolean = false
+    private var patchDataList: List<com.deenislamic.sdk.service.network.response.dashboard.Data> ? = null
+
 
     override fun OnCreate() {
         super.OnCreate()
@@ -72,6 +86,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         if(firstload) {
             progressLayout.hide()
         }
+        CallBackProvider.setFragment(this)
         return mainView
     }
 
@@ -93,7 +108,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
             loadApiData()
         }
 
-        allDuaAdapter = AllDuaAdapter(this@AllDuaFragment)
+        allDuaAdapter = AllDuaAdapter()
 
         val gridLayoutManager = GridLayoutManager(context, 3)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -106,15 +121,10 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         }
 
         listView.apply {
+            layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+            adapter = allDuaAdapter
 
-                adapter = allDuaAdapter
-                val margins = (layoutParams as ConstraintLayout.LayoutParams).apply {
-                    leftMargin = 8.dp
-                    rightMargin = 8.dp
-                }
-                layoutParams = margins
-
-                layoutManager = gridLayoutManager
+                //layoutManager = gridLayoutManager
 
         }
 
@@ -143,6 +153,7 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
 
     private fun loadApiData()
     {
+        loadingState()
         lifecycleScope.launch {
             viewmodel.getDuaAllCategory(getLanguage())
         }
@@ -183,10 +194,10 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         noInternetLayout.show()
     }
 
-    private fun viewState(data: List<Data>)
+    private fun viewState(data: List<com.deenislamic.sdk.service.network.response.dashboard.Data>)
     {
         allDuaAdapter.update(data)
-
+        patchDataList = data
         listView.post {
             progressLayout.hide()
             nodataLayout.hide()
@@ -194,12 +205,120 @@ internal class AllDuaFragment : BaseRegularFragment(), AllDuaCallback {
         }
     }
 
-    override fun selectedCat(id: Int, category: String) {
+   /* override fun selectedCat(id: Int, category: String) {
 
         val bundle = Bundle().apply {
             putInt("category", id)
             putString("catName", category)
         }
         gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
+    }*/
+
+    override fun patchItemClicked(getData: Item) {
+
+        when(getData.ContentType){
+
+            "ib" -> {
+                val bundle = Bundle()
+                bundle.putInt("id", getData.CategoryId)
+                bundle.putString("videoType", "category")
+                bundle.putString("pageTitle",getData.ArabicText)
+                gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
+            }
+
+            /*"ibook" -> {
+
+                lifecycleScope.launch {
+                    islamicBookViewmodel.getDigitalQuranSecureUrl(getData.imageurl2, false, getData.CategoryId, getData.ArabicText)
+                }
+            }*/
+
+            "khq" -> {
+
+
+
+                patchDataList?.let {
+
+                    var dataIndex = -1
+                    var itemIndex = 0
+
+                    patchDataList?.forEachIndexed { index, data ->
+                        data.Items.forEachIndexed { innerIndex, item ->
+                            // Replace with the condition to check if the items match
+                            if (item.Id == getData.Id) {
+                                dataIndex = index
+                                itemIndex = innerIndex
+                                return@forEachIndexed
+                            }
+                        }
+                    }
+
+                    if(dataIndex !=-1) {
+                        val bundle = Bundle()
+                        bundle.putInt("khatamQuranvideoPosition", itemIndex)
+                        bundle.putParcelableArray("khatamQuranvideoList", it[dataIndex].Items.map { it1-> transformDashboardItemForKhatamQuran(it1) }.toTypedArray())
+                        gotoFrag(R.id.action_global_khatamEQuranVideoFragment, bundle)
+                    }
+
+                }
+
+            }
+
+            "dtub" -> {
+
+                patchDataList?.let {
+
+                    var dataIndex = -1
+                    var itemIndex = 0
+
+                    it.forEachIndexed { index, dataValue ->
+                        dataValue.Items.forEachIndexed { innerIndex, item ->
+                            // Replace with the condition to check if the items match
+                            if (item.ContentType == getData.ContentType && item.Id == getData.Id) {
+                                dataIndex = index
+                                itemIndex = innerIndex
+                                return@forEachIndexed
+                            }
+                        }
+                    }
+
+                    if(dataIndex !=-1) {
+                        val bundle = Bundle()
+                        bundle.putParcelable("selectedData", getData)
+                        bundle.putParcelableArray("data", it[dataIndex].Items.toTypedArray())
+                        gotoFrag(R.id.action_global_youtubeVideoFragment, bundle)
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    override fun dashboardPatchClickd(patch: String, data: Item?) {
+        when(patch){
+            "dua" -> {
+                //changeMainViewPager(2)
+
+                data?.let {
+                    val bundle = Bundle()
+                    bundle.putString("title",it.FeatureTitle)
+                    bundle.putString("imgUrl","$BASE_CONTENT_URL_SGP${it.imageurl1}")
+                    //bundle.putString("content","${getdata.Title}:\n\n${getdata.Text}\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+                    ImageViewPopupDialog.display(childFragmentManager,bundle)
+
+                }
+            }
+        }
+    }
+
+    override fun menuClicked(pagetag: String, getMenu: Item?) {
+        getMenu?.let {
+            val bundle = Bundle().apply {
+                putInt("category", it.SurahId)
+                putString("catName", it.ArabicText)
+            }
+            gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
+        }
     }
 }

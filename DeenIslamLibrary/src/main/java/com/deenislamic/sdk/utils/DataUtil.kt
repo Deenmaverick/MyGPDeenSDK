@@ -1,6 +1,7 @@
 package com.deenislamic.sdk.utils
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.AssetManager
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
@@ -306,3 +307,18 @@ internal val bangladeshStateArray: ArrayList<StateModel> = arrayListOf(
     StateModel("jamalpur", "Jamalpur (জামালপুর)", "জামালপুর"),
     StateModel("netrokona", "Netrokona (নেত্রকোনা)", "নেত্রকোনা")
 )
+
+fun Context.shareLargeTextInChunks(textContent: String) {
+    // Split the text content into chunks of the specified size
+    val chunks = textContent.chunked(textContent.length)
+
+    // Share each chunk separately
+    for (chunk in chunks) {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, chunk)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        startActivity(Intent.createChooser(shareIntent, "Share via"))
+    }
+}

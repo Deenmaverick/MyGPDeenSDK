@@ -31,15 +31,15 @@
 
     <application>
 
-        <!-- <provider
-             android:name="androidx.core.content.FileProvider"
-             android:authorities="com.deenislam.sdk.fileprovider"
+         <provider
+             android:name=".utils.DeenFileProvider"
+             android:authorities="com.deenislamic.sdk.fileprovider"
              android:grantUriPermissions="true"
              android:exported="false">
              <meta-data
                  android:name="android.support.FILE_PROVIDER_PATHS"
                  android:resource="@xml/filepaths" />
-         </provider>-->
+         </provider>
 
 
 

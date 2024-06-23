@@ -16,7 +16,7 @@ internal class Menu(itemView: View, private val items: List<Item>) {
 
         listView.apply {
             layoutManager = GridLayoutManager(this.context,3)
-            setPadding(16.dp,16.dp,16.dp,0)
+            setPadding(16.dp,12.dp,16.dp,0)
             adapter = HajjMenuAdapter( items)
         }
     }

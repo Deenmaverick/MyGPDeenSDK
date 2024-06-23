@@ -6,46 +6,59 @@ import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.RamadanCallback
 import com.deenislamic.sdk.service.callback.ViewInflationListener
+import com.deenislamic.sdk.service.callback.common.HorizontalCardListCallback
+import com.deenislamic.sdk.service.database.AppPreference
+import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.RamadanResource
 import com.deenislamic.sdk.service.models.ramadan.StateModel
+import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.network.response.ramadan.Data
 import com.deenislamic.sdk.service.network.response.ramadan.FastTracker
+import com.deenislamic.sdk.service.repository.PrayerTimesRepository
 import com.deenislamic.sdk.service.repository.RamadanRepository
 import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.bangladeshStateArray
 import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
+import com.deenislamic.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislamic.sdk.viewmodels.RamadanViewModel
+import com.deenislamic.sdk.viewmodels.common.PrayerTimeVMFactory
 import com.deenislamic.sdk.views.adapters.ramadan.OtherRamadanPatchAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Calendar
+import java.util.Locale
 
 internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
-    ViewInflationListener {
+    ViewInflationListener, HorizontalCardListCallback {
 
     private lateinit var listview:RecyclerView
 
     private lateinit var viewmodel: RamadanViewModel
+    private lateinit var prayerViewModel:PrayerTimesViewModel
 
     private lateinit var otherRamadanPatchAdapter: OtherRamadanPatchAdapter
 
     private var stateArray:ArrayList<StateModel> = arrayListOf()
     private var selectedState:StateModel ? = null
     private var fastingCardData: FastTracker? = null
-    private var state = "dhaka"
+    private var currentState = "dhaka"
 
     private var firstload = false
+    private var patchDataList: List<com.deenislamic.sdk.service.network.response.dashboard.Data> ? = null
 
     override fun OnCreate() {
         super.OnCreate()
@@ -55,6 +68,17 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = RamadanViewModel(repository)
 
+        val prayerTimesRepository = PrayerTimesRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao(),
+            prayerTimesDao = DatabaseProvider().getInstance().providePrayerTimesDao()
+        )
+
+        val factory = PrayerTimeVMFactory(prayerTimesRepository)
+        prayerViewModel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PrayerTimesViewModel::class.java]
 
     }
 
@@ -84,6 +108,18 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        currentState = AppPreference.getPrayerTimeLoc().toString()
+
+        val filteredStates = bangladeshStateArray.firstOrNull { state ->
+            currentState.lowercase().contains(state.state.lowercase()) ||
+                    currentState.lowercase().contains(state.statebn.lowercase())
+        }
+
+        filteredStates?.let {
+            currentState = it.state
+            selectedState = it
+        }
 
         if(!firstload)
         {
@@ -192,12 +228,14 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             {
                 is CommonResource.API_CALL_FAILED -> baseNoInternetState()
                 is CommonResource.EMPTY -> baseEmptyState()
-                is RamadanResource.ramadanTime -> {
+                /*is RamadanResource.ramadanTime -> {
                     lifecycleScope.launch {
                         viewmodel.clear()
                     }
                     viewState(it.data)
-                }
+                }*/
+                is RamadanResource.RamadanPatch -> it.data?.let { it1 -> viewState(it1,it.patch) }?:baseNoInternetState()
+
             }
 
         }
@@ -231,7 +269,7 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
     {
         baseLoadingState()
         lifecycleScope.launch {
-            viewmodel.getOtherRamadanTime(state,getLanguage())
+            viewmodel.getOtherRamadanTime(currentState,getLanguage())
         }
     }
 
@@ -239,11 +277,16 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
         loadApi()
     }
 
-    private fun viewState(data: Data)
+    private fun viewState(
+        data: Data,
+        patch: List<com.deenislamic.sdk.service.network.response.dashboard.Data>?
+    )
     {
+        listview.scrollToPosition(0)
+        patchDataList = patch
         fastingCardData = data.FastTracker
         listview.apply {
-            otherRamadanPatchAdapter = OtherRamadanPatchAdapter(data,stateArray,selectedState)
+            otherRamadanPatchAdapter = OtherRamadanPatchAdapter(data,stateArray,selectedState,patch)
             adapter = otherRamadanPatchAdapter
         }
         baseViewState()
@@ -276,10 +319,13 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
 
     override fun stateSelected(stateModel: StateModel) {
         otherRamadanPatchAdapter.updateDropdownSelectedState(stateModel)
-        state = stateModel.state
+        currentState = stateModel.state
         selectedState = stateModel
+        AppPreference.savePrayerTimeLoc(stateModel.state)
+        lifecycleScope.launch {
+            prayerViewModel.updateSelectedState(stateModel)
+        }
         loadApi()
-
     }
 
     override fun onDestroyView() {
@@ -332,6 +378,119 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             i.putExtra(AlarmClock.EXTRA_MINUTES, min)
             requireContext().startActivity(i)
         }
+    }
+
+
+    override fun patchClicked(data: Item) {
+
+        when(data.ContentType){
+
+            "du" ->{
+                val bundle = Bundle().apply {
+                    putInt("category", data.CategoryId)
+                    putString("catName", data.ArabicText)
+                }
+                gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
+            }
+
+            "ib" ->{
+
+                val bundle = Bundle()
+                bundle.putInt("id", data.CategoryId)
+                bundle.putString("videoType", "category")
+                bundle.putString("title", data.ArabicText)
+                gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
+            }
+
+            /*"ibook" ->{
+
+                val bundle = Bundle()
+                bundle.putInt("id", data.CategoryId)
+                bundle.putString("bookType", "category")
+                bundle.putString("title", data.ArabicText)
+                gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
+
+            }*/
+
+            "khq" ->{
+                gotoFrag(R.id.action_global_khatamEquranHomeFragment)
+            }
+
+            "hd" ->{
+                val bundle = Bundle().apply {
+                    putInt("chapterId", data.SubCategoryId)
+                    putInt("bookId", data.CategoryId)
+                    putString("title", data.ArabicText)
+                }
+                gotoFrag(R.id.action_global_hadithPreviewFragment,data = bundle)
+            }
+
+            "fnm" -> gotoFrag(R.id.action_global_islamiFazaelFragment)
+            "imas" -> gotoFrag(R.id.action_global_islamiMasailFragment)
+
+            "ri" -> {
+                val bundle = Bundle()
+                bundle.putInt("categoryID", if(getLanguage() == "bn") 12 else  11)
+                bundle.putString("pageTitle",data.ArabicText)
+                bundle.putString("pageTag", MENU_ISLAMIC_EVENT)
+                bundle.putBoolean("shareable",true)
+
+                gotoFrag(R.id.action_global_subCatCardListFragment,bundle)
+            }
+        }
+    }
+
+    override fun patchItemClicked(getData: Item) {
+
+        when(getData.ContentType){
+
+            "ib" -> {
+                val bundle = Bundle()
+                bundle.putInt("id", getData.CategoryId)
+                bundle.putString("videoType", "category")
+                bundle.putString("pageTitle",getData.ArabicText)
+                gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
+            }
+
+            /*"ibook" -> {
+
+                lifecycleScope.launch {
+                    islamicBookViewmodel.getDigitalQuranSecureUrl(getData.imageurl2, false, getData.CategoryId, getData.ArabicText)
+                }
+            }*/
+
+            "khq" -> {
+
+
+                patchDataList?.let {
+
+                    var dataIndex = -1
+                    var itemIndex = 0
+
+                    patchDataList?.forEachIndexed { index, data ->
+                        data.Items.forEachIndexed { innerIndex, item ->
+                            // Replace with the condition to check if the items match
+                            if (item.Id == getData.Id) {
+                                dataIndex = index
+                                itemIndex = innerIndex
+                                return@forEachIndexed
+                            }
+                        }
+                    }
+
+                    if(dataIndex !=-1) {
+                        val bundle = Bundle()
+                        bundle.putInt("khatamQuranvideoPosition", itemIndex)
+                        bundle.putParcelableArray("khatamQuranvideoList", it[dataIndex].Items.map { it1-> transformDashboardItemForKhatamQuran(it1) }.toTypedArray())
+                        gotoFrag(R.id.action_global_khatamEQuranVideoFragment, bundle)
+                    }
+
+                }
+
+            }
+
+        }
+
     }
 
 }

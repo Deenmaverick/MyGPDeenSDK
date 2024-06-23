@@ -30,6 +30,7 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
             android:id="@+id/ramadanTimeSub"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -71,7 +71,7 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     ): View? {
         val mainView = localInflater.inflate(R.layout.fragment_prayer_calendar,container,false)
         webview = mainView.findViewById(R.id.webview)
-        setupActionForOtherFragment(0,0,this@PrayerCalendarFragment,localContext.getString(R.string.prayer_calendar),true,mainView)
+        setupActionForOtherFragment(0,R.drawable.ic_share,this@PrayerCalendarFragment,localContext.getString(R.string.prayer_calendar),true,mainView)
         setupCommonLayout(mainView)
         return mainView
     }

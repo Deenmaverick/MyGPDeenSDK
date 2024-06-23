@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DailyDuaResource
 import com.deenislamic.sdk.service.network.ApiResource
-import com.deenislamic.sdk.service.network.response.dailydua.alldua.AllDuaResponse
 import com.deenislamic.sdk.service.network.response.dailydua.duabycategory.DuaByCategory
 import com.deenislamic.sdk.service.network.response.dailydua.favdua.FavDua
 import com.deenislamic.sdk.service.network.response.dailydua.todaydua.TodayDua
+import com.deenislamic.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislamic.sdk.service.repository.DailyDuaRepository
 import kotlinx.coroutines.launch
 
@@ -36,11 +36,11 @@ internal class DailyDuaViewModel(
     fun getDuaAllCategory(language:String)
     {
         viewModelScope.launch {
-            processDualAllCategory(repository.getAllDuaCategory(language) as ApiResource<AllDuaResponse>)
+            processDualAllCategory(repository.getAllDuaPatch(language) as ApiResource<DashboardResponse>)
         }
     }
 
-    private fun processDualAllCategory(response: ApiResource<AllDuaResponse>)
+    private fun processDualAllCategory(response: ApiResource<DashboardResponse>)
     {
         when(response)
         {
