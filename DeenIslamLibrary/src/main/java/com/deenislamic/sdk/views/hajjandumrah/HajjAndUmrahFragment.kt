@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.views.hajjandumrah
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.HAJJ_GUIDE
 import com.deenislamic.sdk.utils.HAJJ_SUB_CAT
 import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.shareImage
 import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.HajjAndUmrahViewModel
@@ -273,5 +275,9 @@ internal class HajjAndUmrahFragment : BaseRegularFragment(), MenuCallback,
             }
         }
         tryCatch { super.onBackPress() }
+    }
+
+    override fun shareImage(bitmap: Bitmap) {
+        context?.shareImage(bitmap)
     }
 }

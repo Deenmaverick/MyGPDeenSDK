@@ -29,6 +29,7 @@ internal class IslamicEventHomeFragment : BaseRegularFragment(), IslamicEventCal
     private lateinit var viewmodel: IslamicEventViewModel
     private lateinit var listIslamicEvents: RecyclerView
     private var firstload = false
+    private lateinit var islamiceventhomeadapter:IslamicEventsHomeAdapter
 
     override fun OnCreate() {
         super.OnCreate()
@@ -149,7 +150,9 @@ internal class IslamicEventHomeFragment : BaseRegularFragment(), IslamicEventCal
 
         baseViewState()
         listIslamicEvents.apply {
-            adapter = IslamicEventsHomeAdapter(data)
+            if(!this@IslamicEventHomeFragment::islamiceventhomeadapter.isInitialized)
+                islamiceventhomeadapter = IslamicEventsHomeAdapter(data)
+            adapter = islamiceventhomeadapter
         }
     }
 
@@ -158,10 +161,8 @@ internal class IslamicEventHomeFragment : BaseRegularFragment(), IslamicEventCal
         val bundle = Bundle()
         bundle.putInt("categoryID", item.id)
         bundle.putString("pageTitle",item.category)
-        bundle.putString("pageTag", MENU_ISLAMIC_EVENT)
-        bundle.putBoolean("shareable",true)
-
-        gotoFrag(R.id.action_global_subCatCardListFragment,bundle)
+        bundle.putString("pageTag",MENU_ISLAMIC_EVENT)
+        gotoFrag(R.id.action_global_subContentFragment,bundle)
     }
 
 

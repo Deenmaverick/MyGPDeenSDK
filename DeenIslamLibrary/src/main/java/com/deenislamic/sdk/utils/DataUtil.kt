@@ -3,6 +3,9 @@ package com.deenislamic.sdk.utils
 import android.content.Context
 import android.content.Intent
 import android.content.res.AssetManager
+import android.graphics.Bitmap
+import android.net.Uri
+import androidx.core.content.FileProvider
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.models.quran.quranplayer.FontList
@@ -15,6 +18,7 @@ import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.TafsirLis
 import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Translator
 import com.deenislamic.sdk.service.network.response.quran.qurangm.surahlist.Data
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
@@ -320,5 +324,49 @@ fun Context.shareLargeTextInChunks(textContent: String) {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         startActivity(Intent.createChooser(shareIntent, "Share via"))
+    }
+}
+
+fun Context.shareImage(shareImg: Bitmap, content: String?=null){
+    try {
+
+        val uniqueID = generateUniqueNumber()
+        // Save the bitmap to the cache directory
+        val cachePath = File(this.cacheDir, "images")
+        cachePath.mkdirs() // Create the directory if it doesn't exist
+        val stream = FileOutputStream("$cachePath/$uniqueID.png")
+        shareImg.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        stream.close()
+
+        // Get the URI for the saved image
+
+        val imagePath = File(this.cacheDir, "images")
+        val newFile = File(imagePath, "$uniqueID.png")
+        val contentUri: Uri =
+            FileProvider.getUriForFile(
+                this,
+                "com.deenislamic.sdk.fileprovider",
+                newFile
+            )
+
+
+        val textShareContent = if(content.isNullOrEmpty())
+            "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
+        else
+            content
+
+
+        // Share the image with text
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        shareIntent.type = "image/*"  // Set the MIME type of the content
+        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+        shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
+        // Launch the intent
+        startActivity(Intent.createChooser(shareIntent, "Choose an app"))
+
+    } catch (e: IOException) {
+        this.toast(this.getLocalContext().getString(R.string.unable_to_share_try_again))
     }
 }

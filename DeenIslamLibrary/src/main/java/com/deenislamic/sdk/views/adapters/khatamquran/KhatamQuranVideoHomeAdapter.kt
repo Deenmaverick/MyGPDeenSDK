@@ -109,6 +109,8 @@ internal class KhatamQuranVideoHomeAdapter(
                         }
 
                         EDUCATIONAL_VIDEO_KHATAM_QURAN -> {
+                            (itemView.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 12.dp
+
                             val getData = khatamQuranVideos[if(recentlyWatchedVideos.isNotEmpty()) absoluteAdapterPosition-1 else absoluteAdapterPosition]
                             KhatamQuranVideoList(
                                 itemView = itemView,

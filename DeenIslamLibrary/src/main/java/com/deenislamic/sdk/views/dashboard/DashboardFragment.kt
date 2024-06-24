@@ -2,6 +2,7 @@ package com.deenislamic.sdk.views.dashboard
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -1315,6 +1316,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     override fun globalMiniPlayerClosed(){
         binding.dashboardMain.setPadding(binding.dashboardMain.paddingStart,binding.dashboardMain.paddingTop,binding.dashboardMain.paddingRight,16.dp)
+    }
+
+    override fun shareImage(bitmap: Bitmap) {
+
+        context?.shareImage(bitmap)
     }
 
 }

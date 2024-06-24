@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.callback.common.SubCntentCallback
 import com.deenislamic.sdk.service.database.AppPreference
 import com.deenislamic.sdk.service.network.response.common.subcatcardlist.Detail
 import com.deenislamic.sdk.utils.JustifiedTextView
@@ -21,7 +22,11 @@ import com.deenislamic.sdk.utils.spanApplyReference
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import org.jsoup.Jsoup
 
-internal class QurbaniContentAdapter(private val details: List<Detail>) : RecyclerView.Adapter<BaseViewHolder>() {
+internal class QurbaniContentAdapter(
+    private val details: List<Detail>,
+    private val callback: SubCntentCallback?,
+    private val parentPosition: Int
+) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private var contentSetting = AppPreference.getContentSetting()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
@@ -50,6 +55,10 @@ internal class QurbaniContentAdapter(private val details: List<Detail>) : Recycl
 
         override fun onBind(position: Int) {
             super.onBind(position)
+
+            itemView.setOnClickListener {
+                callback?.subItemClicked(parentPosition)
+            }
 
             val getdata = details[position]
 

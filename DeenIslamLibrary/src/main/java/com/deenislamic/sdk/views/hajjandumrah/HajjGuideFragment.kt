@@ -485,6 +485,9 @@ internal class HajjGuideFragment : BaseRegularFragment(), BasicCardListCallback 
 
     private fun updateMarkerView(markerIndexToUpdate:Int,isTrack:Boolean)
     {
+        if(!isAdded)
+            return
+
         Log.e("updateMarkerView", markerViews.size.toString())
         if (markerIndexToUpdate < markerViews.size) {
             val markerViewToUpdate = markerViews[markerIndexToUpdate]

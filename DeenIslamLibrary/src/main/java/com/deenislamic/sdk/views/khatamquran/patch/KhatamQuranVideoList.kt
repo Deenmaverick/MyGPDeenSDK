@@ -12,6 +12,7 @@ import com.deenislamic.sdk.service.callback.common.CommonCardCallback
 import com.deenislamic.sdk.service.network.response.common.CommonCardData
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.show
@@ -66,6 +67,9 @@ internal class KhatamQuranVideoList(
     }
 
     init {
+
+        if(absoluteAdapterPosition == 0)
+            itemView.setPadding(0,4.dp,0,0)
 
         // grid and listview style
         if (!isListView) {

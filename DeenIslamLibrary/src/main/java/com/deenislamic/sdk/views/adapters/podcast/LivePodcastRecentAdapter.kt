@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
@@ -49,6 +50,7 @@ internal class LivePodcastRecentAdapter(private val items: List<Item>,
         private val mainBtn:MaterialButton by lazy { itemView.findViewById(R.id.mainBtn) }
         private val icPlay:AppCompatImageView by lazy { itemView.findViewById(R.id.icPlay) }
         private val icLive:AppCompatImageView by lazy { itemView.findViewById(R.id.icLive) }
+        private val footer: ConstraintLayout by lazy { itemView.findViewById(R.id.footer) }
 
         override fun onBind(position: Int) {
             super.onBind(position)
@@ -74,6 +76,12 @@ internal class LivePodcastRecentAdapter(private val items: List<Item>,
             textContent.maxLines = 1
             textContent.ellipsize = TextUtils.TruncateAt.END
 
+
+            if(getData.itemTitle?.isEmpty() == true) {
+                textContent.hide()
+                footer.hide()
+            }
+
             if(getData.itemSubTitle.toString().isEmpty())
                 subContent.hide()
 
@@ -86,13 +94,13 @@ internal class LivePodcastRecentAdapter(private val items: List<Item>,
                 mainBtn.hide()
 
             if(!mainBtn.isVisible && subContent.isVisible)
-                subContent.setPadding(0,0,0,16.dp)
+                subContent.setPadding(0,2.dp,0,10.dp)
 
             else if(!subContent.isVisible && !mainBtn.isVisible && midContent.isVisible)
-                midContent.setPadding(0,0,0,16.dp)
+                midContent.setPadding(0,2.dp,0,10.dp)
 
             else if(!subContent.isVisible && !mainBtn.isVisible && !midContent.isVisible && textContent.isVisible)
-                textContent.setPadding(0,0,0,16.dp)
+                textContent.setPadding(0,2.dp,0,10.dp)
 
             itemView.setOnClickListener {
                 callback = CallBackProvider.get<HorizontalCardListCallback>()

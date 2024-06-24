@@ -30,6 +30,7 @@ import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.libs.photoview.PhotoView
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.shareImage
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.utils.visible
@@ -116,7 +117,7 @@ internal class ImageViewPopupDialog : DialogFragment() {
         val view: View = inflater.inflate(R.layout.item_custom_imageview_dialog, container, false)
 
         setupActionForOtherFragment(
-            action1 = 0,
+            action1 = R.drawable.ic_share,
             action2 = 0,
             //action3 = R.drawable.baseline_close_24,
             actionIconColor = R.color.deen_white,
@@ -256,7 +257,7 @@ internal class ImageViewPopupDialog : DialogFragment() {
         }
 
         if(action1>0) {
-           /* action1Btn.setImageDrawable(AppCompatResources.getDrawable(view.context, action1))
+            action1Btn.setImageDrawable(AppCompatResources.getDrawable(view.context, action1))
             action1Btn.visible(true)
             action1Btn.setOnClickListener {
 
@@ -273,7 +274,7 @@ internal class ImageViewPopupDialog : DialogFragment() {
                     }
                 }
 
-            }*/
+            }
         }
         else
             action1Btn.visible(false)

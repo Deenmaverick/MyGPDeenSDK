@@ -99,8 +99,7 @@
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_10"
                 android:layout_marginEnd="@dimen/space_16"
-                android:paddingBottom="@dimen/space_4"
-                android:text="Text Content"
+                tools:text="Text Content"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/deen_txt_black_deep" />
@@ -113,8 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginEnd="@dimen/space_16"
-                android:paddingBottom="@dimen/space_4"
-                android:text="Mid Content"
+                tools:text="Mid Content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/deen_txt_black_deep" />
 
@@ -125,8 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginEnd="@dimen/space_16"
-                android:paddingBottom="@dimen/space_4"
-                android:text="Sub Content"
+                android:paddingTop="2dp"
+                tools:text="Sub Content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/deen_txt_ash" />
 
@@ -135,6 +133,7 @@
                 android:id="@+id/progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_4"
                 android:paddingBottom="@dimen/space_4"
                 android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginStart="@dimen/space_16"
@@ -157,8 +156,10 @@
                 android:background="@android:color/transparent"
                 android:clickable="false"
                 android:paddingStart="@dimen/space_16"
+                android:paddingTop="0dp"
+                android:paddingBottom="10dp"
                 android:paddingEnd="0dp"
-                android:layout_gravity="start"
+                android:minHeight="0dp"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/deen_primary"

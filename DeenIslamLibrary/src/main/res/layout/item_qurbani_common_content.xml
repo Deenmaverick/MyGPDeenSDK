@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/space_8"
@@ -17,14 +18,14 @@
         android:padding="@dimen/space_12">
 
 
-    <com.deenislamic.sdk.utils.JustifiedTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/space_12"
         android:textColor="@color/deen_txt_black_deep"
         android:textStyle="bold"
-        android:justificationMode="inter_word"
+        android:clickable="false"
         tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +48,7 @@
         android:paddingTop="@dimen/space_8"
         android:textColor="@color/deen_gray_secondary"
         android:maxLines="1"
+        android:clickable="false"
         android:ellipsize="end"
         tools:text="পরিচ্ছেদঃ ২২০৫. কুরবানীর বিধান। ইবন উমর (রাঃ) বলেছেনঃ কুরবানী সুন্নাত এবং স্বীকৃত প্রথা"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
@@ -69,7 +71,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/seeBtn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:icon="@drawable/ic_dropdown"
         app:iconTint="@color/deen_primary"
@@ -77,14 +79,14 @@
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:paddingTop="@dimen/space_8"
-        android:paddingBottom="@dimen/space_8"
+        android:paddingBottom="0dp"
         android:text="@string/see_more"
+        android:clickable="false"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/deen_primary"
         android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentList"
         />
 

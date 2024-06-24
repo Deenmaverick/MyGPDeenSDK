@@ -106,7 +106,7 @@ internal class QurbaniContentFragment : BaseRegularFragment() {
                 }else{
 
                     if(!this::qurbaniContentAdapter.isInitialized)
-                        qurbaniContentAdapter = QurbaniContentAdapter(data.details)
+                        qurbaniContentAdapter = QurbaniContentAdapter(data.details,null,0)
 
                     hadithList.apply {
                         adapter = qurbaniContentAdapter

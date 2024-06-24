@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.islamicevent.IslamicEventCallback
 import com.deenislamic.sdk.service.network.response.islamicevent.IslamicEventListResponse.Data
+import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.imageLoad
+import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.views.base.BaseViewHolder
 
 internal class IslamicEventsHomeAdapter(private val eventList: List<Data>) :
@@ -36,8 +39,8 @@ internal class IslamicEventsHomeAdapter(private val eventList: List<Data>) :
             super.onBind(position, viewtype)
 
             menuName.text = eventList.get(absoluteAdapterPosition).category
-            //ivEvent.imageLoad(BASE_CONTENT_URL_SGP + eventList.get(absoluteAdapterPosition).imageurl)
-
+            ivEvent.imageLoad(BASE_CONTENT_URL_SGP + eventList.get(absoluteAdapterPosition).imageurl)
+            ivEvent.show()
             itemView.setOnClickListener {
                 callback?.eventCatItemClick(eventList[absoluteAdapterPosition])
             }

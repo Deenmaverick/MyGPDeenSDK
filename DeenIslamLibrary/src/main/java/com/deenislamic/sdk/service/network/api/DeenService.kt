@@ -174,7 +174,7 @@ internal interface DeenService {
     @POST("Islamic/getIslamicEvents")
     suspend fun getIslamicEvents(@Body parm: RequestBody): IslamicEventListResponse
 
-    @POST("Islamic/getIslamicEventsbyCategory")
+    @POST("Islamic/getIslamicEventsbyCategoryNew")
     suspend fun getIslamicEventSubCat(@Body parm: RequestBody): SubCatResponse
 
     // Hajj And Umrah

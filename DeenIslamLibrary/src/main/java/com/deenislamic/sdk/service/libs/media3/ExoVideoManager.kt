@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.service.libs.media3;
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.common.CommonCardData
 import com.deenislamic.sdk.service.network.response.common.toMediaItems
@@ -25,6 +27,7 @@ import com.deenislamic.sdk.utils.enterFullScreen
 import com.deenislamic.sdk.utils.exitFullScreen
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.releaseWakeLock
+import com.deenislamic.sdk.utils.rootControlHideWithAnim
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.topControlHideWithAnim
 import com.deenislamic.sdk.utils.topControlShowWithAnim
@@ -91,6 +94,7 @@ internal class ExoVideoManager(
     private val exo_position: AppCompatTextView = mainview.findViewById(R.id.exo_position)
     private val exo_progress: CustomTimeBar = mainview.findViewById(R.id.custom_exo_progress)
 
+    private val controllerRoot:ConstraintLayout? = mainview.findViewById(R.id.controllerRoot)
     private val vPlayerTopLayer: ConstraintLayout = mainview.findViewById(R.id.vPlayerTopLayer)
     private val vPlayerBottomLayer: ConstraintLayout = mainview.findViewById(R.id.vPlayerBottomLayer)
     private val vPlayerCenterLayer: ConstraintLayout? = mainview.findViewById(R.id.vPlayerCenterLayer)
@@ -416,6 +420,7 @@ internal class ExoVideoManager(
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupCustomControlBehavior() {
 
 
@@ -453,6 +458,7 @@ internal class ExoVideoManager(
                 false
             } else {
                 videoPlayerControlShow()
+                controllerRoot?.setBackgroundColor(ContextCompat.getColor(playerView.context, R.color.deen_video_player_overlay))
                 playerView.showController()
                 true
             }
@@ -487,6 +493,9 @@ internal class ExoVideoManager(
 
         vPlayerCenterLayer?.let {
             topControlHideWithAnim(it)
+        }
+        controllerRoot?.let {
+            rootControlHideWithAnim(it)
         }
 
         bottomControlHideWithAnim(vPlayerBottomLayer)

@@ -44,4 +44,5 @@
     <color name="deen_accent">#b117dc</color>
     <color name="deen_dark_bg_60">#991F1F1F</color>
     <color name="deen_black_33">#54000000</color>
+    <color name="deen_video_player_overlay">#66000000</color>
 </resources>

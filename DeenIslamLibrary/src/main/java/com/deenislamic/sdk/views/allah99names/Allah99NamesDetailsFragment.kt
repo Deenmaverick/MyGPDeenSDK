@@ -80,7 +80,7 @@ internal class Allah99NamesDetailsFragment : BaseRegularFragment(), Allah99NameC
 
         this.container = mainView.findViewById(R.id.container)
         setupActionForOtherFragment(
-            action1 = 0,
+            action1 = R.drawable.ic_share,
             action2 = 0,
             callback = this@Allah99NamesDetailsFragment,
             actionnBartitle = localContext.getString(R.string.allah_99_name),

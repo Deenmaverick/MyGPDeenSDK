@@ -11,12 +11,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.QurbaniCallback
+import com.deenislamic.sdk.service.callback.common.SubCntentCallback
 import com.deenislamic.sdk.service.database.AppPreference
 import com.deenislamic.sdk.service.network.response.common.subcatcardlist.Data
 import com.deenislamic.sdk.utils.*
 import com.deenislamic.sdk.utils.qurbani.getBanglaSize
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
 
 internal class QurbaniCommonContentAdapter(private val details: List<Data>) : RecyclerView.Adapter<BaseViewHolder>() {
@@ -41,12 +43,13 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView), SubCntentCallback {
         private val title: AppCompatTextView = itemView.findViewById(R.id.title)
         private val subText: AppCompatTextView = itemView.findViewById(R.id.subText)
         private val seeBtn:MaterialButton = itemView.findViewById(R.id.seeBtn)
         private val contentList:RecyclerView = itemView.findViewById(R.id.contentList)
         private val dotMenu:AppCompatImageView = itemView.findViewById(R.id.dotMenu)
+        private val container: MaterialCardView = itemView.findViewById(R.id.container)
 
         override fun onBind(position: Int) {
             super.onBind(position)
@@ -55,7 +58,7 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
 
             val getsubtext = getdata.details?.firstOrNull()
             val subtext = if(getsubtext?.Text?.isNotEmpty() == true) getsubtext.Text else getsubtext?.Pronunciation
-            Log.e("QurbaniOtherContent",Gson().toJson(subtext))
+
             title.text = getdata.Title
             subText.text = subtext?.htmlFormat()
 
@@ -71,9 +74,8 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
                 )
             }
 
-
             contentList.apply {
-                adapter = getdata.details?.let { QurbaniContentAdapter(it) }
+                adapter = getdata.details?.let { QurbaniContentAdapter(it,this@ViewHolder,absoluteAdapterPosition) }
             }
 
             if (getdata.isExpanded) {
@@ -81,15 +83,18 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
                 seeBtn.icon = ContextCompat.getDrawable(seeBtn.context, R.drawable.deen_ic_dropdown_expand)
                 contentList.show()
                 subText.hide()
+                dotMenu.show()
             } else {
                 seeBtn.text = seeBtn.context.getString(R.string.details)
                 seeBtn.icon = ContextCompat.getDrawable(seeBtn.context, R.drawable.ic_dropdown)
                 contentList.hide()
                 subText.show()
+                dotMenu.hide()
             }
 
-            seeBtn.setOnClickListener {
+            itemView.setOnClickListener {
                 getdata.isExpanded = !getdata.isExpanded
+                container.cardElevation = 1f
                 notifyItemChanged(absoluteAdapterPosition)
                 callback?.qurbaniCommonContentClicked(absoluteAdapterPosition,getdata.isExpanded)
             }
@@ -105,6 +110,17 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
             dotMenu.setOnClickListener {
                 callback?.menu3dotClicked(getdata)
             }
+
+            container.cardElevation = 1f
+
+        }
+
+        override fun subItemClicked(parentPosition: Int) {
+            val getdata = details[parentPosition]
+            getdata.isExpanded = !getdata.isExpanded
+            container.cardElevation = 1f
+            notifyItemChanged(absoluteAdapterPosition)
+            callback?.qurbaniCommonContentClicked(absoluteAdapterPosition,getdata.isExpanded)
 
         }
     }

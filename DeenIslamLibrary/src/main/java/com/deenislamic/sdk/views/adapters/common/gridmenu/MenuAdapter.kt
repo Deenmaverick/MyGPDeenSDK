@@ -1,12 +1,17 @@
 package com.deenislamic.sdk.views.adapters.common.gridmenu
 
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.common.BasicCardListCallback
 import com.deenislamic.sdk.service.models.MenuModel
@@ -104,6 +109,8 @@ internal class MenuAdapter(
        private val menuCardview:MaterialCardView by lazy { itemView.findViewById(R.id.menuCarview) }
        private val menuIcon: AppCompatImageView by lazy { itemView.findViewById(R.id.menuIcon) }
        private val menuTitile:AppCompatTextView by lazy { itemView.findViewById(R.id.menuTitile) }
+       private val container: ConstraintLayout by lazy { itemView.findViewById(R.id.container) }
+
 
        override fun onBind(position: Int, viewtype: Int) {
            super.onBind(position,viewtype)
@@ -148,13 +155,14 @@ internal class MenuAdapter(
                    layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
                    menuCardview.layoutParams = layoutParams
 
-                   menuCardview.setPadding(16.dp,16.dp,16.dp,16.dp)
+                  /* menuCardview.setPadding(16.dp,16.dp,16.dp,16.dp)
 
                    (menuIcon.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 12.dp
                    (menuIcon.layoutParams as? ViewGroup.MarginLayoutParams)?.marginStart = 12.dp
                    (menuIcon.layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd = 12.dp
                    (menuIcon.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = 12.dp
-
+*/
+                   container.setPadding(12.dp,12.dp,12.dp,12.dp)
 
                    if(selectedMenuIndex == absoluteAdapterPosition) {
                        menuCardview.setCardBackgroundColor(
@@ -164,15 +172,15 @@ internal class MenuAdapter(
                            )
                        )
 
-
-                       menuIcon.setColorFilter(ContextCompat.getColor(menuIcon.context,R.color.deen_white))
+                       menuIcon.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(menuIcon.context,R.color.deen_white), PorterDuff.Mode.SRC_IN)
+                       //menuIcon.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(menuIcon.context,R.color.deen_white))
                    }
                    else
                    {
                        menuCardview.setCardBackgroundColor(ContextCompat.getColor(menuCardview.context,R.color.deen_txt_ash))
-
-                       menuIcon.setColorFilter(ContextCompat.getColor(menuIcon.context,R.color.deen_white_30))
+                       menuIcon.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(menuIcon.context,R.color.deen_white_30), PorterDuff.Mode.SRC_IN)  //menuIcon.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(menuIcon.context,R.color.deen_white_30))
                    }
+
 
                    menuIcon.imageLoad(BASE_CONTENT_URL_SGP+getMenu?.ImageUrl, placeholder_1_1 = true)
 

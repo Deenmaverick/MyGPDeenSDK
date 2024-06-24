@@ -6,6 +6,8 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
+import com.deenislamic.sdk.R
 
 fun topControlHideWithAnim(view: View)
 {
@@ -22,6 +24,27 @@ fun topControlHideWithAnim(view: View)
         .setDuration(300)
         .withEndAction {
             view.visibility = View.GONE
+        }
+        .start()
+
+
+}
+
+fun rootControlHideWithAnim(view: View)
+{
+    /*view.animate()
+        .translationY(-view.height.toFloat())  // Notice the negative sign
+        .setDuration(300)  // duration of the animation in milliseconds
+        .withEndAction {
+            view.visibility = View.GONE
+        }
+        .start()*/
+
+    view.animate()
+        //.alpha(0f)  // 0f means fully transparent, which is essentially a fade out effect
+        .setDuration(300)
+        .withEndAction {
+            view.background = null
         }
         .start()
 
