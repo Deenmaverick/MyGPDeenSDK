@@ -194,17 +194,27 @@
     <fragment
         android:id="@+id/islamicNameFragment"
         android:name="com.deenislamic.sdk.views.islamicname.IslamicNameFragment"
-        android:label="IslamicNameFragment" >
+        android:label="IslamicNameFragment">
         <action
             android:id="@+id/action_islamicNameFragment_to_islamicNameViewFragment"
             app:destination="@id/islamicNameViewFragment"
             app:popUpTo="@id/islamicNameFragment"
             app:popUpToInclusive="false" />
+        <argument
+            android:name="redirectPage"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="gender"
+            app:argType="string" />
+        <argument
+            android:name="pageTitle"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/islamicNameViewFragment"
         android:name="com.deenislamic.sdk.views.islamicname.IslamicNameViewFragment"
-        android:label="IslamicNameViewFragment" >
+        android:label="IslamicNameViewFragment">
         <argument
             android:name="gender"
             app:argType="string" />
@@ -1435,6 +1445,108 @@
     <action
         android:id="@+id/action_global_youtubeVideoFragment"
         app:destination="@id/youtubeVideoFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamicNameCategoriesFragment"
+        android:name="com.deenislamic.sdk.views.islamicname.IslamicNameCategoriesFragment"
+        android:label="IslamicNameCategoriesFragment">
+        <argument
+            android:name="gender"
+            app:argType="string" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_islamicNameCatwiseViewFragment"
+        app:destination="@id/islamicNameCatwiseViewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamicNameCatwiseViewFragment"
+        android:name="com.deenislamic.sdk.views.islamicname.IslamicNameCatwiseViewFragment"
+        android:label="IslamicNameCatwiseViewFragment">
+
+        <argument
+            android:name="Catid"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/islamicNameHomeFragment"
+        android:name="com.deenislamic.sdk.views.islamicname.IslamicNameHomeFragment"
+        android:label="IslamicNameFragment">
+        <action
+            android:id="@+id/action_islamicNameFragment_to_islamicNameFavFargment"
+            app:destination="@id/islamicNameFavFragment"
+            app:popUpTo="@id/islamicNameFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/islamicNameFavFragment"
+        android:name="com.deenislamic.sdk.views.islamicname.IslamicNameFavFragment"
+        android:label="IslamicNameFavFragment" />
+
+    <action
+        android:id="@+id/action_global_islamicNameHomeFragment"
+        app:destination="@id/islamicNameHomeFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/shareFragment"
+        android:name="com.deenislamic.sdk.views.share.ShareFragment"
+        android:label="ShareFragment" >
+        <argument
+            android:name="enText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="bnText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="arText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="customShareText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="footerText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="heading"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_shareFragment"
+        app:destination="@id/shareFragment"
         app:enterAnim="@anim/slide_enter"
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"

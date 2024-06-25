@@ -12,5 +12,6 @@ internal data class Data(
     val language: String,
     val meaning: String,
     val nameinarabic: String,
-    val pronunciation: String
+    val pronunciation: String,
+    val Alphabet: String
 )

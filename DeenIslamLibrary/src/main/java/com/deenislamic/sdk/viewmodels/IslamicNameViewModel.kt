@@ -22,6 +22,11 @@ internal class IslamicNameViewModel (
     private val _eidJamatLiveData:MutableLiveData<IslamicNameResource>  = MutableLiveData()
     val eidJamatLiveData:MutableLiveData<IslamicNameResource> get() = _eidJamatLiveData
 
+    private val _islamicNamesCatsLiveData:MutableLiveData<IslamicNameResource>  = MutableLiveData()
+    val islamicNamesCatsLiveData:MutableLiveData<IslamicNameResource> get() = _islamicNamesCatsLiveData
+
+    private val _islamicNamesHomeLiveData:MutableLiveData<IslamicNameResource>  = MutableLiveData()
+    val islamicNamesHomeLiveData:MutableLiveData<IslamicNameResource> get() = _islamicNamesHomeLiveData
 
 
     fun getFavNames(gender:String,language:String)
@@ -61,10 +66,10 @@ internal class IslamicNameViewModel (
         }
     }
 
-    fun getNames(gender:String,language:String)
+    fun getNames(gender:String,language:String,alphabet:String)
     {
         viewModelScope.launch {
-            when(val response = repository.getIslamicNames(gender, language))
+            when(val response = repository.getIslamicNames(gender, language, alphabet))
             {
                 is ApiResource.Failure -> _islamicNamesLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success ->
@@ -115,6 +120,57 @@ internal class IslamicNameViewModel (
                             IslamicNameResource.eidJamatList(response.value.data)
                     else
                         _eidJamatLiveData.value = CommonResource.EMPTY
+                }
+            }
+        }
+    }
+
+    fun getNamesCats(gender: String,language:String)
+    {
+        viewModelScope.launch {
+            when(val response = repository.getIslamicNameCats(gender,language))
+            {
+                is ApiResource.Failure -> _islamicNamesCatsLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.data?.isNotEmpty() == true)
+                        _islamicNamesCatsLiveData.value = IslamicNameResource.islamicNamesCategories(response.value.data)
+                    else
+                        _islamicNamesCatsLiveData.value = CommonResource.EMPTY
+                }
+            }
+        }
+    }
+
+    fun getNamesByCatId(id:Int)
+    {
+        viewModelScope.launch {
+            when(val response = repository.getIslamicNamesByCatId(id))
+            {
+                is ApiResource.Failure -> _islamicNamesLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Data?.isNotEmpty() == true)
+                        _islamicNamesLiveData.value = IslamicNameResource.islamicNames(response.value.Data)
+                    else
+                        _islamicNamesLiveData.value = CommonResource.EMPTY
+                }
+            }
+        }
+    }
+
+    fun getNamesHomePatch(language:String)
+    {
+        viewModelScope.launch {
+            when(val response = repository.getIslamicNamesPatch(language))
+            {
+                is ApiResource.Failure -> _islamicNamesHomeLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.data?.isNotEmpty() == true)
+                        _islamicNamesHomeLiveData.value = IslamicNameResource.islamicNamesPatch(response.value.data)
+                    else
+                        _islamicNamesHomeLiveData.value = CommonResource.EMPTY
                 }
             }
         }

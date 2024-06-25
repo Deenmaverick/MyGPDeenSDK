@@ -1053,7 +1053,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
                 bundle.putString("compassBG",compassBG)
                 gotoFrag(R.id.action_global_compassFragment,bundle)
             }
-            MENU_ISLAMIC_NAME -> gotoFrag(R.id.action_global_islamicNameFragment)
+            MENU_ISLAMIC_NAME -> gotoFrag(R.id.action_global_islamicNameHomeFragment)
             MENU_IJTEMA -> gotoFrag(R.id.action_global_ijtemaLiveFragment)
             MENU_ISLAMIC_EVENT -> gotoFrag(R.id.action_global_islamicEventHomeFragment)
             MENU_PRAYER_LEARNING -> gotoFrag(R.id.action_global_prayerLearningFragment)
@@ -1082,7 +1082,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             MENU_LIVE_PODCAST -> gotoFrag(R.id.action_global_livePodcastFragment)
             MENU_ISLAMIC_EDUCATION_VIDEO -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
             MENU_ISLAMIC_BOYAN -> gotoFrag(R.id.action_global_islamicBoyanHomeFragment)
-            MENU_EID_JAMAT -> gotoFrag(R.id.action_global_eidJamatHomeFragment)
+            MENU_EID_JAMAT -> {
+                val bundle = Bundle()
+                bundle.putString("pageTitle",localContext.getString(R.string.title_eid_jamat))
+                bundle.putString("query","eid+jamat")
+                gotoFrag(R.id.action_global_nearestMosqueWebviewFragment,bundle)
+                //gotoFrag(R.id.action_global_eidJamatHomeFragment)
+            }
             MENU_DUA_AMOL -> {
                 val bundle = Bundle()
                 bundle.putString("date",getMenu?.Meaning)
@@ -1101,7 +1107,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             "hd","hdd" -> gotoFrag(R.id.action_global_hadithFragment)
             "zk" -> gotoFrag(R.id.action_global_zakatFragment)
             "tb" -> gotoFrag(R.id.action_global_tasbeehFragment)
-            "in" -> gotoFrag(R.id.action_global_islamicNameFragment)
+            "in" -> gotoFrag(R.id.action_global_islamicNameHomeFragment)
             "cp" -> {
                 val bundle = Bundle()
                 bundle.putString("compassBG",compassBG)
@@ -1294,7 +1300,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
             }
 
-            "ej" -> gotoFrag(R.id.action_global_eidJamatHomeFragment)
+            "ej" -> {
+                val bundle = Bundle()
+                bundle.putString("pageTitle",localContext.getString(R.string.title_eid_jamat))
+                bundle.putString("query","eid+jamat")
+                gotoFrag(R.id.action_global_nearestMosqueWebviewFragment,bundle)
+                //gotoFrag(R.id.action_global_eidJamatHomeFragment)
+            }
             "ida" -> {
 
                 data?.let {

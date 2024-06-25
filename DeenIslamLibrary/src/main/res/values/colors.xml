@@ -45,4 +45,8 @@
     <color name="deen_dark_bg_60">#991F1F1F</color>
     <color name="deen_black_33">#54000000</color>
     <color name="deen_video_player_overlay">#66000000</color>
+    <color name="deen_light_blue">#CCE9FA</color>
+    <color name="deen_blue_card">#DBF0FC</color>
+    <color name="deen_pink_card">#FEEBF2</color>
+    <color name="deen_light_pink">#FDE3EC</color>
 </resources>

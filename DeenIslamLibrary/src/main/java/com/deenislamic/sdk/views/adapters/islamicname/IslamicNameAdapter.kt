@@ -47,13 +47,13 @@ internal class IslamicNameAdapter(
         private val nameArabic: AppCompatTextView = itemView.findViewById(R.id.nameArabic)
         private val meaning: AppCompatTextView = itemView.findViewById(R.id.meaning)
         private val rightBtn: AppCompatImageView = itemView.findViewById(R.id.rightBtn)
-
+        private val shareBtn:AppCompatImageView = itemView.findViewById(R.id.shareBtn)
 
         override fun onBind(position: Int) {
             super.onBind(position)
             val data = islamicNameData[position]
             name.text = data.Name
-            //nameArabic.text = data.nameinarabic
+            nameArabic.text = data.nameinarabic
             meaning.text = data.meaning
 
             if(data.IsFavorite)
@@ -61,8 +61,13 @@ internal class IslamicNameAdapter(
             else
                 rightBtn.setImageResource(R.drawable.ic_fav_quran)
 
+
             rightBtn.setOnClickListener {
                 callback.favClick(data,position)
+            }
+
+            shareBtn.setOnClickListener {
+                callback.shareName(data.Name,data.meaning,data.nameinarabic)
             }
         }
     }
@@ -70,4 +75,5 @@ internal class IslamicNameAdapter(
 internal interface IslamicNameAdapterCallback
 {
     fun favClick(data: Data, position: Int)
+    fun shareName(name:String, meaning:String, arText:String)
 }

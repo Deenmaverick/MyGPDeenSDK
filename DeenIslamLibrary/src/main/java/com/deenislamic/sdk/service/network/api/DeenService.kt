@@ -12,6 +12,7 @@ import com.deenislamic.sdk.service.network.response.dailydua.favdua.FavDua
 import com.deenislamic.sdk.service.network.response.dailydua.todaydua.TodayDua
 import com.deenislamic.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislamic.sdk.service.network.response.hajjandumrah.makkahlive.MakkahLiveVideoResponse
+import com.deenislamic.sdk.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
 import com.deenislamic.sdk.service.network.response.islamicevent.IslamicEventListResponse
 import com.deenislamic.sdk.service.network.response.islamifazael.IslamiFazaelResponse
 import com.deenislamic.sdk.service.network.response.islamifazael.bycat.FazaelByCatResponse
@@ -28,19 +29,20 @@ import com.deenislamic.sdk.service.network.response.prayerlearning.visualization
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
 import com.deenislamic.sdk.service.network.response.quran.SurahList
-import com.deenislamic.sdk.service.network.response.quran.surah_details.SurahDetails
-import com.deenislamic.sdk.service.network.response.ramadan.RamadanResponse
-import com.deenislamic.sdk.service.network.response.ramadan.calendar.RamadanCalendarResponse
-import com.deenislamic.sdk.service.network.response.zakat.SavedZakatResponse
-import com.deenislamic.sdk.service.network.response.zakat.nisab.NisabResponse
-import com.deenislamic.sdk.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
 import com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
 import com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.quiz.QuranCLassQuizQuestionResponse
 import com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.quiz.result.AnswerSubmitResponse
 import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.AyatResponse
 import com.deenislamic.sdk.service.network.response.quran.qurangm.paralist.ParaListResponse
 import com.deenislamic.sdk.service.network.response.quran.qurangm.surahlist.SurahListResponse
+import com.deenislamic.sdk.service.network.response.quran.surah_details.SurahDetails
 import com.deenislamic.sdk.service.network.response.quran.tafsir.TafsirResponse
+import com.deenislamic.sdk.service.network.response.ramadan.RamadanResponse
+import com.deenislamic.sdk.service.network.response.ramadan.calendar.RamadanCalendarResponse
+import com.deenislamic.sdk.service.network.response.share.WallpaperCat
+import com.deenislamic.sdk.service.network.response.share.WallpaperListResponse
+import com.deenislamic.sdk.service.network.response.zakat.SavedZakatResponse
+import com.deenislamic.sdk.service.network.response.zakat.nisab.NisabResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -418,6 +420,16 @@ internal interface DeenService {
 
     @POST("dua/GetduaPatch")
     suspend fun duaAllPatch(@Body parm: RequestBody): DashboardResponse
+
+    @POST("IslamicShare/getIslamicShareImageCategory")
+    suspend fun getWallpaperCat(
+        @Body parm: RequestBody
+    ): WallpaperCat
+
+    @POST("IslamicShare/getIslamicShareImageByCategory")
+    suspend fun getWallpaper(
+        @Body parm: RequestBody
+    ): WallpaperListResponse
 
 
 }

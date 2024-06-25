@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
@@ -24,9 +25,9 @@ import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.IslamicNameViewModel
-import com.deenislamic.sdk.views.base.BaseRegularFragment
-import com.deenislamic.sdk.views.adapters.islamicname.IslamicNameFavAdapterCallback
 import com.deenislamic.sdk.views.adapters.islamicname.IslamicNameFavAdapter
+import com.deenislamic.sdk.views.adapters.islamicname.IslamicNameFavAdapterCallback
+import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
@@ -34,15 +35,16 @@ import kotlinx.coroutines.launch
 internal class IslamicNameFavFragment(
     private val isHideActionBar:Boolean = false,
     private val checkFirstload: Boolean = false
-) : BaseRegularFragment(), CustomDialogCallback,
-    IslamicNameFavAdapterCallback {
+) : BaseRegularFragment(), CustomDialogCallback, IslamicNameFavAdapterCallback {
+
 
     private lateinit var listView: RecyclerView
     private lateinit var progressLayout: LinearLayout
     private lateinit var nodataLayout: NestedScrollView
     private lateinit var noInternetLayout: NestedScrollView
     private lateinit var noInternetRetry: MaterialButton
-    private var firstload = false
+    private lateinit var actionbar:ConstraintLayout
+
     private var customAlertDialog: CustomAlertDialog? =null
 
     private var favData: Data? =null
@@ -50,14 +52,11 @@ internal class IslamicNameFavFragment(
     private val islamicNameFavAdapter: IslamicNameFavAdapter by lazy { IslamicNameFavAdapter(this@IslamicNameFavFragment) }
 
     private lateinit var viewmodel: IslamicNameViewModel
+    private var firstload = false
 
     override fun OnCreate() {
         super.OnCreate()
-
-        //init viewmodel
-        val repository = IslamicNameRepository(
-            islamicNameService = NetworkProvider().getInstance().provideIslamicNameService()
-        )
+        val repository = IslamicNameRepository(NetworkProvider().getInstance().provideIslamicNameService())
         viewmodel = IslamicNameViewModel(repository)
     }
 
@@ -68,23 +67,35 @@ internal class IslamicNameFavFragment(
         // Inflate the layout for this fragment
         val mainView = localInflater.inflate(R.layout.fragment_islamic_name_fav,container,false)
         //init view
-
+        setupActionForOtherFragment(
+            action1 = 0,
+            action2 = 0,
+            callback = null,
+            actionnBartitle = localContext.getString(R.string.title_fav_names),
+            backEnable = true,
+            view = mainView
+        )
         listView = mainView.findViewById(R.id.listView)
+        actionbar = mainView.findViewById(R.id.actionbar)
         progressLayout = mainView.findViewById(R.id.progressLayout)
         nodataLayout = mainView.findViewById(R.id.nodataLayout)
         noInternetLayout = mainView.findViewById(R.id.no_internet_layout)
         noInternetRetry = noInternetLayout.findViewById(R.id.no_internet_retry)
 
         customAlertDialog = CustomAlertDialog().getInstance()
-        /*customAlertDialog?.setupDialog(
+        customAlertDialog?.setupDialog(
             callback = this@IslamicNameFavFragment,
             context = requireContext(),
             btn1Text = localContext.getString(R.string.cancel),
             btn2Text = localContext.getString(R.string.delete),
             titileText = localContext.getString(R.string.want_to_delete),
             subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
-        )*/
+        )
 
+        if(isHideActionBar)
+            actionbar.hide()
+
+        setupCommonLayout(mainView)
         return mainView
     }
 
@@ -96,41 +107,21 @@ internal class IslamicNameFavFragment(
         ViewCompat.setTranslationZ(noInternetLayout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)
 
-        initObserver()
-
-        loadingState()
-
         listView.apply {
 
                 adapter = islamicNameFavAdapter
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
         }
 
+        initObserver()
 
+        if(!checkFirstload)
+            loadApiData()
     }
-
-
-
-    private fun loadApiData()
-    {
-        lifecycleScope.launch {
-            viewmodel.getFavNames("male",getLanguage())
-        }
-    }
-
 
     override fun setMenuVisibility(menuVisible: Boolean) {
         super.setMenuVisibility(menuVisible)
-
-        if(menuVisible){
-            if(checkFirstload && !firstload) {
-                baseLoadingState()
-                loadApiData()
-            }else if(!checkFirstload)
-                loadApiData()
-
-            firstload = true
+        if(menuVisible) {
 
             customAlertDialog?.setupDialog(
                 callback = this@IslamicNameFavFragment,
@@ -141,6 +132,27 @@ internal class IslamicNameFavFragment(
                 subTitileText = localContext.getString(R.string.do_you_want_to_remove_this_favorite)
             )
 
+            if(checkFirstload && !firstload) {
+                loadingState()
+                loadApiData()
+            }
+
+            firstload = true
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        lifecycleScope.launch {
+            viewmodel.clear()
+        }
+    }
+
+    private fun loadApiData()
+    {
+        lifecycleScope.launch {
+            viewmodel.getFavNames("male",getLanguage())
         }
     }
 
@@ -160,7 +172,7 @@ internal class IslamicNameFavFragment(
                     btn2?.isClickable = true
                     LoadingButton().getInstance(requireContext()).removeLoader()
                     customAlertDialog?.dismissDialog()
-                    requireContext().toast(localContext.getString(R.string.failed_to_remove_favorite_item))
+                    context?.toast(localContext.getString(R.string.failed_to_remove_favorite_item))
                 }
                 is IslamicNameResource.favremoved ->
                 {
@@ -175,7 +187,7 @@ internal class IslamicNameFavFragment(
                         emptyState()
 
 
-                    requireContext().toast(localContext.getString(R.string.favorite_item_updated_successful))
+                    requireContext().toast(localContext.getString(R.string.favorite_list_updated_successful))
                 }
 
                 is CommonResource.CLEAR -> Unit
@@ -184,6 +196,7 @@ internal class IslamicNameFavFragment(
         }
 
     }
+
 
     private fun loadingState()
     {

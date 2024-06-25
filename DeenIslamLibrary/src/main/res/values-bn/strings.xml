@@ -491,4 +491,21 @@
     <string name="meaning_html"><![CDATA[<strong>অর্থ:</strong>]]></string>
     <string name="share">শেয়ার করুন</string>
     <string name="ramadan">রোজা</string>
+    <string name="title_fav_names">প্রিয় নাম সমূহ</string>
+    <string name="name_section">নাম বিভাগ</string>
+    <string name="select_an_image_to_share_text">এই লেখাটি শেয়ার করার জন্য ১টি ছবি নির্বাচন করুন</string>
+    <string name="share_text_only">শুধু লেখা শেয়ার করুন</string>
+    <string name="englishTxt">ইংরেজি</string>
+    <string name="arabictxt">আরবি</string>
+    <string name="font">ফন্ট</string>
+    <string name="text_align">লেখা সারিবদ্ধ</string>
+    <string name="left">বামদিকে</string>
+    <string name="center">মধ্যস্থান</string>
+    <string name="right">ডানদিকে</string>
+    <string name="style">স্টাইল</string>
+    <string name="font_color">ফন্টের রং</string>
+    <string name="text_shadow">টেক্সট ব্যাকগ্রাউন্ড</string>
+    <string name="background_blur">ব্যাকগ্রাউন্ড ব্লার</string>
+    <string name="text">টেক্সট</string>
+    <string name="background">ব্যাকগ্রাউন্ড</string>
 </resources>

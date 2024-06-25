@@ -370,3 +370,18 @@ fun Context.shareImage(shareImg: Bitmap, content: String?=null){
         this.toast(this.getLocalContext().getString(R.string.unable_to_share_try_again))
     }
 }
+
+fun Context.shareText(text: String) {
+    val shareIntent = Intent(Intent.ACTION_SEND)
+    shareIntent.type = "text/plain"
+    shareIntent.putExtra(Intent.EXTRA_TEXT, text)
+
+    // Choose a title for the chooser dialog
+    val chooserTitle = "Share via"
+    val chooser = Intent.createChooser(shareIntent, chooserTitle)
+
+    // Verify that the intent will resolve to an activity
+    if (shareIntent.resolveActivity(packageManager) != null) {
+        startActivity(chooser)
+    }
+}

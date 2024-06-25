@@ -939,3 +939,16 @@ fun AppCompatTextView.fixArabicComma() {
         text = spannableText
     }
 }
+
+fun Int.isDeepColor(): Boolean {
+    val red = Color.red(this)
+    val green = Color.green(this)
+    val blue = Color.blue(this)
+
+    val luminance = 0.299 * red + 0.587 * green + 0.114 * blue
+
+    // You can adjust the threshold based on your preference
+    val luminanceThreshold = 150.0
+
+    return luminance < luminanceThreshold
+}

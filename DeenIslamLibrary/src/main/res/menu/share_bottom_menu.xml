@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ShareTxtEdit"
+        android:enabled="true"
+        android:icon="@drawable/deen_ic_text"
+        android:iconTint="@color/deen_txt_ash"
+        android:title="@string/text"/>
+
+    <item
+        android:id="@+id/ShareTextStyle"
+        android:enabled="true"
+        android:icon="@drawable/deen_ic_text_style"
+        android:iconTint="@color/deen_txt_ash"
+        android:title="@string/style"/>
+
+    <item
+        android:id="@+id/ShareBtn"
+        android:enabled="true"
+        android:icon="@drawable/ic_share"
+        android:iconTint="@color/deen_txt_ash"
+        android:title="@string/share"/>
+</menu>

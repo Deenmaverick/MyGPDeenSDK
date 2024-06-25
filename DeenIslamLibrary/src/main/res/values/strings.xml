@@ -491,4 +491,21 @@
     <string name="meaning_html"><![CDATA[<strong>Meaning:</strong>]]></string>
     <string name="share">Share</string>
     <string name="ramadan">Ramadan</string>
+    <string name="title_fav_names">Favorite Names</string>
+    <string name="name_section">Name Category</string>
+    <string name="select_an_image_to_share_text">Select an image to share text</string>
+    <string name="share_text_only">Share Text Only</string>
+    <string name="englishTxt">English</string>
+    <string name="arabictxt">Arabic</string>
+    <string name="font">Font</string>
+    <string name="text_align">Text Align</string>
+    <string name="left">Left</string>
+    <string name="center">Center</string>
+    <string name="right">Right</string>
+    <string name="style">Style</string>
+    <string name="font_color">Font Color</string>
+    <string name="text_shadow">Text Shadow</string>
+    <string name="background_blur">Background Blur</string>
+    <string name="text">Text</string>
+    <string name="background">Background</string>
 </resources>

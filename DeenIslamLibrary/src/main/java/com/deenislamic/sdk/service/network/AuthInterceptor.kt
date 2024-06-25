@@ -27,7 +27,7 @@ internal class AuthInterceptor :Interceptor {
         request = request.newBuilder()
             .header("device", "blsdk_android")
             .header("version", "v1.0")
-            .header("client", "1.1")
+            .header("client", "1")
             .header("deviceid", "")
             .header("devicemodel", "")
             .header("Authorization", "Bearer ${

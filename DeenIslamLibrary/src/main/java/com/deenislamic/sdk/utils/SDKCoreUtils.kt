@@ -12,7 +12,7 @@ fun String.getRCDestination():Int =
         "zakat" -> R.id.zakatFragment
         "tasbeeh" -> R.id.tasbeehFragment
         "compass" -> R.id.compassFragment
-        "islamic_name" -> R.id.islamicNameFragment
+        "islamic_name" -> R.id.islamicNameHomeFragment
         "ramadan_regular" -> R.id.ramadanOtherDayFragment
         "asmaul_husna" -> R.id.allah99NamesFragment
         "prayer_learning" -> R.id.prayerLearningFragment

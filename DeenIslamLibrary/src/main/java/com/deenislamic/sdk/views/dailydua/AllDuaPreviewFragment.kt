@@ -37,6 +37,7 @@ import com.deenislamic.sdk.views.base.otherFagmentActionCallback
 import com.deenislamic.sdk.views.common.Common3DotMenu
 import com.deenislamic.sdk.views.common.CommonContentSetting
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 
 internal class AllDuaPreviewFragment : BaseRegularFragment(),
     DuaByCatCallback,
@@ -210,13 +211,13 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(),
     }
 
     override fun shareDua(enText: String, bnText: String, arText: String, dua: Data) {
-        /*val bundle = Bundle()
+        val bundle = Bundle()
         bundle.putString("enText", Jsoup.parse(enText).text())
         bundle.putString("bnText", Jsoup.parse(bnText).text())
         bundle.putString("arText", Jsoup.parse(arText).text())
         bundle.putString("title",dua.Title)
         bundle.putString("heading",dua.Title)
-        gotoFrag(R.id.action_global_shareFragment,bundle)*/
+        gotoFrag(R.id.action_global_shareFragment,bundle)
     }
 
     override fun contentClicked(absoluteAdapterPosition: Int, isExpanded: Boolean) {

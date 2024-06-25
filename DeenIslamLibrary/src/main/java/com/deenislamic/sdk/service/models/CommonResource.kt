@@ -16,7 +16,7 @@ internal interface CommonResource
         SubCatCardListResource, PrayerLearningResource, KhatamQuranVideoResource,
         QuranLearningResource, PaymentResource, RamadanResource, IslamiFazaelResource,
         IslamiMasailResource, SubscriptionResource, PodcastResource, HajjAndUmrahResource,
-        BoyanResource, QurbaniResource
+        BoyanResource, QurbaniResource, ShareResource
 
     object LOADING:CommonResource
     object EMPTY:CommonResource, PrayerCalendarResource, PrayerTimeResource,

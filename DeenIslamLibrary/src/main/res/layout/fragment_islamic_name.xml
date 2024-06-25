@@ -59,7 +59,7 @@
             android:layout_marginEnd="@dimen/space_16"
             android:layout_marginStart="@dimen/space_4"
             android:padding="0dp"
-            android:text="@string/favorite"
+            android:text="@string/name_section"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/deen_txt_ash"
             app:cornerRadius="18dp"

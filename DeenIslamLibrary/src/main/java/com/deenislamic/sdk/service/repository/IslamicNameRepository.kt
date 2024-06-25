@@ -32,11 +32,12 @@ internal class IslamicNameRepository (
         islamicNameService?.modifyFavName(parm = requestBody)
     }
 
-    suspend fun getIslamicNames(gender:String,language:String) = makeApicall {
+    suspend fun getIslamicNames(gender:String,language:String,alphabet:String) = makeApicall {
 
         val body = JSONObject()
         body.put("language", language)
         body.put("gender",gender)
+        body.put("alphabet",alphabet)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
         islamicNameService?.getIslamicNames(parm = requestBody)
@@ -61,6 +62,36 @@ internal class IslamicNameRepository (
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
         islamicNameService?.getEidJamatListByDivision(parm = requestBody)
+    }
+
+    suspend fun getIslamicNameCats(gender: String,language:String) = makeApicall {
+
+        val body = JSONObject()
+        body.put("gender", gender)
+        body.put("language", language)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        islamicNameService?.getIslamicNameCategories(parm = requestBody)
+    }
+
+    suspend fun getIslamicNamesByCatId(id:Int) = makeApicall {
+
+        val body = JSONObject()
+        body.put("Id",id)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        islamicNameService?.getIslamicNamesByCatId(parm = requestBody)
+
+    }
+
+    suspend fun getIslamicNamesPatch(language:String) = makeApicall {
+
+        val body = JSONObject()
+        body.put("language", language)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        islamicNameService?.getIslamicNamesPatch(parm = requestBody)
+
     }
 
 } 

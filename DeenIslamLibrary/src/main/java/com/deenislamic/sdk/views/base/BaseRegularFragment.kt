@@ -1,6 +1,7 @@
 package com.deenislamic.sdk.views.base
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
@@ -222,7 +223,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         (requireActivity() as MainActivityDeenSDK).setupOtherFragment(bol)
     }
 
-    fun setupActionForOtherFragment(
+   /* fun setupActionForOtherFragment(
         action1:Int,
         action2:Int,
         callback: otherFagmentActionCallback?=null,
@@ -286,11 +287,99 @@ internal abstract class BaseRegularFragment: Fragment() {
 
         actionCallback = callback
 
-      /*  if(findNavController().currentDestination?.id?.isBottomNavFragment == false)
+      *//*  if(findNavController().currentDestination?.id?.isBottomNavFragment == false)
             setupOtherFragment(true)
         else
-            setupOtherFragment(false)*/
+            setupOtherFragment(false)*//*
+    }*/
+
+
+    fun setupActionForOtherFragment(
+        action1:Int,
+        action2:Int,
+        callback: otherFagmentActionCallback?=null,
+        actionnBartitle:String,
+        backEnable:Boolean=true,
+        view: View,
+        isBackIcon:Boolean = false,
+        isDarkActionBar:Boolean = false,
+        actionIconColor:Int = 0,
+        action3:Int=0,
+    )
+    {
+
+        val action1Btn:AppCompatImageView = view.findViewById(R.id.action1)
+        val action2Btn:AppCompatImageView = view.findViewById(R.id.action2)
+        val action3Btn:AppCompatImageView? = view.findViewById(R.id.action3)
+        val btnBack:AppCompatImageView = view.findViewById(R.id.btnBack)
+        val title:AppCompatTextView = view.findViewById(R.id.title)
+
+        if(actionIconColor!=0)
+        {
+            action1Btn.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(view.context,actionIconColor))
+            action2Btn.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(view.context,actionIconColor))
+            action3Btn?.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(view.context,actionIconColor))
+
+        }
+
+        if(backEnable)
+        {
+            btnBack.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.ic_back))
+            btnBack.visible(true)
+            btnBack.setOnClickListener {
+                onBackPress()
+            }
+            title.text = actionnBartitle
+
+            if(isDarkActionBar)
+                title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_white))
+            else
+                title.setTextColor(ContextCompat.getColor(title.context,R.color.deen_txt_black_deep))
+
+        }
+        else
+        {
+            (title.layoutParams as ConstraintLayout.LayoutParams).apply {
+                leftMargin=16.dp
+            }
+            title.text = actionnBartitle
+            btnBack.visible(isBackIcon)
+        }
+
+        if(action1>0) {
+            action1Btn.setImageDrawable(AppCompatResources.getDrawable(view.context, action1))
+            action1Btn.visible(true)
+            action1Btn.setOnClickListener {
+                callback?.action1()
+            }
+        }
+        else
+            action1Btn.visible(false)
+
+        if(action2>0) {
+            action2Btn.setImageDrawable(AppCompatResources.getDrawable(view.context, action2))
+            action2Btn.visible(true)
+            action2Btn.setOnClickListener {
+                callback?.action2()
+            }
+        }
+        else
+            action2Btn.visible(false)
+
+        if(action3>0) {
+            action3Btn?.setImageDrawable(AppCompatResources.getDrawable(view.context, action3))
+            action3Btn?.show()
+            action3Btn?.setOnClickListener {
+                callback?.action3()
+            }
+        }
+        else
+            action3Btn?.hide()
+
+        actionCallback = callback
+
     }
+
 
     fun setupGlobalMiniPlayerForHome(height: Int) {
 
