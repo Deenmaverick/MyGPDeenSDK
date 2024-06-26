@@ -19,5 +19,9 @@ internal data class Data(
     val Text: String,
     val TextInArabic: String,
     val Title: String,
-    val contentBaseUrl: String
+    val contentBaseUrl: String,
+    val Source:String,
+    val Transliteration:String,
+    val Benefit:String,
+    var isExpanded:Boolean = false
 )

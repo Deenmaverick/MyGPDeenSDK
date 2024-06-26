@@ -62,6 +62,8 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
+            android:paddingTop="2dp"
+            android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
             android:scrollbars="none"
             tools:listitem="@layout/item_qurbani_content"

@@ -14,6 +14,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
@@ -24,11 +25,13 @@ import com.deenislamic.sdk.utils.CaptureScreen
 import com.deenislamic.sdk.utils.MilliSecondToStringTime
 import com.deenislamic.sdk.utils.StringTimeToMillisecond
 import com.deenislamic.sdk.utils.bangladeshStateArray
+import com.deenislamic.sdk.utils.get9DigitRandom
 import com.deenislamic.sdk.utils.loadHtmlFromAssets
 import com.deenislamic.sdk.utils.monthNameLocale
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.timeLocale
 import com.deenislamic.sdk.utils.toast
+import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.PrayerCalendarViewModel
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.base.otherFagmentActionCallback
@@ -52,7 +55,7 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
     val format = SimpleDateFormat("dd MMMM", Locale.ENGLISH) // or you can add before dd/M/yyyy
 
     private val navArgs:PrayerCalendarFragmentArgs by navArgs()
-
+    private var firstload = false
 
     override fun OnCreate() {
         super.OnCreate()
@@ -78,6 +81,21 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        if(!firstload) {
+
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "prayer_calendar",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        firstload = true
 
         //init observer
         initObserver()
@@ -255,5 +273,22 @@ internal class PrayerCalendarFragment : BaseRegularFragment(),otherFagmentAction
 
             }
         }
+    }
+
+    override fun onBackPress() {
+
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "prayer_calendar",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
     }
 }

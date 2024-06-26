@@ -8,42 +8,61 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.callback.common.Common3DotMenuCallback
+import com.deenislamic.sdk.service.database.AppPreference
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.libs.alertdialog.CustomAlertDialog
 import com.deenislamic.sdk.service.libs.alertdialog.CustomDialogCallback
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DailyDuaResource
+import com.deenislamic.sdk.service.models.common.ContentSetting
+import com.deenislamic.sdk.service.models.common.ContentSettingResource
+import com.deenislamic.sdk.service.models.common.OptionList
+import com.deenislamic.sdk.service.models.quran.quranplayer.PlayerCommonSelectionData
 import com.deenislamic.sdk.service.network.response.dailydua.favdua.Data
 import com.deenislamic.sdk.service.repository.DailyDuaRepository
+import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.LoadingButton
+import com.deenislamic.sdk.utils.copyToClipboard
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.htmlFormat
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.DailyDuaViewModel
+import com.deenislamic.sdk.viewmodels.common.ContentSettingVMFactory
+import com.deenislamic.sdk.viewmodels.common.ContentSettingViewModel
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.adapters.dailydua.FavDuaAdapterCallback
 import com.deenislamic.sdk.views.adapters.dailydua.FavoriteDuaAdapter
+import com.deenislamic.sdk.views.adapters.quran.quranplayer.PlayerCommonSelectionList
+import com.deenislamic.sdk.views.common.Common3DotMenu
+import com.deenislamic.sdk.views.common.CommonContentSetting
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 
 internal class FavoriteDuaFragment(
     private val checkFirstload: Boolean = false
 ) : BaseRegularFragment(), FavDuaAdapterCallback,
-    CustomDialogCallback {
+    CustomDialogCallback,
+    Common3DotMenuCallback, PlayerCommonSelectionList.PlayerCommonSelectionListCallback{
 
     private lateinit var listView:RecyclerView
     private lateinit var progressLayout: LinearLayout
     private lateinit var nodataLayout: NestedScrollView
     private lateinit var noInternetLayout: NestedScrollView
     private lateinit var noInternetRetry: MaterialButton
+    private lateinit var contentSettingViewModel: ContentSettingViewModel
+    private lateinit var contentSetting: ContentSetting
 
     private var customAlertDialog: CustomAlertDialog? =null
 
@@ -62,6 +81,12 @@ internal class FavoriteDuaFragment(
         // init viewmodel
         val repository = DailyDuaRepository(deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = DailyDuaViewModel(repository)
+
+        val factory = ContentSettingVMFactory()
+        contentSettingViewModel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[ContentSettingViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -93,6 +118,9 @@ internal class FavoriteDuaFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        contentSetting = AppPreference.getContentSetting()
+        CommonContentSetting.setup(contentSettingViewModel,lifecycleScope)
+
         loadPage()
     }
 
@@ -149,6 +177,7 @@ internal class FavoriteDuaFragment(
         super.setMenuVisibility(menuVisible)
 
         if(menuVisible){
+            CallBackProvider.setFragment(this)
             if(checkFirstload && !firstload) {
                 baseLoadingState()
                 loadApiData()
@@ -214,6 +243,33 @@ internal class FavoriteDuaFragment(
                 }
             }
         }
+
+        contentSettingViewModel.contentSettingLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is ContentSettingResource.Update -> {
+
+                    if(this::favoriteDuaAdapter.isInitialized) {
+                        favoriteDuaAdapter.update()
+                        listView.post {
+                            updateAyatAdapterVisibleItems()
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    private fun updateAyatAdapterVisibleItems() {
+        val layoutManager = listView.layoutManager as LinearLayoutManager
+        val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+        val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+
+        for (position in firstVisiblePosition..lastVisiblePosition) {
+            // Check if you want to update this item
+            favoriteDuaAdapter.notifyItemChanged(position)
+        }
     }
 
     private fun loadingState()
@@ -271,6 +327,16 @@ internal class FavoriteDuaFragment(
         gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
     }
 
+    override fun dotMenuClicked(dua: Data) {
+
+        val optionList3Dot = arrayListOf(
+            OptionList("copy",R.drawable.ic_content_copy,localContext.getString(R.string.copy_content)),
+            OptionList("share",R.drawable.ic_share,localContext.getString(R.string.share))
+        )
+
+        context?.let { Common3DotMenu.showDialog(it,localInflater,dua.Title,optionList3Dot,dua) }
+    }
+
     override fun clickBtn1() {
         customAlertDialog?.dismissDialog()
     }
@@ -283,4 +349,67 @@ internal class FavoriteDuaFragment(
             viewmodel.setFavDua(isFavorite = true, duaId = duaID, language = getLanguage(),adapterPosition)
         }
     }
+
+    private fun shareDua(enText: String, bnText: String, arText: String, dua: Data) {
+        val bundle = Bundle()
+        bundle.putString("enText", Jsoup.parse(enText).text())
+        bundle.putString("bnText", Jsoup.parse(bnText).text())
+        bundle.putString("arText", Jsoup.parse(arText).text())
+        bundle.putString("title",dua.Title)
+        bundle.putString("heading",dua.Title)
+        gotoFrag(R.id.action_global_shareFragment,bundle)
+    }
+
+    override fun contentClicked(absoluteAdapterPosition: Int, isExpanded: Boolean) {
+        if(this::favoriteDuaAdapter.isInitialized && !isExpanded){
+            listView.smoothScrollToPosition(absoluteAdapterPosition)
+        }
+    }
+
+    override fun <T> Common3DotMenuOptionClicked(getdata: OptionList, data: T) {
+
+        when(data){
+
+            is Data -> {
+
+                when(getdata.type){
+
+                    "share" -> {
+
+                        if(getLanguage() == "en")
+                            shareDua(data.Transliteration,"",data.TextInArabic,data)
+                        else
+                            shareDua("",data.Transliteration,data.TextInArabic,data)
+
+                    }
+
+                    "copy" -> {
+
+                        val part1 = "${localContext.getString(R.string.pronunciation_html)}${data.Transliteration}".htmlFormat()
+                        val part2 = "${localContext.getString(R.string.meaning_html)}${data.Text}".htmlFormat()
+
+
+                        val content  = "${data.Title}\n${data.TextInArabic}\n$part1\n\n$part2\n\n${data.Source.htmlFormat()}"
+
+                        context?.apply {
+                            copyToClipboard("$content\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+                            toast("Content copied")
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+        Common3DotMenu.closeDialog()
+    }
+
+    override fun playerCommonListSelected(
+        data: PlayerCommonSelectionData,
+        adapter: PlayerCommonSelectionList
+    ) {
+        TODO("Not yet implemented")
+    }
+
 }

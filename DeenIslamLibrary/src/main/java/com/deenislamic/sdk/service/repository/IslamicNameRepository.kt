@@ -88,6 +88,7 @@ internal class IslamicNameRepository (
 
         val body = JSONObject()
         body.put("language", language)
+        body.put("device", "sdk")
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
 
         islamicNameService?.getIslamicNamesPatch(parm = requestBody)

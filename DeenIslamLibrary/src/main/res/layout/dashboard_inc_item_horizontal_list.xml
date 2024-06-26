@@ -15,7 +15,8 @@
         android:layout_marginStart="@dimen/space_16"
         android:src="@drawable/ic_menu_quran"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/titile"
+        app:layout_constraintBottom_toBottomOf="@+id/titile"/>
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -27,9 +28,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/deen_txt_black_deep"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/icon"
         app:layout_constraintStart_toEndOf="@+id/icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"  />
 
 
     <androidx.appcompat.widget.AppCompatTextView

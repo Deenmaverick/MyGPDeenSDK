@@ -81,7 +81,7 @@
                 android:id="@+id/arabicText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/space_8"
+                android:paddingTop="@dimen/space_10"
                 android:paddingBottom="0dp"
                 android:fontFamily="@font/al_majed_quranic_font_regular"
                 android:textColor="@color/deen_txt_black_deep"

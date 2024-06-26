@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.DashboardPatchCallback
 import com.deenislamic.sdk.service.network.response.dashboard.Data
+import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.ViewPagerHorizontalRecyler
+import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.views.adapters.dailydua.DailyDuaPatchAdapter
 
 internal class DailyDua(private val view: View, private val data: Data) {
@@ -33,6 +37,19 @@ internal class DailyDua(private val view: View, private val data: Data) {
 
         icon = view.findViewById(R.id.icon)
         titile = view.findViewById(R.id.titile)
+
+        if(data.Logo.toString().isEmpty()) {
+            icon?.hide()
+            titile?.setPadding(8.dp,0,0,0)
+        }
+        else {
+            icon?.let {
+
+                icon?.imageLoad(url = BASE_CONTENT_URL_SGP + data.Logo, placeholder_1_1 = true)
+
+
+            }
+        }
 
 
         icon?.let {

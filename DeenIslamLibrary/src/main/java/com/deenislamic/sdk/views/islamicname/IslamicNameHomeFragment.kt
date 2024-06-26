@@ -9,6 +9,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.islamicname.IslamicNameCallback
 import com.deenislamic.sdk.service.di.NetworkProvider
@@ -18,6 +19,8 @@ import com.deenislamic.sdk.service.network.response.islamicname.IslamicNameHomeR
 import com.deenislamic.sdk.service.repository.IslamicNameRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.IslamicNameViewModel
 import com.deenislamic.sdk.views.adapters.islamicname.IslamicNameHomeAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
@@ -40,6 +43,7 @@ internal class IslamicNameHomeFragment : BaseRegularFragment(), otherFagmentActi
 
     override fun OnCreate() {
         super.OnCreate()
+        setupBackPressCallback(this)
         val repository = IslamicNameRepository(NetworkProvider().getInstance().provideIslamicNameService())
         viewmodel = IslamicNameViewModel(repository)
     }
@@ -75,6 +79,20 @@ internal class IslamicNameHomeFragment : BaseRegularFragment(), otherFagmentActi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_name",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
         boyLayout.setOnClickListener {
             val bundle = Bundle().apply {
                 putString("gender", "male")
@@ -99,6 +117,21 @@ internal class IslamicNameHomeFragment : BaseRegularFragment(), otherFagmentActi
 
     }
 
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_name",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
+    }
 
     private fun initObserver() {
         viewmodel.islamicNamesHomeLiveData.observe(viewLifecycleOwner)

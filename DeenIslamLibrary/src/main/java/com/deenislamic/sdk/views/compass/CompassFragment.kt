@@ -78,15 +78,6 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         super.OnCreate()
         setupBackPressCallback(this,true)
 
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
-            duration = 300L
-        }
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
-            duration = 300L
-        }
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
-            duration = 300L
-        }
         mSensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 

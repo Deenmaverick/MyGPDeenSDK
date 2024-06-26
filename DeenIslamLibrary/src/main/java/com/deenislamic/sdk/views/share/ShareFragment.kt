@@ -461,9 +461,9 @@ internal class ShareFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
         txtCenterAlignBtn.iconTint = AppCompatResources.getColorStateList(requireContext(),R.color.deen_txt_ash)
         txtRightAlignBtn.iconTint = AppCompatResources.getColorStateList(requireContext(),R.color.deen_txt_ash)
 
-        /*txtLeftAlignBtn.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-        txtCenterAlignBtn.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-        txtRightAlignBtn.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)*/
+        txtLeftAlignBtn.backgroundTintList = AppCompatResources.getColorStateList(requireContext(),R.color.deen_background)
+        txtCenterAlignBtn.backgroundTintList = AppCompatResources.getColorStateList(requireContext(),R.color.deen_background)
+        txtRightAlignBtn.backgroundTintList = AppCompatResources.getColorStateList(requireContext(),R.color.deen_background)
     }
 
     private fun setActiveTextAlign(button:MaterialButton)
