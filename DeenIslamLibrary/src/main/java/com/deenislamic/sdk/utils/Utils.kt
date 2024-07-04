@@ -307,179 +307,130 @@ internal fun getPrayerTimeName(data: PrayerTimesResponse, nowtime: Long): Prayer
     val isha = data.Data.Isha.stringTimeToEpochTime()
     val tahajjut = data.Data.Tahajjut.stringTimeToEpochTime()
     val sunset = data.Data.Sunset.stringTimeToEpochTime()
-    val chasht = getChashtStartBD(data).stringTimeToEpochTime().minus(1*60*1000)
-
+    val chasht = getChashtStartBD(data).stringTimeToEpochTime()
 
     val forbiddenTime2 = noon.minus(6*60*1000)
     val forbiddenTime3 = sunset.minus(15*60*1000)
 
+    val prayerTimesArray = listOf(
+        Pair("Fajr", fajr),
+        Pair("Ishrak", ishrak),
+        Pair("Noon", noon),
+        Pair("Sunrise", sunrise),
+        Pair("Dhuhr", duhur),
+        Pair("Asr", asr),
+        Pair("Magrib", magrib),
+        Pair("Isha", isha),
+        Pair("Tahajjut", tahajjut),
+        Pair("Sunset", sunset),
+        Pair("Chasht", chasht)
+    )
 
-    if (isTimeInRange(nowtime, fajr,sunrise)) {
-        return PrayerMomentRange(
-            MomentName = "Fajr",
-            StartTime = fajr.epochTimeToStringTime(),
-            EndTime = sunrise.minus(60000L).epochTimeToStringTime(),
-            NextPrayerName = "--",
-            nextPrayerTimeCount = sunrise - nowtime
-        )
-    }else if (isTimeInRange(nowtime,isha,fajr)) {
-        return PrayerMomentRange(
-            MomentName = "Isha",
-            StartTime = isha.epochTimeToStringTime(),
-            EndTime = fajr.minus(300000L).epochTimeToStringTime(),
-            NextPrayerName = "Fajr",
-            nextPrayerTimeCount = getEpochTimeDifference(nowtime,fajr)
-        )
-    }else if(isTimeInRange(nowtime, magrib,isha)) {
-        return PrayerMomentRange(
-            MomentName = "Maghrib",
-            StartTime = magrib.epochTimeToStringTime(),
-            EndTime = (isha - 60000L).epochTimeToStringTime(),
-            NextPrayerName = "Isha",
-            nextPrayerTimeCount = getEpochTimeDifference(nowtime,isha)
-        )
-    }else if (isTimeInRange(nowtime, forbiddenTime3,magrib)) {
-        return PrayerMomentRange(
-            MomentName = localeContext?.getString(R.string.forbidden_time)?:"--",
-            StartTime = forbiddenTime3.epochTimeToStringTime(),
-            EndTime = magrib.epochTimeToStringTime(),
-            NextPrayerName = "Maghrib",
-            nextPrayerTimeCount = magrib - nowtime
-        )
-    }
-    else if (isTimeInRange(nowtime, asr,magrib)) {
-        return PrayerMomentRange(
-            MomentName = "Asr",
-            StartTime = asr.epochTimeToStringTime(),
-            EndTime = magrib.epochTimeToStringTime(),
-            NextPrayerName = "Maghrib",
-            nextPrayerTimeCount = forbiddenTime3 - nowtime
-        )
-    }else if (isTimeInRange(nowtime, duhur,asr)) {
-        return PrayerMomentRange(
-            MomentName = "Dhuhr",
-            StartTime = duhur.epochTimeToStringTime(),
-            EndTime = asr.minus(60000L).epochTimeToStringTime(),
-            NextPrayerName = "Asr",
-            nextPrayerTimeCount = asr - nowtime
-        )
-    }else if (isTimeInRange(nowtime, forbiddenTime2,duhur)) {
-        return PrayerMomentRange(
-            MomentName = localeContext?.getString(R.string.forbidden_time)?:"--",
-            StartTime = forbiddenTime2.epochTimeToStringTime(),
-            EndTime = duhur.minus(60000L).epochTimeToStringTime(),
-            NextPrayerName = "Dhuhr",
-            nextPrayerTimeCount = duhur - nowtime
-        )
-    }else if (isTimeInRange(nowtime,ishrak, duhur)) {
-        return PrayerMomentRange(
-            MomentName = "Ishraq",
-            StartTime = ishrak.epochTimeToStringTime(),
-            EndTime = duhur.minus(60000L).epochTimeToStringTime(),
-            NextPrayerName = "Dhuhr",
-            nextPrayerTimeCount = forbiddenTime2 - nowtime
-        )
-    }else if (isTimeInRange(nowtime, sunrise,ishrak)) {
-        return PrayerMomentRange(
-            MomentName = localeContext?.getString(R.string.forbidden_time)?:"--",
-            StartTime = sunrise.epochTimeToStringTime(),
-            EndTime = ishrak.epochTimeToStringTime(),
-            NextPrayerName = "Ishraq",
-            nextPrayerTimeCount = ishrak - nowtime
-        )
-    }else if (isTimeInRange(nowtime, chasht,duhur)) {
-        return PrayerMomentRange(
-            MomentName = "Chasht",
-            StartTime = chasht.epochTimeToStringTime(),
-            EndTime = duhur.minus(60000L).epochTimeToStringTime(),
-            NextPrayerName = "Dhuhr",
-            nextPrayerTimeCount = forbiddenTime2 - nowtime
-        )
-    }
+    val nextPrayer = prayerTimesArray.filter { it.second > nowtime }.minByOrNull { it.second }
 
 
-    /*if (nowtime >= isha && (tahajjut < nowtime && nowtime > 0) || (nowtime < tahajjut && nowtime < 0))
-        return PrayerMomentRange(
-            "Isha",
-            isha.MilliSecondToStringTime(),
-            tahajjut.minus(60000L).MilliSecondToStringTime(),
-            "Tahajjut",
-            PrayerRemainingTime(tahajjut, nowtime, if (nowtime > 0) 1 else 0)
-        )
-    else if (nowtime >= tahajjut && nowtime < fajr && nowtime < 0)
-        return PrayerMomentRange(
-            "Tahajjut",
-            tahajjut.MilliSecondToStringTime(),
-            fajr.minus(60000L).MilliSecondToStringTime(),
-            "Fajr",
-            fajr - nowtime
-        )
-    else if (nowtime >= fajr && nowtime < sunrise && nowtime < 0)
-        return PrayerMomentRange(
-            "Fajr",
-            fajr.MilliSecondToStringTime(),
-            sunrise.minus(60000L).MilliSecondToStringTime(),
-            "Ishraq",
-            sunrise - nowtime
-        )
-    else if (nowtime >= ishrak && nowtime < noon)
-        return PrayerMomentRange(
-            "Ishraq",
-            ishrak.MilliSecondToStringTime(),
-            duhur.minus(60000L).MilliSecondToStringTime(),
-            "Dhuhr",
-            duhur - nowtime
-        )
-    *//*else if(nowtime>=noon && nowtime<duhur)
-        return PrayerMomentRange("Noon",noon.MilliSecondToStringTime(),duhur.minus(60000L).MilliSecondToStringTime(),"Dhuhr",duhur-nowtime)
-    *//*
-    else if (nowtime >= duhur && nowtime < asr)
-        return PrayerMomentRange(
-            "Dhuhr",
-            duhur.MilliSecondToStringTime(),
-            asr.minus(60000L).MilliSecondToStringTime(),
-            "Asr",
-            asr - nowtime
-        )
-    else if (nowtime >= asr && nowtime < magrib)
-        return PrayerMomentRange(
-            "Asr",
-            asr.MilliSecondToStringTime(),
-            magrib.minus(60000L).MilliSecondToStringTime(),
-            "Maghrib",
-            magrib - nowtime
-        )
-    else if (nowtime >= magrib && nowtime < (isha - 300000L))
-        return PrayerMomentRange(
-            "Maghrib",
-            magrib.MilliSecondToStringTime(),
-            (isha - 300000L).MilliSecondToStringTime(),
-            "--",
-            (isha - 300000L) - nowtime
-        )
-    else {
+    Log.e("getPrayerTime",Gson().toJson(nextPrayer))
 
-        val prayerTimeArray = arrayListOf(
-            PrayerRemainingTime(fajr, nowtime, if (nowtime > 0) 1 else 0),
-            PrayerRemainingTime(ishrak, nowtime, if (nowtime > 0) 0 else 1),
-            PrayerRemainingTime(duhur, nowtime, if (nowtime > 0) 0 else 1),
-            PrayerRemainingTime(asr, nowtime, if (nowtime > 0) 1 else 0),
-            PrayerRemainingTime(magrib, nowtime, if (nowtime > 0) 1 else 0),
-            PrayerRemainingTime(isha, nowtime, if (nowtime > 0) 0 else 1),
-            PrayerRemainingTime(tahajjut, nowtime, if (nowtime > 0) 1 else 0)
-        )
-
-        return findNextPrayer(prayerTimeArray, nowtime)
-        // return PrayerMomentRange("Not Praying","0:00","0:00","Fajr",fajr-nowtime)
-    }*/
-
-    return PrayerMomentRange(
+    val prayerMomentRange = PrayerMomentRange(
         MomentName = "--",
         StartTime = "",
         EndTime = "",
-        NextPrayerName = "--",
-        nextPrayerTimeCount = 0
+        NextPrayerName = nextPrayer?.first?:"--",
+        nextPrayerTimeCount = nextPrayer?.second?.let { getEpochTimeDifference(nowtime,it) }?:0,
+        forbidden1 = { now-> isTimeInRange(now, sunrise, ishrak) },
+        forbidden2 = { now-> isTimeInRange(now, forbiddenTime2,noon.plus(1*60*1000)) },
+        forbidden3 = { now-> isTimeInRange(now, forbiddenTime3,sunset.plus(1*60*1000)) },
+        chasht = { now-> isTimeInRange(now, chasht,noon.minus(7*60*1000)) }
     )
+
+
+    if (isTimeInRange(nowtime, fajr,sunrise)) {
+        prayerMomentRange.apply {
+            MomentName = "Fajr"
+            StartTime = fajr.epochTimeToStringTime()
+            EndTime = sunrise.minus(1*60*1000).epochTimeToStringTime()
+            NextPrayerName = "--"
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime, sunrise)
+        }
+    }else if (isTimeInRange(nowtime,isha,tahajjut)) {
+        prayerMomentRange.apply {
+            MomentName = "Isha"
+            StartTime = isha.epochTimeToStringTime()
+            EndTime = tahajjut.minus(1*60*1000).epochTimeToStringTime()
+            NextPrayerName = "Fajr"
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime,tahajjut)
+        }
+    }else if(isTimeInRange(nowtime, magrib,isha)) {
+        prayerMomentRange.apply {
+            MomentName = "Maghrib"
+            StartTime = magrib.epochTimeToStringTime()
+            EndTime = isha.minus(1*60*1000).epochTimeToStringTime()
+            NextPrayerName = "Isha"
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime, isha)
+        }
+    }else if (isTimeInRange(nowtime, forbiddenTime3,sunset.plus(1*60*1000))) {
+        prayerMomentRange.apply {
+            MomentName = localeContext?.getString(R.string.forbidden_time) ?: "--"
+            StartTime = forbiddenTime3.epochTimeToStringTime()
+            EndTime = sunset.epochTimeToStringTime()
+            NextPrayerName = "Maghrib"
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime, sunset.plus(1*60*1000))
+        }
+    }
+    else if (isTimeInRange(nowtime, asr,magrib)) {
+        prayerMomentRange.apply {
+            MomentName = "Asr"
+            StartTime = asr.epochTimeToStringTime()
+            EndTime = magrib.minus(1*60*1000).epochTimeToStringTime()
+            NextPrayerName = "Maghrib"
+            nextPrayerTimeCount =
+                getEpochTimeDifference(nowtime, magrib)
+        }
+    }else if (isTimeInRange(nowtime, duhur,asr)) {
+        prayerMomentRange.apply {
+            MomentName = "Dhuhr"
+            StartTime = duhur.epochTimeToStringTime()
+            EndTime = asr.epochTimeToStringTime()
+            NextPrayerName = "Asr"
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime, asr)
+        }
+    }else if (isTimeInRange(nowtime, forbiddenTime2,noon.plus(1*60*1000))) {
+        prayerMomentRange.apply {
+            MomentName = localeContext?.getString(R.string.forbidden_time) ?: "--"
+            StartTime = forbiddenTime2.epochTimeToStringTime()
+            EndTime = noon.epochTimeToStringTime()
+            NextPrayerName = "Dhuhr"
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime, noon.plus(1*60*1000))
+        }
+    }else if (isTimeInRange(nowtime,ishrak, chasht)) {
+        prayerMomentRange.apply {
+            MomentName = "Ishraq"
+            StartTime = ishrak.epochTimeToStringTime()
+            EndTime = noon.minus(7*60*1000).epochTimeToStringTime()
+            NextPrayerName = "Chasht"
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime, forbiddenTime2)
+        }
+    }else if (isTimeInRange(nowtime, sunrise,ishrak)) {
+        prayerMomentRange.apply {
+            MomentName = localeContext?.getString(R.string.forbidden_time) ?: "--"
+            StartTime = sunrise.epochTimeToStringTime()
+            EndTime = ishrak.minus(1*60*1000).epochTimeToStringTime()
+            NextPrayerName = "Ishraq"
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime, ishrak)
+        }
+    } else if (isTimeInRange(nowtime, chasht,noon.minus(6*60*1000))) {
+        prayerMomentRange.apply {
+            MomentName = "Chasht"
+            StartTime = chasht.epochTimeToStringTime()
+            EndTime = noon.minus(7*60*1000).epochTimeToStringTime()
+            NextPrayerName = "Dhuhr"
+            nextPrayerTimeCount =
+                getEpochTimeDifference(nowtime, forbiddenTime2)
+        }
+    }
+
+
+    return prayerMomentRange
 }
 
 internal fun findNextPrayer(timeArray: ArrayList<Long>, nowtime: Long):PrayerMomentRange

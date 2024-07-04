@@ -103,7 +103,7 @@ internal class WidgetOtherPrayerTimes(
                             "${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
 */
 
-                    timeTxt.text = ("${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                    timeTxt.text = ("${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.minus(1*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                     rightBtn.hide()
 
@@ -114,7 +114,7 @@ internal class WidgetOtherPrayerTimes(
                 {
                     prayerName.text = "Ishraq".prayerMomentLocale()
                     timeTxt.text = ("${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(7*60*1000)?.MilliSecondToStringTime()?:"0:00"}").numberLocale()
 
                     rightBtn.hide()
 
@@ -126,8 +126,8 @@ internal class WidgetOtherPrayerTimes(
 
                         val chashtEnd = getChashtStartBD(it)
                         prayerName.text = "Chasht".prayerMomentLocale()
-                        timeTxt.text = ("${chashtEnd?.StringTimeToMillisecond()?.minus(1*60*1000)?.MilliSecondToStringTime("h:mm aa")?:"0:00"}"+" - "+
-                                "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(6*60*1000)?.MilliSecondToStringTime("h:mm aa")?:"0:00"}").numberLocale()
+                        timeTxt.text = ("${chashtEnd?.StringTimeToMillisecond()?.MilliSecondToStringTime("h:mm aa")?:"0:00"}"+" - "+
+                                "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(7*60*1000)?.MilliSecondToStringTime("h:mm aa")?:"0:00"}").numberLocale()
 
                     }
 

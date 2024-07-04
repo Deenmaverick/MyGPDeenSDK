@@ -3,14 +3,17 @@ package com.deenislamic.sdk.views.quran
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.os.Build
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.ImageSpan
 import android.util.Log
+import android.view.Gravity
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +27,11 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -46,9 +50,11 @@ import com.deenislamic.sdk.service.libs.downloader.QuranDownloadService
 import com.deenislamic.sdk.service.libs.media3.AudioManager
 import com.deenislamic.sdk.service.libs.media3.AudioPlayerCallback
 import com.deenislamic.sdk.service.models.CommonResource
+import com.deenislamic.sdk.service.models.common.OptionList
 import com.deenislamic.sdk.service.models.quran.AlQuranResource
+import com.deenislamic.sdk.service.models.quran.AlQuranSettingResource
+import com.deenislamic.sdk.service.models.quran.quranplayer.FontList
 import com.deenislamic.sdk.service.models.quran.quranplayer.PlayerCommonSelectionData
-import com.deenislamic.sdk.service.models.quran.quranplayer.ThemeResource
 import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Ayath
 import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Qari
 import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.TafsirList
@@ -56,9 +62,17 @@ import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Translato
 import com.deenislamic.sdk.service.network.response.quran.qurangm.surahlist.Data
 import com.deenislamic.sdk.service.repository.quran.AlQuranRepository
 import com.deenislamic.sdk.service.repository.quran.quranplayer.PlayerControlRepository
+import com.deenislamic.sdk.utils.AlQuranSetting_bn_translator
+import com.deenislamic.sdk.utils.AlQuranSetting_en_translator
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.DEFAULT_ARABIC_FONT_ID
+import com.deenislamic.sdk.utils.DEFAULT_BN_TAFSIR_ID
+import com.deenislamic.sdk.utils.DEFAULT_BN_TRANSLATOR_ID
+import com.deenislamic.sdk.utils.DEFAULT_EN_TRANSLATOR_ID
+import com.deenislamic.sdk.utils.DEFAULT_QARI_ID
 import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.copyToClipboard
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.invisible
@@ -67,14 +81,18 @@ import com.deenislamic.sdk.utils.reduceDragSensitivity
 import com.deenislamic.sdk.utils.setActiveState
 import com.deenislamic.sdk.utils.setInactiveState
 import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.utils.toast
+import com.deenislamic.sdk.utils.transformArabicFontData
 import com.deenislamic.sdk.utils.transformPlayerReciterData
 import com.deenislamic.sdk.utils.transformPlayerTafsirData
 import com.deenislamic.sdk.utils.transformPlayerTranslatorData
 import com.deenislamic.sdk.utils.visible
+import com.deenislamic.sdk.viewmodels.common.PlayerControlVMFactory
 import com.deenislamic.sdk.viewmodels.quran.AlQuranViewModel
 import com.deenislamic.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
 import com.deenislamic.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislamic.sdk.views.adapters.quran.AlQuranAyatAdapter
+import com.deenislamic.sdk.views.adapters.quran.Quran3DotAdapter
 import com.deenislamic.sdk.views.adapters.quran.SelectSurahAdapter
 import com.deenislamic.sdk.views.adapters.quran.SelectSurahCallback
 import com.deenislamic.sdk.views.adapters.quran.quranplayer.PlayerCommonSelectionList
@@ -84,6 +102,7 @@ import com.deenislamic.sdk.views.quran.quranplayer.PlayerAudioFragment
 import com.deenislamic.sdk.views.quran.quranplayer.PlayerThemeFragment
 import com.deenislamic.sdk.views.quran.quranplayer.PlayerTranslationFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -91,21 +110,26 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.Math.max
+import java.lang.Integer.max
 import java.lang.Math.min
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
+
 internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAlQuranBinding::inflate),
-    AudioPlayerCallback, SelectSurahCallback, AlQuranAyatCallback,otherFagmentActionCallback,
+    AudioPlayerCallback,
+    SelectSurahCallback,
+    AlQuranAyatCallback,
+    otherFagmentActionCallback,
     PlayerCommonSelectionList.PlayerCommonSelectionListCallback,
-    DownloaderCallback, CustomDialogCallback
+    DownloaderCallback,
+    CustomDialogCallback
 {
 
-    private lateinit var alQuranAyatAdapter:AlQuranAyatAdapter
+    private lateinit var alQuranAyatAdapter: AlQuranAyatAdapter
 
     private lateinit var alQuranViewModel:AlQuranViewModel
-    private lateinit var playerControlViewModel:PlayerControlViewModel
+    private lateinit var playerControlViewModel: PlayerControlViewModel
 
     private val surahDetailsData :ArrayList<Ayath> = arrayListOf()
 
@@ -127,6 +151,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     private lateinit var enPlayerCommonSelectionList: PlayerCommonSelectionList
     private lateinit var bnPlayerCommonSelectionList: PlayerCommonSelectionList
     private lateinit var tafsirCommonSelectionList: PlayerCommonSelectionList
+    private lateinit var arabicFontCommonSelectionList: PlayerCommonSelectionList
     private var countDownTimer: CountDownTimer?=null
     private lateinit var bottomSheetBehavior:BottomSheetBehavior<View>
 
@@ -139,6 +164,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     private var isNextEnabled  = false
     private var isReadingMode:Boolean = false
     private var isBnReading = false
+    private var isApiLoaded = false
 
     // player control
     private lateinit var playerControlPages: ArrayList<Fragment>
@@ -149,6 +175,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     //page setting
     private var pageTitle = ""
     private var totalVerseCount = 0
+    private var isFav = false
     private var isSurahMode:Boolean = true
     private var isMiniPlayerAlreadySet = false
     private var isNextPrevSurahCalled = false
@@ -165,39 +192,41 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         binding.portableZoomLayout.alpha = 0.7f
     }
 
-    // Reciter selection
-    private var selectedQari = 931
-    // Translator selection
-    private var en_translator = 131
-    private var bn_translator = 161
-    private var tafsirMaker = 164
+    // Default value
+    private var tafsirMaker = DEFAULT_BN_TAFSIR_ID
 
     // tafsir dialog view
     private var tafsirDialogNoInternet:NestedScrollView ? = null
     private var tafsirDialogProgressLayout: LinearLayout? = null
     private var tafsirDialogArabicAyat:AppCompatTextView ? = null
     private var tafsirDialogMakerTxt:AppCompatTextView ? = null
-    private var tafsirDialogContent: WebView? = null
-    private var tafsirDialogRetryBtn: MaterialButton? = null
+    private var tafsirDialogContent:WebView ? = null
+    private var tafsirDialogRetryBtn:MaterialButton ? = null
     private var tafsirDialogNoData:NestedScrollView ? = null
 
     private var firstload = false
 
     private var surahID = 0
     private var juzID = 0
+
     private var surahName:String ? = null
     private var isDownloading = false
     private var downloadFilenameByUser = ""
 
     private var customAlertDialog: CustomAlertDialog = CustomAlertDialog().getInstance()
 
+    private val fontListData:ArrayList<FontList> = arrayListOf()
+
+
     override fun OnCreate() {
         super.OnCreate()
 
-        // init viewmodel
-        val repository = PlayerControlRepository(DatabaseProvider().getInstance().providePlayerSettingDao())
 
-        val factory = VMFactory(repository)
+        val repository = PlayerControlRepository(
+            playerSettingDao = DatabaseProvider().getInstance().providePlayerSettingDao()
+        )
+
+        val factory = PlayerControlVMFactory(repository)
         playerControlViewModel = ViewModelProvider(
             requireActivity(),
             factory
@@ -210,9 +239,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         alQuranViewModel = AlQuranViewModel(alQuranRepository)
 
-        scaleGestureDetector = ScaleGestureDetector(requireContext(), ScaleListener())
 
-        //(requireActivity() as MainActivity).setupDefaultTheme(R.color.white)
+        scaleGestureDetector = ScaleGestureDetector(requireContext(), ScaleListener())
 
         surahName = args.surahName
         surahID = args.surahID
@@ -238,7 +266,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     override fun ON_CREATE_VIEW(root: View) {
         super.ON_CREATE_VIEW(root)
         setupActionForOtherFragment(
-            action1 = R.drawable.ic_search,
+            action1 = R.drawable.ic_settings,
             action2 = R.drawable.ic_reading_mode,
             action3 = R.drawable.ic_download_quran,
             callback = this@AlQuranFragment,
@@ -248,7 +276,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             view = root
         )
 
-        binding.actionbar.action3.hide()
+        setCustomPageTitle(pageTitle)
+
+        binding.bottomPlayer.largePlayer.icDownload.hide()
 
     }
 
@@ -259,10 +289,13 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         CallBackProvider.setFragment(this)
         binding.cautionBtn.hide()
         binding.actionbar.action3Progress.isIndeterminate = false
+        binding.bottomPlayer.largePlayer.action3Progress.isIndeterminate = false
         if(!isSurahMode)
         {
             binding.bismillahLyOld.show()
             binding.bismillahLy.hide()
+            binding.bottomPlayer.largePlayer.icFav.hide()
+            binding.bottomPlayer.largePlayer.icDownload.hide()
         }
         else
         {
@@ -279,11 +312,13 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         setHeaderData()
 
         if(!firstload)
-            binding.bottomPlayerContainer.hide()
+        binding.bottomPlayerContainer.hide()
 
+        //binding.actionbar.pageTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(requireContext(),R.drawable.ic_dropdown), null)
 
-        //binding.ayatList.itemAnimator = null
-
+        binding.actionbar.title.setOnClickListener {
+            dialog_select_surah()
+        }
 
         binding.bottomPlayer.largePlayer.themeBtn.setOnClickListener {
             binding.bottomPlayer.playerViewPager.currentItem = 0
@@ -368,11 +403,62 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         ViewCompat.setTranslationZ(binding.dimView, 15F)
         ViewCompat.setTranslationZ(binding.bottomPlayerContainer, 20F)
 
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+        if(fontListData.isEmpty()) {
+            fontListData.add(
+                FontList(
+                    fontname = localContext.getString(R.string.indopak),
+                    fontid = "1"
+                )
+            )
+            fontListData.add(
+                FontList(
+                    fontname = localContext.getString(R.string.uthmanic_script_hafs_regular),
+                    fontid = "2"
+                )
+            )
+            fontListData.add(
+                FontList(
+                    fontname = localContext.getString(R.string.al_majeed),
+                    fontid = "3"
+                )
+            )
+        }
+
+        AlQuranSettings.setupDrawer(binding.navdrawer,lifecycleScope,playerControlViewModel)
+
+        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                // Called when the drawer's position changes due to animation
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+                // Called when the drawer is fully opened
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                // Called when the drawer is fully closed
+                // Put your code here to handle drawer closed event
+                if(AlQuranSettings.isUpdatePending) {
+                    //updateAyatAdapterVisibleItems()
+                    AlQuranSettings.isUpdatePending = false
+                }
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+                // Called when the drawer's state changes (idle, dragging, settling)
+            }
+        })
 
         //click retry button for get api data again
         binding.noInternetLayout.noInternetRetry.setOnClickListener {
             loadingState()
             loadApiData(pageNo, pageItemCount)
+        }
+
+        binding.navdrawer.btnDrawerClose.setOnClickListener {
+            binding.drawerLayout.closeDrawer(GravityCompat.END)
         }
 
         // search back button
@@ -421,6 +507,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                 previousScrollY = scrollY
 
 
+
             })
 
 
@@ -457,14 +544,14 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         }
         binding.bottomPlayer.miniPlayer.root.setOnClickListener {
             binding.bottomPlayer.miniPlayer.root.hide()
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            alQuranAyatAdapter.miniPlayerCall(true)
+            bottomSheetBehavior.state = STATE_EXPANDED
+            //alQuranAyatAdapter.miniPlayerCall(true)
         }
 
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                /*     if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                   /*  if (newState == STATE_EXPANDED) {
                     // The bottom sheet is being expanded
                     binding.dimView.show()
                 }
@@ -486,14 +573,16 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                     // Perform your desired actions here
                     binding.dimView.show()
                     binding.bottomPlayer.miniPlayer.root.hide()
-                    alQuranAyatAdapter.miniPlayerCall(true)
+                    //alQuranAyatAdapter.miniPlayerCall(true)
                 } else if (slideOffset == 0f) {
                     // Bottom sheet is released
                     // Perform your desired actions here
+
                 }
                 previousSlideOffset = slideOffset
             }
         })
+
 
 
         binding.btnZoomIn.setOnClickListener {
@@ -606,16 +695,10 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         //loading start
         loadingState()
-        loadPlayerSetting()
+
 
         if(!firstload) {
-            // call api on page loaded
-            /*if (!isDetached) {
-                view.postDelayed({
-                    loadApiData(pageNo, pageItemCount)
-                }, 300)
-            }
-            else*/
+
                 loadApiData(pageNo, pageItemCount)
 
         }
@@ -624,11 +707,130 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     }
 
+    override fun option3dotClicked(getdata: OptionList, ayathData: Ayath?) {
+
+        when(getdata.type){
+
+            "download" -> {
+
+                 if(!Subscription.isSubscribe){
+                    dialog?.dismiss()
+                    gotoFrag(R.id.action_global_subscriptionFragment)
+                    return
+                }
+
+                val fileName = "surahinfo.json" // Replace with the actual file name you want to check
+
+                val filePath = File(requireContext().filesDir, "quran/${formatNumber(surahID)}/$fileName")
+
+
+                if (filePath.exists()) {
+                    context?.apply {
+                        toast("Surah already downloaded")
+                    }
+
+                    return
+
+                }
+
+                dialog?.dismiss()
+
+                customAlertDialog.setupDialog(
+                    callback = this@AlQuranFragment,
+                    context = requireContext(),
+                    btn1Text = localContext.getString(R.string.cancel),
+                    btn2Text = localContext.getString(R.string.continueTxt),
+                    titileText = localContext.getString(R.string.want_to_download),
+                    subTitileText = localContext.getString(R.string.quran_offline_download_hint)
+                )
+
+                customAlertDialog.showDialog(true)
+
+            }
+
+            "share" -> {
+                customShareAyat(
+                    ayathData?.Transliteration_en.toString(),
+                    ayathData?.Transliteration_bn.toString(),
+                    ayathData?.Arabic_indopak.toString(),
+                    ayathData?.VerseKey.toString()
+                )
+            }
+
+            "copyArabic" -> {
+                context?.apply {
+                    copyToClipboard(ayathData?.Arabic_indopak.toString())
+                    toast("Arabic text copied")
+                }
+
+            }
+
+            "copyBangla" -> {
+
+                context?.apply {
+                    copyToClipboard(ayathData?.Transliteration_bn.toString())
+                    toast("Bangla text copied")
+                }
+            }
+
+            "copyEnglish" -> {
+
+                context?.apply {
+                    copyToClipboard(ayathData?.Transliteration_bn.toString())
+                    toast("English text copied")
+                }
+
+            }
+        }
+
+        dialog?.dismiss()
+
+    }
+
+    override fun option3dotClicked(getdata: Ayath) {
+
+        dialog?.dismiss()
+
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DeenMaterialAlertDialog_Rounded)
+        customAlertDialogView = localInflater.inflate(R.layout.item_quran_3dot_option, null, false)
+        val surahname:AppCompatTextView = customAlertDialogView.findViewById(R.id.surahName)
+        val surahAyath:AppCompatTextView = customAlertDialogView.findViewById(R.id.surahAyath)
+        val arbSurah:AppCompatTextView = customAlertDialogView.findViewById(R.id.arbSurah)
+        val optionList:RecyclerView = customAlertDialogView.findViewById(R.id.optionList)
+
+        val surahID = surahID
+        surahname.text = surahName?:
+                localContext.resources.getString(R.string.quran_para_adapter_title,quranJuz?.JuzId.toString().numberLocale())
+        arbSurah.text = "${if(surahID<10)0 else ""}${if(surahID<100)0 else ""}${surahID}"
+        arbSurah.visible(isSurahMode)
+        surahAyath.text = localContext.getString(R.string.ayaths_number,getdata.VerseId.toString()).numberLocale()
+        val optionList3Dot = arrayListOf(
+            OptionList("copyArabic",R.drawable.ic_content_copy,localContext.getString(R.string.copy_arabic_text)),
+            OptionList("copyBangla",R.drawable.ic_content_copy,localContext.getString(R.string.copy_bangla_text)),
+            OptionList("copyEnglish",R.drawable.ic_content_copy,localContext.getString(R.string.copy_english_text)),
+            OptionList("share",R.drawable.ic_share,localContext.getString(R.string.share))
+
+        )
+
+        optionList.apply {
+            adapter = Quran3DotAdapter(optionList3Dot,getdata)
+        }
+
+
+        dialog = materialAlertDialogBuilder
+            .setView(customAlertDialogView)
+            .setCancelable(true)
+            .show().apply {
+                window?.setGravity(Gravity.CENTER)
+            }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         isMiniPlayerAlreadySet = false
         AudioManager().getInstance().releasePlayer()
-        }
+        AlQuranSettings.onDestroy()
+    }
 
     private fun clearPlayerControlBtn()
     {
@@ -645,7 +847,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     private fun morePageBottomLoading(bol:Boolean)
     {
-
         binding.lastItemLoadingProgress.visible(bol)
     }
 
@@ -671,6 +872,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         binding.nameMeaning.text = surahListData?.SurahNameMeaning
         binding.ayatTotal.text = localContext.resources.getString(R.string.quran_popular_surah_ayat,totalVerseCount.toString().numberLocale(),"")
+
     }
 
     private fun setupMiniPlayerData()
@@ -714,7 +916,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         binding.bottomPlayer.largePlayer.icPrev.setOnClickListener {
             //alQuranAyatAdapter.miniPlayerPrevCall()
             if(isSurahMode)
-                playPrevSurah(true)
+            playPrevSurah(true)
             else
                 playPrevJuz(true)
         }
@@ -723,11 +925,32 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
             //alQuranAyatAdapter.miniPlayerNextCall()
             if(isSurahMode)
-                playNextSurah(true)
+            playNextSurah(true)
             else
                 playNextJuz(true)
+
         }
 
+
+        binding.bottomPlayer.largePlayer.icDownload.setOnClickListener {
+
+            option3dotClicked(OptionList("download",0,""))
+        }
+
+        binding.bottomPlayer.largePlayer.icFav.setOnClickListener {
+            surahFavClicked()
+        }
+
+        binding.bottomPlayerContainer.post {
+
+            if (bottomSheetBehavior.lastStableState == STATE_EXPANDED) {
+                binding.bottomPlayer.miniPlayer.root.hide()
+                bottomSheetBehavior.state = STATE_EXPANDED
+                binding.dimView.show()
+            }
+        }
+
+        //Log.e("ALquranSetMini", bottomSheetBehavior.lastStableState.toString())
 
         playerControlPages = arrayListOf(
             PlayerThemeFragment(),
@@ -736,26 +959,39 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         )
 
         playerControlViewPageAdapter = MainViewPagerAdapter(
-            fragmentManager = requireActivity().supportFragmentManager,
+            fragmentManager = childFragmentManager,
             lifecycle = lifecycle,
             playerControlPages
         )
 
+
         binding.bottomPlayer.playerViewPager.apply {
-            adapter = playerControlViewPageAdapter
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                adapter = playerControlViewPageAdapter
                 isNestedScrollingEnabled = false
-            }
-            isUserInputEnabled = true
-            overScrollMode = View.OVER_SCROLL_NEVER
-            reduceDragSensitivity(2)
-            offscreenPageLimit = 1
+                isUserInputEnabled = false
+                overScrollMode = View.OVER_SCROLL_NEVER
+                reduceDragSensitivity(2)
+                offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
         }
 
+       /* binding.bottomPlayer.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                // This callback is called when the view is laid out and its dimensions are available
+                Log.e("botomPlayer", binding.bottomPlayer.miniPlayer.root.height.toString())
 
+                // You can now safely access the height and set the peekHeight
+                bottomSheetBehavior.peekHeight = binding.bottomPlayer.miniPlayer.root.height + binding.bottomPlayer.icBar.height + 14.dp
+
+                // It's a good practice to remove the listener once you have the height
+                binding.bottomPlayer.miniPlayer.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })*/
 
         val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
+                // This callback is called when the view is laid out and its dimensions are available
+                Log.e("bottomPlayer", "MiniPlayer height: ${binding.bottomPlayer.miniPlayer.root.height}")
+                Log.e("bottomPlayer", "icBar height: ${binding.bottomPlayer.icBar.height}")
 
                 // You can now safely access the height and set the peekHeight
                 bottomSheetBehavior.peekHeight =
@@ -784,7 +1020,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
 
         isMiniPlayerAlreadySet = true
-
     }
 
 
@@ -800,24 +1035,29 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
                     //surahDetailsData.addAll(it.data)
                     isNextEnabled = response.data.Pagination.isNext
-                    viewState(response.data.Data)
+                    viewState(response.data.Data,response.isReadingMode)
                 }
                 is CommonResource.API_CALL_FAILED -> noInternetState()
                 is CommonResource.EMPTY -> emptyState()
             }
         }
 
-        playerControlViewModel.themeLiveData.observe(viewLifecycleOwner)
+        playerControlViewModel.alQuranSettingsLiveData.observe(viewLifecycleOwner)
         {
             when(it)
             {
-                is ThemeResource.playerSettings ->
+                is AlQuranSettingResource.AlQuranSettings ->
                 {
-                    if(isInitialSettingApply)
+                    AlQuranSettings.updateDrawer(binding.navdrawer,it.setting,"all")
+
+                   /* if(isInitialSettingApply)
                         return@observe
+*/
 
                     it.setting?.theme_font_size?.let { it1 -> update_theme_font_size(it1, isThemeFont = true) }
                     it.setting?.translation_font_size?.let { it1 -> update_theme_font_size(it1, isTranslationFont = true) }
+                    it.setting?.english_font_size?.let { it1 -> update_theme_font_size(it1, isEnglishFont = true) }
+
                     it.setting?.transliteration?.let {
                             it1 -> alQuranAyatAdapter.update_transliteration(it1)
                     }
@@ -827,7 +1067,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                     }
 
                     it.setting?.arabic_font?.let {
-                            it1 -> alQuranAyatAdapter.setArabicFont(it1)
+                        it1 -> alQuranAyatAdapter.setArabicFont(it1)
                     }
 
                     it.setting?.recitation?.let {
@@ -847,12 +1087,20 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
                 }
 
-                is ThemeResource.updatePlayerSettings ->
-                {
+
+                is AlQuranSettingResource.UpdateAlQuranSettings -> {
+
+                    AlQuranSettings.updateDrawer(binding.navdrawer,it.setting,it.type)
+
                     it.setting?.theme_font_size?.let { it1 -> update_theme_font_size(it1, isThemeFont = true) }
                     it.setting?.translation_font_size?.let { it1 -> update_theme_font_size(it1, isTranslationFont = true) }
+                    it.setting?.english_font_size?.let { it1 -> update_theme_font_size(it1, isEnglishFont = true) }
+
                     it.setting?.transliteration?.let {
                             it1 -> alQuranAyatAdapter.update_transliteration(it1)
+                    }
+                    it.setting?.bn_meaning?.let {
+                            it1 -> alQuranAyatAdapter.update_bn_meaning(it1)
                     }
                     it.setting?.auto_scroll?.let { it1 -> auto_scroll = it1 }
                     it.setting?.auto_play_next?.let {
@@ -883,7 +1131,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                     }
 
 
-
                     updateAyatAdapterVisibleItems()
                 }
 
@@ -904,7 +1151,12 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             {
                 is AlQuranResource.ayatFav ->
                 {
-                    alQuranAyatAdapter.updateFavAyat(it.isFav,it.position)
+                    val positionToUpdate = it.position
+
+                    if (positionToUpdate >= 0 && positionToUpdate < alQuranAyatAdapter.itemCount) {
+                        // The position is valid, update the item in the adapter
+                        alQuranAyatAdapter.updateFavAyat(it.isFav, positionToUpdate)
+                    }
                 }
             }
         }
@@ -930,12 +1182,12 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                 is AlQuranResource.Tafsir->
                 {
                     val filterData = it.data.firstOrNull  {
-                            tafsir->
+                        tafsir->
                         tafsir.TranslatorId == tafsirMaker
                     }
 
                     filterData?.let {
-                            tafsir->
+                        tafsir->
 
                         if(it.arabicFont == 1)
                         {
@@ -954,17 +1206,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
                         tafsirDialogMakerTxt?.text = "-${tafsir.Reference}"
 
-                        /* tafsirDialogContent?.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                              Html.fromHtml(
-                                  tafsir.Text,
-                                 Html.FROM_HTML_MODE_LEGACY
-                             )
-                         } else {
-                             @Suppress("DEPRECATION")
-                              Html.fromHtml(
-                                 tafsir.Text
-                             )
-                         }*/
 
                         // Use WebView to load HTML content
                         tafsirDialogContent?.loadDataWithBaseURL(null, tafsir.Text, "text/html", "UTF-8", null)
@@ -979,8 +1220,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                             }
                         }
 
-                    }?:
-                    {
+                    }?: run {
 
                         tafsirDialogProgressLayout?.hide()
                         tafsirDialogNoData?.show()
@@ -994,7 +1234,12 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         }
     }
 
-    private fun update_theme_font_size(fontsize: Float,isTranslationFont:Boolean=false,isThemeFont:Boolean=false)
+    private fun update_theme_font_size(
+        fontsize: Float,
+        isTranslationFont:Boolean=false,
+        isThemeFont:Boolean=false,
+        isEnglishFont:Boolean=false
+    )
     {
 
         val minValue = 0F
@@ -1009,78 +1254,86 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             0F ->
             {
                 if(isThemeFont) {
-                    alQuranAyatAdapter.update_theme_font_size(24F)
+                    alQuranAyatAdapter.update_theme_font_size(25F)
                     binding.portableZoomLevel.text = "0%".numberLocale()
                 }
 
                 if(isTranslationFont)
-                    alQuranAyatAdapter.update_translation_font_size(14F)
+                    alQuranAyatAdapter.update_translation_font_size(18F)
 
+                if(isEnglishFont)
+                    alQuranAyatAdapter.update_english_font_size(16F)
 
             }
 
             20F ->
             {
                 if(isThemeFont) {
-                    alQuranAyatAdapter.update_theme_font_size(26F)
+                    alQuranAyatAdapter.update_theme_font_size(29F)
                     binding.portableZoomLevel.text = "20%".numberLocale()
                 }
 
                 if(isTranslationFont)
-                    alQuranAyatAdapter.update_translation_font_size(16F)
+                    alQuranAyatAdapter.update_translation_font_size(20F)
 
+                if(isEnglishFont)
+                    alQuranAyatAdapter.update_english_font_size(18F)
 
             }
 
             40F ->
             {
                 if(isThemeFont) {
-                    alQuranAyatAdapter.update_theme_font_size(28F)
+                    alQuranAyatAdapter.update_theme_font_size(31F)
                     binding.portableZoomLevel.text = "40%".numberLocale()
-                }
-
-                if(isTranslationFont)
-                    alQuranAyatAdapter.update_translation_font_size(18F)
-
-
-            }
-
-            60F ->
-            {
-                if(isThemeFont) {
-                    alQuranAyatAdapter.update_theme_font_size(30F)
-                    binding.portableZoomLevel.text = "60%".numberLocale()
-                }
-
-                if(isTranslationFont)
-                    alQuranAyatAdapter.update_translation_font_size(20F)
-
-
-            }
-
-            80F->
-            {
-                if(isThemeFont) {
-                    alQuranAyatAdapter.update_theme_font_size(32F)
-                    binding.portableZoomLevel.text = "80%".numberLocale()
                 }
 
                 if(isTranslationFont)
                     alQuranAyatAdapter.update_translation_font_size(22F)
 
+                if(isEnglishFont)
+                    alQuranAyatAdapter.update_english_font_size(20F)
+            }
+
+            60F ->
+            {
+                if(isThemeFont) {
+                    alQuranAyatAdapter.update_theme_font_size(34F)
+                    binding.portableZoomLevel.text = "60%".numberLocale()
+                }
+
+                if(isTranslationFont)
+                    alQuranAyatAdapter.update_translation_font_size(24F)
+
+                if(isEnglishFont)
+                    alQuranAyatAdapter.update_english_font_size(22F)
+            }
+
+            80F->
+            {
+                if(isThemeFont) {
+                    alQuranAyatAdapter.update_theme_font_size(37F)
+                    binding.portableZoomLevel.text = "80%".numberLocale()
+                }
+
+                if(isTranslationFont)
+                    alQuranAyatAdapter.update_translation_font_size(26F)
+                if(isEnglishFont)
+                    alQuranAyatAdapter.update_english_font_size(24F)
 
             }
 
             100F ->
             {
                 if(isThemeFont) {
-                    alQuranAyatAdapter.update_theme_font_size(34F)
+                    alQuranAyatAdapter.update_theme_font_size(42F)
                     binding.portableZoomLevel.text = "100%".numberLocale()
                 }
 
                 if(isTranslationFont)
-                    alQuranAyatAdapter.update_translation_font_size(24F)
-
+                    alQuranAyatAdapter.update_translation_font_size(28F)
+                if(isEnglishFont)
+                    alQuranAyatAdapter.update_english_font_size(26F)
 
             }
         }
@@ -1094,7 +1347,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         for (position in firstVisiblePosition..lastVisiblePosition) {
             // Check if you want to update this item
-            alQuranAyatAdapter.notifyItemChanged(position)
+                alQuranAyatAdapter.notifyItemChanged(position)
         }
     }
 
@@ -1147,8 +1400,14 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             playerControlViewModel.getSetting()
         }
     }
-    private fun viewState(data: com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Data)
+    private fun viewState(
+        data: com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Data,
+        readingMode: Boolean
+    )
     {
+
+        if(this.isReadingMode != readingMode)
+            return
 
         if(qarisData.isEmpty())
             qarisData.addAll(data.Qaris)
@@ -1159,15 +1418,12 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         if(tasfsirList.isEmpty())
             tasfsirList.addAll(data.Tafsirs)
 
+        loadPlayerSetting()
 
 
         alQuranAyatAdapter.update(data,surahID)
 
         binding.ayatList.post {
-            binding.progressLayout.root.hide()
-            binding.nodataLayout.root.hide()
-            binding.noInternetLayout.root.hide()
-            binding.bottomPlayerContainer.show()
             morePageBottomLoading(false)
             isScrollAtEnd = false
             if(isNextPrevSurahCalled) {
@@ -1194,9 +1450,17 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         // setup mini player data
         setupMiniPlayerData()
-
         ifQuranDownloading()
 
+        binding.ayatList.post {
+            binding.progressLayout.root.hide()
+            binding.nodataLayout.root.hide()
+            binding.noInternetLayout.root.hide()
+            binding.bottomPlayerContainer.show()
+        }
+
+
+        isApiLoaded = true
     }
 
 
@@ -1212,6 +1476,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         binding.progressLayout.root.hide()
         binding.nodataLayout.root.hide()
         binding.noInternetLayout.root.show()
+        binding.bottomPlayerContainer.hide()
     }
 
     private fun loadingState()
@@ -1275,7 +1540,23 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             .show()
     }
 
-    private fun dialog_select_reciter()
+    override fun getqariList():ArrayList<Qari>{
+        return qarisData
+    }
+
+    override fun getTranslatorData():ArrayList<Translator>{
+        return translatorDataData
+    }
+
+    override fun getTafsirList():ArrayList<TafsirList>{
+        return tasfsirList
+    }
+
+    override fun getArabicFontList(): ArrayList<FontList> {
+        return fontListData
+    }
+
+    override fun dialog_select_reciter()
     {
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DeenMaterialAlertDialog_Rounded)
         customAlertDialogView = localInflater.inflate(R.layout.dialog_surah_list, null, false)
@@ -1311,6 +1592,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             .show()
     }
 
+
     private fun dialog_select_translator()
     {
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DeenMaterialAlertDialog_Rounded)
@@ -1321,9 +1603,12 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         val englishTranList:RecyclerView = customAlertDialogView.findViewById(R.id.englishTranList)
         val dismissBtn = customAlertDialogView.findViewById<ImageButton>(R.id.closeBtn)
         val title: AppCompatTextView = customAlertDialogView.findViewById(R.id.pageTitle)
+        val translationByTxt:AppCompatTextView = customAlertDialogView.findViewById(R.id.translationByTxt)
+        val translationByTxt1:AppCompatTextView = customAlertDialogView.findViewById(R.id.translationByTxt1)
 
         title.text = localContext.getString(R.string.select_translation)
-
+        translationByTxt.show()
+        translationByTxt1.show()
         banglaTranList.apply {
             bnPlayerCommonSelectionList = PlayerCommonSelectionList(
                 ArrayList(translatorDataData.map { transformPlayerTranslatorData(it) }
@@ -1361,7 +1646,71 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     }
 
 
-    private fun dialog_select_tafsirMaker()
+    override fun dialog_select_translator(lang: String)
+    {
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DeenMaterialAlertDialog_Rounded)
+        customAlertDialogView = localInflater.inflate(R.layout.dialog_translator_list, null, false)
+
+        // Initialize and assign variable
+        val banglaTranList:RecyclerView = customAlertDialogView.findViewById(R.id.banglaTranList)
+        val englishTranList:RecyclerView = customAlertDialogView.findViewById(R.id.englishTranList)
+        val translationByTxt:AppCompatTextView = customAlertDialogView.findViewById(R.id.translationByTxt)
+        val translationByTxt1:AppCompatTextView = customAlertDialogView.findViewById(R.id.translationByTxt1)
+        val dismissBtn = customAlertDialogView.findViewById<ImageButton>(R.id.closeBtn)
+        val title: AppCompatTextView = customAlertDialogView.findViewById(R.id.pageTitle)
+
+
+        if(lang == "bn") {
+            banglaTranList.apply {
+                bnPlayerCommonSelectionList = PlayerCommonSelectionList(
+                    ArrayList(translatorDataData.map { transformPlayerTranslatorData(it) }
+                        .filter { it.language == "bn" }
+                    ), this@AlQuranFragment)
+                adapter = bnPlayerCommonSelectionList
+
+            }
+            title.text = localContext.getString(R.string.bangla_translator)
+
+            translationByTxt.hide()
+            translationByTxt1.hide()
+            englishTranList.hide()
+
+            bnPlayerCommonSelectionList.update(updateBnTranslator(alQuranAyatAdapter.getBnTranslator()))
+
+        }
+
+
+        if(lang == "en") {
+            englishTranList.apply {
+                enPlayerCommonSelectionList = PlayerCommonSelectionList(
+                    ArrayList(translatorDataData.map { transformPlayerTranslatorData(it) }
+                        .filter { it.language == "en" }
+                    ), this@AlQuranFragment)
+                adapter = enPlayerCommonSelectionList
+
+            }
+            title.text = localContext.getString(R.string.english_translator)
+            translationByTxt1.hide()
+            translationByTxt.hide()
+            banglaTranList.hide()
+
+            enPlayerCommonSelectionList.update(updateEnTranslator(alQuranAyatAdapter.getEnTranslator()))
+        }
+
+        dismissBtn?.setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        // show dialog
+
+        dialog = materialAlertDialogBuilder
+            .setView(customAlertDialogView)
+            .setCancelable(true)
+            .show()
+    }
+
+
+    override fun dialog_select_tafsirMaker()
     {
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DeenMaterialAlertDialog_Rounded)
         customAlertDialogView = localInflater.inflate(R.layout.dialog_translator_list, null, false)
@@ -1379,7 +1728,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         englishTranList.hide()
 
         translationByTxt.text = localContext.getString(R.string.bangla_tafsir)
-        title.text = localContext.getString(R.string.tafsir)
+        title.text = localContext.getString(R.string.bangla_tafsir)
 
         banglaTranList.apply {
             tafsirCommonSelectionList = PlayerCommonSelectionList(
@@ -1404,6 +1753,63 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             .show()
     }
 
+    override fun dialog_select_arabic_font()
+    {
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DeenMaterialAlertDialog_Rounded)
+        customAlertDialogView = localInflater.inflate(R.layout.dialog_translator_list, null, false)
+
+        // Initialize and assign variable
+
+        val translationByTxt:AppCompatTextView = customAlertDialogView.findViewById(R.id.translationByTxt)
+        val banglaTranList:RecyclerView = customAlertDialogView.findViewById(R.id.banglaTranList)
+        val translationByTxt1:AppCompatTextView = customAlertDialogView.findViewById(R.id.translationByTxt1)
+        val englishTranList:RecyclerView = customAlertDialogView.findViewById(R.id.englishTranList)
+        val dismissBtn = customAlertDialogView.findViewById<ImageButton>(R.id.closeBtn)
+        val title: AppCompatTextView = customAlertDialogView.findViewById(R.id.pageTitle)
+
+        translationByTxt1.hide()
+        englishTranList.hide()
+
+        translationByTxt.text = localContext.getString(R.string.font_settings)
+        title.text = localContext.getString(R.string.arabic_font)
+
+        banglaTranList.apply {
+            arabicFontCommonSelectionList = PlayerCommonSelectionList(
+                ArrayList(fontListData.map { transformArabicFontData(it) }),this@AlQuranFragment)
+            adapter = arabicFontCommonSelectionList
+
+        }
+
+        arabicFontCommonSelectionList.update(updateSelectedFont(alQuranAyatAdapter.getArabicFont()))
+
+        dismissBtn?.setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        // show dialog
+
+        dialog = materialAlertDialogBuilder
+            .setView(customAlertDialogView)
+            .setCancelable(true)
+            .show()
+    }
+
+    private fun updateSelectedFont(fontid: Int): List<PlayerCommonSelectionData> {
+
+        var finalTransalator = DEFAULT_ARABIC_FONT_ID
+
+        if(fontid != 0)
+            finalTransalator = fontid
+
+        val crrentData = arabicFontCommonSelectionList.getData()
+
+        val updatedData = crrentData.map { data ->
+            data.copy(isSelected = data.Id == finalTransalator)
+        }
+
+        return updatedData
+    }
+
 
     private fun dialog_tafsir(surahNo: Int, verseID: Int, ayatArabic: String, arabicFont: Int)
     {
@@ -1420,7 +1826,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         tafsirDialogRetryBtn = tafsirDialogNoInternet?.findViewById(R.id.no_internet_retry)
         tafsirDialogNoData = customAlertDialogView.findViewById(R.id.nodataLayout)
         val header:LinearLayout = customAlertDialogView.findViewById(R.id.header)
-        val container: ScrollView = customAlertDialogView.findViewById(R.id.container)
+        val container:ScrollView = customAlertDialogView.findViewById(R.id.container)
         val dismissBtn = customAlertDialogView.findViewById<ImageButton>(R.id.closeBtn)
 
         header.post {
@@ -1470,7 +1876,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     private fun updateSelectedQari(selectedQariID: Int): List<PlayerCommonSelectionData> {
 
-        var finalQari = selectedQari
+        var finalQari = DEFAULT_QARI_ID
 
         if(selectedQariID != 1)
             finalQari = selectedQariID
@@ -1486,7 +1892,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     private fun updateBnTranslator(selectedTranslator: Int): List<PlayerCommonSelectionData> {
 
-        var finalTransalator = bn_translator
+        var finalTransalator = DEFAULT_BN_TRANSLATOR_ID
 
         if(selectedTranslator != 0)
             finalTransalator = selectedTranslator
@@ -1502,7 +1908,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     private fun updateEnTranslator(selectedTranslator: Int): List<PlayerCommonSelectionData> {
 
-        var finalTransalator = en_translator
+        var finalTransalator = DEFAULT_EN_TRANSLATOR_ID
 
         if(selectedTranslator != 0)
             finalTransalator = selectedTranslator
@@ -1591,7 +1997,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
 
         setupActionForOtherFragment(
-            action1 = R.drawable.ic_search,
+            action1 = R.drawable.ic_settings,
             action2 = R.drawable.ic_list_mode,
             action3 = R.drawable.ic_download_quran,
             callback = this@AlQuranFragment,
@@ -1601,6 +2007,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             view = requireView()
         )
 
+        setCustomPageTitle(pageTitle)
+
         ifQuranDownloading()
 
         binding.ayatList.post {
@@ -1609,6 +2017,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             else
                 loadApiData(pageNo,pageItemCount, juz_number = quranJuz?.JuzId)
         }
+
+        //binding.portableZoomLayout.show()
 
     }
 
@@ -1636,7 +2046,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
 
         setupActionForOtherFragment(
-            action1 = R.drawable.ic_search,
+            action1 = R.drawable.ic_settings,
             action2 = R.drawable.ic_reading_mode,
             action3 = R.drawable.ic_download_quran,
             callback = this@AlQuranFragment,
@@ -1645,6 +2055,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             actionIconColor = R.color.deen_txt_black_deep,
             view = requireView()
         )
+
+        setCustomPageTitle(pageTitle)
 
         ifQuranDownloading()
 
@@ -1655,21 +2067,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                 loadApiData(pageNo,pageItemCount, juz_number = quranJuz?.JuzId)
         }
 
+        binding.portableZoomLayout.hide()
     }
 
-    /* override fun setMenuVisibility(menuVisible: Boolean) {
-         super.setMenuVisibility(menuVisible)
-
-         if(menuVisible)
-             setupBackPressCallback(this)
-     }*/
-
-    /* override fun onBackPress() {
-
-         Log.e("onBackPress","AL QURAN")
-         AudioManager().getInstance().releasePlayer()
-         tryCatch { super.onBackPress() }
-     }*/
 
     override fun playAudioFromUrl(url: String, position: Int) {
 
@@ -1686,12 +2086,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun pause(position: Int) {
         //alQuranAyatAdapter.isPause(position)
-        lifecycleScope.launch(Dispatchers.IO)
-        {
-            AudioManager().getInstance().pauseMediaPlayer(position)
-        }
+            lifecycleScope.launch(Dispatchers.IO)
+            {
+                AudioManager().getInstance().pauseMediaPlayer(position)
+            }
     }
-
 
 
     override fun selectedSurah(position: Int, byService: Boolean) {
@@ -1715,18 +2114,6 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         }
 
 
-
-        setupActionForOtherFragment(
-            action1 = R.drawable.ic_search,
-            action2 = R.drawable.ic_reading_mode,
-            action3 = R.drawable.ic_download_quran,
-            callback = this@AlQuranFragment,
-            actionnBartitle = pageTitle,
-            backEnable = true,
-            actionIconColor = R.color.deen_txt_black_deep,
-            view = requireView()
-        )
-
         ifQuranDownloading()
 
 
@@ -1741,6 +2128,20 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         {
             loadingState()
             loadApiData(pageNo,pageItemCount, juz_number = quranJuz?.JuzId)
+        }
+
+        view?.let {
+            setupActionForOtherFragment(
+                action1 = R.drawable.ic_settings,
+                action2 = R.drawable.ic_reading_mode,
+                action3 = R.drawable.ic_download_quran,
+                callback = this@AlQuranFragment,
+                actionnBartitle = pageTitle,
+                backEnable = true,
+                actionIconColor = R.color.deen_txt_black_deep,
+                view = it
+            )
+            setCustomPageTitle(pageTitle)
         }
 
     }
@@ -1761,7 +2162,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
 
         setupActionForOtherFragment(
-            action1 = R.drawable.ic_search,
+            action1 = R.drawable.ic_settings,
             action2 = R.drawable.ic_reading_mode,
             action3 = R.drawable.ic_download_quran,
             callback = this@AlQuranFragment,
@@ -1770,6 +2171,8 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             actionIconColor = R.color.deen_txt_black_deep,
             view = requireView()
         )
+
+        setCustomPageTitle(pageTitle)
 
         ifQuranDownloading()
 
@@ -1781,34 +2184,28 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun playNextAyat(position: Int) {
 
-
         binding.ayatList.post {
-
-            if(position<totalVerseCount && !isReadingMode && position<binding.ayatList.childCount) {
-                binding.ayatList.post {
-                    val y: Float =
-                        binding.ayatList.y + binding.ayatList.getChildAt(position).y
-
-                    if(auto_scroll)
+            if (position < totalVerseCount && !isReadingMode && position < binding.ayatList.childCount) {
+                val childView = binding.ayatList.getChildAt(position)
+                if (childView != null) {
+                    val y: Float = binding.ayatList.y + childView.y
+                    if (auto_scroll) {
                         binding.container.smoothScrollTo(0, y.toInt())
+                    }
                 }
-                // binding.ayatList.smoothScrollToPosition(position)
-            }
-            else if(position<totalVerseCount)
-            {
-                Log.e("playNextAyat",alQuranAyatAdapter.getTargetIndexOffset().toString())
-                if(auto_scroll)
+            } else if (position < totalVerseCount) {
+                //Log.e("playNextAyat", alQuranAyatAdapter.getTargetIndexOffset().toString())
+                if (auto_scroll) {
                     binding.container.smoothScrollTo(0, alQuranAyatAdapter.getTargetIndexOffset())
-            }
-            else {
+                }
+            } else {
                 isAyatPause()
                 binding.bottomPlayer.miniPlayer.playerProgress.progress = 0
                 binding.bottomPlayer.largePlayer.largePlayerProgress.value = 0.0F
                 alQuranAyatAdapter.miniPlayerNextCall()
-
             }
-
         }
+
     }
 
     override fun isAyatPlaying(position: Int, duration: Long?) {
@@ -1894,7 +2291,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             return
 
         if(!byService)
-            pauseQuran()
+        pauseQuran()
 
         countDownTimer?.cancel()
         binding.bottomPlayer.miniPlayer.icPlayPause.setImageDrawable(
@@ -1924,10 +2321,13 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         }
     }
 
-    override fun isLoadingState(b: Boolean) {
+    private fun surahFavClicked(){
+        lifecycleScope.launch {
+            //alQuranViewModel.updateFavSurah(getLanguage(),surahID,surahListData?.IsFavorite)
+        }
+    }
 
-        if(view == null)
-            return
+    override fun isLoadingState(b: Boolean) {
 
         binding.bottomPlayer.miniPlayer.icPlayPause.visible(!b)
         binding.bottomPlayer.largePlayer.icPlayBtn.visibility = if(b) View.INVISIBLE else View.VISIBLE
@@ -1942,9 +2342,9 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
             return
         isNextPrevSurahCalled = true
         //surahListData?.SurahId?.let {
-        if(surahID < 114)
-            selectedSurah(surahID, byService)
-        // }
+            if(surahID < 114)
+                selectedSurah(surahID, byService)
+       // }
     }
 
     override fun playNextJuz(byService: Boolean) {
@@ -1957,6 +2357,16 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         // }
     }
 
+    override fun playPrevSurah(byService: Boolean) {
+        if(view == null)
+            return
+        isNextPrevSurahCalled = true
+       // surahListData?.SurahId?.let {
+            if(surahID > 1)
+                selectedSurah(surahID-2,byService)
+        //}
+    }
+
     override fun playPrevJuz(byService: Boolean) {
         if(view == null)
             return
@@ -1967,22 +2377,19 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         //}
     }
 
-    override fun playPrevSurah(byService: Boolean) {
-        if(view == null)
-            return
-        isNextPrevSurahCalled = true
-        // surahListData?.SurahId?.let {
-        if(surahID > 1)
-            selectedSurah(surahID-2,byService)
-        //}
-    }
-
     override fun tafsirBtnClicked(surahId: Int, verseId: Int, ayatArabic: String, arabicFont: Int) {
         dialog_tafsir(surahId,verseId,ayatArabic,arabicFont)
     }
 
     override fun action1() {
-        dialog_select_surah()
+        //dialog_select_surah()
+        if(isApiLoaded)
+        binding.drawerLayout.openDrawer(GravityCompat.END)
+    }
+
+    override fun zoomBtnClickedADP(){
+        if(isApiLoaded)
+            binding.drawerLayout.openDrawer(GravityCompat.END)
     }
 
     override fun action2() {
@@ -1994,22 +2401,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
     override fun action3() {
 
-        if(!Subscription.isSubscribe){
-            gotoFrag(R.id.action_global_subscriptionFragment)
-            return
-        }
-
-        customAlertDialog.setupDialog(
-            callback = this@AlQuranFragment,
-            context = requireContext(),
-            btn1Text = localContext.getString(R.string.cancel),
-            btn2Text = localContext.getString(R.string.continueTxt),
-            titileText = localContext.getString(R.string.want_to_download),
-            subTitileText = localContext.getString(R.string.quran_offline_download_hint)
-        )
-
-        customAlertDialog.showDialog(true)
-
+        option3dotClicked(OptionList("download",0,""),null)
 
     }
 
@@ -2045,34 +2437,21 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
         if(this::enPlayerCommonSelectionList.isInitialized && adapter == enPlayerCommonSelectionList) {
             lifecycleScope.launch {
-                playerControlViewModel.updateTranslationSetting(
-                    alQuranAyatAdapter.getTranslationFontSize(),
-                    alQuranAyatAdapter.isTransliterationEnable(),
-                    data.Id,
-                    alQuranAyatAdapter.getBnTranslator()
-                )
+                playerControlViewModel.updateTranslator(data.Id, AlQuranSetting_en_translator)
             }
         }
         else if(this::bnPlayerCommonSelectionList.isInitialized && adapter == bnPlayerCommonSelectionList)
         {
             lifecycleScope.launch {
-                playerControlViewModel.updateTranslationSetting(
-                    alQuranAyatAdapter.getTranslationFontSize(),
-                    alQuranAyatAdapter.isTransliterationEnable(),
-                    alQuranAyatAdapter.getEnTranslator(),
-                    data.Id
-                )
+
+                playerControlViewModel.updateTranslator(data.Id, AlQuranSetting_bn_translator)
             }
         }
 
         else if(this::playerCommonSelectionList.isInitialized && adapter == playerCommonSelectionList) {
 
             lifecycleScope.launch {
-                playerControlViewModel.updateAudioSetting(
-                    auto_scroll,
-                    alQuranAyatAdapter.isAutoPlay(),
-                    data.Id
-                )
+                playerControlViewModel.updateQari(data.Id)
             }
         }
 
@@ -2080,6 +2459,15 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         {
             lifecycleScope.launch {
                 playerControlViewModel.updateTafsir(
+                   data.Id
+                )
+            }
+        }
+
+        else if(this::arabicFontCommonSelectionList.isInitialized && adapter == arabicFontCommonSelectionList)
+        {
+            lifecycleScope.launch {
+                playerControlViewModel.updateArabicFont(
                     data.Id
                 )
             }
@@ -2141,7 +2529,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         setAdapterCallbackQuranPlayer(viewHolder)
     }
 
-   /* override fun customShareAyat(enText: String, bnText: String, arText: String, verseKey: String) {
+    override fun customShareAyat(enText: String, bnText: String, arText: String, verseKey: String) {
 
         val bundle = Bundle()
         bundle.putString("enText",enText)
@@ -2153,49 +2541,80 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         bundle.putString("customShareText","পবিত্র কুরআন তিলাওয়াত করুন  https://shorturl.at/GPSY6")
 
         gotoFrag(R.id.action_global_shareFragment,bundle)
-    }*/
+    }
 
     private fun ifQuranDownloading(){
 
-        binding.actionbar.action3.setColorFilter(ContextCompat.getColor(
-            requireContext(),
-            R.color.deen_txt_black_deep
-        ))
+        binding.bottomPlayer.largePlayer.icDownload.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.deen_txt_black_deep
+            )
+        )
 
+        binding.actionbar.action3.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.deen_txt_black_deep
+            )
+        )
+
+        binding.bottomPlayer.largePlayer.icDownload.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_download_quran))
         binding.actionbar.action3.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_download_quran))
 
         val downloadList = getRunningDownloadList()
 
-        val isFilenameExist = downloadList.containsKey(pageTitle)
+            val isFilenameExist = downloadList.containsKey(pageTitle)
 
-        if (isFilenameExist) {
-            binding.actionbar.action3.invisible()
-            binding.actionbar.action3Progress.show()
-            binding.actionbar.action3Progress.progress =
-                downloadList[surahName] ?: 10
-        } else {
+            if (isFilenameExist) {
+                binding.bottomPlayer.largePlayer.icDownload.invisible()
+                binding.bottomPlayer.largePlayer.action3Progress.show()
+                binding.bottomPlayer.largePlayer.action3Progress.progress =
+                    downloadList[surahName] ?: 10
 
-            binding.actionbar.action3.visible(isSurahMode)
-            binding.actionbar.action3Progress.hide()
-
-            val fileName = "surahinfo.json" // Replace with the actual file name you want to check
-
-            val filePath = File(requireContext().filesDir, "quran/${formatNumber(surahID)}/$fileName")
-
-
-            if (filePath.exists()) {
-                binding.actionbar.action3.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_checked_circle))
-                binding.actionbar.action3.isClickable = false
-                binding.actionbar.action3.setColorFilter(ContextCompat.getColor(
-                    requireContext(),
-                    R.color.deen_primary
-                ))
+                binding.actionbar.action3.invisible()
+                binding.actionbar.action3Progress.show()
+                binding.actionbar.action3Progress.progress =
+                    downloadList[surahName] ?: 10
 
             } else {
-                binding.actionbar.action3.isClickable = true
 
+                binding.bottomPlayer.largePlayer.icDownload.visible(isSurahMode)
+                binding.bottomPlayer.largePlayer.action3Progress.hide()
+
+                binding.actionbar.action3.visible(isSurahMode)
+                binding.actionbar.action3Progress.hide()
+
+                val fileName = "surahinfo.json" // Replace with the actual file name you want to check
+
+                val filePath = File(requireContext().filesDir, "quran/${formatNumber(surahID)}/$fileName")
+
+
+                if (filePath.exists()) {
+                    binding.bottomPlayer.largePlayer.icDownload.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_checked_circle))
+                    binding.actionbar.action3.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.ic_checked_circle))
+
+                    binding.bottomPlayer.largePlayer.icDownload.isClickable = false
+                    binding.actionbar.action3.isClickable = false
+
+                    binding.bottomPlayer.largePlayer.icDownload.imageTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.deen_primary
+                        )
+                    )
+                    binding.actionbar.action3.imageTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.deen_primary
+                        )
+                    )
+
+                } else {
+                    binding.bottomPlayer.largePlayer.icDownload.isClickable = true
+                    binding.actionbar.action3.isClickable = true
+                }
             }
-        }
 
     }
 
@@ -2213,6 +2632,10 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                 downloadFilenameByUser = filenameByUser.toString()
 
                 if (filenameByUser != null && filenameByUser == surahName) {
+
+                    binding.bottomPlayer.largePlayer.icDownload.invisible()
+                    binding.bottomPlayer.largePlayer.action3Progress.show()
+                    binding.bottomPlayer.largePlayer.action3Progress.progress = progress
 
                     binding.actionbar.action3.invisible()
                     binding.actionbar.action3Progress.show()
@@ -2239,12 +2662,24 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         customAlertDialog.dismissDialog()
     }
 
-    inner class VMFactory(
-        private val repository: PlayerControlRepository
-    ) : ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return PlayerControlViewModel(repository) as T
+    private fun setCustomPageTitle(surahName:String){
+
+        val drawable: Drawable? = ContextCompat.getDrawable(requireContext(), R.drawable.ic_dropdown)
+
+        // Create a SpannableStringBuilder to append the text and drawable
+        val builder = SpannableStringBuilder("$surahName ") // Replace "Your text here" with your actual text
+
+        val space = " "
+        builder.append(space)
+
+        drawable?.let {
+            it.setBounds(0, 0, it.intrinsicWidth, it.intrinsicHeight)
+            val imageSpan = ImageSpan(it, ImageSpan.ALIGN_BASELINE)
+            builder.setSpan(imageSpan, builder.length - space.length, builder.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
+
+        binding.actionbar.title.text = builder
+
     }
 
 

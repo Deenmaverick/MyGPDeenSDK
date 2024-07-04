@@ -4,9 +4,13 @@ import androidx.annotation.Keep
 
 @Keep
 internal data class PrayerMomentRange(
-    val MomentName: String,
-    val StartTime: String,
-    val EndTime: String,
-    val NextPrayerName:String,
-    val nextPrayerTimeCount:Long
+    var MomentName: String,
+    var StartTime: String,
+    var EndTime: String,
+    var NextPrayerName:String,
+    var nextPrayerTimeCount:Long,
+    var forbidden1: (Long) -> Boolean = { false },
+    var forbidden2: (Long) -> Boolean = { false },
+    var forbidden3: (Long) -> Boolean = { false },
+    var chasht: (Long) -> Boolean = { false }
 )

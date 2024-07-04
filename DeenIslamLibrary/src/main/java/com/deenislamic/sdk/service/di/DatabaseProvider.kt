@@ -19,7 +19,7 @@ internal class DatabaseProvider {
         var instance: DatabaseProvider? = null
     }
 
-    val MIGRATION_TEST: Migration = object : Migration(1, 2) {
+    val MIGRATION_TEST: Migration = object : Migration(1, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
             // Since we didn't alter the table, there's nothing else to do here.
 
@@ -70,12 +70,13 @@ internal class DatabaseProvider {
 
 
             //tasbeeh
-            database.execSQL("CREATE TABLE IF NOT EXISTS `tasbeeh` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT 0, `dua` TEXT NOT NULL DEFAULT '', `dua_bn` TEXT NOT NULL DEFAULT '', `track1` INTEGER NOT NULL DEFAULT 0, `track2` INTEGER NOT NULL DEFAULT 0, `track3` INTEGER NOT NULL DEFAULT 0, `dua_count` INTEGER NOT NULL DEFAULT 0, `daily_count` INTEGER NOT NULL DEFAULT 0, `date` TEXT NOT NULL DEFAULT '', `timestamp` INTEGER NOT NULL DEFAULT 0)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS `tasbeeh` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT 0, `dua` TEXT NOT NULL DEFAULT '', `dua_bn` TEXT NOT NULL DEFAULT '', `track1` INTEGER NOT NULL DEFAULT 0, `track2` INTEGER NOT NULL DEFAULT 0, `track3` INTEGER NOT NULL DEFAULT 0, `dua_count` INTEGER NOT NULL DEFAULT 0, `daily_count` INTEGER NOT NULL DEFAULT 0, `date` TEXT NOT NULL DEFAULT '', `timestamp` INTEGER NOT NULL DEFAULT 0,`audioUrl` TEXT NOT NULL DEFAULT '',`duaid` INTEGER NOT NULL DEFAULT 0)")
             verify_all_tasbeeh_col(database)
-            database.execSQL("CREATE TABLE IF NOT EXISTS `tasbeeh_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT 0, `dua` TEXT NOT NULL DEFAULT '', `dua_bn` TEXT NOT NULL DEFAULT '', `dua_arb` TEXT NOT NULL DEFAULT '',`track1` INTEGER NOT NULL DEFAULT 0, `track2` INTEGER NOT NULL DEFAULT 0, `track3` INTEGER NOT NULL DEFAULT 0, `dua_count` INTEGER NOT NULL DEFAULT 0, `daily_count` INTEGER NOT NULL DEFAULT 0, `date` TEXT NOT NULL DEFAULT '',`timestamp` INTEGER NOT NULL DEFAULT 0)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS `tasbeeh_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT 0, `dua` TEXT NOT NULL DEFAULT '', `dua_bn` TEXT NOT NULL DEFAULT '', `dua_arb` TEXT NOT NULL DEFAULT '',`track1` INTEGER NOT NULL DEFAULT 0, `track2` INTEGER NOT NULL DEFAULT 0, `track3` INTEGER NOT NULL DEFAULT 0, `dua_count` INTEGER NOT NULL DEFAULT 0, `daily_count` INTEGER NOT NULL DEFAULT 0, `date` TEXT NOT NULL DEFAULT '',`timestamp` INTEGER NOT NULL DEFAULT 0,`audioUrl` TEXT NOT NULL DEFAULT '',`duaid` INTEGER NOT NULL DEFAULT 0)")
             database.execSQL("INSERT OR IGNORE INTO tasbeeh_new SELECT * FROM tasbeeh")
             database.execSQL("DROP TABLE tasbeeh")
             database.execSQL("ALTER TABLE tasbeeh_new RENAME TO tasbeeh")
+
 
 
             // playersettingpref
@@ -88,7 +89,9 @@ internal class DatabaseProvider {
                     "`auto_play_next` INTEGER NOT NULL DEFAULT 1, " +
                     "`recitation` INTEGER NOT NULL DEFAULT 1, " +
                     "`transliteration` INTEGER NOT NULL DEFAULT 1," +
+                    "`bn_meaning` INTEGER NOT NULL DEFAULT 1," +
                     "`translation_font_size` REAL NOT NULL DEFAULT 0.0, " +
+                    "`english_font_size` REAL NOT NULL DEFAULT 0.0, " +
                     "`translation_language` TEXT NOT NULL DEFAULT 'bn', " +
                     "`bn_translator` INTEGER NOT NULL DEFAULT 0," +
                     "`en_translator` INTEGER NOT NULL DEFAULT 0," +
@@ -103,7 +106,9 @@ internal class DatabaseProvider {
                     "`auto_play_next` INTEGER NOT NULL DEFAULT 1, " +
                     "`recitation` INTEGER NOT NULL DEFAULT 1, " +
                     "`transliteration` INTEGER NOT NULL DEFAULT 1, " +
+                    "`bn_meaning` INTEGER NOT NULL DEFAULT 1, " +
                     "`translation_font_size` REAL NOT NULL DEFAULT 0.0, " +
+                    "`english_font_size` REAL NOT NULL DEFAULT 0.0, " +
                     "`translation_language` TEXT NOT NULL DEFAULT 'bn', " +
                     "`bn_translator` INTEGER NOT NULL DEFAULT 0," +
                     "`en_translator` INTEGER NOT NULL DEFAULT 0," +

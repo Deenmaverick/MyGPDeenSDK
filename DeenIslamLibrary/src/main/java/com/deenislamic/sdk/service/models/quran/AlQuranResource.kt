@@ -10,7 +10,8 @@ import com.deenislamic.sdk.service.network.response.quran.tafsir.Data
 internal interface AlQuranResource {
 
     data class surahDetails(val data:SurahDetailsData):AlQuranResource
-    data class VersesByChapter(val data: AyatResponse) :AlQuranResource
+    data class VersesByChapter(val data: AyatResponse, val isReadingMode: Boolean) :AlQuranResource
+
     data class juzList(val juzs: List<Juz>) :AlQuranResource
     data class QuranHomePatch(val data: DashboardResponse) :AlQuranResource
     data class SurahList(val data: SurahListResponse) :AlQuranResource

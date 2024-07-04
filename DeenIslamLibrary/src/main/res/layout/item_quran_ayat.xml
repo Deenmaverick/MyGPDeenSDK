@@ -94,7 +94,6 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:visibility="gone"
             android:id="@+id/btnMore"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -119,12 +118,12 @@
 
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/btnFav"
             android:layout_width="24dp"
             android:layout_height="40dp"
             android:layout_marginEnd="@dimen/space_8"
-            android:src="@drawable/ic_fav_quran"
+            android:src="@drawable/deen_ic_bookmark_active"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnShare"
             app:layout_constraintTop_toBottomOf="@id/border"/>
@@ -144,13 +143,25 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnPlay"
-            android:layout_width="40dp"
+            android:layout_width="24dp"
             android:layout_height="40dp"
-            android:padding="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_8"
             app:tint="@color/deen_txt_ash"
             android:src="@drawable/ic_quran_play_fill"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnTafseer"
+            app:layout_constraintTop_toBottomOf="@id/border"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/zoomBtn"
+            android:layout_width="24dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="@dimen/space_8"
+            app:tint="@color/deen_txt_ash"
+            android:src="@drawable/deen_ic_zoom_in"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnPlay"
             app:layout_constraintTop_toBottomOf="@id/border"/>
 
 
@@ -163,9 +174,10 @@
             app:indicatorSize="18dp"
             app:trackThickness="2dp"
             android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnTafseer"
-            app:layout_constraintTop_toBottomOf="@id/border"/>
+            app:layout_constraintStart_toStartOf="@+id/btnPlay"
+            app:layout_constraintBottom_toBottomOf="@+id/btnPlay"
+            app:layout_constraintEnd_toEndOf="@+id/btnPlay"
+            app:layout_constraintTop_toTopOf="@id/btnPlay"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

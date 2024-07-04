@@ -20,6 +20,7 @@ import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
+import org.jsoup.Jsoup
 
 internal class QurbaniCommonContentAdapter(private val details: List<Data>) : RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -60,7 +61,7 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
             val subtext = if(getsubtext?.Text?.isNotEmpty() == true) getsubtext.Text else getsubtext?.Pronunciation
 
             title.text = getdata.Title
-            subText.text = subtext?.htmlFormat()
+            subText.text = subtext?.let { Jsoup.parse(it).text() }
 
             title.apply {
                 setTextSize(

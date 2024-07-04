@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:overScrollMode="never"
-    android:scrollbars="vertical"
+    android:scrollbars="none"
     tools:viewBindingIgnore="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,107 +16,88 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fontsizeTxt"
+            android:id="@+id/banglaPronunceTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/font_size"
-            android:textAlignment="textStart"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_marginTop="@dimen/space_16"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/deen_txt_ash"
-            app:layout_constraintEnd_toStartOf="@+id/defaultFontBtn"
+            android:text="@string/bengali_pronunciation"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/defaultFontBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/default_txt"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/deen_txt_ash"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/fontsizeTxt"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fontMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
-            android:text="@string/font__a"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/deen_txt_ash"
-            app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/fontControl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
-            android:paddingBottom="6dp"
-            app:labelBehavior="gone"
-            android:focusable="false"
-            app:haloRadius="@dimen/sapce_20"
-            app:thumbColor="@color/deen_white"
-            android:valueTo="100"
-            android:value="0"
-            android:stepSize="20"
-            app:trackHeight="2dp"
-            app:thumbRadius="8dp"
-            app:tickColorActive="@color/deen_txt_ash"
-            app:tickColorInactive="@color/deen_txt_ash"
-            app:layout_constraintBottom_toBottomOf="@id/fontMinus"
-            app:layout_constraintStart_toEndOf="@+id/fontMinus"
-            app:layout_constraintEnd_toStartOf="@+id/fontPlus"
-            app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
-            />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fontPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/font_a"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/deen_txt_ash"
-            app:layout_constraintTop_toTopOf="@+id/fontControl"
-            app:layout_constraintTop_toBottomOf="@+id/fontsizeTxt"
-            app:layout_constraintStart_toEndOf="@+id/fontControl"
-            app:layout_constraintBottom_toBottomOf="@+id/fontControl"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/fontLayout"
-            android:layout_width="match_parent"
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/bnPronunceSwitch"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_10"
-            android:layout_marginBottom="1dp"
-            app:cardCornerRadius="20dp"
-            android:layout_marginStart="@dimen/space_16"
-            android:layout_marginEnd="@dimen/space_16"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/deen_background"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="end"
+            android:minHeight="14dp"
+            android:checked="true"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            app:thumbTint="@color/deen_white"
+            app:trackDecorationTint="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="@+id/banglaPronunceTv"
+            app:layout_constraintBottom_toBottomOf="@+id/banglaPronunceTv"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/banglaMeaningTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/deen_txt_ash"
+            android:text="@string/bangla_meaning"
+            app:layout_constraintTop_toBottomOf="@+id/bnPronunceSwitch"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fontControl"
-            app:strokeWidth="0dp">
+            app:layout_constraintEnd_toStartOf="@+id/bnMeaningSwitch"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ayatArabic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_10"
-                android:fontFamily="@font/kfgqpc_uthmanic_script_hafs_regular"
-                android:textAppearance="@style/DeenTextAppearance.font24"
-                android:textColor="@color/deen_primary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/bnMeaningSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:minHeight="14dp"
+            android:checked="true"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            app:thumbTint="@color/deen_white"
+            app:trackDecorationTint="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="@+id/banglaMeaningTv"
+            app:layout_constraintBottom_toBottomOf="@+id/banglaMeaningTv"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 
-        </com.google.android.material.card.MaterialCardView>
+
+        <include
+            android:id="@+id/arabicFontControl"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/space_12"
+            layout="@layout/item_fontsize_adjust"
+            app:layout_constraintTop_toBottomOf="@+id/bnMeaningSwitch"/>
+
+        <include
+            android:id="@+id/banglaFontControlLy"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/item_fontsize_adjust"
+            app:layout_constraintTop_toBottomOf="@+id/arabicFontControl"/>
+
+
+        <include
+            android:id="@+id/englishFontControlLy"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/item_fontsize_adjust"
+            app:layout_constraintTop_toBottomOf="@+id/banglaFontControlLy"/>
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ArabicFontTxt"
@@ -127,7 +108,7 @@
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/deen_txt_ash"
-            app:layout_constraintTop_toBottomOf="@+id/fontLayout"
+            app:layout_constraintTop_toBottomOf="@+id/englishFontControlLy"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView

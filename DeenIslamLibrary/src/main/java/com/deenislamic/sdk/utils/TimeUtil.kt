@@ -117,8 +117,8 @@ fun Long.epochTimeToStringTime(pattern: String = "hh:mm a"): String {
 
 fun isTimeInRange(currentTime: Long, startTime: Long, endTime: Long): Boolean {
     val currentEpoch = currentTime
-    val startEpoch = startTime
-    val endEpoch = endTime
+    val startEpoch = startTime.minus(2000)
+    val endEpoch = endTime.minus(2000)
 
     return if (startEpoch < endEpoch) {
         // Normal case, same day

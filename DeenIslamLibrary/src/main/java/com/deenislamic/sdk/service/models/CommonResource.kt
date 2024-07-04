@@ -4,6 +4,7 @@ import com.deenislamic.sdk.service.models.prayer_time.PrayerCalendarResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislamic.sdk.service.models.quran.AlQuranResource
+import com.deenislamic.sdk.service.models.quran.AlQuranSettingResource
 import com.deenislamic.sdk.service.models.quran.SurahResource
 import com.deenislamic.sdk.service.models.quran.learning.QuranLearningResource
 import com.deenislamic.sdk.service.models.quran.quranplayer.ThemeResource
@@ -32,5 +33,5 @@ internal interface CommonResource
     object CLEAR:CommonResource, ZakatResource, PrayerNotificationResource, SettingResource,
         DailyDuaResource, IslamicNameResource, HadithResource, KhatamQuranVideoResource,
         QuranLearningResource, PaymentResource, RamadanResource, IslamiMasailResource, ThemeResource,
-        SubscriptionResource
+        SubscriptionResource, AlQuranSettingResource
 }

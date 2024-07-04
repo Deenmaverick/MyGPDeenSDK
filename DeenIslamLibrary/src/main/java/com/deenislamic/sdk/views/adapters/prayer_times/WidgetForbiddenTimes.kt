@@ -57,7 +57,7 @@ internal class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
                 {
                     prayerName.text = "Sunrise".prayerMomentLocale()
                     timeTxt.text = ("${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Ishrak?.StringTimeToMillisecond()?.minus(1*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 
@@ -65,7 +65,7 @@ internal class WidgetForbiddenTimes : RecyclerView.Adapter<BaseViewHolder>() {
                 {
                     prayerName.text = "Midday".prayerMomentLocale()
                     timeTxt.text = ("${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(6*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Noon?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 

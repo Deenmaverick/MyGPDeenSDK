@@ -90,11 +90,11 @@ internal class AlQuranViewModel(
                 contentCount=contentCount,
                 chapter_number=chapter_number,
                 isReadingMode = isReadingMode
-            ))
+            ),isReadingMode)
         }
     }
 
-    private fun processVersesByChapter(response: ApiResource<AyatResponse?>)
+    private fun processVersesByChapter(response: ApiResource<AyatResponse?>, isReadingMode: Boolean)
     {
         when(response)
         {
@@ -102,7 +102,7 @@ internal class AlQuranViewModel(
             is ApiResource.Success ->
             {
                 if(response.value?.Data?.Ayaths?.isNotEmpty() == true)
-                    _surahDetails.value = AlQuranResource.VersesByChapter(response.value)
+                    _surahDetails.value = AlQuranResource.VersesByChapter(response.value,isReadingMode)
                 else
                     _surahDetails.value = CommonResource.EMPTY
             }
@@ -140,7 +140,10 @@ internal class AlQuranViewModel(
     {
         Log.e("qloadApiDataaaa",juz_number.toString())
         viewModelScope.launch {
-            processVersesByChapter(repository.getVersesByJuz(language = language,page=page,contentCount=contentCount,juz_number=juz_number,isReadingMode))
+            processVersesByChapter(
+                repository.getVersesByJuz(language = language,page=page,contentCount=contentCount,juz_number=juz_number,isReadingMode),
+                isReadingMode
+            )
         }
     }
 

@@ -54,8 +54,10 @@ internal class AlQuranAyatAdapter(
 
     // player setting
     private var theme_font_size:Float = if(isBnReading) 18F else 24F
+    private var english_font_size:Float = 14F
     private var translation_font_size:Float = 14F
     private var setting_transliteration = true
+    private var setting_bn_meaning = true
     private var auto_play_next = true
     private var arabicFont:Int = 1
     private var selectedQari = 931
@@ -129,6 +131,12 @@ internal class AlQuranAyatAdapter(
         if(translatorID!=0)
             en_translator = translatorID
 
+    }
+
+    fun update_bn_meaning(bol:Boolean)
+    {
+        setting_bn_meaning = bol
+        //notifyDataSetChanged()
     }
 
     fun getEnTranslator() = en_translator
@@ -307,6 +315,12 @@ internal class AlQuranAyatAdapter(
         //notifyDataSetChanged()
     }
 
+    fun update_english_font_size(fontsize: Float)
+    {
+        english_font_size = fontsize
+        //notifyDataSetChanged()
+    }
+
     fun update_translation_font_size(fontsize: Float)
     {
         translation_font_size = fontsize
@@ -336,6 +350,8 @@ internal class AlQuranAyatAdapter(
         arabicFont = font
         //notifyDataSetChanged()
     }
+
+    fun getArabicFont() = arabicFont
 
     fun getDataSize() = data.size
 
@@ -446,11 +462,17 @@ internal class AlQuranAyatAdapter(
                     else
                         binding_list?.transliteration?.show()
 
+                    binding_list?.ayatBn?.visible(setting_bn_meaning)
+
+
+
                     binding_list?.ayatArabic?.text = ayatArabic
                     binding_list?.ayatArabic?.setTextSize(TypedValue.COMPLEX_UNIT_SP,theme_font_size)
                     binding_list?.transliteration?.text = transliteration
+                    binding_list?.transliteration?.setTextSize(TypedValue.COMPLEX_UNIT_SP, if(DeenSDKCore.GetDeenLanguage() == "en") english_font_size else translation_font_size)
 
                     binding_list?.ayatEn?.setTextSize(TypedValue.COMPLEX_UNIT_SP,translation_font_size)
+                    binding_list?.ayatEn?.setTextSize(TypedValue.COMPLEX_UNIT_SP,english_font_size)
                     binding_list?.ayatBn?.setTextSize(TypedValue.COMPLEX_UNIT_SP,translation_font_size)
 
                     val idsToFilter = setOf(en_translator,bn_translator)
@@ -604,14 +626,14 @@ internal class AlQuranAyatAdapter(
                         binding_list?.btnFav?.setImageDrawable(
                             AppCompatResources.getDrawable(
                                 binding_list.btnPlay.context,
-                                R.drawable.ic_favorite_primary_active
+                                R.drawable.deen_ic_bookmark_active
                             )
                         )
                     else
                         binding_list?.btnFav?.setImageDrawable(
                             AppCompatResources.getDrawable(
                                 binding_list.btnPlay.context,
-                                R.drawable.ic_fav_quran
+                                R.drawable.deen_ic_bookmark
                             )
                         )
 
@@ -621,6 +643,19 @@ internal class AlQuranAyatAdapter(
 
                     binding_list?.btnTafseer?.setOnClickListener {
                         callback.tafsirBtnClicked(getAyatData.SurahId,getAyatData.VerseId,ayatArabic,arabicFont)
+                    }
+
+
+                    binding_list?.zoomBtn?.setOnClickListener {
+                        callback.zoomBtnClickedADP()
+                    }
+
+                    binding_list?.btnMore?.setOnClickListener {
+                        callback.option3dotClicked(getAyatData)
+                    }
+
+                    binding_list?.root?.setOnClickListener {
+                        callback.option3dotClicked(getAyatData)
                     }
 
                     /*binding_list?.btnShare?.setOnClickListener {

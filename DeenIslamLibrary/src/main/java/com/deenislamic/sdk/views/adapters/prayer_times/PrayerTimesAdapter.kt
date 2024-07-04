@@ -276,8 +276,23 @@ internal class PrayerTimesAdapter(
             else -> {
                 timefor.hide()
                 prayerMoment.setPadding(0,8.dp,0,0)
+                prayerMoment.hide()
                 prayerMomentRange.hide()
-                prayerBG.setBackgroundColor(ContextCompat.getColor(getContext,R.color.deen_black))
+                when(prayerMomentRangeData?.NextPrayerName){
+                    "Fajr" -> prayerBG.setBackgroundResource(R.drawable.fajr)
+                    "Dhuhr" -> prayerBG.setBackgroundResource(R.drawable.dhuhr)
+                    "Asr" -> prayerBG.setBackgroundResource(R.drawable.asr)
+                    "Maghrib" -> prayerBG.setBackgroundResource(R.drawable.maghrib)
+                    "Isha" -> prayerBG.setBackgroundResource(R.drawable.isha)
+                    "Ishraq" -> prayerBG.setBackgroundResource(R.drawable.fajr)
+                    "Chasht" -> prayerBG.setBackgroundResource(R.drawable.fajr)
+                    else -> {
+
+                        prayerBG.setBackgroundColor(ContextCompat.getColor(getContext,R.color.deen_black))
+
+                    }
+
+                }
             }
         }
 
@@ -294,6 +309,27 @@ internal class PrayerTimesAdapter(
                 com.deenislamic.sdk.utils.singleton.CountDownTimer.prayerTimer =object : CountDownTimer(it, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
                         nextPrayerTimeCount.text = "-"+millisUntilFinished.TimeDiffForPrayer().numberLocale()
+                        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
+                        val nowtime = currentTime.stringTimeToEpochTime()
+
+                        //Log.e("PrayerBannerPT",prayerMomentRangeData.forbidden3.invoke(nowtime).toString())
+
+                        if(prayerMomentRangeData?.MomentName != getContext?.getString(R.string.forbidden_time) &&
+                            prayerMomentRangeData?.MomentName != "Chasht") {
+                            if (prayerMomentRangeData?.forbidden1?.invoke(nowtime) == true) {
+                                com.deenislamic.sdk.utils.singleton.CountDownTimer.prayerTimer?.cancel()
+                                callback?.nextPrayerCountownFinish()
+                            } else if (prayerMomentRangeData?.forbidden2?.invoke(nowtime) == true) {
+                                com.deenislamic.sdk.utils.singleton.CountDownTimer.prayerTimer?.cancel()
+                                callback?.nextPrayerCountownFinish()
+                            } else if (prayerMomentRangeData?.forbidden3?.invoke(nowtime) == true) {
+                                com.deenislamic.sdk.utils.singleton.CountDownTimer.prayerTimer?.cancel()
+                                callback?.nextPrayerCountownFinish()
+                            }else if (prayerMomentRangeData?.chasht?.invoke(nowtime) == true) {
+                                com.deenislamic.sdk.utils.singleton.CountDownTimer.prayerTimer?.cancel()
+                                callback?.nextPrayerCountownFinish()
+                            }
+                        }
                     }
 
                     override fun onFinish() {

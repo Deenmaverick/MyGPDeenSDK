@@ -4,28 +4,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.di.DatabaseProvider
+import com.deenislamic.sdk.service.models.quran.AlQuranSettingResource
 import com.deenislamic.sdk.service.models.quran.quranplayer.PlayerCommonSelectionData
-import com.deenislamic.sdk.service.models.quran.quranplayer.ThemeResource
 import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Qari
+import com.deenislamic.sdk.service.repository.quran.quranplayer.PlayerControlRepository
+import com.deenislamic.sdk.utils.AlQuranSetting_auto_play_next
+import com.deenislamic.sdk.utils.AlQuranSetting_autoscroll
+import com.deenislamic.sdk.utils.AlQuranSetting_choose_qari
 import com.deenislamic.sdk.utils.transformPlayerReciterData
+import com.deenislamic.sdk.viewmodels.common.PlayerControlVMFactory
 import com.deenislamic.sdk.viewmodels.quran.quranplayer.PlayerControlViewModel
 import com.deenislamic.sdk.views.adapters.quran.quranplayer.PlayerCommonSelectionList
 import com.deenislamic.sdk.views.base.BaseRegularFragment
-import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.materialswitch.MaterialSwitch
 import kotlinx.coroutines.launch
 
 internal class PlayerAudioFragment(private val qarisData: ArrayList<Qari> = arrayListOf()) : BaseRegularFragment(),
     PlayerCommonSelectionList.PlayerCommonSelectionListCallback {
 
-    private val viewmodel by viewModels<PlayerControlViewModel>({requireActivity()})
+    private lateinit var viewmodel: PlayerControlViewModel
 
-    private lateinit var autoScrollSwitch:SwitchMaterial
-    private lateinit var autoPlaySwitch:SwitchMaterial
-    private lateinit var qariList: RecyclerView
+    private lateinit var autoScrollSwitch:MaterialSwitch
+    private lateinit var autoPlaySwitch:MaterialSwitch
+    private lateinit var qariList:RecyclerView
     private lateinit var playerCommonSelectionList: PlayerCommonSelectionList
 
     private var updateSettingCall:Boolean = false
@@ -36,6 +42,20 @@ internal class PlayerAudioFragment(private val qarisData: ArrayList<Qari> = arra
     private var auto_scroll = true
     private var auto_play_next = true
     private var selectedQari = 931
+
+    override fun OnCreate() {
+        super.OnCreate()
+
+        val repository = PlayerControlRepository(
+            playerSettingDao = DatabaseProvider().getInstance().providePlayerSettingDao()
+        )
+
+        val factory = PlayerControlVMFactory(repository)
+        viewmodel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PlayerControlViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,30 +75,21 @@ internal class PlayerAudioFragment(private val qarisData: ArrayList<Qari> = arra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        autoScrollSwitch.setOnCheckedChangeListener { compoundButton, b ->
-
+        autoScrollSwitch.setOnCheckedChangeListener { _, b ->
             lifecycleScope.launch {
-                auto_scroll = b
-                updateSettingCall = true
-                viewmodel.updateAudioSetting(auto_scroll,auto_play_next,selectedQari)
+                viewmodel.updateAutoScroll(b,"pac_$AlQuranSetting_autoscroll")
             }
-
         }
 
-        autoPlaySwitch.setOnCheckedChangeListener { compoundButton, b ->
-
+        autoPlaySwitch.setOnCheckedChangeListener { _, b ->
             lifecycleScope.launch {
-                auto_play_next = b
-                updateSettingCall = true
-                viewmodel.updateAudioSetting(auto_scroll,auto_play_next,selectedQari)
+                viewmodel.updateAutoPlayNext(b,"pac_$AlQuranSetting_auto_play_next")
             }
 
         }
 
         qariList.apply {
-            playerCommonSelectionList = PlayerCommonSelectionList(ArrayList(qarisData.map { transformPlayerReciterData(it) }),this@PlayerAudioFragment)
+        playerCommonSelectionList = PlayerCommonSelectionList(ArrayList(qarisData.map { transformPlayerReciterData(it) }),this@PlayerAudioFragment)
             adapter = playerCommonSelectionList
         }
 
@@ -97,14 +108,13 @@ internal class PlayerAudioFragment(private val qarisData: ArrayList<Qari> = arra
 
     private fun initObserver()
     {
-        viewmodel.themeLiveData.observe(viewLifecycleOwner)
+        viewmodel.alQuranSettingsLiveData.observe(viewLifecycleOwner)
         {
             when(it)
             {
-                is ThemeResource.playerSettings ->
+                is AlQuranSettingResource.AlQuranSettings ->
                 {
                     it.setting?.auto_scroll?.let { it1 ->
-                        if(!updateSettingCall)
                             autoScrollSwitch.isChecked = it1
                     }
 
@@ -114,28 +124,34 @@ internal class PlayerAudioFragment(private val qarisData: ArrayList<Qari> = arra
                     }
 
                     it.setting?.recitation?.let {
-                            it1->
+                    it1->
 
                         playerCommonSelectionList.update(updateSelectedQari(it1))
                     }
                 }
 
-                is ThemeResource.updatePlayerSettings ->
+                is AlQuranSettingResource.UpdateAlQuranSettings ->
                 {
-                    it.setting?.auto_scroll?.let { it1 ->
-                        if(!updateSettingCall)
+
+                    if(it.type == AlQuranSetting_autoscroll) {
+                        it.setting?.auto_scroll?.let { it1 ->
                             autoScrollSwitch.isChecked = it1
+                        }
                     }
 
-                    it.setting?.auto_play_next?.let { it1 ->
-                        if(!updateSettingCall)
-                            autoPlaySwitch.isChecked = it1
+                    if(it.type == AlQuranSetting_auto_play_next) {
+                        it.setting?.auto_play_next?.let { it1 ->
+                                autoPlaySwitch.isChecked = it1
+                        }
                     }
 
-                    it.setting?.recitation?.let {
-                            it1->
-                        playerCommonSelectionList.update(updateSelectedQari(it1))
+                    if(it.type == AlQuranSetting_choose_qari){
+                        it.setting?.recitation?.let {
+                                it1->
+                            playerCommonSelectionList.update(updateSelectedQari(it1))
+                        }
                     }
+
                 }
             }
         }
@@ -164,9 +180,18 @@ internal class PlayerAudioFragment(private val qarisData: ArrayList<Qari> = arra
         adapter: PlayerCommonSelectionList
     ) {
         lifecycleScope.launch {
-            viewmodel.updateAudioSetting(auto_scroll,auto_play_next,data.Id)
+            viewmodel.updateQari(data.Id)
+
         }
     }
 
+ /*   private fun transformdata(newDataModel: Qari): PlayerCommonSelectionData {
+
+        return PlayerCommonSelectionData(
+            imageurl = newDataModel.imageurl?:"",
+            Id = newDataModel.title,
+            title = newDataModel.text
+        )
+    }*/
 
 }

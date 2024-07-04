@@ -45,10 +45,39 @@
         android:layout_height="0dp"
         android:layout_marginEnd="@dimen/space_16"
         app:tint="@color/deen_txt_ash"
-        android:src="@drawable/ic_favorite"
+        android:src="@drawable/deen_ic_bookmark"
+        app:layout_constraintEnd_toStartOf="@+id/ic_download"
+        app:layout_constraintBottom_toBottomOf="@id/ic_al_quran"
+        app:layout_constraintTop_toTopOf="@id/ic_al_quran" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ic_download"
+        android:layout_width="24dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/space_16"
+        app:tint="@color/deen_txt_ash"
+        android:src="@drawable/deen_ic_download"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/ic_al_quran"
         app:layout_constraintTop_toTopOf="@id/ic_al_quran" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:visibility="gone"
+        android:id="@+id/action3Progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_10"
+        app:indicatorColor="?attr/colorPrimary"
+        app:trackColor="@color/deen_border"
+        app:indicatorSize="20dp"
+        app:trackThickness="11dp"
+        app:layout_constraintStart_toStartOf="@id/ic_download"
+        app:layout_constraintEnd_toEndOf="@id/ic_download"
+        app:layout_constraintBottom_toBottomOf="@id/ic_download"
+        app:layout_constraintTop_toTopOf="@id/ic_download"
+        />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/largePlayerProgress"
@@ -139,6 +168,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/themeBtn"
+                style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -155,6 +185,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/audioBtn"
+                style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -171,6 +202,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/transalationBtn"
+                style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

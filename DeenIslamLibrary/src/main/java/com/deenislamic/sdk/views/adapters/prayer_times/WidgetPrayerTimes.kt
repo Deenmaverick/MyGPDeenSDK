@@ -122,7 +122,7 @@ internal class WidgetPrayerTimes(
                     prayerNameArabic.text = "صلاة الفجْر"
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_sunrise_fill))
                     timeTxt.text = ("${prayerData?.Data?.Fajr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
-                            "${(prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.minus(60000L))?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Sunrise?.StringTimeToMillisecond()?.minus(1*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
                 2->
@@ -143,7 +143,7 @@ internal class WidgetPrayerTimes(
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_sun_fill))
 
                     timeTxt.text = ("${prayerData?.Data?.Juhr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Asr?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Asr?.StringTimeToMillisecond()?.minus(1*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
 
                 }
@@ -155,7 +155,7 @@ internal class WidgetPrayerTimes(
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_cloud_sun_fill))
 
                     timeTxt.text = ("${prayerData?.Data?.Asr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 
@@ -166,7 +166,7 @@ internal class WidgetPrayerTimes(
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_sunset_fill))
 
                     timeTxt.text = ("${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.minus(1*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
 
 
@@ -180,7 +180,7 @@ internal class WidgetPrayerTimes(
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_isha))
 
                     timeTxt.text = ("${prayerData?.Data?.Isha?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.minus(60000L)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Tahajjut?.StringTimeToMillisecond()?.minus(1*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 

@@ -100,26 +100,41 @@ internal class PrayerTime(view: View,private var prayerData: PrayerTimesResponse
         else if(prayerMomentRangeData?.MomentName == "Ishraq") {
             prayerTracker(false)
             prayerBG.setBackgroundResource(R.drawable.fajr)
-        } else if(prayerMomentRangeData?.MomentName == "Chasht") {
+        }
+        else if(prayerMomentRangeData?.MomentName == "Chasht") {
             prayerTracker(false)
             prayerBG.setBackgroundResource(R.drawable.fajr)
-        } else if(prayerMomentRangeData?.MomentName == getContext?.getString(R.string.forbidden_time)){
+        }
+        else if(prayerMomentRangeData?.MomentName == getContext?.getString(R.string.forbidden_time)){
             prayerTracker(false)
             prayerBG.setBackgroundResource(R.drawable.deen_bg_forbidden_prayer)
-        } else {
-            //prayerBG.setBackgroundResource(R.drawable.isha)
+        }
+        else {
             prayerTracker(false)
             prayerMomentRange.text = "--"
             timefor.hide()
+            prayerMoment.hide()
             prayerMoment.setPadding(0,13.dp,0,0)
             prayerMomentRange.hide()
-            prayerBG.setBackgroundColor(
-                ContextCompat.getColor(getContext,
-                    R.color.deen_black
-                )
-            )
 
+            when(prayerMomentRangeData?.NextPrayerName){
+                "Fajr" -> prayerBG.setBackgroundResource(R.drawable.fajr)
+                "Dhuhr" -> prayerBG.setBackgroundResource(R.drawable.dhuhr)
+                "Asr" -> prayerBG.setBackgroundResource(R.drawable.asr)
+                "Maghrib" -> prayerBG.setBackgroundResource(R.drawable.maghrib)
+                "Isha" -> prayerBG.setBackgroundResource(R.drawable.isha)
+                "Ishraq" -> prayerBG.setBackgroundResource(R.drawable.fajr)
+                "Chasht" -> prayerBG.setBackgroundResource(R.drawable.fajr)
+                else -> {
+
+                    prayerBG.setBackgroundColor(ContextCompat.getColor(getContext,R.color.deen_black))
+
+                }
+
+            }
         }
+
+
         progressTxt.text = "${getCompletedPrayerCount()}/5".numberLocale()
         prayerMoment.text = prayerMomentRangeData?.MomentName?.prayerMomentLocale()
         namazTask.progress = getCompletedPrayerCount()*20

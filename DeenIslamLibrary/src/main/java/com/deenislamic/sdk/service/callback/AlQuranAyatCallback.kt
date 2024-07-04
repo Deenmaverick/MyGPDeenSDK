@@ -1,6 +1,11 @@
 package com.deenislamic.sdk.service.callback
 
+import com.deenislamic.sdk.service.models.common.OptionList
+import com.deenislamic.sdk.service.models.quran.quranplayer.FontList
 import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Ayath
+import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Qari
+import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.TafsirList
+import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.Translator
 import com.deenislamic.sdk.views.adapters.quran.AlQuranAyatAdapter
 
 internal interface AlQuranAyatCallback
@@ -34,4 +39,45 @@ internal interface AlQuranAyatCallback
     {
 
     }
+
+    fun getArabicFontList(): ArrayList<FontList>{
+        return arrayListOf()
+    }
+
+    fun getTranslatorData():ArrayList<Translator>{
+        return arrayListOf()
+    }
+
+    fun getqariList():ArrayList<Qari>{
+        return  arrayListOf()
+    }
+
+    fun getTafsirList():ArrayList<TafsirList>{
+        return arrayListOf()
+    }
+
+    fun dialog_select_tafsirMaker(){}
+
+    fun dialog_select_translator(lang: String) {
+
+    }
+
+    fun dialog_select_reciter(){
+
+    }
+
+    fun customShareAyat(enText: String, bnText: String, arText: String, verseKey: String){}
+
+    fun option3dotClicked(getdata: OptionList,ayathData:Ayath?=null) {
+
+    }
+
+    fun option3dotClicked(getdata: Ayath) {
+
+    }
+
+    fun zoomBtnClickedADP(){
+
+    }
+
 }

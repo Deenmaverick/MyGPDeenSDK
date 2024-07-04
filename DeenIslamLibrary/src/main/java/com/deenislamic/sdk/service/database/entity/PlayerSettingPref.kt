@@ -29,8 +29,15 @@ internal data class PlayerSettingPref(
     @ColumnInfo(name = "transliteration", defaultValue = "1")
     var transliteration:Boolean = true,
 
+    @ColumnInfo(name = "bn_meaning", defaultValue = "1")
+    var bn_meaning:Boolean = true,
+
+
     @ColumnInfo(name = "translation_font_size", defaultValue = "0.0")
     var translation_font_size:Float = 0F,
+
+    @ColumnInfo(name = "english_font_size", defaultValue = "0.0")
+    var english_font_size:Float = 0F,
 
     @ColumnInfo(name = "translation_language", defaultValue = "bn")
     var translation_language:String = "bn",

@@ -508,4 +508,14 @@
     <string name="background_blur">ব্যাকগ্রাউন্ড ব্লার</string>
     <string name="text">টেক্সট</string>
     <string name="background">ব্যাকগ্রাউন্ড</string>
+    <string name="bengali_pronunciation">উচ্চারণসহ পড়ুন</string>
+    <string name="bangla_meaning">বাংলা অর্থসহ পড়ুন</string>
+    <string name="english_font_size">ইংরেজি ফন্টের সাইজ</string>
+    <string name="audio_setting">অডিও সেটিংস</string>
+    <string name="translation_and_tafsir">অনুবাদ ও তাফসির</string>
+    <string name="content_setting">কন্টেন্ট সেটিংস</string>
+    <string name="ayaths_number">আয়াত %1$s</string>
+    <string name="copy_arabic_text">আরবি লেখা কপি করুন</string>
+    <string name="copy_bangla_text">বাংলা লেখা কপি করুন</string>
+    <string name="copy_english_text">ইংরেজি লেখা কপি করুন</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:overScrollMode="never"
-    android:scrollbars="vertical"
+    android:scrollbars="none"
     tools:viewBindingIgnore="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content">
 
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/transliterationLy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
                 app:layout_constraintStart_toStartOf="parent"/>
 
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/autoScrollSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,8 +47,8 @@
                 android:checked="true"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
-                app:thumbTint="@color/deen_switch_selector"
-                app:trackTint="@color/deen_txt_ash" />
+                app:thumbTint="@color/deen_white"
+                app:trackDecorationTint="@android:color/transparent" />
 
 
 
@@ -72,6 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_4"
             android:orientation="vertical"
+            android:scrollbars="none"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_muezzin"
             app:layout_constraintTop_toBottomOf="@+id/translationByTxt"
@@ -97,6 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_4"
             android:orientation="vertical"
+            android:scrollbars="none"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_muezzin"
             app:layout_constraintTop_toBottomOf="@+id/translationByTxt1"

@@ -508,4 +508,14 @@
     <string name="background_blur">Background Blur</string>
     <string name="text">Text</string>
     <string name="background">Background</string>
+    <string name="bengali_pronunciation">pronunciation</string>
+    <string name="bangla_meaning">Bangla meaning</string>
+    <string name="english_font_size">English Font Size</string>
+    <string name="audio_setting">Audio setting</string>
+    <string name="translation_and_tafsir">Translation and Tafsir</string>
+    <string name="content_setting">Content setting</string>
+    <string name="ayaths_number">Ayahs %1$s</string>
+    <string name="copy_arabic_text">Copy Arabic text</string>
+    <string name="copy_bangla_text">Copy Bangla text</string>
+    <string name="copy_english_text">Copy English text</string>
 </resources>
