@@ -286,6 +286,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         CallBackProvider.setFragment(this)
         binding.cautionBtn.hide()
         binding.actionbar.action3Progress.isIndeterminate = false

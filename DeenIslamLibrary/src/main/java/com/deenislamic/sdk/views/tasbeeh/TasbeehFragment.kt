@@ -88,16 +88,6 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         super.OnCreate()
         setupBackPressCallback(this,true)
 
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
-            duration = 300L
-        }
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
-            duration = 300L
-        }
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
-            duration = 300L
-        }
-
         val repository = TasbeehRepository(
             tasbeehDao = DatabaseProvider().getInstance().provideTasbeehDao(),
             userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
@@ -119,22 +109,6 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //loadpage()
-        /*view.postDelayed({
-            // Code to execute after the animation
-            loadpage()
-        }, 300)*/
-        Log.e("TASBEEN_LOAD123","Ok")
-        loadpage()
-
-    }
-
-
-
-
-    private fun loadpage()
-    {
 
         if(!firstload)
         {
@@ -256,6 +230,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         loadAPI(selectedPos)
 
     }
+
 
     private fun showResetDialog(duaid:Int)
     {

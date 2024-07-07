@@ -63,6 +63,7 @@
         app:cardBackgroundColor="@color/deen_white_50"
         app:cardCornerRadius="@dimen/space_16"
         app:cardElevation="1dp"
+        app:strokeWidth="0dp"
         app:layout_constraintTop_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent">
 

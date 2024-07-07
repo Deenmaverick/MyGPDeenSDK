@@ -8,6 +8,7 @@
     app:strokeColor="@color/deen_brand_secondary"
     app:cardCornerRadius="@dimen/space_8"
     app:cardElevation="1dp"
+    app:strokeWidth="0dp"
     style="@style/Widget.MaterialComponents.CardView"
     app:cardBackgroundColor="@color/deen_white"
     xmlns:android="http://schemas.android.com/apk/res/android"

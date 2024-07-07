@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/space_16"
     app:cardElevation="0dp"
+    app:strokeWidth="0dp"
     android:layout_marginStart="@dimen/space_4"
     android:layout_marginEnd="@dimen/space_4"
     tools:viewBindingIgnore="true"

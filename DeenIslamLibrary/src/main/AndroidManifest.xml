@@ -71,7 +71,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
 
@@ -87,7 +86,6 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="stop_action" />
                 <action android:name="prev_action" />
                 <action android:name="play_action" />
                 <action android:name="next_action" />
