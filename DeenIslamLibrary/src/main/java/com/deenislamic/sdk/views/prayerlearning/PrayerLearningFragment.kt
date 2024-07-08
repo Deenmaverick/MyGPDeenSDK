@@ -1,37 +1,30 @@
 package com.deenislamic.sdk.views.prayerlearning
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
-import com.deenislamic.sdk.service.callback.PrayerLearningCallback
+import com.deenislamic.sdk.service.callback.common.HorizontalCardListCallback
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.PrayerLearningResource
-import com.deenislamic.sdk.service.network.response.prayerlearning.Data
+import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.repository.PrayerLearningRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.MENU_PRAYER_LEARNING
-import com.deenislamic.sdk.utils.get9DigitRandom
-import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.PrayerLearningViewModel
 import com.deenislamic.sdk.views.adapters.prayerlearning.PrayerLearningCatAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
-import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
 
 
-internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCallback {
+internal class PrayerLearningFragment : BaseRegularFragment(),
+    HorizontalCardListCallback {
 
     private lateinit var catRC:RecyclerView
-    private lateinit var menLayout:MaterialCardView
-    private lateinit var womenLayout:MaterialCardView
     private lateinit var prayerLearningCatAdapter: PrayerLearningCatAdapter
     private lateinit var viewmodel: PrayerLearningViewModel
     private var firstload = false
@@ -44,10 +37,11 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
         viewmodel = PrayerLearningViewModel(repository)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         CallBackProvider.setFragment(this)
 
@@ -55,8 +49,6 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
         val mainView = localInflater.inflate(R.layout.fragment_prayer_learning,container,false)
 
         catRC = mainView.findViewById(R.id.catRC)
-        menLayout = mainView.findViewById(R.id.menLayout)
-        womenLayout = mainView.findViewById(R.id.womenLayout)
         setupActionForOtherFragment(0,0,null,localContext.getString(R.string.prayer_learning),true,mainView)
         setupCommonLayout(mainView)
         return mainView
@@ -65,85 +57,20 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(!firstload)
-        {
-            lifecycleScope.launch {
-                setTrackingID(get9DigitRandom())
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = DeenSDKCore.GetDeenMsisdn(),
-                    pagename = "prayer_learning",
-                    trackingID = getTrackingID()
-                )
-            }
-        }
-
-
-        /*if(firstload) {
-            loadpage()
-        }
-        else if (!isDetached) {
-            view.postDelayed({
-                loadpage()
-            }, 300)
-        }
-        else*/
-            loadpage()
-    }
-
-    private fun loadpage()
-    {
-        menLayout.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("gender","male")
-            bundle.putString("pageTitle",localContext.getString(R.string.prayer_visual_for_men))
-            gotoFrag(R.id.action_global_prayerLearningDetailsFragment,bundle)
-        }
-
-        womenLayout.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("gender","female")
-            bundle.putString("pageTitle",localContext.getString(R.string.prayer_visual_for_women))
-            gotoFrag(R.id.action_global_prayerLearningDetailsFragment,bundle)
-        }
-
         initObserver()
-
-        baseLoadingState()
-
-        prayerLearningCatAdapter =  PrayerLearningCatAdapter()
-        catRC.apply {
-
-            adapter = prayerLearningCatAdapter
-            layoutManager = GridLayoutManager(requireContext(),2)
-        }
 
         if(!firstload)
             loadApi()
         firstload = true
     }
 
+
     private fun loadApi()
     {
+        baseLoadingState()
         lifecycleScope.launch {
             viewmodel.getAllCat(getLanguage())
         }
-    }
-
-    override fun onBackPress() {
-        if(isVisible) {
-            lifecycleScope.launch {
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = DeenSDKCore.GetDeenMsisdn(),
-                    pagename = "prayer_learning",
-                    trackingID = getTrackingID()
-                )
-            }
-        }
-
-        tryCatch { super.onBackPress() }
-
     }
 
     private fun initObserver()
@@ -159,11 +86,16 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
         }
     }
 
-
-    private fun viewState(data: List<Data>)
+    private fun viewState(data: List<com.deenislamic.sdk.service.network.response.dashboard.Data>)
     {
 
-        prayerLearningCatAdapter.update(data)
+        if(!this::prayerLearningCatAdapter.isInitialized)
+            prayerLearningCatAdapter =  PrayerLearningCatAdapter(data)
+
+        catRC.apply {
+            adapter = prayerLearningCatAdapter
+        }
+
         catRC.post {
             baseViewState()
         }
@@ -173,16 +105,63 @@ internal class PrayerLearningFragment : BaseRegularFragment(), PrayerLearningCal
         loadApi()
     }
 
-    override fun catClicked(data: Data)
-    {
-        Log.e("catClicked","OK")
-        val bundle = Bundle()
-        bundle.putInt("categoryID", data.Id)
-        bundle.putString("pageTitle",data.Category)
-        bundle.putString("pageTag", MENU_PRAYER_LEARNING)
-        bundle.putBoolean("shareable",true)
+    override fun patchItemClicked(getData: Item) {
+        when(getData.ContentType){
 
-        gotoFrag(R.id.action_global_subCatCardListFragment,bundle)
+            "pldp" -> {
+                 val bundle = Bundle()
+                 bundle.putString("categoryID", getData.Text)
+                 bundle.putString("pageTitle",getData.ArabicText)
+                 bundle.putString("pageTag", MENU_PRAYER_LEARNING)
+
+                 gotoFrag(R.id.action_global_subCatPatchFragment,bundle)
+            }
+
+            "pldd" -> {
+                val bundle = Bundle()
+                bundle.putString("categoryID", getData.Text)
+                bundle.putString("pageTitle",getData.ArabicText)
+                bundle.putString("pageTag", MENU_PRAYER_LEARNING)
+                bundle.putString("contentType", getData.ContentType)
+                bundle.putInt("subid", getData.SurahId)
+                gotoFrag(R.id.action_global_subCatPatchFragment,bundle)
+            }
+
+            "ib" ->{
+                val bundle = Bundle()
+                bundle.putInt("id", getData.SurahId)
+                bundle.putString("videoType", "category")
+                bundle.putString("title",getData.ArabicText)
+                gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
+
+            }
+
+            /*"ibook" -> {
+                val bundle = Bundle()
+                bundle.putInt("id", getData.SurahId)
+                bundle.putString("bookType", "category")
+                bundle.putString("title",getData.ArabicText)
+                gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
+
+            }*/
+
+            "prakat" -> {
+                val bundle = Bundle()
+                bundle.putString("title", getData.ArabicText)
+
+                gotoFrag(R.id.action_global_prayerRakatFragment,bundle)
+            }
+
+            "ptrack" ->{
+                gotoFrag(R.id.action_global_prayerTimesFragment)
+            }
+
+            "pvisual" ->{
+                val bundle = Bundle()
+                bundle.putString("title", getData.ArabicText)
+                gotoFrag(R.id.action_global_prayerVisualFragment,bundle)
+            }
+        }
     }
 
 }

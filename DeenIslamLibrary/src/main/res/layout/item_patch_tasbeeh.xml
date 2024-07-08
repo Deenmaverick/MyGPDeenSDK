@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_16"
+    tools:viewBindingIgnore="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="@dimen/space_16"
+        app:layout_constraintEnd_toStartOf="@+id/itemTitle"
+        android:src="@drawable/ic_menu_digital_tasbeeh"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/deen_txt_black_deep"
+        android:textStyle="bold"
+        android:text="@string/tasbeeh_counter"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="@+id/icon"
+        app:layout_constraintBottom_toBottomOf="@+id/icon"/>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/targetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_16"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_16"
+        android:layout_marginBottom="1dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="@dimen/space_16"
+        app:cardElevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemTitle"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeWidth="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/deen_bg_tasbeeh"
+            android:paddingTop="0dp"
+            android:paddingBottom="@dimen/space_16">
+
+            <com.deenislamic.sdk.utils.FullCircleGaugeView
+                android:id="@+id/countView"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/countTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:textAppearance="@style/DeenTextAppearance.font48"
+                android:textColor="@color/deen_primary"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/targetCountTxt"
+                app:layout_constraintEnd_toEndOf="@+id/countView"
+                app:layout_constraintStart_toStartOf="@+id/countView"
+                app:layout_constraintTop_toTopOf="@id/countView"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/targetCountTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/deen_txt_ash"
+                app:layout_constraintBottom_toBottomOf="@+id/countView"
+                app:layout_constraintEnd_toEndOf="@+id/countTxt"
+                app:layout_constraintStart_toStartOf="@+id/countTxt"
+                app:layout_constraintTop_toBottomOf="@id/countTxt" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/leftBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:paddingStart="@dimen/space_12"
+                android:paddingEnd="@dimen/space_12"
+                android:src="@drawable/left_arrow"
+                app:layout_constraintBottom_toBottomOf="@+id/duaTxt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/duaArabicTxt" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/duaArabicTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/deen_txt_black_deep"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/rightBtn"
+                app:layout_constraintStart_toEndOf="@+id/leftBtn"
+                app:layout_constraintTop_toBottomOf="@id/countView" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/duaTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/deen_txt_black_deep"
+                app:layout_constraintEnd_toStartOf="@+id/rightBtn"
+                app:layout_constraintStart_toEndOf="@+id/leftBtn"
+                app:layout_constraintTop_toBottomOf="@id/duaArabicTxt" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/rightBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:contentDescription="@string/next_date"
+                android:paddingStart="@dimen/space_12"
+                android:paddingEnd="@dimen/space_12"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="@+id/duaTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/duaArabicTxt" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/playBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_24"
+                android:layout_marginEnd="@dimen/space_4"
+                android:layout_marginStart="@dimen/space_12"
+                android:text="@string/play"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_txt_black_deep"
+                app:backgroundTint="@android:color/transparent"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_play_fill"
+                app:iconGravity="textStart"
+                app:iconTint="@color/deen_txt_black_deep"
+                app:layout_constraintEnd_toStartOf="@+id/countBtn"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/duaTxt"
+                app:strokeColor="@color/deen_border"
+                app:strokeWidth="1dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/countBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4"
+                android:text="@string/count"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_white"
+                app:backgroundTint="@color/deen_primary"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/deen_ic_plus_new"
+                app:iconGravity="textStart"
+                app:iconSize="24dp"
+                app:iconTint="@color/deen_white"
+                app:layout_constraintBottom_toBottomOf="@+id/playBtn"
+                app:layout_constraintEnd_toStartOf="@+id/btnShare"
+                app:layout_constraintStart_toEndOf="@+id/playBtn"
+                app:layout_constraintTop_toTopOf="@+id/playBtn"
+                app:strokeWidth="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShare"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/space_4"
+                android:layout_marginEnd="@dimen/space_12"
+                android:padding="0dp"
+                app:iconSize="24dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:iconPadding="0dp"
+                app:icon="@drawable/ic_share"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="@color/deen_border"
+                app:iconGravity="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/countBtn"
+                app:layout_constraintTop_toTopOf="@+id/countBtn"
+                app:layout_constraintBottom_toBottomOf="@+id/countBtn"/>
+
+
+            <include
+                android:visibility="gone"
+                android:id="@+id/countViewLoading"
+                layout="@layout/layout_circle_progress_bg_white"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

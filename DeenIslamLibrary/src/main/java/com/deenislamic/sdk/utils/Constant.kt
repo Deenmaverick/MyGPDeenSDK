@@ -94,3 +94,4 @@ const val DEFAULT_BN_TAFSIR_ID = 164
 const val DEFAULT_BN_TRANSLATOR_ID = 161
 const val DEFAULT_EN_TRANSLATOR_ID = 131
 const val DEFAULT_QARI_ID = 931
+const val PATCH_VERTICAL_CARD_LIST = "VerticalCardList"

@@ -19,6 +19,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -268,18 +269,23 @@ internal class ShareFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
             clearActiveTextChooseButton()
             setActiveTextAlign(englishBtn)
             shareTxt.text = navArgs.enText
+            shareTxt.typeface = null
+
         }
 
         banglaBtn.setOnClickListener {
             clearActiveTextChooseButton()
             setActiveTextAlign(banglaBtn)
             shareTxt.text = navArgs.bnText
+            shareTxt.typeface = null
+
         }
 
         arabicBtn.setOnClickListener {
             clearActiveTextChooseButton()
             setActiveTextAlign(arabicBtn)
             shareTxt.text = navArgs.arText
+            context?.let { it1 -> shareTxt.typeface = ResourcesCompat.getFont(it1, R.font.indopakv2) }
         }
 
 

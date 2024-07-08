@@ -19,7 +19,7 @@ internal class DatabaseProvider {
         var instance: DatabaseProvider? = null
     }
 
-    val MIGRATION_TEST: Migration = object : Migration(1, 3) {
+    val MIGRATION_TEST: Migration = object : Migration(1, 4) {
         override fun migrate(database: SupportSQLiteDatabase) {
             // Since we didn't alter the table, there's nothing else to do here.
 
@@ -137,6 +137,9 @@ internal class DatabaseProvider {
         tryCatch { database.execSQL("ALTER TABLE  `tasbeeh` ADD `track1` INTEGER NOT NULL DEFAULT 0") }
         tryCatch { database.execSQL("ALTER TABLE  `tasbeeh` ADD `track2` INTEGER NOT NULL DEFAULT 0") }
         tryCatch { database.execSQL("ALTER TABLE  `tasbeeh` ADD `track3` INTEGER NOT NULL DEFAULT 0") }
+        tryCatch { database.execSQL("ALTER TABLE  `tasbeeh` ADD `audioUrl` TEXT NOT NULL DEFAULT ''") }
+        tryCatch { database.execSQL("ALTER TABLE  `tasbeeh` ADD `duaid` INTEGER NOT NULL DEFAULT 0") }
+
     }
 
 
@@ -146,7 +149,8 @@ internal class DatabaseProvider {
         tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `bn_translator` INTEGER NOT NULL DEFAULT 0") }
         tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `en_translator` INTEGER NOT NULL DEFAULT 0") }
         tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `tafsir` INTEGER NOT NULL DEFAULT 0") }
-
+        tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `bn_meaning` INTEGER NOT NULL DEFAULT 1") }
+        tryCatch { database.execSQL("ALTER TABLE  `playersettingpref` ADD `english_font_size` REAL NOT NULL DEFAULT '0.0'") }
     }
 
     private fun verify_all_prayer_notification_col(database: SupportSQLiteDatabase)

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.dashboard.Data
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
+import com.deenislamic.sdk.utils.SpaceItemDecoration
 import com.deenislamic.sdk.utils.SpanningLinearLayoutManager
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.imageLoad
@@ -16,8 +17,9 @@ import com.deenislamic.sdk.utils.transformCommonCardListPatchModel
 import com.deenislamic.sdk.views.adapters.podcast.LivePodcastRecentAdapter
 
 internal class SingleCardList(
-    view: View,
-    private val data: Data,
+view: View,
+private val data: Data,
+private val orientation:Int = RecyclerView.HORIZONTAL
 ) {
 
     private  val listView: RecyclerView = view.findViewById(R.id.listview)
@@ -39,8 +41,12 @@ internal class SingleCardList(
         itemTitle.text = data.Title
 
         listView.apply {
-            layoutManager = SpanningLinearLayoutManager(this.context,RecyclerView.HORIZONTAL,false,264.dp)
+            layoutManager = SpanningLinearLayoutManager(this.context,orientation,false,264.dp)
             setPadding(16.dp,0,8.dp,0)
+            if(orientation == RecyclerView.VERTICAL){
+                addItemDecoration(SpaceItemDecoration(spaceHeight = 12.dp))
+            }
+            setHasFixedSize(true)
             adapter = LivePodcastRecentAdapter(
                 items = data.Items.map { transformCommonCardListPatchModel(
                     it,

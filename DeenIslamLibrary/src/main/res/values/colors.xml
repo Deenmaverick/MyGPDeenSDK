@@ -49,4 +49,7 @@
     <color name="deen_blue_card">#DBF0FC</color>
     <color name="deen_pink_card">#FEEBF2</color>
     <color name="deen_light_pink">#FDE3EC</color>
+    <color name="deen_brand_blue">#6667AB</color>
+    <color name="deen_brand_sky_blue">#93D1F3</color>
+    <color name="deen_brand_orange">#FF9A1F</color>
 </resources>

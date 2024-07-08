@@ -86,7 +86,13 @@
     <fragment
         android:id="@+id/tasbeehFragment"
         android:name="com.deenislamic.sdk.views.tasbeeh.TasbeehFragment"
-        android:label="fragment_tasbeeh" />
+        android:label="fragment_tasbeeh"
+        tools:layout="@layout/fragment_tasbeeh" >
+        <argument
+            android:name="duaid"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
     <fragment
         android:id="@+id/hadithFragment"
@@ -1547,6 +1553,86 @@
     <action
         android:id="@+id/action_global_shareFragment"
         app:destination="@id/shareFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_tasbeehHistoryFragment"
+        app:destination="@id/tasbeehHistoryFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/tasbeehHistoryFragment"
+        android:name="com.deenislamic.sdk.views.tasbeeh.TasbeehHistoryFragment"
+        android:label="fragment_tasbeeh_history"
+        tools:layout="@layout/fragment_tasbeeh_history" />
+
+
+    <fragment
+        android:id="@+id/subCatPatchFragment"
+        android:name="com.deenislamic.sdk.views.common.subcatcardlist.SubCatPatchFragment"
+        android:label="SubCatPatchFragment">
+
+        <argument
+            android:name="categoryID"
+            app:argType="string" />
+        <argument
+            android:name="pageTitle"
+            app:argType="string" />
+        <argument
+            android:name="pageTag"
+            app:argType="string" />
+        <argument
+            android:name="contentType"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="subid"
+            app:argType="integer"
+            android:defaultValue="0" />
+
+    </fragment>
+    <action
+        android:id="@+id/action_global_subCatPatchFragment"
+        app:destination="@id/subCatPatchFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/prayerRakatFragment"
+        android:name="com.deenislamic.sdk.views.prayerlearning.PrayerRakatFragment"
+        android:label="PrayerRakatFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_prayerRakatFragment"
+        app:destination="@id/prayerRakatFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/prayerVisualFragment"
+        android:name="com.deenislamic.sdk.views.prayerlearning.PrayerVisualFragment"
+        android:label="PrayerVisualFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_prayerVisualFragment"
+        app:destination="@id/prayerVisualFragment"
         app:enterAnim="@anim/slide_enter"
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"

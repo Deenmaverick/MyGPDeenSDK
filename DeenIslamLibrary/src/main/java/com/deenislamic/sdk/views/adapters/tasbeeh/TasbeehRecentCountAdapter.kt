@@ -12,21 +12,21 @@ import com.deenislamic.sdk.utils.getLocalContext
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.views.base.BaseViewHolder
 
-internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>() {
+internal class TasbeehRecentCountAdapter(private val tasbeehData: List<Tasbeeh>) : RecyclerView.Adapter<BaseViewHolder>() {
 
-    private val tasbeehData:ArrayList<Tasbeeh> = arrayListOf()
+    //private val tasbeehData:ArrayList<Tasbeeh> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context.getLocalContext())
                 .inflate(R.layout.item_tasbeeh_recent_count, parent, false)
         )
 
-    fun update(data: List<Tasbeeh>)
+   /* fun update(data: List<Tasbeeh>)
     {
         tasbeehData.clear()
         tasbeehData.addAll(data)
         notifyDataSetChanged()
-    }
+    }*/
     override fun getItemCount(): Int = tasbeehData.size
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -42,7 +42,7 @@ internal class TasbeehRecentCountAdapter : RecyclerView.Adapter<BaseViewHolder>(
             super.onBind(position)
             listPos.text = "0"+(position+1).toString().numberLocale()
             if(DeenSDKCore.GetDeenLanguage() == "en")
-            duaName.text = tasbeehData[position].dua
+                duaName.text = tasbeehData[position].dua
             else
                 duaName.text = tasbeehData[position].dua_bn
 

@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -14,8 +17,10 @@ import android.text.style.StrikethroughSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.util.Log
+import android.view.PixelCopy
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
@@ -576,6 +581,71 @@ fun Context.shareView(view:View,customShareText:String?=null){
 
     } catch (e: IOException) {
         Log.e("shareViewError",e.toString())
+    }
+}
+
+fun Context.shareView(view: View, window: Window, customShareText: String? = null) {
+    try {
+        val uniqueID = generateUniqueNumber()
+
+        // Capture the view after it has been laid out
+        view.post {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // Above Android O, use PixelCopy
+                    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+                    val location = IntArray(2)
+                    view.getLocationInWindow(location)
+                    PixelCopy.request(
+                        window,
+                        Rect(location[0], location[1], location[0] + view.width, location[1] + view.height),
+                        bitmap,
+                        { copyResult ->
+                            if (copyResult == PixelCopy.SUCCESS) {
+                                shareCapturedView(this, bitmap, uniqueID, customShareText)
+                            }
+                        },
+                        Handler(Looper.getMainLooper())
+                    )
+                } else {
+                    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.RGB_565)
+                    val canvas = Canvas(bitmap)
+                    view.draw(canvas)
+                    canvas.setBitmap(null)
+                    shareCapturedView(this, bitmap, uniqueID, customShareText)
+                }
+            } catch (e: IOException) {
+                Log.e("shareViewError", e.toString())
+            }
+        }
+    } catch (e: IOException) {
+        Log.e("shareViewError", e.toString())
+    }
+}
+
+private fun shareCapturedView(context: Context, bitmap: Bitmap, uniqueID: Int, customShareText: String?) {
+    try {
+        val cachePath = File(context.cacheDir, "images")
+        cachePath.mkdirs() // Don't forget to make the directory
+        val stream = FileOutputStream("$cachePath/$uniqueID.png") // Overwrites this image every time
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        stream.close()
+
+        val imagePath = File(context.cacheDir, "images")
+        val newFile = File(imagePath, "$uniqueID.png")
+        val contentUri: Uri = FileProvider.getUriForFile(context, "com.deenislamic.fileprovider", newFile)
+
+        val textShareContent = customShareText ?: "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Temp permission for receiving app to read this file
+            setDataAndType(contentUri, context.contentResolver.getType(contentUri))
+            putExtra(Intent.EXTRA_STREAM, contentUri)
+            putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Choose an app"))
+    } catch (e: IOException) {
+        Log.e("shareCapturedViewError", e.toString())
     }
 }
 

@@ -1,99 +1,122 @@
 package com.deenislamic.sdk.views.tasbeeh
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
-import androidx.core.widget.NestedScrollView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.deenislamic.sdk.DeenSDKCore
+import com.airbnb.lottie.LottieAnimationView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.database.entity.Tasbeeh
 import com.deenislamic.sdk.service.database.entity.UserPref
 import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.libs.media3.AudioManager
 import com.deenislamic.sdk.service.models.TasbeehResource
+import com.deenislamic.sdk.service.models.tasbeeh.CountCycle
 import com.deenislamic.sdk.service.repository.TasbeehRepository
-import com.deenislamic.sdk.utils.*
+import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
+import com.deenislamic.sdk.utils.FullCircleGaugeView
+import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.numberLocale
+import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.viewmodels.TasbeehViewModel
-import com.deenislamic.sdk.views.adapters.tasbeeh.TasbeehDuaAdapter
-import com.deenislamic.sdk.views.adapters.tasbeeh.TasbeehRecentCountAdapter
-import com.deenislamic.sdk.views.adapters.tasbeeh.tasbeehDuaCallback
+import com.deenislamic.sdk.views.adapters.tasbeeh.SelectDhikirAdapter
+import com.deenislamic.sdk.views.adapters.tasbeeh.TasbeehCountCycleAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.deenislamic.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
-
-internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
-
-    private val duaListRC: RecyclerView by lazy { requireView().findViewById(R.id.duaList) }
-    private val recentCountList:RecyclerView by lazy { requireView().findViewById(R.id.recentCountList) }
-    private val container:NestedScrollView by lazy { requireView().findViewById(R.id.container) }
-    private val countViewLoading:LinearLayout by lazy { requireView().findViewById(R.id.countViewLoading) }
-    private val countTxt:AppCompatTextView by lazy { requireView().findViewById(R.id.countTxt) }
-    private val todaysCountTxt:AppCompatTextView by lazy { requireView().findViewById(R.id.todaysCountTxt) }
-    private val totalCountTxt:AppCompatTextView by lazy { requireView().findViewById(R.id.totalCountTxt) }
-    private val countRadioGroup:RadioGroup by lazy { requireView().findViewById(R.id.countRadioGroup) }
-    private val countView:HalfGaugeView by lazy { requireView().findViewById(R.id.countView) }
-    private val norecentData:AppCompatTextView by lazy { requireView().findViewById(R.id.norecentData) }
-    private lateinit var progressLayout:LinearLayout
+import java.util.Date
+import java.util.Locale
 
 
-    private val countRadio1Txt:AppCompatTextView by lazy { requireView().findViewById(R.id.countRadio1Txt) }
-    private val countRadio2Txt:AppCompatTextView by lazy { requireView().findViewById(R.id.countRadio2Txt) }
-    private val countRadio3Txt:AppCompatTextView by lazy { requireView().findViewById(R.id.countRadio3Txt) }
-    private val countRadio4Txt:AppCompatTextView by lazy { requireView().findViewById(R.id.countRadio4Txt) }
-    private val targetCountTxt:AppCompatTextView by lazy { requireView().findViewById(R.id.targetCountTxt) }
+internal class TasbeehFragment : BaseRegularFragment(),
+    otherFagmentActionCallback {
+
+    private lateinit var countViewLoading:LinearLayout
+    private lateinit var countTxt:AppCompatTextView
+    private lateinit var countView: FullCircleGaugeView
+
+    private lateinit var targetCountTxt:AppCompatTextView
 
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var customAlertDialogView : View
     private var tasbeehResetDialog: AlertDialog? = null
     private var todayResetBtn:MaterialButton ? = null
     private var totalResetBtn:MaterialButton ? = null
-
-    private val bottom_navigation: BottomNavigationView by lazy { requireView().findViewById<CoordinatorLayout?>(R.id.bottom_nav).findViewById(R.id.nav_view) }
-    private val countBtn:FloatingActionButton by lazy { requireView().findViewById<CoordinatorLayout?>(R.id.bottom_nav).findViewById(R.id.btnAdd) }
+    private lateinit var lottieAnim:LottieAnimationView
+    private lateinit var duaArabicTxt:AppCompatTextView
+    private lateinit var duaTxt:AppCompatTextView
+    private lateinit var playBtn:MaterialButton
+    private lateinit var leftBtn:AppCompatImageView
+    private lateinit var rightBtn:AppCompatImageView
+    private lateinit var countBtn:MaterialButton
+    private lateinit var btnShare:MaterialButton
+    private lateinit var duaLayout:ConstraintLayout
 
     private var tasbeehdata:Tasbeeh ? = null
-    private var userPref:UserPref ? = null
+    private var userPref: UserPref? = null
 
+    private lateinit var progressLayout:LinearLayout
 
-    private val tasbeehDuaAdapter:TasbeehDuaAdapter by lazy { TasbeehDuaAdapter(this@TasbeehFragment) }
-    private val tasbeehRecentCountAdapter:TasbeehRecentCountAdapter by lazy { TasbeehRecentCountAdapter() }
-
-    private lateinit var viewmodel:TasbeehViewModel
-
-    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
+    private lateinit var tasbeehCountCycleAdapter: TasbeehCountCycleAdapter
+    private lateinit var viewmodel: TasbeehViewModel
+    private var todayDate: String = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date())
     private var selectedPos:Int = 0
     private var selectedCount:Int = 1
     private var track4Count:Int = 0
+    private var dialog: Dialog? = null
     private var firstload = false
+
+    private val audioManager: AudioManager = AudioManager().getInstance()
+
+    private val duaList:ArrayList<Tasbeeh> = arrayListOf(
+        Tasbeeh(duaid=1,dua="Subhan Allah", dua_bn = "সুবহান আল্লাহ", dua_arb = "سُبْحَانَ ٱللَّ", audioUrl = BASE_CONTENT_URL_SGP +"Content/Audios/Tasbeeh/Subhanallah.mp3"),
+        Tasbeeh(duaid=2,dua="Alhamdulillah", dua_bn = "আলহামদুলিল্লাহ", dua_arb = "ٱلْحَمْدُ لِلَّهِ", audioUrl = BASE_CONTENT_URL_SGP +"Content/Audios/Tasbeeh/Alhamdulihhah.mp3"),
+        Tasbeeh(duaid=3,dua="Bismillah", dua_bn = "বিসমিল্লাহ", dua_arb = "بِسْمِ اللهِ", audioUrl = BASE_CONTENT_URL_SGP +"Content/Audios/Tasbeeh/Bismillah.mp3"),
+        Tasbeeh(duaid=4,dua="Allahu Akbar", dua_bn = "আল্লাহু আকবার", dua_arb = "الله أكبر",audioUrl = BASE_CONTENT_URL_SGP +"Content/Audios/Tasbeeh/Allahuakbar.mp3"),
+        Tasbeeh(duaid=5,dua="Astagfirullah", dua_bn = "আস্তাগফিরুল্লাহ", dua_arb = "أَسْتَغْفِرُ اللّٰهَ", audioUrl = BASE_CONTENT_URL_SGP +"Content/Audios/Tasbeeh/Astagfirullah.mp3"),
+        Tasbeeh(duaid=6,dua="Allah", dua_bn = "আল্লাহ", dua_arb = "الله",audioUrl = BASE_CONTENT_URL_SGP +"Content/Audios/Tasbeeh/Allahu.mp3"),
+        Tasbeeh(duaid=7,dua="La Ilaha illa Allah", dua_bn = "লা ইলাহা ইল্লাল্লাহ", dua_arb = "لَا إِلَٰهَ إِلَّا ٱللَّ", audioUrl = BASE_CONTENT_URL_SGP +"Content/Audios/Tasbeeh/Lailaha_Illalahu.mp3"),
+        Tasbeeh(duaid=8,dua="Subhanallahi Wa-Bihamdihi", dua_bn = "সুবহানাল্লাহি ওয়া-বিহামদিহি", dua_arb = "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", audioUrl = BASE_CONTENT_URL_SGP +"Content/Audios/Tasbeeh/Subhanallahi_Wa_Bihamdihi.mp3")
+    )
+
+    private val countCycleList:ArrayList<CountCycle> = arrayListOf(
+        CountCycle(countValue = 33, countPos = 1),
+        CountCycle(countValue = 34, countPos = 2),
+        CountCycle(countValue = 99, countPos = 3),
+        CountCycle(countValue = 0, countPos = 0),
+    )
+
+    private val navArgs:TasbeehFragmentArgs by navArgs()
 
     override fun OnCreate() {
         super.OnCreate()
-        setupBackPressCallback(this,true)
 
         val repository = TasbeehRepository(
             tasbeehDao = DatabaseProvider().getInstance().provideTasbeehDao(),
             userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
         )
-        viewmodel = TasbeehViewModel(repository)
 
+        viewmodel = TasbeehViewModel(repository)
     }
 
     override fun onCreateView(
@@ -102,115 +125,83 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
     ): View? {
 
         val mainView = localInflater.inflate(R.layout.fragment_tasbeeh,container,false)
-        setupActionForOtherFragment(0,0,null,localContext.getString(R.string.digital_tasbeeh),true,mainView)
+        setupActionForOtherFragment(
+            action1 = R.drawable.deen_ic_graph,
+            action2 = R.drawable.ic_refresh,
+            action3 = R.drawable.ic_volume,
+            callback = this@TasbeehFragment,
+            actionnBartitle = localContext.getString(R.string.digital_tasbeeh),
+            backEnable = true,
+            view = mainView,
+            actionIconColor = R.color.deen_txt_black_deep
+        )
         progressLayout = mainView.findViewById(R.id.progressLayout)
+        lottieAnim = mainView.findViewById(R.id.lottieAnim)
+        duaArabicTxt = mainView.findViewById(R.id.duaArabicTxt)
+        duaTxt = mainView.findViewById(R.id.duaTxt)
+        playBtn = mainView.findViewById(R.id.playBtn)
+        leftBtn = mainView.findViewById(R.id.leftBtn)
+        rightBtn = mainView.findViewById(R.id.rightBtn)
+        countBtn = mainView.findViewById(R.id.countBtn)
+        targetCountTxt = mainView.findViewById(R.id.targetCountTxt)
+        countViewLoading = mainView.findViewById(R.id.countViewLoading)
+        countTxt = mainView.findViewById(R.id.countTxt)
+        countView = mainView.findViewById(R.id.countView)
+        btnShare = mainView.findViewById(R.id.btnShare)
+        duaLayout = mainView.findViewById(R.id.duaLayout)
+
+
         return mainView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(!firstload)
-        {
+       /* duaLayout.setOnClickListener {
+            selectDhikirDialog()
+        }*/
 
-            lifecycleScope.launch {
-                setTrackingID(get9DigitRandom())
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = DeenSDKCore.GetDeenMsisdn(),
-                    pagename = "digital_tasbeeh",
-                    trackingID = getTrackingID()
-                )
+        btnShare.setOnClickListener {
+            val bundle = Bundle()
+
+            if(getLanguage() == "en"){
+                bundle.putString("enText",duaTxt.text.toString())
+            }else{
+                bundle.putString("bnText",duaTxt.text.toString())
             }
+            bundle.putString("title",localContext.getString(R.string.digital_tasbeeh))
+            bundle.putString("arText",duaArabicTxt.text.toString())
+            //bundle.putString("customShareText","পবিত্র কুরআন তিলাওয়াত করুন  https://deenislamic.com/app/quran?id=${surahID-1}")
+            bundle.putString("customShareText","Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+
+            gotoFrag(R.id.action_global_shareFragment,bundle)
         }
-        firstload = true
 
+        if(navArgs.duaid!=-1)
+            selectedPos = navArgs.duaid
 
-        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.DeenMaterialAlertDialog_rounded)
-        customAlertDialogView = localInflater.inflate(R.layout.dialog_tasbeeh_reset, null, false)
+      if (!isDetached) {
+            view.postDelayed({
+                loadpage()
+            }, 300)
+        }
+        else
+            loadpage()
 
-        countRadio1Txt.text = "33".numberLocale()
-        countRadio2Txt.text = "34".numberLocale()
-        countRadio3Txt.text = "99".numberLocale()
+    }
+
+    private fun loadpage()
+    {
+
+        setDuaText()
+
         countTxt.text = "00".numberLocale()
 
         //init observer
         initObserver()
 
-        duaListRC.apply {
-            adapter = tasbeehDuaAdapter
-            overScrollMode = View.OVER_SCROLL_NEVER
-            ViewPagerHorizontalRecyler().getInstance().load(this)
-            onFlingListener = null
-            setLinearSnapHelper()
-        }
 
-        recentCountList.apply {
-            adapter = tasbeehRecentCountAdapter
-            overScrollMode = View.OVER_SCROLL_NEVER
-        }
-
-        countRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-
-            when (checkedId) {
-                R.id.countRadio1 -> {
-                    activeRadioText(countRadio1Txt)
-                    selectedCount = 1
-
-                }
-                R.id.countRadio2 -> {
-                    activeRadioText(countRadio2Txt)
-                    selectedCount = 2
-                }
-
-                R.id.countRadio3 -> {
-                    activeRadioText(countRadio3Txt)
-                    selectedCount = 3
-                }
-
-                R.id.countRadio4 -> {
-
-                    if(selectedCount!=4)
-                        track4Count = 0
-
-                    activeRadioText(countRadio4Txt)
-                    selectedCount = 4
-                }
-            }
-
-            updateCountView(selectedCount)
-        }
-
-
-        bottom_navigation.setOnNavigationItemSelectedListener { item ->
-
-            //MainActivityDeenSDK.instance?.bottomNavClicked = true
-
-            when (item.itemId) {
-
-                R.id.action_volume ->
-                {
-                    lifecycleScope.launch {
-                        viewmodel.updateTasbeehSound()
-                    }
-                }
-
-                R.id.action_reset ->
-                {
-                    tasbeehdata?.let {
-
-                        showResetDialog(it.id)
-                    }
-                }
-
-
-                else -> Unit
-            }
-
-            true
-        }
-
-        countBtn.setOnClickListener {
+        lottieAnim.setOnClickListener {
 
             it.isEnabled = false
             if(userPref?.tasbeeh_sound==true) {
@@ -227,13 +218,47 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
         }
 
+        playBtn.setOnClickListener {
+
+            audioManager.playAudioFromUrl(duaList[selectedPos].audioUrl)
+        }
+
+        countBtn.setOnClickListener {
+            dialog_select_count_cycle()
+        }
+
+        leftBtn.setOnClickListener {
+            if(selectedPos==0)
+            selectedPos = duaList.size-1
+            else
+                selectedPos -= 1
+
+            track4Count = 0
+            loadAPI(selectedPos)
+            setDuaText()
+        }
+
+        rightBtn.setOnClickListener {
+            if(selectedPos==duaList.size-1)
+                selectedPos = 0
+            else
+                selectedPos++
+            track4Count = 0
+            loadAPI(selectedPos)
+            setDuaText()
+        }
+
+        if(!firstload)
         loadAPI(selectedPos)
+        firstload = true
 
     }
 
-
     private fun showResetDialog(duaid:Int)
     {
+
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.DeenMaterialAlertDialog_rounded)
+        customAlertDialogView = localInflater.inflate(R.layout.dialog_tasbeeh_reset, null, false)
 
         todayResetBtn = customAlertDialogView.findViewById(R.id.todayBtn)
         totalResetBtn = customAlertDialogView.findViewById(R.id.totalBtn)
@@ -254,59 +279,80 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
         todayResetBtn?.setOnClickListener{
             totalResetBtn?.isEnabled = false
             lifecycleScope.launch {
-                viewmodel.resetTasbeeh(2,duaid)
+                viewmodel.resetTasbeeh(2,duaid,todayDate)
             }
         }
 
         totalResetBtn?.setOnClickListener{
-            todayResetBtn?.isEnabled = false
+            /*todayResetBtn?.isEnabled = false
             lifecycleScope.launch {
-                viewmodel.resetTasbeeh(1,duaid)
-            }
+                viewmodel.resetTasbeeh(1,duaid,todayDate)
+            }*/
+
+            tasbeehResetDialog?.dismiss()
         }
 
     }
 
-    private fun activeRadioText(view:AppCompatTextView)
+    private fun setDuaText()
     {
-        countRadio1Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
-        countRadio2Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
-        countRadio3Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
-        countRadio4Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
-        view.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+        duaArabicTxt.text = duaList[selectedPos].dua_arb
+        duaTxt.text =  if(getLanguage() == "en")
+            duaList[selectedPos].dua
+        else
+            duaList[selectedPos].dua_bn
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        audioManager.releasePlayer()
+    }
+
+   /* private fun activeRadioText(view:AppCompatTextView)
+    {
+        countRadio1Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        countRadio2Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        countRadio3Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        countRadio4Txt.setTextColor(ContextCompat.getColor(requireContext(),R.color.txt_ash))
+        view.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary))
+    }*/
 
     private fun updateCountView(count:Int)
     {
+        Log.e("updateCountView",Gson().toJson(tasbeehdata)+count)
         tasbeehdata?.apply {
 
             var trackcount = -1
 
             var targetCount = -1
 
-            if(count == 1) {
-                trackcount = this.track1
-                targetCount = 33
+            when (count) {
+                1 -> {
+                    trackcount = this.track1
+                    targetCount = 33
+                }
+                2 -> {
+                    trackcount = this.track2
+                    targetCount = 34
+                }
+                3 -> {
+                    trackcount = this.track3
+                    targetCount = 99
+                }
+                else -> {
+                    trackcount = track4Count++
+                }
             }
-            else if(count == 2) {
-                trackcount = this.track2
-                targetCount = 34
-            }
-            else if(count == 3) {
-                trackcount = this.track3
-                targetCount = 99
-            }
-            else {
-                trackcount = track4Count++
-            }
+
+            Log.e("trackcount",trackcount.toString())
 
             if(trackcount>=targetCount && targetCount!=-1)
             {
                 countView.setProgress(100F)
                 countTxt.text = trackcount.toString().numberLocale()
                 targetCountTxt.text = "/${targetCount}".numberLocale()
+                countBtn.text = localContext.getString(R.string.count_input,targetCount.toString().numberLocale())
             }
-            else if(trackcount<targetCount && count!=-1)
+            else if(trackcount<=targetCount && count!=-1)
             {
                 countView.setProgress(
                     if((trackcount.toFloat()*100)/targetCount>100)100F
@@ -315,26 +361,28 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
                 )
                 countTxt.text = trackcount.toString().numberLocale()
                 targetCountTxt.text = "/${targetCount}".numberLocale()
+                countBtn.text = localContext.getString(R.string.count_input,targetCount.toString().numberLocale())
             }
             else {
                 countView.setProgress(100F)
                 countTxt.text = trackcount.toString().numberLocale()
                 targetCountTxt.text = "/∞"
+                countBtn.text = "∞"
             }
         }
     }
 
     private fun initObserver()
     {
-        viewmodel.duaLiveData.observe(viewLifecycleOwner)
+        viewmodel.tasbeehLiveData.observe(viewLifecycleOwner)
         {
             when(it)
             {
-                is TasbeehResource.duaData -> viewState(it.data)
+                is TasbeehResource.DuaData -> viewState(it.data)
                 is TasbeehResource.userPref -> soundViewState(it.userPref)
                 is TasbeehResource.resetDuaData ->
                 {
-                    requireContext().toast(localContext.getString(R.string.tasbeeh_count_reset_successfully))
+                    context?.toast(getString(R.string.tasbeeh_count_reset_successfully))
                     track4Count = 0
                     todayResetBtn?.isEnabled = true
                     totalResetBtn?.isEnabled = true
@@ -342,14 +390,14 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
                     viewState(it.data)
                 }
 
-                is TasbeehResource.recentCount ->
+              /*  is TasbeehResource.recentCount ->
                 {
                     if(it.data.isNotEmpty()) {
-                        norecentData.hide()
-                        recentCountList.show()
+                        //norecentData.hide()
+                        //recentCountList.show()
                     }
                     tasbeehRecentCountAdapter.update(it.data)
-                }
+                }*/
             }
         }
     }
@@ -358,7 +406,7 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
     {
         countViewLoading.show()
         lifecycleScope.launch {
-            viewmodel.fetchDuaData(duaid)
+            viewmodel.fetchDuaData(duaid, todayDate)
             viewmodel.fetchUserPref()
             viewmodel.fetchRecentCount()
         }
@@ -370,55 +418,157 @@ internal class TasbeehFragment : BaseRegularFragment(),tasbeehDuaCallback {
 
         userPref?.apply {
             if(this.tasbeeh_sound)
-            bottom_navigation.menu.findItem(R.id.action_volume).setIcon(R.drawable.ic_volume)
+                setupActionForOtherFragment(
+                    action1 = R.drawable.deen_ic_graph,
+                    action2 = R.drawable.ic_refresh,
+                    action3 = R.drawable.ic_volume,
+                    callback = this@TasbeehFragment,
+                    actionnBartitle = localContext.getString(R.string.digital_tasbeeh),
+                    backEnable = true,
+                    view = requireView(),
+                    actionIconColor = R.color.deen_txt_black_deep
+                )
             else
-                bottom_navigation.menu.findItem(R.id.action_volume).setIcon(R.drawable.ic_volume_off)
+                setupActionForOtherFragment(
+                    action1 = R.drawable.deen_ic_graph,
+                    action2 = R.drawable.ic_refresh,
+                    action3 = R.drawable.ic_volume_off,
+                    callback = this@TasbeehFragment,
+                    actionnBartitle = localContext.getString(R.string.digital_tasbeeh),
+                    backEnable = true,
+                    view = requireView(),
+                    actionIconColor = R.color.deen_txt_black_deep
+                )
+
         }
     }
     private fun viewState(data: Tasbeeh)
     {
-        countBtn.isEnabled = true
+        lottieAnim.isEnabled = true
         countViewLoading.hide()
 
         tasbeehdata = data
         countTxt.text = data.dua_count.toString()
-        if(todayDate == data.date)
-        todaysCountTxt.text = data.daily_count.toString().numberLocale()
+       /* if(todayDate == data.date)
+            todaysCountTxt.text = data.daily_count.toString().numberLocale()
         else
             todaysCountTxt.text = "0".numberLocale()
 
         totalCountTxt.text = data.dua_count.toString().numberLocale()
-
+*/
         updateCountView(selectedCount)
 
-        tasbeehDuaAdapter.update(selectedPos)
-        duaListRC.smoothScrollToPosition(selectedPos)
+       // tasbeehDuaAdapter.update(selectedPos)
+       /* duaListRC.post {
+            duaListRC.smoothScrollToPosition(selectedPos)
+        }*/
 
         progressLayout.hide()
-
     }
 
-
-    override fun selectedDua(duaid: Int) {
+    /*override fun selectedDua(duaid: Int) {
 
         selectedPos = duaid
         track4Count = 0
         loadAPI(duaid)
+    }*/
+
+    override fun action1() {
+        if(!Subscription.isSubscribe){
+            gotoFrag(R.id.action_global_subscriptionFragment)
+            return
+        }
+      gotoFrag(R.id.action_global_tasbeehHistoryFragment)
     }
 
-    override fun onBackPress() {
-
-        if(isVisible) {
-            lifecycleScope.launch {
-                userTrackViewModel.trackUser(
-                    language = getLanguage(),
-                    msisdn = DeenSDKCore.GetDeenMsisdn(),
-                    pagename = "digital_tasbeeh",
-                    trackingID = getTrackingID()
-                )
-            }
+    override fun action2() {
+        tasbeehdata?.let {
+            showResetDialog(it.duaid)
         }
-        tryCatch { super.onBackPress() }
+    }
+
+    override fun action3() {
+        lifecycleScope.launch {
+            viewmodel.updateTasbeehSound()
+        }
+    }
+
+    private fun dialog_select_count_cycle()
+    {
+        dialog?.dismiss()
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.DeenMaterialAlertDialog_Rounded)
+        customAlertDialogView = localInflater.inflate(R.layout.dialog_tasbeeh_count_cycle, null, false)
+
+        // Initialize and assign variable
+
+        val cycleList = customAlertDialogView.findViewById<RecyclerView>(R.id.cycleList)
+        val cancelBtn = customAlertDialogView.findViewById<MaterialButton>(R.id.cancelBtn)
+        val setBtn = customAlertDialogView.findViewById<MaterialButton>(R.id.setBtn)
+
+        cycleList.apply {
+            tasbeehCountCycleAdapter = TasbeehCountCycleAdapter(countCycleList,selectedCount)
+            adapter = tasbeehCountCycleAdapter
+        }
+
+
+        cancelBtn?.setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        setBtn.setOnClickListener {
+            selectedCount = tasbeehCountCycleAdapter.getSelectedCount()
+            updateCountView(selectedCount)
+            dialog?.dismiss()
+        }
+
+        // show dialog
+
+        dialog = materialAlertDialogBuilder
+            .setView(customAlertDialogView)
+            .setCancelable(true)
+            .show()
+    }
+
+    private fun selectDhikirDialog(){
+
+            materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext(),R.style.DeenMaterialAlertDialog_rounded)
+            customAlertDialogView = localInflater.inflate(R.layout.dialog_select_dhikir, null, false)
+
+        val listview:RecyclerView = customAlertDialogView.findViewById(R.id.listview)
+        val cancelBtn:MaterialButton = customAlertDialogView.findViewById(R.id.cancelBtn)
+        val okBtn:MaterialButton = customAlertDialogView.findViewById(R.id.setBtn)
+        val closeBtn:ImageButton = customAlertDialogView.findViewById(R.id.closeBtn)
+
+        listview.apply {
+            layoutManager = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
+            adapter = SelectDhikirAdapter(duaList)
+        }
+
+
+            if(dialog?.isShowing == true)
+                dialog?.dismiss()
+
+            if(customAlertDialogView.parent!=null)
+                (customAlertDialogView.getParent() as ViewGroup).removeView(customAlertDialogView)
+
+        dialog = materialAlertDialogBuilder
+                .setView(customAlertDialogView)
+                .setCancelable(true)
+                .show().apply {
+                    window?.setGravity(Gravity.BOTTOM)
+                }
+
+        okBtn.setOnClickListener {
+
+        }
+
+        closeBtn.setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        cancelBtn.setOnClickListener{
+                dialog?.dismiss()
+            }
 
     }
 

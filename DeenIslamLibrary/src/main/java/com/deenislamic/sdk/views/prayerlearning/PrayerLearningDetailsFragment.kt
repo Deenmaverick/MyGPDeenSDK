@@ -4,52 +4,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.PrayerLearningCallback
 import com.deenislamic.sdk.service.callback.common.MaterialButtonHorizontalListCallback
-import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.PrayerLearningResource
 import com.deenislamic.sdk.service.network.response.prayerlearning.visualization.Data
-import com.deenislamic.sdk.service.repository.PrayerLearningRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.viewmodels.PrayerLearningViewModel
-import com.deenislamic.sdk.views.adapters.common.MaterialButtonHorizontalAdapter
-import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.adapters.prayerlearning.PrayerLearningDetailsAdapter
+import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
 
-internal class PrayerLearningDetailsFragment : BaseRegularFragment(), PrayerLearningCallback,
+internal class PrayerLearningDetailsFragment : BaseRegularFragment(),
+    PrayerLearningCallback,
     MaterialButtonHorizontalListCallback {
 
     private lateinit var _viewPager: ViewPager2
-    private lateinit var actionbar: ConstraintLayout
-    private lateinit var header: RecyclerView
+    //private lateinit var actionbar: ConstraintLayout
+    //private lateinit var header: RecyclerView
     private lateinit var prevStep:MaterialButton
     private lateinit var NextStep:MaterialButton
-    private lateinit var materialButtonHorizontalAdapter: MaterialButtonHorizontalAdapter
-    private lateinit var viewmodel:PrayerLearningViewModel
-    private val navArgs:PrayerLearningDetailsFragmentArgs by navArgs()
+    private lateinit var prayerLearningDetailsAdapter: PrayerLearningDetailsAdapter
+    //private lateinit var materialButtonHorizontalAdapter: MaterialButtonHorizontalAdapter
+    private lateinit var viewmodel: PrayerLearningViewModel
     private var currentIndex = 0
+    private var firstload = false
 
-    override fun OnCreate() {
-        super.OnCreate()
-
-        CallBackProvider.setFragment(this)
-
-        // init viewmodel
-        val repository = PrayerLearningRepository(NetworkProvider().getInstance().provideDeenService())
-        viewmodel = PrayerLearningViewModel(repository)
-
+    companion object {
+        fun newInstance(cusarg: Bundle?): PrayerLearningDetailsFragment {
+            val fragment = PrayerLearningDetailsFragment()
+            fragment.arguments = cusarg
+            return fragment
+        }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,28 +53,22 @@ internal class PrayerLearningDetailsFragment : BaseRegularFragment(), PrayerLear
 
         //init view
         _viewPager = mainView.findViewById(R.id.viewPager)
-        actionbar = mainView.findViewById(R.id.actionbar)
-        header = mainView.findViewById(R.id.header)
+        //actionbar = mainView.findViewById(R.id.actionbar)
+        //header = mainView.findViewById(R.id.header)
         prevStep = mainView.findViewById(R.id.prevStep)
         NextStep = mainView.findViewById(R.id.NextStep)
-
-        setupActionForOtherFragment(0,0,null,navArgs.pageTitle,true,mainView)
         setupCommonLayout(mainView)
-
+        CallBackProvider.setFragment(this)
         return mainView
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        /*if (!isDetached) {
-            view.postDelayed({
-                loadpage()
-            }, 300)
-        }
-        else*/
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        if(menuVisible){
+            if(!firstload)
             loadpage()
-
+            firstload = true
+        }
     }
 
     private fun loadpage()
@@ -90,17 +77,17 @@ internal class PrayerLearningDetailsFragment : BaseRegularFragment(), PrayerLear
 
         prevStep.setOnClickListener {
             if(currentIndex>0) {
-                materialButtonHorizontalAdapter.nextPrev(currentIndex - 1)
-                header.smoothScrollToPosition(currentIndex - 1)
+                //materialButtonHorizontalAdapter.nextPrev(currentIndex - 1)
+                //header.smoothScrollToPosition(currentIndex - 1)
                 materialButtonHorizontalListClicked(currentIndex - 1)
 
             }
         }
 
         NextStep.setOnClickListener {
-            if(currentIndex>=0 && currentIndex<materialButtonHorizontalAdapter.itemCount-1) {
-                materialButtonHorizontalAdapter.nextPrev(currentIndex + 1)
-                header.smoothScrollToPosition(currentIndex + 1)
+            if(currentIndex>=0 && currentIndex<prayerLearningDetailsAdapter.itemCount-1) {
+                //materialButtonHorizontalAdapter.nextPrev(currentIndex + 1)
+                //header.smoothScrollToPosition(currentIndex + 1)
                 materialButtonHorizontalListClicked(currentIndex + 1)
             }
         }
@@ -109,10 +96,9 @@ internal class PrayerLearningDetailsFragment : BaseRegularFragment(), PrayerLear
         loadApi()
     }
 
-    private fun loadApi()
-    {
+    private fun loadApi() {
         lifecycleScope.launch {
-            viewmodel.getVisualization(language = getLanguage(), gender = navArgs.gender)
+            viewmodel.getVisualization(language = getLanguage(), gender = arguments?.getString("gender").toString())
         }
     }
 
@@ -133,15 +119,18 @@ internal class PrayerLearningDetailsFragment : BaseRegularFragment(), PrayerLear
     {
         baseViewState()
 
-        header.apply {
+       /* header.apply {
             val linearLayoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             layoutManager = linearLayoutManager
             materialButtonHorizontalAdapter = MaterialButtonHorizontalAdapter(data.Head)
             adapter = materialButtonHorizontalAdapter
-        }
+        }*/
+
+        if(!this::prayerLearningDetailsAdapter.isInitialized)
+            prayerLearningDetailsAdapter = PrayerLearningDetailsAdapter(data.Content)
 
         _viewPager.apply {
-            adapter = PrayerLearningDetailsAdapter(data.Content)
+            adapter = prayerLearningDetailsAdapter
             isUserInputEnabled = false
         }
 
@@ -153,12 +142,12 @@ internal class PrayerLearningDetailsFragment : BaseRegularFragment(), PrayerLear
 
     override fun materialButtonHorizontalListClicked(absoluteAdapterPosition: Int) {
 
-        materialButtonHorizontalAdapter.notifyItemChanged(currentIndex)
+        //materialButtonHorizontalAdapter.notifyItemChanged(currentIndex)
         currentIndex = absoluteAdapterPosition
         _viewPager.setCurrentItem(absoluteAdapterPosition,false)
-        materialButtonHorizontalAdapter.notifyItemChanged(currentIndex)
+        //materialButtonHorizontalAdapter.notifyItemChanged(currentIndex)
         prevStep.isEnabled = currentIndex != 0
-        NextStep.isEnabled = currentIndex != materialButtonHorizontalAdapter.itemCount-1
+        NextStep.isEnabled = currentIndex != prayerLearningDetailsAdapter.itemCount-1
 
     }
 

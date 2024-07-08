@@ -11,6 +11,11 @@
         <item name="android:color">@color/deen_txt_black</item>
     </style>
 
+    <style name="DeenTextAppearance.font48" parent="">
+        <item name="android:textSize">48sp</item>
+        <item name="android:color">@color/deen_txt_black</item>
+    </style>
+
     <style name="DeenTextAppearance.font28" parent="">
         <item name="android:textSize">28sp</item>
         <item name="android:color">@color/deen_txt_black</item>
@@ -136,5 +141,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+
+    <style name="DeenShapeAppearanceOverlay.Deen.Button.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 
 </resources>

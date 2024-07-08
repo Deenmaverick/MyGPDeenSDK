@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "tasbeeh")
-internal data class Tasbeeh(
+data class Tasbeeh(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id", defaultValue = "0")
@@ -38,7 +38,12 @@ internal data class Tasbeeh(
     @ColumnInfo(name = "date", defaultValue = "")
     val date: String = "",
 
+    @ColumnInfo(name = "duaid", defaultValue = "0")
+    val duaid: Int = 0,
+
     @ColumnInfo(name = "timestamp", defaultValue = "0")
-    val timestamp: Long = 0
+    val timestamp: Long = 0,
+    @ColumnInfo(name = "audioUrl", defaultValue = "")
+    val audioUrl:String = ""
 
 )

@@ -27,6 +27,7 @@ import com.deenislamic.sdk.views.dashboard.patch.Greeting
 import com.deenislamic.sdk.views.dashboard.patch.Menu
 import com.deenislamic.sdk.views.dashboard.patch.QuranicItem
 import com.deenislamic.sdk.views.dashboard.patch.SingleCardList
+import com.deenislamic.sdk.views.dashboard.patch.Tasbeeh
 
 
 private const val TYPE_WIDGET1 = "Banners"
@@ -230,11 +231,11 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                     }
                 }
 
-               /* PATCH_TASBEEH -> {
+                PATCH_TASBEEH -> {
                     prepareStubView<View>(rootview, R.layout.item_patch_tasbeeh) {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
                     }
-                }*/
+                }
 
                 /*PATCH_FAVORITE -> {
                     prepareStubView<View>(rootview.findViewById(R.id.widget),R.layout.layout_horizontal_listview_v2) {
@@ -441,7 +442,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                             ).load()
                         }
 
-                       /* PATCH_TASBEEH -> {
+                        PATCH_TASBEEH -> {
 
                             DashboardPatchClass.updateTasbeeh(Tasbeeh(itemView))
                             DashboardPatchClass.getTasbeehInstance()?.load()
@@ -450,7 +451,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                                 dashboardPatchCallback?.dashboardPatchClickd("tb", data.Items[0].copy(DuaId = DashboardPatchClass.getTasbeehInstance()?.selectedPos?:0))
                             }
 
-                        }*/
+                        }
 
                        /* PATCH_FAVORITE -> {
 

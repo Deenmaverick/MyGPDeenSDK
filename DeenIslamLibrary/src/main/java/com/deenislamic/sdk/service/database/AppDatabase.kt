@@ -15,7 +15,7 @@ import com.deenislamic.sdk.service.database.entity.*
         Tasbeeh::class,
         PlayerSettingPref::class
                ],
-    version = 3,
+    version = 4,
     /*autoMigrations = [
         AutoMigration(from = 1, to = 8),
                      ],*/

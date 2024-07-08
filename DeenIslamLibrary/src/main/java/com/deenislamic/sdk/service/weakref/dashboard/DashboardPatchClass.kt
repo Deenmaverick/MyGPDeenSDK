@@ -4,6 +4,7 @@ import android.util.Log
 import com.deenislamic.sdk.views.dashboard.patch.Allah99Names
 import com.deenislamic.sdk.views.dashboard.patch.Billboard
 import com.deenislamic.sdk.views.dashboard.patch.Compass
+import com.deenislamic.sdk.views.dashboard.patch.Tasbeeh
 import java.lang.ref.WeakReference
 
 internal object DashboardPatchClass {
@@ -12,11 +13,13 @@ internal object DashboardPatchClass {
     private var billboardRef: Billboard? = null
     private var compassRef: WeakReference<Compass>? = null
     private var allah99NamesRef: WeakReference<Allah99Names>? = null
+    private var tasbeehRef: WeakReference<Tasbeeh>? = null
 
     // Getter methods for instances
     fun getBillboardInstance(): Billboard? = billboardRef
     fun getCompassInstance(): Compass? = compassRef?.get()
     fun getAllah99NamesInstance(): Allah99Names? = allah99NamesRef?.get()
+    fun getTasbeehInstance(): Tasbeeh? = tasbeehRef?.get()
 
     // Update methods for instances
     fun updateBillboard(billboard: Billboard) {
@@ -30,6 +33,10 @@ internal object DashboardPatchClass {
 
     fun updateAllah99Names(allah99Names: Allah99Names) {
         allah99NamesRef = WeakReference(allah99Names)
+    }
+
+    fun updateTasbeeh(tasbeeh: Tasbeeh) {
+        tasbeehRef = WeakReference(tasbeeh)
     }
 
 

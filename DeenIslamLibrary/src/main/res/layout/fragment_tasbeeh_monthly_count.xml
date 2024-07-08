@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    tools:viewBindingIgnore="true"
+    tools:context=".views.tasbeeh.TasbeehMonthlyCountFragment"
+    android:background="@color/deen_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_16">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/countCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_16"
+                android:background="@color/deen_brand_secondary">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/monthlyTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/deen_white_70"
+                    android:text="@string/monthly_count"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/monthlyCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/DeenTextAppearance.font24"
+                    android:textColor="@color/deen_white"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/monthlyTxt"
+                    app:layout_constraintStart_toStartOf="@+id/monthlyTxt"
+                    app:layout_constraintEnd_toEndOf="@+id/monthlyTxt"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5"
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="@color/deen_border"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="@+id/monthlyTxt"
+                    app:layout_constraintBottom_toBottomOf="@+id/monthlyCount"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/totalTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/deen_white_70"
+                    android:text="@string/total_count"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/monthlyTxt"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/totalCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/DeenTextAppearance.font24"
+                    android:textColor="@color/deen_white"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/totalTxt"
+                    app:layout_constraintStart_toStartOf="@+id/totalTxt"
+                    app:layout_constraintEnd_toEndOf="@+id/totalTxt"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/recentTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_txt_black_deep"
+            android:textStyle="bold"
+            android:text="@string/recent_counts"
+            app:layout_constraintTop_toBottomOf="@+id/countCard"
+            app:layout_constraintStart_toStartOf="@+id/countCard"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recentCount"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/space_16"
+            tools:listitem="@layout/item_tasbeeh_recent_count"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/recentTxt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <include
+            android:id="@+id/progressLayout"
+            layout="@layout/layout_circle_progress"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

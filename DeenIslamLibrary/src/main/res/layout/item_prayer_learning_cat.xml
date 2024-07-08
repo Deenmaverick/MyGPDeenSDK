@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/space_4"
     android:layout_marginEnd="@dimen/space_4"
-    android:layout_marginBottom="@dimen/space_8"
+    android:layout_marginTop="@dimen/space_8"
+    android:layout_marginBottom="1dp"
     app:cardBackgroundColor="@color/deen_white"
     app:cardCornerRadius="8dp"
-    tools:viewBindingIgnore="true"
     app:cardElevation="1dp"
     app:strokeWidth="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,14 +16,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/space_12">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/menuIcon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="@dimen/space_12"
-            android:layout_marginStart="@dimen/space_12"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/deen_ic_prayer_learning_cat"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,9 +37,9 @@
             android:layout_marginBottom="@dimen/space_12"
             tools:text="Prayer Waqt and Rakats"
             android:textAlignment="textStart"
+            android:minLines="2"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/deen_txt_black_deep"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/menuIcon"
             app:layout_constraintTop_toBottomOf="@+id/menuIcon" />

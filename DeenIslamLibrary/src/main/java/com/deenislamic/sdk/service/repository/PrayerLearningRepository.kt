@@ -13,6 +13,7 @@ internal class PrayerLearningRepository(
     suspend fun getPrayerLeareningAllCategory(language:String) = makeApicall {
         val body = JSONObject()
         body.put("language", language)
+        body.put("device", "android")
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.getPrayerLearningAllCategory(parm = requestBody)
 

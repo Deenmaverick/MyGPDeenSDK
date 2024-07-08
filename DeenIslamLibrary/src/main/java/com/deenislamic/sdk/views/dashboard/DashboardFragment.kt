@@ -28,9 +28,11 @@ import com.deenislamic.sdk.service.callback.AdvertisementCallback
 import com.deenislamic.sdk.service.callback.Allah99NameCallback
 import com.deenislamic.sdk.service.callback.DashboardPatchCallback
 import com.deenislamic.sdk.service.callback.RamadanCallback
+import com.deenislamic.sdk.service.callback.TasbeehCallback
 import com.deenislamic.sdk.service.callback.ViewInflationListener
 import com.deenislamic.sdk.service.callback.quran.QuranPlayerCallback
 import com.deenislamic.sdk.service.database.AppPreference
+import com.deenislamic.sdk.service.database.entity.Tasbeeh
 import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
@@ -44,11 +46,54 @@ import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.repository.DashboardRepository
 import com.deenislamic.sdk.service.repository.PrayerTimesRepository
+import com.deenislamic.sdk.service.repository.TasbeehRepository
 import com.deenislamic.sdk.service.weakref.dashboard.DashboardPatchClass
-import com.deenislamic.sdk.utils.*
+import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.MAKKAH_LATITUDE
+import com.deenislamic.sdk.utils.MAKKAH_LONGITUDE
+import com.deenislamic.sdk.utils.MENU_99_NAME_OF_ALLAH
+import com.deenislamic.sdk.utils.MENU_AL_QURAN
+import com.deenislamic.sdk.utils.MENU_DIGITAL_TASBEEH
+import com.deenislamic.sdk.utils.MENU_DUA
+import com.deenislamic.sdk.utils.MENU_DUA_AMOL
+import com.deenislamic.sdk.utils.MENU_EID_JAMAT
+import com.deenislamic.sdk.utils.MENU_HADITH
+import com.deenislamic.sdk.utils.MENU_HAJJ_AND_UMRAH
+import com.deenislamic.sdk.utils.MENU_IJTEMA
+import com.deenislamic.sdk.utils.MENU_ISLAMIC_BOYAN
+import com.deenislamic.sdk.utils.MENU_ISLAMIC_EDUCATION_VIDEO
+import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
+import com.deenislamic.sdk.utils.MENU_ISLAMIC_NAME
+import com.deenislamic.sdk.utils.MENU_KHATAM_E_QURAN
+import com.deenislamic.sdk.utils.MENU_KHATAM_E_QURAN_RAMADAN
+import com.deenislamic.sdk.utils.MENU_LIVE_MAKKAH_MADINA
+import com.deenislamic.sdk.utils.MENU_LIVE_PODCAST
+import com.deenislamic.sdk.utils.MENU_NEAREST_MOSQUE
+import com.deenislamic.sdk.utils.MENU_PRAYER_LEARNING
+import com.deenislamic.sdk.utils.MENU_PRAYER_TIME
+import com.deenislamic.sdk.utils.MENU_QIBLA_COMPASS
+import com.deenislamic.sdk.utils.MENU_QURAN_CLASS
+import com.deenislamic.sdk.utils.MENU_QURBANI
+import com.deenislamic.sdk.utils.MENU_RAMADAN
+import com.deenislamic.sdk.utils.MENU_RAMADAN_OTHER_DAY
+import com.deenislamic.sdk.utils.MENU_ZAKAT
+import com.deenislamic.sdk.utils.MilliSecondToStringTime
+import com.deenislamic.sdk.utils.StringTimeToMillisecond
+import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.bangladeshStateArray
+import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.getRCDestination
+import com.deenislamic.sdk.utils.getWaktNameByTag
+import com.deenislamic.sdk.utils.numberLocale
+import com.deenislamic.sdk.utils.prayerMomentLocaleForToast
+import com.deenislamic.sdk.utils.shareImage
+import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
+import com.deenislamic.sdk.utils.tryCatch
+import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.DashboardViewModel
 import com.deenislamic.sdk.viewmodels.PrayerTimesViewModel
+import com.deenislamic.sdk.viewmodels.TasbeehViewModel
 import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislamic.sdk.views.adapters.dashboard.PrayerTimeCallback
@@ -73,7 +118,9 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     SensorEventListener,
     QuranPlayerCallback,
     Allah99NameCallback,
-    RamadanCallback, AdvertisementCallback{
+    RamadanCallback,
+    AdvertisementCallback,
+    TasbeehCallback{
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var prayerViewModel:  PrayerTimesViewModel
@@ -98,6 +145,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     private var locationManager: LocationManager? = null
     private var isLocationEnabledDialogShow: Boolean = false
     private var currentStateModel: StateModel? = null
+    private lateinit var tasbeehViewmodel:TasbeehViewModel
 
     override fun OnCreate() {
         super.OnCreate()
@@ -127,6 +175,12 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             factoryPrayer
         )[PrayerTimesViewModel::class.java]
 
+        val tasbeehRepository = TasbeehRepository(
+            tasbeehDao = DatabaseProvider().getInstance().provideTasbeehDao(),
+            userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
+        )
+
+        tasbeehViewmodel = TasbeehViewModel(tasbeehRepository)
 
     }
 
@@ -1333,6 +1387,37 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     override fun shareImage(bitmap: Bitmap) {
 
         context?.shareImage(bitmap)
+    }
+
+    override fun tasbeehLoadApi(selectedPos: Int, todayDate: String) {
+        lifecycleScope.launch {
+            tasbeehViewmodel.fetchDuaData(selectedPos, todayDate)
+            tasbeehViewmodel.fetchUserPref()
+            //tasbeehViewmodel.fetchRecentCount()
+        }
+    }
+
+    override fun tasbeehSetCount(selectedCount: Int, it1: Tasbeeh, todayDate: String) {
+
+        lifecycleScope.launch {
+            tasbeehViewmodel.setTasbeehCount(selectedCount, it1, todayDate)
+        }
+    }
+
+    override fun tasbeehShare(arabicDua: String, duaTxt: String) {
+        val bundle = Bundle()
+
+        if(DeenSDKCore.GetDeenLanguage() == "en"){
+            bundle.putString("enText",duaTxt)
+        }else{
+            bundle.putString("bnText",duaTxt)
+        }
+        bundle.putString("title",localContext.getString(R.string.digital_tasbeeh))
+        bundle.putString("arText",arabicDua)
+        //bundle.putString("customShareText","পবিত্র কুরআন তিলাওয়াত করুন  https://deenislamic.com/app/quran?id=${surahID-1}")
+        bundle.putString("customShareText","Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+
+        gotoFrag(R.id.action_global_shareFragment,bundle)
     }
 
 }

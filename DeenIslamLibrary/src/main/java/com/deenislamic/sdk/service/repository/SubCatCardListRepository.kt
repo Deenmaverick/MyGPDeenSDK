@@ -4,6 +4,7 @@ import com.deenislamic.sdk.service.network.ApiCall
 import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.network.api.DeenService
 import com.deenislamic.sdk.service.network.response.common.subcatcardlist.SubCatResponse
+import com.deenislamic.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislamic.sdk.utils.HAJJ_GUIDE
 import com.deenislamic.sdk.utils.HAJJ_SUB_CAT
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
@@ -60,6 +61,24 @@ internal class SubCatCardListRepository(
         body.put("Category", cat)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.getHajjGuide(parm = requestBody)
+
+    }
+
+    suspend fun getSubCatPatch(categoryID: String, language: String, tag: String): ApiResource<DashboardResponse?>? {
+        return when(tag)
+        {
+            MENU_PRAYER_LEARNING -> getPrayerLeareningSubCatPatch(language,categoryID)
+            else -> null
+        }
+    }
+
+    private suspend fun getPrayerLeareningSubCatPatch(language:String, cat: String) = makeApicall {
+        val body = JSONObject()
+        body.put("language", language)
+        body.put("device", "android")
+        body.put("Item", cat)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.getPrayerLearningSubCatPatch(parm = requestBody)
 
     }
 

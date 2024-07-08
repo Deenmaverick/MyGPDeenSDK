@@ -518,4 +518,36 @@
     <string name="copy_arabic_text">Copy Arabic text</string>
     <string name="copy_bangla_text">Copy Bangla text</string>
     <string name="copy_english_text">Copy English text</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="play">Play</string>
+    <string name="count_input">Count: %1$s</string>
+    <string name="set_the_count_cycle">Set the count cycle</string>
+    <string name="set">Set</string>
+    <string name="choose_a_dhikr">Choose a Dhikr</string>
+    <string name="count_history">Count History</string>
+    <string name="monthly_count">Monthly Count</string>
+    <string name="today_s_count">Today’s Count</string>
+    <string name="weekly_count">Weekly Count</string>
+    <string name="tasbeeh_counter">Tasbeeh Counter</string>
+    <string name="next_date">Next Date</string>
+    <string name="count">Count</string>
+    <string name="prayer_fajr">Fajr</string>
+    <string name="prayer_dhuhr">Dhuhr</string>
+    <string name="prayer_asr">Asr</string>
+    <string name="prayer_maghrib">Maghrib</string>
+    <string name="prayer_isha">Isha</string>
+    <string name="jummah">Jummah</string>
+    <string name="pt_rakat_red_hint">Prayers which are obligatory for Muslims.</string>
+    <string name="pt_rakat_orange_hint">Necessary prayers which come after the obligatory prayers in terms of importance</string>
+    <string name="pt_rakat_green_hint">Rasulullah (ﷺ) used to perform regular acts, although not as obligatory as fardh-wajib.</string>
+    <string name="pt_rakat_sky_blue_hint">Even though Rasulullah (ﷺ) used to do it regularly and sometimes abandoned it. </string>
+    <string name="pt_rakat_blue_hint">Performing Nafl prayer has many rewards.</string>
+    <string name="fardh">Fardh</string>
+    <string name="wajib">Wajib</string>
+    <string name="sunnah_muakkadah">Sunnah Muakkadah</string>
+    <string name="sunnah_ghiar_muakkadah">Sunnah Ghiar Muakkadah</string>
+    <string name="nafl">Nafl</string>
+    <string name="prayer_for_men">Prayer for men</string>
+    <string name="prayer_for_women">Prayer for women</string>
+
 </resources>

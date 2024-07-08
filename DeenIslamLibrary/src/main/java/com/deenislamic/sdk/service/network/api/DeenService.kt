@@ -195,8 +195,9 @@ internal interface DeenService {
 
 
     // Prayer Learning
-    @POST("PrayerLearning/AllCategories")
-    suspend fun getPrayerLearningAllCategory(@Body parm: RequestBody): PrayerLearningAllCategory
+
+    @POST("PrayerLearning/GetPrayerPatch")
+    suspend fun getPrayerLearningAllCategory(@Body parm: RequestBody): DashboardResponse
 
     @POST("PrayerLearning/Prayervisualization")
     suspend fun getPrayerLearningVisual(@Body parm: RequestBody): VisualizationResponse
@@ -430,6 +431,10 @@ internal interface DeenService {
     suspend fun getWallpaper(
         @Body parm: RequestBody
     ): WallpaperListResponse
+
+    @POST("PrayerLearning/GetPrayerDetailsPatch")
+    suspend fun getPrayerLearningSubCatPatch(@Body parm: RequestBody): DashboardResponse
+
 
 
 }
