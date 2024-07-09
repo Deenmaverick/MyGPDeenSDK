@@ -58,6 +58,7 @@ internal class SubCatCardListViewModel(
                 val getSubCat = async {  repository.getSubCatList(subid,language,tag) }.await()
 
                 when(getSubCat){
+
                     is ApiResource.Success -> {
                         if(getSubCat.value?.Data?.isNotEmpty() == true)
                             getSubCatResponse = getSubCat.value.Data
@@ -65,6 +66,7 @@ internal class SubCatCardListViewModel(
 
                     is ApiResource.Failure -> Unit
                     null -> Unit
+                    else -> Unit
                 }
             }
 

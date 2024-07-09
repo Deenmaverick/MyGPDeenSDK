@@ -33,7 +33,7 @@ internal class PaymentRepository(
         val body = JSONObject()
         body.put("serviceID", serviceID)
         body.put("msisdn", msisdn)
-        body.put("device", "blsdk")
+        body.put("device", "gpsdk")
         body.put("callBackUrl", "https://www.google.com")
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
@@ -53,7 +53,7 @@ internal class PaymentRepository(
         val body = JSONObject()
         body.put("serviceID", serviceID)
         body.put("msisdn", msisdn)
-        body.put("device", "blsdk")
+        body.put("device", "gpsdk")
         body.put("Reference", reference)
         body.put("callBackUrl", "https://www.google.com")
 
@@ -98,7 +98,7 @@ internal class PaymentRepository(
         val body = JSONObject()
         body.put("serviceID", serviceID)
         body.put("msisdn", msisdn)
-        body.put("device", "blsdk")
+        body.put("device", "gpsdk")
         body.put("callBackUrl", "https://www.google.com")
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)

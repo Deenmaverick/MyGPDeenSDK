@@ -9,9 +9,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.PrayerLearningCallback
 import com.deenislamic.sdk.service.callback.common.MaterialButtonHorizontalListCallback
+import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.PrayerLearningResource
 import com.deenislamic.sdk.service.network.response.prayerlearning.visualization.Data
+import com.deenislamic.sdk.service.repository.PrayerLearningRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.viewmodels.PrayerLearningViewModel
 import com.deenislamic.sdk.views.adapters.prayerlearning.PrayerLearningDetailsAdapter
@@ -43,6 +45,12 @@ internal class PrayerLearningDetailsFragment : BaseRegularFragment(),
         }
     }
 
+    override fun OnCreate() {
+        super.OnCreate()
+        // init viewmodel
+        val repository = PrayerLearningRepository(NetworkProvider().getInstance().provideDeenService())
+        viewmodel = PrayerLearningViewModel(repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

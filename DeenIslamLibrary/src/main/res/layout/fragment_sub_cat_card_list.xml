@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="0dp"
-        android:paddingBottom="@dimen/space_8"
+        android:paddingBottom="@dimen/space_16"
         android:clipToPadding="false"
         android:layout_gravity="center"
         android:nestedScrollingEnabled="false"

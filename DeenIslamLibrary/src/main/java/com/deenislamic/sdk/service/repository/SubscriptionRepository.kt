@@ -21,7 +21,7 @@ internal class SubscriptionRepository(
 
         val body = JSONObject()
         body.put("msisdn", msisdn)
-        body.put("device", "blsdk")
+        body.put("device", "gpsdk")
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         paymentService?.checkRecSubscription(requestBody)
@@ -34,7 +34,7 @@ internal class SubscriptionRepository(
 
         val body = JSONObject()
         body.put("msisdn", msisdn)
-        body.put("device", "blsdk")
+        body.put("device", "gpsdk")
         body.put("ServiceId",serviceId)
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)

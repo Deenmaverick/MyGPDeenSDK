@@ -20,7 +20,7 @@ internal class HadithFavAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_daily_dua_favorite, parent, false)
+                .inflate(R.layout.item_hadith_fav, parent, false)
         )
 
     /*fun update(data: List<Data>)

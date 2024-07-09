@@ -789,9 +789,11 @@ fun String.htmlFormat(): SpannableStringBuilder {
 
 fun Element.extractTextWithStyle(): SpannableStringBuilder {
     val spannableBuilder = SpannableStringBuilder()
+    val childNodes = this.childNodes()
+    val lastChildIndex = childNodes.size - 1
 
     // Process each child node (element or text node)
-    childNodes().forEach { childNode ->
+    childNodes.forEachIndexed  {  index, childNode ->
         when (childNode) {
             is Element -> {
                 // Handle child element
@@ -801,7 +803,9 @@ fun Element.extractTextWithStyle(): SpannableStringBuilder {
                         // Add a bullet point before the list item text
                         spannableBuilder.append("\u2022 ") // Unicode character for bullet point
                         spannableBuilder.append(elementText)
-                        spannableBuilder.append("\n")
+                        if (index != lastChildIndex) {
+                            spannableBuilder.append("\n")
+                        }
                     } else {
                         spannableBuilder.append(elementText)
                     }

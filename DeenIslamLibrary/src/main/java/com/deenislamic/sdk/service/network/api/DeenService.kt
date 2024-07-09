@@ -202,9 +202,8 @@ internal interface DeenService {
     @POST("PrayerLearning/Prayervisualization")
     suspend fun getPrayerLearningVisual(@Body parm: RequestBody): VisualizationResponse
 
-    @POST("PrayerLearning/AllprayerlearningByCategory")
+    @POST("PrayerLearning/getPrayerTopicbyCategory")
     suspend fun getPrayerLearningSubCat(@Body parm: RequestBody): SubCatResponse
-
 
     // Khatam e Quran Video
     @POST("Quran/KhotomeQuran")

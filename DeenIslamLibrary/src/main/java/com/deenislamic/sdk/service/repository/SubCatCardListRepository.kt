@@ -75,7 +75,7 @@ internal class SubCatCardListRepository(
     private suspend fun getPrayerLeareningSubCatPatch(language:String, cat: String) = makeApicall {
         val body = JSONObject()
         body.put("language", language)
-        body.put("device", "android")
+        body.put("device", "sdk")
         body.put("Item", cat)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.getPrayerLearningSubCatPatch(parm = requestBody)

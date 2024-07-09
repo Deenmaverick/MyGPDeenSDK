@@ -65,12 +65,14 @@ internal class RichContentPatch(private val itemView: View,
     private val container: MaterialCardView? = itemView.findViewById(R.id.inf)
 
     init {
-        itemView.setPadding(16.dp,0,16.dp,0)
+        if(absoluteAdapterPosition == 0)
+            itemView.setPadding(16.dp,8.dp,16.dp,0)
+        else
+            itemView.setPadding(16.dp,0,16.dp,0)
         load()
     }
 
     fun load() {
-
 
         val getsubtext = subCatResponse?.details?.firstOrNull()
         val subtext = if(getsubtext?.Text?.isNotEmpty() == true) getsubtext.Text else getsubtext?.Pronunciation

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.deenislamic.sdk.service.callback.common.BasicCardListCallback
 import com.deenislamic.sdk.service.callback.common.Common3DotMenuCallback
 import com.deenislamic.sdk.service.callback.common.HorizontalCardListCallback
 import com.deenislamic.sdk.service.database.AppPreference
+import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.libs.ImageViewPopupDialog
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.SubCatCardListResource
@@ -27,6 +29,7 @@ import com.deenislamic.sdk.service.models.common.OptionList
 import com.deenislamic.sdk.service.models.quran.quranplayer.PlayerCommonSelectionData
 import com.deenislamic.sdk.service.network.response.dashboard.Data
 import com.deenislamic.sdk.service.network.response.dashboard.Item
+import com.deenislamic.sdk.service.repository.SubCatCardListRepository
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.MENU_PRAYER_LEARNING
@@ -36,6 +39,7 @@ import com.deenislamic.sdk.utils.shareImage
 import com.deenislamic.sdk.utils.shareLargeTextInChunks
 import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.viewmodels.SubCatCardListViewModel
+import com.deenislamic.sdk.viewmodels.common.ContentSettingVMFactory
 import com.deenislamic.sdk.viewmodels.common.ContentSettingViewModel
 import com.deenislamic.sdk.views.adapters.common.SubCatPatchAdapter
 import com.deenislamic.sdk.views.adapters.quran.quranplayer.PlayerCommonSelectionList
@@ -66,6 +70,21 @@ internal class SubCatPatchFragment : BaseRegularFragment(),
     private lateinit var contentSettingViewModel: ContentSettingViewModel
     private lateinit var contentSetting: ContentSetting
 
+    override fun OnCreate() {
+        super.OnCreate()
+
+        // init viewmodel
+
+        val repository = SubCatCardListRepository(NetworkProvider().getInstance().provideDeenService())
+        viewmodel = SubCatCardListViewModel(repository)
+
+
+        val factory = ContentSettingVMFactory()
+        contentSettingViewModel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[ContentSettingViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
