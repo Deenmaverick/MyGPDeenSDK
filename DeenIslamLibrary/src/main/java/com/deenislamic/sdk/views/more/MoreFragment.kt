@@ -29,20 +29,6 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     private lateinit var premiumLayout:MaterialCardView
     private lateinit var downloadLayout:MaterialCardView
     private lateinit var downloadCount:AppCompatTextView
-    override fun OnCreate() {
-        super.OnCreate()
-       // setupBackPressCallback(this,true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
-            duration = 300L
-        }
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true).apply {
-            duration = 300L
-        }
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false).apply {
-            duration = 300L
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

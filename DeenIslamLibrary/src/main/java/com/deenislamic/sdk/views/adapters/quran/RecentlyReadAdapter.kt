@@ -16,7 +16,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 
 internal class RecentlyReadAdapter(private val items: List<Item>) : RecyclerView.Adapter<BaseViewHolder>() {
 
-    private val callback = CallBackProvider.get<SurahCallback>()
+    private var callback = CallBackProvider.get<SurahCallback>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context)
@@ -49,6 +49,7 @@ internal class RecentlyReadAdapter(private val items: List<Item>) : RecyclerView
             )
 
             itemView.setOnClickListener {
+                callback = CallBackProvider.get<SurahCallback>()
                 callback?.surahClick(transformPatchToSurahData(items[absoluteAdapterPosition]))
             }
 

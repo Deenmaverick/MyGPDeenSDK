@@ -37,7 +37,7 @@
                 android:id="@+id/arabicText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/al_majed_quranic_font_regular"
+                android:fontFamily="@font/indopakv2"
                 android:textColor="@color/deen_txt_black_deep"
                 tools:text="باب سُنَّةِ الأُضْحِيَّةِ وَقَالَ ابْنُ عُمَرَ هِيَ سُنَّةٌ وَمَعْرُوفٌ"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"

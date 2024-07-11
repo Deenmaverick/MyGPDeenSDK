@@ -48,7 +48,7 @@ internal class HadithFavoriteFragment(private val checkFirstload: Boolean = fals
 
     private var customAlertDialog: CustomAlertDialog? =null
 
-    private var isNextEnabled  = true
+    private var isNextEnabled  = false
     private var pageNo:Int = 1
     private var pageItemCount:Int = 10
     private var totalHadithCount = 0

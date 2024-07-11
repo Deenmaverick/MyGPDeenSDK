@@ -56,9 +56,11 @@ fun View.hide()
     visibility = View.GONE
 }
 
-fun View.invisible()
-{
-    visibility = View.INVISIBLE
+fun View.invisible(bol:Boolean = true) {
+    visibility = if(bol)
+        View.INVISIBLE
+    else
+        View.VISIBLE
 }
 
 fun Context.toast(msg:String)

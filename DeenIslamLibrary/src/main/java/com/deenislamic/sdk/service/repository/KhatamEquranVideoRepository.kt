@@ -17,9 +17,9 @@ internal class KhatamEquranVideoRepository(
     ApiCall {
     suspend fun getKhatamQuranVideos(language: String, isRamadan: Boolean, date: String?) = makeApicall {
 
-        val destinationFolder = File(DeenSDKCore.appContext?.filesDir, if(!isRamadan)"khatamquran/videos.json" else "khatamquran_ramadan/videos.json")
+       /* val destinationFolder = File(DeenSDKCore.appContext?.filesDir, if(!isRamadan)"khatamquran/videos.json" else "khatamquran_ramadan/videos.json")
 
-        if (!destinationFolder.exists()) {
+        if (!destinationFolder.exists()) {*/
             val body = JSONObject()
             body.put("language", language)
             date?.let {
@@ -31,9 +31,9 @@ internal class KhatamEquranVideoRepository(
             else
                 deenService?.getKhatamQuranRamadanVideos(parm = requestBody)
 
-        } else {
+       /* } else {
          readFromFile(if(!isRamadan)"khatamquran/videos.json" else "khatamquran_ramadan/videos.json")
-        }
+        }*/
 
     }
     suspend fun getRecentKhatamQuranVideos(language: String) = makeApicall {

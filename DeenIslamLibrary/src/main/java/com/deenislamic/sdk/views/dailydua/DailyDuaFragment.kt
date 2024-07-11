@@ -115,6 +115,8 @@ internal class DailyDuaFragment : BaseRegularFragment() {
 
     }
 
+    fun getActionBar() = if(this::actionbar.isInitialized) actionbar else null
+
     private fun loadpage()
     {
         mPageDestination = arrayListOf(
@@ -155,6 +157,10 @@ internal class DailyDuaFragment : BaseRegularFragment() {
                 viewPagerPosition = position
 
                 clearAllBtnSelection()
+
+                if(position!=2 && this@DailyDuaFragment::actionbar.isInitialized){
+                    setupActionForOtherFragment(0,0,null,localContext.getString(R.string.daily_dua),true,actionbar)
+                }
 
                 when(position)
                 {

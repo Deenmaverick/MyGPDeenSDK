@@ -277,8 +277,11 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
         //bottom_navigation.setupWithNavController(navController)
         searchInput.hint = localContext.getString(R.string.search)
         // test notification
-        createChannel("Prayer Time","Prayer Time","Prayer Alert")
-        createSilentChannel("Quran","Quran","Quran Player")
+        //createChannel("Prayer Time","Prayer Time","Prayer Alert")
+        createChannel("PrayerTimeMyGPDeenSDK","Prayer Time","Prayer Alert")
+
+        //createSilentChannel("Quran","Quran","Quran Player")
+        createSilentChannel("AlQuranMyGPDeenSDK","Quran","Quran Player")
         //Log.e("CUR_TIME_NOTIFY",Calendar.getInstance().timeInMillis.toString())
       /*  setNotification(  SystemClock.elapsedRealtime()+600,1)
         setNotification(SystemClock.elapsedRealtime()+1200,2)
@@ -946,6 +949,12 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
                 .apply {
                     setShowBadge(false)
                 }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                notificationChannel.setAllowBubbles(false)
+            }
+
+            notificationChannel.setBypassDnd(true)
 
             notificationChannel.enableLights(false)
             notificationChannel.lightColor = Color.RED

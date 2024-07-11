@@ -52,6 +52,8 @@ import java.util.concurrent.TimeUnit
 
 internal class QuranPlayer: Service(){
 
+    private val packageNameHash = "com.deenislamic.sdk.mygp".hashCode()
+
     private var repository: AlQuranRepository = AlQuranRepository(
         deenService = NetworkProvider().getInstance().provideDeenService(),
         quranService = null
@@ -111,7 +113,7 @@ internal class QuranPlayer: Service(){
 
         // Acquire a WakeLock
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "QuranPlayerSDK::WakeLock")
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AlQuranMyGPDeenSDK::WakeLock")
         wakeLock?.acquire()
     }
 
@@ -233,7 +235,7 @@ internal class QuranPlayer: Service(){
 
 
 
-        startForeground(1005, notificationBuilder.build())
+        startForeground(packageNameHash, notificationBuilder.build())
 
         return START_STICKY
     }
@@ -334,11 +336,7 @@ internal class QuranPlayer: Service(){
 
         notificationDarkLight(miniCustomLayout,largeCustomLayout)
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder(this, "Quran")
-        } else {
-            NotificationCompat.Builder(this)
-        }
+        return NotificationCompat.Builder(this, "AlQuranMyGPDeenSDK")
             .setContentTitle("Deen")
             .setContentIntent(pendingIntent)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
@@ -353,8 +351,8 @@ internal class QuranPlayer: Service(){
 
     fun updateNotification() {
 
-        if(!isServiceRunning)
-            return
+        /*if(!isServiceRunning)
+            return*/
 
         val localeContext = this.getLocalContext()
 
@@ -410,11 +408,13 @@ internal class QuranPlayer: Service(){
         notificationDarkLight(miniCustomLayout,largeCustomLayout)
 
         // Create a new instance of the NotificationCompat.Builder with updated actions
-        val updatedNotificationBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder(this, "Quran")
+        val updatedNotificationBuilder = NotificationCompat.Builder(this, "AlQuranMyGPDeenSDK")
+
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationCompat.Builder(this, "AlQuranMyGPDeenSDK")
         } else {
             NotificationCompat.Builder(this)
-        }
+        }*/
             //.setStyle(mediaStyle)
             .setContentTitle("Al Quran")
             .setContentIntent(pendingIntent)
@@ -427,7 +427,7 @@ internal class QuranPlayer: Service(){
             .setCustomHeadsUpContentView(miniCustomLayout)  // For heads-up notification
 
         // Notify the notification manager with the updated notification
-        notificationManager.notify(1005, updatedNotificationBuilder.build())
+        notificationManager.notify(packageNameHash, updatedNotificationBuilder.build())
     }
 
 
@@ -547,7 +547,7 @@ internal class QuranPlayer: Service(){
 
         Log.d("QuranPlayerService", "Releasing media player")
         releaseMediaPlayer()
-
+        notificationManager.cancelAll()
         Log.d("QuranPlayerService", "Releasing media session")
         //mediaSession.release()
         tryCatch {
@@ -562,7 +562,7 @@ internal class QuranPlayer: Service(){
             stopForeground(true)
         }
 
-        notificationManager.cancelAll()
+
         // Stop the service
         Log.d("QuranPlayerService", "Stopping self")
         //stopSelf()

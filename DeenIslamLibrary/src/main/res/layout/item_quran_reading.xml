@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/space_12"
     android:layout_marginEnd="@dimen/space_12"
-    android:fontFamily="@font/kfgqpc_font"
+    android:fontFamily="@font/indopakv2"
     android:textAlignment="textStart"
     android:textAppearance="@style/DeenTextAppearance.font24"
     android:textColor="@color/deen_txt_black_deep"

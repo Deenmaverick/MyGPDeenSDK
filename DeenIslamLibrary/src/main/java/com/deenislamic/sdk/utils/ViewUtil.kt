@@ -916,8 +916,8 @@ fun SpannableStringBuilder.spanApplyArabicNew(context: Context) {
     var arabicFont: Typeface? = null
     when (contentSetting.arabicFont) {
         1 -> arabicFont = ResourcesCompat.getFont(context, R.font.indopakv2)
-        2 -> arabicFont = ResourcesCompat.getFont(context, R.font.kfgqpc_font)
-        3 -> arabicFont = ResourcesCompat.getFont(context, R.font.al_majed_quranic_font_regular)
+        //2 -> arabicFont = ResourcesCompat.getFont(context, R.font.kfgqpc_font)
+        //3 -> arabicFont = ResourcesCompat.getFont(context, R.font.al_majed_quranic_font_regular)
     }
 
     // Regular expression to match Arabic text
@@ -974,7 +974,8 @@ fun SpannableStringBuilder.spanApplyReference() {
 }
 
 fun AppCompatTextView.fixArabicComma() {
-    val mainFont = ResourcesCompat.getFont(context, R.font.al_majed_quranic_font_regular)
+    //val mainFont = ResourcesCompat.getFont(context, R.font.al_majed_quranic_font_regular)
+    val mainFont = ResourcesCompat.getFont(context, R.font.indopakv2)
     val commaChar = '،'
     val fullText = text
 

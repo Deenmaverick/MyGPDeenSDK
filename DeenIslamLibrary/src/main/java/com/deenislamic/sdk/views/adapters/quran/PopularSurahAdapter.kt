@@ -21,7 +21,7 @@ private const val FOOTER = 2
 internal class PopularSurahAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     private var surahList: ArrayList<Item> = arrayListOf()
-    private val callback = CallBackProvider.get<SurahCallback>()
+    private var callback = CallBackProvider.get<SurahCallback>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ViewHolder(
@@ -72,6 +72,7 @@ internal class PopularSurahAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 surahList[position].ECount.toString().numberLocale())
 
             itemView.setOnClickListener {
+                callback = CallBackProvider.get<SurahCallback>()
                 callback?.surahClick(transformPatchToSurahData(surahList[position]))
             }
         }

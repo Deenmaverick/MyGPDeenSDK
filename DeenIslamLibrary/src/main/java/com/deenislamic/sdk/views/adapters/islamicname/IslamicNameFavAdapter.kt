@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.islamicname.Data
 import com.deenislamic.sdk.utils.getLocalContext
+import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.views.base.BaseViewHolder
 
 internal class  IslamicNameFavAdapter(
@@ -51,15 +52,16 @@ internal class  IslamicNameFavAdapter(
         private val nameArabic:AppCompatTextView = itemView.findViewById(R.id.nameArabic)
         private val meaning:AppCompatTextView = itemView.findViewById(R.id.meaning)
         private val rightBtn:AppCompatImageView = itemView.findViewById(R.id.rightBtn)
+        private val shareBtn:AppCompatImageView = itemView.findViewById(R.id.shareBtn)
 
         override fun onBind(position: Int) {
             super.onBind(position)
 
             val data = favData[position]
             name.text = data.Name
-            //nameArabic.text = data.nameinarabic
+            nameArabic.text = data.nameinarabic
             meaning.text = data.meaning
-
+            shareBtn.hide()
             rightBtn.setOnClickListener {
                 callback.delFav(data,position)
             }

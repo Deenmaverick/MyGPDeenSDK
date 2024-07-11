@@ -91,7 +91,7 @@ internal class AlarmReceiver : BroadcastReceiver() {
                         title = "Prayer Alert!",
                         messageBody = "it's time for $prayerName",
                         largeImg = null,
-                        channelID = "Prayer Time",
+                        channelID = "PrayerTimeMyGPDeenSDK",
                         notification_id = prayer_notification_id
                     )
 

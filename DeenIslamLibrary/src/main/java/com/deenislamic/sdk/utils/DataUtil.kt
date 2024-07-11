@@ -21,6 +21,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.io.UnsupportedEncodingException
+import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 
@@ -222,14 +224,14 @@ internal fun Context.getArabicFontList():ArrayList<FontList> {
             fontname = this.getString(R.string.indopak),
             fontid = "1"
         ),
-        FontList(
+        /*FontList(
             fontname = this.getString(R.string.uthmanic_script_hafs_regular),
             fontid = "2"
         ),
         FontList(
             fontname = this.getString(R.string.al_majeed),
             fontid = "3"
-        )
+        )*/
 
     )
 
@@ -383,5 +385,14 @@ fun Context.shareText(text: String) {
     // Verify that the intent will resolve to an activity
     if (shareIntent.resolveActivity(packageManager) != null) {
         startActivity(chooser)
+    }
+}
+
+fun String.urlEncode(charset: String = "UTF-8"): String {
+    return try {
+        URLEncoder.encode(this, charset)
+    } catch (e: UnsupportedEncodingException) {
+        e.printStackTrace()
+        this // Return the original string in case of an exception
     }
 }

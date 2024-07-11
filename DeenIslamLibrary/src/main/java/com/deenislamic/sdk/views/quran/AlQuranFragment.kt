@@ -413,7 +413,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                     fontid = "1"
                 )
             )
-            fontListData.add(
+         /*   fontListData.add(
                 FontList(
                     fontname = localContext.getString(R.string.uthmanic_script_hafs_regular),
                     fontid = "2"
@@ -424,7 +424,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                     fontname = localContext.getString(R.string.al_majeed),
                     fontid = "3"
                 )
-            )
+            )*/
         }
 
         AlQuranSettings.setupDrawer(binding.navdrawer,lifecycleScope,playerControlViewModel)
@@ -1190,16 +1190,16 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
                     filterData?.let {
                         tafsir->
 
-                        if(it.arabicFont == 1)
+                       /* if(it.arabicFont == 1)
                         {
                             val customFont = ResourcesCompat.getFont(requireContext(), R.font.kfgqpc_font)
                             tafsirDialogArabicAyat?.typeface = customFont
                         }
                         else
-                        {
-                            val customFont = ResourcesCompat.getFont(requireContext(), R.font.indopak)
+                        {*/
+                            val customFont = ResourcesCompat.getFont(requireContext(), R.font.indopakv2)
                             tafsirDialogArabicAyat?.typeface = customFont
-                        }
+                       // }
 
                         tafsirDialogArabicAyat?.text = it.ayatArabic
 

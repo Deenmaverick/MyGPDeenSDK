@@ -128,60 +128,57 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/downloadLayout"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/space_16"
-            android:layout_marginTop="@dimen/space_8"
             android:layout_marginBottom="1dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/deen_white"
+            app:layout_constraintBottom_toBottomOf="@+id/favLayout"
             app:layout_constraintEnd_toStartOf="@+id/favLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileLayout"
+            app:layout_constraintTop_toTopOf="@+id/favLayout"
             app:strokeWidth="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/space_12"
-                android:background="@drawable/download_gradiant"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtdownload"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/space_8"
                     android:paddingEnd="@dimen/space_8"
                     android:text="@string/my_downloads"
-                    android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/deen_white"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintEnd_toStartOf="@+id/ic_download"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
                     android:id="@+id/downloadCount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/space_8"
                     android:paddingEnd="@dimen/space_8"
                     android:layout_marginTop="@dimen/space_4"
                     android:text="--"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/deen_white_70"
+                    android:textColor="@color/deen_gray_secondary"
                     app:layout_constraintEnd_toStartOf="@+id/ic_download"
                     app:layout_constraintTop_toBottomOf="@+id/txtdownload"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ic_download"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:src="@drawable/ic_download_cloud"
+                    android:src="@drawable/deen_ic_download_cloudv2"
                     app:layout_constraintTop_toTopOf="@id/txtdownload"
                     app:layout_constraintBottom_toBottomOf="@+id/downloadCount"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -197,31 +194,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_8"
             android:layout_marginBottom="1dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/deen_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/downloadLayout"
-            app:layout_constraintTop_toTopOf="@+id/downloadLayout"
+            app:layout_constraintTop_toBottomOf="@+id/profileLayout"
             app:strokeWidth="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/space_12"
-                android:background="@drawable/favorite_gradiant"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtfav"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/space_8"
                     android:paddingEnd="@dimen/space_8"
                     android:text="@string/my_favorites"
-                    android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/deen_white"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintEnd_toStartOf="@+id/ic_love"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -231,23 +227,20 @@
                     android:id="@+id/favCount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/space_8"
                     android:paddingEnd="@dimen/space_8"
                     android:layout_marginTop="@dimen/space_4"
-                    android:text="--"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/deen_white_70"
+                    android:textColor="@color/deen_gray_secondary"
                     app:layout_constraintEnd_toStartOf="@+id/ic_love"
                     app:layout_constraintTop_toBottomOf="@+id/txtfav"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ic_love"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:src="@drawable/ic_love"
+                    android:src="@drawable/deen_ic_love_v2"
                     app:layout_constraintTop_toTopOf="@id/txtfav"
                     app:layout_constraintBottom_toBottomOf="@+id/favCount"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -259,6 +252,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
+            android:visibility="gone"
             android:id="@+id/premiumLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_10"
-            android:fontFamily="@font/kfgqpc_uthmanic_script_hafs_regular"
+            android:fontFamily="@font/indopakv2"
             android:textAppearance="@style/DeenTextAppearance.font24"
             android:textColor="@color/deen_primary"
             app:layout_constraintStart_toStartOf="parent"

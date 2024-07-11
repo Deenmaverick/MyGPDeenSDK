@@ -40,21 +40,26 @@ import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.DailyDuaViewModel
 import com.deenislamic.sdk.viewmodels.common.ContentSettingVMFactory
 import com.deenislamic.sdk.viewmodels.common.ContentSettingViewModel
-import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.adapters.dailydua.FavDuaAdapterCallback
 import com.deenislamic.sdk.views.adapters.dailydua.FavoriteDuaAdapter
 import com.deenislamic.sdk.views.adapters.quran.quranplayer.PlayerCommonSelectionList
+import com.deenislamic.sdk.views.base.BaseRegularFragment
+import com.deenislamic.sdk.views.base.otherFagmentActionCallback
 import com.deenislamic.sdk.views.common.Common3DotMenu
 import com.deenislamic.sdk.views.common.CommonContentSetting
+import com.deenislamic.sdk.views.myfavorites.MyFavoritesFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
 internal class FavoriteDuaFragment(
     private val checkFirstload: Boolean = false
-) : BaseRegularFragment(), FavDuaAdapterCallback,
+) : BaseRegularFragment(),
+    FavDuaAdapterCallback,
     CustomDialogCallback,
-    Common3DotMenuCallback, PlayerCommonSelectionList.PlayerCommonSelectionListCallback{
+    Common3DotMenuCallback,
+    PlayerCommonSelectionList.PlayerCommonSelectionListCallback,
+otherFagmentActionCallback{
 
     private lateinit var listView:RecyclerView
     private lateinit var progressLayout: LinearLayout
@@ -178,6 +183,7 @@ internal class FavoriteDuaFragment(
 
         if(menuVisible){
             CallBackProvider.setFragment(this)
+            setupActionBar()
             if(checkFirstload && !firstload) {
                 baseLoadingState()
                 loadApiData()
@@ -198,6 +204,29 @@ internal class FavoriteDuaFragment(
         }
     }
 
+
+    fun setupActionBar() {
+
+        when (parentFragment) {
+            is DailyDuaFragment -> {
+                (parentFragment as DailyDuaFragment?)?.getActionBar()?.let {
+                    it.show()
+                    setupActionForOtherFragment(R.drawable.ic_settings,0,this,localContext.getString(R.string.daily_dua),true,it)
+                }
+            }
+
+            is MyFavoritesFragment -> {
+                (parentFragment as MyFavoritesFragment?)?.getActionBar()?.let {
+                    it.show()
+                    setupActionForOtherFragment(R.drawable.ic_settings,0,this,localContext.getString(R.string.daily_dua),true,it)
+                }
+            }
+            else -> {
+                // Handle other cases or do nothing
+            }
+        }
+
+    }
 
     private fun loadApiData()
     {
@@ -409,7 +438,14 @@ internal class FavoriteDuaFragment(
         data: PlayerCommonSelectionData,
         adapter: PlayerCommonSelectionList
     ) {
-        TODO("Not yet implemented")
+
+    }
+
+    override fun action1() {
+        CommonContentSetting.showDialog(requireContext(),localContext,localInflater)
+    }
+
+    override fun action2() {
     }
 
 }

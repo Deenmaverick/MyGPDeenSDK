@@ -30,6 +30,7 @@ import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.views.base.BaseViewHolderBinding
 import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.invisible
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -416,12 +417,12 @@ internal class AlQuranAyatAdapter(
                     when(arabicFont){
 
                         1-> {
-                            val customFont = ResourcesCompat.getFont(itemView.context, R.font.indopak)
+                            val customFont = ResourcesCompat.getFont(itemView.context, R.font.indopakv2)
                             binding_list?.ayatArabic?.typeface = customFont
                             ayatArabic = " ${getAyatData.Arabic_indopak}"
                         }
 
-                        2-> {
+                       /* 2-> {
                             val customFont = ResourcesCompat.getFont(itemView.context, R.font.kfgqpc_font)
                             binding_list?.ayatArabic?.typeface = customFont
                             ayatArabic = " ${getAyatData.Arabic_uthmani}"
@@ -431,7 +432,7 @@ internal class AlQuranAyatAdapter(
                             val customFont = ResourcesCompat.getFont(itemView.context, R.font.al_majed_quranic_font_regular)
                             binding_list?.ayatArabic?.typeface = customFont
                             ayatArabic = " ${getAyatData.Arabic_Custom}"
-                        }
+                        }*/
                     }
 
 
@@ -677,11 +678,11 @@ internal class AlQuranAyatAdapter(
 
                             1-> {
                                 val customFont =
-                                    ResourcesCompat.getFont(itemView.context, R.font.indopak)
+                                    ResourcesCompat.getFont(itemView.context, R.font.indopakv2)
                                 binding_read?.ayat?.typeface = customFont
                             }
 
-                            2-> {
+                           /* 2-> {
                                 val customFont =
                                     ResourcesCompat.getFont(itemView.context, R.font.kfgqpc_font)
                                 binding_read?.ayat?.typeface = customFont
@@ -691,7 +692,7 @@ internal class AlQuranAyatAdapter(
                                 val customFont =
                                     ResourcesCompat.getFont(itemView.context, R.font.al_majed_quranic_font_regular)
                                 binding_read?.ayat?.typeface = customFont
-                            }
+                            }*/
                         }
 
                     }
@@ -816,7 +817,7 @@ internal class AlQuranAyatAdapter(
 
         private fun playLoadingState(bol:Boolean)
         {
-            binding_list?.btnPlay?.visible(!bol)
+            binding_list?.btnPlay?.invisible(bol)
             binding_list?.playLoading?.visible(bol)
             callback.isLoadingState(bol)
         }

@@ -407,7 +407,7 @@ internal class QuranDownloadService : Service() {
     }
 
 
-    private val NotificationChannelID = "downloader"
+    private val NotificationChannelID = "deenmygpsdkdownloader"
 
     private lateinit var notificationManager: NotificationManager
 

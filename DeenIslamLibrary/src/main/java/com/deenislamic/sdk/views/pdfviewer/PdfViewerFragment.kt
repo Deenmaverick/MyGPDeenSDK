@@ -18,7 +18,7 @@ import java.io.File
 
 internal class PdfViewerFragment : BaseRegularFragment() {
 
-    private lateinit var pdfView: PDFView
+    //private lateinit var pdfView: PDFView
 
     private var fileDownloader: FileDownloader ? = null
 
@@ -35,7 +35,7 @@ internal class PdfViewerFragment : BaseRegularFragment() {
 
         //init view
 
-        pdfView = mainView.findViewById(R.id.pdfView)
+       // pdfView = mainView.findViewById(R.id.pdfView)
 
         setupActionForOtherFragment(0,0,null,navArgs.pageTitle,true,mainView)
 
@@ -65,8 +65,8 @@ internal class PdfViewerFragment : BaseRegularFragment() {
                 val result = fileDownloader?.downloadFile(pdfurl,".pdf")
                 result?.onSuccess { file ->
                     withContext(Dispatchers.Main) {
-                        pdfView.fromFile(file)
-                        pdfView.show()
+                        //pdfView.fromFile(file)
+                        //pdfView.show()
                         baseViewState()
                     }
                 }?.onFailure { exception ->
@@ -79,8 +79,8 @@ internal class PdfViewerFragment : BaseRegularFragment() {
 
         navArgs.pdfFile?.let {
 
-            pdfView.fromFile(File(it))
-            pdfView.show()
+            //pdfView.fromFile(File(it))
+            //pdfView.show()
             baseViewState()
         }
 

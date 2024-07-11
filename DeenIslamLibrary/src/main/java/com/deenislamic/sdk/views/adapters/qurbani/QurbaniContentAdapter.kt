@@ -118,11 +118,11 @@ internal class QurbaniContentAdapter(
 
                 1-> {
                     val customFont =
-                        ResourcesCompat.getFont(itemView.context, R.font.indopak)
+                        ResourcesCompat.getFont(itemView.context, R.font.indopakv2)
                     arabicText.typeface = customFont
                 }
 
-                2-> {
+                /*2-> {
                     val customFont =
                         ResourcesCompat.getFont(itemView.context, R.font.kfgqpc_font)
                     arabicText.typeface = customFont
@@ -132,7 +132,7 @@ internal class QurbaniContentAdapter(
                     val customFont =
                         ResourcesCompat.getFont(itemView.context, R.font.al_majed_quranic_font_regular)
                     arabicText.typeface = customFont
-                }
+                }*/
             }
 
             arabicText.fixArabicComma()

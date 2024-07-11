@@ -148,7 +148,7 @@ internal class DuaByCatAdapter(
                     arabicText.typeface = customFont
                 }
 
-                2-> {
+                /*2-> {
                     val customFont =
                         ResourcesCompat.getFont(itemView.context, R.font.kfgqpc_font)
                     arabicText.typeface = customFont
@@ -158,7 +158,7 @@ internal class DuaByCatAdapter(
                     val customFont =
                         ResourcesCompat.getFont(itemView.context, R.font.al_majed_quranic_font_regular)
                     arabicText.typeface = customFont
-                }
+                }*/
             }
 
             arabicText.fixArabicComma()

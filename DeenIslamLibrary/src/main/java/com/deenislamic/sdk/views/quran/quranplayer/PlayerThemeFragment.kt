@@ -134,9 +134,9 @@ internal class PlayerThemeFragment : BaseRegularFragment(),
 
 
         fontListData.add(FontList(fontname = localContext.getString(R.string.indopak), fontid = "1"))
-        fontListData.add(FontList(fontname = localContext.getString(R.string.uthmanic_script_hafs_regular), fontid = "2"))
+       /* fontListData.add(FontList(fontname = localContext.getString(R.string.uthmanic_script_hafs_regular), fontid = "2"))
         fontListData.add(FontList(fontname = localContext.getString(R.string.al_majeed), fontid = "3"))
-
+*/
         fontControl.addOnChangeListener { slider, value, fromUser ->
 
             if(!isArabicFontSizeCall) {
@@ -243,12 +243,12 @@ internal class PlayerThemeFragment : BaseRegularFragment(),
                         when(it1){
 
                             1-> {
-                                val customFont = ResourcesCompat.getFont(requireContext(), R.font.indopak)
+                                val customFont = ResourcesCompat.getFont(requireContext(), R.font.indopakv2)
                                 ayatArabic.typeface = customFont
                                 ayatArabic.text = getString(R.string.demo_indopakTxt)
                             }
 
-                            2-> {
+                           /* 2-> {
                                 val customFont = ResourcesCompat.getFont(requireContext(), R.font.kfgqpc_font)
                                 ayatArabic.typeface = customFont
                                 ayatArabic.text = getString(R.string.demoUthamaniTxt)
@@ -258,7 +258,7 @@ internal class PlayerThemeFragment : BaseRegularFragment(),
                                 val customFont = ResourcesCompat.getFont(requireContext(), R.font.al_majed_quranic_font_regular)
                                 ayatArabic.typeface = customFont
                                 ayatArabic.text = getString(R.string.demo_almajeed)
-                            }
+                            }*/
                         }
                     }
 
@@ -281,12 +281,12 @@ internal class PlayerThemeFragment : BaseRegularFragment(),
 
                                 1 -> {
                                     val customFont =
-                                        ResourcesCompat.getFont(requireContext(), R.font.indopak)
+                                        ResourcesCompat.getFont(requireContext(), R.font.indopakv2)
                                     ayatArabic.typeface = customFont
                                     ayatArabic.text = getString(R.string.demo_indopakTxt)
                                 }
 
-                                2 -> {
+                               /* 2 -> {
                                     val customFont = ResourcesCompat.getFont(
                                         requireContext(),
                                         R.font.kfgqpc_font
@@ -302,7 +302,7 @@ internal class PlayerThemeFragment : BaseRegularFragment(),
                                     )
                                     ayatArabic.typeface = customFont
                                     ayatArabic.text = getString(R.string.demo_almajeed)
-                                }
+                                }*/
                             }
                         }
                     }

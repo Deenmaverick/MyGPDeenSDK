@@ -39,6 +39,8 @@ import java.util.concurrent.TimeUnit
 
 internal class QuranPlayerOffline: Service(){
 
+    private val packageNameHash = "com.deenislamic.sdk.mygp".hashCode()
+
     private val binder = LocalBinder()
     private var surahData: Data? = null
     private var surahID:Int = 0
@@ -90,7 +92,7 @@ internal class QuranPlayerOffline: Service(){
         isServiceRunning = true
 
         // Create a MediaSession
-        mediaSession = MediaSessionCompat(this, "Quran")
+        mediaSession = MediaSessionCompat(this, "AlQuranMyGPDeenSDK")
 
 // Set the media session's playback state (adjust as needed)
         val playbackState = PlaybackStateCompat.Builder()
@@ -120,7 +122,7 @@ internal class QuranPlayerOffline: Service(){
 
         LocalBroadcastManager.getInstance(this).registerReceiver(localReceiver, filter)
 
-        startForeground(1005, notificationBuilder.build())
+        startForeground(packageNameHash, notificationBuilder.build())
 
         return START_STICKY
     }
@@ -192,11 +194,12 @@ internal class QuranPlayerOffline: Service(){
         largeCustomLayout.setViewVisibility(R.id.icPrev, View.GONE)
         largeCustomLayout.setViewVisibility(R.id.icNext, View.GONE)
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder(this, "Quran")
+        return NotificationCompat.Builder(this, "AlQuranMyGPDeenSDK")
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationCompat.Builder(this, "AlQuranMyGPDeenSDK")
         } else {
             NotificationCompat.Builder(this)
-        }
+        }*/
             .setContentTitle("Deen")
             .setContentIntent(pendingIntent)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
@@ -210,8 +213,8 @@ internal class QuranPlayerOffline: Service(){
 
     fun updateNotification() {
 
-        if(!isServiceRunning)
-            return
+        /*if(!isServiceRunning)
+            return*/
 
         // custom notification view
         val miniCustomLayout = RemoteViews(packageName, R.layout.item_quran_player_notification)
@@ -268,11 +271,12 @@ internal class QuranPlayerOffline: Service(){
         largeCustomLayout.setViewVisibility(R.id.icNext, View.GONE)
 
         // Create a new instance of the NotificationCompat.Builder with updated actions
-        val updatedNotificationBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationCompat.Builder(this, "Quran")
+        val updatedNotificationBuilder = NotificationCompat.Builder(this, "AlQuranMyGPDeenSDK")
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationCompat.Builder(this, "AlQuranMyGPDeenSDK")
         } else {
             NotificationCompat.Builder(this)
-        }
+        }*/
             //.setStyle(mediaStyle)
             .setContentTitle("Al Quran")
             .setContentIntent(pendingIntent)
@@ -284,7 +288,7 @@ internal class QuranPlayerOffline: Service(){
             .setCustomHeadsUpContentView(miniCustomLayout)  // For heads-up notification
 
         // Notify the notification manager with the updated notification
-        notificationManager.notify(1005, updatedNotificationBuilder.build())
+        notificationManager.notify(packageNameHash, updatedNotificationBuilder.build())
     }
 
     fun formatNumber(number: Int): String {
@@ -378,12 +382,21 @@ internal class QuranPlayerOffline: Service(){
         Log.d("QuranPlayerService", "Unregistering receiver")
         LocalBroadcastManager.getInstance(this).unregisterReceiver(localReceiver)
 
+        // Cancel the CountDownTimer
+        countDownTimer?.cancel()
+
         Log.d("QuranPlayerService", "Releasing media player")
         releaseMediaPlayer()
-
+        notificationBuilder.setOngoing(false)
+        notificationManager.cancelAll()
         Log.d("QuranPlayerService", "Releasing media session")
-        if(this::mediaSession.isInitialized)
         mediaSession.release()
+
+        // Notify any callbacks about the service stop
+        Log.d("QuranPlayerService", "Notifying callbacks")
+        quranPlayerCallback?.isQuranStop()
+        quranPlayerCallback = null
+        //notificationManager.cancelAll()
 
 
         // Stop foreground and remove notification
@@ -392,13 +405,6 @@ internal class QuranPlayerOffline: Service(){
         } else {
             stopForeground(true)
         }
-
-        notificationManager.cancelAll()
-
-        // Notify any callbacks about the service stop
-        Log.d("QuranPlayerService", "Notifying callbacks")
-        quranPlayerCallback?.isQuranStop()
-        quranPlayerCallback = null
 
         // Stop the service
         Log.d("QuranPlayerService", "Stopping self")

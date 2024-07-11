@@ -93,23 +93,18 @@ internal class KhatamEQuranHomeFragment : BaseRegularFragment(), CommonCardCallb
             }
         }
 
-        firstload = true
-
-        loadpage()
-
-        firstload = true
-    }
-
-    private fun loadpage() {
         initObserver()
         baseLoadingState()
 
         loadApi()
+
+        firstload = true
     }
+
 
     private fun loadApi() {
         lifecycleScope.launch {
-            viewmodel.getKhatamQuranVideo(getLanguage(),navArgs.isRamadan,navArgs.date)
+            viewmodel.getKhatamQuranVideo(getLanguage(),navArgs.isRamadan,navArgs.date,firstload)
 
         }
     }

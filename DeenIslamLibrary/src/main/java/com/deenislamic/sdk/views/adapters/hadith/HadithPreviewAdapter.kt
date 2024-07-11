@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.hadith.preview.Data
+import com.deenislamic.sdk.utils.fixArabicComma
 import com.deenislamic.sdk.utils.getLocalContext
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.stripHtml
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton
+import org.jsoup.Jsoup
 
 const val HEADER:Int = 1
 const val CONTENT:Int = 2
@@ -129,10 +131,7 @@ internal class HadithPreviewAdapter(
                             Html.FROM_HTML_MODE_LEGACY
                         )
 
-                        arabicName.text = Html.fromHtml(
-                            arabicNameData,
-                            Html.FROM_HTML_MODE_LEGACY
-                        )
+                        arabicName.text = Jsoup.parse(arabicNameData).text()
 
                     } else {
                         @Suppress("DEPRECATION")
@@ -145,6 +144,7 @@ internal class HadithPreviewAdapter(
                         )
                     }
 
+                    arabicName.fixArabicComma()
 
                     if(data.IsFavorite)
                     {

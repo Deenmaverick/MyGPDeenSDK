@@ -8,6 +8,7 @@ import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.IslamicEducationVideoResource
 import com.deenislamic.sdk.service.models.KhatamQuranVideoResource
 import com.deenislamic.sdk.service.network.ApiResource
+import com.deenislamic.sdk.service.network.response.common.CommonCardData
 import com.deenislamic.sdk.service.network.response.khatamquran.KhatamQuranVideosResponse
 import com.deenislamic.sdk.service.repository.KhatamEquranVideoRepository
 import com.google.gson.Gson
@@ -19,6 +20,9 @@ import java.io.FileWriter
 internal class KhatamQuranViewModel(
     private val repository: KhatamEquranVideoRepository
 ) : ViewModel() {
+
+    private var videoData: List<CommonCardData> ? = null
+
     private val _khatamquranVideoLiveData: MutableLiveData<KhatamQuranVideoResource> =
         MutableLiveData()
     val khatamquranVideoLiveData: MutableLiveData<KhatamQuranVideoResource> get() = _khatamquranVideoLiveData
@@ -32,7 +36,7 @@ internal class KhatamQuranViewModel(
         MutableLiveData()
     val addHistoryLiveData: MutableLiveData<IslamicEducationVideoResource> get() = _addHistoryLiveData
 
-    fun getKhatamQuranVideo(language: String, isRamadan: Boolean, date: String?) {
+    fun getKhatamQuranVideo(language: String, isRamadan: Boolean, date: String?, firstload: Boolean) {
         viewModelScope.launch {
 
             if(!isRamadan) {
@@ -53,17 +57,33 @@ internal class KhatamQuranViewModel(
 
             }
 
-            when (val response = repository.getKhatamQuranVideos(language = language,isRamadan,date)) {
-                is ApiResource.Failure -> _khatamquranVideoLiveData.value =
-                    CommonResource.API_CALL_FAILED
+            if(!firstload) {
 
-                is ApiResource.Success -> {
-                    response.value?.let { writeToFile(it) }
-                    if (response.value?.data?.isNotEmpty() == true)
-                        _khatamquranVideoLiveData.value =
-                            KhatamQuranVideoResource.khatamequranVideo(response.value.data!!)
-                    else
-                        _khatamquranVideoLiveData.value = CommonResource.EMPTY
+                when (val response =
+                    repository.getKhatamQuranVideos(language = language, isRamadan, date)) {
+                    is ApiResource.Failure -> _khatamquranVideoLiveData.value =
+                        CommonResource.API_CALL_FAILED
+
+                    is ApiResource.Success -> {
+                        response.value?.let { writeToFile(it) }
+                        if (response.value?.data?.isNotEmpty() == true) {
+                            videoData = response.value.data
+                            _khatamquranVideoLiveData.value =
+                                KhatamQuranVideoResource.khatamequranVideo(response.value.data!!)
+                        }
+                        else
+                            _khatamquranVideoLiveData.value = CommonResource.EMPTY
+                    }
+                }
+            }else{
+
+                if(videoData!=null){
+                    _khatamquranVideoLiveData.value = KhatamQuranVideoResource.khatamequranVideo(
+                        videoData!!
+                    )
+                }else{
+                    _khatamquranVideoLiveData.value =
+                        CommonResource.API_CALL_FAILED
                 }
             }
         }

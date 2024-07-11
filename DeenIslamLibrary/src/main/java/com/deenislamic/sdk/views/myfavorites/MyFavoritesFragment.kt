@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
 
 internal class MyFavoritesFragment : BaseRegularFragment(), MaterialButtonHorizontalListCallback {
 
+    private lateinit var actionbar: ConstraintLayout
     private lateinit var header: RecyclerView
     private lateinit var viewPager: ViewPager2
     private lateinit var materialButtonHorizontalAdapter: MaterialButtonHorizontalAdapter
@@ -46,7 +48,7 @@ internal class MyFavoritesFragment : BaseRegularFragment(), MaterialButtonHorizo
 
         // Inflate the layout for this fragment
         val mainview = localInflater.inflate(R.layout.fragment_my_favorites,container,false)
-
+        actionbar = mainview.findViewById(R.id.actionbar)
         header = mainview.findViewById(R.id.header)
         viewPager = mainview.findViewById(R.id.viewPager)
 
@@ -104,6 +106,9 @@ internal class MyFavoritesFragment : BaseRegularFragment(), MaterialButtonHorizo
 
         initView()
     }
+
+    fun getActionBar() = if(this::actionbar.isInitialized) actionbar else null
+
 
     private fun initView()
     {

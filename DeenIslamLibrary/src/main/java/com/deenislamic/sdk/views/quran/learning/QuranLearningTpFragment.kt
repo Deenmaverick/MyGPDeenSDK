@@ -29,6 +29,7 @@ import com.deenislamic.sdk.utils.QURAN_SHIKKHA_PAYMENT_TC
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast
+import com.deenislamic.sdk.utils.urlEncode
 import com.deenislamic.sdk.viewmodels.PaymentViewModel
 import com.deenislamic.sdk.viewmodels.quran.learning.QuranLearningViewModel
 import com.deenislamic.sdk.views.adapters.quran.learning.QuranClassFaqList
@@ -287,11 +288,16 @@ internal class QuranLearningTpFragment : BaseRegularFragment(), QuranLearningCal
                     when(it.data?.contentType)
                     {
                         "file" ->{
-                            val bundle = Bundle()
+                            /*val bundle = Bundle()
                             bundle.putString("pageTitle",it.contentData.title)
                             //bundle.putString("pdfUrl","https://dev.deenislamic.com/pdf?file="+it.data.url?.urlEncode())
                             bundle.putString("pdfUrl",it.data.url)
-                            gotoFrag(R.id.action_global_pdfViewerFragment,bundle)
+                            gotoFrag(R.id.action_global_pdfViewerFragment,bundle)*/
+
+                            val bundle = Bundle()
+                            bundle.putString("title",it.contentData.title)
+                            bundle.putString("pdfUrl","https://deenislamic.com/pdf?file="+it.data.url?.urlEncode())
+                            gotoFrag(R.id.action_global_basicWebViewFragment,bundle)
                         }
 
                         else ->{
