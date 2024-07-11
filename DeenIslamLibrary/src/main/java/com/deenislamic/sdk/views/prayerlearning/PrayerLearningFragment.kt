@@ -136,14 +136,14 @@ internal class PrayerLearningFragment : BaseRegularFragment(),
 
             }
 
-            /*"ibook" -> {
+            "ibook1" -> {
                 val bundle = Bundle()
                 bundle.putInt("id", getData.SurahId)
                 bundle.putString("bookType", "category")
                 bundle.putString("title",getData.ArabicText)
                 gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
 
-            }*/
+            }
 
             "prakat" -> {
                 val bundle = Bundle()

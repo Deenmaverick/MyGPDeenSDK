@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="1dp"
+    android:layout_marginEnd="1dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/deen_white"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_8">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgviw_book"
+            android:layout_width="64dp"
+            android:layout_height="80dp"
+            tools:src="@drawable/ic_hadith_collection"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintlay_download"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txtviw_bookname" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtviw_bookname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Test Book Name"
+            android:textAlignment="textStart"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_8"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/deen_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgviw_book"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtviw_authorname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_8"
+            android:layout_marginTop="4dp"
+            android:text="Sahih al-Bukhari"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/deen_txt_black_deep"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtviw_bookname"
+            app:layout_constraintStart_toEndOf="@+id/imgviw_book"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_like"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginStart="@dimen/space_8"
+            android:padding="0dp"
+            app:iconSize="24dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:iconPadding="0dp"
+            app:icon="@drawable/ic_fav_quran"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/deen_border"
+            app:iconGravity="textStart"
+            app:layout_constraintStart_toEndOf="@+id/imgviw_book"
+            app:layout_constraintTop_toBottomOf="@+id/txtviw_authorname"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_download"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/space_8"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:iconPadding="4dp"
+            android:text="@string/download"
+            app:icon="@drawable/ic_download_quran"
+            app:iconTint="@color/deen_primary"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/deen_primary"
+            app:iconSize="24dp"
+            app:iconGravity="start"
+            android:drawablePadding="@dimen/space_4"
+            app:backgroundTint="@color/deen_white"
+            style="?attr/materialButtonOutlinedStyle"
+            app:cornerRadius="20dp"
+            app:strokeColor="@color/deen_border"
+            app:strokeWidth="1dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@+id/btn_like"
+            app:layout_constraintTop_toBottomOf="@+id/txtviw_authorname"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintlay_download"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/space_8"
+            app:layout_constraintStart_toEndOf="@+id/imgviw_book"
+            app:layout_constraintTop_toBottomOf="@+id/btn_download"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressbar_download_progress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="25"
+                app:indicatorColor="@color/deen_primary"
+                app:indicatorInset="2dp"
+                app:indicatorSize="4dp"
+                app:trackColor="@color/deen_gray"
+                app:trackCornerRadius="4dp"
+                app:trackThickness="4dp"
+                tools:progress="25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtviw_download_progress"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtviw_download_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_txt_black_deep"
+                app:layout_constraintStart_toEndOf="@+id/progressbar_download_progress"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_cancel_download"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cancel_download"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:padding="0dp"
+                app:iconSize="20dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:iconPadding="0dp"
+                app:icon="@drawable/baseline_close_24"
+                style="?attr/materialButtonOutlinedStyle"
+                android:backgroundTint="@color/deen_shimmer_background"
+                app:iconTint="@color/deen_black"
+                app:iconGravity="textStart"
+                android:layout_marginStart="8dp"
+                app:strokeWidth="0dp"
+                app:layout_constraintStart_toEndOf="@+id/txtviw_download_progress"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

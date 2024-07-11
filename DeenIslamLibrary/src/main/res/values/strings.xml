@@ -549,5 +549,8 @@
     <string name="nafl">Nafl</string>
     <string name="prayer_for_men">Prayer for men</string>
     <string name="prayer_for_women">Prayer for women</string>
-
+    <string name="downloaded">Downloaded</string>
+    <string name="islamic_book">Islamic Book</string>
+    <string name="books">Books</string>
+    <string name="authors">Authors</string>
 </resources>

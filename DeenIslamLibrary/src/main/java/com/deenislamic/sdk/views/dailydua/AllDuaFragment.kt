@@ -22,8 +22,11 @@ import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.libs.ImageViewPopupDialog
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DailyDuaResource
+import com.deenislamic.sdk.service.models.IslamicBookResource
 import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.repository.DailyDuaRepository
+import com.deenislamic.sdk.service.repository.IslamicBookRepository
+import com.deenislamic.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.RECYCLERFOOTER
@@ -32,8 +35,10 @@ import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
+import com.deenislamic.sdk.utils.urlEncode
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.DailyDuaViewModel
+import com.deenislamic.sdk.viewmodels.IslamicBookViewModel
 import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.dailydua.AllDuaAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
@@ -54,6 +59,7 @@ internal class AllDuaFragment : BaseRegularFragment(),
     private lateinit var allDuaAdapter: AllDuaAdapter
 
     private lateinit var viewmodel: DailyDuaViewModel
+    private lateinit var islamicBookViewmodel: IslamicBookViewModel
 
     private var firstload:Boolean = false
     private var patchDataList: List<com.deenislamic.sdk.service.network.response.dashboard.Data> ? = null
@@ -65,6 +71,18 @@ internal class AllDuaFragment : BaseRegularFragment(),
          // init viewmodel
         val repository = DailyDuaRepository(deenService = NetworkProvider().getInstance().provideDeenService())
         viewmodel = DailyDuaViewModel(repository)
+
+        val ibrepository = IslamicBookRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService())
+
+        val quranLearningRepository = QuranLearningRepository(
+            quranShikkhaService = NetworkProvider().getInstance().provideQuranShikkhaService(),
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            dashboardService = NetworkProvider().getInstance().provideDashboardService()
+        )
+
+        islamicBookViewmodel = IslamicBookViewModel(repository = ibrepository, quranLearningRepository = quranLearningRepository)
+
     }
 
     override fun onCreateView(
@@ -171,6 +189,21 @@ internal class AllDuaFragment : BaseRegularFragment(),
                 is DailyDuaResource.duaALlCategory -> viewState(it.data)
             }
         }
+
+        islamicBookViewmodel.secureUrlLiveData.observe(viewLifecycleOwner)
+        {
+            when(it)
+            {
+                is IslamicBookResource.PdfSecureUrl -> {
+
+                    val bundle = Bundle()
+                    bundle.putString("title",it.bookTitle)
+                    bundle.putString("weburl","https://deenislamic.com/pdf?file="+ it.url.urlEncode())
+                    gotoFrag(R.id.action_global_basicWebViewFragment,bundle)
+
+                }
+            }
+        }
     }
 
     private fun loadingState()
@@ -226,12 +259,12 @@ internal class AllDuaFragment : BaseRegularFragment(),
                 gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
             }
 
-            /*"ibook" -> {
+            "ibook1" -> {
 
                 lifecycleScope.launch {
                     islamicBookViewmodel.getDigitalQuranSecureUrl(getData.imageurl2, false, getData.CategoryId, getData.ArabicText)
                 }
-            }*/
+            }
 
             "khq" -> {
 

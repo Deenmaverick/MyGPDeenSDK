@@ -19,13 +19,16 @@ import com.deenislamic.sdk.service.database.AppPreference
 import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
+import com.deenislamic.sdk.service.models.IslamicBookResource
 import com.deenislamic.sdk.service.models.RamadanResource
 import com.deenislamic.sdk.service.models.ramadan.StateModel
 import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.network.response.ramadan.Data
 import com.deenislamic.sdk.service.network.response.ramadan.FastTracker
+import com.deenislamic.sdk.service.repository.IslamicBookRepository
 import com.deenislamic.sdk.service.repository.PrayerTimesRepository
 import com.deenislamic.sdk.service.repository.RamadanRepository
+import com.deenislamic.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislamic.sdk.utils.Subscription
@@ -33,6 +36,8 @@ import com.deenislamic.sdk.utils.bangladeshStateArray
 import com.deenislamic.sdk.utils.get9DigitRandom
 import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
+import com.deenislamic.sdk.utils.urlEncode
+import com.deenislamic.sdk.viewmodels.IslamicBookViewModel
 import com.deenislamic.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislamic.sdk.viewmodels.RamadanViewModel
 import com.deenislamic.sdk.viewmodels.common.PrayerTimeVMFactory
@@ -54,6 +59,7 @@ internal class RamadanFragment : BaseRegularFragment(),
     private val navArgs:RamadanFragmentArgs by navArgs()
     private lateinit var viewmodel: RamadanViewModel
     private lateinit var prayerViewModel:PrayerTimesViewModel
+    private lateinit var islamicBookViewmodel: IslamicBookViewModel
 
     /*
     //private val islamicBookViewmodel by viewModels<IslamicBookViewModel>()
@@ -87,6 +93,18 @@ internal class RamadanFragment : BaseRegularFragment(),
             requireActivity(),
             factory
         )[PrayerTimesViewModel::class.java]
+
+        val ibrepository = IslamicBookRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService())
+
+        val quranLearningRepository = QuranLearningRepository(
+            quranShikkhaService = NetworkProvider().getInstance().provideQuranShikkhaService(),
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            dashboardService = NetworkProvider().getInstance().provideDashboardService()
+        )
+
+        islamicBookViewmodel = IslamicBookViewModel(repository = ibrepository, quranLearningRepository = quranLearningRepository)
+
     }
 
     override fun onCreateView(
@@ -254,20 +272,20 @@ internal class RamadanFragment : BaseRegularFragment(),
             }
         }
 
-        /*islamicBookViewmodel.secureUrlLiveData.observe(viewLifecycleOwner)
+        islamicBookViewmodel.secureUrlLiveData.observe(viewLifecycleOwner)
         {
             when(it)
             {
                 is IslamicBookResource.PdfSecureUrl -> {
 
                     val bundle = Bundle()
-                    bundle.putString("pageTitle", it.bookTitle)
-                    bundle.putString("pdfUrl", it.url)
-                    gotoFrag(R.id.action_global_pdfViewerFragment, bundle)
+                    bundle.putString("title",it.bookTitle)
+                    bundle.putString("weburl","https://deenislamic.com/pdf?file="+ it.url.urlEncode())
+                    gotoFrag(R.id.action_global_basicWebViewFragment,bundle)
 
                 }
             }
-        }*/
+        }
     }
 
     private fun loadApi()
@@ -384,7 +402,7 @@ internal class RamadanFragment : BaseRegularFragment(),
                 gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
             }
 
-            /*"ibook" ->{
+            "ibook1" ->{
 
                 val bundle = Bundle()
                 bundle.putInt("id", data.CategoryId)
@@ -392,7 +410,7 @@ internal class RamadanFragment : BaseRegularFragment(),
                 bundle.putString("title", data.ArabicText)
                 gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
 
-            }*/
+            }
 
             "khq" ->{
                 gotoFrag(R.id.action_global_khatamEquranHomeFragment)
@@ -441,12 +459,12 @@ internal class RamadanFragment : BaseRegularFragment(),
                 gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
             }
 
-            /*"ibook" -> {
+            "ibook1" -> {
 
                 lifecycleScope.launch {
                     islamicBookViewmodel.getDigitalQuranSecureUrl(getData.imageurl2, false, getData.CategoryId, getData.ArabicText)
                 }
-            }*/
+            }
 
             "khq","rkhq" -> {
 

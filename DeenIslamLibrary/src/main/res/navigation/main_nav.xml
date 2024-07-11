@@ -1638,4 +1638,38 @@
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
 
+    <fragment
+        android:id="@+id/islamicBookPreviewFragment"
+        android:name="com.deenislamic.sdk.views.islamicbook.IslamicBookPreviewFragment"
+        android:label="fragment_islamic_book_preview"
+        tools:layout="@layout/fragment_islamic_book_preview" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="bookType"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <action android:id="@+id/action_global_islamicBookPreviewFragment" app:destination="@id/islamicBookPreviewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamicBookViewPagerFragment"
+        android:name="com.deenislamic.sdk.views.islamicbook.IslamicBookViewPagerFragment"
+        android:label="fragment_islamic_book_view_pager"
+        tools:layout="@layout/fragment_islamic_book_view_pager" />
+    <action android:id="@+id/action_global_islamicBookViewPagerFragment" app:destination="@id/islamicBookViewPagerFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
 </navigation>

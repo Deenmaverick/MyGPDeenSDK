@@ -12,6 +12,8 @@ import com.deenislamic.sdk.service.network.response.dailydua.favdua.FavDua
 import com.deenislamic.sdk.service.network.response.dailydua.todaydua.TodayDua
 import com.deenislamic.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislamic.sdk.service.network.response.hajjandumrah.makkahlive.MakkahLiveVideoResponse
+import com.deenislamic.sdk.service.network.response.islamicbook.IslamicBookResponse
+import com.deenislamic.sdk.service.network.response.islamicbook.favorite.FavoriteBookResponse
 import com.deenislamic.sdk.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
 import com.deenislamic.sdk.service.network.response.islamicevent.IslamicEventListResponse
 import com.deenislamic.sdk.service.network.response.islamifazael.IslamiFazaelResponse
@@ -435,5 +437,40 @@ internal interface DeenService {
     suspend fun getPrayerLearningSubCatPatch(@Body parm: RequestBody): DashboardResponse
 
 
+    //Islamic book
+    @POST("islamicBooks/GetBookPatch")
+    suspend fun getIslamicBookHome(
+        @Body parm: RequestBody
+    ): DashboardResponse
+
+    @POST("islamicBooks/BookCategory")
+    suspend fun getBookCategory(
+        @Body parm: RequestBody
+    ): BoyanCategoriesResponse
+
+    @POST("islamicBooks/BookAuthors")
+    suspend fun getBookAuthors(
+        @Body parm: RequestBody
+    ): BoyanScholarResponse
+
+    @POST("islamicBooks/BookListByAuthors")
+    suspend fun getBookItemByAuthors(
+        @Body parm: RequestBody
+    ): IslamicBookResponse
+
+    @POST("islamicBooks/BookListByCategory")
+    suspend fun getBookItemByCategory(
+        @Body parm: RequestBody
+    ): IslamicBookResponse
+
+    @POST("islamicBooks/addFavoriteBook")
+    suspend fun makeBookFavorite(
+        @Body parm: RequestBody
+    ): FavoriteBookResponse
+
+    @POST("islamicBooks/FavoriteBookList")
+    suspend fun getFavouriteBooks(
+        @Body parm: RequestBody
+    ): IslamicBookResponse
 
 }

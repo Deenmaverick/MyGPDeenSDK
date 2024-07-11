@@ -60,6 +60,7 @@ import com.deenislamic.sdk.utils.MENU_EID_JAMAT
 import com.deenislamic.sdk.utils.MENU_HADITH
 import com.deenislamic.sdk.utils.MENU_HAJJ_AND_UMRAH
 import com.deenislamic.sdk.utils.MENU_IJTEMA
+import com.deenislamic.sdk.utils.MENU_ISLAMIC_BOOK
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_BOYAN
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EDUCATION_VIDEO
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
@@ -1150,6 +1151,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             }
             MENU_HAJJ_AND_UMRAH -> gotoFrag(R.id.action_global_hajjAndUmrahFragment)
             MENU_QURBANI -> gotoFrag(R.id.action_global_qurbaniFragment)
+            //MENU_ISLAMIC_BOOK -> gotoFrag(R.id.action_global_islamicBookViewPagerFragment)
+
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }
@@ -1206,13 +1209,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             "ie" -> {
 
                 if(data!=null && data.CategoryId!=0){
+
                     val bundle = Bundle()
                     bundle.putInt("categoryID", data.CategoryId)
                     bundle.putString("pageTitle",data.ArabicText)
-                    bundle.putString("pageTag", MENU_ISLAMIC_EVENT)
-                    bundle.putBoolean("shareable",false)
+                    bundle.putString("pageTag",MENU_ISLAMIC_EVENT)
+                    gotoFrag(R.id.action_global_subContentFragment,bundle)
 
-                    gotoFrag(R.id.action_global_subCatCardListFragment,bundle)
 
                 }else
                     gotoFrag(R.id.action_global_islamicEventHomeFragment)
@@ -1372,6 +1375,25 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             "sub" -> gotoFrag(R.id.action_global_subscriptionFragment)
             "blnk" -> Unit
             "qurb" -> gotoFrag(R.id.action_global_qurbaniFragment)
+            "ibook1" -> {
+
+                if(data!=null && data.SubCategoryId!=0){
+                    val bundle = Bundle()
+                    bundle.putInt("id", data.SubCategoryId)
+                    bundle.putString("bookType", "author")
+                    bundle.putString("title",data.ArabicText)
+                    gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
+                }else if(data!=null && data.CategoryId!=0){
+                    val bundle = Bundle()
+                    bundle.putInt("id", data.CategoryId)
+                    bundle.putString("bookType", "category")
+                    bundle.putString("title",data.ArabicText)
+                    gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
+                }else{
+                    gotoFrag(R.id.action_global_islamicBookViewPagerFragment)
+                }
+
+            }
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }

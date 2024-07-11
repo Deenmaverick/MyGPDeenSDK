@@ -549,4 +549,8 @@
     <string name="nafl">নফল</string>
     <string name="prayer_for_men">পুরুষের নামাজ</string>
     <string name="prayer_for_women">মহিলাদের নামাজ</string>
+    <string name="downloaded">ডাউনলোড সম্পন্ন</string>
+    <string name="islamic_book">ইসলামিক বই</string>
+    <string name="books">বই</string>
+    <string name="authors">লেখক</string>
 </resources>

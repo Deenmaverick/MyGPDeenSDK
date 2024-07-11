@@ -17,7 +17,7 @@ const val BASE_QURAN_VERSE_AUDIO_URL = "https://verses.quran.com/"
 const val PRIVACY_URL = "https://deenislamic.com/privacy_policy.html"
 const val DIGITAL_QURAN_CLASS_TC = "https://docs.google.com/document/d/1ghdRU9Qva5vuNXIMak1D4R7EEnLWhUje4ohJFb8LgO0/edit?usp=sharing"
 const val QURAN_SHIKKHA_PAYMENT_TC = "https://docs.google.com/document/d/1UNKbtp7f1uzpeqQZsCYLSdNEpjVpp9A0vlE9qZwTBqU/edit?usp=sharing"
-const val TERMS_URL = "https://www.docs.google.com/document/d/129QQoNcPiCMgfr2G6MBbjKal74JOYFro_hcwrnajFuU/edit?usp=sharing"
+const val TERMS_URL = "https://docs.google.com/document/d/19UxxqgdLVcw2Iku5gv-bGaV0P1_BHwY1osE7t2769T8/edit?usp=sharing"
 
 const val MENU_HAJJ_AND_UMRAH = "HajjUmrah"
 const val MENU_PRAYER_TIME= "prayerTime"
@@ -65,7 +65,7 @@ const val RECYCLERFOOTER = 2
 const val RequestBodyMediaType = "application/json"
 const val HAJJ_MAP = "HajjMap"
 const val MENU_QURBANI = "qurbani"
-
+const val MENU_ISLAMIC_BOOK = "IslamicBook"
 // makkah location
 const val MAKKAH_LATITUDE = 21.4204009
 const val MAKKAH_LONGITUDE = 39.8257354

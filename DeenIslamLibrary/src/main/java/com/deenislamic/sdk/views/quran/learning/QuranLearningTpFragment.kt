@@ -296,7 +296,7 @@ internal class QuranLearningTpFragment : BaseRegularFragment(), QuranLearningCal
 
                             val bundle = Bundle()
                             bundle.putString("title",it.contentData.title)
-                            bundle.putString("pdfUrl","https://deenislamic.com/pdf?file="+it.data.url?.urlEncode())
+                            bundle.putString("weburl","https://deenislamic.com/pdf?file="+it.data.url?.urlEncode())
                             gotoFrag(R.id.action_global_basicWebViewFragment,bundle)
                         }
 

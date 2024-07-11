@@ -9,12 +9,10 @@ import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.utils.FileDownloader
 import com.deenislamic.sdk.views.base.BaseRegularFragment
-import com.pdfview.PDFView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 internal class PdfViewerFragment : BaseRegularFragment() {
 
