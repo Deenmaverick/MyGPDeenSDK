@@ -1,7 +1,6 @@
 package com.deenislamic.sdk.service.network.api
 
 import com.deenislamic.sdk.service.network.response.BasicResponse
-import com.deenislamic.sdk.service.network.response.eidjamat.EidJamatListResponse
 import com.deenislamic.sdk.service.network.response.islamicname.IslamicNameCategoriesResponse
 import com.deenislamic.sdk.service.network.response.islamicname.IslamicNameHomeResponse
 import com.deenislamic.sdk.service.network.response.islamicname.IslamicNameResponse
@@ -19,9 +18,6 @@ internal interface IslamicNameService {
 
     @POST("IslamicName/GetAllNamesAlphabetWise")
     suspend fun getIslamicNames(@Body parm: RequestBody): IslamicNameResponse
-
-    @POST("Islamic/getEidJamatByDivision")
-    suspend fun getEidJamatListByDivision(@Body parm: RequestBody): EidJamatListResponse
 
     @POST("IslamicName/GetAllCategoryBygender")
     suspend fun getIslamicNameCategories(@Body parm: RequestBody): IslamicNameCategoriesResponse

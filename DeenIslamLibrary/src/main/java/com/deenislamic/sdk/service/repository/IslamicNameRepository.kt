@@ -55,14 +55,6 @@ internal class IslamicNameRepository (
         islamicNameService?.modifyFavName(parm = requestBody)
     }
 
-    suspend fun getEidJamatList(location: String) = makeApicall {
-
-        val body = JSONObject()
-        body.put("Location", location)
-        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
-
-        islamicNameService?.getEidJamatListByDivision(parm = requestBody)
-    }
 
     suspend fun getIslamicNameCats(gender: String,language:String) = makeApicall {
 

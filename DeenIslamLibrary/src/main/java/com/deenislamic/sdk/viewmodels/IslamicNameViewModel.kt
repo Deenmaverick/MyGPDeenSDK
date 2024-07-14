@@ -110,20 +110,6 @@ internal class IslamicNameViewModel (
         _favNamesLiveData.value = CommonResource.CLEAR
     }
 
-    fun getEidJamatList(location: String) {
-        viewModelScope.launch {
-            when (val response = repository.getEidJamatList(location)) {
-                is ApiResource.Failure -> _eidJamatLiveData.value = CommonResource.API_CALL_FAILED
-                is ApiResource.Success -> {
-                    if (response.value?.success == true && response.value.data.isNotEmpty())
-                        _eidJamatLiveData.value =
-                            IslamicNameResource.eidJamatList(response.value.data)
-                    else
-                        _eidJamatLiveData.value = CommonResource.EMPTY
-                }
-            }
-        }
-    }
 
     fun getNamesCats(gender: String,language:String)
     {

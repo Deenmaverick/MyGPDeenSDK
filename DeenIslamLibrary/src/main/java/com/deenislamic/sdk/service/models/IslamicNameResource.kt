@@ -1,6 +1,5 @@
 package com.deenislamic.sdk.service.models
 
-import com.deenislamic.sdk.service.network.response.eidjamat.EidJamatListResponse
 import com.deenislamic.sdk.service.network.response.islamicname.Data
 import com.deenislamic.sdk.service.network.response.islamicname.IslamicNameCategoriesResponse
 import com.deenislamic.sdk.service.network.response.islamicname.IslamicNameHomeResponse
@@ -17,6 +16,4 @@ internal interface IslamicNameResource {
     data class islamicNamesCategories(val data: List<IslamicNameCategoriesResponse.Data>) :IslamicNameResource
     data class islamicNamesPatch(val data: List<IslamicNameHomeResponse.Data>) :IslamicNameResource
 
-
-    data class eidJamatList(val data: List<EidJamatListResponse.Data>) :IslamicNameResource
 }

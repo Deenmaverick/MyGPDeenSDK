@@ -26,13 +26,6 @@ internal class AlQuranRepository(
     }
 
 
-    // juz list
-
-    suspend fun fetchJuzList() = makeApicall {
-        quranService?.getJuzList()
-    }
-
-
 
     // Al-Quran GM
 

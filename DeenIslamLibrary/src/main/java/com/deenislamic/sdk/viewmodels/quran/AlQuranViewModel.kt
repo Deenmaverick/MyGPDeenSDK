@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.quran.AlQuranResource
 import com.deenislamic.sdk.service.network.ApiResource
-import com.deenislamic.sdk.service.network.response.quran.juz.JuzResponse
 import com.deenislamic.sdk.service.network.response.quran.qurangm.ayat.AyatResponse
 import com.deenislamic.sdk.service.network.response.quran.surah_details.SurahDetails
 import com.deenislamic.sdk.service.repository.quran.AlQuranRepository
@@ -109,30 +108,6 @@ internal class AlQuranViewModel(
         }
     }
 
-    // juz list
-
-    fun juzList()
-    {
-        viewModelScope.launch {
-            processJuzList(repository.fetchJuzList())
-        }
-    }
-
-    private fun processJuzList(response: ApiResource<JuzResponse?>)
-    {
-        when(response)
-        {
-            is ApiResource.Failure -> _juzLiveData.value = CommonResource.API_CALL_FAILED
-            is ApiResource.Success ->
-            {
-                if(response.value?.juzs?.isNotEmpty() == true)
-                    _juzLiveData.value = AlQuranResource.juzList(response.value.juzs)
-                else
-                    _juzLiveData.value = CommonResource.EMPTY
-
-            }
-        }
-    }
 
     // get verses by juz
 
