@@ -37,3 +37,17 @@
 -keepattributes Exceptions,InnerClasses,Signature
 
 
+-keep public class * extends java.lang.Exception
+-keep class androidx.* {*;}
+-dontwarn retrofit.**
+-keep class retrofit.* { *; }
+-keep class com.google.android.* {*;}
+-keep class androidx.core.app.CoreComponentFactory { *; }
+-keep class android.content.Context.*{*;}
+-keep class android.content.Intent.*{*;}
+-keepattributes *Annotation*
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+-keepattributes Exceptions,InnerClasses,Signature
+
+

@@ -689,7 +689,7 @@ object DeenSDKCore {
 }
 
 
-
+@Keep
 interface DeenSDKCallback
 {
     fun onDeenSDKInitSuccess()
