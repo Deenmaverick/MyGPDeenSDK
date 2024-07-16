@@ -19,7 +19,7 @@ internal class DatabaseProvider {
         var instance: DatabaseProvider? = null
     }
 
-    val MIGRATION_TEST: Migration = object : Migration(1, 4) {
+    private val MIGRATION_TEST: Migration = object : Migration(1, 4) {
         override fun migrate(database: SupportSQLiteDatabase) {
             // Since we didn't alter the table, there's nothing else to do here.
 
