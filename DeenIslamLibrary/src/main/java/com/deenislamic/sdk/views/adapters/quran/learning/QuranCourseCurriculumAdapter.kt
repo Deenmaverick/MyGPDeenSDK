@@ -8,13 +8,13 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.QuranLearningCallback
 import com.deenislamic.sdk.service.network.response.quran.learning.quransikkhaacademy.ContentListResponse
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.getLocalContext
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import kotlinx.parcelize.RawValue

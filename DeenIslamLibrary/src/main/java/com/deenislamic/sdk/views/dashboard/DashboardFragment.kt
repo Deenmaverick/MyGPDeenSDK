@@ -14,7 +14,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -23,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
-import com.deenislamic.sdk.databinding.FragmentDashboardBinding
 import com.deenislamic.sdk.service.callback.AdvertisementCallback
 import com.deenislamic.sdk.service.callback.Allah99NameCallback
 import com.deenislamic.sdk.service.callback.DashboardPatchCallback
@@ -88,6 +89,7 @@ import com.deenislamic.sdk.utils.getWaktNameByTag
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.prayerMomentLocaleForToast
 import com.deenislamic.sdk.utils.shareImage
+import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
@@ -101,6 +103,7 @@ import com.deenislamic.sdk.views.adapters.dashboard.PrayerTimeCallback
 import com.deenislamic.sdk.views.adapters.dashboard.TYPE_WIDGET11
 import com.deenislamic.sdk.views.adapters.dashboard.TYPE_WIDGET7
 import com.deenislamic.sdk.views.base.BaseFragment
+import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.main.MainActivityDeenSDK
 import com.deenislamic.sdk.views.main.actionCallback
 import kotlinx.coroutines.CoroutineScope
@@ -113,7 +116,7 @@ import java.util.Date
 import java.util.Locale
 
 
-internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate),
+internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularFragment(),
     actionCallback, MenuCallback, PrayerTimeCallback, ViewInflationListener,
     DashboardPatchCallback,
     SensorEventListener,
@@ -123,10 +126,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     AdvertisementCallback,
     TasbeehCallback{
 
+    private lateinit var dashboardMain:RecyclerView
+
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var prayerViewModel:  PrayerTimesViewModel
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var dashboardPatchMain: DashboardPatchAdapter
+
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
 
     private var prayerTrackLastWakt = ""
@@ -185,6 +191,18 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val mainview = localInflater.inflate(R.layout.fragment_dashboard,container,false)
+
+        dashboardMain = mainview.findViewById(R.id.dashboardMain)
+        setupCommonLayout(mainview)
+
+        return mainview
+    }
+
     override fun onPause() {
         super.onPause()
         mSensorManager.unregisterListener(this)
@@ -212,16 +230,12 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         }
 
         mSensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        loadingState()
-        ViewCompat.setTranslationZ(binding.progressLayout.root, 10F)
-        ViewCompat.setTranslationZ(binding.noInternetLayout.root, 10F)
-        binding.noInternetLayout.root.isClickable = true
-        binding.progressLayout.root.isClickable = true
+        baseLoadingState()
 
-        binding.dashboardMain.itemAnimator = null
+        dashboardMain.itemAnimator = null
 
 
-        binding.dashboardMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        dashboardMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -250,9 +264,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
         initObserver()
         loadPage()
-        binding.noInternetLayout.noInternetRetry.setOnClickListener {
-            loadDataAPI()
-        }
+
 
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
@@ -281,6 +293,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             }
         }
 
+    }
+
+    override fun noInternetRetryClicked() {
+        baseLoadingState()
+        loadDataAPI()
     }
 
     private fun loadNextPage() {
@@ -334,7 +351,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
             val miniPlayerHeight = getMiniPlayerHeight()
 
-            binding.dashboardMain.setPadding(binding.dashboardMain.paddingStart,binding.dashboardMain.paddingTop,binding.dashboardMain.paddingRight,if(miniPlayerHeight>0) miniPlayerHeight else binding.dashboardMain.paddingBottom)
+            dashboardMain.setPadding(dashboardMain.paddingStart,dashboardMain.paddingTop,dashboardMain.paddingRight,if(miniPlayerHeight>0) miniPlayerHeight else dashboardMain.paddingBottom)
 
             CallBackProvider.setFragment(this)
             dashboardPatchMain.getAllah99NameInstance()?.reInitCallback()
@@ -345,7 +362,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     fun loadDataAPI()
     {
-          loadingState()
+          baseLoadingState()
             lifecycleScope.launch {
                 dashboardViewModel.getDashboard(currentState, getLanguage(), prayerdate)
 
@@ -555,7 +572,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         {
             when(it)
             {
-                CommonResource.API_CALL_FAILED -> nointernetState()
+                CommonResource.API_CALL_FAILED -> baseNoInternetState()
                 is DashboardResource.DashboardData -> viewState(it.data)
 
             }
@@ -648,8 +665,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
         prayerTimesResponse?.let {
             dashboardPatchMain.updatePrayerTime(it)
-            //binding.progressLayout.root.visible(false)
-            binding.noInternetLayout.root.visible(false)
         }
     }
 
@@ -657,7 +672,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     private fun updatePrayerAdapterOnly(data: PrayerTimesResponse)
     {
         Log.e("updatePrayerAdapterOnly","Called")
-        binding.dashboardMain.post {
+        dashboardMain.post {
             dashboardPatchMain.updatePrayerTime(data)
             //dashboardPatchMain.notifyDataSetChanged()
         }
@@ -667,10 +682,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     private fun dataState()
     {
 
-        binding.dashboardMain.visible(true)
-        binding.progressLayout.root.visible(false)
-        binding.progressLayout.root.visible(false)
-        binding.noInternetLayout.root.visible(false)
+        dashboardMain.visible(true)
+        baseViewState()
 
         val isRcPremium = customargs?.getBoolean("isPremium",false)
         val getRcCode = customargs?.getString("rc")
@@ -802,23 +815,14 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
         }
 
 
-        binding.dashboardMain.post {
+        dashboardMain.post {
             currentStateModel?.let { dashboardPatchMain.updateState(it) }
         }
 
     }
 
-    private fun nointernetState()
-    {
-        binding.progressLayout.root.visible(false)
-        binding.noInternetLayout.root.visible(true)
-    }
 
-    private fun loadingState()
-    {
-        binding.progressLayout.root.visible(true)
-        binding.noInternetLayout.root.visible(false)
-    }
+
 
     fun loadPage()
     {
@@ -826,15 +830,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
             return
         firstload = 1
 
-        ViewCompat.setTranslationZ(binding.progressLayout.root, 10F)
-
         //dashboardPatchMain.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
          linearLayoutManager =
             LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
 
 
-        binding.dashboardMain.apply {
+        dashboardMain.apply {
                 dashboardPatchMain = DashboardPatchAdapter()
                 adapter = dashboardPatchMain
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -949,7 +951,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
 
     override fun billboard_prayer_load_complete() {
         prayerTimesResponse?.let { dashboardPatchMain.updatePrayerTime(it) }
-        binding.dashboardMain.post {
+        dashboardMain.post {
             currentStateModel?.let { DashboardPatchClass.getBillboardInstance()?.updateState(it) }
         }
     }
@@ -1403,7 +1405,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseFragment
     }
 
     override fun globalMiniPlayerClosed(){
-        binding.dashboardMain.setPadding(binding.dashboardMain.paddingStart,binding.dashboardMain.paddingTop,binding.dashboardMain.paddingRight,16.dp)
+        dashboardMain.setPadding(dashboardMain.paddingStart,dashboardMain.paddingTop,dashboardMain.paddingRight,16.dp)
     }
 
     override fun shareImage(bitmap: Bitmap) {

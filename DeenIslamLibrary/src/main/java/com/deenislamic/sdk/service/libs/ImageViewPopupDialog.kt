@@ -25,11 +25,11 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.libs.photoview.PhotoView
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.shareImage
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast

@@ -22,7 +22,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.AudioManagerBasicCallback
 import com.deenislamic.sdk.service.callback.common.CommonCardCallback
@@ -36,6 +35,7 @@ import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.enterFullScreen
 import com.deenislamic.sdk.utils.exitFullScreen
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.loadHtmlFromAssets
 import com.deenislamic.sdk.utils.setStarMargin
 import com.deenislamic.sdk.views.adapters.common.CommonCardAdapter

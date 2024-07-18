@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.ShareCallback
 import com.deenislamic.sdk.service.network.response.share.Data
@@ -15,6 +14,7 @@ import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.views.base.BaseViewHolder
 

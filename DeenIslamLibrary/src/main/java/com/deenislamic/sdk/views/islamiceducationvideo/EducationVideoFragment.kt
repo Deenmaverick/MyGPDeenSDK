@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.common.CommonCardCallback
 import com.deenislamic.sdk.service.di.NetworkProvider
@@ -22,16 +21,17 @@ import com.deenislamic.sdk.service.libs.media3.ExoVideoManager
 import com.deenislamic.sdk.service.libs.media3.VideoPlayerCallback
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.IslamicEducationVideoResource
+import com.deenislamic.sdk.service.network.response.common.CommonCardData
 import com.deenislamic.sdk.service.repository.IslamicEducationVideoRepository
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.viewmodels.IslamicEducationViewModel
 import com.deenislamic.sdk.views.adapters.common.CommonCardAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
-import com.deenislamic.sdk.service.network.response.common.CommonCardData
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlinx.coroutines.launch

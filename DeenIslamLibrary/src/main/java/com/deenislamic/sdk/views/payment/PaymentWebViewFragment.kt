@@ -19,13 +19,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.libs.alertdialog.CustomAlertDialog
 import com.deenislamic.sdk.service.libs.alertdialog.CustomDialogCallback
 import com.deenislamic.sdk.service.repository.PaymentRepository
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.viewmodels.PaymentViewModel
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton

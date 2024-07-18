@@ -28,8 +28,9 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
-import coil.load
-import coil.request.CachePolicy
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.database.AppPreference
@@ -61,7 +62,20 @@ internal inline fun <T : View> prepareStubView(
     }
 }
 
-fun AppCompatImageView.imageLoad(
+fun AppCompatImageView.load(drawableResId: Int) {
+    Glide.with(this)
+        .load(drawableResId)
+        .apply(RequestOptions().placeholder(R.drawable.placeholder_1_1).error(R.drawable.placeholder_1_1))
+        .into(this)
+}
+
+fun AppCompatImageView.load(url:String?) {
+    if (url != null) {
+        imageLoad(url, placeholder_1_1 = true)
+    }
+}
+
+/*fun AppCompatImageView.imageLoad(
     url:String,
     placeholder_16_9:Boolean=false,
     placeholder_1_1:Boolean=false,
@@ -109,7 +123,58 @@ fun AppCompatImageView.imageLoad(
 
 
     }
+}*/
+
+
+
+fun AppCompatImageView.imageLoad(
+    url: String,
+    placeholder_16_9: Boolean = false,
+    placeholder_1_1: Boolean = false,
+    placeholder_4_3: Boolean = false,
+    size: Int = 0,
+    custom_placeholder_1_1: Int = R.drawable.placeholder_1_1,
+    isCacheEnable: Boolean = true,
+    customMemoryKey: String = ""
+) {
+    val context = this.context
+
+    var finalUrl = url
+
+    if (size > 0) {
+        finalUrl = url.replace("<size>", size.toString(), true)
+    }
+
+    val requestOptions = RequestOptions().apply {
+        if (!isCacheEnable) {
+            diskCacheStrategy(DiskCacheStrategy.NONE)
+            skipMemoryCache(true)
+        }
+
+        if (customMemoryKey.isNotEmpty()) {
+            // Glide doesn't support custom memory cache keys directly like Coil,
+            // so we will just mention it here. You might need to implement your own
+            // memory caching logic if required.
+        }
+
+        if (placeholder_16_9) {
+            placeholder(R.drawable.deen_placeholder_16_9)
+            error(R.drawable.deen_placeholder_16_9)
+        } else if (placeholder_1_1) {
+            placeholder(custom_placeholder_1_1)
+            error(custom_placeholder_1_1)
+        } else if (placeholder_4_3) {
+            placeholder(R.drawable.deen_placeholder_4_3)
+            error(R.drawable.deen_placeholder_4_3)
+        }
+    }
+
+    Glide.with(context)
+        .load(finalUrl)
+        .apply(requestOptions)
+        .into(this)
 }
+
 
 fun getFileExtension(fileName: String): String {
     val lastDotIndex = fileName.lastIndexOf('.')

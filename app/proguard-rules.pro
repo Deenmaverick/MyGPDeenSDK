@@ -51,3 +51,25 @@
 -keepattributes Exceptions,InnerClasses,Signature
 
 
+
+# Keep Room database, entities, DAO, and migration classes
+-keep class androidx.room.RoomDatabase { *; }
+-keep class androidx.room.migration.Migration { *; }
+-keep class androidx.room.Entity { *; }
+-keep class androidx.room.Database { *; }
+-keep class androidx.room.Dao { *; }
+-keep class androidx.room.Embedded { *; }
+-keep class androidx.room.PrimaryKey { *; }
+-keep class androidx.room.Relation { *; }
+-keep class androidx.room.ColumnInfo { *; }
+-keep class androidx.room.Ignore { *; }
+
+# Keep methods annotated with Room annotations
+-keepclassmembers class ** {
+    @androidx.room.* <methods>;
+}
+
+# Keep generated classes by Room
+-keep class **_Impl { *; }
+
+

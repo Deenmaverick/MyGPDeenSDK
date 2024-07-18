@@ -36,6 +36,8 @@
                 android:layout_marginBottom="1dp"
                 app:cardCornerRadius="@dimen/space_8"
                 app:cardElevation="1dp"
+                app:strokeWidth="0dp"
+                android:background="@color/deen_white"
                 app:cardBackgroundColor="@color/deen_card_bg"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -8,11 +8,11 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.ramadan.RamadanDua
 import com.deenislamic.sdk.utils.getLocalContext
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.views.base.BaseViewHolder

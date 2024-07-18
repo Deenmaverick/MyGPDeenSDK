@@ -16,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
@@ -27,6 +26,7 @@ import com.deenislamic.sdk.utils.LoadingButton
 import com.deenislamic.sdk.utils.TERMS_URL
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast

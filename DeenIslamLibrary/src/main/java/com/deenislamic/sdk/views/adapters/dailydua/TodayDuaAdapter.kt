@@ -10,13 +10,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.dailydua.todaydua.Data
 import com.deenislamic.sdk.utils.getLocalContext
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
-import com.deenislamic.sdk.utils.invisible
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.google.android.material.button.MaterialButton

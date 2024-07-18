@@ -12,9 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.models.prayerlearning.Rakat
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.shareView
 import com.deenislamic.sdk.views.adapters.prayerlearning.PrayerRakatAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment

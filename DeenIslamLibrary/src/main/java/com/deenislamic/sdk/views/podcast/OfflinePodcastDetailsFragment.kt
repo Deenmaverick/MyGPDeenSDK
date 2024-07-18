@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.common.CommonCardCallback
 import com.deenislamic.sdk.service.di.NetworkProvider
@@ -32,6 +31,7 @@ import com.deenislamic.sdk.service.repository.quran.learning.QuranLearningReposi
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.setStarMargin
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.viewmodels.PodcastViewModel

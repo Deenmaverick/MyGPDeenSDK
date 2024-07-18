@@ -25,3 +25,26 @@
 # traces later on. Keep a fixed source file attribute and all line number
 # tables to get line numbers in the stack traces.
 # You can comment this out if you're not interested in stack traces.
+
+# Keep all Room database, entities, DAO, and migration classes
+
+-keep class com.deenislamic.sdk.views.prayertimes.* { *; }
+-keep class com.deenislamic.sdk.views.dashboard.* { *; }
+-keep class com.deenislamic.sdk.views.ramadan.* { *; }
+-keep class com.deenislamic.sdk.views.hajjandumrah.* { *; }
+-keep class com.deenislamic.sdk.views.qurbani.* { *; }
+-keep class com.deenislamic.sdk.views.quran.* { *; }
+-keep class com.deenislamic.sdk.views.podcast.* { *; }
+-keep class com.deenislamic.sdk.views.hadith.* { *; }
+-keep class com.deenislamic.sdk.views.dailydua.* { *; }
+-keep class com.deenislamic.sdk.views.zakat.* { *; }
+-keep class com.deenislamic.sdk.views.allah99names.* { *; }
+-keep class com.deenislamic.sdk.views.tasbeeh.* { *; }
+-keep class com.deenislamic.sdk.views.nearestmosque.* { *; }
+-keep class com.deenislamic.sdk.views.prayerlearning.* { *; }
+-keep class com.deenislamic.sdk.views.islamicname.* { *; }
+-keep class com.deenislamic.sdk.views.islamicboyan.* { *; }
+-keep class com.deenislamic.sdk.views.islamicbook.* { *; }
+-keep class com.deenislamic.sdk.views.khatamquran.* { *; }
+
+

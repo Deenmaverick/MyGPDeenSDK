@@ -17,7 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.common.CommonCardCallback
 import com.deenislamic.sdk.service.di.NetworkProvider

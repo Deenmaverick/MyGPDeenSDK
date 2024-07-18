@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Keep
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 
+@Keep
 internal class BlankFragment : BaseRegularFragment() {
 
 

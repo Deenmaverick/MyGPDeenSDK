@@ -540,6 +540,11 @@ internal abstract class BaseRegularFragment: Fragment() {
         noInternetLayout?.hide()
     }
 
+    fun ramadanCountDownTimerSetup(ramadanExpectedTimeInMill: Long, date: String) {
+        if(activity!=null)
+            (activity as MainActivityDeenSDK).ramadanCountDownTimerSetup(ramadanExpectedTimeInMill,date)
+    }
+
 }
 
 internal interface otherFagmentActionCallback

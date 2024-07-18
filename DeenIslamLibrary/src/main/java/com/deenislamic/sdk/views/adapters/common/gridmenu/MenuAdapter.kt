@@ -11,7 +11,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.common.BasicCardListCallback
 import com.deenislamic.sdk.service.models.MenuModel

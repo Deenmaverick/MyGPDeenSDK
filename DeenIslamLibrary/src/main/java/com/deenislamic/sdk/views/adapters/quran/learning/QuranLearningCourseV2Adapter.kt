@@ -8,17 +8,17 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.QuranLearningCallback
+import com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.CourseConten
+import com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.Data
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.getLocalContext
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.views.base.BaseViewHolder
-import com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.CourseConten
-import com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.Data
 
 internal class QuranLearningCourseV2Adapter(data: Data) : RecyclerView.Adapter<BaseViewHolder>() {
     private val callback = CallBackProvider.get<QuranLearningCallback>()
