@@ -28,23 +28,38 @@
 
 # Keep all Room database, entities, DAO, and migration classes
 
--keep class com.deenislamic.sdk.views.prayertimes.* { *; }
--keep class com.deenislamic.sdk.views.dashboard.* { *; }
--keep class com.deenislamic.sdk.views.ramadan.* { *; }
--keep class com.deenislamic.sdk.views.hajjandumrah.* { *; }
--keep class com.deenislamic.sdk.views.qurbani.* { *; }
--keep class com.deenislamic.sdk.views.quran.* { *; }
--keep class com.deenislamic.sdk.views.podcast.* { *; }
--keep class com.deenislamic.sdk.views.hadith.* { *; }
--keep class com.deenislamic.sdk.views.dailydua.* { *; }
--keep class com.deenislamic.sdk.views.zakat.* { *; }
 -keep class com.deenislamic.sdk.views.allah99names.* { *; }
--keep class com.deenislamic.sdk.views.tasbeeh.* { *; }
--keep class com.deenislamic.sdk.views.nearestmosque.* { *; }
--keep class com.deenislamic.sdk.views.prayerlearning.* { *; }
--keep class com.deenislamic.sdk.views.islamicname.* { *; }
--keep class com.deenislamic.sdk.views.islamicboyan.* { *; }
+-keep class com.deenislamic.sdk.views.compass.* { *; }
+-keep class com.deenislamic.sdk.views.dailydua.* { *; }
+-keep class com.deenislamic.sdk.views.dashboard.* { *; }
+-keep class com.deenislamic.sdk.views.duaandamal.* { *; }
+-keep class com.deenislamic.sdk.views.hadith.* { *; }
+-keep class com.deenislamic.sdk.views.hajjandumrah.* { *; }
+-keep class com.deenislamic.sdk.views.ijtema.* { *; }
 -keep class com.deenislamic.sdk.views.islamicbook.* { *; }
+-keep class com.deenislamic.sdk.views.islamicboyan.* { *; }
+-keep class com.deenislamic.sdk.views.islamiceducationvideo.* { *; }
+-keep class com.deenislamic.sdk.views.islamicevent.* { *; }
+-keep class com.deenislamic.sdk.views.islamicname.* { *; }
+-keep class com.deenislamic.sdk.views.islamifazael.* { *; }
+-keep class com.deenislamic.sdk.views.islamimasaIl.* { *; }
 -keep class com.deenislamic.sdk.views.khatamquran.* { *; }
+-keep class com.deenislamic.sdk.views.more.* { *; }
+-keep class com.deenislamic.sdk.views.mydownloads.* { *; }
+-keep class com.deenislamic.sdk.views.myfavorites.* { *; }
+-keep class com.deenislamic.sdk.views.nearestmosque.* { *; }
+-keep class com.deenislamic.sdk.views.payment.* { *; }
+-keep class com.deenislamic.sdk.views.podcast.* { *; }
+-keep class com.deenislamic.sdk.views.prayerlearning.* { *; }
+-keep class com.deenislamic.sdk.views.prayertimes.* { *; }
+-keep class com.deenislamic.sdk.views.quran.* { *; }
+-keep class com.deenislamic.sdk.views.quran.learning.* { *; }
+-keep class com.deenislamic.sdk.views.qurbani.* { *; }
+-keep class com.deenislamic.sdk.views.ramadan.* { *; }
+-keep class com.deenislamic.sdk.views.share.* { *; }
+-keep class com.deenislamic.sdk.views.tasbeeh.* { *; }
+-keep class com.deenislamic.sdk.views.webview.* { *; }
+-keep class com.deenislamic.sdk.views.youtubevideo.* { *; }
+-keep class com.deenislamic.sdk.views.zakat.* { *; }
 
 
