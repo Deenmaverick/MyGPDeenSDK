@@ -224,9 +224,6 @@ internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
                 )
 
 
-            val textShareContent =
-                "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
-
 
             // Share the image with text
             val shareIntent = Intent()
@@ -234,7 +231,7 @@ internal class TodayDuaFragment : BaseRegularFragment(), TodayDuaCallback {
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             shareIntent.type = "image/*"  // Set the MIME type of the content
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
+            //shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
             // Launch the intent
             startActivity(Intent.createChooser(shareIntent, "Choose an app"))
 

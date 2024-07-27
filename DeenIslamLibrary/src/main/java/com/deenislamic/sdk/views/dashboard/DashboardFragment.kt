@@ -1439,7 +1439,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
         bundle.putString("title",localContext.getString(R.string.digital_tasbeeh))
         bundle.putString("arText",arabicDua)
         //bundle.putString("customShareText","পবিত্র কুরআন তিলাওয়াত করুন  https://deenislamic.com/app/quran?id=${surahID-1}")
-        bundle.putString("customShareText","Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+        bundle.putString("customShareText","")
 
         gotoFrag(R.id.action_global_shareFragment,bundle)
     }

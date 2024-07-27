@@ -352,10 +352,10 @@ fun Context.shareImage(shareImg: Bitmap, content: String?=null){
             )
 
 
-        val textShareContent = if(content.isNullOrEmpty())
+       /* val textShareContent = if(content.isNullOrEmpty())
             "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
         else
-            content
+            content*/
 
 
         // Share the image with text
@@ -364,7 +364,7 @@ fun Context.shareImage(shareImg: Bitmap, content: String?=null){
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         shareIntent.type = "image/*"  // Set the MIME type of the content
         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
-        shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
+        //shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
         // Launch the intent
         startActivity(Intent.createChooser(shareIntent, "Choose an app"))
 

@@ -223,7 +223,7 @@ PlayerCommonSelectionList.PlayerCommonSelectionListCallback,
                         val content  = "${data.Title}\n\n$subContent"
 
 
-                        context?.shareLargeTextInChunks("$content\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+                        context?.shareLargeTextInChunks("$content")
 
                     }
 
@@ -250,7 +250,7 @@ PlayerCommonSelectionList.PlayerCommonSelectionListCallback,
 
 
                         context?.apply {
-                            copyToClipboard("$content\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+                            copyToClipboard("$content")
                             toast("Content copied")
                         }
 

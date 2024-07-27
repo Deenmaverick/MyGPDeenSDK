@@ -2539,7 +2539,7 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
         bundle.putString("title",pageTitle)
         bundle.putString("footerText","$pageTitle ${verseKey.numberLocale()}")
         //bundle.putString("customShareText","পবিত্র কুরআন তিলাওয়াত করুন  https://deenislamic.com/app/quran?id=${surahID-1}")
-        bundle.putString("customShareText","পবিত্র কুরআন তিলাওয়াত করুন  https://shorturl.at/GPSY6")
+        bundle.putString("customShareText","")
 
         gotoFrag(R.id.action_global_shareFragment,bundle)
     }

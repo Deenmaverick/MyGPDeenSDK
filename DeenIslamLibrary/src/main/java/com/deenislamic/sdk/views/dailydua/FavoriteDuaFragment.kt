@@ -421,7 +421,7 @@ otherFagmentActionCallback{
                         val content  = "${data.Title}\n${data.TextInArabic}\n$part1\n\n$part2\n\n${data.Source.htmlFormat()}"
 
                         context?.apply {
-                            copyToClipboard("$content\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+                            copyToClipboard("$content")
                             toast("Content copied")
                         }
 

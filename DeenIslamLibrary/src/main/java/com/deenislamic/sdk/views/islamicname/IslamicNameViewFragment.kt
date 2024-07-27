@@ -239,7 +239,7 @@ internal class IslamicNameViewFragment : BaseRegularFragment(),
         bundle.putString("arText",arText)
         bundle.putString("footerText",meaning)
         //bundle.putString("customShareText","পবিত্র কুরআন তিলাওয়াত করুন  https://deenislamic.com/app/quran?id=${surahID-1}")
-        bundle.putString("customShareText","Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+        bundle.putString("customShareText","")
 
         gotoFrag(R.id.action_global_shareFragment,bundle)
     }

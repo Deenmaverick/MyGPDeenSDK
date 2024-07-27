@@ -250,7 +250,7 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
     {
         fastTracker?.let {
             if(fasting) {
-                if(!firstload)
+                if(!firstload && !isFasting)
                 it.totalTracked++
                 yesBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
                 yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.deen_ic_checkbox_oval)
@@ -258,7 +258,7 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
                 noBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
             }
             else {
-                if(!firstload)
+                if(!firstload && isFasting)
                 it.totalTracked--
                 yesBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
                 yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)

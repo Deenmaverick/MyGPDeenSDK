@@ -172,7 +172,7 @@ internal class TasbeehFragment : BaseRegularFragment(),
             bundle.putString("title",localContext.getString(R.string.digital_tasbeeh))
             bundle.putString("arText",duaArabicTxt.text.toString())
             //bundle.putString("customShareText","পবিত্র কুরআন তিলাওয়াত করুন  https://deenislamic.com/app/quran?id=${surahID-1}")
-            bundle.putString("customShareText","Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+            bundle.putString("customShareText","")
 
             gotoFrag(R.id.action_global_shareFragment,bundle)
         }
@@ -195,7 +195,7 @@ internal class TasbeehFragment : BaseRegularFragment(),
 
         setDuaText()
 
-        countTxt.text = "00".numberLocale()
+        countTxt.text = "0".numberLocale()
 
         //init observer
         initObserver()
@@ -323,7 +323,7 @@ internal class TasbeehFragment : BaseRegularFragment(),
 
             var trackcount = -1
 
-            var targetCount = -1
+            var targetCount = 33
 
             when (count) {
                 1 -> {

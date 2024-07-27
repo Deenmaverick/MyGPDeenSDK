@@ -632,13 +632,13 @@ fun Context.shareView(view:View,customShareText:String?=null){
                 FileProvider.getUriForFile(this, "com.deenislamic.sdk.fileprovider", newFile)
 
 
-            val textShareContent = customShareText?.let { it }?: "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
+            //val textShareContent = customShareText?.let { it }?: "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
             val shareIntent = Intent()
             shareIntent.action = Intent.ACTION_SEND
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // temp permission for receiving app to read this file
             shareIntent.setDataAndType(contentUri, this.contentResolver.getType(contentUri))
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
+            //shareIntent.putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
             startActivity(Intent.createChooser(shareIntent, "Choose an app"))
 
             view.requestLayout()
@@ -700,13 +700,13 @@ private fun shareCapturedView(context: Context, bitmap: Bitmap, uniqueID: Int, c
         val newFile = File(imagePath, "$uniqueID.png")
         val contentUri: Uri = FileProvider.getUriForFile(context, "com.deenislamic.fileprovider", newFile)
 
-        val textShareContent = customShareText ?: "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
+        //val textShareContent = customShareText ?: "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Temp permission for receiving app to read this file
             setDataAndType(contentUri, context.contentResolver.getType(contentUri))
             putExtra(Intent.EXTRA_STREAM, contentUri)
-            putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
+            //putExtra(Intent.EXTRA_TEXT, textShareContent) // Add text to the intent
         }
         context.startActivity(Intent.createChooser(shareIntent, "Choose an app"))
     } catch (e: IOException) {
