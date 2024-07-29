@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.viewmodels;
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -65,7 +66,8 @@ internal class KhatamQuranViewModel(
                         CommonResource.API_CALL_FAILED
 
                     is ApiResource.Success -> {
-                        response.value?.let { writeToFile(it) }
+                        Log.e("KhatamQuran",Gson().toJson(response.value))
+                        //response.value?.let { writeToFile(it) }
                         if (response.value?.data?.isNotEmpty() == true) {
                             videoData = response.value.data
                             _khatamquranVideoLiveData.value =

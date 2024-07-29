@@ -34,7 +34,6 @@
                 android:layout_marginTop="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_16"
                 android:layout_marginStart="@dimen/space_8"
-                android:src="@drawable/ic_hadith_collection"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

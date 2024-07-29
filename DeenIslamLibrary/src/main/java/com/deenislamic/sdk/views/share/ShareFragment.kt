@@ -501,7 +501,7 @@ internal class ShareFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
         bottom_navigation.show()
         //val targetBmp: Bitmap? = bitmap?.copy(Bitmap.Config.ARGB_8888, false)
         //shareImg.setImageBitmap(targetBmp)
-        shareImg.imageLoad(url = BASE_CONTENT_URL_SGP +data?.imageurl, placeholder_1_1 = true, custom_placeholder_1_1 = R.drawable.deen_bg_sample_share, customMemoryKey = "custom_share_bg_${data?.Id}")
+        shareImg.imageLoad(url = BASE_CONTENT_URL_SGP +data?.imageurl, placeholder_1_1 = true, customMemoryKey = "custom_share_bg_${data?.Id}")
         shareBgBitmap = bitmap
         scrollContainer.show()
 

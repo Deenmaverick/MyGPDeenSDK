@@ -25,7 +25,6 @@
             android:id="@+id/imgviw_book"
             android:layout_width="64dp"
             android:layout_height="80dp"
-            tools:src="@drawable/ic_hadith_collection"
             app:layout_constraintBottom_toBottomOf="@+id/constraintlay_download"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/txtviw_bookname" />

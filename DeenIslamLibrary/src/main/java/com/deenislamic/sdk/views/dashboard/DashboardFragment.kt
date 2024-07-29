@@ -17,7 +17,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -34,10 +33,12 @@ import com.deenislamic.sdk.service.callback.ViewInflationListener
 import com.deenislamic.sdk.service.callback.quran.QuranPlayerCallback
 import com.deenislamic.sdk.service.database.AppPreference
 import com.deenislamic.sdk.service.database.entity.Tasbeeh
+import com.deenislamic.sdk.service.database.entity.UserPref
 import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DashboardResource
+import com.deenislamic.sdk.service.models.TasbeehResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislamic.sdk.service.models.ramadan.StateModel
@@ -61,7 +62,6 @@ import com.deenislamic.sdk.utils.MENU_EID_JAMAT
 import com.deenislamic.sdk.utils.MENU_HADITH
 import com.deenislamic.sdk.utils.MENU_HAJJ_AND_UMRAH
 import com.deenislamic.sdk.utils.MENU_IJTEMA
-import com.deenislamic.sdk.utils.MENU_ISLAMIC_BOOK
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_BOYAN
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EDUCATION_VIDEO
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
@@ -89,7 +89,6 @@ import com.deenislamic.sdk.utils.getWaktNameByTag
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.prayerMomentLocaleForToast
 import com.deenislamic.sdk.utils.shareImage
-import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
@@ -102,7 +101,6 @@ import com.deenislamic.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislamic.sdk.views.adapters.dashboard.PrayerTimeCallback
 import com.deenislamic.sdk.views.adapters.dashboard.TYPE_WIDGET11
 import com.deenislamic.sdk.views.adapters.dashboard.TYPE_WIDGET7
-import com.deenislamic.sdk.views.base.BaseFragment
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.main.MainActivityDeenSDK
 import com.deenislamic.sdk.views.main.actionCallback
@@ -153,6 +151,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
     private var isLocationEnabledDialogShow: Boolean = false
     private var currentStateModel: StateModel? = null
     private lateinit var tasbeehViewmodel:TasbeehViewModel
+
+
+    //Tasbeeh
+    private var tasbeehdata: Tasbeeh? = null
+    private var userPref: UserPref? = null
 
     override fun OnCreate() {
         super.OnCreate()
@@ -611,6 +614,23 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             }
         }
 
+        // Tasbeeh
+        tasbeehViewmodel.tasbeehLiveData.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is TasbeehResource.DuaData -> {
+                    tasbeehdata = it.data
+                    dashboardPatchMain.updateTasbeeh(data = it.data)
+                }
+
+                is TasbeehResource.userPref -> {
+                    userPref = it.userPref
+                    dashboardPatchMain.updateTasbeeh(userPref = it.userPref)
+                }
+
+            }
+        }
+
         /*dashboardViewModel.prayerTimesNotification.observe(viewLifecycleOwner)
         {
             when(it)
@@ -684,6 +704,14 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
         dashboardMain.visible(true)
         baseViewState()
+
+        if (tasbeehdata != null) {
+            dashboardPatchMain.updateTasbeeh(data = tasbeehdata)
+        }
+
+        if (userPref != null) {
+            dashboardPatchMain.updateTasbeeh(userPref = userPref)
+        }
 
         val isRcPremium = customargs?.getBoolean("isPremium",false)
         val getRcCode = customargs?.getString("rc")
@@ -1097,6 +1125,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
     }
 
     override fun menuClicked(pagetag: String, getMenu: Item?) {
+        //Log.e("menuClicked",pagetag)
         when(pagetag)
         {
             MENU_PRAYER_TIME ->  gotoFrag(R.id.action_global_prayerTimesFragment)

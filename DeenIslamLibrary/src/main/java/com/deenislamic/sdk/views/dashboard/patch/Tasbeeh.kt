@@ -65,7 +65,6 @@ internal class Tasbeeh(itemView: View) {
     {
 
         callback = CallBackProvider.get<TasbeehCallback>()
-        Log.e("TasCallback",this.toString())
         setDuaText()
         countBtn.setOnClickListener {
             //it.isEnabled = false

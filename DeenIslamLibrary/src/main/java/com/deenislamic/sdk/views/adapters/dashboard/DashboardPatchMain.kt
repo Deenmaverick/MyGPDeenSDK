@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.DashboardPatchCallback
 import com.deenislamic.sdk.service.callback.ViewInflationListener
+import com.deenislamic.sdk.service.database.entity.UserPref
 import com.deenislamic.sdk.service.libs.advertisement.Advertisement
 import com.deenislamic.sdk.service.models.ramadan.StateModel
 import com.deenislamic.sdk.service.network.response.dashboard.Data
@@ -118,6 +119,21 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         fun updateCompass(distance: String) {
             DashboardPatchClass.getCompassInstance()?.updateCompass(distance)
         }
+
+    fun updateTasbeeh(
+        data: com.deenislamic.sdk.service.database.entity.Tasbeeh? = null,
+        userPref: UserPref? = null
+    ) {
+
+        if (data != null) {
+            DashboardPatchClass.getTasbeehInstance()?.tasbeehViewState(data)
+        }
+
+        if (userPref != null) {
+            DashboardPatchClass.getTasbeehInstance()?.soundViewState(userPref)
+        }
+
+    }
 
 
         @SuppressLint("SuspiciousIndentation")

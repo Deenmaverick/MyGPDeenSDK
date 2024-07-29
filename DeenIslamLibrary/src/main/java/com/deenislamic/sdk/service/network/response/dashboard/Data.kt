@@ -13,5 +13,6 @@ internal data class Data(
     val Sequence: Int=0,
     val Title: String="",
     val subContentData: Data? = null,
-    var isloaded:Boolean = false
+    var isloaded:Boolean = false,
+    val FeatureType:String? = ""
 )
