@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.views.dashboard.patch
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
@@ -45,7 +46,8 @@ private val orientation:Int = RecyclerView.HORIZONTAL
 
         itemTitle.text = data.Title
 
-        if(data.Items.size>1) {
+
+        if(data.FeatureType?.isNotEmpty() == true) {
             seeAllBtn.show()
             seeAllBtn.setOnClickListener {
                 callback = CallBackProvider.get<MenuCallback>()

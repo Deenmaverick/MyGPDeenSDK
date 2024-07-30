@@ -298,12 +298,12 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
             if(totalsize>0 && viewType == totalsize - 1) {
 
-               /* val imageAd = Advertisement.getImageAd()
+                val imageAd = Advertisement.getImageAd()
                 imageAd?.let {
                     prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
                         loadAdvertisement(this,it)
                     }
-                }*/
+                }
 
                 prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_footer) {
                     this.setOnClickListener {  }

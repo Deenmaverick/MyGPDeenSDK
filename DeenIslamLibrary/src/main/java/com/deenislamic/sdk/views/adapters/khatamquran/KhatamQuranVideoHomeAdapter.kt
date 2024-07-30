@@ -121,6 +121,7 @@ internal class KhatamQuranVideoHomeAdapter(
                                 isShowPlayIcon = true,
                                 isShowProgress = false,
                                 bannerSize = 1280,
+                                itemMarginTop = 12.dp,
                                 itemMarginLeft = 16.dp,
                                 itemMarginRight = 16.dp,
                                 itemPaddingBottom = 12.dp

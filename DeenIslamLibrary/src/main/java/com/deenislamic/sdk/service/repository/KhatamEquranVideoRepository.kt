@@ -61,7 +61,7 @@ internal class KhatamEquranVideoRepository(
 
         if (!file.exists()) {
             // Handle the case when the file doesn't exist or is empty
-            return KhatamQuranVideosResponse(arrayListOf(), success = false)
+            return KhatamQuranVideosResponse(arrayListOf(), Success = false)
         }
 
         try {
@@ -82,6 +82,6 @@ internal class KhatamEquranVideoRepository(
         }
 
         // Return an empty list if there's an error
-        return KhatamQuranVideosResponse(arrayListOf(), success = false)
+        return KhatamQuranVideosResponse(arrayListOf(), Success = false)
     }
 } 

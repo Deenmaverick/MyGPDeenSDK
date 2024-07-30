@@ -52,4 +52,10 @@
     <color name="deen_brand_blue">#6667AB</color>
     <color name="deen_brand_sky_blue">#93D1F3</color>
     <color name="deen_brand_orange">#FF9A1F</color>
+    <color name="deen_gp_black">#212121</color>
+    <color name="deen_gp_border">#DFEAF4</color>
+    <color name="deen_gp_primary">#0078CF</color>
+    <color name="deen_gp_txt_gray">#393939</color>
+    <color name="deen_gp_txt_black">#1A1A1A</color>
+    <color name="deen_gp_txt_gray_secondary">#676767</color>
 </resources>
