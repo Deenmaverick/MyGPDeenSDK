@@ -4,6 +4,7 @@ import com.deenislamic.sdk.service.network.response.BasicResponse
 import com.deenislamic.sdk.service.network.response.advertisement.AdvertisementResponse
 import com.deenislamic.sdk.service.network.response.auth.login.LoginResponse
 import com.deenislamic.sdk.service.network.response.dashboard.DashboardResponse
+import com.deenislamic.sdk.service.network.response.gphome.GPHomeResponse
 import com.deenislamic.sdk.service.network.response.subscription.SubscriptionPageResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -42,6 +43,10 @@ internal interface AuthenticateService {
     suspend fun saveAdvertisementrecord(
         @Body parm: RequestBody
     ): BasicResponse
+
+
+    @POST("Dashboard/GetGPDashboardData")
+    suspend fun getGPHome(@Body parm: RequestBody): GPHomeResponse
 
 
 }

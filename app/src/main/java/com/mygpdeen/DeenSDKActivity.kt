@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.DeenSDKCallback
+import com.deenislamic.sdk.views.gphome.GPHome
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,6 +35,9 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val iftarAlarmBtn:AppCompatButton = findViewById(R.id.iftarAlarmBtn)
         val qurbaniBtn:AppCompatButton = findViewById(R.id.qurbaniBtn)
         val hajjumrahBtn:AppCompatButton = findViewById(R.id.hajjumrahBtn)
+
+        val loadGPHomeBtn:AppCompatButton = findViewById(R.id.loadGPHomeBtn)
+        val gphome:GPHome = findViewById(R.id.gphome)
 
         sehriAlarmBtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
@@ -94,6 +98,14 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
                     msisdn.text.toString(),
                     this@DeenSDKActivity
                 )
+            }else{
+                Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        loadGPHomeBtn.setOnClickListener {
+            if(msisdn.text.isNotEmpty()){
+                gphome.loadapi()
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }

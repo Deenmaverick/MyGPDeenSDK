@@ -553,4 +553,10 @@
     <string name="islamic_book">ইসলামিক বই</string>
     <string name="books">বই</string>
     <string name="authors">লেখক</string>
+    <string name="ibadah">ইবাদাহ</string>
+    <string name="now">এখন সময়</string>
+    <string name="next">পরবর্তী ওয়াক্ত:\u00A0</string>
+    <string name="starting_in">শুরু হতে বাকি:\u00A0</string>
+    <string name="iftarat">ইফতারের সময়: %1$s</string>
+    <string name="sehriat">সেহরীর সময়: %1$s</string>
 </resources>

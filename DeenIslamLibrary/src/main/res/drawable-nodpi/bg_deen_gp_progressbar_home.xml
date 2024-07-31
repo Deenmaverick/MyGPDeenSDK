@@ -1,0 +1,29 @@
+<!-- res/drawable/gradient_progress.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background track color with stroke -->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="8dp" />
+            <solid android:color="@color/deen_white" /> <!-- Background color -->
+            <stroke
+                android:width="1dp"
+                android:color="@color/deen_gp_border" /> <!-- Stroke -->
+        </shape>
+    </item>
+
+    <!-- Progress layer with gradient and stroke -->
+    <item android:id="@android:id/progress">
+        <scale android:scaleWidth="100%">
+            <shape>
+                <corners android:radius="8dp" />
+                <gradient
+                    android:startColor="#FFFFFF"
+                    android:endColor="#2B81F0"
+                    android:angle="0" />
+                <stroke
+                    android:width="1dp"
+                    android:color="@color/deen_gp_border" /> <!-- Stroke -->
+            </shape>
+        </scale>
+    </item>
+</layer-list>

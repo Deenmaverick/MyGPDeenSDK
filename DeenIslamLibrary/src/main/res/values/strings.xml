@@ -553,4 +553,10 @@
     <string name="islamic_book">Islamic Book</string>
     <string name="books">Books</string>
     <string name="authors">Authors</string>
+    <string name="ibadah">Ibadah</string>
+    <string name="now">Now</string>
+    <string name="next">Next: </string>
+    <string name="starting_in">Starting in: </string>
+    <string name="iftarat">Ifar at: %1$s</string>
+    <string name="sehriat">Sehri at: %1$s</string>
 </resources>

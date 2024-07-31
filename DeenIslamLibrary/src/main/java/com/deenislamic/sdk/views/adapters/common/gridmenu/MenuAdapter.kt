@@ -207,5 +207,10 @@ internal class MenuAdapter(
 
 internal interface MenuCallback
 {
-    fun menuClicked(pagetag: String, getMenu: Item?=null)
+    fun menuClicked(pagetag: String, getMenu: Item?=null){
+
+    }
+    fun menuClicked(pagetag: String){
+
+    }
 }

@@ -4,10 +4,20 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:viewBindingIgnore="true"
-    android:padding="@dimen/space_12"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/deen_white"
-    >
+    android:background="@color/deen_white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:id="@+id/mainView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_12"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"
@@ -15,7 +25,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/deen_gp_black"
-        android:text="Ibadah"
+        android:text="@string/ibadah"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="@+id/location"
         app:layout_constraintBottom_toBottomOf="@+id/location"
@@ -53,6 +63,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minWidth="48dp"
             android:padding="@dimen/space_6"
             android:background="@drawable/bg_deen_gp_date">
 
@@ -110,6 +121,15 @@
         app:layout_constraintEnd_toEndOf="@+id/dateArabic"
         app:layout_constraintBottom_toBottomOf="@+id/dateCardView"
         android:text="Shab e Barat"/>
+    
+    
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/eventAnimation"
+        android:layout_width="83dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="@dimen/space_8"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/bgPrayer"
@@ -134,7 +154,7 @@
             android:id="@+id/nowTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Now"
+            android:text="@string/now"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_gp_txt_gray_secondary"
             app:layout_constraintEnd_toEndOf="parent"
@@ -147,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
-            android:text="Forbidden Time"
+            tools:text="Forbidden Time"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/deen_gp_txt_gray_secondary"
             android:textStyle="bold"
@@ -178,7 +198,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/space_8"
-                android:text="6:23 PM"
+                tools:text="6:23 PM"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/deen_gp_txt_gray_secondary"
                 android:textStyle="bold"
@@ -204,7 +224,7 @@
                 android:id="@+id/endTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="6:23 PM"
+                tools:text="6:23 PM"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/deen_gp_txt_gray_secondary"
                 android:textStyle="bold"
@@ -215,6 +235,7 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iftarSehri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
@@ -252,7 +273,7 @@
             android:id="@+id/nextTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next: "
+            android:text="@string/next"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_gp_txt_gray_secondary"
             app:layout_constraintBottom_toBottomOf="@id/nextPrayerName"
@@ -275,7 +296,7 @@
             android:id="@+id/startingTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Starting in:"
+            android:text="@string/starting_in"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_gp_txt_gray_secondary"
             app:layout_constraintBottom_toBottomOf="@id/nextPrayerName"
@@ -308,6 +329,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
+        android:id="@+id/trackLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -324,7 +346,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_gp_primary"
             app:cornerRadius="100dp"
-            android:text="Fajr"
+            android:text="@string/prayer_fajr"
             app:iconGravity="textEnd"
             app:iconPadding="2dp"
             app:iconTint="@color/deen_gp_primary"
@@ -346,7 +368,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_gp_primary"
             app:cornerRadius="100dp"
-            android:text="Duhur"
+            android:text="@string/prayer_dhuhr"
             app:iconPadding="2dp"
             app:iconGravity="textEnd"
             app:iconTint="@color/deen_gp_primary"
@@ -368,7 +390,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_gp_primary"
             app:cornerRadius="100dp"
-            android:text="Asr"
+            android:text="@string/prayer_asr"
             app:iconPadding="2dp"
             app:iconGravity="textEnd"
             app:iconTint="@color/deen_gp_primary"
@@ -390,7 +412,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_gp_txt_gray_secondary"
             app:cornerRadius="100dp"
-            android:text="Maghrib"
+            android:text="@string/prayer_maghrib"
             app:iconTint="@color/deen_gp_txt_gray_secondary"
             app:icon="@drawable/ic_deen_gp_time_off"
             app:backgroundTint="@color/deen_white"
@@ -411,7 +433,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/deen_gp_txt_gray_secondary"
             app:cornerRadius="100dp"
-            android:text="Isha"
+            android:text="@string/prayer_isha"
             app:iconTint="@color/deen_gp_txt_gray_secondary"
             app:icon="@drawable/ic_deen_gp_time_off"
             app:backgroundTint="@color/deen_white"
@@ -424,7 +446,97 @@
 
     </LinearLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/progressLy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            app:layout_constraintTop_toBottomOf="@+id/trackLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progressDrawable="@drawable/bg_deen_gp_progressbar_home"
+                android:max="100"
+                android:progress="0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/progresstxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_white"
+                android:textStyle="bold"
+                android:includeFontPadding="false"
+                app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+                app:layout_constraintEnd_toEndOf="@+id/progressBar"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/progressBar"
+                app:layout_constraintTop_toTopOf="@+id/progressBar" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/space_16"
+        android:background="@drawable/ic_deen_gp_line"
+        app:layout_constraintTop_toBottomOf="@+id/progressLy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        app:layout_constraintTop_toBottomOf="@+id/line3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        tools:visibility="gone"
+        android:id="@+id/progressLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorSize="@dimen/space_24"
+        app:trackThickness="2dp"
+        android:layout_margin="@dimen/space_12"
+        android:indeterminate="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+    <include
+        android:id="@+id/no_internet_layout"
+        layout="@layout/no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
