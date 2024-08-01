@@ -217,6 +217,7 @@
         android:textColor="@color/deen_black" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/loadGPHomeBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
