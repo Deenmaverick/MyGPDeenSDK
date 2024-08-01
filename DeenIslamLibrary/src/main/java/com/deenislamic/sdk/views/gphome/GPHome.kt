@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.os.Build
 import android.os.CountDownTimer
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewTreeObserver
 import android.widget.ProgressBar
@@ -50,6 +51,7 @@ import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.gphome.GPHomeMenuAdapter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -149,9 +151,17 @@ class GPHome @JvmOverloads constructor(
         progressLayout = findViewById(R.id.progressLayout)
 
         //inital part
-        /*fajrBtn?.setOnClickListener {
-            updatePrayerTracker(prayertimeData?.WaktTracker)
-        }*/
+        fajrBtn?.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Fajr",true)
+            }
+        }
+
+        duhurBtn?.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Zuhr",true)
+            }
+        }
 
         setupCommonLayout()
 
@@ -210,7 +220,6 @@ class GPHome @JvmOverloads constructor(
     private fun prayerTime() {
 
         prayertimeData?.let { data ->
-
 
            prayerTracker(data.WaktTracker)
 
@@ -295,6 +304,7 @@ class GPHome @JvmOverloads constructor(
 
     private fun prayerTracker(waktTracker: List<WaktTracker>) {
 
+
         val progress = waktTracker.filter { it.status }.size * 20
 
         if(progressBar?.progress != progress) {
@@ -324,6 +334,7 @@ class GPHome @JvmOverloads constructor(
                 "Isha" -> updatePrayerTracker(it.status,ishaBtn)
             }
         }
+
     }
 
     private fun updatePrayerTracker(status: Boolean, button: MaterialButton?) {
@@ -346,22 +357,22 @@ class GPHome @JvmOverloads constructor(
 
 
     private fun initObserver(){
-        findViewTreeLifecycleOwner()?.let {
+        findViewTreeLifecycleOwner()?.let { lifecyleowner ->
 
-            viewmodel?.gphomeLiveData?.observe(it){ gpresource ->
-            when(gpresource){
+            viewmodel?.gphomeLiveData?.observe(lifecyleowner){
+            when(it){
                 is CommonResource.API_CALL_FAILED -> baseNoInternetState()
                 is GPHomeResource.GPHome -> {
-                    loadpage(gpresource.data)
+                    loadpage(it.data)
                 }
                 }
             }
 
-            viewmodel?.gphomePrayerLiveData?.observe(it){ gpresource ->
-                when(gpresource){
+            viewmodel?.gphomePrayerLiveData?.observe(lifecyleowner){
+                when(it){
                     is CommonResource.API_CALL_FAILED -> Unit
                     is GPHomeResource.GPHomePrayerTrack -> {
-                        prayertimeData?.WaktTracker?.first { data-> data.Wakt == gpresource.prayer_tag }?.status = gpresource.status
+                        prayertimeData?.WaktTracker?.first { data-> data.Wakt == it.prayer_tag }?.status = it.status
                         prayertimeData?.WaktTracker?.let { it1 -> prayerTracker(it1) }
                     }
                 }

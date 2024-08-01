@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="16dp" /> <!-- Corner radius, adjust as needed -->
+    <gradient
+        android:startColor="@color/deen_primary"
+        android:endColor="@color/deen_brand_secondary"
+        android:angle="180"/>
+</shape>

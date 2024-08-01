@@ -273,10 +273,15 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             {
                 is IslamicBookResource.PdfSecureUrl -> {
 
-                    val bundle = Bundle()
+                   /* val bundle = Bundle()
                     bundle.putString("title",it.bookTitle)
                     bundle.putString("weburl","https://deenislamic.com/pdf?file="+ it.url.urlEncode())
-                    gotoFrag(R.id.action_global_basicWebViewFragment,bundle)
+                    gotoFrag(R.id.action_global_basicWebViewFragment,bundle)*/
+
+                    val bundle = Bundle()
+                        bundle.putString("pageTitle", it.bookTitle)
+                        bundle.putString("pdfUrl", it.url)
+                        gotoFrag(R.id.action_global_pdfViewerFragment, bundle)
 
                 }
             }
@@ -436,7 +441,7 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
                 gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
             }
 
-            "ibook1" ->{
+            "ibook" ->{
 
                 val bundle = Bundle()
                 bundle.putInt("id", data.CategoryId)
@@ -486,7 +491,7 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
                 gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
             }
 
-            "ibook1" -> {
+            "ibook" -> {
 
                 lifecycleScope.launch {
                     islamicBookViewmodel.getDigitalQuranSecureUrl(getData.imageurl2, false, getData.CategoryId, getData.ArabicText)

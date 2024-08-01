@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.viewmodels;
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +20,7 @@ internal class GPHomeViewModel(
     val gphomeLiveData: MutableLiveData<GPHomeResource> get() = _gphomeLiveData
 
     private val _gphomePrayerLiveData: MutableLiveData<GPHomeResource> = MutableLiveData()
-    val gphomePrayerLiveData: MutableLiveData<GPHomeResource> get() = _gphomeLiveData
+    val gphomePrayerLiveData: MutableLiveData<GPHomeResource> get() = _gphomePrayerLiveData
 
 
     suspend fun getGPHome(location:String){
@@ -38,17 +39,14 @@ internal class GPHomeViewModel(
 
     }
 
-    fun setPrayerTrack(language:String,prayer_tag: String,bol:Boolean)
-    {
+    fun setPrayerTrack(language:String,prayer_tag: String,bol:Boolean) {
         viewModelScope.launch {
 
             val response = repository.setPrayerTimeTrack(language = language,prayer_tag = prayer_tag, isPrayed = bol)
 
-            when(response)
-            {
+            when(response) {
                 is ApiResource.Failure -> _gphomePrayerLiveData.value = CommonResource.API_CALL_FAILED
-                is ApiResource.Success ->
-                {
+                is ApiResource.Success -> {
                     if(response.value?.Success == true)
                         _gphomePrayerLiveData.value = GPHomeResource.GPHomePrayerTrack(prayer_tag,bol)
                     else

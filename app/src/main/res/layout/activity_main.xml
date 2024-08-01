@@ -231,6 +231,7 @@
             android:textColor="@color/deen_black" />
 
         <com.deenislamic.sdk.views.gphome.GPHome
+            android:visibility="gone"
             android:id="@+id/gphome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

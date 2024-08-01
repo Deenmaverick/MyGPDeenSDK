@@ -559,4 +559,6 @@
     <string name="starting_in">Starting in: </string>
     <string name="iftarat">Ifar at: %1$s</string>
     <string name="sehriat">Sehri at: %1$s</string>
+    <string name="upcoming_event">Upcoming Event</string>
+    <string name="islamic_calendar">Islamic Calendar</string>
 </resources>

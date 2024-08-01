@@ -102,6 +102,9 @@ dependencies {
     // lottie animation
     implementation 'com.airbnb.android:lottie:5.2.0'
 
+    // hijri calendar
+    implementation 'com.github.msarhan:ummalqura-calendar:1.1.6'
+
 
 }
 //For Maven Publish

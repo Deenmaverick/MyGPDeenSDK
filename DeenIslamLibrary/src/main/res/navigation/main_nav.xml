@@ -1226,17 +1226,6 @@
         android:label="fragment_islamic_boyan_home"
         tools:layout="@layout/fragment_islamic_boyan_home" />
 
-    <action
-        android:id="@+id/action_global_eidJamatHomeFragment"
-        app:destination="@id/eidJamatHomeFragment"
-        app:enterAnim="@anim/slide_enter"
-        app:exitAnim="@anim/slide_exit"
-        app:popEnterAnim="@anim/pop_enter"
-        app:popExitAnim="@anim/pop_exit" />
-    <fragment
-        android:id="@+id/eidJamatHomeFragment"
-        android:name="com.deenislamic.sdk.views.eidjamat.EidJamatHomeFragment"
-        android:label="EidJamatHomeFragment" />
     <fragment
         android:id="@+id/duaAmalHomeFragment"
         android:name="com.deenislamic.sdk.views.duaandamal.DuaAmalHomeFragment"
@@ -1366,18 +1355,7 @@
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
 
-  <!--  <fragment
-        android:id="@+id/hajjMapFragment"
-        android:name="com.deenislam.sdk.views.hajjandumrah.HajjMapFragment"
-        android:label="HajjMapFragment" />
 
-    <action
-        android:id="@+id/action_global_hajjMapFragment"
-        app:destination="@id/hajjMapFragment"
-        app:enterAnim="@anim/slide_enter"
-        app:exitAnim="@anim/slide_exit"
-        app:popEnterAnim="@anim/pop_enter"
-        app:popExitAnim="@anim/pop_exit" />-->
 
     <dialog
         android:id="@+id/imageViewPopupDialog"
@@ -1671,5 +1649,18 @@
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_islamicCalendarFragmentS"
+        app:destination="@id/islamicCalendarFragmentS"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/islamicCalendarFragmentS"
+        android:name="com.deenislamic.sdk.views.islamiccalendar.IslamicCalEventFragment"
+        android:label="IslamicCalendarFragmentS" />
 
 </navigation>

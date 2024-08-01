@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-  <!--  <com.pdfview.PDFView
+    <com.deenislamic.sdk.utils.pdfviewer.ZoomableRecyclerView
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -24,7 +24,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
--->
     <include
         android:id="@+id/progressLayout"
         layout="@layout/layout_circle_progress"

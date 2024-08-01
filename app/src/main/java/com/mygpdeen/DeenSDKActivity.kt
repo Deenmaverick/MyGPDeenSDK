@@ -19,6 +19,7 @@ import java.util.Locale
 class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         val msisdn:EditText = findViewById(R.id.phone_number)

@@ -49,46 +49,6 @@ internal class ImageViewPopupDialog : DialogFragment() {
 
     private lateinit var photoView: PhotoView
 
-    private val PERMISSION_REQUEST_CODE = 3000
-
-    //private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
-
-   /* fun registerPermissionLauncher() {
-        if (!::requestPermissionLauncher.isInitialized) {
-            requestPermissionLauncher =
-                registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                    if (isGranted) {
-                        // Permission is granted, proceed with saving image
-                        try {
-                            saveImageToGallery()
-                        }catch (e: java.lang.Exception){
-                            context?.apply {
-                                toast("Failed to save image!")
-                            }
-                        }
-
-                    } else {
-
-                        activity?.let {
-
-                            val localcontext = context?.getLocalContext()
-
-                            MaterialAlertDialogBuilder(it, com.google.android.material.R.style.AlertDialog_AppCompat)
-                                .setTitle(localcontext?.getString(R.string.alert))
-                                .setMessage(localcontext?.getString(R.string.storage_permission_is_required_to_save_photo))
-                                .setPositiveButton(localcontext?.getString(R.string.okay)) { _, _ ->
-                                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                    intent.data = Uri.parse("package:${localcontext?.packageName}")
-                                    it.startActivity(intent)
-                                }
-                                .setNegativeButton(localcontext?.getString(R.string.cancel), null)
-                                .show()
-                        }
-
-                    }
-                }
-        }
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -62,7 +62,9 @@ import com.deenislamic.sdk.utils.MENU_EID_JAMAT
 import com.deenislamic.sdk.utils.MENU_HADITH
 import com.deenislamic.sdk.utils.MENU_HAJJ_AND_UMRAH
 import com.deenislamic.sdk.utils.MENU_IJTEMA
+import com.deenislamic.sdk.utils.MENU_ISLAMIC_BOOK
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_BOYAN
+import com.deenislamic.sdk.utils.MENU_ISLAMIC_CALENDAR
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EDUCATION_VIDEO
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_NAME
@@ -1125,7 +1127,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
     }
 
     override fun menuClicked(pagetag: String, getMenu: Item?) {
-        //Log.e("menuClicked",pagetag)
+        Log.e("menuClicked",pagetag)
         when(pagetag)
         {
             MENU_PRAYER_TIME ->  gotoFrag(R.id.action_global_prayerTimesFragment)
@@ -1182,7 +1184,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             }
             MENU_HAJJ_AND_UMRAH -> gotoFrag(R.id.action_global_hajjAndUmrahFragment)
             MENU_QURBANI -> gotoFrag(R.id.action_global_qurbaniFragment)
-            //MENU_ISLAMIC_BOOK -> gotoFrag(R.id.action_global_islamicBookViewPagerFragment)
+            MENU_ISLAMIC_CALENDAR -> gotoFrag(R.id.action_global_islamicCalendarFragmentS)
+            MENU_ISLAMIC_BOOK -> gotoFrag(R.id.action_global_islamicBookViewPagerFragment)
 
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
@@ -1251,8 +1254,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                 }else
                     gotoFrag(R.id.action_global_islamicEventHomeFragment)
 
-
-
             }
             "qc" -> gotoFrag(R.id.action_global_quranLearningFragment)
             "dqc" -> {
@@ -1276,7 +1277,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             }
 
             "fqrs" -> changeMainViewPager(1)
-
 
             "rkhq" -> {
 
@@ -1321,7 +1321,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                     }
 
                 }
-
 
             }
 
@@ -1406,7 +1405,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             "sub" -> gotoFrag(R.id.action_global_subscriptionFragment)
             "blnk" -> Unit
             "qurb" -> gotoFrag(R.id.action_global_qurbaniFragment)
-            "ibook1" -> {
+            "ibook" -> {
 
                 if(data!=null && data.SubCategoryId!=0){
                     val bundle = Bundle()
@@ -1425,6 +1424,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                 }
 
             }
+            "isc" -> gotoFrag(R.id.action_global_islamicCalendarFragmentS)
             else -> context?.toast(localContext.getString(R.string.feature_coming_soon))
         }
     }

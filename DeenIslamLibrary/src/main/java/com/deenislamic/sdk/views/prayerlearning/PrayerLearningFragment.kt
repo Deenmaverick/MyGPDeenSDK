@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.common.HorizontalCardListCallback
 import com.deenislamic.sdk.service.di.NetworkProvider
@@ -15,6 +16,8 @@ import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.repository.PrayerLearningRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.MENU_PRAYER_LEARNING
+import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.PrayerLearningViewModel
 import com.deenislamic.sdk.views.adapters.prayerlearning.PrayerLearningCatAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
@@ -59,8 +62,18 @@ internal class PrayerLearningFragment : BaseRegularFragment(),
 
         initObserver()
 
-        if(!firstload)
+        if(!firstload) {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "prayer_learning",
+                    trackingID = getTrackingID()
+                )
+            }
             loadApi()
+        }
         firstload = true
     }
 
@@ -105,6 +118,22 @@ internal class PrayerLearningFragment : BaseRegularFragment(),
         loadApi()
     }
 
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "prayer_learning",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
+    }
+
     override fun patchItemClicked(getData: Item) {
         when(getData.ContentType){
 
@@ -136,7 +165,7 @@ internal class PrayerLearningFragment : BaseRegularFragment(),
 
             }
 
-            "ibook1" -> {
+            "ibook" -> {
                 val bundle = Bundle()
                 bundle.putInt("id", getData.SurahId)
                 bundle.putString("bookType", "category")

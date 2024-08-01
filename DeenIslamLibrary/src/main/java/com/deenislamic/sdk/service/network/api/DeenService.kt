@@ -14,6 +14,7 @@ import com.deenislamic.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislamic.sdk.service.network.response.hajjandumrah.makkahlive.MakkahLiveVideoResponse
 import com.deenislamic.sdk.service.network.response.islamicbook.IslamicBookResponse
 import com.deenislamic.sdk.service.network.response.islamicbook.favorite.FavoriteBookResponse
+import com.deenislamic.sdk.service.network.response.islamiccalendar.IslamicEventData
 import com.deenislamic.sdk.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
 import com.deenislamic.sdk.service.network.response.islamicevent.IslamicEventListResponse
 import com.deenislamic.sdk.service.network.response.islamifazael.IslamiFazaelResponse
@@ -472,5 +473,8 @@ internal interface DeenService {
     suspend fun getFavouriteBooks(
         @Body parm: RequestBody
     ): IslamicBookResponse
+
+    @POST("PrayerTime/CalanderEvent")
+    suspend fun getIslamicCalendarEvent(@Body parm: RequestBody): IslamicEventData
 
 }

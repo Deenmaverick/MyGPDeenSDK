@@ -559,4 +559,6 @@
     <string name="starting_in">শুরু হতে বাকি:\u00A0</string>
     <string name="iftarat">ইফতারের সময়: %1$s</string>
     <string name="sehriat">সেহরীর সময়: %1$s</string>
+    <string name="upcoming_event">আসন্ন ইসলামিক ইভেন্ট</string>
+    <string name="islamic_calendar">ইসলামিক ক্যালেন্ডার </string>
 </resources>

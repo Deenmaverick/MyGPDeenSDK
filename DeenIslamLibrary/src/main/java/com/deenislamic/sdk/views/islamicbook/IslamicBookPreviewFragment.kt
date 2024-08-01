@@ -99,17 +99,9 @@ internal class IslamicBookPreviewFragment : BaseRegularFragment(),
         initSecureLinkObserver()
         favoriteBookObserver()
 
-        if(firstload) {
+        if(!firstload) {
             loadApiData()
         }
-        else if (!isDetached) {
-            view.postDelayed({
-                loadApiData()
-            }, 300)
-        }
-        else
-            loadApiData()
-
         firstload = true
 
     }
@@ -192,10 +184,15 @@ internal class IslamicBookPreviewFragment : BaseRegularFragment(),
                         bundle.putString("pdfUrl", it.url)
                         gotoFrag(R.id.action_global_pdfViewerFragment, bundle)*/
 
-                        val bundle = Bundle()
+                        /*val bundle = Bundle()
                         bundle.putString("title",it.bookTitle)
                         bundle.putString("weburl","https://deenislamic.com/pdf?file="+ it.url.urlEncode())
-                        gotoFrag(R.id.action_global_basicWebViewFragment,bundle)
+                        gotoFrag(R.id.action_global_basicWebViewFragment,bundle)*/
+
+                        val bundle = Bundle()
+                        bundle.putString("pageTitle", it.bookTitle)
+                        bundle.putString("pdfUrl", it.url)
+                        gotoFrag(R.id.action_global_pdfViewerFragment, bundle)
                     }
 
                 }

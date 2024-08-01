@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutDates"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="1"
+            android:textSize="14dp"
+            android:layout_gravity="center"
+            android:textColor="@color/deen_txt_black_deep"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/hijriDayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="1"
+            android:textSize="12dp"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/space_4"
+            android:textColor="@color/deen_brand_secondary"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:gravity="center"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/deen_card_bg"
+        android:visibility="visible"/>
+
+</LinearLayout>

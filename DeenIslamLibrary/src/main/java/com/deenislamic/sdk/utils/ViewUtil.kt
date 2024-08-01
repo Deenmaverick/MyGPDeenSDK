@@ -568,12 +568,12 @@ fun String.monthNameLocale(): String =
             "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"
         )
 
-         val regex = "\\b(${englishMonths.joinToString("|")})\\b".toRegex()
+         val regex = "\\b(${englishMonths.joinToString("|")})\\b".toRegex(RegexOption.IGNORE_CASE)
 
           this.replace(regex) { result ->
              val matchedMonth = result.value
-             val index = englishMonths.indexOf(matchedMonth)
-             if (index != -1) bengaliMonths[index] else matchedMonth
+              val index = englishMonths.indexOfFirst { it.equals(matchedMonth, ignoreCase = true) }
+              if (index != -1) bengaliMonths[index] else matchedMonth
          }
 
      }
@@ -1091,4 +1091,13 @@ fun Int.isDeepColor(): Boolean {
     val luminanceThreshold = 150.0
 
     return luminance < luminanceThreshold
+}
+
+enum class PdfPageQuality(val value : Int) {
+    QUALITY_160(160),
+    QUALITY_320(320),
+    QUALITY_480(480),
+    QUALITY_720(720),
+    QUALITY_1080(1080),
+    QUALITY_1440(1440)
 }
