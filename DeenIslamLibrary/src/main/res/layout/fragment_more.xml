@@ -155,7 +155,8 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintEnd_toStartOf="@+id/ic_download"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ic_download"
+                    app:layout_constraintBottom_toBottomOf="@+id/ic_download"
                     app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -179,8 +180,8 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="@dimen/space_8"
                     android:src="@drawable/deen_ic_download_cloudv2"
-                    app:layout_constraintTop_toTopOf="@id/txtdownload"
-                    app:layout_constraintBottom_toBottomOf="@+id/downloadCount"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -219,11 +220,13 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintEnd_toStartOf="@+id/ic_love"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ic_love"
+                    app:layout_constraintBottom_toBottomOf="@+id/ic_love"
                     app:layout_constraintStart_toStartOf="parent" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
                     android:id="@+id/favCount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -241,8 +244,8 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="@dimen/space_8"
                     android:src="@drawable/deen_ic_love_v2"
-                    app:layout_constraintTop_toTopOf="@id/txtfav"
-                    app:layout_constraintBottom_toBottomOf="@+id/favCount"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,20 +7,22 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class ZoomableLinearLayoutManager : LinearLayoutManager {
+
+internal class ZoomableLinearLayoutManager : LinearLayoutManager {
     private var recyclerView: ZoomableRecyclerView? = null
 
+    constructor(context: Context?) : super(context)
     constructor(context: Context?, orientation: Int, reverseLayout: Boolean) : super(
         context,
         orientation,
-        reverseLayout,
+        reverseLayout
     )
 
     constructor(
         context: Context?,
         attrs: AttributeSet?,
         defStyleAttr: Int,
-        defStyleRes: Int,
+        defStyleRes: Int
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     override fun onAttachedToWindow(view: RecyclerView?) {
@@ -33,9 +35,9 @@ class ZoomableLinearLayoutManager : LinearLayoutManager {
     override fun scrollVerticallyBy(
         dy: Int,
         recycler: RecyclerView.Recycler?,
-        state: RecyclerView.State?,
+        state: RecyclerView.State?
     ): Int {
-        val scrollAmount = this.recyclerView?.calculateScrollAmount(dy) ?: dy
-        return super.scrollVerticallyBy(scrollAmount, recycler, state)
+        val scroll = this.recyclerView?.calculateScroll(dy) ?: dy
+        return super.scrollVerticallyBy(scroll, recycler, state)
     }
 }

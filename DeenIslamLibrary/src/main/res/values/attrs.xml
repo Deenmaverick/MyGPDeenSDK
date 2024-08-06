@@ -7,4 +7,5 @@
         <attr format="integer" name="zoom_duration"/>
         <attr format="boolean" name="zoom_enabled"/>
     </declare-styleable>
+
 </resources>

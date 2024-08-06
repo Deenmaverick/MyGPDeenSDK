@@ -143,7 +143,7 @@ internal class IslamicBookHomeFragment : BaseRegularFragment(), IslamicBookHomeI
                         //Toast.makeText(requireContext(), "url: "+it.url, Toast.LENGTH_SHORT).show()
                         val bundle = Bundle()
                         bundle.putString("pageTitle", it.bookTitle)
-                        bundle.putString("weburl", it.url)
+                        bundle.putString("pdfUrl", it.url)
                         gotoFrag(R.id.action_global_pdfViewerFragment, bundle)
                     }
 

@@ -561,4 +561,10 @@
     <string name="sehriat">সেহরীর সময়: %1$s</string>
     <string name="upcoming_event">আসন্ন ইসলামিক ইভেন্ট</string>
     <string name="islamic_calendar">ইসলামিক ক্যালেন্ডার </string>
+    <string name="search_page">পৃষ্ঠা অনুসন্ধান</string>
+    <string name="page_number">পৃষ্ঠা নম্বর</string>
+    <string name="book_reading_setting">বই পড়ার সেটিং</string>
+    <string name="portrait_mode">লম্বালম্বিভাবে দেখুন</string>
+    <string name="landscape_mode">আড়াআড়িভাবে দেখুন</string>
+    <string name="page_view_setting">পেজ ভিউ সেটিং</string>
 </resources>

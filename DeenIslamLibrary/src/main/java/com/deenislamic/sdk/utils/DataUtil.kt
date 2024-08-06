@@ -396,3 +396,23 @@ fun String.urlEncode(charset: String = "UTF-8"): String {
         this // Return the original string in case of an exception
     }
 }
+
+internal fun getPdfPageStyleList():ArrayList<FontList> {
+
+    return arrayListOf(
+        FontList(
+            fontname = "Page-by-Page",
+            fontid = "1"
+        ),
+        FontList(
+            fontname = "Continuous Page",
+            fontid = "2"
+        ),
+        FontList(
+            fontname = "Reading Mode",
+            fontid = "3"
+        )
+
+    )
+
+}

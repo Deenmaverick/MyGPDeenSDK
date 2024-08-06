@@ -561,4 +561,11 @@
     <string name="sehriat">Sehri at: %1$s</string>
     <string name="upcoming_event">Upcoming Event</string>
     <string name="islamic_calendar">Islamic Calendar</string>
+    <string name="pdf_page_search_out_of">Out of %1$s</string>
+    <string name="search_page">Search Page</string>
+    <string name="page_number">Page No</string>
+    <string name="book_reading_setting">Book Reading Setting</string>
+    <string name="portrait_mode">Portrait Mode</string>
+    <string name="landscape_mode">Landscape Mode</string>
+    <string name="page_view_setting">Page View Setting</string>
 </resources>

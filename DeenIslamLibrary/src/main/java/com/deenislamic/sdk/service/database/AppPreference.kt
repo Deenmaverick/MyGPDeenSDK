@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.deenislamic.sdk.service.models.UserLocation
 import com.deenislamic.sdk.service.models.common.ContentSetting
+import com.deenislamic.sdk.service.models.common.PdfSetting
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -18,6 +19,7 @@ internal object AppPreference {
     private const val USER_CURRENT_STATE = "userCurrentState"
     private const val CONTENT_SETTING = "ContentSetting"
     private const val PRAYER_TIME_LOC = "PrayerTimeLoc"
+    private const val PDF_SETTING = "PdfSetting"
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(PREF_FILE_NAME, MODE)
@@ -81,5 +83,21 @@ internal object AppPreference {
 
     fun getPrayerTimeLoc(): String? {
         return preferences.getString(PRAYER_TIME_LOC, "Dhaka")
+    }
+
+    fun getPdfSetting(): PdfSetting {
+        val jsonString = preferences.getString(PDF_SETTING, null)
+        return if (jsonString != null) {
+            Gson().fromJson(jsonString, PdfSetting::class.java)
+        } else {
+            // Return a default value if the JSON string is null
+            PdfSetting()
+        }
+    }
+
+    fun setPdfSetting(pdfSetting: PdfSetting){
+        preferences.edit {
+            it.putString(PDF_SETTING,Gson().toJson(pdfSetting))
+        }
     }
 }

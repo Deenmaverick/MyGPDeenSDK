@@ -44,4 +44,5 @@
     <dimen name="space_3.5">3.5dp</dimen>
     <dimen name="m3_bottom_nav_min_height">56dp</dimen>
     <dimen name="font_12">12sp</dimen>
+    <dimen name="scrollbar_thumb_height">48dp</dimen>
 </resources>

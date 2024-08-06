@@ -20,6 +20,7 @@ import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislamic.sdk.views.adapters.common.MaterialButtonHorizontalAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
+import com.deenislamic.sdk.views.islamicbook.DownloadedBookFragment
 import com.deenislamic.sdk.views.quran.QuranDownloadFragment
 import kotlinx.coroutines.launch
 
@@ -83,7 +84,9 @@ internal class MyDownloadFragment : BaseRegularFragment(), MaterialButtonHorizon
         firstload = true
 
         val headData = arrayListOf(
-            Head(0,localContext.getString(R.string.al_quran))
+            Head(0,localContext.getString(R.string.al_quran)),
+            Head(1,localContext.getString(R.string.islamic_book))
+
         )
 
         header.apply {
@@ -97,30 +100,16 @@ internal class MyDownloadFragment : BaseRegularFragment(), MaterialButtonHorizon
             adapter = materialButtonHorizontalAdapter
         }
 
-        initView()
+        initViewPager()
     }
 
-    private fun initView()
-    {
-        if(firstload) {
-            initViewPager()
-        }
-        else if (!isDetached) {
-            view?.postDelayed({
-                initViewPager()
-            }, 300)
-        }
-        else
-            initViewPager()
-
-        firstload = true
-    }
 
     private fun initViewPager()
     {
 
         mPageDestination = arrayListOf(
-            QuranDownloadFragment(true)
+            QuranDownloadFragment(true),
+            DownloadedBookFragment()
         )
 
         mainViewPagerAdapter = MainViewPagerAdapter(
