@@ -568,4 +568,17 @@
     <string name="portrait_mode">Portrait Mode</string>
     <string name="landscape_mode">Landscape Mode</string>
     <string name="page_view_setting">Page View Setting</string>
+
+    <string name="txt_mohram">Muharram</string>
+    <string name="txt_safar">Safar</string>
+    <string name="txt_awal">Rabi\' I</string>
+    <string name="txt_sani">Rabi\' II</string>
+    <string name="txt_jomadiul">Jumada I</string>
+    <string name="txt_jomadius_sani">Jumada II</string>
+    <string name="txt_rajab">Rajab</string>
+    <string name="txt_saban">Sha\'ban</string>
+    <string name="txt_ramjan">Ramadan</string>
+    <string name="txt_sawal">Shawwal</string>
+    <string name="txt_jilkod">Dhu al-Qi‘dah</string>
+    <string name="txt_jilhazz">Dhu al-Hijjah</string>
 </resources>

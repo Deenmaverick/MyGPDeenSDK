@@ -9,10 +9,17 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.callback.RamadanCallback
+import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.numberLocale
 import com.google.gson.Gson
+import java.util.Calendar
 
 internal class CalendarAdapter(private val context: Context, private var days: List<CalendarDay>) : BaseAdapter() {
+
+    private var callback = CallBackProvider.get<RamadanCallback>()
+    val calendar = Calendar.getInstance()
+    val currentMonth = calendar.get(Calendar.MONTH)
 
     override fun getCount(): Int = days.size
 
@@ -28,11 +35,11 @@ internal class CalendarAdapter(private val context: Context, private var days: L
 
         textView.text = day.day.numberLocale()
 
-        val calendar = java.util.Calendar.getInstance()
+        val calendar = Calendar.getInstance()
         // Set the specific year, month, and day for the calendar instance
         calendar.set(day.year, day.month, day.day.toInt())
 
-        val isFriday = calendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY
+        val isFriday = calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY
 
         if (day.isActive) {
             textView.setTextColor(ContextCompat.getColor(context, R.color.deen_white))
@@ -47,6 +54,10 @@ internal class CalendarAdapter(private val context: Context, private var days: L
         else if (day.isNA) {
             textView.setTextColor(ContextCompat.getColor(context, R.color.deen_txt_black_deep))
             textView.setBackgroundResource(0)
+        }
+        else if (day.isSelected) {
+            textView.setTextColor(ContextCompat.getColor(context, R.color.deen_primary))
+            textView.setBackgroundResource(R.drawable.deen_ic_calendar_day_selected)
         }
         else if(isFriday && day.monthType == MonthType.CURRENT) {
             textView.setTextColor(ContextCompat.getColor(context, R.color.deen_brand_error))
@@ -67,6 +78,16 @@ internal class CalendarAdapter(private val context: Context, private var days: L
             textView.setBackgroundResource(0)
         }
 
+        view.setOnClickListener {
+            callback = CallBackProvider.get<RamadanCallback>()
+            if(day.month != currentMonth)
+                return@setOnClickListener
+            days.firstOrNull { it.isSelected }?.isSelected =false
+            day.isSelected = true
+            callback?.selectedCalendar(day)
+            notifyDataSetChanged()
+        }
+
         return view
     }
 
@@ -74,8 +95,10 @@ internal class CalendarAdapter(private val context: Context, private var days: L
 
 
     fun updateDays(newDays: List<CalendarDay>) {
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
         days = newDays
-        Log.e("updateDays",Gson().toJson(newDays))
+        days.firstOrNull{ it.day == day.toString() && it.month == month }?.isSelected = true
         notifyDataSetChanged()
     }
 

@@ -11,7 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.callback.RamadanCallback
 import com.deenislamic.sdk.service.di.NetworkProvider
+import com.deenislamic.sdk.service.libs.calendar.CalendarDay
 import com.deenislamic.sdk.service.libs.calendar.CustomCalendar
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.RamadanResource
@@ -19,12 +21,14 @@ import com.deenislamic.sdk.service.network.response.ramadan.FastTracker
 import com.deenislamic.sdk.service.network.response.ramadan.calendar.Calander
 import com.deenislamic.sdk.service.network.response.ramadan.calendar.Data
 import com.deenislamic.sdk.service.repository.RamadanRepository
+import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.Subscription
 import com.deenislamic.sdk.utils.dayNameLocale
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.monthNameLocale
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.RamadanViewModel
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
@@ -38,7 +42,7 @@ import java.util.Date
 import java.util.Locale
 
 
-internal class FastingTrackerFragment : BaseRegularFragment() {
+internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
 
     private lateinit var customCalendar: CustomCalendar
     private val navArgs:FastingTrackerFragmentArgs by navArgs()
@@ -60,6 +64,7 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
     private var fastTracker: FastTracker? = null
 
     private var monthlyCalanderData:ArrayList<Calander> ? = null
+    private var currentDaydata:Calander ? = null
 
     private val calendarInstance: Calendar = Calendar.getInstance()
 
@@ -111,6 +116,8 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
         )
 
         setupCommonLayout(mainview)
+
+        CallBackProvider.setFragment(this)
 
         return mainview
     }
@@ -170,6 +177,8 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 return@setOnClickListener
             }
+            if(currentDaydata?.isTracked==1)
+                return@setOnClickListener
             lifecycleScope.launch {
                 viewmodel.setRamadanTrack(true,getLanguage())
             }
@@ -180,6 +189,8 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 return@setOnClickListener
             }
+            if(currentDaydata?.isTracked==0)
+                return@setOnClickListener
             lifecycleScope.launch {
                 viewmodel.setRamadanTrack(false,getLanguage())
             }
@@ -224,7 +235,10 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
 
     private fun viewState(data: Data)
     {
+        Log.e("RamadanTrack",Gson().toJson(data))
         monthlyCalanderData = ArrayList(data.calander)
+
+        currentDaydata = data.calander.firstOrNull{it.TrackingDate == getTodayDate()}
 
         datetime.text = data.Month.numberLocale().monthNameLocale().dayNameLocale()
         arabicDatetime.text = "${data.islamicMonthStart} ${localContext.getString(R.string.from)} ${data.islamicMonthEnd}"
@@ -242,55 +256,59 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
         else
             trackingCard.show()
 
+        currentDaydata
+
         baseViewState()
 
     }
 
     private fun updateFastingTrack(fasting: Boolean,firstload:Boolean = false)
     {
+
+        monthlyCalanderData?.let { it ->
+
+            val updateIndex = it.indexOfFirst { it.TrackingDate == currentDaydata?.TrackingDate }
+
+            if(updateIndex!=-1)
+                it[updateIndex].isTracked = if(fasting) 1 else 0
+            val activeDaysArray = getActiveDays(it)
+            val inactiveDaysArray = getInactiveDays(it)
+
+            monthlyCalanderData = it
+
+
+            customCalendar.setActiveDays(activeDaysArray)
+            customCalendar.setInactiveDays(inactiveDaysArray)
+            customCalendar.updateCalendarData()
+        }
+
+
         fastTracker?.let {
             if(fasting) {
-                if(!firstload && !isFasting)
-                it.totalTracked++
                 yesBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
                 yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.deen_ic_checkbox_oval)
                 noBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
                 noBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
             }
             else {
-                if(!firstload && isFasting)
-                it.totalTracked--
                 yesBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
                 yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
                 noBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_brand_error))
                 noBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.deen_ic_checkbox_oval_red)
             }
 
+            if(!firstload)
+                it.totalTracked = customCalendar.getTotalActiveDay()
 
             fastingProgress.progress = it.totalTracked
             ramadan_complete_txt.text = "${it.totalTracked}/${it.totalDays}".numberLocale()
             //fastingCheck.isChecked = fasting
             isFasting = fasting
+            currentDaydata?.isTracked = if(isFasting) 1 else 0
 
         }
 
-        monthlyCalanderData?.let { it ->
-            val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date())
 
-            val updateIndex = it.indexOfFirst { it.TrackingDate.contains(currentDate) }
-
-            it[updateIndex].isTracked = if(fasting) 1 else 0
-            val activeDaysArray = getActiveDays(it)
-            val inactiveDaysArray = getInactiveDays(it)
-
-            monthlyCalanderData = it
-
-            Log.e("monthlyCalanderData",Gson().toJson(activeDaysArray)+Gson().toJson(inactiveDaysArray))
-
-            customCalendar.setActiveDays(activeDaysArray)
-            customCalendar.setInactiveDays(inactiveDaysArray)
-            customCalendar.updateCalendarData()
-        }
 
     }
 
@@ -319,4 +337,47 @@ internal class FastingTrackerFragment : BaseRegularFragment() {
     }
 
 
+    override fun selectedCalendar(day: CalendarDay) {
+
+        if(day.isActive){
+                yesBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_primary))
+                yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.deen_ic_checkbox_oval)
+                noBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+                noBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
+            }
+        else if(day.isInactive){
+            yesBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+            yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
+            noBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_brand_error))
+            noBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.deen_ic_checkbox_oval_red)
+        }else{
+            yesBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+            yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
+            noBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
+            noBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
+        }
+
+        val calendar = Calendar.getInstance()
+        // Set the specific year, month, and day for the calendar instance
+        calendar.set(day.year, day.month, day.day.toInt())
+        val dateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.ENGLISH)
+        val dateFormat1 = SimpleDateFormat("yyyy-MM-dd'T'00:00:00", Locale.ENGLISH)
+
+        datetimeCard.text = dateFormat.format(calendar.time).numberLocale().monthNameLocale().dayNameLocale()
+
+
+        currentDaydata = monthlyCalanderData?.firstOrNull{it.TrackingDate == dateFormat1.format(calendar.time)}
+
+        Log.e("monthlyCalanderData",Gson().toJson(currentDaydata)+"${dateFormat1.format(calendar.time)}")
+
+        arabicDatetimeCard.text = currentDaydata?.arabicDate
+
+
+    }
+
+    private fun getTodayDate(): String {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+        val todayDate = Date()
+        return format.format(todayDate)
+    }
 }

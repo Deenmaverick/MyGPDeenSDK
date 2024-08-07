@@ -19,4 +19,20 @@
         <item>Day 3 - Mecca</item>
         <item>Day 4,5 - Mina encampment</item>
     </array>
+
+    <string-array name="custom_months" translatable="false">
+        <item>@string/txt_mohram</item>
+        <item>@string/txt_safar</item>
+        <item>@string/txt_awal</item>
+        <item>@string/txt_sani</item>
+        <item>@string/txt_jomadiul</item>
+        <item>@string/txt_jomadius_sani</item>
+        <item>@string/txt_rajab</item>
+        <item>@string/txt_saban</item>
+        <item>@string/txt_ramjan</item>
+        <item>@string/txt_sawal</item>
+        <item>@string/txt_jilkod</item>
+        <item>@string/txt_jilhazz</item>
+
+    </string-array>
 </resources>

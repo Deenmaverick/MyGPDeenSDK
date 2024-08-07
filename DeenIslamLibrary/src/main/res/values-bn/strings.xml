@@ -567,4 +567,18 @@
     <string name="portrait_mode">লম্বালম্বিভাবে দেখুন</string>
     <string name="landscape_mode">আড়াআড়িভাবে দেখুন</string>
     <string name="page_view_setting">পেজ ভিউ সেটিং</string>
+
+    <string name="txt_mohram">মহররম</string>
+    <string name="txt_safar">সফর</string>
+    <string name="txt_awal">রবিউল আউয়াল</string>
+    <string name="txt_sani">রবিউস সানি</string>
+    <string name="txt_jomadiul">জমাদিউল আউয়াল</string>
+    <string name="txt_jomadius_sani">জমাদিউস সানি</string>
+    <string name="txt_rajab">রজব</string>
+    <string name="txt_saban">শাবান</string>
+    <string name="txt_ramjan">রমজান</string>
+    <string name="txt_sawal">শাওয়াল</string>
+    <string name="txt_jilkod">জিলকদ</string>
+    <string name="txt_jilhazz">জিলহজ্জ</string>
+
 </resources>

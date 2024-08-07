@@ -1,6 +1,10 @@
 package com.deenislamic.sdk.utils
 
+import android.content.Context
+import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.libs.hijricalendar.CalendarDay
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.github.msarhan.ummalqura.calendar.UmmalquraCalendar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -271,3 +275,21 @@ fun String.getWaktNameByTag():String =
 
         else-> ""
     }
+
+fun Context.getArabicData(): String {
+    val hijriCalendar = UmmalquraCalendar()
+
+    val day = hijriCalendar.get(UmmalquraCalendar.DAY_OF_MONTH).toString().numberLocale()
+    val month = resources.getStringArray(R.array.custom_months)[hijriCalendar.get(UmmalquraCalendar.MONTH)]
+    val year = hijriCalendar.get(UmmalquraCalendar.YEAR).toString().numberLocale()
+
+    return "$day $month $year Hijri"
+}
+
+fun isIndiaBangladeshPakistanTimeZone(): Boolean {
+    val calendar = Calendar.getInstance()
+    val timeZone = calendar.timeZone
+
+    val timeZoneIds = setOf("Asia/Kolkata", "Asia/Dhaka", "Asia/Karachi")
+    return timeZoneIds.contains(timeZone.id)
+}

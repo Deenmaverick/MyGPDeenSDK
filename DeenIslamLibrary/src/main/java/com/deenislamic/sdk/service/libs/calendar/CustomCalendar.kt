@@ -107,6 +107,8 @@ internal class CustomCalendar(context: Context, attrs: AttributeSet? = null) : L
 
     }
 
+    fun getTotalActiveDay() = activeDaySet.size
+
     fun setMonth(date: String) {
         try {
 
@@ -138,6 +140,7 @@ internal class CustomCalendar(context: Context, attrs: AttributeSet? = null) : L
         }
     }
 
+
 }
 
 @Keep
@@ -149,7 +152,8 @@ internal data class CalendarDay(
     val dayOfWeek: Int? = null, // Add this line
     val isActive: Boolean = false,
     val isInactive: Boolean = false,
-    val isNA: Boolean = false
+    val isNA: Boolean = false,
+    var isSelected: Boolean = false
 )
 
 

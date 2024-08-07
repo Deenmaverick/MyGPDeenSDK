@@ -5,5 +5,6 @@ import androidx.annotation.Keep
 @Keep
 internal data class Calander(
     val TrackingDate: String,
-    var isTracked: Int
+    var isTracked: Int,
+    val arabicDate:String
 )
