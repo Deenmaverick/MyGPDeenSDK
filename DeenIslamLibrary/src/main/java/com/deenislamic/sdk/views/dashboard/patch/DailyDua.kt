@@ -16,6 +16,8 @@ import com.deenislamic.sdk.utils.ViewPagerHorizontalRecyler
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
+import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.dailydua.DailyDuaPatchAdapter
 
 internal class DailyDua(private val view: View, private val data: Data) {
@@ -25,13 +27,15 @@ internal class DailyDua(private val view: View, private val data: Data) {
     private var icon: AppCompatImageView ? = null
     private var titile: AppCompatTextView ? = null
     private val dashboardPatchCallback = CallBackProvider.get<DashboardPatchCallback>()
+    private val seeAllBtn:AppCompatTextView = view.findViewById(R.id.seeAllBtn)
+    private var callback = CallBackProvider.get<MenuCallback>()
+
 
     init {
         load()
     }
 
-    fun load()
-    {
+    fun load() {
 
         Log.e("dashboardPatchCallback",dashboardPatchCallback.toString())
 
@@ -47,7 +51,6 @@ internal class DailyDua(private val view: View, private val data: Data) {
 
                 icon?.imageLoad(url = BASE_CONTENT_URL_SGP + data.Logo, placeholder_1_1 = true)
 
-
             }
         }
 
@@ -62,6 +65,15 @@ internal class DailyDua(private val view: View, private val data: Data) {
             )
 
             titile?.text = data.Title
+        }
+
+
+        if(data.FeatureType?.isNotEmpty() == true) {
+            seeAllBtn.show()
+            seeAllBtn.setOnClickListener {
+                callback = CallBackProvider.get<MenuCallback>()
+                callback?.menuClicked(data.FeatureType.toString(),null)
+            }
         }
 
 

@@ -28,7 +28,6 @@ import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.monthNameLocale
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
-import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.RamadanViewModel
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.google.android.material.button.MaterialButton
@@ -180,7 +179,7 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
             if(currentDaydata?.isTracked==1)
                 return@setOnClickListener
             lifecycleScope.launch {
-                viewmodel.setRamadanTrack(true,getLanguage())
+                viewmodel.setRamadanTrackDateWise(true,getLanguage(),getFormattedDate(currentDaydata?.TrackingDate.toString()))
             }
         }
 
@@ -192,7 +191,11 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
             if(currentDaydata?.isTracked==0)
                 return@setOnClickListener
             lifecycleScope.launch {
-                viewmodel.setRamadanTrack(false,getLanguage())
+                viewmodel.setRamadanTrackDateWise(
+                    false,
+                    getLanguage(),
+                    getFormattedDate(currentDaydata?.TrackingDate.toString())
+                )
             }
         }
 
@@ -380,4 +383,17 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
         val todayDate = Date()
         return format.format(todayDate)
     }
+
+    private fun getFormattedDate(dateString: String): String {
+        try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+            val date: Date = inputFormat.parse(dateString) ?: return "Invalid date"
+
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            return outputFormat.format(date)
+        }catch (e:Exception){
+            return ""
+        }
+    }
+
 }

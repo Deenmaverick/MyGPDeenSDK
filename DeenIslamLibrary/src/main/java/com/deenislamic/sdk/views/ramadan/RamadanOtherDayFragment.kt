@@ -35,7 +35,6 @@ import com.deenislamic.sdk.utils.bangladeshStateArray
 import com.deenislamic.sdk.utils.get9DigitRandom
 import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
-import com.deenislamic.sdk.utils.urlEncode
 import com.deenislamic.sdk.viewmodels.IslamicBookViewModel
 import com.deenislamic.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislamic.sdk.viewmodels.RamadanViewModel
@@ -352,7 +351,10 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
             return
         }
         lifecycleScope.launch {
-            viewmodel.setRamadanTrack(isFast,getLanguage())
+            viewmodel.setRamadanTrack(
+                isFast,
+                getLanguage()
+            )
         }
     }
 

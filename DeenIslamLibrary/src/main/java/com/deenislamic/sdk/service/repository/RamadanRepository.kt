@@ -42,7 +42,7 @@ internal class RamadanRepository (
         deenService?.getRamadanPatch(parm = requestBody)
     }
 
-    suspend fun setRamadanTrack(isFasting: Boolean, language:String) = makeApicall {
+    suspend fun setRamadanTrack(isFasting: Boolean, language: String) = makeApicall {
 
         val body = JSONObject()
         body.put("Suhoor", isFasting)
@@ -50,6 +50,17 @@ internal class RamadanRepository (
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.setRamadanTrack(parm = requestBody)
+    }
+
+    suspend fun setRamadanTrackDateWise(isFasting: Boolean, language: String, date: String) = makeApicall {
+
+        val body = JSONObject()
+        body.put("Date",date)
+        body.put("Suhoor", isFasting)
+        body.put("language", language)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.setRamadanTrackDateWise(parm = requestBody)
     }
 
     suspend fun getRamadanCalendar(date: String, language:String) = makeApicall {

@@ -38,6 +38,7 @@ import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DashboardResource
+import com.deenislamic.sdk.service.models.IslamicBookResource
 import com.deenislamic.sdk.service.models.TasbeehResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerTimeResource
@@ -47,8 +48,10 @@ import com.deenislamic.sdk.service.network.response.dashboard.Data
 import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.repository.DashboardRepository
+import com.deenislamic.sdk.service.repository.IslamicBookRepository
 import com.deenislamic.sdk.service.repository.PrayerTimesRepository
 import com.deenislamic.sdk.service.repository.TasbeehRepository
+import com.deenislamic.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislamic.sdk.service.weakref.dashboard.DashboardPatchClass
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.MAKKAH_LATITUDE
@@ -96,6 +99,7 @@ import com.deenislamic.sdk.utils.transformDashboardItemForKhatamQuran
 import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.DashboardViewModel
+import com.deenislamic.sdk.viewmodels.IslamicBookViewModel
 import com.deenislamic.sdk.viewmodels.PrayerTimesViewModel
 import com.deenislamic.sdk.viewmodels.TasbeehViewModel
 import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
@@ -132,6 +136,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
     private lateinit var prayerViewModel:  PrayerTimesViewModel
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var dashboardPatchMain: DashboardPatchAdapter
+    private lateinit var islamicBookViewmodel: IslamicBookViewModel
+
 
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
 
@@ -193,6 +199,18 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
         )
 
         tasbeehViewmodel = TasbeehViewModel(tasbeehRepository)
+
+        val ibrepository = IslamicBookRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService())
+
+        val quranLearningRepository = QuranLearningRepository(
+            quranShikkhaService = NetworkProvider().getInstance().provideQuranShikkhaService(),
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            dashboardService = NetworkProvider().getInstance().provideDashboardService()
+        )
+
+        islamicBookViewmodel = IslamicBookViewModel(repository = ibrepository, quranLearningRepository = quranLearningRepository)
+
 
     }
 
@@ -633,14 +651,19 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             }
         }
 
-        /*dashboardViewModel.prayerTimesNotification.observe(viewLifecycleOwner)
-        {
+        islamicBookViewmodel.secureUrlLiveData.observe(viewLifecycleOwner) {
             when(it)
             {
-                is PrayerNotificationResource.dateWiseNotificationData -> updateprayerTracker(it.data)
-                else -> Unit
+                is IslamicBookResource.PdfSecureUrl -> {
+
+                    val bundle = Bundle()
+                    bundle.putString("pageTitle", it.bookTitle)
+                    bundle.putString("pdfUrl", it.url)
+                    gotoFrag(R.id.action_global_pdfViewerFragment, bundle)
+
+                }
             }
-        }*/
+        }
 
     }
 
@@ -1356,7 +1379,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
                 }
 
-
             }
             "ies" -> gotoFrag(R.id.action_global_islamicEducationVideoHomeFragment)
             "nm" -> {
@@ -1368,8 +1390,34 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
             "ib" -> {
 
+                if(data?.imageurl2?.isNotEmpty() == true){
 
-                if(data!=null && data.SubCategoryId!=0){
+                    dashboardData?.let {
+
+                        var dataIndex = -1
+                        var itemIndex = 0
+
+                        it.forEachIndexed { index, dataValue ->
+                            dataValue.Items.forEachIndexed { innerIndex, item ->
+                                // Replace with the condition to check if the items match
+                                if (item.ContentType == data.ContentType && item.Id == data.Id) {
+                                    dataIndex = index
+                                    itemIndex = innerIndex
+                                    return@forEachIndexed
+                                }
+                            }
+                        }
+
+                        if(dataIndex !=-1) {
+                            val bundle = Bundle()
+                            bundle.putParcelable("selectedData", data)
+                            bundle.putParcelableArray("data", it[dataIndex].Items.toTypedArray())
+                            gotoFrag(R.id.action_global_youtubeVideoFragment, bundle)
+                        }
+
+                    }
+
+                }else if(data!=null && data.SubCategoryId!=0){
                     val bundle = Bundle()
                     bundle.putInt("id", data.SubCategoryId)
                     bundle.putString("videoType", "scholar")
@@ -1407,7 +1455,11 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             "qurb" -> gotoFrag(R.id.action_global_qurbaniFragment)
             "ibook" -> {
 
-                if(data!=null && data.SubCategoryId!=0){
+                if(data?.imageurl2?.isNotEmpty() == true){
+                    lifecycleScope.launch {
+                        islamicBookViewmodel.getDigitalQuranSecureUrl(data.imageurl2, false, data.CategoryId, data.ArabicText)
+                    }
+                }else if(data!=null && data.SubCategoryId!=0){
                     val bundle = Bundle()
                     bundle.putInt("id", data.SubCategoryId)
                     bundle.putString("bookType", "author")
@@ -1419,7 +1471,9 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                     bundle.putString("bookType", "category")
                     bundle.putString("title",data.ArabicText)
                     gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
-                }else{
+                }
+                else{
+
                     gotoFrag(R.id.action_global_islamicBookViewPagerFragment)
                 }
 

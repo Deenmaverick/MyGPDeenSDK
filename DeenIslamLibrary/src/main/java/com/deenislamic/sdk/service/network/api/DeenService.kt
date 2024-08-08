@@ -262,6 +262,9 @@ internal interface DeenService {
     @POST("FastTracker/AddFastTrackingInfo")
     suspend fun setRamadanTrack(@Body parm: RequestBody): BasicResponse
 
+    @POST("FastTracker/AddFastTrackingInfoDateWise")
+    suspend fun setRamadanTrackDateWise(@Body parm: RequestBody): BasicResponse
+
     @POST("SeheriIftarTime/ramadanCalander")
     suspend fun getRamadanCalendar(@Body parm: RequestBody): RamadanCalendarResponse
 

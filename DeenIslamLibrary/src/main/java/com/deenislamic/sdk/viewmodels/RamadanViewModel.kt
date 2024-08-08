@@ -116,7 +116,25 @@ internal class RamadanViewModel (
     }
 
 
-    fun setRamadanTrack(isFasting:Boolean,language:String)
+    fun setRamadanTrackDateWise(isFasting: Boolean, language: String, date: String)
+    {
+        viewModelScope.launch {
+
+            when(val response = repository.setRamadanTrackDateWise(isFasting = isFasting, language = language,date))
+            {
+                is ApiResource.Failure -> _ramadanTrackLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Success == true)
+                        _ramadanTrackLiveData.value = RamadanResource.ramadanTracking(isFasting)
+                    else
+                        _ramadanTrackLiveData.value = RamadanResource.ramadanTracking(!isFasting)
+                }
+            }
+        }
+    }
+
+    fun setRamadanTrack(isFasting: Boolean, language: String)
     {
         viewModelScope.launch {
 
