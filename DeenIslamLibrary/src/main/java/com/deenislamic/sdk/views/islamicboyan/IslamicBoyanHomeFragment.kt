@@ -229,13 +229,11 @@ internal class IslamicBoyanHomeFragment : BaseRegularFragment(), otherFagmentAct
     private fun showDisclaimerDialog() {
         dialog = BottomSheetDialog(requireContext())
 
-        val view = layoutInflater.inflate(R.layout.layout_causion, null)
+        val view = localInflater.inflate(R.layout.layout_causion, null)
 
         val cautionText: TextView = view.findViewById(R.id.txtviw_causion)
 
-        cautionText.text = "আমাদের অ্যাপের সকল বয়ান সমূহ ইউটিউব থেকে সংগৃহীত এবং ব্যবহারকারীগণ কোনও চার্জ ছাড়াই এগুলো  দেখতে পারবেন। আমরা ইসলামিক বক্তা ও বিষয়বস্তু সাপেক্ষে এই সেকশনটি তৈরি করেছি, যেন ব্যবহারকারীগণ তাদের সুবিধা মত বিষয়বস্তু অথবা ইসলামিক বক্তা অনুযায়ী খুব সহজেই বয়ানগুলো দেখতে পারেন। \n" +
-                "\n" +
-                "এই সেকশনের কোন ইসলামিক বক্তার বয়ান যদি আপনার কাছে ব্যবসায়িক কোনও ক্ষতির কারণ বলে মনে হয়, তবে তা  ইমেল এর মাধ্যমে আমাদের জানাতে পারেন (support@deenislamic.com) । আপনার পরিচয় যাচাই করে সঠিক বিবেচিত হলে আমরা ২৪ ঘন্টার মধ্যে সেই  বয়ানগুলো সরিয়ে দেয়ার জন্য প্রয়োজনীয় ব্যবস্থা গ্রহণ করবো ইনশাআল্লাহ!"
+        cautionText.text = localContext.getString(R.string.boyan_caution_text)
 
         val buttonOk: MaterialButton = view.findViewById(R.id.btn_ok)
 

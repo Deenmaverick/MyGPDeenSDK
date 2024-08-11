@@ -190,15 +190,11 @@ internal class IslamicBookViewPagerFragment : BaseRegularFragment(),
     private fun showDisclaimerDialog() {
         dialog = BottomSheetDialog(requireContext())
 
-        val view = layoutInflater.inflate(R.layout.layout_causion, null)
+        val view = localInflater.inflate(R.layout.layout_causion, null)
 
         val cautionText: TextView = view.findViewById(R.id.txtviw_causion)
 
-        cautionText.text = "ইসলামিক এই সকল বইগুলো যা দ্বীন অ্যাপে রয়েছে তার পিডিএফ অনলাইনে সহজলভ্য আছে। এই বইগুলার প্রকশক দ্বীন অ্যাপ নয়। আপনাদের পড়ার ও জানার সুবিধার জন্য আমরা সব বইগুলোকে একত্রিত করেছি। পাঠক হিসেবে আপনি বইগুলো পড়তে পারবেন। \n" +
-                "\n" +
-                "এই বইগুলো পড়ে আপনার ভালো লাগলে আপনি বইগুলো কিনে আপনার সংগ্রহে রাখতে পারেন। এতে আপনি, প্রকাশক ও লেখক সকলেই উপকৃত হবেন। ইনশাআল্লাহ! \n" +
-                "\n" +
-                "আলহামদুলিল্লাহ, এইটি সম্পূর্ণ ফ্রি ব্যবহারকারীর জন্য। এখান থেকে কোন মুনাফা দ্বীন অ্যাপ গ্রহন করেনা। যদি কোন প্রকাশক অথবা লেখক আপনাদের ইসলামিক বইগুলো আমাদের অ্যাপে পান এবং এইটাকে আপনার ব্যবসায়িক ক্ষতি বলে মনে করেন, তবে এখনি আমাদের ইমেল করুন (support@deenislamic.com) এ। আপনার পরিচয় যাচাই করে সঠিক বিবেচিত হলে আমরা ২৪ ঘন্টার মধ্যে আপনার বইগুলো সরিয়ে দিবো। ইনশাআল্লাহ!"
+        cautionText.text = localContext.getString(R.string.islamic_book_caution_text)
 
         val buttonOk: MaterialButton = view.findViewById(R.id.btn_ok)
 

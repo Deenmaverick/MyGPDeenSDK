@@ -1101,3 +1101,17 @@ enum class PdfPageQuality(val value : Int) {
     QUALITY_1080(1080),
     QUALITY_1440(1440)
 }
+
+internal fun AppCompatTextView.applyArabicFontTextView(){
+
+    val contentSetting = AppPreference.getContentSetting()
+    when(contentSetting.arabicFont){
+
+        1-> {
+            val customFont =
+                ResourcesCompat.getFont(this.context, R.font.indopakv2)
+            this.typeface = customFont
+        }
+
+    }
+}

@@ -34,7 +34,7 @@ internal class IslamicNameCatAdapter(
             super.onBind(position)
 
             val listItem = islamicNamesCat[position]
-            menuName.text = listItem.title
+            menuName.text = listItem.Title
             itemView.setOnClickListener {
 
                 callback?.onCatItemClick(islamicNamesCat[absoluteAdapterPosition])

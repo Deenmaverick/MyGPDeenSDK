@@ -13,6 +13,8 @@ import com.deenislamic.sdk.service.network.response.advertisement.Data
 import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.applyArabicFontTextView
+import com.deenislamic.sdk.utils.fixArabicComma
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.show
@@ -91,6 +93,8 @@ internal class QuranicItem(private val itemView: View) {
             textContent?.maxLines = 1
             textContent?.ellipsize = TextUtils.TruncateAt.END
             textContent?.text = data.ArabicText
+            textContent?.applyArabicFontTextView()
+            textContent?.fixArabicComma()
 
             midContent?.maxLines = 2
             midContent?.ellipsize = TextUtils.TruncateAt.END
@@ -162,6 +166,8 @@ internal class QuranicItem(private val itemView: View) {
             textContent?.maxLines = 2
             textContent?.ellipsize = TextUtils.TruncateAt.END
             textContent?.text = data.ArabicText
+            textContent?.applyArabicFontTextView()
+            textContent?.fixArabicComma()
 
             midContent?.maxLines = 3
             midContent?.ellipsize = TextUtils.TruncateAt.END

@@ -34,6 +34,7 @@ internal class IslamicNameCategoriesFragment: BaseRegularFragment(), IslamicName
     private lateinit var noInternetLayout: NestedScrollView
     private lateinit var listView: RecyclerView
     private var gender = "male"
+    private var firstload = false
     private val navargs:IslamicNameCategoriesFragmentArgs by navArgs()
 
     companion object {
@@ -71,15 +72,6 @@ internal class IslamicNameCategoriesFragment: BaseRegularFragment(), IslamicName
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!isDetached) {
-            view.postDelayed({
-                loadpage()
-            }, 300)
-        } else
-            loadpage()
-    }
-
-    private fun loadpage() {
         ViewCompat.setTranslationZ(progressLayout, 10F)
         ViewCompat.setTranslationZ(noInternetLayout, 10F)
         ViewCompat.setTranslationZ(nodataLayout, 10F)
@@ -88,9 +80,11 @@ internal class IslamicNameCategoriesFragment: BaseRegularFragment(), IslamicName
 
         loadingState()
 
-
+        if(!firstload)
         loadApiData()
+        firstload = true
     }
+
     private fun initObserver() {
         viewmodel.islamicNamesCatsLiveData.observe(viewLifecycleOwner)
         {
@@ -137,8 +131,8 @@ internal class IslamicNameCategoriesFragment: BaseRegularFragment(), IslamicName
 
     override fun onCatItemClick(data: IslamicNameCategoriesResponse.Data) {
         val bundle = Bundle()
-        bundle.putInt("Catid",data.id)
-        bundle.putString("title",data.title)
+        bundle.putInt("Catid",data.Id)
+        bundle.putString("title",data.Title)
         gotoFrag(R.id.action_global_islamicNameCatwiseViewFragment, bundle)
     }
 }

@@ -26,7 +26,7 @@ internal class IslamicEventViewModel(
                     CommonResource.API_CALL_FAILED
 
                 is ApiResource.Success -> {
-                    if (response.value?.success == true) {
+                    if (response.value?.Success == true) {
                         if (response.value.data.isNotEmpty()) {
                             _islamicEventLiveData.value =
                                 IslamicEventsResource.islamicEvents(response.value.data)

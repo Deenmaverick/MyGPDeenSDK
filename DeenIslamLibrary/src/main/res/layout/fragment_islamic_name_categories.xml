@@ -14,6 +14,7 @@
         android:orientation="vertical"
         android:clipToPadding="false"
         android:paddingTop="@dimen/space_10"
+        android:paddingBottom="@dimen/space_16"
         tools:listitem="@layout/item_islamic_event_home"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

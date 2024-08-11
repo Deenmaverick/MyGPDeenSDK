@@ -159,7 +159,7 @@ internal class IslamicEventHomeFragment : BaseRegularFragment(), IslamicEventCal
     override fun eventCatItemClick(item: IslamicEventListResponse.Data) {
 
         val bundle = Bundle()
-        bundle.putInt("categoryID", item.id)
+        bundle.putInt("categoryID", item.Id)
         bundle.putString("pageTitle",item.category)
         bundle.putString("pageTag",MENU_ISLAMIC_EVENT)
         gotoFrag(R.id.action_global_subContentFragment,bundle)

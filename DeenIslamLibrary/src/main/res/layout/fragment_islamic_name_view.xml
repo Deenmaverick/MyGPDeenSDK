@@ -24,6 +24,7 @@
         android:contentDescription="@string/islamic_name"
         android:nestedScrollingEnabled="false"
         android:paddingTop="@dimen/space_10"
+        android:paddingBottom="@dimen/space_16"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/mcvAlphabet"

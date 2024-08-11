@@ -12,6 +12,7 @@ import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.RamadanCallback
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.numberLocale
+import com.deenislamic.sdk.utils.toast
 import com.google.gson.Gson
 import java.util.Calendar
 
@@ -20,6 +21,7 @@ internal class CalendarAdapter(private val context: Context, private var days: L
     private var callback = CallBackProvider.get<RamadanCallback>()
     val calendar = Calendar.getInstance()
     val currentMonth = calendar.get(Calendar.MONTH)
+    val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
     override fun getCount(): Int = days.size
 
@@ -80,8 +82,13 @@ internal class CalendarAdapter(private val context: Context, private var days: L
 
         view.setOnClickListener {
             callback = CallBackProvider.get<RamadanCallback>()
-            if(day.month != currentMonth)
+            if(day.month != currentMonth) {
+                context.toast(context.getString(R.string.ramadan_track_prev_month_alert_text))
                 return@setOnClickListener
+            }else if(day.day.toInt() > currentDay) {
+            context.toast(context.getString(R.string.ramadan_track_future_date_alert_text))
+            return@setOnClickListener
+            }
             days.firstOrNull { it.isSelected }?.isSelected =false
             day.isSelected = true
             callback?.selectedCalendar(day)

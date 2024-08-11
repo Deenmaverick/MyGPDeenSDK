@@ -347,7 +347,7 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
                 yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.deen_ic_checkbox_oval)
                 noBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
                 noBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
-            }
+        }
         else if(day.isInactive){
             yesBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_txt_ash))
             yesBtn.icon = ContextCompat.getDrawable(requireContext(),R.drawable.radio_btn_unselected)
