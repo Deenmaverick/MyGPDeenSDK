@@ -34,7 +34,7 @@ internal class IslamicNameHomeAdapter(
             super.onBind(position)
 
             val listItem = islamicNames.get(position)
-            menuName.text = listItem.arabicText
+            menuName.text = listItem.ArabicText
 
             itemView.setOnClickListener {
 

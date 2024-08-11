@@ -416,3 +416,7 @@ internal fun getPdfPageStyleList():ArrayList<FontList> {
     )
 
 }
+
+internal fun String.getDrawable():String{
+    return "${BASE_CONTENT_URL_SGP}Content/SDK/GP/${this}"
+}

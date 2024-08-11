@@ -33,7 +33,7 @@ internal class SubCatBasicCardDetailsFragment : BaseRegularFragment() , otherFag
          if (navArgs.data != null) {
               title = navArgs.data?.Title!!
          } else if (navArgs.dataName != null) {
-             title = navArgs.dataName?.arabicText!!
+             title = navArgs.dataName?.ArabicText!!
          }
 
         setupActionForOtherFragment(
@@ -77,8 +77,8 @@ internal class SubCatBasicCardDetailsFragment : BaseRegularFragment() , otherFag
 
 
 
-        if(navArgs.dataName?.logo!=null)
-            fullContent = "$fullContent${navArgs.dataName?.logo}"
+        if(navArgs.dataName?.Logo!=null)
+            fullContent = "$fullContent${navArgs.dataName?.Logo}"
 
 
         // Use WebView to load HTML content

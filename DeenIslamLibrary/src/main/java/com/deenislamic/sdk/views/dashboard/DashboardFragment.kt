@@ -36,6 +36,7 @@ import com.deenislamic.sdk.service.database.entity.Tasbeeh
 import com.deenislamic.sdk.service.database.entity.UserPref
 import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.di.NetworkProvider
+import com.deenislamic.sdk.service.libs.ImageViewPopupDialog
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DashboardResource
 import com.deenislamic.sdk.service.models.IslamicBookResource
@@ -53,6 +54,7 @@ import com.deenislamic.sdk.service.repository.PrayerTimesRepository
 import com.deenislamic.sdk.service.repository.TasbeehRepository
 import com.deenislamic.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislamic.sdk.service.weakref.dashboard.DashboardPatchClass
+import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.MAKKAH_LATITUDE
 import com.deenislamic.sdk.utils.MAKKAH_LONGITUDE
@@ -1235,8 +1237,18 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                     }
                     gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
 
-                }else
-                    gotoFrag(R.id.action_global_dailyDuaFragment)
+                }else {
+
+                    data?.let {
+                        val bundle = Bundle()
+                        bundle.putString("title",it.FeatureTitle)
+                        bundle.putString("imgUrl","$BASE_CONTENT_URL_SGP${it.imageurl1}")
+                        //bundle.putString("content","${getdata.Title}:\n\n${getdata.Text}\n\nExplore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6")
+                        ImageViewPopupDialog.display(childFragmentManager,bundle)
+
+                    }
+                    //gotoFrag(R.id.action_global_dailyDuaFragment)
+                }
 
             }
             "ijtema" -> {

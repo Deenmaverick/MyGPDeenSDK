@@ -1,10 +1,12 @@
 package com.deenislamic.sdk.views.islamicname
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,12 +22,15 @@ import com.deenislamic.sdk.service.repository.IslamicNameRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.Subscription
 import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.getDrawable
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.IslamicNameViewModel
 import com.deenislamic.sdk.views.adapters.islamicname.IslamicNameHomeAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 
@@ -40,6 +45,8 @@ internal class IslamicNameHomeFragment : BaseRegularFragment(), otherFagmentActi
     private lateinit var progressLayout: LinearLayout
     private lateinit var nodataLayout: NestedScrollView
     private lateinit var noInternetLayout: NestedScrollView
+    private lateinit var boyAvatar:AppCompatImageView
+    private lateinit var girlAvatar:AppCompatImageView
 
     override fun OnCreate() {
         super.OnCreate()
@@ -72,6 +79,8 @@ internal class IslamicNameHomeFragment : BaseRegularFragment(), otherFagmentActi
         progressLayout = mainView.findViewById(R.id.progressLayout)
         nodataLayout = mainView.findViewById(R.id.nodataLayout)
         noInternetLayout = mainView.findViewById(R.id.no_internet_layout)
+        boyAvatar = mainView.findViewById(R.id.boyAvatar)
+        girlAvatar = mainView.findViewById(R.id.girlAvatar)
         setupCommonLayout(mainView)
         return mainView
     }
@@ -79,6 +88,8 @@ internal class IslamicNameHomeFragment : BaseRegularFragment(), otherFagmentActi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        boyAvatar.imageLoad(url = "ic_islamic_name_boy_avatar.png".getDrawable())
+        girlAvatar.imageLoad(url = "ic_islamioc_name_girl_avatar.png".getDrawable())
 
         if(!firstload)
         {
@@ -141,7 +152,7 @@ internal class IslamicNameHomeFragment : BaseRegularFragment(), otherFagmentActi
                 is CommonResource.EMPTY -> baseViewState()
                 is IslamicNameResource.islamicNamesPatch -> {
 
-                    viewState(it.data[0].items)
+                    viewState(it.data[0].Items)
                 }
             }
         }

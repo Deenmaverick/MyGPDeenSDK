@@ -29,7 +29,9 @@ import com.deenislamic.sdk.service.repository.TasbeehRepository
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.FullCircleGaugeView
 import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.getDrawable
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast
@@ -71,6 +73,7 @@ internal class TasbeehFragment : BaseRegularFragment(),
     private lateinit var countBtn:MaterialButton
     private lateinit var btnShare:MaterialButton
     private lateinit var duaLayout:ConstraintLayout
+    private lateinit var deenBGTasbeehCount:AppCompatImageView
 
     private var tasbeehdata:Tasbeeh ? = null
     private var userPref: UserPref? = null
@@ -149,6 +152,7 @@ internal class TasbeehFragment : BaseRegularFragment(),
         countView = mainView.findViewById(R.id.countView)
         btnShare = mainView.findViewById(R.id.btnShare)
         duaLayout = mainView.findViewById(R.id.duaLayout)
+        deenBGTasbeehCount = mainView.findViewById(R.id.deenBGTasbeehCount)
 
 
         return mainView
@@ -160,6 +164,8 @@ internal class TasbeehFragment : BaseRegularFragment(),
        /* duaLayout.setOnClickListener {
             selectDhikirDialog()
         }*/
+
+        deenBGTasbeehCount.imageLoad(url = "deen_bg_tasbeeh_count.png".getDrawable())
 
         btnShare.setOnClickListener {
             val bundle = Bundle()

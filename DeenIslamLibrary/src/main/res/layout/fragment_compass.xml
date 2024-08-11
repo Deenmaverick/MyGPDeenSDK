@@ -37,7 +37,6 @@
                 android:paddingBottom="@dimen/space_8"
                 android:layout_marginTop="@dimen/space_8"
                 android:scaleType="centerCrop"
-                android:src="@drawable/compass_map"
                 app:imageAspectRatio="3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -106,15 +105,18 @@
                 android:id="@+id/degreeTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/space_12"
                 android:layout_marginBottom="@dimen/space_4"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/deen_txt_black_deep"
                 android:textStyle="bold"
                 android:gravity="center"
+                tools:text="test"
+                android:translationZ="1dp"
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/distanceTxt"/>
+                app:layout_constraintTop_toTopOf="@+id/bottomBg"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/distanceTxt"
@@ -124,23 +126,24 @@
                 android:text="@string/the_distance_from_kaaba_is_unknown"
                 android:elevation="@dimen/space_4"
                 android:gravity="center"
+                android:translationZ="1dp"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/deen_txt_ash"
-                app:layout_constraintBottom_toTopOf="@+id/bottomBg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/degreeTxt"
                 app:layout_constraintVertical_bias="1.04" />
 
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bottomBg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="h,16:9"
                 android:layout_marginBottom="@dimen/space_16"
                 android:scaleType="centerCrop"
-                android:src="@drawable/bottom_illustration_compass"
+                tools:src="@drawable/deen_placeholder_16_9"
                 app:layout_constraintBottom_toTopOf="@+id/footer"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>

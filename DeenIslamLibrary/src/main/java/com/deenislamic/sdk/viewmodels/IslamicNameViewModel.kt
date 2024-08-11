@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.viewmodels;
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,7 @@ import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.IslamicNameResource
 import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.repository.IslamicNameRepository
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 internal class IslamicNameViewModel (
@@ -153,6 +155,7 @@ internal class IslamicNameViewModel (
                 is ApiResource.Failure -> _islamicNamesHomeLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success ->
                 {
+                    Log.e("IslamicNameHome", Gson().toJson(response.value?.data))
                     if(response.value?.data?.isNotEmpty() == true)
                         _islamicNamesHomeLiveData.value = IslamicNameResource.islamicNamesPatch(response.value.data)
                     else

@@ -33,6 +33,7 @@ import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.MAKKAH_LATITUDE
 import com.deenislamic.sdk.utils.MAKKAH_LONGITUDE
 import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.getDrawable
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.tryCatch
@@ -64,6 +65,8 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
 
     private lateinit var accuracy:AppCompatTextView
     private lateinit var compassBg:AppCompatImageView
+    private lateinit var bottomBg:AppCompatImageView
+    private lateinit var mapBg:AppCompatImageView
     private var firstload = false
 
 
@@ -97,6 +100,12 @@ internal class CompassFragment : BaseRegularFragment(),SensorEventListener {
         actionbar = mainView.findViewById(R.id.actionbar)
         this.container = mainView.findViewById(R.id.container)
         compassBg = mainView.findViewById(R.id.compassBg)
+        bottomBg = mainView.findViewById(R.id.bottomBg)
+        mapBg = mainView.findViewById(R.id.mapBg)
+
+        bottomBg.imageLoad( url = "bottom_illustration_compass.webp".getDrawable())
+        mapBg.imageLoad(placeholder_1_1 = true, url = "compass_map.webp".getDrawable())
+
 
         navArgs.compassBG?.let {
             compassBg.imageLoad(url = BASE_CONTENT_URL_SGP +it, placeholder_1_1 = true, custom_placeholder_1_1 = R.drawable.compass_dial, customMemoryKey = "compassBG")

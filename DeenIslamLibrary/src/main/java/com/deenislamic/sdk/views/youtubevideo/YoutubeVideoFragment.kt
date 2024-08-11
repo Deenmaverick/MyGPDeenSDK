@@ -195,8 +195,6 @@ internal class YoutubeVideoFragment : BaseRegularFragment(),
     {
 
         listView.apply {
-            setPadding(0,12.dp,0,0)
-
             overScrollMode = View.OVER_SCROLL_NEVER
             adapter = boyanVideoPreviewPagingAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -219,13 +217,13 @@ internal class YoutubeVideoFragment : BaseRegularFragment(),
             //videoPreviewData = it.data.Data as ArrayList<Data>
 
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            commonCardData = ArrayList(args.data.map {cdata-> transformVideoData(cdata) })
+            commonCardData = ArrayList(moveItemToEnd(args.data,args.selectedData).map {cdata-> transformVideoData(cdata) })
 
             commonCardAdapter = CommonCardAdapter(
                 data = commonCardData,
                 isShowLiveIcon = false,
                 isShowPlayIcon = true,
-                itemMarginTop = 0.dp,
+                itemMarginTop = 12.dp,
                 itemMarginLeft = 0,
                 itemMarginRight = 0,
                 itemPaddingBottom = 12.dp,
@@ -380,5 +378,20 @@ internal class YoutubeVideoFragment : BaseRegularFragment(),
             it.removeAllViews();
             it.destroy();
         }
+    }
+
+    private fun moveItemToEnd(list: Array<Item>, selectedItem: Item?): Array<Item> {
+        if (selectedItem == null) {
+            return list
+        }
+        val position = list.indexOfFirst { it.Id == selectedItem.Id }
+        if(position!=-1) {
+
+            val mutableList = list.toMutableList()
+            val item = mutableList.removeAt(position)
+            mutableList.add(item)
+            return mutableList.toTypedArray()
+        }else
+            return list
     }
 }

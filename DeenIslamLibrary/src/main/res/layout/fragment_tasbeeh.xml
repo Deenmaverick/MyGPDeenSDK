@@ -256,9 +256,9 @@
                 app:layout_constraintGuide_percent="0.3" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/deenBGTasbeehCount"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:src="@drawable/deen_bg_tasbeeh_count"
                 android:scaleType="centerCrop"
                 android:alpha="0.6"
                 app:layout_constraintTop_toBottomOf="@+id/guidelineVertical"

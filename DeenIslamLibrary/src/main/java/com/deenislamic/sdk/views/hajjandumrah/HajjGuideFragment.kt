@@ -28,7 +28,9 @@ import com.deenislamic.sdk.service.repository.SubCatCardListRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.HAJJ_GUIDE
 import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.getDrawable
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.setActiveState
@@ -153,6 +155,8 @@ internal class HajjGuideFragment : BaseRegularFragment(), BasicCardListCallback 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        bgHajjGuide.imageLoad(placeholder_1_1 = true, url = "deen_bg_hajj_guide.png".getDrawable())
 
         contentCard.setOnClickListener {
             contentLayout.visible(!contentLayout.isVisible)

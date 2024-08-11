@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.boyan.videopreview.Data
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
+import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.show
