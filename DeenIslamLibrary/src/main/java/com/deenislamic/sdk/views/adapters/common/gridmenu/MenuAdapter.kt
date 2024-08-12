@@ -1,6 +1,5 @@
 package com.deenislamic.sdk.views.adapters.common.gridmenu
 
-import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.view.LayoutInflater
@@ -16,6 +15,7 @@ import com.deenislamic.sdk.service.callback.common.BasicCardListCallback
 import com.deenislamic.sdk.service.models.MenuModel
 import com.deenislamic.sdk.service.network.response.common.subcatcardlist.Data
 import com.deenislamic.sdk.service.network.response.dashboard.Item
+import com.deenislamic.sdk.service.network.response.gphome.Menu
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.dp
@@ -211,6 +211,10 @@ internal interface MenuCallback
 
     }
     fun menuClicked(pagetag: String){
+
+    }
+
+    fun showMenuBottomSheetDialog(menu: List<Menu>) {
 
     }
 }

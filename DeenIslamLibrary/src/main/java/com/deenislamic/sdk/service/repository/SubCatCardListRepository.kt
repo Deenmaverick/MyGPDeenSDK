@@ -9,6 +9,7 @@ import com.deenislamic.sdk.utils.HAJJ_GUIDE
 import com.deenislamic.sdk.utils.HAJJ_SUB_CAT
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislamic.sdk.utils.MENU_PRAYER_LEARNING
+import com.deenislamic.sdk.utils.MENU_ZAKAT
 import com.deenislamic.sdk.utils.RequestBodyMediaType
 import com.deenislamic.sdk.utils.toRequestBody
 import org.json.JSONObject
@@ -21,7 +22,7 @@ internal class SubCatCardListRepository(
         return when(tag)
         {
             HAJJ_SUB_CAT ->  getHajjAndUmrahSubCat(categoryID,language)
-            MENU_PRAYER_LEARNING -> getPrayerLeareningSubCat(language,categoryID)
+            MENU_PRAYER_LEARNING,MENU_ZAKAT -> getPrayerLeareningSubCat(language,categoryID,tag)
             MENU_ISLAMIC_EVENT -> getIslamicEeventSubCat(language,categoryID)
             HAJJ_GUIDE ->  getHajjGuide(language,categoryID)
             else -> null
@@ -38,12 +39,15 @@ internal class SubCatCardListRepository(
 
     }
 
-    private suspend fun getPrayerLeareningSubCat(language:String, cat:Int) = makeApicall {
+    private suspend fun getPrayerLeareningSubCat(language: String, cat: Int, tag: String) = makeApicall {
         val body = JSONObject()
         body.put("language", language)
         body.put("category", cat)
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
-        deenService?.getPrayerLearningSubCat(parm = requestBody)
+        when(tag){
+            MENU_ZAKAT -> deenService?.getZakatSubCat(parm = requestBody)
+            else -> deenService?.getPrayerLearningSubCat(parm = requestBody)
+        }
 
     }
     private suspend fun getIslamicEeventSubCat(language:String,cat:Int) = makeApicall {

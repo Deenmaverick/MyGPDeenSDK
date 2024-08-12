@@ -162,6 +162,10 @@ internal interface DeenService {
     @POST("Zakat/ZakatProduct")
     suspend fun getZakatNisab(): NisabResponse
 
+    @POST("Zakat/GetZakatPatch")
+    suspend fun getZakatPatch(@Body parm: RequestBody): DashboardResponse
+
+
     @POST("PrayerTime/PrayerTimeDateWiseX")
     suspend fun prayerTimeSDK(@Body parm: RequestBody): PrayerTimesResponse
 
@@ -479,5 +483,8 @@ internal interface DeenService {
 
     @POST("PrayerTime/CalanderEvent")
     suspend fun getIslamicCalendarEvent(@Body parm: RequestBody): IslamicEventData
+
+    @POST("Zakat/getZakatTopicsbyCategory")
+    suspend fun getZakatSubCat(@Body parm: RequestBody): SubCatResponse
 
 }

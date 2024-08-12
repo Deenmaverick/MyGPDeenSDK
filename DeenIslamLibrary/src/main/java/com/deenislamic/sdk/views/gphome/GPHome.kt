@@ -7,9 +7,11 @@ import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ProgressBar
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -21,17 +23,21 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.database.AppPreference
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.GPHomeResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerMomentRange
+import com.deenislamic.sdk.service.models.ramadan.StateModel
 import com.deenislamic.sdk.service.network.response.gphome.Data
+import com.deenislamic.sdk.service.network.response.gphome.Menu
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.WaktTracker
 import com.deenislamic.sdk.service.repository.GPHomeRespository
 import com.deenislamic.sdk.utils.GridSpacingItemDecoration
 import com.deenislamic.sdk.utils.LocaleUtil
 import com.deenislamic.sdk.utils.MilliSecondToStringTime
+import com.deenislamic.sdk.utils.StateArrayForGPHome
 import com.deenislamic.sdk.utils.StringTimeToMillisecond
 import com.deenislamic.sdk.utils.TimeDiffForPrayer
 import com.deenislamic.sdk.utils.dp
@@ -44,14 +50,14 @@ import com.deenislamic.sdk.utils.prayerMomentLocale
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.stringTimeToEpochTime
 import com.deenislamic.sdk.utils.timeLocale
-import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.GPHomeViewModel
 import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.gphome.GPHomeMenuAdapter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,6 +79,7 @@ class GPHome @JvmOverloads constructor(
     private var prayertimeData:com.deenislamic.sdk.service.network.response.prayertimes.Data ? = null
 
     private lateinit var gpHomeMenuAdapter: GPHomeMenuAdapter
+    private lateinit var gpHomeDialogMenuAdapter:GPHomeMenuAdapter
     private var menu:RecyclerView ? = null
     private  var mainView: ConstraintLayout? = null
     private var monthShort:AppCompatTextView ? = null
@@ -86,6 +93,7 @@ class GPHome @JvmOverloads constructor(
     private var nextPrayerName:AppCompatTextView ? = null
     private var nextPrayerTime:AppCompatTextView ? = null
     private var progressLy:ConstraintLayout ? = null
+    private var location:MaterialButton ? = null
 
     private var fajrBtn:MaterialButton ? = null
     private var duhurBtn:MaterialButton ? = null
@@ -95,15 +103,18 @@ class GPHome @JvmOverloads constructor(
     private var progressBar: ProgressBar? = null
     private var progresstxt:AppCompatTextView ? = null
     private var countDownTimer: CountDownTimer?=null
-
+    private var currentState = "dhaka"
+    private var currentStateModel: StateModel? = null
     // Common view ( loading,no internet etc)
     private  var progressLayout: CircularProgressIndicator? = null
     private  var noInternetLayout: NestedScrollView? =null
     private  var noInternetRetry: MaterialButton? = null
 
+    private var dialog:BottomSheetDialog ? = null
 
 
     init {
+
 
         // init viewmodel
         val repository = GPHomeRespository(
@@ -145,6 +156,7 @@ class GPHome @JvmOverloads constructor(
         progressBar = findViewById(R.id.progressBar)
         progresstxt = findViewById(R.id.progresstxt)
         progressLy = findViewById(R.id.progressLy)
+        location = findViewById(R.id.location)
 
         noInternetLayout = findViewById(R.id.no_internet_layout)
         noInternetRetry = findViewById(R.id.no_internet_retry)
@@ -153,15 +165,34 @@ class GPHome @JvmOverloads constructor(
         //inital part
         fajrBtn?.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Fajr",true)
+                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Fajr",!getWaktStatus("Fajr"))
             }
         }
 
         duhurBtn?.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Zuhr",true)
+                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Zuhr",!getWaktStatus("Zuhr"))
             }
         }
+
+        asrBtn?.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Asar",!getWaktStatus("Asar"))
+            }
+        }
+
+        maghribBtn?.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Maghrib",!getWaktStatus("Maghrib"))
+            }
+        }
+
+        ishaBtn?.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),"Isha",!getWaktStatus("Isha"))
+            }
+        }
+
 
         setupCommonLayout()
 
@@ -175,9 +206,13 @@ class GPHome @JvmOverloads constructor(
 
     }
 
+    private fun getWaktStatus(wakt:String):Boolean {
+
+       return prayertimeData?.WaktTracker?.firstOrNull { data-> data.Wakt == wakt }?.status?:false
+
+    }
+
     private fun loadpage(data: Data) {
-
-
 
         mainView?.show()
 
@@ -200,6 +235,7 @@ class GPHome @JvmOverloads constructor(
 
         prayertimeData = data.PrayerTime
         prayerTime()
+        prayertimeData?.WaktTracker?.let { prayerTracker(it) }
 
         if(data.Menu.isNotEmpty()) {
             menu?.let {
@@ -221,7 +257,6 @@ class GPHome @JvmOverloads constructor(
 
         prayertimeData?.let { data ->
 
-           prayerTracker(data.WaktTracker)
 
             var currentTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
             val prayerMomentRangeData: PrayerMomentRange =
@@ -304,7 +339,6 @@ class GPHome @JvmOverloads constructor(
 
     private fun prayerTracker(waktTracker: List<WaktTracker>) {
 
-
         val progress = waktTracker.filter { it.status }.size * 20
 
         if(progressBar?.progress != progress) {
@@ -318,7 +352,7 @@ class GPHome @JvmOverloads constructor(
                 progresstxt?.text = "$progress%".numberLocale()
                 val constraintSet = ConstraintSet()
                 constraintSet.clone(it)
-                constraintSet.setHorizontalBias(R.id.progresstxt, (0.3).toFloat())
+                constraintSet.setHorizontalBias(R.id.progresstxt,  ((progress / 100.0)-0.1).toFloat())
                 constraintSet.applyTo(it)
             }
 
@@ -338,6 +372,7 @@ class GPHome @JvmOverloads constructor(
     }
 
     private fun updatePrayerTracker(status: Boolean, button: MaterialButton?) {
+
 
         val primaryColor = ContextCompat.getColor(context,R.color.deen_gp_primary)
         val secondaryColor = ContextCompat.getColor(context,R.color.deen_gp_txt_gray_secondary)
@@ -372,7 +407,7 @@ class GPHome @JvmOverloads constructor(
                 when(it){
                     is CommonResource.API_CALL_FAILED -> Unit
                     is GPHomeResource.GPHomePrayerTrack -> {
-                        prayertimeData?.WaktTracker?.first { data-> data.Wakt == it.prayer_tag }?.status = it.status
+                        prayertimeData?.WaktTracker?.firstOrNull { data-> data.Wakt == it.prayer_tag }?.status = it.status
                         prayertimeData?.WaktTracker?.let { it1 -> prayerTracker(it1) }
                     }
                 }
@@ -382,15 +417,30 @@ class GPHome @JvmOverloads constructor(
     }
 
      fun loadapi(){
+
+         currentState = AppPreference.getPrayerTimeLoc().toString()
+
+         val filteredStates = StateArrayForGPHome.firstOrNull { state ->
+             currentState.lowercase().contains(state.state.lowercase()) ||
+                     currentState.lowercase().contains(state.statebn.lowercase())
+         }
+
+         filteredStates?.let {
+             currentState = it.state
+             currentStateModel = it
+         }
+
+         currentStateModel?.let {
+             location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") it.statebn else it.state
+         }
+
         baseLoadingState()
         CoroutineScope(Dispatchers.IO).launch {
-            viewmodel?.getGPHome("dhaka")
+            viewmodel?.getGPHome(currentState)
         }
     }
 
-    override fun menuClicked(pagetag: String) {
 
-    }
 
     private fun setupCommonLayout() {
 
@@ -426,5 +476,51 @@ class GPHome @JvmOverloads constructor(
         mainView?.show()
         progressLayout?.hide()
         noInternetLayout?.hide()
+    }
+
+     override fun showMenuBottomSheetDialog(menu: List<Menu>) {
+
+        dialog = DeenSDKCore.baseContext?.let { BottomSheetDialog(it) }
+
+        val view = localInflater?.inflate(R.layout.dialog_deen_gp_menu, null)
+
+        val icClose:AppCompatImageView? = view?.findViewById(R.id.icClose)
+        val menuList:RecyclerView? = view?.findViewById(R.id.menuList)
+
+        icClose?.setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        dialog?.setCancelable(true)
+
+        if (view != null) {
+            dialog?.setContentView(view)
+        }
+
+         menuList?.apply {
+             if(!this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
+                 gpHomeDialogMenuAdapter = GPHomeMenuAdapter(menu,this@GPHome,true)
+             adapter = gpHomeDialogMenuAdapter
+             layoutManager = GridLayoutManager(context,4)
+         }
+
+        dialog?.setOnShowListener {
+            val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.let { sheet ->
+                val behavior = BottomSheetBehavior.from(sheet)
+                val displayMetrics = context.resources.displayMetrics
+                val height = (displayMetrics.heightPixels * 0.5).toInt() // 50% of screen height
+
+                sheet.layoutParams.height = height
+                behavior.peekHeight = height
+                sheet.requestLayout()
+            }
+        }
+
+        dialog?.show()
+    }
+
+    override fun menuClicked(pagetag: String) {
+        DeenSDKCore.openFromRC("live_ijtema")
     }
 }

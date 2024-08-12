@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/deen_purple_200"
+    android:background="@color/deen_background"
     android:fillViewport="true"
     android:orientation="vertical">
 
@@ -13,6 +13,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/iftarAlarmBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
             android:textColor="@color/deen_black" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/sehriAlarmBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,6 +44,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/qurbaniBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,6 +60,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/hajjumrahBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,6 +75,7 @@
             android:textColor="@color/deen_black" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/ijtemaBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,6 +90,7 @@
             android:textColor="@color/deen_black" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/languageBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,6 +106,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/checkNotifyBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,6 +122,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
         android:id="@+id/prayernotifyon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -129,6 +137,7 @@
         android:textColor="@color/deen_black" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
             android:id="@+id/prayernotifyoff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -144,6 +153,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
         android:id="@+id/prayertime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -159,6 +169,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
         android:id="@+id/tasbeeh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -173,6 +184,7 @@
         android:textColor="@color/deen_black" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -187,6 +199,7 @@
         android:textColor="@color/deen_black" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
         android:id="@+id/initSDKbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -202,6 +215,7 @@
 
 
     <EditText
+        android:visibility="gone"
         android:id="@+id/phone_number"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -232,13 +246,10 @@
             android:textColor="@color/deen_black" />
 
         <com.deenislamic.sdk.views.gphome.GPHome
-            android:visibility="gone"
             android:id="@+id/gphome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/loadGPHomeBtn"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_below="@id/loadGPHomeBtn"/>
 
     </RelativeLayout>
 

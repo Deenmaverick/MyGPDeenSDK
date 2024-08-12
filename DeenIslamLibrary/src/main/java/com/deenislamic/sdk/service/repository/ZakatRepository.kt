@@ -142,4 +142,13 @@ internal class ZakatRepository(
         deenService?.getZakatNisab()
 
     }
+
+    suspend fun getPatch(language:String) = makeApicall {
+        val body = JSONObject()
+        body.put("language", language)
+        body.put("device", "sdk")
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.getZakatPatch(parm = requestBody)
+
+    }
 } 

@@ -4,42 +4,56 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.callback.common.HorizontalCardListCallback
+import com.deenislamic.sdk.service.di.NetworkProvider
+import com.deenislamic.sdk.service.models.CommonResource
+import com.deenislamic.sdk.service.models.IslamicBookResource
+import com.deenislamic.sdk.service.models.ZakatResource
+import com.deenislamic.sdk.service.network.response.dashboard.Item
+import com.deenislamic.sdk.service.repository.IslamicBookRepository
+import com.deenislamic.sdk.service.repository.ZakatRepository
+import com.deenislamic.sdk.service.repository.quran.learning.QuranLearningRepository
+import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.MENU_ZAKAT
 import com.deenislamic.sdk.utils.tryCatch
-import com.deenislamic.sdk.utils.visible
+import com.deenislamic.sdk.viewmodels.IslamicBookViewModel
+import com.deenislamic.sdk.viewmodels.ZakatViewModel
+import com.deenislamic.sdk.views.adapters.prayerlearning.PrayerLearningCatAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
 
-internal class ZakatHomeFragment : BaseRegularFragment() {
+internal class ZakatHomeFragment : BaseRegularFragment(), HorizontalCardListCallback {
 
-    private lateinit var newCaculateBtn:MaterialButton
+    private lateinit var catRC: RecyclerView
+    private lateinit var prayerLearningCatAdapter: PrayerLearningCatAdapter
+    private lateinit var viewModel: ZakatViewModel
+    private lateinit var islamicBookViewmodel: IslamicBookViewModel
 
-    private lateinit var faq1:MaterialCardView
-    private lateinit var faq1Count:AppCompatTextView
-    private lateinit var faq1Titile:AppCompatTextView
-    private lateinit var faq1Content:AppCompatTextView
+    private var firstload = false
 
-    private lateinit var faq2:MaterialCardView
-    private lateinit var faq2Count:AppCompatTextView
-    private lateinit var faq2Titile:AppCompatTextView
-    private lateinit var faq2Content:AppCompatTextView
+    override fun OnCreate() {
+        super.OnCreate()
+        // init voiewmodel
+        val repository = ZakatRepository(deenService = NetworkProvider().getInstance().provideDeenService())
+        viewModel = ZakatViewModel(repository)
 
-    private lateinit var faq3:MaterialCardView
-    private lateinit var faq3Count:AppCompatTextView
-    private lateinit var faq3Titile:AppCompatTextView
-    private lateinit var faq3Content:AppCompatTextView
 
-    private lateinit var faq4:MaterialCardView
-    private lateinit var faq4Count:AppCompatTextView
-    private lateinit var faq4Titile:AppCompatTextView
-    private lateinit var faq4Content:AppCompatTextView
+        val iBrepository = IslamicBookRepository(
+            deenService = NetworkProvider().getInstance().provideDeenService())
 
+        val quranLearningRepository = QuranLearningRepository(
+            quranShikkhaService = NetworkProvider().getInstance().provideQuranShikkhaService(),
+            deenService = NetworkProvider().getInstance().provideDeenService(),
+            dashboardService = NetworkProvider().getInstance().provideDashboardService()
+        )
+
+        islamicBookViewmodel = IslamicBookViewModel(repository = iBrepository, quranLearningRepository = quranLearningRepository)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,72 +64,137 @@ internal class ZakatHomeFragment : BaseRegularFragment() {
         val mainView = localInflater.inflate(R.layout.fragment_zakat_home,container,false)
 
         //init view
-        newCaculateBtn = mainView.findViewById(R.id.newCaculateBtn)
-
-        faq1 = mainView.findViewById(R.id.faq1)
-        faq1Count = faq1.findViewById(R.id.countTxt)
-        faq1Titile = faq1.findViewById(R.id.title)
-        faq1Content = faq1.findViewById(R.id.content)
-
-        faq2 = mainView.findViewById(R.id.faq2)
-        faq2Count = faq2.findViewById(R.id.countTxt)
-        faq2Titile = faq2.findViewById(R.id.title)
-        faq2Content = faq2.findViewById(R.id.content)
-
-        faq3 = mainView.findViewById(R.id.faq3)
-        faq3Count = faq3.findViewById(R.id.countTxt)
-        faq3Titile = faq3.findViewById(R.id.title)
-        faq3Content = faq3.findViewById(R.id.content)
-
-        faq4 = mainView.findViewById(R.id.faq4)
-        faq4Count = faq4.findViewById(R.id.countTxt)
-        faq4Titile = faq4.findViewById(R.id.title)
-        faq4Content = faq4.findViewById(R.id.content)
-
-
+        catRC = mainView.findViewById(R.id.catRC)
+        setupCommonLayout(mainView)
+        CallBackProvider.setFragment(this)
         return mainView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        newCaculateBtn.setOnClickListener {
+        initObserver()
 
-            gotoFrag(R.id.action_zakatFragment_to_zakatCalculatorFragment)
+        if(!firstload)
+            loadapi()
+        firstload = true
+
+    }
+
+    private fun loadapi(){
+        baseLoadingState()
+        lifecycleScope.launch {
+            viewModel.getPatch(getLanguage())
+        }
+    }
+
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        if(menuVisible){
+            CallBackProvider.setFragment(this)
+        }
+    }
+
+    override fun noInternetRetryClicked() {
+        loadapi()
+    }
+
+    private fun initObserver(){
+
+        viewModel.zakatLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is CommonResource.API_CALL_FAILED -> baseNoInternetState()
+                is CommonResource.EMPTY -> baseEmptyState()
+                is ZakatResource.Patch -> {
+                    viewState(it.data)
+                }
+            }
         }
 
-        // setup faq 1
-        faq1Count.text = localContext.resources.getString(R.string.count1)
-        faq1Titile.text = localContext.resources.getString(R.string.zakah_home_faq1_title)
-        faq1Content.text = localContext.resources.getString(R.string.zakah_home_faq1_content)
-        faq1.setOnClickListener {
-            faq1Content.visible(!faq1Content.isVisible)
+        islamicBookViewmodel.secureUrlLiveData.observe(viewLifecycleOwner) {
+            when(it)
+            {
+                is IslamicBookResource.PdfSecureUrl -> {
+
+                    val bundle = Bundle()
+                    bundle.putString("pageTitle", it.bookTitle)
+                    bundle.putString("pdfUrl", it.url)
+                    gotoFrag(R.id.action_global_pdfViewerFragment, bundle)
+
+                }
+            }
+        }
+    }
+
+    private fun viewState(data: List<com.deenislamic.sdk.service.network.response.dashboard.Data>)
+    {
+
+        if(!this::prayerLearningCatAdapter.isInitialized)
+            prayerLearningCatAdapter =  PrayerLearningCatAdapter(data)
+
+        catRC.apply {
+            adapter = prayerLearningCatAdapter
         }
 
-        // setup faq 2
-        faq2Count.text = localContext.resources.getString(R.string.count2)
-        faq2Titile.text = localContext.resources.getString(R.string.zakah_home_faq2_title)
-        faq2Content.text = localContext.resources.getString(R.string.zakah_home_faq2_content)
-        faq2.setOnClickListener {
-            faq2Content.visible(!faq2Content.isVisible)
+        catRC.post {
+            baseViewState()
         }
+    }
 
-        // setup faq 3
-        faq3Count.text = localContext.resources.getString(R.string.count3)
-        faq3Titile.text = localContext.resources.getString(R.string.zakah_home_faq3_title)
-        faq3Content.text = localContext.resources.getString(R.string.zakah_home_faq3_content)
-        faq3.setOnClickListener {
-            faq3Content.visible(!faq3Content.isVisible)
+    override fun patchItemClicked(getData: Item) {
+        when(getData.ContentType){
+
+            "pldp" -> {
+                val bundle = Bundle()
+                bundle.putInt("categoryID", getData.SurahId)
+                bundle.putString("pageTitle",getData.ArabicText)
+                bundle.putString("pageTag", MENU_ZAKAT)
+                gotoFrag(R.id.action_global_subContentFragment,bundle)
+            }
+
+
+            "ib" ->{
+
+                val bundle = Bundle()
+                bundle.putInt("id", getData.CategoryId)
+                bundle.putString("videoType", "category")
+                bundle.putString("title",getData.ArabicText)
+                gotoFrag(R.id.action_global_boyanVideoPreviewFragment, bundle)
+
+            }
+
+            "ibook" -> {
+
+                if(getData.SurahId>0) {
+                    val bundle = Bundle()
+                    bundle.putInt("id", getData.SurahId)
+                    bundle.putString("bookType", "category")
+                    bundle.putString("title", getData.ArabicText)
+                    gotoFrag(R.id.action_global_islamicBookPreviewFragment, bundle)
+                }else{
+                    lifecycleScope.launch {
+                        islamicBookViewmodel.getDigitalQuranSecureUrl(getData.imageurl2, false, getData.CategoryId, getData.ArabicText)
+                    }
+                }
+
+            }
+
+
+            "cacl" -> {
+                gotoFrag(R.id.action_zakatFragment_to_zakatCalculatorFragment)
+            }
+
+            "subs" -> {
+                //gotoFrag(R.id.action_global_subscriptionNewFragment)
+            }
         }
+    }
 
-        // setup faq 4
-        faq4Count.text = localContext.resources.getString(R.string.count4)
-        faq4Titile.text = localContext.resources.getString(R.string.zakah_home_faq4_title)
-        faq4Content.text = localContext.resources.getString(R.string.zakah_home_faq4_content)
-        faq4.setOnClickListener {
-            faq4Content.visible(!faq4Content.isVisible)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        lifecycleScope.launch {
+            islamicBookViewmodel.clearDownloader()
         }
-
     }
 
     override fun onBackPress() {

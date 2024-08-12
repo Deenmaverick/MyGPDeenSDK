@@ -224,6 +224,27 @@ internal class ZakatViewModel(
         }
     }
 
+    suspend fun getPatch(language:String)
+    {
+
+        viewModelScope.launch {
+
+            when(val response = repository.getPatch(language))
+            {
+                is ApiResource.Failure -> _zakatLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Data?.isNotEmpty() == true)
+                        _zakatLiveData.value = ZakatResource.Patch(response.value.Data)
+                    else
+                        _zakatLiveData.value = CommonResource.EMPTY
+
+                }
+            }
+        }
+
+    }
+
 
     fun clear()
     {

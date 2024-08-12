@@ -3,7 +3,7 @@ package com.deenislamic.sdk.service.network.response.gphome
 import androidx.annotation.Keep
 
 @Keep
-internal data class Menu(
+data class Menu(
     val ArabicText: String,
     val Id: Int,
     val IsVisited: Boolean,
