@@ -210,7 +210,11 @@ object DeenSDKCore {
         }
 
         when(rc){
-            "live_ijtema","khatam_e_quran_ramadan","ramadan","qurbani" -> {
+            "live_ijtema",
+            "khatam_e_quran_ramadan",
+            "ramadan","qurbani",
+            "nearest_mosque",
+            "eid_jamat" -> {
 
                 val intent =
                     Intent(baseContext, MainActivityDeenSDK::class.java)

@@ -8,6 +8,7 @@ data class Menu(
     val Id: Int,
     val IsVisited: Boolean,
     val Text: String,
+    val MText: String,
     val imageurl1: String,
     val isPremium: Boolean
 )

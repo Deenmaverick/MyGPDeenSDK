@@ -18,18 +18,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icLogo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            tools:src="@drawable/placeholder_1_1"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"/>
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_8"
+        android:paddingEnd="0dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/deen_gp_black"
         android:text="@string/ibadah"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="@+id/location"
         app:layout_constraintBottom_toBottomOf="@+id/location"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toEndOf="@+id/icLogo"/>
 
 
     <com.google.android.material.button.MaterialButton
@@ -41,6 +52,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/deen_gp_primary"
         app:cornerRadius="100dp"
+        android:minHeight="24dp"
         android:text="Dhaka"
         app:iconTint="@color/deen_gp_primary"
         app:icon="@drawable/ic_deen_gp_icon_marker"
@@ -52,157 +64,98 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/dateCardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="2dp"
-        app:strokeWidth="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/location"
-        app:layout_constraintStart_toStartOf="parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minWidth="48dp"
-            android:padding="@dimen/space_6"
-            android:background="@drawable/bg_deen_gp_date">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/monthShort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/deen_white"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="MAR"/>
-
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/deen_gp_txt_gray"
-                app:layout_constraintTop_toBottomOf="@+id/monthShort"
-                app:layout_constraintStart_toStartOf="@+id/monthShort"
-                app:layout_constraintEnd_toEndOf="@+id/monthShort"
-                android:text="22"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/dateArabic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/space_8"
-        android:paddingEnd="0dp"
+        android:layout_marginTop="@dimen/space_4"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/deen_gp_txt_black"
-        app:layout_constraintBottom_toTopOf="@+id/islamicEvent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintTop_toTopOf="@+id/dateCardView"
-        app:layout_constraintStart_toEndOf="@+id/dateCardView"
-        android:text="15 Shaban 1443 AH"/>
+        android:textColor="@color/deen_gp_txt_gray_secondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        tools:text="22 March, 15 Shaban, 1440 AH • "/>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/islamicEvent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/space_8"
-        android:paddingEnd="0dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/deen_gp_txt_black"
-        app:layout_constraintTop_toBottomOf="@+id/dateArabic"
-        app:layout_constraintStart_toStartOf="@+id/dateArabic"
-        app:layout_constraintEnd_toEndOf="@+id/dateArabic"
-        app:layout_constraintBottom_toBottomOf="@+id/dateCardView"
-        android:text="Shab e Barat"/>
-    
-    
-    <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iftarSehri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Ifar at: 6:52 AM"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_gp_black"
+            app:layout_constraintBottom_toBottomOf="@+id/dateArabic"
+            app:layout_constraintStart_toEndOf="@+id/dateArabic"
+            app:layout_constraintTop_toTopOf="@+id/dateArabic" />
+
+        <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/eventAnimation"
         android:layout_width="83dp"
         android:layout_height="42dp"
+            android:layout_marginEnd="@dimen/space_16"
         android:layout_marginTop="@dimen/space_8"
-        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintTop_toTopOf="@+id/bgPrayer"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/bgPrayer"
-        android:layout_width="227dp"
-        android:layout_height="179dp"
-        android:layout_marginTop="@dimen/space_16"
-        android:src="@drawable/bg_deen_gp_prayer"
-        app:layout_constraintTop_toBottomOf="@+id/dateCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        app:layout_constraintTop_toBottomOf="@+id/dateArabic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/space_16"
         app:layout_constraintBottom_toBottomOf="@+id/bgPrayer"
-        app:layout_constraintEnd_toEndOf="@id/bgPrayer"
         app:layout_constraintStart_toStartOf="@id/bgPrayer"
-        app:layout_constraintTop_toTopOf="@+id/bgPrayer"
-        app:layout_constraintVertical_bias="0.79">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nowTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/now"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_txt_gray_secondary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="@+id/bgPrayer">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/prayerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
             tools:text="Forbidden Time"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/deen_gp_txt_gray_secondary"
+            android:textColor="@color/deen_gp_txt_black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nowTv" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nowTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/space_4"
+            android:paddingEnd="0dp"
+            android:text="@string/now"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/deen_gp_txt_gray_secondary"
+            app:layout_constraintBottom_toBottomOf="@+id/prayerName"
+            app:layout_constraintStart_toEndOf="@+id/prayerName"
+            app:layout_constraintTop_toTopOf="@+id/prayerName"
+            app:layout_constraintVertical_bias="0.80" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/prayerTimeLy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
-            app:layout_constraintEnd_toEndOf="@+id/prayerName"
             app:layout_constraintStart_toStartOf="@+id/prayerName"
             app:layout_constraintTop_toBottomOf="@+id/prayerName">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/icClock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_deen_gp_clock"
-                app:layout_constraintBottom_toBottomOf="@id/startTime"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/startTime" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/startTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/space_8"
                 tools:text="6:23 PM"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/deen_gp_txt_gray_secondary"
+                android:textColor="@color/deen_gp_txt_gray"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/icClock"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -214,7 +167,7 @@
                 android:paddingEnd="2dp"
                 android:text="-"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/deen_gp_txt_gray_secondary"
+                android:textColor="@color/deen_gp_txt_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/startTime"
                 app:layout_constraintStart_toEndOf="@+id/startTime"
                 app:layout_constraintTop_toTopOf="@+id/startTime" />
@@ -226,285 +179,228 @@
                 android:layout_height="wrap_content"
                 tools:text="6:23 PM"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/deen_gp_txt_gray_secondary"
+                android:textColor="@color/deen_gp_txt_gray"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="@+id/startTime"
                 app:layout_constraintStart_toEndOf="@+id/hypenTv" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/iftarSehri"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
-            android:text="Ifar at: 6:52 AM"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/deen_gp_txt_gray_secondary"
-            app:layout_constraintEnd_toEndOf="@+id/prayerTimeLy"
-            app:layout_constraintStart_toStartOf="@+id/prayerTimeLy"
-            app:layout_constraintTop_toBottomOf="@+id/prayerTimeLy" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <View
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/ic_deen_gp_line"
-        app:layout_constraintTop_toBottomOf="@+id/bgPrayer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/nextPrayerLy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line1">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nextTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/next"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_txt_gray_secondary"
-            app:layout_constraintBottom_toBottomOf="@id/nextPrayerName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/nextPrayerName" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nextPrayerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Isha • "
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_txt_gray"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/nextTv"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/startingTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/starting_in"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_txt_gray_secondary"
-            app:layout_constraintBottom_toBottomOf="@id/nextPrayerName"
-            app:layout_constraintStart_toEndOf="@+id/nextPrayerName"
-            app:layout_constraintTop_toTopOf="@+id/nextPrayerName" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nextPrayerTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="02:50:37"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_txt_gray"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/startingTv"
-            app:layout_constraintTop_toTopOf="@+id/startingTv"
-            app:layout_constraintBottom_toBottomOf="@+id/startingTv"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <View
-        android:id="@+id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/space_8"
-        android:background="@drawable/ic_deen_gp_line"
-        app:layout_constraintTop_toBottomOf="@+id/nextPrayerLy"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <LinearLayout
-        android:id="@+id/trackLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/space_12"
-        app:layout_constraintTop_toTopOf="@+id/line2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/fajrBtn"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_primary"
-            app:cornerRadius="100dp"
-            android:text="@string/prayer_fajr"
-            app:iconGravity="textEnd"
-            app:iconPadding="2dp"
-            app:iconTint="@color/deen_gp_primary"
-            app:icon="@drawable/ic_deen_gp_check"
-            app:backgroundTint="@color/deen_white"
-            app:strokeColor="@color/deen_gp_border"
-            app:strokeWidth="1dp"
-            app:elevation="1dp"
-            android:padding="@dimen/space_6"
-            android:minWidth="60dp"/>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/duhurBtn"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_primary"
-            app:cornerRadius="100dp"
-            android:text="@string/prayer_dhuhr"
-            app:iconPadding="2dp"
-            app:iconGravity="textEnd"
-            app:iconTint="@color/deen_gp_primary"
-            app:icon="@drawable/ic_deen_gp_check"
-            app:backgroundTint="@color/deen_white"
-            app:strokeColor="@color/deen_gp_border"
-            app:strokeWidth="1dp"
-            app:elevation="1dp"
-            android:padding="@dimen/space_6"
-            android:minWidth="60dp"/>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/asrBtn"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_primary"
-            app:cornerRadius="100dp"
-            android:text="@string/prayer_asr"
-            app:iconPadding="2dp"
-            app:iconGravity="textEnd"
-            app:iconTint="@color/deen_gp_primary"
-            app:icon="@drawable/ic_deen_gp_check"
-            app:backgroundTint="@color/deen_white"
-            app:strokeColor="@color/deen_gp_border"
-            app:strokeWidth="1dp"
-            app:elevation="1dp"
-            android:padding="@dimen/space_6"
-            android:minWidth="60dp"/>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/maghribBtn"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_txt_gray_secondary"
-            app:cornerRadius="100dp"
-            android:text="@string/prayer_maghrib"
-            app:iconTint="@color/deen_gp_txt_gray_secondary"
-            app:icon="@drawable/ic_deen_gp_time_off"
-            app:backgroundTint="@color/deen_white"
-            app:strokeColor="@color/deen_gp_border"
-            app:strokeWidth="1dp"
-            app:elevation="1dp"
-            app:iconPadding="2dp"
-            android:padding="@dimen/space_6"
-            android:minWidth="60dp"/>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/ishaBtn"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/deen_gp_txt_gray_secondary"
-            app:cornerRadius="100dp"
-            android:text="@string/prayer_isha"
-            app:iconTint="@color/deen_gp_txt_gray_secondary"
-            app:icon="@drawable/ic_deen_gp_time_off"
-            app:backgroundTint="@color/deen_white"
-            app:strokeColor="@color/deen_gp_border"
-            app:strokeWidth="1dp"
-            app:elevation="1dp"
-            app:iconPadding="2dp"
-            android:padding="@dimen/space_6"
-            android:minWidth="60dp"/>
-
-    </LinearLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/progressLy"
-            android:layout_width="match_parent"
+            android:id="@+id/nextPrayerLy"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_16"
-            app:layout_constraintTop_toBottomOf="@+id/trackLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/prayerTimeLy">
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/nextTv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/bg_deen_gp_progressbar_home"
-                android:max="100"
-                android:progress="0"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/next"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_gp_txt_gray_secondary"
+                app:layout_constraintBottom_toBottomOf="@id/nextPrayerName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="@+id/nextPrayerName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/nextPrayerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Isha • "
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_gp_txt_gray"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/nextTv"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/progresstxt"
+                android:id="@+id/startingTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0%"
+                android:text="@string/starting_in"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/deen_white"
+                android:textColor="@color/deen_gp_txt_gray_secondary"
+                app:layout_constraintBottom_toBottomOf="@id/nextPrayerName"
+                app:layout_constraintStart_toEndOf="@+id/nextPrayerName"
+                app:layout_constraintTop_toTopOf="@+id/nextPrayerName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/nextPrayerTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="02:50:37"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/deen_gp_txt_gray"
                 android:textStyle="bold"
-                android:includeFontPadding="false"
-                app:layout_constraintBottom_toBottomOf="@+id/progressBar"
-                app:layout_constraintEnd_toEndOf="@+id/progressBar"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="@+id/progressBar"
-                app:layout_constraintTop_toTopOf="@+id/progressBar" />
-
-
+                app:layout_constraintStart_toEndOf="@+id/startingTv"
+                app:layout_constraintTop_toTopOf="@+id/startingTv"
+                app:layout_constraintBottom_toBottomOf="@+id/startingTv"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <View
-        android:id="@+id/line3"
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:text="@string/prayer_tracker"
+            android:textColor="@color/deen_gp_txt_gray_secondary"
+            app:layout_constraintTop_toTopOf="@+id/prayerTimeBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/prayerTimeBtn"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/prayerTimeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:text="@string/namaz_time_board"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:drawableEnd="@drawable/ic_next"
+            app:drawableTint="@color/deen_gp_primary"
+            android:textColor="@color/deen_gp_primary"
+            app:layout_constraintTop_toBottomOf="@+id/bgPrayer"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/trackLayout"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/space_16"
-        android:background="@drawable/ic_deen_gp_line"
-        app:layout_constraintTop_toBottomOf="@+id/progressLy"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/space_4"
+        app:layout_constraintTop_toBottomOf="@+id/prayerTimeBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+       <include
+           android:id="@+id/fajrCard"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_margin="1dp"
+           android:layout_weight="1"
+           layout="@layout/item_deen_gp_home_prayer_track_card"/>
+
+        <include
+            android:id="@+id/dhuhrCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            layout="@layout/item_deen_gp_home_prayer_track_card"/>
+
+        <include
+            android:id="@+id/asrCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            layout="@layout/item_deen_gp_home_prayer_track_card"/>
+
+
+        <include
+            android:id="@+id/maghribCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            layout="@layout/item_deen_gp_home_prayer_track_card"/>
+
+
+        <include
+            android:id="@+id/ishaCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            layout="@layout/item_deen_gp_home_prayer_track_card"/>
+
+    </LinearLayout>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_8"
+            android:background="@drawable/ic_deen_gp_line"
+            app:layout_constraintTop_toBottomOf="@+id/trackLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!--  <androidx.constraintlayout.widget.ConstraintLayout
+              android:id="@+id/progressLy"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/space_16"
+              app:layout_constraintTop_toBottomOf="@+id/trackLayout"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent">
+
+              <ProgressBar
+                  android:id="@+id/progressBar"
+                  style="?android:attr/progressBarStyleHorizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:progressDrawable="@drawable/bg_deen_gp_progressbar_home"
+                  android:max="100"
+                  android:progress="0"
+                  app:layout_constraintTop_toTopOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"/>
+
+
+              <androidx.appcompat.widget.AppCompatTextView
+                  android:id="@+id/progresstxt"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="0%"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                  android:textColor="@color/deen_white"
+                  android:textStyle="bold"
+                  android:includeFontPadding="false"
+                  app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+                  app:layout_constraintEnd_toEndOf="@+id/progressBar"
+                  app:layout_constraintHorizontal_bias="0"
+                  app:layout_constraintStart_toStartOf="@+id/progressBar"
+                  app:layout_constraintTop_toTopOf="@+id/progressBar" />
+
+
+
+          </androidx.constraintlayout.widget.ConstraintLayout>
+  -->
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_8"
-        app:layout_constraintTop_toBottomOf="@+id/line3"
+        android:layout_marginTop="@dimen/space_4"
+        app:layout_constraintTop_toBottomOf="@+id/line1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

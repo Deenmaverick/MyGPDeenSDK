@@ -26,7 +26,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/deen_white"
         app:cornerRadius="100dp"
-        android:text=" 3 New "
+        tools:text=" 3 New "
         android:clickable="false"
         app:iconTint="@color/deen_gp_txt_gray_secondary"
         app:backgroundTint="@color/deen_gp_red"

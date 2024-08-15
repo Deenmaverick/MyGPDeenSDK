@@ -72,6 +72,7 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
         set(value) {
             calendarInstance.time = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(value) ?: Date()
         }
+
     override fun OnCreate() {
         super.OnCreate()
 

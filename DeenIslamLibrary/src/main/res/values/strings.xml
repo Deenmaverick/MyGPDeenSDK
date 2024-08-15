@@ -554,7 +554,7 @@
     <string name="books">Books</string>
     <string name="authors">Authors</string>
     <string name="ibadah">Ibadah</string>
-    <string name="now">Now</string>
+    <string name="now">(Now)</string>
     <string name="next">Next: </string>
     <string name="starting_in">Starting in: </string>
     <string name="iftarat">Ifar at: %1$s</string>
@@ -585,4 +585,10 @@
     <string name="islamic_book_caution_text">All Islamic books available on the Deen App are accessible in PDF format online. Please note that Deen App is not the publisher of these books. We have gathered these books to facilitate your reading and enhance your knowledge.\nIf you find value in these books, we encourage you to purchase them to add to your collection. This way, both you and the publishers and authors will benefit, Insha\'Allah.\nAlhamdulillah, this service is completely free for users, and Deen App does not profit from it. If you are a publisher or author and believe that the availability of your books on our app could negatively impact your business, please contact us at support@deenislamic.com. We will address your concerns and remove the books within 24 hours after verifying your identity.</string>
     <string name="ramadan_track_prev_month_alert_text">Track only current month fasting</string>
     <string name="ramadan_track_future_date_alert_text">Fasting cannot be tracked for future dates.</string>
+    <string name="prayer_time_not_start">%1$s has not started yet</string>
+    <string name="prayer_tracker_prev_date_alert">Sorry, it is not possible to track previous dates</string>
+    <string name="prayer_tracker">Prayer Tracker</string>
+    <string name="namaz_time_board">Namaz Time Board</string>
+    <string name="new_btn_txt">New</string>
+
 </resources>

@@ -807,6 +807,18 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                     }
                 }
             }
+            "nearest_mosque" ->{
+                val bundle = Bundle()
+                bundle.putString("pageTitle",localContext.getString(R.string.nearest_mosque))
+                bundle.putString("query","mosque")
+                gotoFrag(R.id.action_global_nearestMosqueWebviewFragment,bundle)
+            }
+            "eid_jamat" ->{
+                val bundle = Bundle()
+                bundle.putString("pageTitle",localContext.getString(R.string.title_eid_jamat))
+                bundle.putString("query","eid+jamat")
+                gotoFrag(R.id.action_global_nearestMosqueWebviewFragment,bundle)
+            }
             else ->{
 
                 val getDestination = getRcCode?.getRCDestination()

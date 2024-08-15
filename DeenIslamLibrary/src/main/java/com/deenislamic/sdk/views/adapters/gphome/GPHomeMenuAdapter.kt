@@ -47,6 +47,8 @@ internal class GPHomeMenuAdapter(
 
             val getdata = menu[absoluteAdapterPosition]
 
+
+
             if(absoluteAdapterPosition==3 && !isDialog) {
 
                 menuIcon.load(R.drawable.ic_deen_gp_more_menu)
@@ -66,14 +68,23 @@ internal class GPHomeMenuAdapter(
                 menuTitile.text = getdata.ArabicText
 
                 moreCount.hide()
+                /*if(!getdata.IsVisited) {
+                    newBtn.text = newBtn.context.getString(R.string.new_btn_txt)
+                    newBtn.show()
+                }
+                else {
+                    newBtn.hide()
+                }*/
+
                 newBtn.hide()
+
             }
 
             itemView.setOnClickListener {
                 if(absoluteAdapterPosition == 3 && !isDialog)
                     menuCallback.showMenuBottomSheetDialog(menu)
                 else
-                menuCallback.menuClicked(getdata.Text)
+                menuCallback.menuClicked(getdata.MText)
             }
 
         }

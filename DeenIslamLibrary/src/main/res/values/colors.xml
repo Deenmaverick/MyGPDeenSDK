@@ -60,4 +60,11 @@
     <color name="deen_gp_txt_gray_secondary">#676767</color>
     <color name="deen_gp_red">#D82730</color>
     <color name="black_8">#14000000</color>
+    <color name="deen_gp_prayer_fajr">#3764B9</color>
+    <color name="deen_gp_prayer_dhuhr">#0078CF</color>
+    <color name="deen_gp_prayer_isharaq">#CD8F36</color>
+    <color name="deen_gp_prayer_asr">#AE7624</color>
+    <color name="deen_gp_prayer_maghrib">#967070</color>
+    <color name="deen_gp_prayer_green">#288D52</color>
+    <color name="deen_gp_prayer_isha">#5770CB</color>
 </resources>

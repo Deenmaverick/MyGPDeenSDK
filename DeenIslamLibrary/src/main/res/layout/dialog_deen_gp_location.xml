@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/deen_white"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_16"
+        android:layout_marginTop="@dimen/space_16"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/deen_gp_black"
+        android:text="@string/select_location_option_name_onboarding"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icClose"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="10dp"
+        android:layout_marginEnd="@dimen/space_16"
+        android:src="@drawable/baseline_close_24"
+        app:tint="@color/deen_gp_txt_gray_secondary"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black_8"
+        android:layout_marginTop="@dimen/space_16"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="@dimen/space_12"
+        android:background="@drawable/bg_deen_gp_search_bar"
+        android:layout_marginStart="@dimen/space_16"
+        android:layout_marginEnd="@dimen/space_16"
+        app:boxStrokeWidth="0dp"
+        app:boxBackgroundMode="none"
+        app:hintTextColor="@color/deen_gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/border"
+        app:hintEnabled="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search"
+                app:tint="@color/deen_gp_txt_gray_secondary" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_surah"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:padding="0dp"
+                android:hint="@string/search"
+                android:textColorHint="@color/deen_gp_txt_gray_secondary"
+                android:inputType="text"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:textColor="@color/deen_gp_primary"/>
+        </LinearLayout>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menuList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/space_16"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@+id/searchLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

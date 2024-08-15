@@ -16,7 +16,6 @@ fun String.getRCDestination():Int =
         "ramadan_regular" -> R.id.ramadanOtherDayFragment
         "asmaul_husna" -> R.id.allah99NamesFragment
         "prayer_learning" -> R.id.prayerLearningFragment
-        "nearest_mosque" -> R.id.nearestMosqueWebviewFragment
         "podcast" -> R.id.livePodcastFragment
         "live_makkah_madina" -> R.id.makkahLiveFragment
         "islamic_golpo" -> R.id.islamicEducationVideoHomeFragment
@@ -26,5 +25,7 @@ fun String.getRCDestination():Int =
         "khatam_e_quran" -> R.id.khatamEQuranHomeFragment
         "qurbani" -> R.id.qurbaniFragment
         "hajjandumrah" -> R.id.hajjAndUmrahFragment
+        "islamic_calendar" -> R.id.islamicCalendarFragmentS
+        "islamic_book" -> R.id.islamicBookViewPagerFragment
         else -> 0
     }

@@ -256,7 +256,7 @@ fun String.prayerMomentLocaleForToast():String
 
        return when(this)
         {
-            "Fajr" -> "ফজরের"
+           "Fajr" -> "ফজরের"
            "Zuhr" -> "জোহরের"
            "Asar" -> "আসরের"
            "Maghrib" -> "মাগরিবের"
@@ -265,8 +265,16 @@ fun String.prayerMomentLocaleForToast():String
        }
 
     }
-    else
-        return this
+    else {
+        return when (this) {
+            "Fajr" -> "Fajr"
+            "Zuhr" -> "Dhuhr"
+            "Asar" -> "Asr"
+            "Maghrib" -> "Maghrib"
+            "Isha" -> "Isha"
+            else -> this
+        }
+    }
 
 }
 

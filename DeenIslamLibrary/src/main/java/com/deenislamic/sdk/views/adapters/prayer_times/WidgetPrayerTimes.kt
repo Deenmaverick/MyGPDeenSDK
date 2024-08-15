@@ -211,9 +211,7 @@ internal class WidgetPrayerTimes(
             prayerCheck.setOnClickListener {
 
                 prayerData?.Data?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")
-                    ?.let {
-
-                            it1 ->
+                    ?.let { it1 ->
 
                         val prayer_tag = "pt"+(absoluteAdapterPosition+1)
 
@@ -222,13 +220,13 @@ internal class WidgetPrayerTimes(
                         notifyTime?.let {
 
                             if(notifyTime >= 0L) {
-                                prayerCheck.context.toast("এখনও ${prayer_tag.getWaktNameByTag().prayerMomentLocaleForToast()} ওয়াক্ত শুরু হয়নি")
+                                prayerCheck.context.toast(prayerCheck.context.getString(R.string.prayer_time_not_start,prayer_tag.getWaktNameByTag().prayerMomentLocaleForToast()))
                                 prayerCheck.isChecked = prayerIsChecked
                                 return@setOnClickListener
                             }
                             else if(todayDate != it1)
                             {
-                                prayerCheck.context.toast("দুঃখিত পূর্ববর্তী তারিখ ট্র্যাক করা সম্ভব নয়")
+                                prayerCheck.context.toast(prayerCheck.context.getString(R.string.prayer_tracker_prev_date_alert))
                                 prayerCheck.isChecked = prayerIsChecked
                                 return@setOnClickListener
                             }
