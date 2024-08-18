@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/ic_check_circle_gp" android:state_checked="true"/>
-    <item android:drawable="@drawable/ic_radio_button_unchecked_gp"    android:state_checked="false"/>
-
+<!-- Disabled state -->
+<item android:state_enabled="false" android:drawable="@drawable/ic_deen_radio_button_disabled_gp"/>
+<!-- Checked state -->
+<item android:state_checked="true" android:drawable="@drawable/ic_check_circle_gp"/>
+<!-- Default state -->
+<item android:drawable="@drawable/ic_radio_button_unchecked_gp"/>
 </selector>

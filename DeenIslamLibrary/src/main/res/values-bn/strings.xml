@@ -12,7 +12,7 @@
     <string name="english">English</string>
     <string name="bangla">বাংলা</string>
     <string name="arabic">العربية</string>
-    <string name="select_location_option_name_onboarding">Select location</string>
+    <string name="select_location_option_name_onboarding">লোকেশন নির্বাচন করুন</string>
     <string name="favorite_features_title">Favorite Features</string>
     <string name="onboarding_fav_menu_hint">Choose the favorite feature</string>
     <string name="login_welcome_txt">Welcome to \n<b>Deen Islam</b></string>
@@ -28,7 +28,7 @@
     <string name="ok_cap">OK</string>
     <string name="default_image">default_image</string>
     <string name="enter_country_name">Enter country name</string>
-    <string name="more">More</string>
+    <string name="more">অন্যান্য</string>
     <string name="nearest_mosque">নিকটবর্তী মসজিদ</string>
     <string name="prayer_times">নামাজের সময়সূচী</string>
     <string name="daily_dua">দোয়া</string>
@@ -589,4 +589,6 @@
     <string name="prayer_tracker">নামাজ ট্র্যাকার</string>
     <string name="namaz_time_board">নামাজের সময়সূচী</string>
     <string name="new_btn_txt">New</string>
+    <string name="prayer_track_success_txt">আলহামদুলিল্লাহ আপনি %1$s নামাজ আদায় করেছেন।</string>
+    <string name="new_icon_count">%1$s নিউ</string>
 </resources>

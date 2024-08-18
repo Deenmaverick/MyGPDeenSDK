@@ -590,5 +590,7 @@
     <string name="prayer_tracker">Prayer Tracker</string>
     <string name="namaz_time_board">Namaz Time Board</string>
     <string name="new_btn_txt">New</string>
+    <string name="prayer_track_success_txt">%1$s prayer completed. Stay blessed.</string>
+    <string name="new_icon_count">%1$s new</string>
 
 </resources>

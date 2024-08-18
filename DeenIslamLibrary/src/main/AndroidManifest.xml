@@ -42,7 +42,6 @@
          </provider>
 
 
-
         <activity
             android:theme="@style/DeenSDKTheme.NoActionBar"
             android:name="com.deenislamic.sdk.views.main.MainActivityDeenSDK"

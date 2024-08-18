@@ -6,7 +6,7 @@ import androidx.annotation.Keep
 data class Menu(
     val ArabicText: String,
     val Id: Int,
-    val IsVisited: Boolean,
+    var IsVisited: Boolean,
     val Text: String,
     val MText: String,
     val imageurl1: String,

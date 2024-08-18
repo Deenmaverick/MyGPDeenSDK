@@ -1,12 +1,10 @@
 package com.deenislamic.sdk.viewmodels;
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.GPHomeResource
-import com.deenislamic.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.repository.GPHomeRespository
 import kotlinx.coroutines.launch
@@ -54,6 +52,14 @@ internal class GPHomeViewModel(
                 }
             }
         }
+    }
+
+    suspend fun trackMenu(id: Int, visited: Boolean) {
+
+        viewModelScope.launch {
+            repository.trackMenu(id,visited)
+        }
+
     }
 
 

@@ -1,11 +1,16 @@
 package com.deenislamic.sdk.views.gphome
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.CountDownTimer
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.widget.RadioButton
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
@@ -19,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.callback.RamadanCallback
 import com.deenislamic.sdk.service.database.AppPreference
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
@@ -30,12 +36,14 @@ import com.deenislamic.sdk.service.network.response.gphome.Menu
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.WaktTracker
 import com.deenislamic.sdk.service.repository.GPHomeRespository
+import com.deenislamic.sdk.utils.CustomToast
 import com.deenislamic.sdk.utils.GridSpacingItemDecoration
 import com.deenislamic.sdk.utils.LocaleUtil
 import com.deenislamic.sdk.utils.MilliSecondToStringTime
 import com.deenislamic.sdk.utils.StateArrayForGPHome
 import com.deenislamic.sdk.utils.StringTimeToMillisecond
 import com.deenislamic.sdk.utils.TimeDiffForPrayer
+import com.deenislamic.sdk.utils.bangladeshStateArray
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.epochTimeToStringTime
 import com.deenislamic.sdk.utils.formateDateTime
@@ -51,21 +59,22 @@ import com.deenislamic.sdk.utils.prayerMomentLocaleForToast
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.stringTimeToEpochTime
 import com.deenislamic.sdk.utils.timeLocale
-import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.GPHomeViewModel
 import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
+import com.deenislamic.sdk.views.adapters.gphome.GPHomeLocationAdapter
 import com.deenislamic.sdk.views.adapters.gphome.GPHomeMenuAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -73,7 +82,7 @@ class GPHome @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr),MenuCallback {
+) : ConstraintLayout(context, attrs, defStyleAttr),MenuCallback, RamadanCallback {
 
     private var viewmodel: GPHomeViewModel ? = null
 
@@ -83,6 +92,9 @@ class GPHome @JvmOverloads constructor(
 
     private lateinit var gpHomeMenuAdapter: GPHomeMenuAdapter
     private lateinit var gpHomeDialogMenuAdapter:GPHomeMenuAdapter
+
+    private lateinit var locationAdapter: GPHomeLocationAdapter
+
     private var menu:RecyclerView ? = null
     private  var mainView: ConstraintLayout? = null
     private var dateArabic:AppCompatTextView ? = null
@@ -126,7 +138,7 @@ class GPHome @JvmOverloads constructor(
 
     private var countDownTimer: CountDownTimer?=null
     private var currentState = "dhaka"
-    private var currentStateModel: StateModel? = null
+    private var currentStateModel: StateModel = bangladeshStateArray[0]
     // Common view ( loading,no internet etc)
     private  var progressLayout: CircularProgressIndicator? = null
     private  var noInternetLayout: NestedScrollView? =null
@@ -259,6 +271,29 @@ class GPHome @JvmOverloads constructor(
 
     }
 
+
+    private fun checkEnabledWakt(wakt:String, button: RadioButton?){
+
+        val date = prayertimeData?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")
+
+        val notifyTime = prayertimeData?.let {
+            if (date != null) {
+                getPrayerTimeWaktWise(wakt, date, it)
+            }else 0L
+        }
+
+        notifyTime?.let {
+
+            if(notifyTime >= 0L) {
+                button?.isEnabled = false
+            }else
+                button?.isEnabled = true
+
+        }
+
+
+    }
+
     private fun trackPrayerWakt(wakt:String){
 
        val date = prayertimeData?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")
@@ -274,7 +309,17 @@ class GPHome @JvmOverloads constructor(
             if(notifyTime >= 0L) {
                 DeenSDKCore.baseContext?.apply {
                     localContext?.getString(R.string.prayer_time_not_start,wakt.prayerMomentLocaleForToast())
-                        ?.let { it1 -> toast(it1) }
+                        ?.let { it1 ->
+
+                            mainView?.let { it2 ->
+                                CustomToast.show(
+                                    message = it1,
+                                    iconResId = 0,
+                                    context = this,
+                                    anchorView = it2
+                                )
+                            }
+                        }
                 }
                 return
             }
@@ -293,11 +338,11 @@ class GPHome @JvmOverloads constructor(
 
         // prayer time
 
-        fajrWaktTime?.text = data.PrayerTime.Fajr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
-        dhuhrWaktTime?.text = data.PrayerTime.Juhr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
-        asrWaktTime?.text = data.PrayerTime.Asr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
-        maghribWaktTime?.text = data.PrayerTime.Magrib.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
-        ishaWaktTime?.text = data.PrayerTime.Isha.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
+        fajrWaktTime?.text = data.PrayerTime.Fajr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
+        dhuhrWaktTime?.text = data.PrayerTime.Juhr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
+        asrWaktTime?.text = data.PrayerTime.Asr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
+        maghribWaktTime?.text = data.PrayerTime.Magrib.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
+        ishaWaktTime?.text = data.PrayerTime.Isha.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
 
         // date card
 
@@ -325,6 +370,13 @@ class GPHome @JvmOverloads constructor(
 
     private fun prayerTime() {
 
+        checkEnabledWakt("Fajr",fajrCheckbox)
+        checkEnabledWakt("Zuhr",dhuhrCheckbox)
+        checkEnabledWakt("Asar",asrCheckbox)
+        checkEnabledWakt("Maghrib",maghribCheckbox)
+        checkEnabledWakt("Isha",ishaCheckbox)
+
+
         prayertimeData?.let { data ->
 
 
@@ -336,8 +388,8 @@ class GPHome @JvmOverloads constructor(
                 )
 
             prayerName?.text = prayerMomentRangeData.MomentName.prayerMomentLocale()
-            startTime?.text = prayerMomentRangeData.StartTime.timeLocale()
-            endTime?.text = prayerMomentRangeData.EndTime.timeLocale()
+            startTime?.text = prayerMomentRangeData.StartTime.timeLocale().lowercase()
+            endTime?.text = prayerMomentRangeData.EndTime.timeLocale().lowercase()
 
             val sehriTime = data.Sehri.stringTimeToEpochTime()
             val iftarTime = data.Magrib.stringTimeToEpochTime()
@@ -347,14 +399,14 @@ class GPHome @JvmOverloads constructor(
                     R.string.iftarat,
                     data.Magrib.StringTimeToMillisecond()
                         .MilliSecondToStringTime("hh:mm aa")
-                        .numberLocale()
+                        .numberLocale().lowercase()
                 )
             }else{
                 localContext?.getString(
                     R.string.sehriat,
                     data.Sehri.StringTimeToMillisecond()
                         .MilliSecondToStringTime("hh:mm aa")
-                        .numberLocale()
+                        .numberLocale().lowercase()
                 )
             }
 
@@ -398,13 +450,14 @@ class GPHome @JvmOverloads constructor(
 
                     prayerTimeLy?.hide()
                     nowTv?.hide()
-                    prayerName?.hide()
+                    prayerName?.text = "--"
                     /*timefor.hide()
                     prayerMoment.setPadding(0,8.dp,0,0)
                     prayerMoment.hide()
                     prayerMomentRange.hide()*/
 
                     when(prayerMomentRangeData.NextPrayerName){
+
                         "Fajr" -> {
                             bgPrayer?.imageLoad(url = "fajr.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
                             prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_fajr))
@@ -562,8 +615,30 @@ class GPHome @JvmOverloads constructor(
                 when(it){
                     is CommonResource.API_CALL_FAILED -> Unit
                     is GPHomeResource.GPHomePrayerTrack -> {
+
                         prayertimeData?.WaktTracker?.firstOrNull { data-> data.Wakt == it.prayer_tag }?.status = it.status
                         prayertimeData?.WaktTracker?.let { it1 -> prayerTracker(it1) }
+
+                        Log.e("GPHomePrayerTrack",Gson().toJson(prayertimeData?.WaktTracker))
+
+                        if(it.status) {
+                            DeenSDKCore.baseContext?.apply {
+                                localContext?.getString(
+                                    R.string.prayer_track_success_txt,
+                                    it.prayer_tag.prayerMomentLocaleForToast()
+                                )?.let { it1 ->
+                                    mainView?.let { it2 ->
+                                        CustomToast.show(
+                                            message = it1,
+                                            iconResId = R.drawable.ic_deen_done_all,
+                                            context = this,
+                                            anchorView = it2
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
                     }
                 }
             }
@@ -686,8 +761,9 @@ class GPHome @JvmOverloads constructor(
 
         val view = localInflater?.inflate(R.layout.dialog_deen_gp_location, null)
 
-        val icClose:AppCompatImageView? = view?.findViewById(R.id.icClose)
-        val menuList:RecyclerView? = view?.findViewById(R.id.menuList)
+        val icClose: AppCompatImageView? = view?.findViewById(R.id.icClose)
+        val locationList: RecyclerView? = view?.findViewById(R.id.locationList)
+        val userinput: TextInputEditText? = view?.findViewById(R.id.userinput)
 
         icClose?.setOnClickListener {
             dialog?.dismiss()
@@ -699,23 +775,71 @@ class GPHome @JvmOverloads constructor(
             dialog?.setContentView(view)
         }
 
-       /* menuList?.apply {
-            if(!this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
-                gpHomeDialogMenuAdapter = GPHomeMenuAdapter(menu,this@GPHome,true)
-            adapter = gpHomeDialogMenuAdapter
-            layoutManager = GridLayoutManager(context,4)
-        }*/
+        locationList?.apply {
+            locationAdapter = GPHomeLocationAdapter(StateArrayForGPHome, currentStateModel, this@GPHome)
+            adapter = locationAdapter
+        }
+
+        userinput?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (this@GPHome::locationAdapter.isInitialized)
+                    locationAdapter.filter.filter(s)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        // Set Soft Input Mode to resize
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         dialog?.setOnShowListener {
             val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let { sheet ->
                 val behavior = BottomSheetBehavior.from(sheet)
-                val displayMetrics = context.resources.displayMetrics
-                val height = (displayMetrics.heightPixels * 0.5).toInt() // 50% of screen height
 
-                sheet.layoutParams.height = height
-                behavior.peekHeight = height
+                // Initial height setup
+                val displayMetrics = context.resources.displayMetrics
+                val initialHeight = (displayMetrics.heightPixels * 0.5).toInt() // 50% of screen height
+                sheet.layoutParams.height = initialHeight
+                behavior.peekHeight = initialHeight
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 sheet.requestLayout()
+
+                // Listen for layout changes to detect keyboard visibility
+                view?.viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    private var lastHeight: Int = initialHeight
+
+                    override fun onGlobalLayout() {
+                        val rect = Rect()
+                        view?.getWindowVisibleDisplayFrame(rect)
+
+                        val screenHeight = view?.rootView?.height ?: 0
+                        val keypadHeight = screenHeight - rect.bottom
+
+                        val newHeight: Int = if (keypadHeight > screenHeight * 0.15) {
+                            // Keyboard is visible, adjust height
+                            screenHeight - keypadHeight
+                        } else {
+                            // Keyboard is hidden, reset to initial height
+                            initialHeight
+                        }
+
+                        if (sheet.layoutParams.height != newHeight) {
+                            sheet.layoutParams.height = newHeight
+                            behavior.peekHeight = newHeight
+                            sheet.requestLayout()
+                            lastHeight = newHeight
+                        }
+                    }
+                })
             }
         }
 
@@ -724,7 +848,32 @@ class GPHome @JvmOverloads constructor(
 
 
 
-    override fun menuClicked(pagetag: String) {
-        DeenSDKCore.openFromRC(pagetag)
+
+    override fun menuClicked(menu: Menu) {
+
+        if(this@GPHome::gpHomeMenuAdapter.isInitialized)
+            gpHomeMenuAdapter.menuVisited(menu)
+
+        if(this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
+            gpHomeDialogMenuAdapter.menuVisited(menu)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            viewmodel?.trackMenu(menu.Id,true)
+        }
+
+        DeenSDKCore.openFromRC(menu.MText)
+    }
+
+    override fun stateSelected(stateModel: StateModel) {
+        AppPreference.savePrayerTimeLoc(stateModel.state)
+        currentStateModel = stateModel
+        CoroutineScope(Dispatchers.IO).launch {
+            viewmodel?.getGPHome(currentState)
+        }
+
+        currentState = stateModel.state
+
+        location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") stateModel.statebn else stateModel.stateValue
+        dialog?.dismiss()
     }
 }

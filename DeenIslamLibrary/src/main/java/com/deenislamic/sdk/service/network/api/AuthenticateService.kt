@@ -48,5 +48,8 @@ internal interface AuthenticateService {
     @POST("Dashboard/GetGPDashboardData")
     suspend fun getGPHome(@Body parm: RequestBody): GPHomeResponse
 
+    @POST("Dashboard/trackMenu")
+    suspend fun trackMenu(@Body parm: RequestBody): BasicResponse
+
 
 }

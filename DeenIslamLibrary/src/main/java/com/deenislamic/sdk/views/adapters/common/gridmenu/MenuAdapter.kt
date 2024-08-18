@@ -210,7 +210,7 @@ internal interface MenuCallback
     fun menuClicked(pagetag: String, getMenu: Item?=null){
 
     }
-    fun menuClicked(pagetag: String){
+    fun menuClicked(menu: Menu){
 
     }
 

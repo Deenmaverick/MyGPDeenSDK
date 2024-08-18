@@ -33,4 +33,14 @@ internal class GPHomeRespository(
         deenService?.setPrayerTimeTrack(parm = requestBody)
     }
 
+    suspend fun trackMenu(id:Int,visited:Boolean) = makeApicall {
+
+        val body = JSONObject()
+        body.put("ContentId", id)
+        body.put("isFavorite", visited)
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+
+        authenticateService?.trackMenu(parm = requestBody)
+    }
+
 } 

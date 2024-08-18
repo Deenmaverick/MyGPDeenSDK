@@ -406,7 +406,7 @@ internal fun getPrayerTimeName(data: PrayerTimesResponse, nowtime: Long): Prayer
             MomentName = localeContext?.getString(R.string.forbidden_time) ?: "--"
             StartTime = forbiddenTime2.epochTimeToStringTime()
             EndTime = noon.epochTimeToStringTime()
-            NextPrayerName = "Dhuhr"
+            NextPrayerName = "--"
             nextPrayerTimeCount = getEpochTimeDifference(nowtime, noon.plus(1*60*1000))
         }
     }else if (isTimeInRange(nowtime,ishrak, chasht)) {

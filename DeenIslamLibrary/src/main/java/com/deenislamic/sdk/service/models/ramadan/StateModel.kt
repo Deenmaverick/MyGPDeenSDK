@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 
 
 @Keep
-internal data class StateModel(
+data class StateModel(
     val state:String,
     val stateValue:String,
     val statebn:String = ""
