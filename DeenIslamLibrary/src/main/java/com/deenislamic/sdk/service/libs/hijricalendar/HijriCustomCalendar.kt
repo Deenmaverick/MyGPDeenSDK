@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.annotation.Keep
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.network.response.islamiccalendar.CalendarData
 import com.github.msarhan.ummalqura.calendar.UmmalquraCalendar
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -57,8 +58,7 @@ internal class HijriCustomCalendar(context: Context, attrs: AttributeSet? = null
             val prevDate = Calendar.getInstance().apply {
                 set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), prevMonthMaxDay - firstDayOfWeek + 1 + i)
             }
-            val hijriDay = if (prevDate in validDateRangeStart..validDateRangeEnd) getHijriDateSafe(prevDate, locale) else null
-            days.add(CalendarDay((prevMonthMaxDay - firstDayOfWeek + 1 + i).toString(), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR), MonthType.PREVIOUS, hijriDay = hijriDay))
+            days.add(CalendarDay("", calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR), MonthType.PREVIOUS))
         }
 
         // Add days of the current month
@@ -69,13 +69,11 @@ internal class HijriCustomCalendar(context: Context, attrs: AttributeSet? = null
                 set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), i)
             }
             val hijriDay = if (currentDate in validDateRangeStart..validDateRangeEnd) getHijriDateSafe(currentDate, locale) else null
-            days.add(
-                CalendarDay(i.toString(), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR), MonthType.CURRENT, calendar.get(Calendar.DAY_OF_WEEK),
+            days.add(CalendarDay(i.toString(), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR), MonthType.CURRENT, calendar.get(Calendar.DAY_OF_WEEK),
                 isActive = i in activeDays,
                 isInactive = i in inactiveDays,
                 hijriDay = hijriDay
-            )
-            )
+            ))
         }
 
         // If we've entered a 6th row, let's fill it up entirely with the next month's days.
@@ -88,15 +86,7 @@ internal class HijriCustomCalendar(context: Context, attrs: AttributeSet? = null
         // Add days from the next month
         calendar.add(Calendar.MONTH, 1)  // Move to the next month
         for (i in 1..remainingCells) {
-            val nextDate = Calendar.getInstance().apply {
-                set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), i)
-            }
-            val hijriDay = if (nextDate in validDateRangeStart..validDateRangeEnd) getHijriDateSafe(nextDate, locale) else null
-            days.add(
-                CalendarDay(i.toString(), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR), MonthType.NEXT, calendar.get(Calendar.DAY_OF_WEEK),
-                hijriDay = hijriDay
-            )
-            )
+            days.add(CalendarDay("", calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR), MonthType.NEXT))
         }
 
         return days
@@ -115,16 +105,8 @@ internal class HijriCustomCalendar(context: Context, attrs: AttributeSet? = null
         }
     }
 
-    fun setActiveDays(activeDays: Array<Int>) {
-        // Update the active days set
-        activeDaySet = activeDays
-        updateCalendarData()
-    }
-
-    fun setInactiveDays(inactiveDays: Array<Int>) {
-        // Update the inactive days set
-        inactiveDaySet = inactiveDays
-        updateCalendarData()
+    fun updateCalendarWithHijriDates(calendarDates: List<CalendarData>){
+        calendarAdapter.submitList(calendarDates)
     }
 
     fun updateCalendarData() {
@@ -160,7 +142,7 @@ internal class HijriCustomCalendar(context: Context, attrs: AttributeSet? = null
     }
 }
 @Keep
-data class CalendarDay(
+internal data class CalendarDay(
     val day: String,
     val month: Int,
     val year: Int,
@@ -174,6 +156,6 @@ data class CalendarDay(
 
 
 @Keep
-enum class MonthType {
+internal enum class MonthType {
     PREVIOUS, CURRENT, NEXT
 }

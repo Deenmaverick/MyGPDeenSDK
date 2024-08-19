@@ -1663,4 +1663,17 @@
         android:name="com.deenislamic.sdk.views.islamiccalendar.IslamicCalEventFragment"
         android:label="IslamicCalendarFragmentS" />
 
+    <fragment
+        android:id="@+id/prayerTrackerFragment"
+        android:name="com.deenislamic.sdk.views.prayertracker.PrayerTrackerFragment"
+        android:label="fragment_prayer_tracker"
+        tools:layout="@layout/fragment_prayer_tracker" />
+
+    <action
+        android:id="@+id/action_global_prayerTrackerFragment"
+        app:destination="@id/prayerTrackerFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
 </navigation>

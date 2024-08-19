@@ -14,6 +14,7 @@ import com.deenislamic.sdk.service.network.response.dashboard.DashboardResponse
 import com.deenislamic.sdk.service.network.response.hajjandumrah.makkahlive.MakkahLiveVideoResponse
 import com.deenislamic.sdk.service.network.response.islamicbook.IslamicBookResponse
 import com.deenislamic.sdk.service.network.response.islamicbook.favorite.FavoriteBookResponse
+import com.deenislamic.sdk.service.network.response.islamiccalendar.IslamicCalendar
 import com.deenislamic.sdk.service.network.response.islamiccalendar.IslamicEventData
 import com.deenislamic.sdk.service.network.response.islamiceducationvideo.IslamiceducationVideoResponse
 import com.deenislamic.sdk.service.network.response.islamicevent.IslamicEventListResponse
@@ -27,9 +28,9 @@ import com.deenislamic.sdk.service.network.response.podcast.category.PodcastCatR
 import com.deenislamic.sdk.service.network.response.podcast.comment.PodcastCommentResponse
 import com.deenislamic.sdk.service.network.response.podcast.content.PodcastContentResponse
 import com.deenislamic.sdk.service.network.response.prayer_calendar.PrayerCalendarResponse
-import com.deenislamic.sdk.service.network.response.prayerlearning.PrayerLearningAllCategory
 import com.deenislamic.sdk.service.network.response.prayerlearning.visualization.VisualizationResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislamic.sdk.service.network.response.prayertimes.calendartracker.PrayerTrackerResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
 import com.deenislamic.sdk.service.network.response.quran.SurahList
 import com.deenislamic.sdk.service.network.response.quran.learning.digital_quran_class.DigitalQuranClassResponse
@@ -486,5 +487,16 @@ internal interface DeenService {
 
     @POST("Zakat/getZakatTopicsbyCategory")
     suspend fun getZakatSubCat(@Body parm: RequestBody): SubCatResponse
+
+    @POST("PrayerTime/IslamicMonthlyCalander")
+    suspend fun getIslamicCalendar(@Body parm: RequestBody): IslamicCalendar
+
+
+    @POST("PrayerTracker/AddTrackingInfoDateWise")
+    suspend fun setPrayerTimeTrackDateWise(@Body parm: RequestBody): BasicResponse
+
+    @POST("PrayerTime/PrayerTrackHistoryDateWise")
+    suspend fun getPrayerTracker(@Body parm: RequestBody): PrayerTrackerResponse
+
 
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.prayertimes.Data
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislamic.sdk.service.network.response.prayertimes.calendartracker.PrayerTrackerResponse
 import com.github.msarhan.ummalqura.calendar.UmmalquraCalendar
 import java.text.SimpleDateFormat
 import java.util.*
@@ -226,4 +227,120 @@ fun isIndiaBangladeshPakistanTimeZone(): Boolean {
 
     val timeZoneIds = setOf("Asia/Kolkata", "Asia/Dhaka", "Asia/Karachi")
     return timeZoneIds.contains(timeZone.id)
+}
+
+internal fun getPrayerTrackerTagWise(
+    prayer_tag: String,
+    date: String,
+    data: PrayerTrackerResponse
+):Long {
+
+    val currentTime =
+        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH).format(Date()).StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+    val nightTime =  "${SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Date())} 23:59:59".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+    /*   if(currentTime>=nightTime)
+    Log.e("PRAYER_NT", "$currentTime ${SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(Date())}  $date ${data.Data.Isha}")
+*/
+
+    return when (prayer_tag) {
+
+        "pt1" -> {
+
+            val fajr: Long = "$date ${data.Data.prayerTime.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+            /*if(currentTime<nightTime)
+                fajr =
+                    "$date ${data.Data.Fajr}".convertDateTime("dd/MM/yyyy HH:mm:ss",1)
+            else
+             fajr =
+                "$date ${data.Data.Fajr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")*/
+
+            return  fajr-currentTime
+
+        }
+
+        "pt2" -> {
+
+            val sunrise =
+                "$date ${data.Data.prayerTime.Sunrise}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  sunrise - currentTime
+
+        }
+
+        "pt3" -> {
+            val dhuhr =
+                "$date ${data.Data.prayerTime.Juhr}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  dhuhr- currentTime
+        }
+
+        "pt4" -> {
+            val asr =
+                "$date ${data.Data.prayerTime.Asr}".StringTimeToMillisecond("dd/M/yyyy HH:mm:ss")
+
+            return  asr- currentTime
+        }
+
+        "pt5" -> {
+            val maghrib =
+                "$date ${data.Data.prayerTime.Magrib}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return maghrib - currentTime
+        }
+
+        "pt6" -> {
+            val isha =
+                "$date ${data.Data.prayerTime.Isha}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return isha - currentTime
+        }
+
+        "opt1" -> {
+            val tahajjut: Long
+            if(currentTime<nightTime)
+                tahajjut =
+                    "$date ${data.Data.prayerTime.Tahajjut}".convertDateTime("dd/MM/yyyy HH:mm:ss",1)
+            else
+                tahajjut =
+                    "$date ${data.Data.prayerTime.Tahajjut}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  tahajjut-currentTime
+        }
+
+        "opt2" -> {
+
+            val suhoor: Long
+            if(currentTime<nightTime)
+                suhoor =
+                    "$date ${data.Data.prayerTime.Sehri}".convertDateTime("dd/MM/yyyy HH:mm:ss",1)
+            else
+                suhoor =
+                    "$date ${data.Data.prayerTime.Sehri}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  suhoor - currentTime
+        }
+
+        "opt3" -> {
+            val ishrak: Long
+            if(currentTime<nightTime)
+                ishrak =
+                    "$date ${data.Data.prayerTime.Ishrak}".convertDateTime("dd/MM/yyyy HH:mm:ss",1)
+            else
+                ishrak =
+                    "$date ${data.Data.prayerTime.Ishrak}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  ishrak - currentTime
+        }
+
+        "opt4" -> {
+            val iftar =
+                "$date ${data.Data.prayerTime.Magrib}".StringTimeToMillisecond("dd/MM/yyyy HH:mm:ss")
+
+            return  iftar - currentTime
+        }
+        else -> 0L
+    }
+
 }

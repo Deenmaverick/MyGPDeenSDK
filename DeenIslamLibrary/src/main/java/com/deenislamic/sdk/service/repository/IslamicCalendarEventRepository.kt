@@ -16,4 +16,13 @@ internal class IslamicCalendarEventRepository(
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.getIslamicCalendarEvent(parm = requestBody)
     }
+
+    suspend fun getIslamicCalendar(date:String,language: String) = makeApicall {
+        val body = JSONObject()
+        body.put("Date", date)
+        body.put("language", language)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.getIslamicCalendar(parm = requestBody)
+    }
 }

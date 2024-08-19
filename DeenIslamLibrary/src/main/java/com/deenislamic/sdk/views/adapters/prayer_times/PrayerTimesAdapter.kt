@@ -24,6 +24,7 @@ import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.deenislamic.sdk.views.prayertimes.patch.ForbiddenTimes
 import com.deenislamic.sdk.views.prayertimes.patch.OtherPrayerTimes
 import com.deenislamic.sdk.views.prayertimes.patch.PrayerTimes
+import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,6 +34,7 @@ const val TYPE_WIDGET2:Int = 2
 const val TYPE_WIDGET3:Int = 3
 const val TYPE_WIDGET4:Int = 4
 const val TYPE_WIDGET5:Int = 5
+const val TYPE_WIDGET6:Int = 6
 internal class PrayerTimesAdapter(
     private val callback: prayerTimeAdapterCallback? = null,
     private var viewInflationListener: ViewInflationListener
@@ -127,6 +129,17 @@ internal class PrayerTimesAdapter(
                 }
 
                 TYPE_WIDGET5 -> {
+                    //monthly prayer tracker
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_monthly_prayer_tracker_btn) {
+                        val trackerBtn: MaterialButton = this.findViewById(R.id.inf)
+                        trackerBtn.setOnClickListener {
+                            callback?.monthlyTrackerBtnClicked()
+                        }
+                    }
+
+                }
+
+                TYPE_WIDGET6 -> {
                     //forbidden times
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
                         ForbiddenTimes().getInstance().load(this )
@@ -414,5 +427,5 @@ internal interface prayerTimeAdapterCallback
 
     fun prayerCheck(prayer_tag: String, date: String, isPrayed: Boolean)
 
-
+    fun monthlyTrackerBtnClicked()
 }

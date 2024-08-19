@@ -12,6 +12,7 @@ import com.deenislamic.sdk.service.models.prayer_time.PrayerTimeResource
 import com.deenislamic.sdk.service.models.ramadan.StateModel
 import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislamic.sdk.service.network.response.prayertimes.calendartracker.PrayerTrackerResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
 import com.deenislamic.sdk.service.repository.PrayerTimesRepository
 import kotlinx.coroutines.launch
@@ -156,6 +157,74 @@ internal class PrayerTimesViewModel(
     fun updateSelectedState(state: StateModel)
     {
         _selecteStateLiveData.value = PrayerTimeResource.selectedState(state)
+    }
+
+    fun reloadPrayerTracker(prayerTrackerResponse: PrayerTrackerResponse)
+    {
+        _prayerTimes.value = PrayerTimeResource.prayerTracker(prayerTrackerResponse)
+    }
+
+    fun setPrayerTrackDateWise(language: String, prayer_tag: String, bol: Boolean, prayerdate: String, prayerTrackerResponse: PrayerTrackerResponse)
+    {
+        viewModelScope.launch {
+
+/*              val newDateFormat = LocalDate.parse(prayerdate, DateTimeFormatter.ofPattern("dd/MM/yyyy")).
+            format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))*/
+
+            val response = prayerTimesRepository.setPrayerTimeTrackDateWise(language = language,prayer_tag = prayer_tag, isPrayed = bol,
+                prayerdate = prayerdate
+            )
+
+            when(response)
+            {
+                is ApiResource.Failure -> _prayerTimesNotification.value = PrayerNotificationResource.prayerTrackFailed
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Success == true)
+                        _prayerTimesNotification.value = PrayerNotificationResource.prayerTrackSuccess(response.value.Success)
+                    else
+                        _prayerTimesNotification.value = PrayerNotificationResource.prayerTrackFailed
+                }
+            }
+
+            modifyPrayerTimeTracker(language, prayer_tag,bol, prayerdate, prayerTrackerResponse)
+        }
+    }
+
+    private fun modifyPrayerTimeTracker(language: String, prayer_tag: String, bol: Boolean, prayerdate: String,prayerTrackerResponse: PrayerTrackerResponse) {
+//        _prayerTimes.value = PrayerTimeResource.prayerTracker(response.value)
+        val updatedTrackers = prayerTrackerResponse.Data.tracker.map { tracker ->
+            if (tracker.TrackingDate.startsWith(prayerdate)) {
+                when (prayer_tag) {
+                    "Fajr" -> tracker.copy(Fajr = bol)
+                    "Zuhr" -> tracker.copy(Zuhr = bol)
+                    "Asar" -> tracker.copy(Asar = bol)
+                    "Maghrib" -> tracker.copy(Maghrib = bol)
+                    "Isha" -> tracker.copy(Isha = bol)
+                    else -> tracker
+                }
+            } else {
+                tracker
+            }
+        }
+        _prayerTimes.value = PrayerTimeResource.prayerTracker(prayerTrackerResponse.copy(Data = prayerTrackerResponse.Data.copy(tracker = updatedTrackers)))
+    }
+
+    fun getPrayerTimeTracker(localtion:String,language:String,requiredDate:String)
+    {
+        viewModelScope.launch {
+            when(val response = prayerTimesRepository.getPrayerTracking(localtion,language,requiredDate)){
+                is ApiResource.Failure -> _prayerTimes.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success ->
+                    if(response.value?.Success == true)
+                    {
+                        _prayerTimes.value = PrayerTimeResource.prayerTracker(response.value)
+                    }
+
+                    else
+                        _prayerTimes.value = PrayerTimeResource.prayerTimeEmpty
+            }
+        }
     }
 
 }

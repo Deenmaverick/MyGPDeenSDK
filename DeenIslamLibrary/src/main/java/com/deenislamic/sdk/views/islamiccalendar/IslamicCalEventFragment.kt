@@ -1,6 +1,7 @@
 package com.deenislamic.sdk.views.islamiccalendar
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ import com.deenislamic.sdk.service.models.IslamicCalEventResource
 import com.deenislamic.sdk.service.network.response.islamiccalendar.IslamicEvent
 import com.deenislamic.sdk.service.repository.IslamicCalendarEventRepository
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
+import com.deenislamic.sdk.utils.COUNTRY_NAME_BD
 import com.deenislamic.sdk.utils.CalendarIntentHelper
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislamic.sdk.utils.get9DigitRandom
@@ -66,6 +68,8 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
     private lateinit var layoutCalendar: ConstraintLayout
     private lateinit var progressLayout: LinearLayout
     private lateinit var upcomingBanner: RelativeLayout
+    private lateinit var targetDate: String
+    private var countryName: String = COUNTRY_NAME_BD
 
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
@@ -131,10 +135,12 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
 
         leftNavigate.setOnClickListener {
             navigateToPreviousMonth()
+            loadApi()
         }
 
         rightNavigate.setOnClickListener{
             navigateToNextMonth()
+            loadApi()
         }
 
         updateCalendar()
@@ -185,9 +191,15 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
     }
 
     private fun loadApi() {
+        baseLoadingState()
+
         lifecycleScope.launch {
             viewmodel.getIslamicCalEvent(getLanguage())
+
+            if(countryName == COUNTRY_NAME_BD)
+                viewmodel.getIslamicCalendar(targetDate,getLanguage())
         }
+
     }
 
     private fun initObserver()
@@ -195,11 +207,17 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
         viewmodel.islamicCalEventData.observe(viewLifecycleOwner, Observer{
             when(it){
                 is IslamicCalEventResource.IslamicCalendarEvents -> {
-                    progressLayout.hide()
                     adapter.update(it.data.get(0).Event)
                     tvUpcomingEventTitle.text = it.data.get(0).upcomingEvent.text
                     tvUpcomingEventLeft.text = it.data.get(0).upcomingEvent.Status
                     imvUpcoming.imageLoad(BASE_CONTENT_URL_SGP +"Content/Dashboard/logo/up_ev.png")
+
+                    baseViewState()
+                }
+
+                is IslamicCalEventResource.IslamicCalendar -> {
+                    val response = it.data
+                    customCalendar.updateCalendarWithHijriDates(response)
                 }
             }
         })
@@ -207,6 +225,7 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
 
     private fun updateCalendar() {
         // Gregorian Date
+        val targetDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
         val generalDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
         val generalCalendar = Calendar.getInstance()
 
@@ -216,6 +235,9 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
 
         // Format the Gregorian date and set it to the TextView
         val englishDate = generalDateFormat.format(generalCalendar.time).uppercase(Locale.ENGLISH).numberLocale().monthNameLocale()
+        targetDate = targetDateFormat.format(generalCalendar.time)
+
+        Log.e("checkdate",targetDate.toString())
         monthYearText.text = englishDate
 
         // Define the valid date range for UmmalquraCalendar
@@ -246,39 +268,6 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
 
         // Set the month in your custom calendar
         customCalendar.setMonth("${currentYear}/${String.format("%02d", currentMonth)}/01")
-    }
-
-    private fun showCalendar() {
-
-        val params = layoutCalendar.layoutParams
-        params.height = (300 * resources.displayMetrics.density).toInt()
-        layoutCalendar.layoutParams = params
-
-        val slideDown: Animation = AnimationUtils.loadAnimation(requireActivity(), R.anim.slide_down)
-
-        customCalendar.startAnimation(slideDown)
-
-        customCalendar.invalidate()
-        customCalendar.requestLayout()
-
-/*        layoutShow.visibility = View.GONE
-        layoutHide.visibility = View.VISIBLE*/
-    }
-
-    private fun hideCalendar() {
-
-        val params = layoutCalendar.layoutParams
-        params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        layoutCalendar.layoutParams = params
-
-        val slideUp: Animation = AnimationUtils.loadAnimation(requireActivity(), R.anim.slide_up)
-        customCalendar.startAnimation(slideUp)
-
-        customCalendar.invalidate()
-        customCalendar.requestLayout()
-/*
-        layoutShow.visibility = View.VISIBLE
-        layoutHide.visibility = View.GONE*/
     }
 
     private fun navigateToPreviousMonth() {

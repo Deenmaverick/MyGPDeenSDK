@@ -39,10 +39,23 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val qurbaniBtn:AppCompatButton = findViewById(R.id.qurbaniBtn)
         val hajjumrahBtn:AppCompatButton = findViewById(R.id.hajjumrahBtn)
 
+        val enBtn:AppCompatButton = findViewById(R.id.enBtn)
+        val bnBtn:AppCompatButton = findViewById(R.id.bnBtn)
+
         val loadGPHomeBtn:AppCompatButton = findViewById(R.id.loadGPHomeBtn)
          gphome = findViewById(R.id.gphome)
 
         DeenSDKCore.authSDK(this,"8801942247803",this)
+
+        enBtn.setOnClickListener {
+            if(DeenSDKCore.GetDeenToken().isNotEmpty() && this@DeenSDKActivity::gphome.isInitialized)
+                gphome.changeLanguage("en")
+        }
+
+        bnBtn.setOnClickListener {
+            if(DeenSDKCore.GetDeenToken().isNotEmpty() && this@DeenSDKActivity::gphome.isInitialized)
+                gphome.changeLanguage("bn")
+        }
 
         sehriAlarmBtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
@@ -110,7 +123,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         loadGPHomeBtn.setOnClickListener {
             if(msisdn.text.isNotEmpty()){
-                gphome.loadapi()
+                //gphome.loadapi()
             }else{
                 Toast.makeText(this,"Enter number", Toast.LENGTH_SHORT).show()
             }
@@ -234,7 +247,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
     override fun onDeenSDKInitSuccess() {
         if(this::gphome.isInitialized)
-            gphome.loadapi()
+            gphome.init(this,DeenSDKCore.GetDeenToken(),"en",this)
         Toast.makeText(this, "Auth Success Callback", Toast.LENGTH_SHORT).show()
     }
 

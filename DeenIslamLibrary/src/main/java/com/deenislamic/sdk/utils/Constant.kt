@@ -13,7 +13,7 @@ const val BASE_YOUTUBE_VIDEO_API = "https://www.youtube.com/youtubei/v1/"
 const val YOUTUBE_VIDEO_KEY="STEHLGCilw_Y9_11qcW8AIzaSyAO_FJ2SlqU8Q4"
 const val BASE_CONTENT_URL_SGP = "https://islamic-content.sgp1.digitaloceanspaces.com/"
 const val BASE_QURAN_VERSE_AUDIO_URL = "https://verses.quran.com/"
-
+const val COUNTRY_NAME_BD = "Bangladesh"
 const val PRIVACY_URL = "https://deenislamic.com/privacy_policy.html"
 const val DIGITAL_QURAN_CLASS_TC = "https://docs.google.com/document/d/1ghdRU9Qva5vuNXIMak1D4R7EEnLWhUje4ohJFb8LgO0/edit?usp=sharing"
 const val QURAN_SHIKKHA_PAYMENT_TC = "https://docs.google.com/document/d/1UNKbtp7f1uzpeqQZsCYLSdNEpjVpp9A0vlE9qZwTBqU/edit?usp=sharing"

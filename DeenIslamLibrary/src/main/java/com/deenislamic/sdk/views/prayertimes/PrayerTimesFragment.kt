@@ -659,6 +659,10 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         }
     }
 
+    override fun monthlyTrackerBtnClicked() {
+        gotoFrag(R.id.action_global_prayerTrackerFragment)
+    }
+
     override fun onAllViewsInflated() {
         progressLayout.visible(false)
         no_internet_layout.visible(false)

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/trackerBtn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_8"
+    android:layout_marginStart="@dimen/space_16"
+    android:layout_marginEnd="@dimen/space_16"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+    android:textColor="@color/deen_primary"
+    android:text="@string/see_monthly_tracker"
+    app:icon="@drawable/right_arrow"
+    app:iconGravity="textEnd"
+    app:iconTint="@color/deen_primary"
+    app:strokeWidth="1dp"
+    app:cornerRadius="8dp"
+    app:strokeColor="@color/deen_primary"
+    android:backgroundTint="@color/deen_background">
+
+</com.google.android.material.button.MaterialButton>

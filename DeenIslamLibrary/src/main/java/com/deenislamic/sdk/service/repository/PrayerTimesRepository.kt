@@ -494,7 +494,31 @@ internal class PrayerTimesRepository(
                 }
             }
 
-
-
         }
+
+    suspend fun setPrayerTimeTrackDateWise(
+        language: String,
+        prayer_tag: String,
+        isPrayed: Boolean,
+        prayerdate: String
+    ) = makeApicall {
+        val body = JSONObject()
+        body.put("language", language)
+        body.put(prayer_tag.lowercase(), isPrayed)
+        body.put("Date", prayerdate)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        Log.e("setPrayerTimeTrack",body.toString())
+        deenService?.setPrayerTimeTrackDateWise(parm = requestBody)
+    }
+
+    suspend fun getPrayerTracking(localtion:String,language:String,requiredDate:String)= makeApicall {
+        val body = JSONObject()
+        body.put("location", localtion)
+        body.put("language", language)
+        body.put("requiredDate", requiredDate)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        deenService?.getPrayerTracker(parm = requestBody)
+    }
 }

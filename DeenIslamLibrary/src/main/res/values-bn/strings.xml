@@ -591,4 +591,10 @@
     <string name="new_btn_txt">New</string>
     <string name="prayer_track_success_txt">আলহামদুলিল্লাহ আপনি %1$s নামাজ আদায় করেছেন।</string>
     <string name="new_icon_count">%1$s নিউ</string>
+    <string name="track_only_current_month_s_namaz">শুধুমাত্র বর্তমান মাসের নামাজ ট্র্যাক করুন</string>
+    <string name="waktNotStartedToast">এখনও %1$s ওয়াক্ত শুরু হয়নি</string>
+    <string name="prayerTrackToast">আলহামদুলিল্লাহ আপনি %1$s নামাজ আদায় করেছেন।</string>
+    <string name="see_monthly_tracker">মাসিক ট্র্যাকার দেখুন</string>
+    <string name="no_internet_connection">ইন্টারনেট সংযোগ নেই</string>
+    <string name="no_internet_info">ইসলামিক ফিচারস সমূহ পেতে অনুগ্রহ করে ইন্টারনেট সংযোগ কানেক্ট করুন।</string>
 </resources>

@@ -35,4 +35,24 @@ internal class IslamicCalEventViewModel(
             }
         }
     }
+
+    suspend fun getIslamicCalendar(date:String,language: String) {
+        viewModelScope.launch {
+
+            val response = repository.getIslamicCalendar(date,language)
+
+            when(response)
+            {
+                is ApiResource.Failure -> _islamicCalEventData.value = CommonResource.API_CALL_FAILED
+
+                is ApiResource.Success ->
+                {
+                    if(response.value?.Success == true)
+                        _islamicCalEventData.value = IslamicCalEventResource.IslamicCalendar(response.value.Data)
+                    else
+                        _islamicCalEventData.value = CommonResource.EMPTY
+                }
+            }
+        }
+    }
 }

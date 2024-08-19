@@ -15,4 +15,6 @@ internal  interface PrayerNotificationResource
     object NotificationStateRequired:PrayerNotificationResource
     data class prayerTrackData(val data: Data) :PrayerNotificationResource
 
+    data class prayerTrackSuccess(val success: Boolean) : PrayerNotificationResource
+
 }

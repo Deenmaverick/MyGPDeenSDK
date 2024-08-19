@@ -592,5 +592,10 @@
     <string name="new_btn_txt">New</string>
     <string name="prayer_track_success_txt">%1$s prayer completed. Stay blessed.</string>
     <string name="new_icon_count">%1$s new</string>
-
+    <string name="track_only_current_month_s_namaz">Track only current month Namaz</string>
+    <string name="waktNotStartedToast">%1$s time has not started yet</string>
+    <string name="prayerTrackToast">Alhamdulillah you have prayed %1$s.</string>
+    <string name="see_monthly_tracker">See Monthly Tracker</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="no_internet_info">Please connect internet connection to get Islamic features.</string>
 </resources>

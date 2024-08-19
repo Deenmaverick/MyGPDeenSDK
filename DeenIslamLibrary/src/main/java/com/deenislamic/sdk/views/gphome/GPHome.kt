@@ -22,6 +22,8 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.deenislamic.sdk.DeenSDKCallback
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.RamadanCallback
@@ -53,6 +55,7 @@ import com.deenislamic.sdk.utils.getPrayerTimeWaktWise
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.isTimeInRange
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.prayerMomentLocale
 import com.deenislamic.sdk.utils.prayerMomentLocaleForToast
@@ -85,6 +88,7 @@ class GPHome @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr),MenuCallback, RamadanCallback {
 
     private var viewmodel: GPHomeViewModel ? = null
+    private var deenCallBackListener : DeenSDKCallback? =null
 
     private var localContext:Context ? = null
     private var localInflater: LayoutInflater ? = null
@@ -110,6 +114,7 @@ class GPHome @JvmOverloads constructor(
     private var icLogo:AppCompatImageView ? = null
     private var prayerTimeLy:ConstraintLayout ? = null
     private var nowTv:AppCompatTextView ? = null
+    private var eventAnimation:LottieAnimationView ? = null
 
     private var fajrCard:MaterialCardView ? = null
     private var fajrCheckbox: RadioButton? = null
@@ -138,17 +143,18 @@ class GPHome @JvmOverloads constructor(
 
     private var countDownTimer: CountDownTimer?=null
     private var currentState = "dhaka"
-    private var currentStateModel: StateModel = bangladeshStateArray[0]
+    private var currentStateModel: StateModel = StateArrayForGPHome[0]
     // Common view ( loading,no internet etc)
-    private  var progressLayout: CircularProgressIndicator? = null
-    private  var noInternetLayout: NestedScrollView? =null
-    private  var noInternetRetry: MaterialButton? = null
+    private  var noInternetLayout: ConstraintLayout? =null
 
     private var dialog:BottomSheetDialog ? = null
 
 
     init {
+       //onCreateView()
+    }
 
+    private fun onCreateView(){
 
         // init viewmodel
         val repository = GPHomeRespository(
@@ -184,6 +190,7 @@ class GPHome @JvmOverloads constructor(
         icLogo = findViewById(R.id.icLogo)
         prayerTimeLy = findViewById(R.id.prayerTimeLy)
         nowTv = findViewById(R.id.nowTv)
+        eventAnimation = findViewById(R.id.eventAnimation)
 
         fajrCard = findViewById(R.id.fajrCard)
         fajrCheckbox = fajrCard?.findViewById(R.id.prayerCheck)
@@ -220,8 +227,6 @@ class GPHome @JvmOverloads constructor(
         location = findViewById(R.id.location)
 
         noInternetLayout = findViewById(R.id.no_internet_layout)
-        noInternetRetry = findViewById(R.id.no_internet_retry)
-        progressLayout = findViewById(R.id.progressLayout)
 
         //inital part
         fajrCard?.setOnClickListener {
@@ -253,6 +258,22 @@ class GPHome @JvmOverloads constructor(
         }
 
 
+        currentState = AppPreference.getPrayerTimeLoc().toString()
+
+        val filteredStates = StateArrayForGPHome.firstOrNull { state ->
+            currentState.lowercase().contains(state.state.lowercase()) ||
+                    currentState.lowercase().contains(state.statebn.lowercase())
+        }
+
+        filteredStates?.let {
+            currentState = it.state
+            currentStateModel = it
+        }
+
+        currentStateModel.let {
+            location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") it.statebn else it.stateValue
+        }
+
         setupCommonLayout()
 
         // Set up observer when the view is attached to the window
@@ -262,7 +283,6 @@ class GPHome @JvmOverloads constructor(
                 initObserver()
             }
         })
-
     }
 
     private fun getWaktStatus(wakt:String):Boolean {
@@ -332,10 +352,14 @@ class GPHome @JvmOverloads constructor(
 
     private fun loadpage(data: Data) {
 
-        mainView?.show()
+        if(data.EventImages.isNotEmpty()) {
+            eventAnimation?.setAnimationFromUrl(data.EventImages)
+            eventAnimation?.playAnimation()
+        }
 
-        icLogo?.imageLoad(url = "gpSDKIcon.png".getDrawable(), placeholder_1_1 = true)
+        //icLogo?.imageLoad(url = "gpSDKIcon.png".getDrawable(), placeholder_1_1 = true)
 
+        //icLogo?.load(R.drawable.ic_deen_ibadah)
         // prayer time
 
         fajrWaktTime?.text = data.PrayerTime.Fajr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
@@ -365,6 +389,7 @@ class GPHome @JvmOverloads constructor(
             }
         }
 
+        //mainView?.show()
         baseViewState()
     }
 
@@ -646,25 +671,23 @@ class GPHome @JvmOverloads constructor(
         }
     }
 
-     fun loadapi(){
+    fun init(context: Context,token:String,language:String, callback: DeenSDKCallback){
+        DeenSDKCore.setDeenLanguage(language)
+        onCreateView()
+        //DeenSDKCore.initDeen(context,token,callback)
+        loadapi()
+    }
 
-         currentState = AppPreference.getPrayerTimeLoc().toString()
+    fun changeLanguage(language:String){
+        removeAllViews()
+        DeenSDKCore.setDeenLanguage(language)
+        onCreateView()
+        loadapi()
+    }
 
-         val filteredStates = StateArrayForGPHome.firstOrNull { state ->
-             currentState.lowercase().contains(state.state.lowercase()) ||
-                     currentState.lowercase().contains(state.statebn.lowercase())
-         }
+     private fun loadapi(){
 
-         filteredStates?.let {
-             currentState = it.state
-             currentStateModel = it
-         }
 
-         currentStateModel?.let {
-             location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") it.statebn else it.state
-         }
-
-        baseLoadingState()
         CoroutineScope(Dispatchers.IO).launch {
             viewmodel?.getGPHome(currentState)
         }
@@ -674,37 +697,20 @@ class GPHome @JvmOverloads constructor(
 
     private fun setupCommonLayout() {
 
-
-        progressLayout?.let {
-            ViewCompat.setTranslationZ(it, 10F)
-        }
-
-        noInternetLayout?.let {
-            ViewCompat.setTranslationZ(it, 10F)
-        }
-
-        noInternetRetry?.setOnClickListener {
+        noInternetLayout?.setOnClickListener {
             loadapi()
         }
 
     }
 
-    private fun baseLoadingState() {
-        mainView?.hide()
-        progressLayout?.visible(true)
-        noInternetLayout?.visible(false)
-    }
-
 
     private fun baseNoInternetState() {
         mainView?.hide()
-        progressLayout?.hide()
         noInternetLayout?.show()
     }
 
     private fun baseViewState() {
         mainView?.show()
-        progressLayout?.hide()
         noInternetLayout?.hide()
     }
 
@@ -873,7 +879,7 @@ class GPHome @JvmOverloads constructor(
 
         currentState = stateModel.state
 
-        location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") stateModel.statebn else stateModel.stateValue
+        location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") stateModel.statebn else stateModel.state
         dialog?.dismiss()
     }
 }

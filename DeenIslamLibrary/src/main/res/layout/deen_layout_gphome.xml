@@ -9,7 +9,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:visibility="gone"
-        tools:visibility="visible"
         android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +21,7 @@
             android:id="@+id/icLogo"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            tools:src="@drawable/placeholder_1_1"
+            android:src="@drawable/ic_deen_ibadah"
             app:layout_constraintTop_toTopOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -53,7 +52,7 @@
         android:textColor="@color/deen_gp_primary"
         app:cornerRadius="100dp"
         android:minHeight="24dp"
-        android:text="Dhaka"
+        tools:text="Dhaka"
         app:iconTint="@color/deen_gp_primary"
         app:icon="@drawable/ic_deen_gp_icon_marker"
         app:backgroundTint="@color/deen_white"
@@ -87,14 +86,19 @@
             app:layout_constraintStart_toEndOf="@+id/dateArabic"
             app:layout_constraintTop_toTopOf="@+id/dateArabic" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/eventAnimation"
-        android:layout_width="83dp"
-        android:layout_height="42dp"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/eventAnimation"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:layout_constraintDimensionRatio="h,1:1"
+            android:layout_marginTop="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_16"
-        android:layout_marginTop="@dimen/space_8"
-        app:layout_constraintTop_toTopOf="@+id/bgPrayer"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            android:translationZ="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bgPrayer"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true" />
+
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/bgPrayer"
@@ -351,47 +355,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!--  <androidx.constraintlayout.widget.ConstraintLayout
-              android:id="@+id/progressLy"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/space_16"
-              app:layout_constraintTop_toBottomOf="@+id/trackLayout"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent">
-
-              <ProgressBar
-                  android:id="@+id/progressBar"
-                  style="?android:attr/progressBarStyleHorizontal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:progressDrawable="@drawable/bg_deen_gp_progressbar_home"
-                  android:max="100"
-                  android:progress="0"
-                  app:layout_constraintTop_toTopOf="parent"
-                  app:layout_constraintStart_toStartOf="parent"
-                  app:layout_constraintEnd_toEndOf="parent"/>
-
-
-              <androidx.appcompat.widget.AppCompatTextView
-                  android:id="@+id/progresstxt"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="0%"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                  android:textColor="@color/deen_white"
-                  android:textStyle="bold"
-                  android:includeFontPadding="false"
-                  app:layout_constraintBottom_toBottomOf="@+id/progressBar"
-                  app:layout_constraintEnd_toEndOf="@+id/progressBar"
-                  app:layout_constraintHorizontal_bias="0"
-                  app:layout_constraintStart_toStartOf="@+id/progressBar"
-                  app:layout_constraintTop_toTopOf="@+id/progressBar" />
-
-
-
-          </androidx.constraintlayout.widget.ConstraintLayout>
-  -->
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -405,30 +368,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        tools:visibility="gone"
-        android:id="@+id/progressLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:indicatorSize="@dimen/space_24"
-        app:trackThickness="2dp"
-        android:layout_margin="@dimen/space_12"
-        android:indeterminate="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-
-
     <include
         android:id="@+id/no_internet_layout"
-        layout="@layout/no_internet"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:visibility="gone"
+        layout="@layout/item_deen_gp_home_nointernet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -85,7 +85,6 @@ object DeenSDKCore {
             }
 
 
-
             AuthenticateRepository(
                 authenticateService = NetworkProvider().getInstance().provideAuthService(),
                 userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
@@ -103,6 +102,10 @@ object DeenSDKCore {
 
         }
 
+    }
+
+    fun setDeenLanguage(language:String){
+        deen_language = language
     }
 
     fun GetDeenLanguage() = deen_language
@@ -696,12 +699,28 @@ object DeenSDKCore {
 @Keep
 interface DeenSDKCallback
 {
-    fun onDeenSDKInitSuccess()
-    fun onDeenSDKInitFailed()
-    fun onDeenSDKOperationSuccess()
-    fun onDeenSDKOperationFailed()
-    fun onDeenSDKRCFailed()
-    fun DeenPrayerNotificationOn()
-    fun DeenPrayerNotificationOff()
-    fun DeenPrayerNotificationFailed()
+    fun onDeenSDKInitSuccess(){
+
+    }
+    fun onDeenSDKInitFailed(){
+
+    }
+    fun onDeenSDKOperationSuccess(){
+
+    }
+    fun onDeenSDKOperationFailed(){
+
+    }
+    fun onDeenSDKRCFailed(){
+
+    }
+    fun DeenPrayerNotificationOn(){
+
+    }
+    fun DeenPrayerNotificationOff(){
+
+    }
+    fun DeenPrayerNotificationFailed(){
+
+    }
 }
