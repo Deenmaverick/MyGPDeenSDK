@@ -187,12 +187,13 @@ fun getFileExtension(fileName: String): String {
 
 fun Context.getLocalContext(): Context {
 
-    val localContext: Context = LocaleUtil.createLocaleContext(this, Locale("bn"))
-    /*if (DeenSDKCore.GetDeenLanguage() == "en") {
+    //val localContext: Context = LocaleUtil.createLocaleContext(this, Locale("bn"))
+
+    val localContext: Context = if (DeenSDKCore.GetDeenLanguage() == "en") {
         LocaleUtil.createLocaleContext(this, Locale("en"))
     } else {
         LocaleUtil.createLocaleContext(this, Locale("bn"))
-    }*/
+    }
 
     return ContextThemeWrapper(localContext, R.style.DeenSDKTheme)
 

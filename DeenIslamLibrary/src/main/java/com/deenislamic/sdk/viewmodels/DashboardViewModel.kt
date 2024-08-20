@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,6 +31,7 @@ internal class DashboardViewModel(
     {
         viewModelScope.launch {
 
+            Log.e("getDashboard",language)
             val getAdvertisement = async {  repository.getAdData(language) }.await()
             val getDashResponse = async {  repository.getDashboardData(language) }
             val getPrayerTimesResponse = async {  prayerTimesRepository.getPrayerTimes(localtion,language,requiredDate) }

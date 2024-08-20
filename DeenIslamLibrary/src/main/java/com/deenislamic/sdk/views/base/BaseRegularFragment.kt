@@ -69,13 +69,11 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        localContext = LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
-
-           /* if (DeenSDKCore.GetDeenLanguage() == "en") {
+        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
-        }*/
+        }
 
        val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
 
@@ -109,8 +107,8 @@ internal abstract class BaseRegularFragment: Fragment() {
 
     fun changeLanguage(language:String)
     {
-        //DeenSDKCore.SetDeenLanguage(language)
-        (activity as MainActivityDeenSDK).changeLanguage()
+        DeenSDKCore.setDeenLanguage(language)
+        //(activity as MainActivityDeenSDK).changeLanguage()
     }
 
     fun getMiniPlayerHeight(): Int {

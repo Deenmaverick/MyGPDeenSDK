@@ -10,6 +10,8 @@ import android.widget.RadioButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.models.SettingResource
@@ -18,10 +20,10 @@ import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.viewmodels.SettingViewModel
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.base.otherFagmentActionCallback
+import com.deenislamic.sdk.views.dashboard.DashboardFakeFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.launch
 
 internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallback {
@@ -37,17 +39,13 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
     private lateinit var locationswitch: SwitchMaterial
     private lateinit var currentLanguage:AppCompatTextView
 
-    private var localLanguage = "bn"
+    private var localLanguage = DeenSDKCore.GetDeenLanguage()
 
     private lateinit var viewmodel:SettingViewModel
 
     override fun OnCreate() {
         super.OnCreate()
         setupBackPressCallback(this)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-
         // init viewmodel
         val repository = SettingRepository(userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao())
         viewmodel = SettingViewModel(repository)
@@ -81,14 +79,14 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initObserver()
+        //initObserver()
 
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             viewmodel.getSetting()
-        }
+        }*/
 
         languageLayout.setOnClickListener {
-           // showLanguiageDialog()
+            showLanguiageDialog()
         }
 
         locationswitch.setOnClickListener {
@@ -121,7 +119,7 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
 
                 }
 
-               /* is SettingResource.languageDataUpdate ->
+                /*is SettingResource.languageDataUpdate ->
                 {
                     localLanguage = if(it.language == "en")
                         "en"
@@ -173,17 +171,39 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
         dialog?.show()
 
         bnLayout?.setOnClickListener {
-            lifecycleScope.launch {
+            /*lifecycleScope.launch {
                 viewmodel.updateSetting("bn")
-            }
+            }*/
+            localLanguage = "bn"
+            changeLanguage(localLanguage)
+            DeenSDKCore.DeenCallBackListener?.deenLanguageChangeListner(localLanguage)
+            dialog?.dismiss()
+            updateLanguage()
         }
 
         enLayout?.setOnClickListener {
-            lifecycleScope.launch {
+            /*lifecycleScope.launch {
                 viewmodel.updateSetting("en")
-            }
+            }*/
+            localLanguage = "en"
+            changeLanguage(localLanguage)
+            DeenSDKCore.DeenCallBackListener?.deenLanguageChangeListner(localLanguage)
+            dialog?.dismiss()
+            updateLanguage()
         }
 
+    }
+
+
+    fun updateLanguage() {
+
+        val navController = findNavController()
+        navController.popBackStack()
+        navController.popBackStack()
+        navController.popBackStack()
+        navController.navigate(R.id.dashboardFakeFragment)
+        navController.navigate(R.id.moreFragment)
+        navController.navigate(R.id.settingFragment)
     }
 
     private fun setupSettingDialogLanguage()

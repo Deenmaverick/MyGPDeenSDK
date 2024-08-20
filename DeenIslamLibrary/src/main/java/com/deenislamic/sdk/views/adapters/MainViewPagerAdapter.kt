@@ -9,24 +9,23 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 internal class MainViewPagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
-    getFragments: ArrayList<Fragment>
+    private val getFragments: ArrayList<Fragment>
 ) : FragmentStateAdapter(fragmentManager,lifecycle) {
 
-    private var pageDestination: ArrayList<Fragment> = getFragments
+    //private val fragmentIds = getFragments.map { it.hashCode().toLong() }
 
     override fun getItemCount(): Int {
-        return pageDestination.size
+        return getFragments.size
     }
 
 
-   /* override fun getItemId(position: Int): Long {
-            return pageDestination[position].hashCode().toLong()
-    }*/
-
+    fun getFragmentAt(position: Int): Fragment {
+        return getFragments[position]
+    }
 
 
     override fun createFragment(position: Int): Fragment {
-        return pageDestination[position]
+        return getFragments[position]
     }
 
 }

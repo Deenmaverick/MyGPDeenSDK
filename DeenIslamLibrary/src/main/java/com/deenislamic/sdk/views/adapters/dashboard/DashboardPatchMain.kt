@@ -390,7 +390,8 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                         }
 
                         TYPE_WIDGET2 -> {
-                            Greeting(itemView, data.Items)
+                            DashboardPatchClass.updateGreetingPatch(Greeting(itemView, data.Items))
+                            //Greeting(itemView, data.Items)
                         }
 
                         TYPE_WIDGET3 -> {
@@ -461,7 +462,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                         PATCH_TASBEEH -> {
 
                             DashboardPatchClass.updateTasbeeh(Tasbeeh(itemView))
-                            DashboardPatchClass.getTasbeehInstance()?.load()
+                            DashboardPatchClass.getTasbeehInstance()?.load(data)
 
                             itemView.setOnClickListener {
                                 dashboardPatchCallback?.dashboardPatchClickd("tb", data.Items[0].copy(DuaId = DashboardPatchClass.getTasbeehInstance()?.selectedPos?:0))

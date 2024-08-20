@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.deenislamic.sdk.DeenSDKCore
@@ -44,7 +45,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
         actionbar = mainview.findViewById(R.id.actionbar)
         _viewPager = mainview.findViewById(R.id.viewPager)
 
-        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,localContext.getString(R.string.app_name),false,actionbar)
+        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,localContext.getString(R.string.app_name_deen),false,actionbar)
         btnBack = actionbar.findViewById(R.id.btnBack)
         btnBack.show()
 
@@ -116,5 +117,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
 
     override fun action2() {
     }
+
+
 
 }

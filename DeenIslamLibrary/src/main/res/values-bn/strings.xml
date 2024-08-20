@@ -597,4 +597,5 @@
     <string name="see_monthly_tracker">মাসিক ট্র্যাকার দেখুন</string>
     <string name="no_internet_connection">ইন্টারনেট সংযোগ নেই</string>
     <string name="no_internet_info">ইসলামিক ফিচারস সমূহ পেতে অনুগ্রহ করে ইন্টারনেট সংযোগ কানেক্ট করুন।</string>
+    <string name="app_name_deen">দ্বীন</string>
 </resources>

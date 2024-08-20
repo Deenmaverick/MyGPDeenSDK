@@ -118,7 +118,7 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
             view = mainView,
             actionIconColor = R.color.deen_txt_black_deep
         )
-
+        CallBackProvider.setFragment(this)
         setupCommonLayout(mainView)
 
         return mainView
@@ -137,11 +137,6 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        CallBackProvider.setFragment(this)
-    }
 
     override fun noInternetRetryClicked() {
         loadDataAPI()
@@ -158,7 +153,7 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
 
     private fun observePrayerTimes() {
 
-        viewmodel.prayerTimes.observe(viewLifecycleOwner, Observer { resource ->
+        viewmodel.prayerTimes.observe(viewLifecycleOwner, { resource ->
             when (resource) {
                 is PrayerTimeResource.prayerTracker -> {
                     baseViewState()

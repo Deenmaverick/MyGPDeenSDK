@@ -32,7 +32,7 @@ import java.util.*
 object DeenSDKCore {
 
     @JvmStatic
-    private var  DeenCallBackListener : DeenSDKCallback? =null
+    var  DeenCallBackListener : DeenSDKCallback? =null
 
     @JvmStatic
     private var  DeenPrayerTimeCallBackListener : PrayerTimeNotification? =null
@@ -58,6 +58,8 @@ object DeenSDKCore {
 
     private var isTodayNotificationSet = false
 
+    @JvmStatic
+    private var  gpHomeCallback : DeenSDKCallback? =null
 
     @JvmStatic
     fun initDeen(context: Context, token:String, callback: DeenSDKCallback)
@@ -123,6 +125,10 @@ object DeenSDKCore {
         this.token = token
     }
 
+    fun setGPHomeViewInternalCallback(callback: DeenSDKCallback){
+        gpHomeCallback = callback
+    }
+
     fun GetDeenMsisdn() = msisdn
     fun GetDeenPrayerDate() = prayerDate
 
@@ -137,8 +143,10 @@ object DeenSDKCore {
             DeenCallBackListener?.onDeenSDKInitFailed()
             return false
         }
-        else
+        else {
             DeenCallBackListener?.onDeenSDKInitSuccess()
+            gpHomeCallback?.onDeenSDKInitSuccess()
+        }
 
         return true
     }
@@ -721,6 +729,10 @@ interface DeenSDKCallback
 
     }
     fun DeenPrayerNotificationFailed(){
+
+    }
+
+    fun deenLanguageChangeListner(language: String) {
 
     }
 }

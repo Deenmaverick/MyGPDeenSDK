@@ -85,10 +85,9 @@ class GPHome @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr),MenuCallback, RamadanCallback {
+) : ConstraintLayout(context, attrs, defStyleAttr),MenuCallback, RamadanCallback,DeenSDKCallback {
 
     private var viewmodel: GPHomeViewModel ? = null
-    private var deenCallBackListener : DeenSDKCallback? =null
 
     private var localContext:Context ? = null
     private var localInflater: LayoutInflater ? = null
@@ -149,6 +148,7 @@ class GPHome @JvmOverloads constructor(
 
     private var dialog:BottomSheetDialog ? = null
 
+    private var firstload = false
 
     init {
        //onCreateView()
@@ -379,8 +379,7 @@ class GPHome @JvmOverloads constructor(
         if(data.Menu.isNotEmpty()) {
             menu?.let {
                 it.apply {
-                    if(!this@GPHome::gpHomeMenuAdapter.isInitialized)
-                        gpHomeMenuAdapter = GPHomeMenuAdapter(data.Menu,this@GPHome)
+                    gpHomeMenuAdapter = GPHomeMenuAdapter(data.Menu,this@GPHome)
                     layoutManager = GridLayoutManager(context,4)
                     addItemDecoration(GridSpacingItemDecoration(4, 1.dp, false))
 
@@ -673,14 +672,13 @@ class GPHome @JvmOverloads constructor(
 
     fun init(context: Context,token:String,language:String, callback: DeenSDKCallback){
         DeenSDKCore.setDeenLanguage(language)
-        onCreateView()
-        //DeenSDKCore.initDeen(context,token,callback)
-        loadapi()
+        DeenSDKCore.setGPHomeViewInternalCallback(this)
+        DeenSDKCore.authSDK(context,token,callback)
     }
 
     fun changeLanguage(language:String){
-        removeAllViews()
         DeenSDKCore.setDeenLanguage(language)
+        removeAllViews()
         onCreateView()
         loadapi()
     }
@@ -736,8 +734,7 @@ class GPHome @JvmOverloads constructor(
         }
 
          menuList?.apply {
-             if(!this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
-                 gpHomeDialogMenuAdapter = GPHomeMenuAdapter(menu,this@GPHome,true)
+             gpHomeDialogMenuAdapter = GPHomeMenuAdapter(menu,this@GPHome,true)
              adapter = gpHomeDialogMenuAdapter
              layoutManager = GridLayoutManager(context,4)
          }
@@ -881,5 +878,13 @@ class GPHome @JvmOverloads constructor(
 
         location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") stateModel.statebn else stateModel.state
         dialog?.dismiss()
+    }
+
+    override fun onDeenSDKInitSuccess() {
+        if(!firstload) {
+            onCreateView()
+            loadapi()
+        }
+        firstload = true
     }
 }

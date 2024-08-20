@@ -49,6 +49,12 @@ internal class IslamicBoyanHomeAdapter(
              }
         }
 
+        if(viewType == itemCount - 1) {
+            prepareStubView<View>(rootView.findViewById(R.id.widget),R.layout.item_footer_top_margin) {
+
+            }
+        }
+
         return ViewHolder(mainView)
     }
 
