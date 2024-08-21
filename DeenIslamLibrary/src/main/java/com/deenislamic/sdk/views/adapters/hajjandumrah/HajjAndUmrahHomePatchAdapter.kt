@@ -61,6 +61,12 @@ internal class HajjAndUmrahHomePatchAdapter(private val patchData: List<com.deen
 
         }
 
+        if(viewType == itemCount - 1) {
+            prepareStubView<View>(rootview.findViewById(R.id.widget),R.layout.layout_footer) {
+
+            }
+        }
+
         return  ViewHolder(main_view)
     }
 

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.libs.advertisement.Advertisement
 import com.deenislamic.sdk.service.network.response.dashboard.Data
 import com.deenislamic.sdk.utils.AsyncViewStub
 import com.deenislamic.sdk.utils.PATCH_COMMON_CARD_LIST
@@ -88,6 +89,14 @@ internal class AllDuaAdapter(
 
                   }
               }*/
+
+        }
+
+        if(itemCount>0 && viewType == itemCount - 1) {
+
+            prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_footer) {
+                this.setOnClickListener {  }
+            }
         }
 
         return  ViewHolder(main_view)

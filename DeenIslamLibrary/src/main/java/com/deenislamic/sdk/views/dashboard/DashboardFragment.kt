@@ -149,7 +149,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
     // pagging locally dashboard data
     private var dashboardData:List<Data> ? = null
     private var hasMoreData = true
-    private var itemsToLoadAhead = 6
+    private var itemsToLoadAhead = 10
     private var lastVisibleItemPosition = 0
     // Compass
     private var compassBG = ""
@@ -259,6 +259,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
         dashboardMain.itemAnimator = null
 
+        initObserver()
+        loadPage()
 
         dashboardMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -286,9 +288,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             }
         })
 
-
-        initObserver()
-        loadPage()
 
 
         locationListener = object : LocationListener {
@@ -337,9 +336,25 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
     }
 
     private fun fetchData(offset: Int, limit: Int): List<Data>? {
-        val end = dashboardData?.size?.let { (offset + limit).coerceAtMost(it) }  // Ensure we don't go past the end of the list
-        return end?.let { dashboardData?.subList(offset, it) }
+        val dataSize = dashboardData?.size ?: 0
+
+        // Check if the offset is within the valid range
+        if (offset >= dataSize) {
+            // Return an empty list or null if the offset is out of bounds
+            return emptyList()
+        }
+
+        // Calculate the end index safely
+        val end = (offset + limit).coerceAtMost(dataSize)
+
+        // Return the sublist only if the range is valid
+        return if (offset <= end) {
+            dashboardData?.subList(offset, end)
+        } else {
+            emptyList()
+        }
     }
+
 
 
     override fun onResume() {
@@ -893,9 +908,9 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
     fun loadPage()
     {
-        if(firstload != 0)
+        /*if(firstload != 0)
             return
-        firstload = 1
+        firstload = 1*/
 
         //dashboardPatchMain.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
@@ -904,6 +919,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
 
         dashboardMain.apply {
+            itemAnimator = null
                 dashboardPatchMain = DashboardPatchAdapter()
                 adapter = dashboardPatchMain
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -912,8 +928,6 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                 layoutManager = linearLayoutManager
                 //overScrollMode = View.OVER_SCROLL_NEVER
                 post {
-
-                    loadDataAPI()
 
                     this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -977,6 +991,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                 trackingID = get9DigitRandom()
             )
         }*/
+
+        loadDataAPI()
 
     }
 

@@ -45,7 +45,9 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val loadGPHomeBtn:AppCompatButton = findViewById(R.id.loadGPHomeBtn)
          gphome = findViewById(R.id.gphome)
 
-        DeenSDKCore.authSDK(this,"8801942247803",this)
+        gphome.init(this,"8801942247803","en",this)
+
+        //DeenSDKCore.authSDK(this,"8801942247803",this)
 
         enBtn.setOnClickListener {
             if(DeenSDKCore.GetDeenToken().isNotEmpty() && this@DeenSDKActivity::gphome.isInitialized)
@@ -246,8 +248,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
     }
 
     override fun onDeenSDKInitSuccess() {
-        if(this::gphome.isInitialized)
-            gphome.init(this,DeenSDKCore.GetDeenToken(),"en",this)
+
         Toast.makeText(this, "Auth Success Callback", Toast.LENGTH_SHORT).show()
     }
 
@@ -277,6 +278,11 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
     override fun DeenPrayerNotificationFailed() {
         Toast.makeText(this, "Prayer notification failed Callback", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun deenLanguageChangeListner(language: String) {
+        if(this::gphome.isInitialized)
+            gphome.changeLanguage(language)
     }
 }
 /*

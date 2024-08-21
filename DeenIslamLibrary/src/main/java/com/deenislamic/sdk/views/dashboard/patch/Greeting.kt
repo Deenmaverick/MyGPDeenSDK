@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.views.dashboard.patch;
 
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -7,6 +8,7 @@ import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.dashboard.Item
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
+import com.google.gson.Gson
 import java.util.Calendar
 
 internal class Greeting(widget: View, items: List<Item>) {
@@ -17,6 +19,7 @@ internal class Greeting(widget: View, items: List<Item>) {
 
     init {
 
+        Log.e("Greeting",Gson().toJson(items))
         if (items.isNotEmpty()) {
             val data = items[0]
             greetingTxt.text = data.Title

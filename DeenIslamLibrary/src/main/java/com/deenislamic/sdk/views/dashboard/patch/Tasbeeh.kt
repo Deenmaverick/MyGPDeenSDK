@@ -11,6 +11,7 @@ import com.deenislamic.sdk.service.callback.TasbeehCallback
 import com.deenislamic.sdk.service.database.entity.Tasbeeh
 import com.deenislamic.sdk.service.database.entity.UserPref
 import com.deenislamic.sdk.service.libs.media3.AudioManager
+import com.deenislamic.sdk.service.network.response.dashboard.Data
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.FullCircleGaugeView
@@ -28,6 +29,7 @@ import java.util.Locale
 internal class Tasbeeh(itemView: View) {
 
     private var callback = CallBackProvider.get<TasbeehCallback>()
+    private val itemTitle:AppCompatTextView = itemView.findViewById(R.id.itemTitle)
     private val duaArabicTxt: AppCompatTextView = itemView.findViewById(R.id.duaArabicTxt)
     private val duaTxt: AppCompatTextView = itemView.findViewById(R.id.duaTxt)
     private val playBtn: MaterialButton = itemView.findViewById(R.id.playBtn)
@@ -61,9 +63,9 @@ internal class Tasbeeh(itemView: View) {
     )
 
 
-    fun load()
+    fun load(data: Data)
     {
-
+        itemTitle.text = data.Title
         callback = CallBackProvider.get<TasbeehCallback>()
         setDuaText()
         countBtn.setOnClickListener {

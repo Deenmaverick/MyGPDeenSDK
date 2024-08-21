@@ -65,13 +65,11 @@ internal abstract class BaseFragment<VB:ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        localContext = LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
-
-        /*if (DeenSDKCore.GetDeenLanguage() == "en") {
+        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
-        }*/
+        }
 
 
         val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme

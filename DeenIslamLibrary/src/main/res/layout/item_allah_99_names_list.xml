@@ -8,6 +8,7 @@
     android:layout_marginEnd="@dimen/space_8"
     android:layout_marginBottom="1dp"
     tools:viewBindingIgnore="true"
+    app:strokeWidth="0dp"
     android:layout_marginTop="@dimen/space_12"
     android:layout_gravity="center_horizontal"
     app:cardBackgroundColor="@color/deen_white"

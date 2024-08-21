@@ -73,7 +73,7 @@ import java.util.concurrent.TimeUnit
 
 internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
-    private lateinit var navController:NavController
+    lateinit var navController:NavController
     private var actionCallback:actionCallback ? =null
     private var searchCallback:searchCallback ? =null
 
@@ -881,12 +881,11 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
 
     fun changeLanguage()
     {
-        localContext = LocaleUtil.createLocaleContext(this, Locale("bn"))
-    /*if (DeenSDKCore.GetDeenLanguage() == "en") {
+        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(this, Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(this, Locale("bn"))
-        }*/
+        }
     }
 
     fun disableBackPress()
