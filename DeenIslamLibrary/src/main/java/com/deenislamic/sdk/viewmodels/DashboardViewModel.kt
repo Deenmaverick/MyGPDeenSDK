@@ -69,7 +69,7 @@ internal class DashboardViewModel(
                 is ApiResource.Success ->
                 {
                     if(dashResponse.value?.Success == true) {
-                        //Subscription.isSubscribe = dashResponse.value.isPremium == "1BK"
+                        Subscription.isSubscribe = dashResponse.value.isPremium == "1BK"
                         _dashLiveData.value =
                             DashboardResource.DashboardData(dashResponse.value.Data)
                     }

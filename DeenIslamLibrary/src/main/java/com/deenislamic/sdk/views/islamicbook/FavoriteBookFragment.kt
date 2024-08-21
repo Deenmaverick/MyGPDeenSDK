@@ -239,10 +239,10 @@ internal class FavoriteBookFragment(
         bitmap: Bitmap?
     ) {
 
-        if(!Subscription.isSubscribe){
+        /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
 
         bookId = id
         bookTitle = title

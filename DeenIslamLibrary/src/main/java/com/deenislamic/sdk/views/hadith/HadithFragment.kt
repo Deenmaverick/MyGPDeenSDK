@@ -149,11 +149,11 @@ internal class HadithFragment : BaseRegularFragment() {
 
                     1->
                     {
-                        if(!Subscription.isSubscribe){
+                        /*if(!Subscription.isSubscribe){
                             gotoFrag(R.id.action_global_subscriptionFragment)
                             _viewPager.setCurrentItem(0,true)
                             return
-                        }
+                        }*/
                         favBtn.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.deen_primary))
                         favBtn.setTextColor(ContextCompat.getColor(requireContext(),R.color.deen_white))
 
@@ -166,10 +166,10 @@ internal class HadithFragment : BaseRegularFragment() {
 
         hadithBtn.setOnClickListener { _viewPager.currentItem = 0 }
         favBtn.setOnClickListener {
-            if(!Subscription.isSubscribe){
+            /*if(!Subscription.isSubscribe){
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 return@setOnClickListener
-            }
+            }*/
             _viewPager.currentItem = 1
         }
     }

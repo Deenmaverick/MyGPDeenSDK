@@ -208,10 +208,10 @@ internal class PodcastCategoryFragment : BaseRegularFragment(),otherFagmentActio
 
     override fun commonCardClicked(getData: CommonCardData, absoluteAdapterPosition: Int) {
 
-        if(!Subscription.isSubscribe){
+        /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
         if(getData.isLive) {
             if(getData.videourl?.isNotEmpty() == true) {
                 val bundle = Bundle()

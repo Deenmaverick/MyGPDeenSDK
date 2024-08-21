@@ -201,10 +201,10 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(),
     }
 
     override fun favDua(isFavorite: Boolean, duaId: Int, position: Int) {
-        if(!Subscription.isSubscribe){
+        /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
         lifecycleScope.launch {
             viewmodel.setFavDua(isFavorite,duaId,getLanguage(),position)
         }

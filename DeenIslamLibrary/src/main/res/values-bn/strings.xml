@@ -414,7 +414,7 @@
     <string name="my_downloads">আমার ডাউনলোড</string>
     <string name="my_favorites">আমার প্রিয় তালিকা</string>
     <string name="get_premium">প্রিমিয়াম করুন</string>
-    <string name="subs_greeting_txt">মুসলিম সম্প্রদায়ের সাথে যোগ দিন এবং সঠিকভাবে ইসলাম শিখুন।</string>
+    <string name="subs_greeting_txt">ইসলামিক সঠিক দিকনির্দেশনার ভিত্তিতে ইসলামিক সেবায় নিজেকে পরিচালিত করুন।</string>
     <string name="cancel_auto_renewal_at_any_time">যেকোনো সময় অটো-রিনিউয়াল বাতিল করুন</string>
     <string name="premium_features">প্রিমিয়াম ফিচার</string>
     <string name="t_amp_c_privacy_policy">ব্যবহারের শর্তাবলী • গোপনীয়তা নীতি</string>
@@ -598,4 +598,16 @@
     <string name="no_internet_connection">ইন্টারনেট সংযোগ নেই</string>
     <string name="no_internet_info">ইসলামিক ফিচারস সমূহ পেতে অনুগ্রহ করে ইন্টারনেট সংযোগ কানেক্ট করুন।</string>
     <string name="app_name_deen">দ্বীন</string>
+    <string name="taka">টাকা</string>
+    <string name="donation">অনুদান</string>
+    <string name="donation_plan">অনুদান প্ল্যান</string>
+    <string name="donate_any_amount">যে কোন পরিমান অনুদান দিন</string>
+    <string name="enter_amount_money">টাকার পরিমাণ লিখুন</string>
+    <string name="donate">অনুদান দিন</string>
+    <string name="sub_scholar_hint">দ্বীন, বাংলাদেশের জনপ্রিয় সব স্কলারের কন্টেন সমৃদ্ধ অ্যাপ</string>
+    <string name="our_islamic_scholars">আমাদের ইসলামিক স্কলাররা</string>
+    <string name="hint_choose_payment_method">অনুগ্রহ করে প্রথমে পেমেন্ট পদ্ধতি বেছে নিন</string>
+    <string name="subscriptions_plan">সাবস্ক্রিপশন প্ল্যান</string>
+    <string name="grameenphone">গ্রামীণফোন</string>
+
 </resources>

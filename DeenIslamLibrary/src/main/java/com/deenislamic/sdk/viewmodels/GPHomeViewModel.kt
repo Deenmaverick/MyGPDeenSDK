@@ -7,6 +7,7 @@ import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.GPHomeResource
 import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.repository.GPHomeRespository
+import com.deenislamic.sdk.utils.Subscription
 import kotlinx.coroutines.launch
 
 
@@ -28,6 +29,7 @@ internal class GPHomeViewModel(
                 is ApiResource.Failure -> _gphomeLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
                     if(response.value?.Success == true){
+                        Subscription.isSubscribe = response.value.Data.isPremium == "1BK"
                         _gphomeLiveData.value = GPHomeResource.GPHome(response.value.Data)
                     }else
                         _gphomeLiveData.value = CommonResource.API_CALL_FAILED

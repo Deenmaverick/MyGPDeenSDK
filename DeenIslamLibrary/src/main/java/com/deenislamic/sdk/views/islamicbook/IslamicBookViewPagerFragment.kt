@@ -125,20 +125,20 @@ internal class IslamicBookViewPagerFragment : BaseRegularFragment(),
                     }
                     3 -> {
 
-                         if(!Subscription.isSubscribe){
+                         /*if(!Subscription.isSubscribe){
                                 gotoFrag(R.id.action_global_subscriptionFragment)
                                 _viewPager.setCurrentItem(viewPagerPosition,true)
                                 return
-                            }
+                            }*/
                         materialButtonHorizontalAdapter.nextPrev(3)
                     }
                     4 -> {
 
-                         if(!Subscription.isSubscribe){
+                         /*if(!Subscription.isSubscribe){
                             gotoFrag(R.id.action_global_subscriptionFragment)
                             _viewPager.setCurrentItem(viewPagerPosition,true)
                             return
-                        }
+                        }*/
 
                         materialButtonHorizontalAdapter.nextPrev(4)
                     }
@@ -162,18 +162,18 @@ internal class IslamicBookViewPagerFragment : BaseRegularFragment(),
         } else if (absoluteAdapterPosition == 2){
             _viewPager.currentItem = 2
         } else if (absoluteAdapterPosition == 3){
-             if(!Subscription.isSubscribe){
+             /*if(!Subscription.isSubscribe){
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 materialButtonHorizontalAdapter.nextPrev(viewPagerPosition)
                 return
-            }
+            }*/
             _viewPager.currentItem = 3
         } else if (absoluteAdapterPosition == 4){
-             if(!Subscription.isSubscribe){
+             /*if(!Subscription.isSubscribe){
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 materialButtonHorizontalAdapter.nextPrev(viewPagerPosition)
                 return
-            }
+            }*/
             _viewPager.currentItem = 4
         }
 

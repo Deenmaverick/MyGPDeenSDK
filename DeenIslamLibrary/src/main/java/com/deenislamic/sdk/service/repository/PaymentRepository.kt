@@ -11,7 +11,8 @@ import org.json.JSONObject
 internal class PaymentRepository(
     private val paymentService: PaymentService?,
     private val nagadPaymentService: NagadPaymentService?,
-    private val authInterceptor: AuthInterceptor?
+    private val authInterceptor: AuthInterceptor?,
+    private val dcbPaymentService : PaymentService? = null
 ) : ApiCall {
 
     suspend fun login() = makeApicall {
@@ -26,7 +27,7 @@ internal class PaymentRepository(
 
     }
 
-    suspend fun bKashPayment(serviceID: Int, msisdn: String, token: String) = makeApicall {
+    suspend fun bKashPayment(serviceID: String, msisdn: String, token: String) = makeApicall {
 
         authInterceptor?.tempAccessToken = token
 
@@ -91,7 +92,7 @@ internal class PaymentRepository(
         paymentService?.saveGpayInfo(requestBody)
     }
 
-    suspend fun deenRecurringPayment(serviceID: Int, msisdn: String, token: String) = makeApicall {
+    suspend fun deenRecurringPayment(serviceID: String, msisdn: String, token: String) = makeApicall {
 
         authInterceptor?.tempAccessToken = token
 
@@ -105,4 +106,36 @@ internal class PaymentRepository(
         paymentService?.deenRecurringPayment(requestBody)
 
     }
+
+    suspend fun bKashDonationPayment(amount: String, msisdn: String, token: String) = makeApicall {
+
+        authInterceptor?.tempAccessToken = token
+
+        val body = JSONObject()
+        body.put("amount", amount)
+        body.put("msisdn", msisdn)
+        body.put("device", "App")
+        body.put("callBackUrl", "https://www.google.com")
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        paymentService?.bKashDonation(requestBody)
+
+    }
+
+    suspend fun dcbGPCharge(msisdn: String, serviceId: String) = makeApicall {
+
+        authInterceptor?.dcbPayment = true
+
+        val body = JSONObject()
+        body.put("MSISDN", msisdn)
+        body.put("ServiceId", serviceId)
+        body.put("PaymentSuccessRedirectUrl","https://payment.islamicservice.net/success")
+        body.put("PaymentFailedRedirectUrl","https://payment.islamicservice.net/failed")
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        dcbPaymentService?.dcbGPCharge(requestBody)
+
+    }
+
+
 } 

@@ -26,7 +26,7 @@ internal class PaymentViewModel(
 
     //bKash Payment
     suspend fun bKashPayment(
-        serviceID: Int
+        serviceID: String
     ) {
         viewModelScope.launch {
 
@@ -35,11 +35,11 @@ internal class PaymentViewModel(
                 is ApiResource.Success -> {
                     if (loginResponse.value?.Success == true) {
 
-                        if (loginResponse.value.Data.toString().isNotEmpty())
+                        if (loginResponse.value.Data.isNotEmpty())
                             processBkashSub(
                                 serviceID = serviceID,
                                 msisdn = DeenSDKCore.GetDeenMsisdn(),
-                                token = loginResponse.value.Data.toString()
+                                token = loginResponse.value.Data
                             )
                         else
                             _paymentLiveData.value = CommonResource.API_CALL_FAILED
@@ -51,7 +51,7 @@ internal class PaymentViewModel(
     }
 
 
-    private suspend fun processBkashSub(serviceID: Int, msisdn: String, token: String) {
+    private suspend fun processBkashSub(serviceID: String, msisdn: String, token: String) {
         if (msisdn.isEmpty())
             _paymentLiveData.value = CommonResource.API_CALL_FAILED
         else {
@@ -264,7 +264,7 @@ internal class PaymentViewModel(
 
     //Deen recurring payment
     suspend fun recurringPayment(
-        serviceID: Int
+        serviceID: String
     ) {
         viewModelScope.launch {
 
@@ -290,7 +290,7 @@ internal class PaymentViewModel(
     }
 
 
-    private suspend fun processRecurringSub(serviceID: Int, msisdn: String, token: String) {
+    private suspend fun processRecurringSub(serviceID: String, msisdn: String, token: String) {
         if (msisdn.isEmpty())
             _paymentLiveData.value = CommonResource.API_CALL_FAILED
         else {
@@ -310,5 +310,71 @@ internal class PaymentViewModel(
             }
         }
     }
+
+
+    suspend fun bKashDonationPayment(
+        amount: String
+    ) {
+        viewModelScope.launch {
+
+
+            when (val loginResponse = paymentRepository.login()) {
+                is ApiResource.Failure -> _paymentLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success -> {
+                    if (loginResponse.value?.Success == true) {
+
+                        if (loginResponse.value.Data.isNotEmpty())
+                            processBkashDonation(
+                                amount = amount,
+                                msisdn = DeenSDKCore.GetDeenMsisdn(),
+                                token = loginResponse.value.Data
+                            )
+                        else
+                            _paymentLiveData.value = CommonResource.API_CALL_FAILED
+                    } else
+                        CommonResource.API_CALL_FAILED
+                }
+            }
+        }
+    }
+
+    private suspend fun processBkashDonation(amount: String, msisdn: String, token: String) {
+        if (msisdn.isEmpty())
+            _paymentLiveData.value = CommonResource.API_CALL_FAILED
+        else {
+
+            viewModelScope.launch {
+                when (val sub = paymentRepository.bKashDonationPayment(amount, msisdn, token)) {
+                    is ApiResource.Failure -> _paymentLiveData.value =
+                        CommonResource.API_CALL_FAILED
+
+                    is ApiResource.Success -> {
+                        if (sub.value?.Success == true && sub.value.Message.isNotEmpty())
+                            _paymentLiveData.value = PaymentResource.PaymentUrl(sub.value.Message,true)
+                        else
+                            _paymentLiveData.value = CommonResource.API_CALL_FAILED
+                    }
+                }
+            }
+        }
+    }
+
+    suspend fun dcbGPCharging(serviceID: String) {
+        viewModelScope.launch {
+
+            when(val response = paymentRepository.dcbGPCharge(DeenSDKCore.GetDeenMsisdn(),serviceID)){
+                is ApiResource.Failure -> _paymentLiveData.value =
+                    CommonResource.API_CALL_FAILED
+                is ApiResource.Success -> {
+                    if (response.value?.data?.paymentUrl.toString().isNotEmpty())
+                        _paymentLiveData.value = PaymentResource.PaymentUrl(response.value?.data?.paymentUrl.toString())
+                    else
+                        _paymentLiveData.value = CommonResource.API_CALL_FAILED
+
+                }
+            }
+        }
+    }
+
 
 }

@@ -50,6 +50,8 @@ internal class GPHomeMenuAdapter(
 
     }
 
+    fun getMenuList() = menu
+
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
         private val menuIcon:AppCompatImageView = itemView.findViewById(R.id.menuIcon)

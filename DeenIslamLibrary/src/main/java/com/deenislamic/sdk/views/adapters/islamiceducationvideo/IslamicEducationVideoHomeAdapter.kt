@@ -51,6 +51,13 @@ internal class IslamicEducationVideoHomeAdapter(
                 }
             }
 
+
+        }
+
+        if(viewType == itemCount - 1) {
+            prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_footer) {
+
+            }
         }
 
         return ViewHolder(main_view)

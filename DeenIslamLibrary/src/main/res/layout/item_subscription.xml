@@ -3,11 +3,10 @@
     android:id="@+id/planCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_12"
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
     app:strokeWidth="0dp"
-    tools:viewBindingIgnore="true"
-    android:layout_marginTop="@dimen/space_12"
     android:layout_marginBottom="1dp"
     app:cardBackgroundColor="@color/deen_white"
     app:layout_constraintTop_toBottomOf="@+id/hintTxt"
@@ -32,10 +31,10 @@
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
-            android:textColor="@color/deen_txt_black_deep"
+            android:textColor="@color/deen_primary"
             tools:text="Daily"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/icTick"
+            app:layout_constraintEnd_toStartOf="@+id/amount"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -47,7 +46,7 @@
             android:textColor="@color/deen_txt_ash"
             tools:text="৳2.67 • Per Daily (Auto-Renewal)"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/icTick"
+            app:layout_constraintEnd_toStartOf="@+id/amount"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -60,9 +59,23 @@
             android:textColor="@color/deen_white_70"
             tools:text="Next charge will be 25 March at 11:59 PM"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/icTick"
+            app:layout_constraintEnd_toStartOf="@+id/amount"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subText" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:textColor="@color/deen_txt_black_deep"
+            tools:text="20"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/infoText"/>
 
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -70,12 +83,12 @@
             android:id="@+id/icTick"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="@dimen/space_8"
             android:src="@drawable/deen_ic_check"
             app:tint="@color/deen_yellow"
             app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/amount"
             app:layout_constraintBottom_toBottomOf="@+id/subText"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

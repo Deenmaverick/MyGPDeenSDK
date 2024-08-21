@@ -12,6 +12,7 @@ import com.deenislamic.sdk.service.network.api.QuranService
 import com.deenislamic.sdk.service.network.api.QuranShikkhaService
 import com.deenislamic.sdk.service.network.api.YoutubeService
 import com.deenislamic.sdk.utils.BASE_AUTH_API_URL
+import com.deenislamic.sdk.utils.BASE_DCB_PAYMENT_API_URL
 import com.deenislamic.sdk.utils.BASE_DEEN_SERVICE_API_URL
 import com.deenislamic.sdk.utils.BASE_PAYMENT_API_URL
 import com.deenislamic.sdk.utils.BASE_QURAN_API_URL
@@ -36,6 +37,7 @@ internal class NetworkProvider {
     private var dashboardService:DashboardService ? = null
     private var quranShikkhaService:QuranShikkhaService ? = null
     private var paymentService:PaymentService ? = null
+    private var paymentDCBService:PaymentService ? = null
     private var nagadPaymentService:NagadPaymentService ? = null
 
     companion object {
@@ -60,7 +62,8 @@ internal class NetworkProvider {
         isDashboardService: Boolean = false,
         isQuranShikkhaService: Boolean = false,
         isPaymentService: Boolean = false,
-        isNagadPaymentService: Boolean = false
+        isNagadPaymentService: Boolean = false,
+        isDCBPaymentService: Boolean = false
     )
     {
         if(instance?.authInterceptor==null) {
@@ -206,6 +209,16 @@ internal class NetworkProvider {
             }
         }
 
+        if(instance?.paymentDCBService == null && isDCBPaymentService) {
+            instance?.okHttpClient?.let {
+                instance?.paymentDCBService = buildAPI(
+                    api = PaymentService::class.java,
+                    baseUrl = BASE_DCB_PAYMENT_API_URL,
+                    okHttpClient = it
+                )
+            }
+        }
+
         if(instance?.nagadPaymentService == null && isNagadPaymentService) {
             instance?.okHttpClient?.let {
                 instance?.nagadPaymentService = buildAPI(
@@ -282,6 +295,11 @@ internal class NetworkProvider {
     fun providePaymentService(): PaymentService? {
         initInstance(isPaymentService = true)
         return instance?.paymentService
+    }
+
+    fun provideDCBPaymentService(): PaymentService? {
+        initInstance(isDCBPaymentService = true)
+        return instance?.paymentDCBService
     }
 
     fun provideNagadPaymentService(): NagadPaymentService? {

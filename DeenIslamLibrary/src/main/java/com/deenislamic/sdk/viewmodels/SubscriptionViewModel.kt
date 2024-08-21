@@ -8,6 +8,7 @@ import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.SubscriptionResource
 import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.network.response.payment.recurring.CheckRecurringResponse
+import com.deenislamic.sdk.service.network.response.subscription.PaymentType
 import com.deenislamic.sdk.service.repository.PaymentRepository
 import com.deenislamic.sdk.service.repository.SubscriptionRepository
 import kotlinx.coroutines.async
@@ -112,6 +113,68 @@ internal class SubscriptionViewModel(
                             _autorenewLiveData.value = CommonResource.API_CALL_FAILED
                     } else
                         CommonResource.API_CALL_FAILED
+                }
+            }
+        }
+    }
+
+    suspend fun cancelAutoRenewal(
+        planStatus: String,
+        selectedPlan: Int,
+        selectedPaymentType: PaymentType?
+    ) {
+
+        viewModelScope.launch {
+
+
+            when (val loginResponse = paymentRepository.login()) {
+                is ApiResource.Failure -> _autorenewLiveData.value = CommonResource.API_CALL_FAILED
+                is ApiResource.Success -> {
+                    if (loginResponse.value?.Success == true) {
+
+                        if (loginResponse.value.Data.isNotEmpty())
+                            processRenewCancelCheck(
+                                msisdn = DeenSDKCore.GetDeenMsisdn(),
+                                token = loginResponse.value.Data,
+                                planStatus = planStatus,
+                                selectedPlan = selectedPlan,
+                                selectedPaymentType
+                            )
+                        else
+                            _autorenewLiveData.value = CommonResource.API_CALL_FAILED
+                    } else
+                        _autorenewLiveData.value = CommonResource.API_CALL_FAILED
+                }
+            }
+        }
+    }
+
+
+    private fun processRenewCancelCheck(
+        msisdn: String,
+        token: String,
+        planStatus: String,
+        selectedPlan: Int,
+        selectedPaymentType: PaymentType?
+    ){
+        if (msisdn.isEmpty())
+            _autorenewLiveData.value = CommonResource.API_CALL_FAILED
+        else {
+            viewModelScope.launch {
+                when (val sub = repository.cancelAutoRenewal(
+                    token = token, msisdn = msisdn,
+                    serviceId = selectedPlan,
+                    selectedPaymentType = selectedPaymentType
+                )) {
+                    is ApiResource.Failure -> _autorenewLiveData.value =
+                        CommonResource.API_CALL_FAILED
+
+                    is ApiResource.Success -> {
+                        if (sub.value?.Success == true && sub.value?.Message?.isNotEmpty() == true)
+                            _autorenewLiveData.value = SubscriptionResource.AutoRenewCancel(planStatus)
+                        else
+                            _autorenewLiveData.value = CommonResource.API_CALL_FAILED
+                    }
                 }
             }
         }

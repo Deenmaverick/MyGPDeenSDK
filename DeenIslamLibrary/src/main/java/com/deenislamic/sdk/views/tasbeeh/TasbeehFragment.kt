@@ -480,10 +480,10 @@ internal class TasbeehFragment : BaseRegularFragment(),
     }*/
 
     override fun action1() {
-        if(!Subscription.isSubscribe){
+        /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
       gotoFrag(R.id.action_global_tasbeehHistoryFragment)
     }
 

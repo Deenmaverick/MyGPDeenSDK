@@ -209,10 +209,10 @@ internal class IslamicBookHomeFragment : BaseRegularFragment(), IslamicBookHomeI
     override fun bookLikeClicked(Id: Int, categoryId: Int, title: String, type: String) {
 
 
-        if(!Subscription.isSubscribe){
+        /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
 
 
         if (type == "PopularBooks"){
@@ -232,10 +232,10 @@ internal class IslamicBookHomeFragment : BaseRegularFragment(), IslamicBookHomeI
         bitmap: Bitmap?
     ) {
 
-         if(!Subscription.isSubscribe){
+         /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
 
         lifecycleScope.launch {
             viewmodel.getDigitalQuranSecureUrl(contentUrl, true, id, title)

@@ -4,6 +4,7 @@ import com.deenislamic.sdk.service.network.ApiCall
 import com.deenislamic.sdk.service.network.AuthInterceptor
 import com.deenislamic.sdk.service.network.api.AuthenticateService
 import com.deenislamic.sdk.service.network.api.PaymentService
+import com.deenislamic.sdk.service.network.response.subscription.PaymentType
 import com.deenislamic.sdk.utils.RequestBodyMediaType
 import com.deenislamic.sdk.utils.toRequestBody
 import org.json.JSONObject
@@ -39,6 +40,25 @@ internal class SubscriptionRepository(
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         paymentService?.cancelAutoRenewal(requestBody)
+
+    }
+
+    suspend fun cancelAutoRenewal(
+        token: String,
+        msisdn: String,
+        serviceId: Int,
+        selectedPaymentType: PaymentType?
+    ) = makeApicall {
+
+        authInterceptor?.tempAccessToken = token
+
+        val body = JSONObject()
+        body.put("msisdn", msisdn)
+        body.put("device", "gpsdk")
+        body.put("ServiceId",serviceId)
+
+        val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+            paymentService?.cancelAutoRenewal(requestBody)
 
     }
 

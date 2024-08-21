@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.network.response.dashboard.Item
+import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.views.adapters.prayerlearning.GridMenuAdapter
 
 internal class GridMenuList(itemView: View, private val items: List<Item>) {
@@ -14,6 +15,7 @@ internal class GridMenuList(itemView: View, private val items: List<Item>) {
     init {
 
         listView.apply {
+            setPadding(12.dp,0,12.dp,0)
             layoutManager = GridLayoutManager(this.context,2)
             adapter = GridMenuAdapter(items)
         }

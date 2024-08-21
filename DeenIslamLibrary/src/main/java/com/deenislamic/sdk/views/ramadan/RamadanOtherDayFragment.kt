@@ -346,10 +346,10 @@ internal class RamadanOtherDayFragment : BaseRegularFragment(), RamadanCallback,
     }
 
     override fun setFastingTrack(isFast: Boolean) {
-        if(!Subscription.isSubscribe){
+        /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
         lifecycleScope.launch {
             viewmodel.setRamadanTrack(
                 isFast,

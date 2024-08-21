@@ -399,9 +399,9 @@ internal class PaymentListFragment : BaseRegularFragment() {
         private fun bKashPayment() {
             lifecycleScope.launch {
                 if(navArgs.payment.isRecurring)
-                    viewmodel.recurringPayment(serviceID = paymentData.serviceIDBkash)
+                    viewmodel.recurringPayment(serviceID = paymentData.serviceIDBkash.toString())
                 else
-                    viewmodel.bKashPayment(serviceID = paymentData.serviceIDBkash)
+                    viewmodel.bKashPayment(serviceID = paymentData.serviceIDBkash.toString())
             }
         }
 

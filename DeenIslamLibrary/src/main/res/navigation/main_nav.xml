@@ -1049,13 +1049,17 @@
             android:defaultValue="@null" />
     </fragment>
 
-    <fragment
-        android:id="@+id/subscriptionFragment"
-        android:name="com.deenislamic.sdk.views.subscription.SubscriptionFragment"
-        android:label="SubscriptionFragment" />
     <action
         android:id="@+id/action_global_subscriptionFragment"
-        app:destination="@id/subscriptionFragment"
+        app:destination="@id/subscriptionNewFragment"
+        app:enterAnim="@anim/slide_enter"
+        app:exitAnim="@anim/slide_exit"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit" />
+
+    <action
+        android:id="@+id/action_global_subscriptionNewFragment"
+        app:destination="@id/subscriptionNewFragment"
         app:enterAnim="@anim/slide_enter"
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"
@@ -1676,4 +1680,10 @@
         app:exitAnim="@anim/slide_exit"
         app:popEnterAnim="@anim/pop_enter"
         app:popExitAnim="@anim/pop_exit" />
+
+    <fragment
+        android:id="@+id/subscriptionNewFragment"
+        android:name="com.deenislamic.sdk.views.subscription.SubscriptionNewFragment"
+        android:label="SubscriptionNewFragment" />
+
 </navigation>

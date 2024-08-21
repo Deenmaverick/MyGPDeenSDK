@@ -9,5 +9,7 @@ internal data class Data(
     val IslamicDate: String,
     val IslamicEvent: String,
     val Menu: List<Menu>,
-    val PrayerTime: Data
+    val PrayerTime: Data,
+    val isPremium:String?=""
+
 )

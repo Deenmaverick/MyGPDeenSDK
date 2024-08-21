@@ -151,13 +151,13 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
 
         _viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                if(position == 3){
+                /*if(position == 3){
                     if(!Subscription.isSubscribe){
                         gotoFrag(R.id.action_global_subscriptionFragment)
                         _viewPager.setCurrentItem(0,true)
                         return
                     }
-                }
+                }*/
                 viewPagerPosition = position
 
 
@@ -187,13 +187,13 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
     }
 
     override fun materialButtonHorizontalListClicked(absoluteAdapterPosition: Int) {
-        if(absoluteAdapterPosition == 3){
+       /* if(absoluteAdapterPosition == 3){
             if(!Subscription.isSubscribe){
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 materialButtonHorizontalAdapter.nextPrev(viewPagerPosition)
                 return
             }
-        }
+        }*/
         _viewPager.setCurrentItem(absoluteAdapterPosition,true)
         materialButtonHorizontalAdapter.notifyItemChanged(absoluteAdapterPosition)
         header.smoothScrollToPosition(absoluteAdapterPosition)

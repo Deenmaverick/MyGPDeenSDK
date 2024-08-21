@@ -105,6 +105,10 @@ dependencies {
     // hijri calendar
     implementation 'com.github.msarhan:ummalqura-calendar:1.1.6'
 
+    // Flexbox
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+
 
 }
 //For Maven Publish

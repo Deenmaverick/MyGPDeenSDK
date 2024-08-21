@@ -29,7 +29,7 @@
         </intent>
     </queries>
 
-    <application>
+    <application android:usesCleartextTraffic="true">
 
          <provider
              android:name=".utils.DeenFileProvider"

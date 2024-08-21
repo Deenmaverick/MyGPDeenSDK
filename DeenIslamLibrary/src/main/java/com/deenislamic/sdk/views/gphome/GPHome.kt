@@ -17,8 +17,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,7 +43,6 @@ import com.deenislamic.sdk.utils.MilliSecondToStringTime
 import com.deenislamic.sdk.utils.StateArrayForGPHome
 import com.deenislamic.sdk.utils.StringTimeToMillisecond
 import com.deenislamic.sdk.utils.TimeDiffForPrayer
-import com.deenislamic.sdk.utils.bangladeshStateArray
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.epochTimeToStringTime
 import com.deenislamic.sdk.utils.formateDateTime
@@ -55,14 +52,12 @@ import com.deenislamic.sdk.utils.getPrayerTimeWaktWise
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.isTimeInRange
-import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.prayerMomentLocale
 import com.deenislamic.sdk.utils.prayerMomentLocaleForToast
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.stringTimeToEpochTime
 import com.deenislamic.sdk.utils.timeLocale
-import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.GPHomeViewModel
 import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.gphome.GPHomeLocationAdapter
@@ -71,7 +66,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -594,11 +588,32 @@ class GPHome @JvmOverloads constructor(
         waktTracker.forEach {
             when(it.Wakt)
             {
-                "Fajr" -> fajrCheckbox?.isChecked = it.status
-                "Zuhr" -> dhuhrCheckbox?.isChecked = it.status
-                "Asar" -> asrCheckbox?.isChecked = it.status
-                "Maghrib" -> maghribCheckbox?.isChecked = it.status
-                "Isha" -> ishaCheckbox?.isChecked = it.status
+                "Fajr" -> {
+                    if(it.status)
+                        fajrCheckbox?.isEnabled = true
+                    fajrCheckbox?.isChecked = it.status
+                }
+                "Zuhr" -> {
+                    if(it.status)
+                        dhuhrCheckbox?.isEnabled = true
+                    dhuhrCheckbox?.isChecked = it.status
+                }
+                "Asar" -> {
+                    if(it.status)
+                        asrCheckbox?.isEnabled = true
+                    asrCheckbox?.isChecked = it.status
+                }
+                "Maghrib" -> {
+                    if(it.status)
+                        maghribCheckbox?.isEnabled = true
+
+                    maghribCheckbox?.isChecked = it.status
+                }
+                "Isha" -> {
+                    if(it.status)
+                        ishaCheckbox?.isEnabled = true
+                    ishaCheckbox?.isChecked = it.status
+                }
             }
         }
 
@@ -623,7 +638,7 @@ class GPHome @JvmOverloads constructor(
     }*/
 
 
-    private fun initObserver(){
+    /*private fun initObserver(){
         findViewTreeLifecycleOwner()?.let { lifecyleowner ->
 
             viewmodel?.gphomeLiveData?.observe(lifecyleowner){
@@ -668,7 +683,58 @@ class GPHome @JvmOverloads constructor(
             }
 
         }
+    }*/
+
+
+    private fun initObserver() {
+        findViewTreeLifecycleOwner()?.let { lifecycleOwner ->
+
+            // Remove all existing observers for the current LifecycleOwner
+            viewmodel?.gphomeLiveData?.removeObservers(lifecycleOwner)
+            viewmodel?.gphomePrayerLiveData?.removeObservers(lifecycleOwner)
+
+            // Add new observer for gphomeLiveData
+            viewmodel?.gphomeLiveData?.observe(lifecycleOwner) {
+                when (it) {
+                    is CommonResource.API_CALL_FAILED -> baseNoInternetState()
+                    is GPHomeResource.GPHome -> loadpage(it.data)
+                }
+            }
+
+            // Add new observer for gphomePrayerLiveData
+            viewmodel?.gphomePrayerLiveData?.observe(lifecycleOwner) {
+                when (it) {
+                    is CommonResource.API_CALL_FAILED -> Unit
+                    is GPHomeResource.GPHomePrayerTrack -> {
+                        Log.e("GPHomePrayerTrack", Gson().toJson(prayertimeData?.WaktTracker))
+
+                        prayertimeData?.WaktTracker?.firstOrNull { data -> data.Wakt == it.prayer_tag }?.status = it.status
+                        prayertimeData?.WaktTracker?.let { tracker -> prayerTracker(tracker) }
+
+
+                        if (it.status) {
+                            DeenSDKCore.baseContext?.apply {
+                                localContext?.getString(
+                                    R.string.prayer_track_success_txt,
+                                    it.prayer_tag.prayerMomentLocaleForToast()
+                                )?.let { message ->
+                                    mainView?.let { view ->
+                                        CustomToast.show(
+                                            message = message,
+                                            iconResId = R.drawable.ic_deen_done_all,
+                                            context = this,
+                                            anchorView = view
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+
 
     fun init(context: Context,token:String,language:String, callback: DeenSDKCallback){
         DeenSDKCore.setDeenLanguage(language)
@@ -801,7 +867,7 @@ class GPHome @JvmOverloads constructor(
         })
 
         // Set Soft Input Mode to resize
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         dialog?.setOnShowListener {
             val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
@@ -854,14 +920,16 @@ class GPHome @JvmOverloads constructor(
 
     override fun menuClicked(menu: Menu) {
 
-        if(this@GPHome::gpHomeMenuAdapter.isInitialized)
-            gpHomeMenuAdapter.menuVisited(menu)
+        if(!menu.IsVisited) {
+            if (this@GPHome::gpHomeMenuAdapter.isInitialized)
+                gpHomeMenuAdapter.menuVisited(menu)
 
-        if(this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
-            gpHomeDialogMenuAdapter.menuVisited(menu)
+            if (this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
+                gpHomeDialogMenuAdapter.menuVisited(menu)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            viewmodel?.trackMenu(menu.Id,true)
+            CoroutineScope(Dispatchers.IO).launch {
+                viewmodel?.trackMenu(menu.Id, true)
+            }
         }
 
         DeenSDKCore.openFromRC(menu.MText)
@@ -886,5 +954,29 @@ class GPHome @JvmOverloads constructor(
             loadapi()
         }
         firstload = true
+    }
+
+    override fun deenMenuVisitListner(getGPHomeMatch: Menu?) {
+        getGPHomeMatch?.let {
+            if(it.IsVisited)
+                return
+            if(this@GPHome::gpHomeMenuAdapter.isInitialized)
+                gpHomeMenuAdapter.menuVisited(it)
+
+            if(this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
+                gpHomeDialogMenuAdapter.menuVisited(it)
+
+            CoroutineScope(Dispatchers.IO).launch {
+                viewmodel?.trackMenu(it.Id,true)
+            }
+        }
+    }
+
+    override fun deenGetGPHomeMenuList(): List<Menu>? {
+        if(this@GPHome::gpHomeMenuAdapter.isInitialized)
+            return gpHomeMenuAdapter.getMenuList()
+        else
+            return null
+
     }
 }

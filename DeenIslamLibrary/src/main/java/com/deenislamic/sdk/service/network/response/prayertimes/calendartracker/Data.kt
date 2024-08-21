@@ -15,6 +15,8 @@ internal data class Data(
         val TrackingDate: String,
         val Zuhr: Boolean*/
 ){
+
+    @Keep
     data class Tracker(
         val Msisdn: String,
         var TrackingDate: String,
@@ -26,6 +28,7 @@ internal data class Data(
         var Isha: Boolean
     )
 
+    @Keep
     data class PrayerTime(
         val Date: String,
         val IslamicDate: String,

@@ -49,6 +49,12 @@ internal class IslamicBookHomeAdapter(
             }
         }
 
+        if(viewType == itemCount - 1) {
+            prepareStubView<View>(rootView.findViewById(R.id.widget),R.layout.layout_footer) {
+
+            }
+        }
+
         return ViewHolder(mainView)
     }
 

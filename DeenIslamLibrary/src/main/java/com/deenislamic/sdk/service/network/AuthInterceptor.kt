@@ -8,6 +8,7 @@ internal class AuthInterceptor :Interceptor {
 
     var isEnabled = true
     var tempAccessToken = ""
+    var dcbPayment = false
     override fun intercept(chain: Interceptor.Chain): Response {
 
         /*val acceessToken =  runBlocking {
@@ -24,6 +25,8 @@ internal class AuthInterceptor :Interceptor {
         val acceessToken = DeenSDKCore.GetDeenToken()
 
         var request = chain.request()
+
+        if(!dcbPayment) {
         request = request.newBuilder()
             .header("device", "mygpdeen")
             .header("version", "v1.0")
@@ -34,6 +37,13 @@ internal class AuthInterceptor :Interceptor {
                 tempAccessToken.ifEmpty { acceessToken }
             }")
             .build()
+
+        } else{
+            request = request.newBuilder()
+                .header("DeviceType", "android")
+                .build()
+            dcbPayment = false
+        }
         //return chain.proceed(request)
         tempAccessToken = ""
         return if (isEnabled) {

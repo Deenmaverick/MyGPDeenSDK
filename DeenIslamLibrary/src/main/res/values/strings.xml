@@ -415,7 +415,7 @@
     <string name="my_favorites">My Favorites</string>
     <string name="get_premium">Get Premium</string>
     <string name="join_the_islamic_ott_platform">Join the Islamic OTT platform</string>
-    <string name="subs_greeting_txt">Join the Muslim community and learn Islam properly.</string>
+    <string name="subs_greeting_txt">Carry out your role in Islamic service based on proper Islamic direction.</string>
     <string name="cancel_auto_renewal_at_any_time">Cancel auto-renewal at any time</string>
     <string name="cancel_plan">Cancel Auto-Renewal</string>
     <string name="premium_features">Premium Features</string>
@@ -599,4 +599,16 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="no_internet_info">Please connect internet connection to get Islamic features.</string>
     <string name="app_name_deen">Deen</string>
+    <string name="taka">Taka</string>
+    <string name="donation">Donation</string>
+    <string name="donation_plan">Donation Plan</string>
+    <string name="donate_any_amount">Donate any amount</string>
+    <string name="enter_amount_money">Enter amount</string>
+    <string name="donate">Donate</string>
+    <string name="sub_scholar_hint">Deen is a popular app that is well-known for having a ton of academic content.</string>
+    <string name="our_islamic_scholars">Our Islamic scholars</string>
+    <string name="hint_choose_payment_method">Please choose payment method first</string>
+    <string name="subscriptions_plan">Subscriptions Plan</string>
+    <string name="grameenphone">Grameenphone</string>
+
 </resources>

@@ -714,11 +714,11 @@ internal class AlQuranFragment : BaseFragment<FragmentAlQuranBinding>(FragmentAl
 
             "download" -> {
 
-                 if(!Subscription.isSubscribe){
+                 /*if(!Subscription.isSubscribe){
                     dialog?.dismiss()
                     gotoFrag(R.id.action_global_subscriptionFragment)
                     return
-                }
+                }*/
 
                 val fileName = "surahinfo.json" // Replace with the actual file name you want to check
 

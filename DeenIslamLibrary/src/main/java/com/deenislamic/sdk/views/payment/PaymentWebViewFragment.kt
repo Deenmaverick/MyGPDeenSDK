@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -178,8 +179,9 @@ internal class PaymentWebViewFragment : BaseRegularFragment(), CustomDialogCallb
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 baseLoadingState()
 
+                Log.e("PaymentWebview",url)
 
-                if(getDomain(url)== "payment.islamicservice.net") {
+                if(getDomain(url)== "payment.islamicservice.net" || getDomain(url)== "api.payment-app.info") {
 
                     try {
                         val uri = URI(url)
@@ -194,7 +196,7 @@ internal class PaymentWebViewFragment : BaseRegularFragment(), CustomDialogCallb
                                 return
                             }
 
-                            "CancelCallbackView" -> {
+                            "CancelCallbackView","deny" -> {
                                 payCancel()
                                 webview.hide()
                                 return

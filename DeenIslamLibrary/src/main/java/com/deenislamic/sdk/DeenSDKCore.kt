@@ -12,6 +12,7 @@ import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.network.response.auth.jwt.JwtResponse
+import com.deenislamic.sdk.service.network.response.gphome.Menu
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.repository.AuthenticateRepository
 import com.deenislamic.sdk.service.repository.PrayerTimesRepository
@@ -59,7 +60,7 @@ object DeenSDKCore {
     private var isTodayNotificationSet = false
 
     @JvmStatic
-    private var  gpHomeCallback : DeenSDKCallback? =null
+    var  gpHomeCallback : DeenSDKCallback? =null
 
     @JvmStatic
     fun initDeen(context: Context, token:String, callback: DeenSDKCallback)
@@ -734,5 +735,13 @@ interface DeenSDKCallback
 
     fun deenLanguageChangeListner(language: String) {
 
+    }
+
+    fun deenMenuVisitListner(getGPHomeMatch: Menu?) {
+
+    }
+
+    fun deenGetGPHomeMenuList():List<Menu>? {
+        return null
     }
 }

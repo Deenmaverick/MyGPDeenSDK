@@ -173,10 +173,10 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
         }
 
         yesBtn.setOnClickListener {
-            if(!Subscription.isSubscribe){
+            /*if(!Subscription.isSubscribe){
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 return@setOnClickListener
-            }
+            }*/
             if(currentDaydata?.isTracked==1)
                 return@setOnClickListener
             lifecycleScope.launch {
@@ -185,10 +185,10 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
         }
 
         noBtn.setOnClickListener {
-            if(!Subscription.isSubscribe){
+            /*if(!Subscription.isSubscribe){
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 return@setOnClickListener
-            }
+            }*/
             if(currentDaydata?.isTracked==0)
                 return@setOnClickListener
             lifecycleScope.launch {

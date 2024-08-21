@@ -179,10 +179,10 @@ internal class IslamicNameHomeFragment : BaseRegularFragment(), otherFagmentActi
 
     override fun action2() {
 
-        if(!Subscription.isSubscribe){
+        /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
         gotoFrag(R.id.action_islamicNameFragment_to_islamicNameFavFargment)
     }
 

@@ -45,7 +45,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val loadGPHomeBtn:AppCompatButton = findViewById(R.id.loadGPHomeBtn)
          gphome = findViewById(R.id.gphome)
 
-        gphome.init(this,"8801942247803","en",this)
+        gphome.init(this,"8801738439236","bn",this)
 
         //DeenSDKCore.authSDK(this,"8801942247803",this)
 

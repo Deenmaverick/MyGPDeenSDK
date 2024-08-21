@@ -88,7 +88,6 @@ import com.deenislamic.sdk.utils.MENU_RAMADAN_OTHER_DAY
 import com.deenislamic.sdk.utils.MENU_ZAKAT
 import com.deenislamic.sdk.utils.MilliSecondToStringTime
 import com.deenislamic.sdk.utils.StringTimeToMillisecond
-import com.deenislamic.sdk.utils.Subscription
 import com.deenislamic.sdk.utils.bangladeshStateArray
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.getRCDestination
@@ -1181,6 +1180,10 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
     override fun menuClicked(pagetag: String, getMenu: Item?) {
         Log.e("menuClicked",pagetag)
+        DeenSDKCore.gpHomeCallback?.deenGetGPHomeMenuList()?.let { gpMenu ->
+            val getGPHomeMatch = gpMenu.firstOrNull { it.Id == getMenu?.Id }
+            DeenSDKCore.gpHomeCallback?.deenMenuVisitListner(getGPHomeMatch)
+        }
         when(pagetag)
         {
             MENU_PRAYER_TIME ->  gotoFrag(R.id.action_global_prayerTimesFragment)
@@ -1345,10 +1348,10 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
                 if(data?.FeatureName == "partnerQurbaniVideos"){
 
-                    if(!Subscription.isSubscribe){
+                    /*if(!Subscription.isSubscribe){
                         gotoFrag(R.id.action_global_subscriptionFragment)
                         return
-                    }
+                    }*/
                 }
 
                 if(data?.FeatureTitle == "Banners"){

@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.views.adapters.subscription;
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +12,18 @@ import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.SubscriptionCallback
 import com.deenislamic.sdk.service.network.response.subscription.PaymentType
 import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.GP
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
 
-internal class PackListAdapter(private val paymentTypes: List<PaymentType>) : RecyclerView.Adapter<BaseViewHolder>() {
+internal class PackListAdapter(private var paymentTypes: List<PaymentType>) : RecyclerView.Adapter<BaseViewHolder>() {
 
-    private var selectedIndex = 0
+    private val backupList = paymentTypes
+    private var selectedMethod = ""
     private val callback  = CallBackProvider.get<SubscriptionCallback>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
@@ -33,13 +38,41 @@ internal class PackListAdapter(private val paymentTypes: List<PaymentType>) : Re
         holder.onBind(position)
     }
 
+    fun updatePaymentMethod(method: String, subscriptionStatus: String): List<PaymentType> {
+
+        when(method){
+            "bkash" -> {
+                paymentTypes = backupList.filter { it.isBkashEnable }
+            }
+            GP -> {
+                paymentTypes = backupList.filter { it.isGPEnable }
+            }
+
+
+            else -> {
+                paymentTypes = arrayListOf()
+            }
+        }
+
+        if(subscriptionStatus == "1bknon")
+            paymentTypes = paymentTypes.filter { it.isRecurring }
+
+        Log.e("updatePaymentMethod","$subscriptionStatus $method ${Gson().toJson(paymentTypes)}")
+
+        notifyDataSetChanged()
+
+
+        return paymentTypes
+
+    }
+
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
-        val planCard:MaterialCardView = itemView.findViewById(R.id.planCard)
-        val title: AppCompatTextView = itemView.findViewById(R.id.title)
-        val subText: AppCompatTextView = itemView.findViewById(R.id.subText)
-        val icTick: AppCompatImageView = itemView.findViewById(R.id.icTick)
+        private val planCard:MaterialCardView = itemView.findViewById(R.id.planCard)
+        private val title: AppCompatTextView = itemView.findViewById(R.id.title)
+        private val subText: AppCompatTextView = itemView.findViewById(R.id.subText)
+        private val amount:AppCompatTextView = itemView.findViewById(R.id.amount)
 
         override fun onBind(position: Int) {
             super.onBind(position)
@@ -48,46 +81,10 @@ internal class PackListAdapter(private val paymentTypes: List<PaymentType>) : Re
 
             title.text = getdata.packageTitle
             subText.text = getdata.packageDescription
+            amount.text = "৳${getdata.packageAmount.numberLocale()}"
 
-            if(absoluteAdapterPosition == selectedIndex) {
-
-                icTick.show()
-
-                itemView.context?.let {
-                    planCard.setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            it,
-                            R.color.deen_primary
-                        )
-                    )
-                    title.setTextColor(ContextCompat.getColor(it, R.color.deen_white))
-                    subText.setTextColor(ContextCompat.getColor(it, R.color.deen_white))
-                }
-
-            }
-            else{
-
-                icTick.hide()
-                itemView.context?.let {
-                    planCard.setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            it,
-                            R.color.deen_white
-                        )
-                    )
-                    title.setTextColor(ContextCompat.getColor(it, R.color.deen_txt_black_deep))
-                    subText.setTextColor(ContextCompat.getColor(it, R.color.deen_txt_black_deep))
-                }
-            }
 
             itemView.setOnClickListener {
-                if(selectedIndex == absoluteAdapterPosition)
-                    return@setOnClickListener
-
-                val prevPos = selectedIndex
-                selectedIndex = absoluteAdapterPosition
-                notifyItemChanged(absoluteAdapterPosition)
-                notifyItemChanged(prevPos)
                 callback?.selectedPack(getdata)
             }
 

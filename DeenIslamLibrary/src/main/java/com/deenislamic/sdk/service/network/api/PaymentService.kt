@@ -1,6 +1,7 @@
 package com.deenislamic.sdk.service.network.api
 
 import com.deenislamic.sdk.service.network.response.common.BasicResponse
+import com.deenislamic.sdk.service.network.response.payment.DCBChargeResponse
 import com.deenislamic.sdk.service.network.response.payment.SSLPaymentResponse
 import com.deenislamic.sdk.service.network.response.payment.recurring.CheckRecurringResponse
 import okhttp3.RequestBody
@@ -29,5 +30,13 @@ internal interface PaymentService {
 
     @POST("DeenRecurring/InitiateRecurringPayment")
     suspend fun deenRecurringPayment(@Body parm: RequestBody): BasicResponse
+
+    @POST("deenApp/Donation")
+    suspend fun bKashDonation(@Body parm: RequestBody): BasicResponse
+
+    @POST("grameenphone/checkout/create-checkout-session/deen")
+    suspend fun dcbGPCharge(@Body parm: RequestBody): DCBChargeResponse
+
+
 
 }

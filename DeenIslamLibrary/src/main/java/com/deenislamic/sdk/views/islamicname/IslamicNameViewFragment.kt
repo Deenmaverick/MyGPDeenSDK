@@ -210,10 +210,10 @@ internal class IslamicNameViewFragment : BaseRegularFragment(),
 
     override fun favClick(data: Data, position: Int) {
 
-        if(!Subscription.isSubscribe){
+        /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
 
         lifecycleScope.launch {
 

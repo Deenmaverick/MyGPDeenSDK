@@ -140,11 +140,11 @@ internal class QurbaniFragment : BaseRegularFragment() {
 
 
         bookmarkBtn.setOnClickListener {
-             if(!Subscription.isSubscribe){
+             /*if(!Subscription.isSubscribe){
                 gotoFrag(R.id.action_global_subscriptionFragment)
                 return@setOnClickListener
             }
-            else
+            else*/
                 viewPager.setCurrentItem(1,true)
         }
 

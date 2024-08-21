@@ -272,10 +272,10 @@ internal class IslamicBookPreviewFragment : BaseRegularFragment(),
     ) {
 
         //Toast.makeText(requireContext(), "isFavorite: "+isFavorite, Toast.LENGTH_SHORT).show()
-         if(!Subscription.isSubscribe){
+         /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
 
         lifecycleScope.launch {
             viewModel.makeBookFavorite(ContentId = Id.toString(), isFavorite = isFavorite, language = getLanguage())
@@ -290,10 +290,10 @@ internal class IslamicBookPreviewFragment : BaseRegularFragment(),
         bitmap: Bitmap?
     ) {
 
-         if(!Subscription.isSubscribe){
+         /*if(!Subscription.isSubscribe){
             gotoFrag(R.id.action_global_subscriptionFragment)
             return
-        }
+        }*/
 
         bookId = id
         bookTitle = title

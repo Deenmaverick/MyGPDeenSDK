@@ -185,7 +185,7 @@ internal class ZakatHomeFragment : BaseRegularFragment(), HorizontalCardListCall
             }
 
             "subs" -> {
-                //gotoFrag(R.id.action_global_subscriptionNewFragment)
+                gotoFrag(R.id.action_global_subscriptionNewFragment)
             }
         }
     }
