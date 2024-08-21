@@ -251,6 +251,37 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/loadGPHomeBtn"/>
 
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/enBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gphome"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="English"
+            android:textColor="@color/deen_black" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bnBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/enBtn"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Bangla"
+            android:textColor="@color/deen_black" />
+
+
     </RelativeLayout>
 
 </ScrollView>
