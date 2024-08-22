@@ -21,6 +21,7 @@ import com.deenislamic.sdk.service.di.NetworkProvider
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.PaymentResource
 import com.deenislamic.sdk.service.models.payment.PaymentModel
+import com.deenislamic.sdk.service.network.response.subscription.Data
 import com.deenislamic.sdk.service.repository.PaymentRepository
 import com.deenislamic.sdk.utils.LoadingButton
 import com.deenislamic.sdk.utils.TERMS_URL
@@ -56,10 +57,6 @@ internal class PaymentListFragment : BaseRegularFragment() {
     private lateinit var nagadIcMethod: AppCompatImageView
     private lateinit var nagadPayTitle: AppCompatTextView
 
-    private lateinit var paymentGpay: MaterialCardView
-    private lateinit var gPayIcMethod: AppCompatImageView
-    private lateinit var gPayTitle: AppCompatTextView
-
 
     private lateinit var paymentCard: MaterialCardView
     private lateinit var cardPayIcMethod: AppCompatImageView
@@ -76,13 +73,17 @@ internal class PaymentListFragment : BaseRegularFragment() {
 
     private var selectedPaymentMethod = ""
     private lateinit var paymentData: PaymentModel
+    private var paymentListData: Data ? = null
 
     override fun OnCreate() {
         super.OnCreate()
+
         val paymentRepository = PaymentRepository(
             paymentService = NetworkProvider().getInstance().providePaymentService(),
             nagadPaymentService = NetworkProvider().getInstance().provideNagadPaymentService(),
-            authInterceptor = NetworkProvider().getInstance().provideAuthInterceptor())
+            authInterceptor = NetworkProvider().getInstance().provideAuthInterceptor(),
+            authenticateService = NetworkProvider().getInstance().provideAuthService(),
+            dcbPaymentService = NetworkProvider().getInstance().provideDCBPaymentService())
 
         viewmodel = PaymentViewModel(paymentRepository)
 
@@ -111,18 +112,14 @@ internal class PaymentListFragment : BaseRegularFragment() {
         nagadIcMethod = paymentNagad.findViewById(R.id.icMethod)
         nagadPayTitle = paymentNagad.findViewById(R.id.title)
 
-        paymentGpay = mainview.findViewById(R.id.paymentGpay)
-        gPayIcMethod = paymentGpay.findViewById(R.id.icMethod)
-        gPayTitle = paymentGpay.findViewById(R.id.title)
-
         paymentCard = mainview.findViewById(R.id.paymentCard)
         cardPayIcMethod = paymentCard.findViewById(R.id.icMethod)
         cardPayTitle = paymentCard.findViewById(R.id.title)
 
         payBtn = mainview.findViewById(R.id.payBtn)
 
-        telcoIcMethod.load(R.drawable.deen_ic_telco_payment)
-        telcoPayTitle.text = localContext.getString(R.string.telco_payment)
+        telcoIcMethod.load(R.drawable.deen_ic_gp_logo)
+        telcoPayTitle.text = localContext.getString(R.string.grameenphone)
 
         bkashIcMethod.load(R.drawable.deen_ic_bkash_payment)
         bkashPayTitle.text = localContext.getString(R.string.bkash)
@@ -134,26 +131,16 @@ internal class PaymentListFragment : BaseRegularFragment() {
         nagadPayTitle.text = localContext.getString(R.string.nagad)
 
 
-
         clCheckbox = mainview.findViewById(R.id.clCheckbox)
         appCompatCheckBox = mainview.findViewById(R.id.appCompatCheckBox)
         paymentData = navArgs.payment
         tvAgreeTxt = mainview.findViewById(R.id.tvAgreeTxt)
-
-        if (!paymentData.isTelcoEnable)
-            paymentTelco.hide()
-
-        if (!paymentData.isBkashEnable)
-            paymentBkash.hide()
 
         if (!paymentData.isNagadEnable)
             paymentNagad.hide()
 
         if (!paymentData.isSSLEnable)
             paymentCard.hide()
-
-        if (!paymentData.isGpayEnable)
-            paymentGpay.hide()
 
         clCheckbox.visible(paymentData.tcUrl != null)
 
@@ -166,6 +153,7 @@ internal class PaymentListFragment : BaseRegularFragment() {
             view = mainview
         )
 
+        setupCommonLayout(mainview)
 
         setClickableLinks(tvAgreeTxt)
 
@@ -175,37 +163,19 @@ internal class PaymentListFragment : BaseRegularFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*if (firstload)
-            loadPage()
-        else if (!isDetached) {
-            view.postDelayed({
-                loadPage()
-            }, 300)
-        } else*/
-            loadPage()
-
-        firstload = true
-
-    }
-
-    private fun loadPage() {
-
         initObserver()
 
         heading.text = paymentData.title
-        payableAmount.text = "৳${paymentData.amount}".numberLocale()
-        payBtn.text =
-            localContext.getString(R.string.payincAmount, paymentData.amount).numberLocale()
 
         // manual activate method
 
-        activePaymentMethod(paymentBkash)
+        activePaymentMethod(paymentTelco)
         paymentWebViewTitle = localContext.getString(R.string.bkash)
-        selectedPaymentMethod = "bKash"
+        selectedPaymentMethod = "telco"
 
         paymentTelco.setOnClickListener {
             activePaymentMethod(paymentTelco)
-            paymentWebViewTitle = localContext.getString(R.string.telco_payment)
+            paymentWebViewTitle = localContext.getString(R.string.grameenphone)
             selectedPaymentMethod = "telco"
         }
 
@@ -215,7 +185,7 @@ internal class PaymentListFragment : BaseRegularFragment() {
             selectedPaymentMethod = "bKash"
         }
 
-        paymentNagad.setOnClickListener {
+        /*paymentNagad.setOnClickListener {
             activePaymentMethod(paymentNagad)
             paymentWebViewTitle = localContext.getString(R.string.nagad)
             selectedPaymentMethod = "nagad"
@@ -225,14 +195,8 @@ internal class PaymentListFragment : BaseRegularFragment() {
             activePaymentMethod(paymentCard)
             paymentWebViewTitle = localContext.getString(R.string.debit_credit_card)
             selectedPaymentMethod = "ssl"
-        }
+        }*/
 
-        paymentGpay.setOnClickListener {
-
-            activePaymentMethod(paymentGpay)
-            selectedPaymentMethod = "gpay"
-
-        }
 
         payBtn.setOnClickListener {
 
@@ -251,8 +215,7 @@ internal class PaymentListFragment : BaseRegularFragment() {
 
             when (selectedPaymentMethod) {
                 "bKash" -> bKashPayment()
-                "ssl" -> sslPayment()
-                "nagad" -> nagadPayment()
+                "telco" -> telcoPayment()
             }
 
             /*val bundle = Bundle()
@@ -272,7 +235,12 @@ internal class PaymentListFragment : BaseRegularFragment() {
             }
         }*/
 
+        if(!firstload)
+        loadapi()
+        firstload = true
+
     }
+
 
     private fun activePaymentMethod(card: MaterialCardView) {
         unselectAllMethod()
@@ -345,8 +313,43 @@ internal class PaymentListFragment : BaseRegularFragment() {
     }
 
 
+    private fun loadapi(){
+        baseLoadingState()
+        lifecycleScope.launch {
+            viewmodel.getServicePaymentList("qc")
+        }
+    }
+
+    override fun noInternetRetryClicked() {
+        loadapi()
+    }
 
     private fun initObserver() {
+
+        viewmodel.paymentListLiveData.observe(viewLifecycleOwner){
+
+            when(it){
+                is CommonResource.API_CALL_FAILED -> baseNoInternetState()
+                is PaymentResource.ServicePaymentList -> {
+
+                    paymentListData = it.data
+
+                    val getAmountData = paymentListData?.paymentTypes?.firstOrNull { pdata-> pdata.serviceIDBkash == paymentData.serviceIDBkash }
+
+                    payableAmount.text = "৳${getAmountData?.packageAmount}".numberLocale()
+                    payBtn.text =
+                        localContext.getString(R.string.payincAmount, getAmountData?.packageAmount.toString()).numberLocale()
+
+
+                    paymentTelco.visible(it.data.paymentMethod.isGP)
+                    paymentBkash.visible(it.data.paymentMethod.isBkash)
+
+                    baseViewState()
+                }
+
+            }
+        }
+
             viewmodel.paymentLiveData.observe(viewLifecycleOwner)
             {
 
@@ -398,10 +401,11 @@ internal class PaymentListFragment : BaseRegularFragment() {
 
         private fun bKashPayment() {
             lifecycleScope.launch {
-                if(navArgs.payment.isRecurring)
+                /*if(navArgs.payment.isRecurring)
                     viewmodel.recurringPayment(serviceID = paymentData.serviceIDBkash.toString())
-                else
-                    viewmodel.bKashPayment(serviceID = paymentData.serviceIDBkash.toString())
+                else*/
+                val getBkashdata = paymentListData?.paymentTypes?.firstOrNull { it.isBkashEnable && it.serviceIDBkash == paymentData.serviceIDBkash }
+                    viewmodel.bKashPayment(serviceID = getBkashdata?.serviceIDBkash.toString(), device = "app")
             }
         }
 
@@ -411,9 +415,10 @@ internal class PaymentListFragment : BaseRegularFragment() {
             }
         }
 
-        private fun sslPayment() {
+        private fun telcoPayment() {
             lifecycleScope.launch {
-                viewmodel.sslPayment(serviceID = paymentData.serviceIDSSL)
+                val getTelcodata = paymentListData?.paymentTypes?.firstOrNull { it.isGPEnable && it.serviceIDBkash == paymentData.serviceIDBkash}
+                viewmodel.dcbGPCharging(serviceID = getTelcodata?.serviceIDGP.toString())
             }
         }
 

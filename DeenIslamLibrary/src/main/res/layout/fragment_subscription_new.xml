@@ -145,20 +145,17 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
 
-            <com.google.android.flexbox.FlexboxLayout
+            <LinearLayout
                 android:id="@+id/methodList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/cancelBtn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal"
                 android:paddingStart="@dimen/space_14"
                 android:paddingEnd="@dimen/space_14"
-                android:paddingTop="@dimen/space_14"
-                app:flexWrap="wrap"
-                app:alignContent="stretch"
-                app:alignItems="stretch"
-                app:justifyContent="flex_start">
+                android:paddingTop="@dimen/space_14">
 
                 <include
                     android:id="@+id/methodBkash"
@@ -176,7 +173,7 @@
                     />
 
 
-            </com.google.android.flexbox.FlexboxLayout>
+            </LinearLayout>
 
 
 

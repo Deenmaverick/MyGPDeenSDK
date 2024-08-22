@@ -1053,7 +1053,7 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     {
         if(titile.isEmpty() || titile == localContext.resources.getString(R.string.app_name) && !backEnable) {
             title.text = localContext.resources.getString(R.string.app_name)
-            btnBack.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.bl_islamic_icon))
+            btnBack.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.deen_gp_islamic_icon))
             btnBack.visible(true)
 
             btnBack.setOnClickListener {

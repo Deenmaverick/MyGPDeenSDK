@@ -23,10 +23,15 @@ internal class PaymentViewModel(
 
     var isIPNCalled = false
 
+    private val _paymentListLiveData: MutableLiveData<PaymentResource> = MutableLiveData()
+    val paymentListLiveData: MutableLiveData<PaymentResource> get() = _paymentListLiveData
+
+
 
     //bKash Payment
     suspend fun bKashPayment(
-        serviceID: String
+        serviceID: String,
+        device:String = "gpsdk"
     ) {
         viewModelScope.launch {
 
@@ -39,7 +44,8 @@ internal class PaymentViewModel(
                             processBkashSub(
                                 serviceID = serviceID,
                                 msisdn = DeenSDKCore.GetDeenMsisdn(),
-                                token = loginResponse.value.Data
+                                token = loginResponse.value.Data,
+                                device
                             )
                         else
                             _paymentLiveData.value = CommonResource.API_CALL_FAILED
@@ -51,13 +57,18 @@ internal class PaymentViewModel(
     }
 
 
-    private suspend fun processBkashSub(serviceID: String, msisdn: String, token: String) {
+    private suspend fun processBkashSub(
+        serviceID: String,
+        msisdn: String,
+        token: String,
+        device: String
+    ) {
         if (msisdn.isEmpty())
             _paymentLiveData.value = CommonResource.API_CALL_FAILED
         else {
 
             viewModelScope.launch {
-                when (val sub = paymentRepository.bKashPayment(serviceID, msisdn, token)) {
+                when(val sub = paymentRepository.bKashPayment(serviceID, msisdn, token,device)) {
                     is ApiResource.Failure -> _paymentLiveData.value =
                         CommonResource.API_CALL_FAILED
 
@@ -179,68 +190,22 @@ internal class PaymentViewModel(
         }
     }
 
-    suspend fun googlePayment(
-        service: String,
-        transactionNo: String,
-        startDate: String
-    ) {
+    suspend fun getServicePaymentList(serviceID:String) {
         viewModelScope.launch {
 
-
-            when (val loginResponse = paymentRepository.login()) {
-                is ApiResource.Failure -> _paymentLiveData.value = CommonResource.API_CALL_FAILED
+            when(val response = paymentRepository.getServicePaymentList(serviceID)){
+                is ApiResource.Failure -> _paymentListLiveData.value = CommonResource.API_CALL_FAILED
                 is ApiResource.Success -> {
-                    if (loginResponse.value?.Success == true) {
-
-                        if (loginResponse.value.Data.isNotEmpty())
-                            processGooglePayment(
-                                service = service,
-                                msisdn = DeenSDKCore.GetDeenMsisdn(),
-                                transactionNo = transactionNo,
-                                startDate = startDate,
-                                token = loginResponse.value.Data
-                            )
-                        else
-                            _paymentLiveData.value = CommonResource.API_CALL_FAILED
-                    } else
-                        CommonResource.API_CALL_FAILED
+                    if(response.value?.Success == true){
+                            _paymentListLiveData.value = PaymentResource.ServicePaymentList(response.value.Data)
+                    }else
+                        _paymentListLiveData.value = CommonResource.API_CALL_FAILED
                 }
             }
         }
     }
 
-    private suspend fun processGooglePayment(
-        service: String,
-        msisdn: String,
-        transactionNo: String,
-        startDate: String,
-        token: String
-    ) {
-        if (msisdn.isEmpty())
-            _paymentLiveData.value = CommonResource.API_CALL_FAILED
-        else {
 
-            viewModelScope.launch {
-                when (val sub = paymentRepository.googlePaySave(
-                    service,
-                    msisdn,
-                    transactionNo,
-                    startDate,
-                    token
-                )) {
-                    is ApiResource.Failure -> _paymentLiveData.value =
-                        CommonResource.API_CALL_FAILED
-
-                    is ApiResource.Success -> {
-                        if (sub.value?.Success == true)
-                            _paymentLiveData.value = PaymentResource.PaymentUrl(sub.value.Message)
-                        else
-                            _paymentLiveData.value = CommonResource.API_CALL_FAILED
-                    }
-                }
-            }
-        }
-    }
 
     fun ipnCallback(status: Int) {
         isIPNCalled = true

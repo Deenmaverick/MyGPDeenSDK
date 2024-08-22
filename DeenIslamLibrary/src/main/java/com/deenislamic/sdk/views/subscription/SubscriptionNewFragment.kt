@@ -54,11 +54,6 @@ import com.deenislamic.sdk.views.adapters.subscription.PackListAdapter
 import com.deenislamic.sdk.views.adapters.subscription.PremiumFeatureAdapter
 import com.deenislamic.sdk.views.adapters.subscription.ScholarListAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
-import com.google.android.flexbox.AlignItems
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayout
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -75,7 +70,6 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
     private lateinit var paymentViewmodel: PaymentViewModel
 
     private lateinit var bannerList:RecyclerView
-    private lateinit var methodList:FlexboxLayout
     private lateinit var donationCard:MaterialCardView
 
     private lateinit var methodBkash:MaterialButton
@@ -160,7 +154,6 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
         val mainview = localInflater.inflate(R.layout.fragment_subscription_new,container,false)
 
         bannerList = mainview.findViewById(R.id.bannerList)
-        methodList = mainview.findViewById(R.id.methodList)
         donationCard = mainview.findViewById(R.id.customDonationLY)
 
         methodBkash = mainview.findViewById(R.id.methodBkash)
@@ -244,12 +237,6 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
         // set donation amount
 
         customDonationAmountList.apply {
-            val flayoutManager = FlexboxLayoutManager(requireContext())
-            flayoutManager.flexWrap = FlexWrap.WRAP
-            flayoutManager.alignItems = AlignItems.STRETCH
-            flayoutManager.justifyContent = JustifyContent.SPACE_EVENLY
-            flayoutManager.justifyContent = JustifyContent.FLEX_START
-            layoutManager = flayoutManager
             itemAnimator = null
             if(!this@SubscriptionNewFragment::donationAmountAdapter.isInitialized)
             donationAmountAdapter = DonationAmountAdapter(donateAmountList)
@@ -654,7 +641,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun sub1BKMode(){
         bannerList.hide()
-        methodList.show()
+        //methodList.show()
         planListHint.hide()
         packList.hide()
         //donationCard.show()
@@ -664,7 +651,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun sub1BKNonMode(){
         bannerList.hide()
-        methodList.show()
+        //methodList.show()
         planListHint.show()
         packList.show()
         //donationCard.show()
@@ -674,7 +661,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun sub2BKMode(){
         bannerList.hide()
-        methodList.show()
+        //methodList.show()
         planListHint.hide()
         packList.hide()
         //donationCard.show()
@@ -684,7 +671,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun unSubscribeMode(){
         bannerList.show()
-        methodList.show()
+        //methodList.show()
         planListHint.show()
         packList.show()
         //donationCard.show()
@@ -694,7 +681,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun donationMode(){
         bannerList.show()
-        methodList.show()
+        //methodList.show()
         planListHint.show()
         packList.show()
         //donationCard.show()

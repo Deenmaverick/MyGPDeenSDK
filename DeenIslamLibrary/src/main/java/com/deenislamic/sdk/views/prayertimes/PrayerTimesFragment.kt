@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
-import androidx.core.view.isEmpty
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -320,11 +319,18 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 is PrayerNotificationResource.prayerTrackData ->
                 {
 
+
                     Log.e("setPrayerTimeTrack",Gson().toJson(it.data))
+                    DeenSDKCore.gpHomeCallback?.deenGPHomePrayerTrackListner(it.data)
 
-                    if(prayerTrackLastWakt.isNotEmpty())
-                    requireContext().toast("আলহামদুলিল্লাহ আপনি ${prayerTrackLastWakt.prayerMomentLocaleForToast()} নামাজ আদায় করেছেন।")
+                    if(prayerTrackLastWakt.isNotEmpty()) {
 
+
+                        requireContext().toast(localContext.getString(
+                            R.string.prayer_track_success_txt,
+                            prayerTrackLastWakt.prayerMomentLocaleForToast()))
+                        //requireContext().toast("আলহামদুলিল্লাহ আপনি ${prayerTrackLastWakt.prayerMomentLocaleForToast()} নামাজ আদায় করেছেন।")
+                    }
                     updatePrayerTrackingView(it.data)
                 }
 

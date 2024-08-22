@@ -124,6 +124,7 @@ internal class PaymentWebViewFragment : BaseRegularFragment(), CustomDialogCallb
         webSettings.displayZoomControls = false
         webSettings.builtInZoomControls = true
         webSettings.allowFileAccess = true
+        //webSettings.loadWithOverviewMode = true
         //webview.clearCache(true)
 
 

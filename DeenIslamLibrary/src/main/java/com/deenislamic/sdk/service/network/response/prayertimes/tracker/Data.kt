@@ -3,7 +3,7 @@ package com.deenislamic.sdk.service.network.response.prayertimes.tracker
 import androidx.annotation.Keep
 
 @Keep
-internal data class Data(
+data class Data(
     val Asar: Boolean,
     val Fajr: Boolean,
     val Isha: Boolean,

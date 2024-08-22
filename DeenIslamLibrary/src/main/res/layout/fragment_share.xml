@@ -509,12 +509,13 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:visibility="gone"
+        tools:visibility="visible"
         android:id="@+id/inc_bottomNav"
         app:labelVisibilityMode="labeled"
         app:itemIconTint="@null"
         app:itemTextColor="@drawable/bottom_nav_label_color"
         app:itemRippleColor="@color/deen_card_bg"
-        style="Widget.Material3.BottomNavigationView"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
         android:background="@color/deen_white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

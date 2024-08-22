@@ -51,5 +51,7 @@ internal interface AuthenticateService {
     @POST("Dashboard/trackMenu")
     suspend fun trackMenu(@Body parm: RequestBody): BasicResponse
 
+    @POST("DeenPayment/getServicePaymentMethod")
+    suspend fun getServicePaymentList(@Body parm: RequestBody): SubscriptionPageResponse
 
 }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <size android:width="24dp" android:height="48dp"/> <!-- Adjust the size as needed -->
-    <solid android:color="@color/deen_primary"/>
-    <corners android:radius="12dp"/> <!-- Adjust the corner radius if needed -->
-</shape>

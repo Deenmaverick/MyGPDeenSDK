@@ -979,4 +979,21 @@ class GPHome @JvmOverloads constructor(
             return null
 
     }
+
+    override fun deenGPHomePrayerTrackListner(trackData: com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data) {
+
+        prayertimeData?.WaktTracker?.forEach {
+            when(it.Wakt)
+            {
+                "Fajr" -> it.status = trackData.Fajr
+                "Zuhr" -> it.status = trackData.Zuhr
+                "Asar" -> it.status = trackData.Asar
+                "Maghrib" -> it.status = trackData.Maghrib
+                "Isha" -> it.status = trackData.Isha
+            }
+
+        }
+        prayertimeData?.WaktTracker?.let { tracker -> prayerTracker(tracker) }
+
+    }
 }

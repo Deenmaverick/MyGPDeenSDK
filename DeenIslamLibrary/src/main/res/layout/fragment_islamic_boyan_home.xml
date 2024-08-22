@@ -65,14 +65,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/scholarsBtn"
+            android:visibility="visible"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_16"
             android:layout_gravity="center"
             android:padding="0dp"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_16"
             android:text="@string/scholars"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/deen_txt_ash"
@@ -82,6 +85,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

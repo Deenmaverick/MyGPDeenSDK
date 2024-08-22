@@ -10,6 +10,6 @@
         android:id="@+id/appCompatImageView"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/bl_islamic_icon" />
+        android:src="@drawable/deen_gp_islamic_icon" />
 
 </LinearLayout>

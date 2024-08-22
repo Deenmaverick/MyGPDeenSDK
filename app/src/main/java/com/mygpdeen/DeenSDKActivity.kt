@@ -43,7 +43,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val bnBtn:AppCompatButton = findViewById(R.id.bnBtn)
 
         val loadGPHomeBtn:AppCompatButton = findViewById(R.id.loadGPHomeBtn)
-         gphome = findViewById(R.id.gphome)
+        gphome = findViewById(R.id.gphome)
 
         gphome.init(this,"8801738439236","bn",this)
 

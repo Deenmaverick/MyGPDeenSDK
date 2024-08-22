@@ -642,9 +642,17 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                 is PrayerNotificationResource.prayerTrackData ->
                 {
 
-                    if(prayerTrackLastWakt.isNotEmpty())
-                        requireContext().toast("আলহামদুলিল্লাহ আপনি ${prayerTrackLastWakt.prayerMomentLocaleForToast()} নামাজ আদায় করেছেন।")
+                    DeenSDKCore.gpHomeCallback?.deenGPHomePrayerTrackListner(it.data)
 
+                    if(prayerTrackLastWakt.isNotEmpty()) {
+
+                        requireContext().toast(localContext.getString(
+                            R.string.prayer_track_success_txt,
+                            prayerTrackLastWakt.prayerMomentLocaleForToast()))
+
+                        //requireContext().toast("আলহামদুলিল্লাহ আপনি ${prayerTrackLastWakt.prayerMomentLocaleForToast()} নামাজ আদায় করেছেন।")
+
+                    }
                     updatePrayerTrackingView(it.data)
                 }
             }

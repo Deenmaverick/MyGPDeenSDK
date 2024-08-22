@@ -1,7 +1,9 @@
 package com.deenislamic.sdk.service.repository;
 
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.service.network.ApiCall
 import com.deenislamic.sdk.service.network.AuthInterceptor
+import com.deenislamic.sdk.service.network.api.AuthenticateService
 import com.deenislamic.sdk.service.network.api.NagadPaymentService
 import com.deenislamic.sdk.service.network.api.PaymentService
 import com.deenislamic.sdk.utils.RequestBodyMediaType
@@ -12,7 +14,8 @@ internal class PaymentRepository(
     private val paymentService: PaymentService?,
     private val nagadPaymentService: NagadPaymentService?,
     private val authInterceptor: AuthInterceptor?,
-    private val dcbPaymentService : PaymentService? = null
+    private val dcbPaymentService : PaymentService? = null,
+    private val authenticateService: AuthenticateService? = null
 ) : ApiCall {
 
     suspend fun login() = makeApicall {
@@ -27,14 +30,14 @@ internal class PaymentRepository(
 
     }
 
-    suspend fun bKashPayment(serviceID: String, msisdn: String, token: String) = makeApicall {
+    suspend fun bKashPayment(serviceID: String, msisdn: String, token: String,device:String = "gpsdk") = makeApicall {
 
         authInterceptor?.tempAccessToken = token
 
         val body = JSONObject()
         body.put("serviceID", serviceID)
         body.put("msisdn", msisdn)
-        body.put("device", "gpsdk")
+        body.put("device", device)
         body.put("callBackUrl", "https://www.google.com")
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
@@ -73,23 +76,14 @@ internal class PaymentRepository(
         nagadPaymentService?.nagadSub(requestBody)
     }
 
-    suspend fun googlePaySave(
-        service: String,
-        msisdn: String,
-        transactionNo: String,
-        startDate: String,
-        token: String
-    ) = makeApicall {
+    suspend fun getServicePaymentList(service: String) = makeApicall {
 
-        authInterceptor?.tempAccessToken = token
         val body = JSONObject()
-        body.put("service", service)
-        body.put("msisdn", msisdn)
-        body.put("transactionNo", transactionNo)
-        body.put("startDate", startDate)
+        body.put("device", service)
+        body.put("language", DeenSDKCore.GetDeenLanguage())
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
-        paymentService?.saveGpayInfo(requestBody)
+        authenticateService?.getServicePaymentList(requestBody)
     }
 
     suspend fun deenRecurringPayment(serviceID: String, msisdn: String, token: String) = makeApicall {

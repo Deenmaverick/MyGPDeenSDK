@@ -12,7 +12,7 @@ android {
         release {
         }
     }*/
-    //namespace 'com.deenislam.sdk'
+    namespace 'com.deenislamic.sdk'
     compileSdk 33
 
     defaultConfig {
@@ -104,10 +104,6 @@ dependencies {
 
     // hijri calendar
     implementation 'com.github.msarhan:ummalqura-calendar:1.1.6'
-
-    // Flexbox
-    implementation 'com.google.android.flexbox:flexbox:3.0.0'
-
 
 
 }

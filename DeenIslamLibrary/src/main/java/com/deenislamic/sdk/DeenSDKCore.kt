@@ -14,6 +14,7 @@ import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.network.response.auth.jwt.JwtResponse
 import com.deenislamic.sdk.service.network.response.gphome.Menu
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
+import com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislamic.sdk.service.repository.AuthenticateRepository
 import com.deenislamic.sdk.service.repository.PrayerTimesRepository
 import com.deenislamic.sdk.utils.MilliSecondToStringTime
@@ -743,5 +744,9 @@ interface DeenSDKCallback
 
     fun deenGetGPHomeMenuList():List<Menu>? {
         return null
+    }
+
+    fun deenGPHomePrayerTrackListner(trackData: Data) {
+
     }
 }
