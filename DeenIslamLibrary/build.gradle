@@ -108,16 +108,16 @@ dependencies {
 
 }
 //For Maven Publish
-//afterEvaluate {
+afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.findByName("release")
                 groupId = "com.deenislamic.sdk"
                 artifactId = "mygp_deen"
-                version = "0.0.4-alpha"
+                version = "0.0.5-alpha"
             }
         }
     }
-//}
+}
 
