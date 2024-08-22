@@ -740,7 +740,8 @@ class GPHome @JvmOverloads constructor(
     fun init(context: Context,token:String,language:String, callback: DeenSDKCallback){
         DeenSDKCore.setDeenLanguage(language)
         DeenSDKCore.setGPHomeViewInternalCallback(this)
-        DeenSDKCore.authSDK(context,token,callback)
+        DeenSDKCore.initDeen(context,token,callback)
+        //DeenSDKCore.authSDK(context,token,callback)
     }
 
     fun changeLanguage(language:String){

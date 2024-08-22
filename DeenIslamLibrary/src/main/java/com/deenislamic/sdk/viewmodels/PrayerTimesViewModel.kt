@@ -1,6 +1,7 @@
 package com.deenislamic.sdk.viewmodels
 
 import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,8 +14,10 @@ import com.deenislamic.sdk.service.models.ramadan.StateModel
 import com.deenislamic.sdk.service.network.ApiResource
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.calendartracker.PrayerTrackerResponse
+import com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislamic.sdk.service.network.response.prayertimes.tracker.PrayerTrackResponse
 import com.deenislamic.sdk.service.repository.PrayerTimesRepository
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 
@@ -33,6 +36,10 @@ internal class PrayerTimesViewModel(
 
 
     var listState: Parcelable? = null
+
+    private val _monthlyPrayerTrackLiveData:MutableLiveData<PrayerNotificationResource> = MutableLiveData()
+    val monthlyPrayerTrackLiveData:MutableLiveData<PrayerNotificationResource> get() = _monthlyPrayerTrackLiveData
+
 
     fun getPrayerTimes(localtion:String,language:String,requiredDate:String)
     {
@@ -225,6 +232,10 @@ internal class PrayerTimesViewModel(
                         _prayerTimes.value = PrayerTimeResource.prayerTimeEmpty
             }
         }
+    }
+
+    fun setPrayerTrackFromMonthlyTracker(tracker: Data) {
+        _monthlyPrayerTrackLiveData.value = PrayerNotificationResource.prayerTrackData(tracker)
     }
 
 }

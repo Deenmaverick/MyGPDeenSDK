@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +33,7 @@ import com.deenislamic.sdk.views.adapters.prayertracker.PrayerTrackerAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.service.libs.trackercalendar.CalendarTrackerDay
 import com.deenislamic.sdk.service.libs.trackercalendar.TrackerCalendar
+import com.deenislamic.sdk.viewmodels.common.PrayerTimeVMFactory
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -43,6 +44,7 @@ import java.util.Locale
 internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallback {
 
     private lateinit var viewmodel: PrayerTimesViewModel
+    private lateinit var viewmodelWithActivity: PrayerTimesViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var prayerTimesAdapter: PrayerTrackerAdapter
     private lateinit var customCalendar: TrackerCalendar
@@ -58,7 +60,7 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
 
     private var currentState = "dhaka"
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Date())
-    private var todayPrayerDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).format(Date())
+    private var todayPrayerDate = SimpleDateFormat("yyyy-MM-dd'T'00:00:00", Locale.ENGLISH).format(Date())
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
 
@@ -71,7 +73,15 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
             prayerTimesDao = DatabaseProvider().getInstance().providePrayerTimesDao()
         )
 
-        viewmodel = PrayerTimesViewModel((prayerTimesRepository))
+        viewmodel = PrayerTimesViewModel(prayerTimesRepository)
+
+
+
+        val factory = PrayerTimeVMFactory(prayerTimesRepository)
+        viewmodelWithActivity = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[PrayerTimesViewModel::class.java]
 
     }
     override fun onCreateView(
@@ -160,9 +170,15 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
                 is PrayerTimeResource.prayerTracker -> {
                     baseViewState()
 
+
                     val trackerData = resource.data.Data.tracker.firstOrNull { it.TrackingDate == todayPrayerDate }
                     if (trackerData != null) {
                         DeenSDKCore.gpHomeCallback?.deenGPHomePrayerTrackListner(trackerData)
+
+                        lifecycleScope.launch {
+                            viewmodelWithActivity.setPrayerTrackFromMonthlyTracker(trackerData)
+                        }
+
                     }
 
                     val prayerTimesResponse = resource.data

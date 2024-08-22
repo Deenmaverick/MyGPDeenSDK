@@ -164,12 +164,12 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
                     }
 
-                    /*val imageAd = Advertisement.getImageAd()
+                    val imageAd = Advertisement.getImageAd()
                     imageAd?.let {
                         prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
                             loadAdvertisement(this,it)
                         }
-                    }*/
+                    }
                 }
 
                 TYPE_WIDGET4 -> {
@@ -221,12 +221,12 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                         onBindViewHolder(ViewHolder(main_view, true), viewType)
                     }
 
-                    /*val imageAd = Advertisement.getImageAd()
+                    val imageAd = Advertisement.getImageAd()
                     imageAd?.let {
                         prepareStubView<View>(rootview, R.layout.layout_quranic_v1) {
                             loadAdvertisement(this,it)
                         }
-                    }*/
+                    }
                 }
 
                /* TYPE_WIDGET12 -> {
@@ -264,7 +264,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                         onBindViewHolder(ViewHolder(main_view,true),viewType)
                     }
 
-                    /*if(DashboardData[viewType].Items.isNotEmpty()){
+                    if(DashboardData[viewType].Items.isNotEmpty()){
                         if(DashboardData[viewType].Items[0].ContentType == "hdd"){
                             val imageAd = Advertisement.getImageAd()
                             imageAd?.let {
@@ -273,7 +273,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                                 }
                             }
                         }
-                    }*/
+                    }
                 }
 
                 PATCH_SINGLE_CARD_LIST -> {

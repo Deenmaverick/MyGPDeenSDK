@@ -658,6 +658,15 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             }
         }
 
+        prayerViewModel.monthlyPrayerTrackLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is PrayerNotificationResource.prayerTrackData ->
+                {
+                    updatePrayerTrackingView(it.data)
+                }
+            }
+        }
+
         // Tasbeeh
         tasbeehViewmodel.tasbeehLiveData.observe(viewLifecycleOwner)
         {
@@ -690,6 +699,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
         }
 
     }
+
 
     private fun updatePrayerTrackingView(data: com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data)
     {

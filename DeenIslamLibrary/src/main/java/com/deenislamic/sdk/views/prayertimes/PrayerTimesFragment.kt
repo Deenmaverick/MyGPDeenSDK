@@ -319,7 +319,6 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 is PrayerNotificationResource.prayerTrackData ->
                 {
 
-
                     Log.e("setPrayerTimeTrack",Gson().toJson(it.data))
                     DeenSDKCore.gpHomeCallback?.deenGPHomePrayerTrackListner(it.data)
 
@@ -335,6 +334,19 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
                 }
 
                 CommonResource.EMPTY -> Unit
+            }
+        }
+
+    }
+
+    private fun monthlyTrackerObserver(){
+
+        viewmodel.monthlyPrayerTrackLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is PrayerNotificationResource.prayerTrackData ->
+                {
+                    updatePrayerTrackingView(it.data)
+                }
             }
         }
     }
@@ -678,6 +690,8 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             }
 
         }
+
+        monthlyTrackerObserver()
     }
 
     inner class VMFactory(
