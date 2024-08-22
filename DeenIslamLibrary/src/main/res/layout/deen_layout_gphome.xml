@@ -105,6 +105,8 @@
         android:id="@+id/bgPrayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_deen_gp_nointernet"
         android:layout_marginTop="@dimen/space_8"
         app:layout_constraintTop_toBottomOf="@+id/dateArabic"
         app:layout_constraintStart_toStartOf="parent"

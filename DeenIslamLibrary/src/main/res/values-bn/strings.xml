@@ -590,7 +590,8 @@
     <string name="namaz_time_board">নামাজের সময়সূচী</string>
     <string name="new_btn_txt">New</string>
     <string name="prayer_track_success_txt">আলহামদুলিল্লাহ আপনি %1$s নামাজ আদায় করেছেন।</string>
-    <string name="new_icon_count">%1$s নিউ</string>
+    <!--<string name="new_icon_count">%1$s নিউ</string>-->
+    <string name="new_icon_count">%1$s new</string>
     <string name="track_only_current_month_s_namaz">শুধুমাত্র বর্তমান মাসের নামাজ ট্র্যাক করুন</string>
     <string name="waktNotStartedToast">এখনও %1$s ওয়াক্ত শুরু হয়নি</string>
     <string name="prayerTrackToast">আলহামদুলিল্লাহ আপনি %1$s নামাজ আদায় করেছেন।</string>

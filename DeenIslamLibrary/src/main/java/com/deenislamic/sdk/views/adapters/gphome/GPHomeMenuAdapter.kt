@@ -75,8 +75,7 @@ internal class GPHomeMenuAdapter(
 
                 val newFeatureCount = menu.filter { !it.IsVisited }.size
                 if(newFeatureCount>0) {
-                    newBtn.text =
-                        newBtn.context?.getString(R.string.new_icon_count,newFeatureCount.toString().numberLocale())
+                    newBtn.text = newBtn.context?.getString(R.string.new_icon_count,newFeatureCount.toString().numberLocale())
                     newBtn.show()
                 }else
                     newBtn.hide()
