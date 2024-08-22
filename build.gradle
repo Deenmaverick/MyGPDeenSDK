@@ -29,7 +29,7 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+        /*google()
         jcenter()
         mavenCentral()
         maven {
@@ -42,13 +42,19 @@ allprojects {
         maven {
             url "https://repository.medallia.com/digital-maven/"
         }
-        /*maven {
+        *//*maven {
             url "https://jitpack.io"
             credentials { username authToken }
-        }*/
+        }*//*
         flatDir {
             dirs("libs")
-        }
+        }*/
+
+        google()
+        maven { url 'https://jitpack.io' }
+        jcenter()
+        mavenCentral()
+
     }
 }
 task clean(type: Delete) {
