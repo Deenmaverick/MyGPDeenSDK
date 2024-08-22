@@ -62,8 +62,8 @@ android {
 dependencies {
 
 
-    implementation 'com.github.Deenmaverick:MyGPDeenSDK:0.0.4-alpha'
-    //implementation project(path: ':DeenIslamLibrary')
+    //implementation 'com.github.Deenmaverick:MyGPDeenSDK:0.0.4-alpha'
+    implementation project(path: ':DeenIslamLibrary')
     //implementation (name:'DeenIslamLibrary-release', ext:'aar')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

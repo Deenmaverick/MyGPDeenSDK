@@ -12,7 +12,7 @@ android {
         release {
         }
     }*/
-    //namespace 'com.deenislamic.sdk'
+    namespace 'com.deenislamic.sdk'
     compileSdk 33
 
     defaultConfig {
