@@ -50,12 +50,19 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
         private val seeBtn:MaterialButton = itemView.findViewById(R.id.seeBtn)
         private val contentList:RecyclerView = itemView.findViewById(R.id.contentList)
         private val dotMenu:AppCompatImageView = itemView.findViewById(R.id.dotMenu)
-        private val container: MaterialCardView = itemView.findViewById(R.id.container)
+        private val container:MaterialCardView = itemView.findViewById(R.id.container)
 
         override fun onBind(position: Int) {
             super.onBind(position)
 
             val getdata = details[position]
+
+            if(details.size<4){
+                getdata.isExpanded = true
+                itemView.isClickable = false
+                itemView.isFocusable = false
+                seeBtn.hide()
+            }
 
             val getsubtext = getdata.details?.firstOrNull()
             val subtext = if(getsubtext?.Text?.isNotEmpty() == true) getsubtext.Text else getsubtext?.Pronunciation
@@ -75,8 +82,10 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
                 )
             }
 
+
             contentList.apply {
                 adapter = getdata.details?.let { QurbaniContentAdapter(it,this@ViewHolder,absoluteAdapterPosition) }
+
             }
 
             if (getdata.isExpanded) {
@@ -85,6 +94,7 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
                 contentList.show()
                 subText.hide()
                 dotMenu.show()
+
             } else {
                 seeBtn.text = seeBtn.context.getString(R.string.details)
                 seeBtn.icon = ContextCompat.getDrawable(seeBtn.context, R.drawable.ic_dropdown)
@@ -94,11 +104,31 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
             }
 
             itemView.setOnClickListener {
+                if(details.size<4){
+                    return@setOnClickListener
+                }
                 getdata.isExpanded = !getdata.isExpanded
                 container.cardElevation = 1f
                 notifyItemChanged(absoluteAdapterPosition)
                 callback?.qurbaniCommonContentClicked(absoluteAdapterPosition,getdata.isExpanded)
+
             }
+
+
+
+            /* itemView.setOnClickListener {
+                 getdata.isExpanded = !getdata.isExpanded
+                 container.cardElevation = 1f
+                 notifyItemChanged(absoluteAdapterPosition)
+                 callback?.qurbaniCommonContentClicked(absoluteAdapterPosition,getdata.isExpanded)
+             }*/
+
+            /*seeBtn.setOnClickListener {
+                getdata.isExpanded = !getdata.isExpanded
+                container.cardElevation = 1f
+                notifyItemChanged(absoluteAdapterPosition)
+                callback?.qurbaniCommonContentClicked(absoluteAdapterPosition,getdata.isExpanded)
+            }*/
 
             if(getdata.Title.toString().isEmpty()) {
                 title.hide()
@@ -111,9 +141,7 @@ internal class QurbaniCommonContentAdapter(private val details: List<Data>) : Re
             dotMenu.setOnClickListener {
                 callback?.menu3dotClicked(getdata)
             }
-
             container.cardElevation = 1f
-
         }
 
         override fun subItemClicked(parentPosition: Int) {

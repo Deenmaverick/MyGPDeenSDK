@@ -85,6 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:textColor="@color/deen_txt_black_deep"
                     android:text="Shab e meraj"
                     android:textSize="16dp" />
 
@@ -92,6 +93,7 @@
                     android:id="@+id/tvCalendarEventDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/deen_txt_ash"
                     android:text="Shab e meraj"
                     android:textSize="12dp" />
 
@@ -99,6 +101,7 @@
                     android:id="@+id/tvCalendarDateLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/deen_txt_ash"
                     android:text="20 days to go"
                     android:textSize="12dp" />
 

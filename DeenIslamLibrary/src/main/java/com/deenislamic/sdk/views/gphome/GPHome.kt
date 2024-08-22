@@ -687,6 +687,7 @@ class GPHome @JvmOverloads constructor(
 
 
     private fun initObserver() {
+
         findViewTreeLifecycleOwner()?.let { lifecycleOwner ->
 
             // Remove all existing observers for the current LifecycleOwner

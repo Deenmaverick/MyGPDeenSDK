@@ -129,7 +129,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calendar"
             android:layout_margin="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/deen_txt_black_deep"
             android:text="@string/prayer_times" />
 
         <androidx.recyclerview.widget.RecyclerView

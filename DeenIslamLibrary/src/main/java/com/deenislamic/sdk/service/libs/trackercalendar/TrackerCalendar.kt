@@ -9,6 +9,7 @@ import androidx.annotation.Keep
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -136,7 +137,7 @@ internal class TrackerCalendar(context: Context, attrs: AttributeSet? = null) : 
         }
     }
 
-    fun updatePrayerData(prayerTrackers: List<com.deenislamic.sdk.service.network.response.prayertimes.calendartracker.Data.Tracker>,selectedDate: String) {
+    fun updatePrayerData(prayerTrackers: List<Data>,selectedDate: String) {
         Log.e("comedata",prayerTrackers.toString())
         val updatedDays = calendarAdapter.days.map { day ->
             val prayerTracker = prayerTrackers.find { tracker ->

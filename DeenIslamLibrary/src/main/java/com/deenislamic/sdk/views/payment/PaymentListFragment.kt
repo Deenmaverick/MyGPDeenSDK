@@ -170,7 +170,7 @@ internal class PaymentListFragment : BaseRegularFragment() {
         // manual activate method
 
         activePaymentMethod(paymentTelco)
-        paymentWebViewTitle = localContext.getString(R.string.bkash)
+        paymentWebViewTitle = localContext.getString(R.string.grameenphone)
         selectedPaymentMethod = "telco"
 
         paymentTelco.setOnClickListener {

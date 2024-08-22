@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.PrayerTrackerCallback
 import com.deenislamic.sdk.service.di.DatabaseProvider
@@ -57,6 +58,7 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
 
     private var currentState = "dhaka"
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Date())
+    private var todayPrayerDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).format(Date())
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
 
@@ -158,6 +160,11 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
                 is PrayerTimeResource.prayerTracker -> {
                     baseViewState()
 
+                    val trackerData = resource.data.Data.tracker.firstOrNull { it.TrackingDate == todayPrayerDate }
+                    if (trackerData != null) {
+                        DeenSDKCore.gpHomeCallback?.deenGPHomePrayerTrackListner(trackerData)
+                    }
+
                     val prayerTimesResponse = resource.data
                     prayerTrackerResponse = prayerTimesResponse
                     updateHeader()
@@ -188,8 +195,10 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
 
                 is PrayerNotificationResource.prayerTrackSuccess -> {
 
+
                     if (prayerTrackLastWakt.isNotEmpty())
                     {
+
                         requireContext().toast(
                             localContext.getString(
                                 R.string.prayerTrackToast,

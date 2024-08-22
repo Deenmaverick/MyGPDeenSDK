@@ -10,5 +10,6 @@ data class Data(
     val Maghrib: Boolean,
     val Msisdn: String,
     val TrackingDate: String,
+    val ArabicDate: String,
     val Zuhr: Boolean
 )

@@ -1,11 +1,12 @@
 package com.deenislamic.sdk.service.network.response.prayertimes.calendartracker
 
 import androidx.annotation.Keep
+import com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data
 
 @Keep
 internal data class Data(
 
-    val tracker: List<Tracker>,
+    val tracker: List<Data>,
     val prayerTime: PrayerTime
     /*    val Asar: Boolean,
         val Fajr: Boolean,
@@ -16,7 +17,7 @@ internal data class Data(
         val Zuhr: Boolean*/
 ){
 
-    @Keep
+    /*@Keep
     data class Tracker(
         val Msisdn: String,
         var TrackingDate: String,
@@ -26,7 +27,7 @@ internal data class Data(
         var Asar: Boolean,
         var Maghrib: Boolean,
         var Isha: Boolean
-    )
+    )*/
 
     @Keep
     data class PrayerTime(

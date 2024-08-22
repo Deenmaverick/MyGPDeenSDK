@@ -83,21 +83,6 @@ internal class PrayerTrackerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun updateTrackingData(data: Data) {
-
-        prayerData?.Data?.tracker?.forEach { tracker ->
-            when (tracker.TrackingDate) {
-                "Fajr" -> tracker.Fajr = data.Fajr
-                "Zuhr" -> tracker.Zuhr = data.Zuhr
-                "Asar" -> tracker.Asar = data.Asar
-                "Maghrib" -> tracker.Maghrib = data.Maghrib
-                "Isha" -> tracker.Isha = data.Isha
-            }
-            tracker.TrackingDate = data.TrackingDate
-        }
-
-        notifyDataSetChanged()
-    }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
         override fun onBind(position: Int) {
@@ -159,9 +144,8 @@ internal class PrayerTrackerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
             val prayerIsChecked = prayerCheck.isChecked
 
             prayerCheck.setOnClickListener {
-                val isChecked = prayerCheck.isChecked
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
 
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
                 val date = dateFormat.parse(targetDate)
 
 // Create a Calendar instance and set the parsed date
@@ -172,7 +156,6 @@ internal class PrayerTrackerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 val targetMonth = calendar.get(Calendar.MONTH) + 1  // Adding 1 because Calendar.MONTH is 0-based
 
                 prayerData?.Data?.prayerTime?.Date?.let { dateStr ->
-                    val date = dateFormat.parse(dateStr)
                     val dateMonth = calendar.get(Calendar.MONTH) + 1
                     val prayer_tag = "pt" + (position + 1)
                     Log.e("checkmonth",targetMonth.toString())
