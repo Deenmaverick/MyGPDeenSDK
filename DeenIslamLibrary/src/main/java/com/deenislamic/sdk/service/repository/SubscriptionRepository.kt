@@ -58,6 +58,9 @@ internal class SubscriptionRepository(
         body.put("ServiceId",serviceId)
 
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
+        if(selectedPaymentType?.isGPEnable == true)
+            paymentService?.cancelGPDcbAutoRenewal(requestBody)
+        else
             paymentService?.cancelAutoRenewal(requestBody)
 
     }

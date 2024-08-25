@@ -255,7 +255,6 @@
 
 
         <com.google.android.material.card.MaterialCardView
-            android:visibility="gone"
             android:id="@+id/premiumLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -264,6 +263,7 @@
             android:layout_marginTop="@dimen/space_16"
             app:cardCornerRadius="12dp"
             app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/deen_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/downloadLayout"
@@ -272,19 +272,18 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/more_premium_gradiant"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ic_premium"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginStart="@dimen/space_12"
                     android:layout_gravity="center"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/ic_premium"/>
+                    android:src="@drawable/deen_ic_premiumv2"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/getPremiumTxt"
@@ -293,9 +292,8 @@
                     android:layout_marginStart="@dimen/space_12"
                     android:layout_marginTop="@dimen/space_12"
                     android:text="@string/get_premium"
-                    android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/deen_white"
+                    android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ic_premium" />
 
@@ -307,7 +305,7 @@
                     android:textAlignment="center"
                     android:text="@string/join_the_islamic_ott_platform"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/deen_white_70"
+                    android:textColor="@color/deen_gray_secondary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/getPremiumTxt"
                     app:layout_constraintStart_toStartOf="@+id/getPremiumTxt" />
@@ -321,7 +319,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:tint="@color/deen_white"
                     android:src="@drawable/right_arrow"/>
 
 

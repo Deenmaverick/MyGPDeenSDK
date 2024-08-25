@@ -610,5 +610,5 @@
     <string name="hint_choose_payment_method">অনুগ্রহ করে প্রথমে পেমেন্ট পদ্ধতি বেছে নিন</string>
     <string name="subscriptions_plan">সাবস্ক্রিপশন প্ল্যান</string>
     <string name="grameenphone">গ্রামীণফোন</string>
-
+    <string name="you_are_premium_user">আপনি একজন প্রিমিয়াম ইউজার</string>
 </resources>

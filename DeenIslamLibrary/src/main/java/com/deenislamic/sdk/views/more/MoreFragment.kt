@@ -10,6 +10,8 @@ import com.deenislamic.sdk.R
 import com.deenislamic.sdk.utils.PRIVACY_URL
 import com.deenislamic.sdk.utils.Subscription
 import com.deenislamic.sdk.utils.TERMS_URL
+import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.base.otherFagmentActionCallback
@@ -27,6 +29,8 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     private lateinit var privacyLayout:MaterialCardView
     private lateinit var favLayout:MaterialCardView
     private lateinit var premiumLayout:MaterialCardView
+    private lateinit var getPremiumTxt:AppCompatTextView
+    private lateinit var premiumSub:AppCompatTextView
     private lateinit var downloadLayout:MaterialCardView
     private lateinit var downloadCount:AppCompatTextView
 
@@ -46,6 +50,8 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         privacyLayout = mainview.findViewById(R.id.privacyLayout)
         favLayout = mainview.findViewById(R.id.favLayout)
         premiumLayout = mainview.findViewById(R.id.premiumLayout)
+        getPremiumTxt = mainview.findViewById(R.id.getPremiumTxt)
+        premiumSub = mainview.findViewById(R.id.premiumSub)
         downloadLayout = mainview.findViewById(R.id.downloadLayout)
         downloadCount = mainview.findViewById(R.id.downloadCount)
 
@@ -61,6 +67,12 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
         premiumLayout.setOnClickListener {
             gotoFrag(R.id.action_global_subscriptionFragment)
+        }
+
+        if(Subscription.isSubscribe){
+            premiumSub.hide()
+            getPremiumTxt.setPadding(0,12.dp,0,24.dp)
+            getPremiumTxt.text  = localContext.getString(R.string.you_are_premium_user)
         }
 
         return mainview

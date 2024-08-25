@@ -91,6 +91,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
     private lateinit var donationAmountAdapter: DonationAmountAdapter
     private lateinit var scholarList:RecyclerView
     private lateinit var scholarCard:MaterialCardView
+    private lateinit var methodList:LinearLayout
 
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var customAlertDialogView: View
@@ -158,7 +159,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
         methodBkash = mainview.findViewById(R.id.methodBkash)
         methodGP = mainview.findViewById(R.id.methodGP)
-
+        methodList = mainview.findViewById(R.id.methodList)
 
         activePlan = mainview.findViewById(R.id.activePlan)
         packList = mainview.findViewById(R.id.packList)
@@ -517,9 +518,21 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
                         cancelBtn.hide()
                         cancelRenewHint.hide()
 
+
+
                     }
                     else if(it.planStatus == "2BK"){
                         sub2BKMode()
+                    }
+
+                    when(selectedPaymentMethod) {
+                        BKASH -> {
+                            selectPaymentMethod(selectedPaymentMethod, methodBkash)
+                        }
+
+                        GP -> {
+                            selectPaymentMethod(selectedPaymentMethod, methodGP)
+                        }
                     }
                 }
             }
@@ -592,6 +605,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
             }
             else if(response.Message == "1BK"){
+                Log.e("checkPaymentStatus","${response.Data.isSubscribe}")
                 sub1BKNonMode()
                 Subscription.isSubscribe = true
 
@@ -641,7 +655,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun sub1BKMode(){
         bannerList.hide()
-        //methodList.show()
+        methodList.show()
         planListHint.hide()
         packList.hide()
         //donationCard.show()
@@ -651,7 +665,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun sub1BKNonMode(){
         bannerList.hide()
-        //methodList.show()
+        methodList.show()
         planListHint.show()
         packList.show()
         //donationCard.show()
@@ -661,7 +675,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun sub2BKMode(){
         bannerList.hide()
-        //methodList.show()
+        methodList.show()
         planListHint.hide()
         packList.hide()
         //donationCard.show()
@@ -671,7 +685,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun unSubscribeMode(){
         bannerList.show()
-        //methodList.show()
+        methodList.show()
         planListHint.show()
         packList.show()
         //donationCard.show()
@@ -681,7 +695,7 @@ internal class SubscriptionNewFragment : BaseRegularFragment(), CustomDialogCall
 
     private fun donationMode(){
         bannerList.show()
-        //methodList.show()
+        methodList.show()
         planListHint.show()
         packList.show()
         //donationCard.show()

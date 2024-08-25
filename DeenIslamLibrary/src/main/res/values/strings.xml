@@ -610,5 +610,5 @@
     <string name="hint_choose_payment_method">Please choose payment method first</string>
     <string name="subscriptions_plan">Subscriptions Plan</string>
     <string name="grameenphone">Grameenphone</string>
-
+    <string name="you_are_premium_user">You are a premium user</string>
 </resources>

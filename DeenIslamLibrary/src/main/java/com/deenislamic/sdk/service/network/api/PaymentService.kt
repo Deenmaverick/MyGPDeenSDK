@@ -37,6 +37,8 @@ internal interface PaymentService {
     @POST("grameenphone/checkout/create-checkout-session/deen")
     suspend fun dcbGPCharge(@Body parm: RequestBody): DCBChargeResponse
 
+    @POST("gpdcb/CancelSubscription")
+    suspend fun cancelGPDcbAutoRenewal(@Body parm: RequestBody): BasicResponse
 
 
 }
