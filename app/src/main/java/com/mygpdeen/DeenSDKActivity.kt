@@ -47,7 +47,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         gphome.init(
             context = this,
-            token = "8801942247803",
+            token = "8801783355888",
             language = "bn",
             callback = this
         )

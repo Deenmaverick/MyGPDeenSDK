@@ -203,7 +203,7 @@ internal class PaymentWebViewFragment : BaseRegularFragment(), CustomDialogCallb
                                 return
                             }
 
-                            "FailedCallbackView","failed" -> {
+                            "FailedCallbackView","failed","error" -> {
                                 payFailed()
                                 webview.hide()
                                 return

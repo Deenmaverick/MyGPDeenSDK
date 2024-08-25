@@ -125,7 +125,7 @@ internal class PaymentRepository(
         body.put("ServiceId", serviceId)
         body.put("PaymentSuccessRedirectUrl","https://payment.islamicservice.net/success")
         body.put("PaymentFailedRedirectUrl","https://payment.islamicservice.net/failed")
-
+        body.put("paymentDenyRedirectUrl","https://payment.islamicservice.net/failed")
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         dcbPaymentService?.dcbGPCharge(requestBody)
 
