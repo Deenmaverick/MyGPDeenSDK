@@ -345,6 +345,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
             when(it){
                 is PrayerNotificationResource.prayerTrackData ->
                 {
+                    if(prayerdate == todayDate)
                     updatePrayerTrackingView(it.data)
                 }
             }
