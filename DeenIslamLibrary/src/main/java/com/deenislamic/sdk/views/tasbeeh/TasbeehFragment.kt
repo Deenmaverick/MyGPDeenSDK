@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.database.entity.Tasbeeh
 import com.deenislamic.sdk.service.database.entity.UserPref
@@ -29,12 +30,14 @@ import com.deenislamic.sdk.service.repository.TasbeehRepository
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.FullCircleGaugeView
 import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.get9DigitRandom
 import com.deenislamic.sdk.utils.getDrawable
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.toast
+import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.TasbeehViewModel
 import com.deenislamic.sdk.views.adapters.tasbeeh.SelectDhikirAdapter
 import com.deenislamic.sdk.views.adapters.tasbeeh.TasbeehCountCycleAdapter
@@ -114,6 +117,8 @@ internal class TasbeehFragment : BaseRegularFragment(),
     override fun OnCreate() {
         super.OnCreate()
 
+        setupBackPressCallback(this,true)
+
         val repository = TasbeehRepository(
             tasbeehDao = DatabaseProvider().getInstance().provideTasbeehDao(),
             userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao()
@@ -165,6 +170,7 @@ internal class TasbeehFragment : BaseRegularFragment(),
             selectDhikirDialog()
         }*/
 
+
         deenBGTasbeehCount.imageLoad(url = "deen_bg_tasbeeh_count.png".getDrawable())
 
         btnShare.setOnClickListener {
@@ -186,12 +192,7 @@ internal class TasbeehFragment : BaseRegularFragment(),
         if(navArgs.duaid!=-1)
             selectedPos = navArgs.duaid
 
-      if (!isDetached) {
-            view.postDelayed({
-                loadpage()
-            }, 300)
-        }
-        else
+
             loadpage()
 
     }
@@ -254,10 +255,37 @@ internal class TasbeehFragment : BaseRegularFragment(),
             setDuaText()
         }
 
-        if(!firstload)
-        loadAPI(selectedPos)
+        if(!firstload) {
+
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "tasbeeh",
+                    trackingID = getTrackingID()
+                )
+            }
+
+            loadAPI(selectedPos)
+        }
         firstload = true
 
+    }
+
+    override fun onBackPress() {
+
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "tasbeeh",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+        tryCatch { super.onBackPress() }
     }
 
     private fun showResetDialog(duaid:Int)

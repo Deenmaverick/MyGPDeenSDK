@@ -6,20 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.common.MaterialButtonHorizontalListCallback
 import com.deenislamic.sdk.service.network.response.prayerlearning.visualization.Head
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.Subscription
+import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.views.adapters.MainViewPagerAdapter
 import com.deenislamic.sdk.views.adapters.common.MaterialButtonHorizontalAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.base.otherFagmentActionCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.launch
 
 internal class IslamicBookViewPagerFragment : BaseRegularFragment(),
     MaterialButtonHorizontalListCallback, otherFagmentActionCallback {
@@ -36,6 +41,11 @@ internal class IslamicBookViewPagerFragment : BaseRegularFragment(),
     private var firstload =false
 
     private lateinit var dialog: BottomSheetDialog
+
+    override fun OnCreate() {
+        super.OnCreate()
+        setupBackPressCallback(this,true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -55,6 +65,22 @@ internal class IslamicBookViewPagerFragment : BaseRegularFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(!firstload)
+        {
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_book",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        firstload = true
+
 
         val headData = arrayListOf(
             Head(0,localContext.getString(R.string.books)),
@@ -150,6 +176,22 @@ internal class IslamicBookViewPagerFragment : BaseRegularFragment(),
                 header.smoothScrollToPosition(viewPagerPosition)
             }
         })
+    }
+
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "islamic_book",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
     }
 
     override fun materialButtonHorizontalListClicked(absoluteAdapterPosition: Int) {

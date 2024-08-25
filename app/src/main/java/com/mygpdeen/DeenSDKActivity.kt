@@ -47,7 +47,7 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
         gphome.init(
             context = this,
-            token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJBcHBsaWNhdGlvbiI6IkRlZW4gSXNsYW0iLCJuYW1lIjoiODgwMTczODQzOTIzNiIsInJvbGUiOiJTREsiLCJuYmYiOjE3MjQzMjQ5MzUsImV4cCI6MTcyNDQxMTMzNSwiaWF0IjoxNzI0MzI0OTM1fQ.qU0Ww-gbZFb_TcsCrSnqGimigCTY7KiWDtURWA4EO9CohIdOlxw2aZ5FfmD4epsB6yBpX_Q6cPyThZLmSLofAA",
+            token = "8801942247803",
             language = "bn",
             callback = this
         )

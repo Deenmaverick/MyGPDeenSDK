@@ -191,7 +191,7 @@ internal class PaymentWebViewFragment : BaseRegularFragment(), CustomDialogCallb
 
                         when (getLastPathSegment(uri)) {
 
-                            "SuccessCallbackView" -> {
+                            "SuccessCallbackView","success" -> {
                                 paySuccess()
                                 webview.hide()
                                 return
@@ -203,7 +203,7 @@ internal class PaymentWebViewFragment : BaseRegularFragment(), CustomDialogCallb
                                 return
                             }
 
-                            "FailedCallbackView" -> {
+                            "FailedCallbackView","failed" -> {
                                 payFailed()
                                 webview.hide()
                                 return

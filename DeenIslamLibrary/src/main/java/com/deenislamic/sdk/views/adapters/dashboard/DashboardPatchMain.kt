@@ -17,6 +17,7 @@ import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesRespo
 import com.deenislamic.sdk.service.weakref.dashboard.DashboardPatchClass
 import com.deenislamic.sdk.utils.AsyncViewStub
 import com.deenislamic.sdk.utils.CallBackProvider
+import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.getLocalContext
 import com.deenislamic.sdk.utils.prepareStubView
 import com.deenislamic.sdk.views.base.BaseViewHolder
@@ -348,7 +349,7 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         data: com.deenislamic.sdk.service.network.response.advertisement.Data
     ) {
         data.let {
-            (itemview.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 0
+            (itemview.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = 8.dp
             val helper = QuranicItem(itemview)
             helper.loadImageAd(it)
         }

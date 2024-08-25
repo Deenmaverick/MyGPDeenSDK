@@ -70,7 +70,9 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
                     msisdn = DeenSDKCore.GetDeenMsisdn(),
-                    pagename = "nearest_mosque",
+                    pagename = if(navArgs.query =="mosque") "nearest_mosque"
+                    else if(navArgs.query =="eid+jamat") "edi_jamat"
+                    else "",
                     trackingID = getTrackingID()
                 )
             }
@@ -127,7 +129,9 @@ internal class NearestMosqueWebviewFragment : BaseRegularFragment() {
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
                     msisdn = DeenSDKCore.GetDeenMsisdn(),
-                    pagename = "nearest_mosque",
+                    pagename = if(navArgs.query =="mosque") "nearest_mosque"
+                    else if(navArgs.query =="eid+jamat") "edi_jamat"
+                    else "",
                     trackingID = getTrackingID()
                 )
             }

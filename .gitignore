@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/
+hs_err_pid*.log
+/app/release/
+/DeenIslamLibrary/schemas/
