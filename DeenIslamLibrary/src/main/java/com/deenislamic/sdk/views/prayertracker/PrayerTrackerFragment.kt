@@ -33,6 +33,8 @@ import com.deenislamic.sdk.views.adapters.prayertracker.PrayerTrackerAdapter
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.service.libs.trackercalendar.CalendarTrackerDay
 import com.deenislamic.sdk.service.libs.trackercalendar.TrackerCalendar
+import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.common.PrayerTimeVMFactory
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -66,6 +68,8 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
 
     override fun OnCreate() {
         super.OnCreate()
+
+        setupBackPressCallback(this,false)
 
         val prayerTimesRepository = PrayerTimesRepository(
             deenService = NetworkProvider().getInstance().provideDeenService(),
@@ -143,12 +147,38 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
         observePrayerTimes()
 
         if (!firstload) {
+
+            lifecycleScope.launch {
+                setTrackingID(get9DigitRandom())
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "monthly_prayer_tracker",
+                    trackingID = getTrackingID()
+                )
+            }
+
             loadDataAPI()
         }
         firstload = true
 
     }
 
+    override fun onBackPress() {
+        if(isVisible) {
+            lifecycleScope.launch {
+                userTrackViewModel.trackUser(
+                    language = getLanguage(),
+                    msisdn = DeenSDKCore.GetDeenMsisdn(),
+                    pagename = "monthly_prayer_tracker",
+                    trackingID = getTrackingID()
+                )
+            }
+        }
+
+        tryCatch { super.onBackPress() }
+
+    }
 
     override fun noInternetRetryClicked() {
         loadDataAPI()

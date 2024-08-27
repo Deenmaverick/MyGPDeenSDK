@@ -611,4 +611,7 @@
     <string name="subscriptions_plan">সাবস্ক্রিপশন প্ল্যান</string>
     <string name="grameenphone">গ্রামীণফোন</string>
     <string name="you_are_premium_user">আপনি একজন প্রিমিয়াম ইউজার</string>
+    <string name="timetable_of_islamic_foundation_bangladesh">ইসলামিক ফাউন্ডেশন বাংলাদেশের সময়সূচি</string>
+    <string name="namaz_visual">নামাজের ভিজ্যুয়াল</string>
+    <string name="connect_to_the_internet">ইন্টারনেট কানেক্ট করুন</string>
 </resources>

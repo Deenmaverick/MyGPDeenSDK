@@ -75,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                tools:src="@drawable/deen_placeholder_16_9"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -90,6 +91,8 @@
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toTopOf="@+id/banner"
                 app:layout_constraintEnd_toEndOf="@+id/banner"/>
+
+
 
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -114,10 +117,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icCompleted"
+                    android:visibility="gone"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:src="@drawable/ic_checked_circle"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textContent"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_12"
                     android:layout_marginTop="@dimen/space_10"
@@ -128,7 +144,7 @@
                     android:textColor="@color/deen_txt_black_deep"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toStartOf="@+id/icCompleted"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:visibility="gone"
@@ -214,6 +230,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:visibility="gone"
+        tools:visibility="gone"
         android:id="@+id/ItemListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -239,6 +256,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                tools:src="@drawable/deen_placeholder_16_9"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -248,12 +266,12 @@
                 android:id="@+id/ic_play_oval_List"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_8"
                 android:src="@drawable/ic_play_oval"
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/Guideline"/>
+                app:layout_constraintEnd_toEndOf="parent"/>
 
 
 

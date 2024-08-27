@@ -8,24 +8,18 @@ import java.util.Locale
 
 object LocaleUtil {
 
+    fun createLocaleContext(context: Context, locale: Locale): Context {
+        val config = Configuration(context.resources.configuration)
+        config.setLocale(locale)
 
-        fun createLocaleContext(context: Context, locale: Locale): Context {
-            val config = Configuration(context.resources.configuration)
-            config.setLocale(locale)
-
-            val localContext = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                context.createConfigurationContext(config)
-            } else {
-                @Suppress("DEPRECATION")
-                context.resources.updateConfiguration(config, context.resources.displayMetrics)
-                context
-            }
-
-            val wrappedContext = ContextThemeWrapper(localContext, context.theme)
-
-            return wrappedContext
-
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.createConfigurationContext(config)
+        } else {
+            @Suppress("DEPRECATION")
+            context.resources.updateConfiguration(config, context.resources.displayMetrics)
+            context
+        }.let { localizedContext ->
+            ContextThemeWrapper(localizedContext, context.theme)
         }
-
-
+    }
 }

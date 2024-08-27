@@ -16,6 +16,7 @@ import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.utils.visible
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -53,7 +54,7 @@ internal class KhatamQuranVideoList(
     private val textContentList: AppCompatTextView = itemView.findViewById(R.id.textContentList)
     private val subContentList: AppCompatTextView = itemView.findViewById(R.id.subContentList)
     private val ic_play_oval_List: AppCompatImageView = itemView.findViewById(R.id.ic_play_oval_List)
-
+    private val icCompleted:AppCompatImageView = itemView.findViewById(R.id.icCompleted)
     private var lastUpdatedItemID = -1
     private var lastUpdatedData: CommonCardData? = null
     private var isListView = false
@@ -106,6 +107,7 @@ internal class KhatamQuranVideoList(
                         R.drawable.ic_play_oval
                     )
                 )
+
         }
         else
         {
@@ -167,6 +169,7 @@ internal class KhatamQuranVideoList(
             icLive.show()
 
 
+        icCompleted.visible(getData.IsCompleted)
 
         // Load banner image
         banner.imageLoad(

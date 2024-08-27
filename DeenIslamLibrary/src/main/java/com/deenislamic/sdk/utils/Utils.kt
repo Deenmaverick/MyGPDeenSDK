@@ -326,7 +326,7 @@ internal fun getPrayerTimeName(data: PrayerTimesResponse, nowtime: Long): Prayer
         Pair("Sunrise", sunrise),
         Pair("Dhuhr", duhur),
         Pair("Asr", asr),
-        Pair("Magrib", magrib),
+        Pair("Maghrib", magrib),
         Pair("Isha", isha),
         Pair("Tahajjut", tahajjut),
         Pair("Sunset", sunset),
@@ -384,14 +384,14 @@ internal fun getPrayerTimeName(data: PrayerTimesResponse, nowtime: Long): Prayer
             nextPrayerTimeCount = getEpochTimeDifference(nowtime, sunset.plus(1*60*1000))
         }
     }
-    else if (isTimeInRange(nowtime, asr,magrib)) {
+    else if (isTimeInRange(nowtime, asr,forbiddenTime3)) {
         prayerMomentRange.apply {
             MomentName = "Asr"
             StartTime = asr.epochTimeToStringTime()
-            EndTime = magrib.minus(1*60*1000).epochTimeToStringTime()
+            EndTime = forbiddenTime3.minus(1*60*1000).epochTimeToStringTime()
             NextPrayerName = "Maghrib"
             nextPrayerTimeCount =
-                getEpochTimeDifference(nowtime, magrib)
+                getEpochTimeDifference(nowtime, forbiddenTime3)
         }
     }else if (isTimeInRange(nowtime, duhur,asr)) {
         prayerMomentRange.apply {

@@ -155,7 +155,7 @@ internal class WidgetPrayerTimes(
                     icSun.setImageDrawable(AppCompatResources.getDrawable(icSun.context,R.drawable.ic_cloud_sun_fill))
 
                     timeTxt.text = ("${prayerData?.Data?.Asr?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}"+" - "+
-                            "${prayerData?.Data?.Magrib?.StringTimeToMillisecond()?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
+                            "${prayerData?.Data?.Sunset?.StringTimeToMillisecond()?.minus(16*60*1000)?.MilliSecondToStringTime("hh:mm aa")?:"0:00"}").numberLocale()
 
                 }
 

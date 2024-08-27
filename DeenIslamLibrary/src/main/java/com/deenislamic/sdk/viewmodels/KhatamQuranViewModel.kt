@@ -109,11 +109,11 @@ internal class KhatamQuranViewModel(
         }
     }
 
-    fun postKhatamQuranHistory(contentID: Int, totalDuration: Int,  duration: Int, language: String) {
+    fun postKhatamQuranHistory(contentID: Int,catID: Int, totalDuration: Int,  duration: Int, language: String) {
         viewModelScope.launch {
 
             when (val response = repository.addKhatamQuranContentHistory(
-                contentID, totalDuration, duration, language
+                contentID,catID, totalDuration, duration, language
             )) {
                 is ApiResource.Failure -> _addHistoryLiveData.value =
                     CommonResource.API_CALL_FAILED

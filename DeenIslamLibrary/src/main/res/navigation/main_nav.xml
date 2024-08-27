@@ -1611,6 +1611,10 @@
         <argument
             android:name="title"
             app:argType="string" />
+        <argument
+            android:name="page"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <action
         android:id="@+id/action_global_prayerVisualFragment"

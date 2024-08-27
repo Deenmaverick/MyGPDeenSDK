@@ -45,10 +45,10 @@ class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
         val loadGPHomeBtn:AppCompatButton = findViewById(R.id.loadGPHomeBtn)
         gphome = findViewById(R.id.gphome)
 
-        gphome.init(
+        gphome.initWithMsisdn(
             context = this,
             token = "8801783355888",
-            language = "bn",
+            language = "en",
             callback = this
         )
 

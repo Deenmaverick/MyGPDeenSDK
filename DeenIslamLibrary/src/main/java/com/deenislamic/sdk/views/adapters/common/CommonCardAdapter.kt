@@ -20,6 +20,7 @@ import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.deenislamic.sdk.service.network.response.common.CommonCardData
+import com.deenislamic.sdk.utils.visible
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -124,6 +125,8 @@ internal class CommonCardAdapter(
         private val textContentList: AppCompatTextView by lazy { itemView.findViewById(R.id.textContentList)}
         private val subContentList: AppCompatTextView by lazy { itemView.findViewById(R.id.subContentList) }
         private val ic_play_oval_List: AppCompatImageView by lazy { itemView.findViewById(R.id.ic_play_oval_List) }
+        private val icCompleted:AppCompatImageView = itemView.findViewById(R.id.icCompleted)
+
 
         override fun onBind(position: Int) {
             super.onBind(position)
@@ -184,6 +187,8 @@ internal class CommonCardAdapter(
                         )
                     )
             }
+
+            icCompleted.visible(getData.IsCompleted)
 
 
             // Have progress bar
@@ -268,6 +273,9 @@ internal class CommonCardAdapter(
                 subContentList.text = getData.reference
                 subContent.text = getData.reference
             }
+
+
+
 
             // Set Padding / Margin
 

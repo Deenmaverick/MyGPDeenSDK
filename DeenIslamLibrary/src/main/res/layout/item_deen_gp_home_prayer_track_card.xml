@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="0dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textAppearance="@style/DeenTextAppearance.font10"
             android:textColor="@color/deen_gp_txt_gray_secondary"
             tools:text="4:13 AM"
             app:layout_constraintTop_toBottomOf="@+id/waktTxt"

@@ -71,11 +71,13 @@ internal class GPHomeMenuAdapter(
                 menuIcon.load(R.drawable.ic_deen_gp_more_menu)
                 menuTitile.text = itemView.context?.getString(R.string.more)
 
-                moreCount.text = "+${menu.size-3}".numberLocale()
+                //moreCount.text = "+${menu.size-3}".numberLocale()
+                moreCount.text = "+9".numberLocale()
 
                 val newFeatureCount = menu.filter { !it.IsVisited }.size
                 if(newFeatureCount>0) {
-                    newBtn.text = newBtn.context?.getString(R.string.new_icon_count,newFeatureCount.toString().numberLocale())
+                    //newBtn.text = newBtn.context?.getString(R.string.new_icon_count,newFeatureCount.toString().numberLocale())
+                    newBtn.text = newBtn.context?.getString(R.string.new_btn_txt)
                     newBtn.show()
                 }else
                     newBtn.hide()

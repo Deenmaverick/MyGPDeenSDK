@@ -209,6 +209,7 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
                 itemMarginTop = 8.dp,
                 itemMarginLeft = 0,
                 itemMarginRight = 0,
+                itemPaddingBottom = 8.dp,
                 bannerSize = 1280
             )
 
@@ -341,17 +342,20 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
         if(navArgs.isRamadan)
             return
 
-            if (!(listItem?.IsCompleted!!)) {
+            //if (!(listItem?.IsCompleted!!)) {
+        listItem?.let {
                 lifecycleScope.launch {
                         viewmodel.postKhatamQuranHistory(
                             contentID = listItem.Id,
+                            catID = listItem.categoryID,
                             totalDuration = listItem.DurationInSec,
                             duration = (exoVideoManager.getExoPlayer().currentPosition / 1000).toInt(),
-                            language = getLanguage()
+                            language = getLanguage(),
                         )
 
                 }
             }
+            //}
 
     }
 
@@ -412,8 +416,9 @@ internal class KhatamEQuranVideoFragment : BaseRegularFragment(), VideoPlayerCal
             imageurl = newDataModel.imageurl,
             title = newDataModel.title,
             videourl = newDataModel.videourl,
-            reference = null,
-            customReference = newDataModel.reference
+            reference = newDataModel.reference,
+            customReference = newDataModel.reference,
+            IsCompleted = newDataModel.IsCompleted
         )
     }
 

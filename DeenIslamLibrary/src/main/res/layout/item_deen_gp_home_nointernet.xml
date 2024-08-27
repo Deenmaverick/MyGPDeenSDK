@@ -93,7 +93,7 @@
                 android:backgroundTint="@color/deen_white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/deen_gp_blue_alt"
-                android:text="@string/try_again"
+                android:text="@string/connect_to_the_internet"
                 app:icon="@drawable/ic_deen_gp_replay"
                 app:iconGravity="textStart"
                 app:iconTint="@color/deen_gp_blue_alt"

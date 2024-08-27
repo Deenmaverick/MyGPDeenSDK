@@ -38,6 +38,8 @@ internal class QuranLearningFragment : BaseRegularFragment(),
     override fun OnCreate() {
         super.OnCreate()
 
+        setupBackPressCallback(this,true)
+
         viewmodel =QuranLearningViewModel(
             QuranLearningRepository(
                 quranShikkhaService = NetworkProvider().getInstance().provideQuranShikkhaService(),

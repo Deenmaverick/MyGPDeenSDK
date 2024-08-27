@@ -18,15 +18,30 @@ import com.deenislamic.sdk.service.models.prayer_time.PrayerMomentRange
 import com.deenislamic.sdk.service.models.ramadan.StateModel
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data
-import com.deenislamic.sdk.utils.*
+import com.deenislamic.sdk.utils.AsyncViewStub
+import com.deenislamic.sdk.utils.TimeDiffForPrayer
+import com.deenislamic.sdk.utils.dayNameLocale
+import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.formateDateTime
+import com.deenislamic.sdk.utils.getLocalContext
+import com.deenislamic.sdk.utils.getPrayerTimeName
+import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.monthNameLocale
+import com.deenislamic.sdk.utils.numberLocale
+import com.deenislamic.sdk.utils.prayerMomentLocale
+import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.utils.stringTimeToEpochTime
+import com.deenislamic.sdk.utils.timeLocale
 import com.deenislamic.sdk.views.adapters.common.CommonStateList
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.deenislamic.sdk.views.prayertimes.patch.ForbiddenTimes
 import com.deenislamic.sdk.views.prayertimes.patch.OtherPrayerTimes
 import com.deenislamic.sdk.views.prayertimes.patch.PrayerTimes
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 
 const val TYPE_WIDGET1:Int = 1
@@ -35,13 +50,14 @@ const val TYPE_WIDGET3:Int = 3
 const val TYPE_WIDGET4:Int = 4
 const val TYPE_WIDGET5:Int = 5
 const val TYPE_WIDGET6:Int = 6
+const val TYPE_WIDGET7:Int = 7
 internal class PrayerTimesAdapter(
     private val callback: prayerTimeAdapterCallback? = null,
     private var viewInflationListener: ViewInflationListener
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private val viewPool = RecyclerView.RecycledViewPool()
-    private  var prayerList:ArrayList<Int> = arrayListOf(1,2,3,4,5)
+    private  var prayerList:ArrayList<Int> = arrayListOf(1,2,3,4,5,6,7)
     private lateinit var inc_prayer_times:LinearLayout
     private var updateDataState:Boolean = false
 
@@ -129,6 +145,17 @@ internal class PrayerTimesAdapter(
                 }
 
                 TYPE_WIDGET5 -> {
+                    //forbidden times
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
+                        ForbiddenTimes().getInstance().load(this )
+                        widget5_view()
+                    }
+
+                }
+
+                TYPE_WIDGET6 -> {
+
+
                     //monthly prayer tracker
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_monthly_prayer_tracker_btn) {
                         val trackerBtn: MaterialButton = this.findViewById(R.id.inf)
@@ -139,13 +166,22 @@ internal class PrayerTimesAdapter(
 
                 }
 
-                TYPE_WIDGET6 -> {
-                    //forbidden times
-                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
-                        ForbiddenTimes().getInstance().load(this )
-                        widget5_view()
-                    }
+                TYPE_WIDGET7 -> {
+                    //pryaer learning
+                    prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.item_prayerlearning) {
+                        // prayer learning
+                        val menLayout: MaterialCardView = this.findViewById(R.id.menLayout)
+                        val womenLayout: MaterialCardView = this.findViewById(R.id.womenLayout)
 
+                        menLayout.setOnClickListener {
+                            Log.e("PrayerTimeAdapter","OK")
+                            callback?.menPrayer()
+                        }
+
+                        womenLayout.setOnClickListener {
+                            callback?.womenPrayer()
+                        }
+                    }
                 }
             }
 
@@ -407,10 +443,8 @@ internal class PrayerTimesAdapter(
 
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
-
-        override fun onBind(position: Int) {
-            super.onBind(position)
-
+        override fun onBind(position: Int, viewtype: Int) {
+            super.onBind(position, viewtype)
 
         }
     }
@@ -428,4 +462,8 @@ internal interface prayerTimeAdapterCallback
     fun prayerCheck(prayer_tag: String, date: String, isPrayed: Boolean)
 
     fun monthlyTrackerBtnClicked()
+
+    fun menPrayer()
+    fun womenPrayer()
+
 }

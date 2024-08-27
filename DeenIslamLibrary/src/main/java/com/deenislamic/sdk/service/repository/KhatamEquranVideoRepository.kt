@@ -44,10 +44,11 @@ internal class KhatamEquranVideoRepository(
         val requestBody = body.toString().toRequestBody(RequestBodyMediaType)
         deenService?.getRecentKhatamQuranVideos(parm = requestBody)
     }
-    suspend fun addKhatamQuranContentHistory(contentID: Int, totalDuration: Int,  duration: Int, language: String) = makeApicall {
+    suspend fun addKhatamQuranContentHistory(contentID: Int,catID: Int, totalDuration: Int,  duration: Int, language: String) = makeApicall {
 
         val body = JSONObject()
         body.put("contentID", contentID)
+        body.put("categoryID", catID)
         body.put("totalDuration", totalDuration)
         body.put("duration", duration)
         body.put("language", language)

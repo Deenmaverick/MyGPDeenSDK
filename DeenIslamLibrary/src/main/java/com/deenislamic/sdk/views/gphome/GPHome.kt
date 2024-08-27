@@ -466,9 +466,12 @@ class GPHome @JvmOverloads constructor(
                 }
                 else -> {
 
+
+                    val nowtime = SimpleDateFormat("hh:mm aa", Locale.ENGLISH).format(Date())
+
                     prayerTimeLy?.hide()
                     nowTv?.hide()
-                    prayerName?.text = "--"
+                    prayerName?.text = nowtime //"--"
                     /*timefor.hide()
                     prayerMoment.setPadding(0,8.dp,0,0)
                     prayerMoment.hide()
@@ -507,7 +510,7 @@ class GPHome @JvmOverloads constructor(
                         else -> {
                             bgPrayer?.setBackgroundResource(R.drawable.bg_deen_gp_prayer_placeholder)
                             prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_fajr))
-
+                            prayerName?.text = nowtime
                         }
 
                     }
@@ -531,6 +534,11 @@ class GPHome @JvmOverloads constructor(
                             currentTime =
                                 SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
                             val nowtime = currentTime.stringTimeToEpochTime()
+
+                            val nowTimeView = SimpleDateFormat("hh:mm aa", Locale.ENGLISH).format(Date())
+
+                            if(prayerMomentRangeData.MomentName == "--" && prayerName?.text != nowTimeView)
+                                prayerName?.text = nowTimeView
 
                             if (prayerMomentRangeData.MomentName != context?.getString(R.string.forbidden_time) &&
                                 prayerMomentRangeData.MomentName != "Chasht"
@@ -741,7 +749,12 @@ class GPHome @JvmOverloads constructor(
         DeenSDKCore.setDeenLanguage(language)
         DeenSDKCore.setGPHomeViewInternalCallback(this)
         DeenSDKCore.initDeen(context,token,callback)
-        //DeenSDKCore.authSDK(context,token,callback)
+    }
+
+    fun initWithMsisdn(context: Context,token:String,language:String, callback: DeenSDKCallback){
+        DeenSDKCore.setDeenLanguage(language)
+        DeenSDKCore.setGPHomeViewInternalCallback(this)
+        DeenSDKCore.authSDK(context,token,callback)
     }
 
     fun changeLanguage(language:String){

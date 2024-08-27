@@ -74,6 +74,10 @@ internal class PrayerVisualFragment : BaseRegularFragment() {
             reduceDragSensitivity(2)
         }
 
+        viewPager.post {
+            viewPager.currentItem = navArgs.page
+        }
+
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
 

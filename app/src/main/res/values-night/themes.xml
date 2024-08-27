@@ -6,6 +6,8 @@
         <item name="colorPrimaryVariant">@color/deen_purple_700</item>
         <item name="colorOnPrimary">@color/deen_black</item>
         <!-- Secondary brand color. -->
+        <item name="android:fontFamily">@font/telenor_font</item>
+
         <item name="colorSecondary">@color/deen_teal_200</item>
         <item name="colorSecondaryVariant">@color/deen_teal_200</item>
         <item name="colorOnSecondary">@color/deen_black</item>

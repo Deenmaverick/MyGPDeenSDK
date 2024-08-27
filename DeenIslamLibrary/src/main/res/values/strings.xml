@@ -557,8 +557,8 @@
     <string name="now">(Now)</string>
     <string name="next">Next:\u00A0</string>
     <string name="starting_in">Starting in:\u00A0</string>
-    <string name="iftarat">Ifar at: %1$s</string>
-    <string name="sehriat">Sehri at: %1$s</string>
+    <string name="iftarat">Iftar at: %1$s</string>
+    <string name="sehriat">Sehri ends: %1$s</string>
     <string name="upcoming_event">Upcoming Event</string>
     <string name="islamic_calendar">Islamic Calendar</string>
     <string name="pdf_page_search_out_of">Out of %1$s</string>
@@ -611,4 +611,7 @@
     <string name="subscriptions_plan">Subscriptions Plan</string>
     <string name="grameenphone">Grameenphone</string>
     <string name="you_are_premium_user">You are a premium user</string>
+    <string name="timetable_of_islamic_foundation_bangladesh">Timetable of Islamic Foundation Bangladesh</string>
+    <string name="namaz_visual">Namaz Visual</string>
+    <string name="connect_to_the_internet">Connect to the Internet</string>
 </resources>

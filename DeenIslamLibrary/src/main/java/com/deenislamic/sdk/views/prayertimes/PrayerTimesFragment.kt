@@ -682,6 +682,20 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         gotoFrag(R.id.action_global_prayerTrackerFragment)
     }
 
+    override fun menPrayer() {
+        val bundle = Bundle()
+        bundle.putString("title", localContext.getString(R.string.namaz_visual))
+        bundle.putInt("page",0)
+        gotoFrag(R.id.action_global_prayerVisualFragment,bundle)
+    }
+
+    override fun womenPrayer() {
+        val bundle = Bundle()
+        bundle.putString("title", localContext.getString(R.string.namaz_visual))
+        bundle.putInt("page",1)
+        gotoFrag(R.id.action_global_prayerVisualFragment,bundle)
+    }
+
     override fun onAllViewsInflated() {
         progressLayout.visible(false)
         no_internet_layout.visible(false)

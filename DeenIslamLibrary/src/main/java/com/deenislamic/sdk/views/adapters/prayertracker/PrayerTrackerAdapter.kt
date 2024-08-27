@@ -69,7 +69,7 @@ internal class PrayerTrackerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         this.prayerMomentRangeData = prayerMomentRangeData
         this.targetDate = targetDate
         Log.e("checkdate",targetDate)
-        todayDate = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Date())
+        //todayDate = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Date())
 
         notifyDataSetChanged()
     }
@@ -145,21 +145,18 @@ internal class PrayerTrackerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
             prayerCheck.setOnClickListener {
 
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                val date = dateFormat.parse(targetDate)
-
-// Create a Calendar instance and set the parsed date
-                val calendar = Calendar.getInstance()
-                calendar.time = date
-
-// Get the month value (1-12)
-                val targetMonth = calendar.get(Calendar.MONTH) + 1  // Adding 1 because Calendar.MONTH is 0-based
 
                 prayerData?.Data?.prayerTime?.Date?.let { dateStr ->
-                    val dateMonth = calendar.get(Calendar.MONTH) + 1
+
+                    val serverDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+                    val serverMonth = serverDateFormat.parse(dateStr)
+
+                    val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+                    val formattedDateStr = outputDateFormat.format(serverMonth)
+
+
                     val prayer_tag = "pt" + (position + 1)
-                    Log.e("checkmonth",targetMonth.toString())
-                    if (dateMonth != targetMonth) {
+                    if (formattedDateStr != todayDate) {
                         // If the date is not in the target month, uncheck the RadioButton
                         prayerCheck.isChecked = false
                         itemView.context.toast(itemView.context.getString(R.string.track_only_current_month_s_namaz))

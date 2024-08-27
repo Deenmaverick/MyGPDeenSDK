@@ -45,7 +45,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
         actionbar = mainview.findViewById(R.id.actionbar)
         _viewPager = mainview.findViewById(R.id.viewPager)
 
-        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,localContext.getString(R.string.app_name_deen),false,actionbar)
+        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,localContext.getString(R.string.ibadah),false,actionbar)
         btnBack = actionbar.findViewById(R.id.btnBack)
         btnBack.show()
 
@@ -99,7 +99,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
             _viewPager.getChildAt(0).overScrollMode = View.OVER_SCROLL_NEVER;
         }
 
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
 
             userTrackViewModel.trackUser(
                 language = getLanguage(),
@@ -107,7 +107,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
                 pagename = "home",
                 trackingID = get9DigitRandom()
             )
-        }
+        }*/
 
     }
 
