@@ -1,6 +1,7 @@
 package com.deenislamic.sdk.views.dashboard.patch;
 
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageView
@@ -18,6 +19,7 @@ import com.deenislamic.sdk.utils.fixArabicComma
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.show
+import com.deenislamic.sdk.utils.visible
 import com.google.android.material.button.MaterialButton
 
 internal class QuranicItem(private val itemView: View) {
@@ -172,8 +174,7 @@ internal class QuranicItem(private val itemView: View) {
             midContent?.maxLines = 3
             midContent?.ellipsize = TextUtils.TruncateAt.END
             midContent?.text = data.Text
-            if(data.Text.isEmpty())
-                midContent?.hide()
+            midContent?.visible(data.Text.isNotEmpty())
 
             subContent?.text = data.Reference
             if(data.Reference.isEmpty())
