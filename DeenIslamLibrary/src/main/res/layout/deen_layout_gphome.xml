@@ -35,7 +35,7 @@
             android:paddingStart="@dimen/space_8"
             android:paddingEnd="0dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/deen_gp_black"
+            android:textColor="@color/deen_primary"
             android:text="@string/ibadah"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@+id/location"

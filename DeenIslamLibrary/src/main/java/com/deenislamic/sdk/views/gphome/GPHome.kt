@@ -437,7 +437,6 @@ class GPHome @JvmOverloads constructor(
 
         prayertimeData?.let { data ->
 
-
             var currentTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
             val prayerMomentRangeData: PrayerMomentRange =
                 getPrayerTimeName(
@@ -477,6 +476,7 @@ class GPHome @JvmOverloads constructor(
                 "Fajr" -> {
                     bgPrayer?.imageLoad(
                         url = "fajr.webp".getDrawable(),
+                        placeholder_1_1 = true,
                         custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                     )
                     prayerName?.setTextColor(
@@ -490,6 +490,7 @@ class GPHome @JvmOverloads constructor(
                 "Dhuhr" -> {
                     bgPrayer?.imageLoad(
                         url = "dhuhr.webp".getDrawable(),
+                        placeholder_1_1 = true,
                         custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                     )
                     prayerName?.setTextColor(
@@ -503,6 +504,7 @@ class GPHome @JvmOverloads constructor(
                 "Asr" -> {
                     bgPrayer?.imageLoad(
                         url = "asr.webp".getDrawable(),
+                        placeholder_1_1 = true,
                         custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                     )
                     prayerName?.setTextColor(
@@ -516,6 +518,7 @@ class GPHome @JvmOverloads constructor(
                 "Maghrib" -> {
                     bgPrayer?.imageLoad(
                         url = "maghrib.webp".getDrawable(),
+                        placeholder_1_1 = true,
                         custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                     )
                     prayerName?.setTextColor(
@@ -529,6 +532,7 @@ class GPHome @JvmOverloads constructor(
                 "Isha" -> {
                     bgPrayer?.imageLoad(
                         url = "isha.webp".getDrawable(),
+                        placeholder_1_1 = true,
                         custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                     )
                     prayerName?.setTextColor(
@@ -542,6 +546,7 @@ class GPHome @JvmOverloads constructor(
                 "Ishraq" -> {
                     bgPrayer?.imageLoad(
                         url = "ishrak.webp".getDrawable(),
+                        placeholder_1_1 = true,
                         custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                     )
                     prayerName?.setTextColor(
@@ -555,6 +560,7 @@ class GPHome @JvmOverloads constructor(
                 "Chasht" -> {
                     bgPrayer?.imageLoad(
                         url = "chasht.webp".getDrawable(),
+                        placeholder_1_1 = true,
                         custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                     )
                     prayerName?.setTextColor(
@@ -568,6 +574,7 @@ class GPHome @JvmOverloads constructor(
                 localContext?.getString(R.string.forbidden_time) -> {
                     bgPrayer?.imageLoad(
                         url = "forbidden.webp".getDrawable(),
+                        placeholder_1_1 = true,
                         custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                     )
                 }
@@ -590,6 +597,7 @@ class GPHome @JvmOverloads constructor(
                         "Fajr" -> {
                             bgPrayer?.imageLoad(
                                 url = "fajr.webp".getDrawable(),
+                                placeholder_1_1 = true,
                                 custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                             )
                             prayerName?.setTextColor(
@@ -603,6 +611,7 @@ class GPHome @JvmOverloads constructor(
                         "Dhuhr" -> {
                             bgPrayer?.imageLoad(
                                 url = "dhuhr.webp".getDrawable(),
+                                placeholder_1_1 = true,
                                 custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                             )
                             prayerName?.setTextColor(
@@ -616,6 +625,7 @@ class GPHome @JvmOverloads constructor(
                         "Asr" -> {
                             bgPrayer?.imageLoad(
                                 url = "asr.webp".getDrawable(),
+                                placeholder_1_1 = true,
                                 custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                             )
                             prayerName?.setTextColor(
@@ -629,6 +639,7 @@ class GPHome @JvmOverloads constructor(
                         "Maghrib" -> {
                             bgPrayer?.imageLoad(
                                 url = "maghrib.webp".getDrawable(),
+                                placeholder_1_1 = true,
                                 custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                             )
                             prayerName?.setTextColor(
@@ -642,6 +653,7 @@ class GPHome @JvmOverloads constructor(
                         "Isha" -> {
                             bgPrayer?.imageLoad(
                                 url = "isha.webp".getDrawable(),
+                                placeholder_1_1 = true,
                                 custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                             )
                             prayerName?.setTextColor(
@@ -655,6 +667,7 @@ class GPHome @JvmOverloads constructor(
                         "Ishraq" -> {
                             bgPrayer?.imageLoad(
                                 url = "ishrak.webp".getDrawable(),
+                                placeholder_1_1 = true,
                                 custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                             )
                             prayerName?.setTextColor(
@@ -668,6 +681,7 @@ class GPHome @JvmOverloads constructor(
                         "Chasht" -> {
                             bgPrayer?.imageLoad(
                                 url = "chasht.webp".getDrawable(),
+                                placeholder_1_1 = true,
                                 custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
                             )
                             prayerName?.setTextColor(
@@ -751,24 +765,6 @@ class GPHome @JvmOverloads constructor(
 
     private fun prayerTracker(waktTracker: List<WaktTracker>) {
 
-        /*val progress = waktTracker.filter { it.status }.size * 20
-
-        if(progressBar?.progress != progress) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                progressBar?.setProgress(progress, true)
-            }else
-                progressBar?.progress = progress
-
-            progressLy?.let {
-                progresstxt?.text = "$progress%".numberLocale()
-                val constraintSet = ConstraintSet()
-                constraintSet.clone(it)
-                constraintSet.setHorizontalBias(R.id.progresstxt,  ((progress / 100.0)-0.1).toFloat())
-                constraintSet.applyTo(it)
-            }
-
-        }*/
 
         waktTracker.forEach {
             when (it.Wakt) {
@@ -807,71 +803,6 @@ class GPHome @JvmOverloads constructor(
 
     }
 
-    /*private fun updatePrayerTracker(status: Boolean, button: RadioButton?) {
-
-        val primaryColor = ContextCompat.getColor(context,R.color.deen_gp_primary)
-        val secondaryColor = ContextCompat.getColor(context,R.color.deen_gp_txt_gray_secondary)
-
-        if(status){
-            button?.setTextColor(primaryColor)
-            button?.icon = ContextCompat.getDrawable(context,R.drawable.ic_deen_gp_check)
-            button?.iconGravity = MaterialButton.ICON_GRAVITY_TEXT_END
-            button?.iconTint = ColorStateList.valueOf(primaryColor)
-        }else{
-            button?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_txt_gray_secondary))
-            button?.icon = ContextCompat.getDrawable(context,R.drawable.ic_deen_gp_time_off)
-            button?.iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
-            button?.iconTint = ColorStateList.valueOf(secondaryColor)
-        }
-    }*/
-
-
-    /*private fun initObserver(){
-        findViewTreeLifecycleOwner()?.let { lifecyleowner ->
-
-            viewmodel?.gphomeLiveData?.observe(lifecyleowner){
-            when(it){
-                is CommonResource.API_CALL_FAILED -> baseNoInternetState()
-                is GPHomeResource.GPHome -> {
-                    loadpage(it.data)
-                }
-                }
-            }
-
-            viewmodel?.gphomePrayerLiveData?.observe(lifecyleowner){
-                when(it){
-                    is CommonResource.API_CALL_FAILED -> Unit
-                    is GPHomeResource.GPHomePrayerTrack -> {
-
-                        prayertimeData?.WaktTracker?.firstOrNull { data-> data.Wakt == it.prayer_tag }?.status = it.status
-                        prayertimeData?.WaktTracker?.let { it1 -> prayerTracker(it1) }
-
-                        Log.e("GPHomePrayerTrack",Gson().toJson(prayertimeData?.WaktTracker))
-
-                        if(it.status) {
-                            DeenSDKCore.baseContext?.apply {
-                                localContext?.getString(
-                                    R.string.prayer_track_success_txt,
-                                    it.prayer_tag.prayerMomentLocaleForToast()
-                                )?.let { it1 ->
-                                    mainView?.let { it2 ->
-                                        CustomToast.show(
-                                            message = it1,
-                                            iconResId = R.drawable.ic_deen_done_all,
-                                            context = this,
-                                            anchorView = it2
-                                        )
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-
-        }
-    }*/
 
 
     private fun initObserver() {
