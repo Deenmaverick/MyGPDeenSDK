@@ -149,7 +149,7 @@ internal class PrayerTrackerFragment : BaseRegularFragment(), PrayerTrackerCallb
         if (!firstload) {
 
             lifecycleScope.launch {
-                setTrackingID(get9DigitRandom())
+                //setTrackingID(get9DigitRandom())
                 userTrackViewModel.trackUser(
                     language = getLanguage(),
                     msisdn = DeenSDKCore.GetDeenMsisdn(),
