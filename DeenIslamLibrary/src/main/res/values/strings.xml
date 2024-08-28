@@ -614,4 +614,6 @@
     <string name="timetable_of_islamic_foundation_bangladesh">Timetable of Islamic Foundation Bangladesh</string>
     <string name="namaz_visual">Namaz Visual</string>
     <string name="connect_to_the_internet">Connect to the Internet</string>
+    <string name="unable_to_get_location">Unable to get location</string>
+    <string name="get_location_automatically">Get Location Automatically</string>
 </resources>

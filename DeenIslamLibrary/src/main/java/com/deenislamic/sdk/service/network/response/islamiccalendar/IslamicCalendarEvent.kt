@@ -25,5 +25,6 @@ internal data class IslamicEvent(
     val Status: String,
     val imageurl: String,
     val CategoryId: String,
-    val ContentType:String
+    val ContentType:String,
+    val isUpcoming:Boolean = false
 )

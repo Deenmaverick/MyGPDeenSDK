@@ -42,6 +42,23 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/tvlocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/deen_white"
+        app:icon="@drawable/ic_deen_gp_icon_marker"
+        app:iconTint="@color/deen_gp_primary"
+        app:iconGravity="textStart"
+        app:iconSize="24dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/deen_gp_primary"
+        android:text="@string/get_location_automatically"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/border"/>
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
@@ -53,8 +70,9 @@
         app:boxStrokeWidth="0dp"
         app:boxBackgroundMode="none"
         app:hintTextColor="@color/deen_gray"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvlocation"
         app:hintEnabled="false">
 
         <LinearLayout

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.IslamicCalEventCallback
@@ -64,6 +65,8 @@ internal class IslamicCalEventAdapter(private val callback: IslamicCalEventCallb
             tvDate.text = dayOfMonth.numberLocale()
             tvMonth.text = monthName.monthNameLocale()
             imvBanner.imageLoad(BASE_CONTENT_URL_SGP +event.imageurl)
+
+            tvCalendarDateLeft.setTextColor(ContextCompat.getColor(tvCalendarDateLeft.context,if(!event.isUpcoming) R.color.deen_primary else R.color.deen_txt_ash))
 
             imvCalendar.setOnClickListener {
                 callback.itemPosition(event.text,event.Date)

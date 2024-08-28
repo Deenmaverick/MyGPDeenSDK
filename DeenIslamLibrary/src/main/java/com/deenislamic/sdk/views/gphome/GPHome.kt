@@ -1,8 +1,20 @@
 package com.deenislamic.sdk.views.gphome
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Rect
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
 import android.os.CountDownTimer
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -12,10 +24,15 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.widget.RadioButton
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
@@ -43,6 +60,7 @@ import com.deenislamic.sdk.utils.MilliSecondToStringTime
 import com.deenislamic.sdk.utils.StateArrayForGPHome
 import com.deenislamic.sdk.utils.StringTimeToMillisecond
 import com.deenislamic.sdk.utils.TimeDiffForPrayer
+import com.deenislamic.sdk.utils.bangladeshStateArray
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.epochTimeToStringTime
 import com.deenislamic.sdk.utils.formateDateTime
@@ -58,6 +76,7 @@ import com.deenislamic.sdk.utils.prayerMomentLocaleForToast
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.stringTimeToEpochTime
 import com.deenislamic.sdk.utils.timeLocale
+import com.deenislamic.sdk.utils.toast
 import com.deenislamic.sdk.viewmodels.GPHomeViewModel
 import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.gphome.GPHomeLocationAdapter
@@ -71,6 +90,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -81,74 +101,76 @@ class GPHome @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr),MenuCallback, RamadanCallback,DeenSDKCallback {
 
-    private var viewmodel: GPHomeViewModel ? = null
+    private var viewmodel: GPHomeViewModel? = null
 
-    private var localContext:Context ? = null
-    private var localInflater: LayoutInflater ? = null
-    private var prayertimeData:com.deenislamic.sdk.service.network.response.prayertimes.Data ? = null
+    private var localContext: Context? = null
+    private var localInflater: LayoutInflater? = null
+    private var prayertimeData: com.deenislamic.sdk.service.network.response.prayertimes.Data? =
+        null
 
     private lateinit var gpHomeMenuAdapter: GPHomeMenuAdapter
-    private lateinit var gpHomeDialogMenuAdapter:GPHomeMenuAdapter
+    private lateinit var gpHomeDialogMenuAdapter: GPHomeMenuAdapter
 
     private lateinit var locationAdapter: GPHomeLocationAdapter
 
-    private var menu:RecyclerView ? = null
-    private  var mainView: ConstraintLayout? = null
-    private var dateArabic:AppCompatTextView ? = null
-    private var prayerName:AppCompatTextView ? = null
-    private var startTime:AppCompatTextView ? = null
-    private var endTime:AppCompatTextView ? = null
-    private var iftarSehri:AppCompatTextView ? = null
-    private var nextPrayerName:AppCompatTextView ? = null
-    private var nextPrayerTime:AppCompatTextView ? = null
-    private var location:MaterialButton ? = null
-    private var prayerTimeBtn:AppCompatTextView ? = null
-    private var bgPrayer:AppCompatImageView ? = null
-    private var icLogo:AppCompatImageView ? = null
-    private var prayerTimeLy:ConstraintLayout ? = null
-    private var nowTv:AppCompatTextView ? = null
-    private var eventAnimation:LottieAnimationView ? = null
+    private var menu: RecyclerView? = null
+    private var mainView: ConstraintLayout? = null
+    private var dateArabic: AppCompatTextView? = null
+    private var prayerName: AppCompatTextView? = null
+    private var startTime: AppCompatTextView? = null
+    private var endTime: AppCompatTextView? = null
+    private var iftarSehri: AppCompatTextView? = null
+    private var nextPrayerName: AppCompatTextView? = null
+    private var nextPrayerTime: AppCompatTextView? = null
+    private var location: MaterialButton? = null
+    private var prayerTimeBtn: AppCompatTextView? = null
+    private var bgPrayer: AppCompatImageView? = null
+    private var icLogo: AppCompatImageView? = null
+    private var prayerTimeLy: ConstraintLayout? = null
+    private var nowTv: AppCompatTextView? = null
+    private var eventAnimation: LottieAnimationView? = null
 
-    private var fajrCard:MaterialCardView ? = null
+    private var fajrCard: MaterialCardView? = null
     private var fajrCheckbox: RadioButton? = null
-    private var fajrWaktTxt:AppCompatTextView ? = null
-    private var fajrWaktTime:AppCompatTextView ? = null
+    private var fajrWaktTxt: AppCompatTextView? = null
+    private var fajrWaktTime: AppCompatTextView? = null
 
-    private var dhuhrCard:MaterialCardView ? = null
+    private var dhuhrCard: MaterialCardView? = null
     private var dhuhrCheckbox: RadioButton? = null
-    private var dhuhrWaktTxt:AppCompatTextView ? = null
-    private var dhuhrWaktTime:AppCompatTextView ? = null
+    private var dhuhrWaktTxt: AppCompatTextView? = null
+    private var dhuhrWaktTime: AppCompatTextView? = null
 
-    private var asrCard:MaterialCardView ? = null
+    private var asrCard: MaterialCardView? = null
     private var asrCheckbox: RadioButton? = null
-    private var asrWaktTxt:AppCompatTextView ? = null
-    private var asrWaktTime:AppCompatTextView ? = null
+    private var asrWaktTxt: AppCompatTextView? = null
+    private var asrWaktTime: AppCompatTextView? = null
 
-    private var maghribCard:MaterialCardView ? = null
+    private var maghribCard: MaterialCardView? = null
     private var maghribCheckbox: RadioButton? = null
-    private var maghribWaktTxt:AppCompatTextView ? = null
-    private var maghribWaktTime:AppCompatTextView ? = null
+    private var maghribWaktTxt: AppCompatTextView? = null
+    private var maghribWaktTime: AppCompatTextView? = null
 
-    private var ishaCard:MaterialCardView ? = null
+    private var ishaCard: MaterialCardView? = null
     private var ishaCheckbox: RadioButton? = null
-    private var ishaWaktTxt:AppCompatTextView ? = null
-    private var ishaWaktTime:AppCompatTextView ? = null
+    private var ishaWaktTxt: AppCompatTextView? = null
+    private var ishaWaktTime: AppCompatTextView? = null
 
-    private var countDownTimer: CountDownTimer?=null
+    private var countDownTimer: CountDownTimer? = null
     private var currentState = "dhaka"
     private var currentStateModel: StateModel = StateArrayForGPHome[0]
-    // Common view ( loading,no internet etc)
-    private  var noInternetLayout: ConstraintLayout? =null
 
-    private var dialog:BottomSheetDialog ? = null
+    // Common view ( loading,no internet etc)
+    private var noInternetLayout: ConstraintLayout? = null
+
+    private var dialog: BottomSheetDialog? = null
 
     private var firstload = false
 
-    init {
-       //onCreateView()
-    }
+    // location
+    private var locationPermissionRequest: ActivityResultLauncher<String>? = null
 
-    private fun onCreateView(){
+
+    private fun onCreateView() {
 
         // init viewmodel
         val repository = GPHomeRespository(
@@ -158,9 +180,11 @@ class GPHome @JvmOverloads constructor(
 
         viewmodel = GPHomeViewModel(repository = repository)
 
-        localContext = LocaleUtil.createLocaleContext(context, Locale(DeenSDKCore.GetDeenLanguage()))
+        localContext =
+            LocaleUtil.createLocaleContext(context, Locale(DeenSDKCore.GetDeenLanguage()))
 
-        val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
+        val themedContext =
+            ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
 
         localInflater = LayoutInflater.from(themedContext)
 
@@ -265,13 +289,15 @@ class GPHome @JvmOverloads constructor(
         }
 
         currentStateModel.let {
-            location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") it.statebn else it.stateValue
+            location?.text =
+                if (DeenSDKCore.GetDeenLanguage() == "bn") it.statebn else it.stateValue
         }
 
         setupCommonLayout()
 
         // Set up observer when the view is attached to the window
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
                 initObserver()
@@ -279,28 +305,29 @@ class GPHome @JvmOverloads constructor(
         })
     }
 
-    private fun getWaktStatus(wakt:String):Boolean {
+    private fun getWaktStatus(wakt: String): Boolean {
 
-       return prayertimeData?.WaktTracker?.firstOrNull { data-> data.Wakt == wakt }?.status?:false
+        return prayertimeData?.WaktTracker?.firstOrNull { data -> data.Wakt == wakt }?.status
+            ?: false
 
     }
 
 
-    private fun checkEnabledWakt(wakt:String, button: RadioButton?){
+    private fun checkEnabledWakt(wakt: String, button: RadioButton?) {
 
-        val date = prayertimeData?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")
+        val date = prayertimeData?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy")
 
         val notifyTime = prayertimeData?.let {
             if (date != null) {
                 getPrayerTimeWaktWise(wakt, date, it)
-            }else 0L
+            } else 0L
         }
 
         notifyTime?.let {
 
-            if(notifyTime >= 0L) {
+            if (notifyTime >= 0L) {
                 button?.isEnabled = false
-            }else
+            } else
                 button?.isEnabled = true
 
         }
@@ -308,21 +335,24 @@ class GPHome @JvmOverloads constructor(
 
     }
 
-    private fun trackPrayerWakt(wakt:String){
+    private fun trackPrayerWakt(wakt: String) {
 
-       val date = prayertimeData?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss","dd/MM/yyyy")
+        val date = prayertimeData?.Date?.formateDateTime("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy")
 
         val notifyTime = prayertimeData?.let {
             if (date != null) {
                 getPrayerTimeWaktWise(wakt, date, it)
-            }else 0L
+            } else 0L
         }
 
         notifyTime?.let {
 
-            if(notifyTime >= 0L) {
+            if (notifyTime >= 0L) {
                 DeenSDKCore.baseContext?.apply {
-                    localContext?.getString(R.string.prayer_time_not_start,wakt.prayerMomentLocaleForToast())
+                    localContext?.getString(
+                        R.string.prayer_time_not_start,
+                        wakt.prayerMomentLocaleForToast()
+                    )
                         ?.let { it1 ->
 
                             mainView?.let { it2 ->
@@ -340,13 +370,13 @@ class GPHome @JvmOverloads constructor(
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(),wakt,!getWaktStatus(wakt))
+            viewmodel?.setPrayerTrack(DeenSDKCore.GetDeenLanguage(), wakt, !getWaktStatus(wakt))
         }
     }
 
     private fun loadpage(data: Data) {
 
-        if(data.EventImages.isNotEmpty()) {
+        if (data.EventImages.isNotEmpty()) {
             eventAnimation?.setAnimationFromUrl(data.EventImages)
             eventAnimation?.playAnimation()
         }
@@ -356,25 +386,35 @@ class GPHome @JvmOverloads constructor(
         //icLogo?.load(R.drawable.ic_deen_ibadah)
         // prayer time
 
-        fajrWaktTime?.text = data.PrayerTime.Fajr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
-        dhuhrWaktTime?.text = data.PrayerTime.Juhr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
-        asrWaktTime?.text = data.PrayerTime.Asr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
-        maghribWaktTime?.text = data.PrayerTime.Magrib.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
-        ishaWaktTime?.text = data.PrayerTime.Isha.stringTimeToEpochTime().epochTimeToStringTime("h:mm a").numberLocale().lowercase()
+        fajrWaktTime?.text =
+            data.PrayerTime.Fajr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
+                .numberLocale().lowercase()
+        dhuhrWaktTime?.text =
+            data.PrayerTime.Juhr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
+                .numberLocale().lowercase()
+        asrWaktTime?.text =
+            data.PrayerTime.Asr.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
+                .numberLocale().lowercase()
+        maghribWaktTime?.text =
+            data.PrayerTime.Magrib.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
+                .numberLocale().lowercase()
+        ishaWaktTime?.text =
+            data.PrayerTime.Isha.stringTimeToEpochTime().epochTimeToStringTime("h:mm a")
+                .numberLocale().lowercase()
 
         // date card
 
-        dateArabic?.text ="${data.IslamicDate} "
+        dateArabic?.text = "${data.IslamicDate} "
 
         prayertimeData = data.PrayerTime
         prayerTime()
         prayertimeData?.WaktTracker?.let { prayerTracker(it) }
 
-        if(data.Menu.isNotEmpty()) {
+        if (data.Menu.isNotEmpty()) {
             menu?.let {
                 it.apply {
-                    gpHomeMenuAdapter = GPHomeMenuAdapter(data.Menu,this@GPHome)
-                    layoutManager = GridLayoutManager(context,4)
+                    gpHomeMenuAdapter = GPHomeMenuAdapter(data.Menu, this@GPHome)
+                    layoutManager = GridLayoutManager(context, 4)
                     addItemDecoration(GridSpacingItemDecoration(4, 1.dp, false))
 
                     adapter = gpHomeMenuAdapter
@@ -388,11 +428,11 @@ class GPHome @JvmOverloads constructor(
 
     private fun prayerTime() {
 
-        checkEnabledWakt("Fajr",fajrCheckbox)
-        checkEnabledWakt("Zuhr",dhuhrCheckbox)
-        checkEnabledWakt("Asar",asrCheckbox)
-        checkEnabledWakt("Maghrib",maghribCheckbox)
-        checkEnabledWakt("Isha",ishaCheckbox)
+        checkEnabledWakt("Fajr", fajrCheckbox)
+        checkEnabledWakt("Zuhr", dhuhrCheckbox)
+        checkEnabledWakt("Asar", asrCheckbox)
+        checkEnabledWakt("Maghrib", maghribCheckbox)
+        checkEnabledWakt("Isha", ishaCheckbox)
 
 
         prayertimeData?.let { data ->
@@ -412,58 +452,126 @@ class GPHome @JvmOverloads constructor(
             val sehriTime = data.Sehri.stringTimeToEpochTime()
             val iftarTime = data.Magrib.stringTimeToEpochTime()
 
-            iftarSehri?.text = if(isTimeInRange(currentTime.stringTimeToEpochTime(), sehriTime,iftarTime)) {
-                localContext?.getString(
-                    R.string.iftarat,
-                    data.Magrib.StringTimeToMillisecond()
-                        .MilliSecondToStringTime("hh:mm aa")
-                        .numberLocale().lowercase()
-                )
-            }else{
-                localContext?.getString(
-                    R.string.sehriat,
-                    data.Sehri.StringTimeToMillisecond()
-                        .MilliSecondToStringTime("hh:mm aa")
-                        .numberLocale().lowercase()
-                )
-            }
+            iftarSehri?.text =
+                if (isTimeInRange(currentTime.stringTimeToEpochTime(), sehriTime, iftarTime)) {
+                    localContext?.getString(
+                        R.string.iftarat,
+                        data.Magrib.StringTimeToMillisecond()
+                            .MilliSecondToStringTime("hh:mm aa")
+                            .numberLocale().lowercase()
+                    )
+                } else {
+                    localContext?.getString(
+                        R.string.sehriat,
+                        data.Sehri.StringTimeToMillisecond()
+                            .MilliSecondToStringTime("hh:mm aa")
+                            .numberLocale().lowercase()
+                    )
+                }
 
             prayerTimeLy?.show()
             nowTv?.show()
             prayerName?.show()
 
-            when(prayerMomentRangeData.MomentName) {
+            when (prayerMomentRangeData.MomentName) {
                 "Fajr" -> {
-                    bgPrayer?.imageLoad(url = "fajr.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                    prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_fajr))
+                    bgPrayer?.imageLoad(
+                        url = "fajr.webp".getDrawable(),
+                        custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                    )
+                    prayerName?.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.deen_gp_prayer_fajr
+                        )
+                    )
                 }
+
                 "Dhuhr" -> {
-                    bgPrayer?.imageLoad(url = "dhuhr.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                    prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_dhuhr))
+                    bgPrayer?.imageLoad(
+                        url = "dhuhr.webp".getDrawable(),
+                        custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                    )
+                    prayerName?.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.deen_gp_prayer_dhuhr
+                        )
+                    )
                 }
+
                 "Asr" -> {
-                    bgPrayer?.imageLoad(url = "asr.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                    prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_asr))
+                    bgPrayer?.imageLoad(
+                        url = "asr.webp".getDrawable(),
+                        custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                    )
+                    prayerName?.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.deen_gp_prayer_asr
+                        )
+                    )
                 }
+
                 "Maghrib" -> {
-                    bgPrayer?.imageLoad(url = "maghrib.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                    prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_maghrib))
+                    bgPrayer?.imageLoad(
+                        url = "maghrib.webp".getDrawable(),
+                        custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                    )
+                    prayerName?.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.deen_gp_prayer_maghrib
+                        )
+                    )
                 }
+
                 "Isha" -> {
-                    bgPrayer?.imageLoad(url = "isha.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                    prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_isha))
+                    bgPrayer?.imageLoad(
+                        url = "isha.webp".getDrawable(),
+                        custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                    )
+                    prayerName?.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.deen_gp_prayer_isha
+                        )
+                    )
                 }
+
                 "Ishraq" -> {
-                    bgPrayer?.imageLoad(url = "ishrak.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                    prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_isharaq))
+                    bgPrayer?.imageLoad(
+                        url = "ishrak.webp".getDrawable(),
+                        custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                    )
+                    prayerName?.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.deen_gp_prayer_isharaq
+                        )
+                    )
                 }
+
                 "Chasht" -> {
-                    bgPrayer?.imageLoad(url = "chasht.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                    prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_primary))
+                    bgPrayer?.imageLoad(
+                        url = "chasht.webp".getDrawable(),
+                        custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                    )
+                    prayerName?.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.deen_gp_primary
+                        )
+                    )
                 }
+
                 localContext?.getString(R.string.forbidden_time) -> {
-                    bgPrayer?.imageLoad(url = "forbidden.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
+                    bgPrayer?.imageLoad(
+                        url = "forbidden.webp".getDrawable(),
+                        custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                    )
                 }
+
                 else -> {
 
 
@@ -477,39 +585,107 @@ class GPHome @JvmOverloads constructor(
                     prayerMoment.hide()
                     prayerMomentRange.hide()*/
 
-                    when(prayerMomentRangeData.NextPrayerName){
+                    when (prayerMomentRangeData.NextPrayerName) {
 
                         "Fajr" -> {
-                            bgPrayer?.imageLoad(url = "fajr.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                            prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_fajr))
+                            bgPrayer?.imageLoad(
+                                url = "fajr.webp".getDrawable(),
+                                custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                            )
+                            prayerName?.setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.deen_gp_prayer_fajr
+                                )
+                            )
                         }
+
                         "Dhuhr" -> {
-                            bgPrayer?.imageLoad(url = "dhuhr.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                            prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_dhuhr))
+                            bgPrayer?.imageLoad(
+                                url = "dhuhr.webp".getDrawable(),
+                                custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                            )
+                            prayerName?.setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.deen_gp_prayer_dhuhr
+                                )
+                            )
                         }
+
                         "Asr" -> {
-                            bgPrayer?.imageLoad(url = "asr.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                            prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_asr))
+                            bgPrayer?.imageLoad(
+                                url = "asr.webp".getDrawable(),
+                                custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                            )
+                            prayerName?.setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.deen_gp_prayer_asr
+                                )
+                            )
                         }
+
                         "Maghrib" -> {
-                            bgPrayer?.imageLoad(url = "maghrib.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                            prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_maghrib))
+                            bgPrayer?.imageLoad(
+                                url = "maghrib.webp".getDrawable(),
+                                custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                            )
+                            prayerName?.setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.deen_gp_prayer_maghrib
+                                )
+                            )
                         }
+
                         "Isha" -> {
-                            bgPrayer?.imageLoad(url = "isha.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                            prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_isha))
+                            bgPrayer?.imageLoad(
+                                url = "isha.webp".getDrawable(),
+                                custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                            )
+                            prayerName?.setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.deen_gp_prayer_isha
+                                )
+                            )
                         }
+
                         "Ishraq" -> {
-                            bgPrayer?.imageLoad(url = "ishrak.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                            prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_isharaq))
+                            bgPrayer?.imageLoad(
+                                url = "ishrak.webp".getDrawable(),
+                                custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                            )
+                            prayerName?.setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.deen_gp_prayer_isharaq
+                                )
+                            )
                         }
+
                         "Chasht" -> {
-                            bgPrayer?.imageLoad(url = "chasht.webp".getDrawable(), custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder)
-                            prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_primary))
+                            bgPrayer?.imageLoad(
+                                url = "chasht.webp".getDrawable(),
+                                custom_placeholder_1_1 = R.drawable.bg_deen_gp_prayer_placeholder
+                            )
+                            prayerName?.setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.deen_gp_primary
+                                )
+                            )
                         }
+
                         else -> {
                             bgPrayer?.setBackgroundResource(R.drawable.bg_deen_gp_prayer_placeholder)
-                            prayerName?.setTextColor(ContextCompat.getColor(context,R.color.deen_gp_prayer_fajr))
+                            prayerName?.setTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.deen_gp_prayer_fajr
+                                )
+                            )
                             prayerName?.text = nowtime
                         }
 
@@ -535,9 +711,10 @@ class GPHome @JvmOverloads constructor(
                                 SimpleDateFormat("HH:mm:ss", Locale.ENGLISH).format(Date())
                             val nowtime = currentTime.stringTimeToEpochTime()
 
-                            val nowTimeView = SimpleDateFormat("hh:mm aa", Locale.ENGLISH).format(Date())
+                            val nowTimeView =
+                                SimpleDateFormat("hh:mm aa", Locale.ENGLISH).format(Date())
 
-                            if(prayerMomentRangeData.MomentName == "--" && prayerName?.text != nowTimeView)
+                            if (prayerMomentRangeData.MomentName == "--" && prayerName?.text != nowTimeView)
                                 prayerName?.text = nowTimeView
 
                             if (prayerMomentRangeData.MomentName != context?.getString(R.string.forbidden_time) &&
@@ -594,31 +771,34 @@ class GPHome @JvmOverloads constructor(
         }*/
 
         waktTracker.forEach {
-            when(it.Wakt)
-            {
+            when (it.Wakt) {
                 "Fajr" -> {
-                    if(it.status)
+                    if (it.status)
                         fajrCheckbox?.isEnabled = true
                     fajrCheckbox?.isChecked = it.status
                 }
+
                 "Zuhr" -> {
-                    if(it.status)
+                    if (it.status)
                         dhuhrCheckbox?.isEnabled = true
                     dhuhrCheckbox?.isChecked = it.status
                 }
+
                 "Asar" -> {
-                    if(it.status)
+                    if (it.status)
                         asrCheckbox?.isEnabled = true
                     asrCheckbox?.isChecked = it.status
                 }
+
                 "Maghrib" -> {
-                    if(it.status)
+                    if (it.status)
                         maghribCheckbox?.isEnabled = true
 
                     maghribCheckbox?.isChecked = it.status
                 }
+
                 "Isha" -> {
-                    if(it.status)
+                    if (it.status)
                         ishaCheckbox?.isEnabled = true
                     ishaCheckbox?.isChecked = it.status
                 }
@@ -717,7 +897,8 @@ class GPHome @JvmOverloads constructor(
                     is GPHomeResource.GPHomePrayerTrack -> {
                         Log.e("GPHomePrayerTrack", Gson().toJson(prayertimeData?.WaktTracker))
 
-                        prayertimeData?.WaktTracker?.firstOrNull { data -> data.Wakt == it.prayer_tag }?.status = it.status
+                        prayertimeData?.WaktTracker?.firstOrNull { data -> data.Wakt == it.prayer_tag }?.status =
+                            it.status
                         prayertimeData?.WaktTracker?.let { tracker -> prayerTracker(tracker) }
 
 
@@ -745,33 +926,48 @@ class GPHome @JvmOverloads constructor(
     }
 
 
-    fun init(context: Context,token:String,language:String, callback: DeenSDKCallback){
+    fun init(context: Context, token: String, language: String, callback: DeenSDKCallback) {
         DeenSDKCore.setDeenLanguage(language)
         DeenSDKCore.setGPHomeViewInternalCallback(this)
-        DeenSDKCore.initDeen(context,token,callback)
+        DeenSDKCore.initDeen(context, token, callback)
+
+        if (context is AppCompatActivity) {
+            setupPermissionRequest(context)
+        } else {
+
+        }
     }
 
-    fun initWithMsisdn(context: Context,token:String,language:String, callback: DeenSDKCallback){
+    fun initWithMsisdn(
+        context: Context,
+        token: String,
+        language: String,
+        callback: DeenSDKCallback
+    ) {
         DeenSDKCore.setDeenLanguage(language)
         DeenSDKCore.setGPHomeViewInternalCallback(this)
-        DeenSDKCore.authSDK(context,token,callback)
+        DeenSDKCore.authSDK(context, token, callback)
+
+        if (context is AppCompatActivity) {
+            setupPermissionRequest(context)
+        } else {
+
+        }
     }
 
-    fun changeLanguage(language:String){
+    fun changeLanguage(language: String) {
         DeenSDKCore.setDeenLanguage(language)
         removeAllViews()
         onCreateView()
         loadapi()
     }
 
-     private fun loadapi(){
-
+    private fun loadapi() {
 
         CoroutineScope(Dispatchers.IO).launch {
             viewmodel?.getGPHome(currentState)
         }
     }
-
 
 
     private fun setupCommonLayout() {
@@ -793,16 +989,16 @@ class GPHome @JvmOverloads constructor(
         noInternetLayout?.hide()
     }
 
-     override fun showMenuBottomSheetDialog(menu: List<Menu>) {
+    override fun showMenuBottomSheetDialog(menu: List<Menu>) {
 
-         dialog?.dismiss()
+        dialog?.dismiss()
 
         dialog = DeenSDKCore.baseContext?.let { BottomSheetDialog(it) }
 
         val view = localInflater?.inflate(R.layout.dialog_deen_gp_menu, null)
 
-        val icClose:AppCompatImageView? = view?.findViewById(R.id.icClose)
-        val menuList:RecyclerView? = view?.findViewById(R.id.menuList)
+        val icClose: AppCompatImageView? = view?.findViewById(R.id.icClose)
+        val menuList: RecyclerView? = view?.findViewById(R.id.menuList)
 
         icClose?.setOnClickListener {
             dialog?.dismiss()
@@ -814,14 +1010,15 @@ class GPHome @JvmOverloads constructor(
             dialog?.setContentView(view)
         }
 
-         menuList?.apply {
-             gpHomeDialogMenuAdapter = GPHomeMenuAdapter(menu,this@GPHome,true)
-             adapter = gpHomeDialogMenuAdapter
-             layoutManager = GridLayoutManager(context,4)
-         }
+        menuList?.apply {
+            gpHomeDialogMenuAdapter = GPHomeMenuAdapter(menu, this@GPHome, true)
+            adapter = gpHomeDialogMenuAdapter
+            layoutManager = GridLayoutManager(context, 4)
+        }
 
         dialog?.setOnShowListener {
-            val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            val bottomSheet =
+                dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let { sheet ->
                 val behavior = BottomSheetBehavior.from(sheet)
                 val displayMetrics = context.resources.displayMetrics
@@ -848,6 +1045,11 @@ class GPHome @JvmOverloads constructor(
         val icClose: AppCompatImageView? = view?.findViewById(R.id.icClose)
         val locationList: RecyclerView? = view?.findViewById(R.id.locationList)
         val userinput: TextInputEditText? = view?.findViewById(R.id.userinput)
+        val tvlocation:MaterialButton? = view?.findViewById(R.id.tvlocation)
+
+        tvlocation?.setOnClickListener {
+            locationPermissionRequest?.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
 
         icClose?.setOnClickListener {
             dialog?.dismiss()
@@ -860,7 +1062,8 @@ class GPHome @JvmOverloads constructor(
         }
 
         locationList?.apply {
-            locationAdapter = GPHomeLocationAdapter(StateArrayForGPHome, currentStateModel, this@GPHome)
+            locationAdapter =
+                GPHomeLocationAdapter(StateArrayForGPHome, currentStateModel, this@GPHome)
             adapter = locationAdapter
         }
 
@@ -882,23 +1085,26 @@ class GPHome @JvmOverloads constructor(
         })
 
         // Set Soft Input Mode to resize
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         dialog?.setOnShowListener {
-            val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            val bottomSheet =
+                dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let { sheet ->
                 val behavior = BottomSheetBehavior.from(sheet)
 
                 // Initial height setup
                 val displayMetrics = context.resources.displayMetrics
-                val initialHeight = (displayMetrics.heightPixels * 0.5).toInt() // 50% of screen height
+                val initialHeight =
+                    (displayMetrics.heightPixels * 0.5).toInt() // 50% of screen height
                 sheet.layoutParams.height = initialHeight
                 behavior.peekHeight = initialHeight
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 sheet.requestLayout()
 
                 // Listen for layout changes to detect keyboard visibility
-                view?.viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                view?.viewTreeObserver?.addOnGlobalLayoutListener(object :
+                    ViewTreeObserver.OnGlobalLayoutListener {
                     private var lastHeight: Int = initialHeight
 
                     override fun onGlobalLayout() {
@@ -931,11 +1137,9 @@ class GPHome @JvmOverloads constructor(
     }
 
 
-
-
     override fun menuClicked(menu: Menu) {
 
-        if(!menu.IsVisited) {
+        if (!menu.IsVisited) {
             if (this@GPHome::gpHomeMenuAdapter.isInitialized)
                 gpHomeMenuAdapter.menuVisited(menu)
 
@@ -951,20 +1155,34 @@ class GPHome @JvmOverloads constructor(
     }
 
     override fun stateSelected(stateModel: StateModel) {
-        AppPreference.savePrayerTimeLoc(stateModel.state)
-        currentStateModel = stateModel
-        CoroutineScope(Dispatchers.IO).launch {
-            viewmodel?.getGPHome(currentState)
+
+        Log.e("stateSelected",Gson().toJson(stateModel))
+
+        CoroutineScope(Dispatchers.Main).launch {
+
+            val buttonState =
+                if (DeenSDKCore.GetDeenLanguage() == "bn") stateModel.statebn else stateModel.stateValue
+
+            if (location?.text == buttonState) {
+                dialog?.dismiss()
+                return@launch
+            }
+
+            AppPreference.savePrayerTimeLoc(stateModel.state)
+            currentStateModel = stateModel
+            CoroutineScope(Dispatchers.IO).launch {
+                viewmodel?.getGPHome(currentState)
+            }
+
+            currentState = stateModel.state
+
+            location?.text = buttonState
+            dialog?.dismiss()
         }
-
-        currentState = stateModel.state
-
-        location?.text = if(DeenSDKCore.GetDeenLanguage() == "bn") stateModel.statebn else stateModel.state
-        dialog?.dismiss()
     }
 
     override fun onDeenSDKInitSuccess() {
-        if(!firstload) {
+        if (!firstload) {
             onCreateView()
             loadapi()
         }
@@ -973,22 +1191,22 @@ class GPHome @JvmOverloads constructor(
 
     override fun deenMenuVisitListner(getGPHomeMatch: Menu?) {
         getGPHomeMatch?.let {
-            if(it.IsVisited)
+            if (it.IsVisited)
                 return
-            if(this@GPHome::gpHomeMenuAdapter.isInitialized)
+            if (this@GPHome::gpHomeMenuAdapter.isInitialized)
                 gpHomeMenuAdapter.menuVisited(it)
 
-            if(this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
+            if (this@GPHome::gpHomeDialogMenuAdapter.isInitialized)
                 gpHomeDialogMenuAdapter.menuVisited(it)
 
             CoroutineScope(Dispatchers.IO).launch {
-                viewmodel?.trackMenu(it.Id,true)
+                viewmodel?.trackMenu(it.Id, true)
             }
         }
     }
 
     override fun deenGetGPHomeMenuList(): List<Menu>? {
-        if(this@GPHome::gpHomeMenuAdapter.isInitialized)
+        if (this@GPHome::gpHomeMenuAdapter.isInitialized)
             return gpHomeMenuAdapter.getMenuList()
         else
             return null
@@ -998,8 +1216,7 @@ class GPHome @JvmOverloads constructor(
     override fun deenGPHomePrayerTrackListner(trackData: com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data) {
 
         prayertimeData?.WaktTracker?.forEach {
-            when(it.Wakt)
-            {
+            when (it.Wakt) {
                 "Fajr" -> it.status = trackData.Fajr
                 "Zuhr" -> it.status = trackData.Zuhr
                 "Asar" -> it.status = trackData.Asar
@@ -1010,5 +1227,249 @@ class GPHome @JvmOverloads constructor(
         }
         prayertimeData?.WaktTracker?.let { tracker -> prayerTracker(tracker) }
 
+    }
+
+
+    private fun setupPermissionRequest(activity: AppCompatActivity) {
+        locationPermissionRequest = activity.registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+
+            if (isGranted) {
+                onLocationPermissionGranted()
+            } else {
+                onLocationPermissionDenied()
+            }
+        }
+    }
+
+
+    private fun onLocationPermissionGranted() {
+        if (isLocationEnabled()) {
+            getCurrentLocation()
+        } else {
+            promptEnableLocationServices()
+        }
+    }
+
+    private fun promptEnableLocationServices() {
+        // Show a dialog to ask the user to enable location services
+        AlertDialog.Builder(context)
+            .setTitle(localContext?.getString(R.string.location_permission))
+            .setMessage(localContext?.getString(R.string.dialog_location_permission_context))
+            .setPositiveButton(localContext?.getString(R.string.okay)) { _, _ ->
+                // Open the location settings
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                context.startActivity(intent)
+            }
+            .setNegativeButton(localContext?.getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun onLocationPermissionDenied() {
+        // Show a dialog to ask the user to enable location services and manage app permissions
+        AlertDialog.Builder(context)
+            .setTitle(localContext?.getString(R.string.location_permission))
+            .setMessage(localContext?.getString(R.string.dialog_location_permission_context))
+            .setPositiveButton(localContext?.getString(R.string.okay)) { _, _ ->
+                // Open the location settings
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.parse("package:${context.packageName}")
+                }
+                context.startActivity(intent)
+            }
+            .setNegativeButton(localContext?.getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager =
+            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+
+    private fun getCurrentLocation() {
+        val locationManager =
+            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        // Check if the location permissions are granted
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Handle the case where permission is not granted
+            promptEnableLocationServices()
+            return
+        }
+
+        // Check if any location provider is enabled
+        val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+        if (!isGpsEnabled && !isNetworkEnabled) {
+            // No location provider is enabled
+            localContext?.getString(R.string.unable_to_get_location)?.let {
+                mainView?.let { view ->
+                    CustomToast.show(
+                        message = it,
+                        context = view.context,
+                        anchorView = view
+                    )
+                }
+            }
+            return
+        }
+
+        // Define a LocationListener to handle updates from both providers
+        val locationListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                // When location changes, get the updated location
+                getStateFromLocation(location)
+
+                // Remove location updates once you have the needed location
+                locationManager.removeUpdates(this)
+            }
+
+            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+
+            override fun onProviderEnabled(provider: String) {}
+
+            override fun onProviderDisabled(provider: String) {}
+        }
+
+        // Request location updates from both GPS and Network providers
+        if (isGpsEnabled) {
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000, // Minimum time interval in milliseconds
+                100f, // Minimum distance interval in meters
+                locationListener
+            )
+        }
+
+        if (isNetworkEnabled) {
+            locationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                1000, // Minimum time interval in milliseconds
+                100f, // Minimum distance interval in meters
+                locationListener
+            )
+        }
+    }
+
+
+
+
+
+    private fun getStateFromLocation(location: Location) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val geocoder = Geocoder(context, Locale.ENGLISH)
+            val latitude: Double = location.latitude
+            val longitude: Double = location.longitude
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                //Fetch address from location
+                geocoder.getFromLocation(
+                    latitude,
+                    longitude,
+                    1,
+                    object : Geocoder.GeocodeListener {
+                        override fun onGeocode(addresses: MutableList<Address>) {
+
+                            addresses.getOrNull(0)?.let {
+                                val stateName = if (it.subAdminArea != null)
+                                    it.subAdminArea
+                                else
+                                    it.adminArea
+
+                                setupCountryState(stateName)
+                            }
+
+                        }
+
+                        override fun onError(errorMessage: String?) {
+                            super.onError(errorMessage)
+                            localContext?.getString(R.string.unable_to_get_location)?.let {
+                                mainView?.let { view ->
+                                    CustomToast.show(
+                                        message = it,
+                                        context = view.context,
+                                        anchorView = view
+                                    )
+                                }
+
+                            }
+                        }
+
+                    })
+            } else {
+                try {
+                    val addresses: List<Address> =
+                        geocoder.getFromLocation(
+                            latitude,
+                            longitude,
+                            1
+                        ) as List<Address>
+                    if (addresses.isNotEmpty()) {
+
+                        addresses.getOrNull(0)?.let {
+                            val stateName = if (it.subAdminArea != null)
+                                it.subAdminArea
+                            else
+                                it.adminArea
+
+                            setupCountryState(stateName)
+
+                        }
+                    }
+
+                } catch (e: IOException) {
+
+                    localContext?.getString(R.string.unable_to_get_location)?.let {
+                        mainView?.let { view ->
+                            CustomToast.show(
+                                message = it,
+                                context = view.context,
+                                anchorView = view
+                            )
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupCountryState(stateName: String) {
+        val filteredStates = StateArrayForGPHome.firstOrNull { state ->
+            stateName.lowercase().contains(state.state.lowercase()) ||
+                    stateName.lowercase().contains(state.statebn.lowercase())
+        }
+
+        filteredStates?.let {
+            stateSelected(it)
+
+        }?:run{
+            localContext?.getString(R.string.unable_to_get_location)?.let {
+                mainView?.let { view ->
+                    CustomToast.show(
+                        message = it,
+                        context = view.context,
+                        anchorView = view
+                    )
+                }
+
+            }
+        }
     }
 }
