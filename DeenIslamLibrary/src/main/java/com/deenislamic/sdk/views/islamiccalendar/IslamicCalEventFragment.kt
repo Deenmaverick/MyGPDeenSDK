@@ -1,13 +1,9 @@
 package com.deenislamic.sdk.views.islamiccalendar
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
@@ -27,11 +23,9 @@ import com.deenislamic.sdk.service.models.IslamicCalEventResource
 import com.deenislamic.sdk.service.network.response.islamiccalendar.IslamicEvent
 import com.deenislamic.sdk.service.repository.IslamicCalendarEventRepository
 import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
-import com.deenislamic.sdk.utils.COUNTRY_NAME_BD
 import com.deenislamic.sdk.utils.CalendarIntentHelper
 import com.deenislamic.sdk.utils.MENU_ISLAMIC_EVENT
 import com.deenislamic.sdk.utils.get9DigitRandom
-import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.monthNameLocale
 import com.deenislamic.sdk.utils.numberLocale
@@ -45,17 +39,12 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-
 internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventCallback {
-
     private lateinit var customCalendar: HijriCustomCalendar
     private lateinit var calendarIntentHelper: CalendarIntentHelper
-    private lateinit var viewmodel: IslamicCalEventViewModel
-    private val calendarEventList = ArrayList<IslamicEvent>()
+    private lateinit var viewmodel:IslamicCalEventViewModel
     private lateinit var monthYearText: TextView
     private lateinit var hijriMonthYearText: TextView
-//    private lateinit var layoutShow: LinearLayoutCompat
-//    private lateinit var layoutHide: LinearLayoutCompat
     private lateinit var leftNavigate: AppCompatImageView
     private lateinit var rightNavigate: AppCompatImageView
     private lateinit var recyclerView:RecyclerView
@@ -66,15 +55,16 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
     private lateinit var nestedScrollView: NestedScrollView
     private lateinit var monthYearSelector: ConstraintLayout
     private lateinit var layoutCalendar: ConstraintLayout
-    private lateinit var progressLayout: LinearLayout
     private lateinit var upcomingBanner: RelativeLayout
     private lateinit var targetDate: String
-    private var countryName: String = COUNTRY_NAME_BD
+    private lateinit var formattedHijriDate: String
+
+    private var firstload = false
+
 
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
 
-    private var firstload = false
 
     override fun OnCreate() {
         super.OnCreate()
@@ -84,6 +74,7 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
         viewmodel = IslamicCalEventViewModel(repository)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,8 +85,8 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
         customCalendar = mainview.findViewById(R.id.customCalendar)
         monthYearText = mainview.findViewById(R.id.monthYearText)
         hijriMonthYearText = mainview.findViewById(R.id.hijriMonthYearText)
-/*        layoutShow = mainview.findViewById(R.id.layoutShow)
-        layoutHide = mainview.findViewById(R.id.layoutHide)*/
+        /*        layoutShow = mainview.findViewById(R.id.layoutShow)
+                layoutHide = mainview.findViewById(R.id.layoutHide)*/
         leftNavigate = mainview.findViewById(R.id.imvCalendarLeftNavigate)
         rightNavigate = mainview.findViewById(R.id.imvCalendarRightNavigate)
         recyclerView = mainview.findViewById(R.id.recyclerIslamicCalendarEvents)
@@ -106,7 +97,6 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
         monthYearSelector = mainview.findViewById(R.id.monthYearSelector)
         layoutCalendar = mainview.findViewById(R.id.customCalendarLayout)
         upcomingBanner = mainview.findViewById(R.id.upcomingBanner)
-        progressLayout = mainview.findViewById(R.id.progressLayout)
 
         setupActionForOtherFragment(
             action1 = 0,
@@ -122,16 +112,16 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         calendarIntentHelper = CalendarIntentHelper(requireActivity())
 
-/*
-        layoutShow.setOnClickListener {
-            customCalendar.toggleCalendarView(showFullMonth = true)
-            showCalendar()
-        }
+        /*
+                layoutShow.setOnClickListener {
+                    customCalendar.toggleCalendarView(showFullMonth = true)
+                    showCalendar()
+                }
 
-        layoutHide.setOnClickListener {
-            customCalendar.toggleCalendarView(showFullMonth = false)
-            hideCalendar()
-        }*/
+                layoutHide.setOnClickListener {
+                    customCalendar.toggleCalendarView(showFullMonth = false)
+                    hideCalendar()
+                }*/
 
         leftNavigate.setOnClickListener {
             navigateToPreviousMonth()
@@ -143,7 +133,6 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
             loadApi()
         }
 
-        updateCalendar()
         setupCommonLayout(mainview)
 
         return mainview
@@ -166,7 +155,14 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
         }
         firstload = true
 
+
+        updateCalendar()
         loadPage()
+    }
+
+    private fun loadPage() {
+        loadApi()
+        initObserver()
     }
 
     override fun onBackPress() {
@@ -185,19 +181,13 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
 
     }
 
-    private fun loadPage() {
-        loadApi()
-        initObserver()
-    }
-
     private fun loadApi() {
         baseLoadingState()
 
         lifecycleScope.launch {
             viewmodel.getIslamicCalEvent(getLanguage())
 
-            if(countryName == COUNTRY_NAME_BD)
-                viewmodel.getIslamicCalendar(targetDate,getLanguage())
+            viewmodel.getIslamicCalendar(targetDate,getLanguage())
         }
 
     }
@@ -218,6 +208,15 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
                 is IslamicCalEventResource.IslamicCalendar -> {
                     val response = it.data
                     customCalendar.updateCalendarWithHijriDates(response)
+
+                    val matchedDate = response.find {
+                        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).parse(it.Date) ==
+                                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(targetDate)
+                    }
+                    matchedDate?.let {
+                        formattedHijriDate = it.arabicDate
+                    }
+                    updateCalendar()
                 }
             }
         })
@@ -237,7 +236,6 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
         val englishDate = generalDateFormat.format(generalCalendar.time).uppercase(Locale.ENGLISH).numberLocale().monthNameLocale()
         targetDate = targetDateFormat.format(generalCalendar.time)
 
-        Log.e("checkdate",targetDate.toString())
         monthYearText.text = englishDate
 
         // Define the valid date range for UmmalquraCalendar
@@ -262,12 +260,20 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
                 "রজব", "শাবান", "রমজান", "শাওয়াল", "জিলকদ", "জিলহজ"
             )
 
-            val formattedHijriDate = String.format("%02d %s %04d", day, bengaliMonths[month], year)
-            hijriMonthYearText.text = formattedHijriDate
-        }
+            /*
+                        formattedHijriDate = String.format("%02d %s %04d", day, bengaliMonths[month], year)
+                        hijriMonthYearText.text = formattedHijriDate*/
 
-        // Set the month in your custom calendar
-        customCalendar.setMonth("${currentYear}/${String.format("%02d", currentMonth)}/01")
+            if(::formattedHijriDate.isInitialized)
+                hijriMonthYearText.text = formattedHijriDate
+
+            else
+            {
+                formattedHijriDate = String.format("%02d %s %04d", day, bengaliMonths[month], year)
+                hijriMonthYearText.text = formattedHijriDate
+                customCalendar.setMonth("${currentYear}/${String.format("%02d", currentMonth)}/01")
+            }
+        }
     }
 
     private fun navigateToPreviousMonth() {
@@ -307,5 +313,10 @@ internal class IslamicCalEventFragment : BaseRegularFragment(), IslamicCalEventC
             "qurb" -> gotoFrag(R.id.action_global_qurbaniFragment)
             else -> {}
         }
+    }
+
+    override fun noInternetRetryClicked() {
+        updateCalendar()
+        loadPage()
     }
 }
