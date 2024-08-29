@@ -330,6 +330,7 @@ internal class QurbaniDetailsFragment : BaseRegularFragment(), QurbaniCallback,o
         adapter: PlayerCommonSelectionList
     ) {
 
+        contentSetting = AppPreference.getContentSetting()
         contentSetting.arabicFont = data.Id
         AppPreference.setContentSetting(contentSetting)
         lifecycleScope.launch {

@@ -322,6 +322,7 @@ internal class PdfViewerFragment : BaseRegularFragment()
         adapter: PlayerCommonSelectionList
     ) {
 
+        pdfSetting = AppPreference.getPdfSetting()
         pdfSetting.pageViewStyle = data.Id
         AppPreference.setPdfSetting(pdfSetting)
 

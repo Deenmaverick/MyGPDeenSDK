@@ -249,6 +249,7 @@ internal class AllDuaPreviewFragment : BaseRegularFragment(),
         data: PlayerCommonSelectionData,
         adapter: PlayerCommonSelectionList
     ) {
+        contentSetting = AppPreference.getContentSetting()
         contentSetting.arabicFont = data.Id
         AppPreference.setContentSetting(contentSetting)
         lifecycleScope.launch {
