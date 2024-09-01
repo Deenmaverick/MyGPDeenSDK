@@ -22,6 +22,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.RadioButton
 import androidx.activity.result.ActivityResultLauncher
@@ -129,6 +130,7 @@ class GPHome @JvmOverloads constructor(
     private var prayerTimeLy: ConstraintLayout? = null
     private var nowTv: AppCompatTextView? = null
     private var eventAnimation: LottieAnimationView? = null
+    private var logoView:ConstraintLayout ? = null
 
     private var fajrCard: MaterialCardView? = null
     private var fajrCheckbox: RadioButton? = null
@@ -209,6 +211,7 @@ class GPHome @JvmOverloads constructor(
         prayerTimeLy = findViewById(R.id.prayerTimeLy)
         nowTv = findViewById(R.id.nowTv)
         eventAnimation = findViewById(R.id.eventAnimation)
+        logoView = findViewById(R.id.logoView)
 
         fajrCard = findViewById(R.id.fajrCard)
         fajrCheckbox = fajrCard?.findViewById(R.id.prayerCheck)
@@ -273,6 +276,10 @@ class GPHome @JvmOverloads constructor(
 
         location?.setOnClickListener {
             showLocationBottomSheetDialog()
+        }
+
+        logoView?.setOnClickListener {
+            DeenSDKCore.openDeen()
         }
 
 
@@ -1016,7 +1023,41 @@ class GPHome @JvmOverloads constructor(
         })
 
         // Set Soft Input Mode to resize
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+       // dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val dialogWindow = dialog?.window
+            dialogWindow?.decorView?.setOnApplyWindowInsetsListener { view, insets ->
+                val imeInsets = insets.getInsets(WindowInsets.Type.ime())
+                val systemBarsInsets = insets.getInsets(WindowInsets.Type.systemBars())
+
+                // Calculate the bottom padding combining IME and system bar insets
+                val paddingBottom = imeInsets.bottom - systemBarsInsets.bottom
+
+                // Apply padding to the entire view
+                view.setPadding(
+                    view.paddingLeft,
+                    view.paddingTop,
+                    view.paddingRight,
+                    paddingBottom
+                )
+
+                // Apply padding to the RecyclerView to avoid it being cut off
+                val recyclerView = view.findViewById<RecyclerView>(R.id.locationList)
+                recyclerView?.setPadding(
+                    recyclerView.paddingLeft,
+                    recyclerView.paddingTop,
+                    recyclerView.paddingRight,
+                    recyclerView.paddingBottom + 4.dp // Ensure the RecyclerView takes into account the IME inset
+                )
+
+                insets
+            }
+        } else {
+            // For API levels less than 30
+            dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        }
+
+
 
         dialog?.setOnShowListener {
             val bottomSheet =

@@ -356,7 +356,7 @@ internal fun getPrayerTimeName(data: PrayerTimesResponse, nowtime: Long): Prayer
             MomentName = "Fajr"
             StartTime = fajr.epochTimeToStringTime()
             EndTime = sunrise.minus(1*60*1000).epochTimeToStringTime()
-            NextPrayerName = "--"
+            NextPrayerName = "Ishraq"
             nextPrayerTimeCount = getEpochTimeDifference(nowtime, sunrise)
         }
     }else if (isTimeInRange(nowtime,isha,tahajjut)) {
@@ -406,7 +406,7 @@ internal fun getPrayerTimeName(data: PrayerTimesResponse, nowtime: Long): Prayer
             MomentName = localeContext?.getString(R.string.forbidden_time) ?: "--"
             StartTime = forbiddenTime2.epochTimeToStringTime()
             EndTime = noon.epochTimeToStringTime()
-            NextPrayerName = "--"
+            NextPrayerName = "Dhuhr"
             nextPrayerTimeCount = getEpochTimeDifference(nowtime, noon.plus(1*60*1000))
         }
     }else if (isTimeInRange(nowtime,ishrak, chasht)) {
@@ -431,8 +431,7 @@ internal fun getPrayerTimeName(data: PrayerTimesResponse, nowtime: Long): Prayer
             StartTime = chasht.epochTimeToStringTime()
             EndTime = noon.minus(7*60*1000).epochTimeToStringTime()
             NextPrayerName = "Dhuhr"
-            nextPrayerTimeCount =
-                getEpochTimeDifference(nowtime, forbiddenTime2)
+            nextPrayerTimeCount = getEpochTimeDifference(nowtime, forbiddenTime2)
         }
     }
 

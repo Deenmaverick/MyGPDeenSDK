@@ -1286,7 +1286,10 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                     }
                     gotoFrag(R.id.action_global_allDuaPreviewFragment,data = bundle)
 
-                }else {
+                }else if(data?.FeatureDesign == "Banners"){
+                    gotoFrag(R.id.action_global_dailyDuaFragment)
+                }
+                else {
 
                     data?.let {
                         val bundle = Bundle()

@@ -48,6 +48,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        tools:visibility="gone"
         android:id="@+id/ItemGridView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -230,7 +231,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:visibility="gone"
-        tools:visibility="gone"
+        tools:visibility="visible"
         android:id="@+id/ItemListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -271,7 +272,10 @@
                 android:src="@drawable/ic_play_oval"
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/Guideline"
+                />
 
 
 

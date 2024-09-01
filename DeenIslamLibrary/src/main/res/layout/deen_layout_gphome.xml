@@ -18,29 +18,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/icLogo"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_deen_ibadah"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/title"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/logoView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/space_8"
-            android:paddingEnd="0dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/deen_primary"
-            android:text="@string/ibadah"
-            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@+id/location"
             app:layout_constraintBottom_toBottomOf="@+id/location"
-            app:layout_constraintStart_toEndOf="@+id/icLogo"/>
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icLogo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_deen_ibadah"
+                app:layout_constraintTop_toTopOf="@+id/title"
+                app:layout_constraintBottom_toBottomOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/space_8"
+                android:paddingEnd="0dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/deen_primary"
+                android:text="@string/ibadah"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@+id/location"
+                app:layout_constraintBottom_toBottomOf="@+id/location"
+                app:layout_constraintStart_toEndOf="@+id/icLogo"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <com.google.android.material.button.MaterialButton
