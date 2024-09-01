@@ -3,11 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="8dp"
     app:cardElevation="1dp"
     app:strokeWidth="0dp"
-    tools:viewBindingIgnore="true"
     android:layout_marginStart="@dimen/space_8"
     android:layout_marginEnd="@dimen/space_8"
     android:layout_marginBottom="1dp"
@@ -16,15 +14,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivStory"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
-            app:layout_constraintDimensionRatio="h,1:1.20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/placeholder_1_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +31,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/deen_ic_play_oval"
+            android:src="@drawable/ic_play_oval"
             app:layout_constraintBottom_toBottomOf="@+id/ivStory"
             app:layout_constraintEnd_toEndOf="@+id/ivStory"
             app:layout_constraintStart_toStartOf="@+id/ivStory"

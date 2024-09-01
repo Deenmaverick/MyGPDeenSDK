@@ -654,7 +654,14 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     {
         // Start and bind to the quran player service
         val intent = Intent(this, QuranPlayerOffline::class.java)
-        startService(intent)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(this, intent)
+        } else {
+            startService(Intent(this, QuranPlayerOffline::class.java))
+        }
+
+        //startService(intent)
         bindService(intent, quranOfflineserviceConnection, Context.BIND_AUTO_CREATE)
     }
 
@@ -729,7 +736,14 @@ internal class MainActivityDeenSDK : AppCompatActivity(), QuranPlayerCallback {
     {
         // Start and bind to the quran player service
         val intent = Intent(this, QuranPlayer::class.java)
-        startService(intent)
+        //startService(intent)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(this, intent)
+        } else {
+            startService(Intent(this, QuranPlayer::class.java))
+        }
+
         bindService(intent, quranOnlineserviceConnection, Context.BIND_AUTO_CREATE)
     }
 

@@ -925,9 +925,9 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
     fun loadPage()
     {
-        /*if(firstload != 0)
+        if(firstload != 0)
             return
-        firstload = 1*/
+        firstload = 1
 
         //dashboardPatchMain.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 

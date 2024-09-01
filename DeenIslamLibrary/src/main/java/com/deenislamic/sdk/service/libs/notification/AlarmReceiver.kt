@@ -10,17 +10,23 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.service.database.entity.PrayerNotification
 import com.deenislamic.sdk.service.di.DatabaseProvider
+import com.deenislamic.sdk.service.di.NetworkProvider
+import com.deenislamic.sdk.service.repository.PrayerTimesRepository
+import com.deenislamic.sdk.utils.MilliSecondToStringTime
+import com.deenislamic.sdk.utils.StringTimeToMillisecond
 import com.deenislamic.sdk.utils.sendNotification
+import com.deenislamic.sdk.utils.tryCatch
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal class AlarmReceiver : BroadcastReceiver() {
-
-    private var mMediaPlayer: MediaPlayer? = null
 
     override fun onReceive(context: Context, intent: Intent) {
 
@@ -40,18 +46,10 @@ internal class AlarmReceiver : BroadcastReceiver() {
             else ->
             {
 
-                val service = Intent(context, AlarmReceiverService::class.java)
-                service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )
-                service.putExtra("dismiss",intent.extras?.getString("dismiss").toString() )
-                service.putExtra("notification_id",intent.extras?.getInt("notification_id",-1)?:-1)
+                AzanPlayer.releaseMediaPlayer()
 
-                context.startService(service)
-             /*   val service = Intent(context, Notificationservice::class.java)
-                service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )
-                service.putExtra("dismiss",intent.extras?.getString("dismiss").toString() )
-                context.startService(service)
-*/
-               /* val prayer_notification_id = intent.extras?.getInt("pid",0)?:0
+                val prayer_notification_id = intent?.extras?.getInt("pid",0)?:0
+                val system_notification_id = intent?.extras?.getInt("notification_id",-1)?:-1
 
                 Log.e("AlarmReceiver_Prayer", prayer_notification_id.toString())
 
@@ -61,10 +59,24 @@ internal class AlarmReceiver : BroadcastReceiver() {
                     }
                 }
 
-                val isNotificationDismiss = intent.extras?.getString("dismiss").toString()
+                val isNotificationDismiss = intent?.extras?.getString("dismiss").toString()
 
                 if(isNotificationDismiss == "ok")
-                    AzanPlayer.releaseMediaPlayer()*/
+                    AzanPlayer.releaseMediaPlayer()
+
+                if (system_notification_id != -1) {
+                    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    notificationManager.cancel(system_notification_id)
+                }
+
+                /*val service = Intent(context, AlarmReceiverService::class.java)
+                service.putExtra("pid",intent.extras?.getInt("pid",0)?:0 )
+                service.putExtra("dismiss",intent.extras?.getString("dismiss").toString() )
+                service.putExtra("notification_id",intent.extras?.getInt("notification_id",-1)?:-1)
+
+                context.startService(service)*/
+
+
 
             }
         }
@@ -72,82 +84,135 @@ internal class AlarmReceiver : BroadcastReceiver() {
     }
 
 
+
     private suspend fun processNotification(prayer_notification_id: Int, context: Context)
     {
-            get_prayer_notification_data(prayer_notification_id)?.let {
 
-                val prayerName = get_prayer_name_by_tag(it.prayer_tag)
+        if(!IsNotificationEnable())
+            return
 
-                prayerName?.let {
-                        name->
-                    // sendNotification
-                    val notificationManager = ContextCompat.getSystemService(
-                        context,
-                        NotificationManager::class.java
-                    ) as NotificationManager
+        get_prayer_notification_data(prayer_notification_id)?.let {
 
-                    notificationManager.sendNotification(
-                        applicationContext = context,
-                        title = "Prayer Alert!",
-                        messageBody = "it's time for $prayerName",
-                        largeImg = null,
-                        channelID = "PrayerTimeMyGPDeenSDK",
-                        notification_id = prayer_notification_id
+            if(it.state!=3 && it.state!=2)
+                return
+
+
+            val prayerName = get_prayer_name_by_tag(it.prayer_tag)
+
+            prayerName?.let {
+                    name->
+                // sendNotification
+                val notificationManager = ContextCompat.getSystemService(
+                    context,
+                    NotificationManager::class.java
+                ) as NotificationManager
+
+                val pid = it.id
+                val prayerDate = it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1)
+
+                clear_prayer_notification_by_id(pid)
+
+                if(prayerName == "Isha") {
+                    val prayerTimesRepository = PrayerTimesRepository(
+                        deenService = NetworkProvider().getInstance().provideDeenService(),
+                        prayerNotificationDao = DatabaseProvider().getInstance()
+                            .providePrayerNotificationDao(),
+                        prayerTimesDao = null
                     )
 
-                    if(it.state == 3) {
+                    prayerTimesRepository.refill_prayer_notification_for_alarm_service(prayerDate)
+                }
 
-                     /*   if (prayerName == "Fajr")
-                            AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common_fajr)
-                        else
-                            AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common)
-*/
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if(!notificationManager.areNotificationsEnabled())
+                        return
+                }
+                else if(!NotificationManagerCompat.from(context).areNotificationsEnabled())
+                    return
 
 
 
-                  /*  val inputData = Data.Builder()
-                        .putString("prayerDate", it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
-                        .putInt("pid", it.id)
-                        .build()
+                notificationManager.sendNotification(
+                    applicationContext = context,
+                    title = "Prayer Alert!",
+                    messageBody = "it's time for $prayerName",
+                    largeImg = null,
+                    channelID = "PrayerTimeMyGPDeenSDK",
+                    notification_id = prayer_notification_id
+                )
 
-                    val constraints = Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build()
+                if(it.state == 3) {
 
-                    val workRequest = OneTimeWorkRequestBuilder<AlarmReceiverWork>()
-                        .setConstraints(constraints)
-                        .setInputData(inputData)
-                        .build()
+                    /* if (prayerName == "Fajr")
+                         AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common_fajr)
+                     else
+                         AzanPlayer.playAdanFromRawFolder(context, R.raw.azan_common)*/
 
-                    WorkManager.getInstance(context).enqueue(workRequest)
-                    //reCheckNotification(it.date.StringTimeToMillisecond("dd/MM/yyyy").MilliSecondToStringTime("dd/MM/yyyy",1))
-*/
+                    if (prayerName == "Fajr")
+                        AzanPlayer.playAdanFromUrl("https://islamic-content.sgp1.digitaloceanspaces.com/Content/SDK/Azan/azan_common_fajr.mp3")
+                    else
+                        AzanPlayer.playAdanFromUrl("https://islamic-content.sgp1.digitaloceanspaces.com/Content/SDK/Azan/azan_common.mp3")
+
                 }
 
             }
+
+        }
     }
 
+    private suspend fun clear_prayer_notification_by_id(pid:Int) =
+
+        withContext(Dispatchers.IO)
+        {
+            val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
+
+            //prayerNotificationDao?.clearNotificationByID(pid)
+
+            tryCatch {
+                prayerNotificationDao?.deleteNotificationByID(pid)
+            }
+
+        }
 
     private suspend fun get_prayer_notification_data(pid:Int): PrayerNotification? =
 
         withContext(Dispatchers.IO)
         {
 
-                val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
+            val prayerNotificationDao = DatabaseProvider().getInstance().providePrayerNotificationDao()
 
-                val prayerNotificationData = prayerNotificationDao?.select(pid)
+            val prayerNotificationData = prayerNotificationDao?.select(pid)
 
-                if (prayerNotificationData?.isNotEmpty() == true)
-                     prayerNotificationData[0]
-                else
-                     null
+            if (prayerNotificationData?.isNotEmpty() == true)
+                prayerNotificationData[0]
+            else
+                null
+
+        }
+
+    private suspend fun IsNotificationEnable():Boolean =
+        withContext(Dispatchers.IO)
+        {
+            val prayerTimesRepository = PrayerTimesRepository(
+                deenService = null,
+                prayerNotificationDao = DatabaseProvider().getInstance()
+                    .providePrayerNotificationDao(),
+                prayerTimesDao = null
+            )
+
+            val getStatus = prayerTimesRepository.getNotificationData(
+                date = "",
+                prayer_tag = "Notification",
+                finalState = 0
+            )
+
+            getStatus?.state == 1
 
         }
 
 
     private fun get_prayer_name_by_tag(tag:String): String? =
-         when(tag)
+        when(tag)
         {
             "pt1"-> "Fajr"
             "pt2"-> "Sunrise"
@@ -171,54 +236,5 @@ internal class AlarmReceiver : BroadcastReceiver() {
             else -> null
 
         }
-
-    // Media Player For playing azan
-    fun playAdanFromRawFolder(context: Context, id: Int) {
-
-        //mMediaPlayer = MediaPlayer.create(context, id)
-        val assetFileDescriptor: AssetFileDescriptor = context.resources.openRawResourceFd(id)
-        mMediaPlayer = MediaPlayer().apply {
-            setDataSource(
-                assetFileDescriptor.fileDescriptor,
-                assetFileDescriptor.startOffset,
-                assetFileDescriptor.length
-            )
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mMediaPlayer?.setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build()
-            )
-        }
-        else
-            mMediaPlayer?.setAudioStreamType(AudioManager.STREAM_ALARM)
-
-
-        mMediaPlayer?.prepare()
-        mMediaPlayer?.setOnPreparedListener {
-            it?.start()
-        }
-        mMediaPlayer?.setOnCompletionListener {
-            if (!it.isPlaying()) {
-                it.release();
-            }
-            else {
-                it.stop();
-                it.release();
-            }
-        }
-
-        Log.e("ALARM_INTENT","Azan called")
-
-    }
-
-    fun releaseMediaPlayer() {
-        mMediaPlayer?.stop()
-        mMediaPlayer?.release()
-        mMediaPlayer = null
-    }
 
 }

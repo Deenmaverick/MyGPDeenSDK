@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo
 import android.content.res.Configuration
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
@@ -234,8 +235,17 @@ internal class QuranPlayer: Service(){
         }
 
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(
+                packageNameHash,
+                notificationBuilder.build(),
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+            )
+        } else {
+            startForeground(packageNameHash, notificationBuilder.build())
+        }
 
-        startForeground(packageNameHash, notificationBuilder.build())
+        //startForeground(packageNameHash, notificationBuilder.build())
 
         return START_STICKY
     }
