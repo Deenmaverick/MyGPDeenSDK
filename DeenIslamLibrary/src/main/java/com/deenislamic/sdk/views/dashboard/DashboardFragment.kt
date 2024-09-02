@@ -40,6 +40,7 @@ import com.deenislamic.sdk.service.libs.ImageViewPopupDialog
 import com.deenislamic.sdk.service.models.CommonResource
 import com.deenislamic.sdk.service.models.DashboardResource
 import com.deenislamic.sdk.service.models.IslamicBookResource
+import com.deenislamic.sdk.service.models.SettingResource
 import com.deenislamic.sdk.service.models.TasbeehResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerNotificationResource
 import com.deenislamic.sdk.service.models.prayer_time.PrayerTimeResource
@@ -51,6 +52,7 @@ import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesRespo
 import com.deenislamic.sdk.service.repository.DashboardRepository
 import com.deenislamic.sdk.service.repository.IslamicBookRepository
 import com.deenislamic.sdk.service.repository.PrayerTimesRepository
+import com.deenislamic.sdk.service.repository.SettingRepository
 import com.deenislamic.sdk.service.repository.TasbeehRepository
 import com.deenislamic.sdk.service.repository.quran.learning.QuranLearningRepository
 import com.deenislamic.sdk.service.weakref.dashboard.DashboardPatchClass
@@ -102,7 +104,9 @@ import com.deenislamic.sdk.utils.visible
 import com.deenislamic.sdk.viewmodels.DashboardViewModel
 import com.deenislamic.sdk.viewmodels.IslamicBookViewModel
 import com.deenislamic.sdk.viewmodels.PrayerTimesViewModel
+import com.deenislamic.sdk.viewmodels.SettingViewModel
 import com.deenislamic.sdk.viewmodels.TasbeehViewModel
+import com.deenislamic.sdk.viewmodels.common.SettingVMFactory
 import com.deenislamic.sdk.views.adapters.common.gridmenu.MenuCallback
 import com.deenislamic.sdk.views.adapters.dashboard.DashboardPatchAdapter
 import com.deenislamic.sdk.views.adapters.dashboard.PrayerTimeCallback
@@ -121,7 +125,7 @@ import java.util.Date
 import java.util.Locale
 
 
-internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularFragment(),
+internal class DashboardFragment(private var customargs: Bundle?=null) : BaseRegularFragment(),
     actionCallback, MenuCallback, PrayerTimeCallback, ViewInflationListener,
     DashboardPatchCallback,
     SensorEventListener,
@@ -138,6 +142,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var dashboardPatchMain: DashboardPatchAdapter
     private lateinit var islamicBookViewmodel: IslamicBookViewModel
+    private lateinit var settingviewmodel: SettingViewModel
 
 
     private var prayerdate: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(Date())
@@ -213,6 +218,15 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
         islamicBookViewmodel = IslamicBookViewModel(repository = ibrepository, quranLearningRepository = quranLearningRepository)
 
 
+        val settingRepository = SettingRepository(userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao())
+        //viewmodel = SettingViewModel(repository)
+
+        val settingVMfactory = SettingVMFactory(settingRepository)
+        settingviewmodel = ViewModelProvider(
+            requireActivity(),
+            settingVMfactory
+        )[SettingViewModel::class.java]
+
     }
 
     override fun onCreateView(
@@ -261,7 +275,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
         initObserver()
         loadPage()
 
-        dashboardMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+       /* dashboardMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -285,7 +299,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
                     }
                 }
             }
-        })
+        })*/
 
 
 
@@ -594,8 +608,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
     }
 
 
-    private fun initObserver()
-    {
+    private fun initObserver() {
 
 
         dashboardViewModel.prayerTimes.observe(viewLifecycleOwner)
@@ -698,6 +711,17 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             }
         }
 
+        settingviewmodel.commonSettingLiveData.observe(viewLifecycleOwner){
+            when(it){
+                is SettingResource.languageDataUpdate ->{
+                    loadDataAPI()
+                    lifecycleScope.launch {
+                        settingviewmodel.clearLanguage()
+                    }
+                }
+            }
+        }
+
     }
 
 
@@ -719,6 +743,8 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
     private fun viewState(data: List<Data>)
     {
+
+        Log.e("DashboardSDK",dashboardPatchMain.toString())
         dashboardData = data
 
         val matchingItem: Data? = data.find { it.AppDesign == "Compass" }
@@ -740,7 +766,13 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             }//?:nointernetState()
         }*/
 
-        loadNextPage()
+        dashboardData?.let {
+            dashboardMain.post {
+                dashboardPatchMain.updateDashData(it,it.size)
+            }
+        }
+
+        //loadNextPage()
 
         prayerTimesResponse?.let {
             dashboardPatchMain.updatePrayerTime(it)
@@ -931,8 +963,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
 
         //dashboardPatchMain.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-         linearLayoutManager =
-            LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
+         linearLayoutManager = LinearLayoutManager(requireView().context, LinearLayoutManager.VERTICAL, false)
 
 
         dashboardMain.apply {
@@ -1009,6 +1040,7 @@ internal class DashboardFragment(private var customargs: Bundle?) : BaseRegularF
             )
         }*/
 
+        //if(getLanguage() == "en")
         loadDataAPI()
 
     }

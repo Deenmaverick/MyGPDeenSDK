@@ -250,7 +250,8 @@ internal class PrayerRakatFragment : BaseRegularFragment(), otherFagmentActionCa
     }
 
     override fun action1() {
-        activity?.window?.let { context?.shareView(cardView, it) }
+        //activity?.window?.let { context?.shareView(cardView, it) }
+        context?.shareView(cardView)
 
     }
 

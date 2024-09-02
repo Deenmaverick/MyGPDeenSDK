@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.deenislamic.sdk.DeenSDKCore
@@ -17,7 +18,9 @@ import com.deenislamic.sdk.service.di.DatabaseProvider
 import com.deenislamic.sdk.service.models.SettingResource
 import com.deenislamic.sdk.service.repository.SettingRepository
 import com.deenislamic.sdk.utils.toast
+import com.deenislamic.sdk.viewmodels.DashboardViewModel
 import com.deenislamic.sdk.viewmodels.SettingViewModel
+import com.deenislamic.sdk.viewmodels.common.SettingVMFactory
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.base.otherFagmentActionCallback
 import com.deenislamic.sdk.views.dashboard.DashboardFakeFragment
@@ -48,7 +51,13 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
         setupBackPressCallback(this)
         // init viewmodel
         val repository = SettingRepository(userPrefDao = DatabaseProvider().getInstance().provideUserPrefDao())
-        viewmodel = SettingViewModel(repository)
+        //viewmodel = SettingViewModel(repository)
+
+        val factory = SettingVMFactory(repository)
+        viewmodel = ViewModelProvider(
+            requireActivity(),
+            factory
+        )[SettingViewModel::class.java]
 
     }
 
@@ -179,6 +188,9 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
             DeenSDKCore.DeenCallBackListener?.deenLanguageChangeListner(localLanguage)
             dialog?.dismiss()
             updateLanguage()
+            lifecycleScope.launch {
+                viewmodel.changeLanguage(localLanguage)
+            }
         }
 
         enLayout?.setOnClickListener {
@@ -190,15 +202,16 @@ internal class SettingFragment : BaseRegularFragment(), otherFagmentActionCallba
             DeenSDKCore.DeenCallBackListener?.deenLanguageChangeListner(localLanguage)
             dialog?.dismiss()
             updateLanguage()
+            lifecycleScope.launch {
+                viewmodel.changeLanguage(localLanguage)
+            }
         }
 
     }
 
 
     fun updateLanguage() {
-
         val navController = findNavController()
-        navController.popBackStack()
         navController.popBackStack()
         navController.popBackStack()
         navController.navigate(R.id.dashboardFakeFragment)

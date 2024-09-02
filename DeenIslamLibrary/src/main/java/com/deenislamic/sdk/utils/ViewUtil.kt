@@ -664,27 +664,28 @@ fun Context.shareView(view: View, window: Window, customShareText: String? = nul
         // Capture the view after it has been laid out
         view.post {
             try {
+                val width = view.width
+                val height = view.height
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    // Above Android O, use PixelCopy
-                    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-                    val location = IntArray(2)
-                    view.getLocationInWindow(location)
-                    PixelCopy.request(
-                        window,
-                        Rect(location[0], location[1], location[0] + view.width, location[1] + view.height),
-                        bitmap,
-                        { copyResult ->
-                            if (copyResult == PixelCopy.SUCCESS) {
-                                shareCapturedView(this, bitmap, uniqueID, customShareText)
-                            }
-                        },
-                        Handler(Looper.getMainLooper())
-                    )
+                    // If the view is scrollable, get its full height
+                    val fullHeight = view.getHeight()
+
+                    // Create a bitmap with the full height of the view
+                    val bitmap = Bitmap.createBitmap(width, fullHeight, Bitmap.Config.ARGB_8888)
+                    val canvas = Canvas(bitmap)
+                    view.draw(canvas)
+
+                    // Share the captured bitmap
+                    shareCapturedView(this, bitmap, uniqueID, customShareText)
                 } else {
-                    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.RGB_565)
+                    // For lower Android versions
+                    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
                     val canvas = Canvas(bitmap)
                     view.draw(canvas)
                     canvas.setBitmap(null)
+
+                    // Share the captured bitmap
                     shareCapturedView(this, bitmap, uniqueID, customShareText)
                 }
             } catch (e: IOException) {
@@ -696,6 +697,7 @@ fun Context.shareView(view: View, window: Window, customShareText: String? = nul
     }
 }
 
+
 private fun shareCapturedView(context: Context, bitmap: Bitmap, uniqueID: Int, customShareText: String?) {
     try {
         val cachePath = File(context.cacheDir, "images")
@@ -706,7 +708,7 @@ private fun shareCapturedView(context: Context, bitmap: Bitmap, uniqueID: Int, c
 
         val imagePath = File(context.cacheDir, "images")
         val newFile = File(imagePath, "$uniqueID.png")
-        val contentUri: Uri = FileProvider.getUriForFile(context, "com.deenislamic.fileprovider", newFile)
+        val contentUri: Uri = FileProvider.getUriForFile(context, "com.deenislamic.sdk.fileprovider", newFile)
 
         //val textShareContent = customShareText ?: "Explore a world of Islamic content on your fingertips. https://shorturl.at/GPSY6"
         val shareIntent = Intent().apply {

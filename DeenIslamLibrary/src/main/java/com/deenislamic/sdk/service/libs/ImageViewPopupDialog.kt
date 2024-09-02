@@ -344,7 +344,7 @@ internal class ImageViewPopupDialog : DialogFragment() {
         val fileName = "image_${System.currentTimeMillis()}.jpg"
         val directory = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-            "Deen"
+            "MyGPDeen"
         )
 
         if (!directory.exists()) {

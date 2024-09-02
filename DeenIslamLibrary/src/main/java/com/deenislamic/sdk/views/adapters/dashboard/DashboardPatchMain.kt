@@ -96,15 +96,21 @@ internal class DashboardPatchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
         }
 
         fun updateDashData(data: List<Data>, totalsize: Int) {
-            /*inflatedViewCount = 0
-            DashboardData.clear()*/
+            inflatedViewCount = 0
+            DashboardData.clear()
             this.totalsize = totalsize
             DashboardData.addAll(data)
-
-            notifyItemRangeInserted(itemCount, data.size)
+            notifyDataSetChanged()
+            //notifyItemRangeInserted(itemCount, data.size)
 
             //notifyDataSetChanged()
         }
+
+    fun clearDashboard(){
+        inflatedViewCount = 0
+        DashboardData.clear()
+        notifyDataSetChanged()
+    }
 
         fun updateState(state: StateModel) {
             Log.e("updateStatePatch",DashboardPatchClass.getBillboardInstance().toString())

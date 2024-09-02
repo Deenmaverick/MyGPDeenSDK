@@ -39,7 +39,7 @@ internal class PrayerTrackerAdapter : RecyclerView.Adapter<BaseViewHolder>() {
     private var prayerMomentRangeData: PrayerMomentRange? = null
     private var prayerTrackingData: Data? = null
     private lateinit var targetDate: String
-    private var todayDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Date())
+    private var todayDate: String = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(Date())
 
 
     fun setOnButtonClickListener(listener: PrayerTrackerCallback) {

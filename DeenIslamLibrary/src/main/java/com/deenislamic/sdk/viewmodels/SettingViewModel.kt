@@ -15,6 +15,11 @@ internal  class SettingViewModel(
     private val _settingLiveData:MutableLiveData<SettingResource> = MutableLiveData()
     val settingLiveData:MutableLiveData<SettingResource> get() = _settingLiveData
 
+
+    private val _commonSettingLiveData:MutableLiveData<SettingResource> = MutableLiveData()
+    val commonSettingLiveData:MutableLiveData<SettingResource> get() = _commonSettingLiveData
+
+
     fun updateSetting(language:String)
     {
         viewModelScope.launch {
@@ -55,6 +60,14 @@ internal  class SettingViewModel(
     fun clear()
     {
         _settingLiveData.value = CommonResource.CLEAR
+    }
+
+    fun changeLanguage(language:String){
+        _commonSettingLiveData.value = SettingResource.languageDataUpdate(language)
+    }
+
+    fun clearLanguage(){
+        _commonSettingLiveData.value = CommonResource.CLEAR
     }
 
 }
