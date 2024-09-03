@@ -17,10 +17,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.card.MaterialCardView
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:id="@+id/prayerNotificationCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginStart="@dimen/space_16"
+        android:layout_marginEnd="@dimen/space_16"
+        android:layout_marginBottom="1dp"
+        app:strokeColor="@color/deen_brand_secondary"
+        app:cardCornerRadius="@dimen/space_8"
+        app:cardElevation="1dp"
+        app:strokeWidth="0dp"
+        style="@style/Widget.MaterialComponents.CardView"
+        app:cardBackgroundColor="@color/deen_white"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/space_12">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/space_8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/deen_txt_black_deep"
+                android:text="@string/all_notification"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/notificationSwitch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/notificationSwitch"/>
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/notificationSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:minHeight="15dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:thumbTint="@color/deen_white"
+                app:trackDecorationTint="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/prayertime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:clipToPadding="false"
         android:scrollbars="none"
@@ -29,7 +85,7 @@
         app:layout_goneMarginTop="@dimen/space_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/prayerNotificationCard"
         android:nestedScrollingEnabled="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

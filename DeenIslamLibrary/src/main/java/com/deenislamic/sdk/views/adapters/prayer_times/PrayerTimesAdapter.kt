@@ -1,5 +1,6 @@
 package com.deenislamic.sdk.views.adapters.prayer_times;
 
+import android.Manifest
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislamic.sdk.DeenSDKCallback
+import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.ViewInflationListener
 import com.deenislamic.sdk.service.database.entity.PrayerNotification
@@ -19,6 +22,7 @@ import com.deenislamic.sdk.service.models.ramadan.StateModel
 import com.deenislamic.sdk.service.network.response.prayertimes.PrayerTimesResponse
 import com.deenislamic.sdk.service.network.response.prayertimes.tracker.Data
 import com.deenislamic.sdk.utils.AsyncViewStub
+import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.TimeDiffForPrayer
 import com.deenislamic.sdk.utils.dayNameLocale
 import com.deenislamic.sdk.utils.dp
@@ -39,6 +43,10 @@ import com.deenislamic.sdk.views.prayertimes.patch.OtherPrayerTimes
 import com.deenislamic.sdk.views.prayertimes.patch.PrayerTimes
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.materialswitch.MaterialSwitch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -80,6 +88,8 @@ internal class PrayerTimesAdapter(
     private lateinit var allPrayer:LinearLayout
     private lateinit var stateBtn:LinearLayout
     private lateinit var stateTxt:AppCompatTextView
+    private var prayerNotificationCard:MaterialCardView? = null
+    private var notificationSwitch:MaterialSwitch ? = null
     private var commonStateList: CommonStateList? = null
 
 
@@ -131,7 +141,16 @@ internal class PrayerTimesAdapter(
                     //prayer times fazr to isha
                     prepareStubView<View>(main_view.findViewById(R.id.widget),R.layout.layout_prayer_time) {
                         PrayerTimes().getInstance().load(this, callback = callback)
+                         prayerNotificationCard = this.findViewById(R.id.prayerNotificationCard)
+                         notificationSwitch = this.findViewById(R.id.notificationSwitch)
+
+                       /* CoroutineScope(Dispatchers.Main).launch {
+                            notificationSwitch?.isChecked = DeenSDKCore.isPrayerNotificationEnabled(this@prepareStubView.context)
+                        }*/
+
+                        prayerNotificationCard?.show()
                         widget3_view()
+
                     }
                 }
 
@@ -266,10 +285,10 @@ internal class PrayerTimesAdapter(
     {
         dateWisePrayerNotificationData = Notificationdata
 
-        if(dateWisePrayerNotificationData?.isNotEmpty() == true) {
+        //if(dateWisePrayerNotificationData?.isNotEmpty() == true) {
             widget3_view()
             widget4_view()
-        }
+        //}
 
      /*   widget3_view()
         widget4_view()*/
@@ -427,6 +446,39 @@ internal class PrayerTimesAdapter(
 
     private fun widget3_view()
     {
+        notificationSwitch?.let {
+            CoroutineScope(Dispatchers.Main).launch {
+                notificationSwitch?.setOnCheckedChangeListener(null)
+                notificationSwitch?.isChecked = DeenSDKCore.isPrayerNotificationEnabled(it.context)
+                notificationSwitch?.setOnCheckedChangeListener { compoundButton, b ->
+                    when(b)
+                    {
+                        true -> {
+
+                            DeenSDKCore.GetDeenCallbackListner()?.let {
+                                DeenSDKCore.prayerNotification(
+                                    isEnabled = true, compoundButton.context,
+                                    it
+                                )
+                            }
+
+                        }
+
+                        false -> {
+                            DeenSDKCore.GetDeenCallbackListner()?.let {
+                                DeenSDKCore.clearAllPrayerNotification(
+                                    compoundButton.context,
+                                    it
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
         prayerData?.let { PrayerTimes().getInstance().update(it,dateWisePrayerNotificationData,prayerMomentRangeData) }
     }
 

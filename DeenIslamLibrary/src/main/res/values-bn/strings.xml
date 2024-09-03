@@ -616,4 +616,5 @@
     <string name="connect_to_the_internet">ইন্টারনেট কানেক্ট করুন</string>
     <string name="unable_to_get_location">আপনার লোকেশন পেতে ব্যর্থ হয়েছে</string>
     <string name="get_location_automatically">অটো লোকেশন নিন</string>
+    <string name="all_notification">সকল নোটিফিকেশন</string>
 </resources>

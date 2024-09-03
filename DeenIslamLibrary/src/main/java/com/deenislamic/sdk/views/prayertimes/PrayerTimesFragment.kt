@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deenislamic.sdk.DeenSDKCallback
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.RamadanCallback
@@ -135,6 +136,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 
         CallBackProvider.setFragment(this)
         setupActionForOtherFragment(R.drawable.ic_calendar,0,this@PrayerTimesFragment,localContext.getString(R.string.prayer_times),true,mainview)
+        DeenSDKCore.SetPrayerTimeCallback(this@PrayerTimesFragment)
 
         return mainview
     }
@@ -418,7 +420,7 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
         prayerdate = date
         loadingState()
         lifecycleScope.launch {
-            viewmodel.getPrayerTimes("Dhaka", getLanguage(), date)
+            viewmodel.getPrayerTimes(currentState, getLanguage(), date)
             viewmodel.getDateWisePrayerNotificationData(date)
         }
     }
@@ -717,10 +719,13 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
     }
 
     override fun isSDKCoreNotificationEnable() {
-
         lifecycleScope.launch {
             viewmodel.getDateWisePrayerNotificationData(prayerdate)
         }
+    }
+
+    override fun isSDKCoreNotificationDisabled() {
+        updatePrayerNotificationDataOnly(arrayListOf())
     }
 
     override fun stateSelected(stateModel: StateModel) {
@@ -736,4 +741,5 @@ internal class PrayerTimesFragment : BaseRegularFragment(),
 interface PrayerTimeNotification
 {
     fun isSDKCoreNotificationEnable()
+    fun isSDKCoreNotificationDisabled()
 }

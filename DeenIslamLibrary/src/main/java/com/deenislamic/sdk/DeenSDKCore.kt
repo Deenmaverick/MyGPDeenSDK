@@ -458,15 +458,14 @@ object DeenSDKCore {
                     ) == 1
                 )
                 {
-                    if(isClearData)
-
-                    {
+                    if(isClearData) {
                         Log.e("isClearData", prayerTimesRepository.clearPrayerNotification().toString())
                     }
 
                     withContext(Dispatchers.Main)
                     {
                         DeenCallBackListener?.DeenPrayerNotificationOff()
+                        DeenPrayerTimeCallBackListener?.isSDKCoreNotificationDisabled()
                     }
                 }
                 else
