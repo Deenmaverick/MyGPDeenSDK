@@ -114,43 +114,6 @@
 # Blank Fragment
 -keep class com.deenislamic.sdk.views.start.BlankFragment { *; }
 
--keepattributes *Annotation*
-
--keep @androidx.annotation.Keep class * { *; }
--keep class android.view.ContextThemeWrapper { *; }
--keep class com.deenislamic.sdk.utils.LocaleUtil { *; }
-# Keep all activities, fragments, and Context-related methods
--keep class android.content.Context { *; }
--keepclassmembers class android.content.Context {
-    *** getResources();
-    *** getApplicationContext();
-}
-
-# Keep LayoutInflater methods to prevent ProGuard from stripping them
--keep class android.view.LayoutInflater {
-    *;
-}
-
-# Prevent ProGuard from stripping out Context-related methods
--keep class android.content.Context {
-    *;
-}
-
-# Keep the Fragment lifecycle methods intact
--keep class * extends androidx.fragment.app.Fragment {
-    <methods>;
-}
-
-
-# Keep all cloneInContext methods and any usage of ContextThemeWrapper
--keep class android.view.LayoutInflater {
-    public android.view.LayoutInflater cloneInContext(android.content.Context);
-}
-
--keep class android.content.ContextWrapper {
-    *;
-}
-
 
 
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {

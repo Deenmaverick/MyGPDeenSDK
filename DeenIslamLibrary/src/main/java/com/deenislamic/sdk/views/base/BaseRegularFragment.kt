@@ -51,10 +51,24 @@ internal abstract class BaseRegularFragment: Fragment() {
     private var actionCallback:otherFagmentActionCallback ? =null
     private var isBacktoHome:Boolean = false
     private var isBackPressed:Boolean = false
-    lateinit var userTrackViewModel: UserTrackViewModel
+    val userTrackViewModel: UserTrackViewModel by lazy {
+        UserTrackViewModel(
+            repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
+        )
+    }
 
-    lateinit var localContext:Context
-    lateinit var localInflater: LayoutInflater
+    val localContext:Context by lazy {
+        if (DeenSDKCore.GetDeenLanguage() == "en") {
+            LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
+        } else {
+            LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
+        }
+    }
+    val localInflater: LayoutInflater by lazy {
+        val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
+
+        layoutInflater.cloneInContext(themedContext)
+    }
     private lateinit var childFragment: Fragment
     private var lastClickTime = 0L
 
@@ -70,8 +84,7 @@ internal abstract class BaseRegularFragment: Fragment() {
         super.onCreate(savedInstanceState)
 
 
-
-        localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
+       /* localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
@@ -86,7 +99,7 @@ internal abstract class BaseRegularFragment: Fragment() {
 
         userTrackViewModel = UserTrackViewModel(
             repository = UserTrackRepository(authenticateService = NetworkProvider().getInstance().provideAuthService())
-        )
+        )*/
 
         OnCreate()
 
