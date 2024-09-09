@@ -121,20 +121,20 @@
             android:textColor="@color/deen_black" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
-        android:id="@+id/prayernotifyon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/prayertime"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/deen_white"
-        android:text="Prayer notification enable"
-        android:textColor="@color/deen_black" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
+            android:id="@+id/prayernotifyon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/prayertime"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Prayer notification enable"
+            android:textColor="@color/deen_black" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:visibility="gone"
@@ -152,83 +152,83 @@
             android:textColor="@color/deen_black" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
-        android:id="@+id/prayertime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tasbeeh"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/deen_white"
-        android:text="Forbidden Time"
-        android:textColor="@color/deen_black" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
+            android:id="@+id/prayertime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tasbeeh"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Forbidden Time"
+            android:textColor="@color/deen_black" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
-        android:id="@+id/tasbeeh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/login"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/deen_white"
-        android:text="Tasbeeh"
-        android:textColor="@color/deen_black" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
+            android:id="@+id/tasbeeh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Tasbeeh"
+            android:textColor="@color/deen_black" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
-        android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/initSDKbtn"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/deen_white"
-        android:text="Home"
-        android:textColor="@color/deen_black" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/initSDKbtn"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Home"
+            android:textColor="@color/deen_black" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
-        android:id="@+id/initSDKbtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gphome"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/deen_white"
-        android:text="Init SDK"
-        android:textColor="@color/deen_black" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:visibility="gone"
+            android:id="@+id/initSDKbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gphome"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:text="Init SDK"
+            android:textColor="@color/deen_black" />
 
 
-    <EditText
-        android:visibility="gone"
-        android:id="@+id/phone_number"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/deen_white"
-        android:hint="Phone number"
-        android:inputType="text"
-        android:text="8801942247803"
-        android:textAlignment="center"
-        android:textColor="@color/deen_black" />
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/deen_white"
+            android:hint="Phone number"
+            android:inputType="text"
+            android:text="8801942247803"
+            android:textAlignment="center"
+            android:textColor="@color/deen_black" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:visibility="gone"

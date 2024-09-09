@@ -14,7 +14,6 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/banner"
-            android:src="@drawable/deen_bg_prayer_learning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"

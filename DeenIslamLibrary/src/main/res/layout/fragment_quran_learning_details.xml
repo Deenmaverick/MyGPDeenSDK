@@ -395,7 +395,6 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/space_8"
                 app:layout_constraintDimensionRatio="h,16:12"
-                android:src="@drawable/deen_bg_quran_class_cert_lock"
                 android:scaleType="fitCenter"
                 app:layout_constraintTop_toBottomOf="@+id/isCourseDoneTxt"
                 app:layout_constraintStart_toStartOf="parent"

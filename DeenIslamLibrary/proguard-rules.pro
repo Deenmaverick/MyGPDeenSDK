@@ -27,7 +27,21 @@
 # You can comment this out if you're not interested in stack traces.
 
 # Keep all Room database, entities, DAO, and migration classes
+#-keep class com.deenislamic.sdk.views.gphome.* { *; }
+#-keep class com.deenislamic.sdk.views.main.MainActivityDeenSDK { *; }
 
+
+#-keep class com.deenislamic.sdk.views.allah99names.Allah99NamesFragment {
+   # public <init>(...);
+   # public android.view.View onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle);
+    #public void onViewCreated(android.view.View, android.os.Bundle);
+ #}
+
+ #-keep class com.deenislamic.sdk.views.dashboard.DashboardFakeFragment {
+    # public <init>(...);
+    # public android.view.View onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle);
+    # public void onViewCreated(android.view.View, android.os.Bundle);
+ #}
 #-keep class com.deenislamic.sdk.views.allah99names.* { *; }
 #-keep class com.deenislamic.sdk.views.compass.* { *; }
 #-keep class com.deenislamic.sdk.views.dailydua.* { *; }
@@ -61,5 +75,65 @@
 #-keep class com.deenislamic.sdk.views.webview.* { *; }
 #-keep class com.deenislamic.sdk.views.youtubevideo.* { *; }
 #-keep class com.deenislamic.sdk.views.zakat.* { *; }
+
+
+#Main
+-keep class com.deenislamic.sdk.views.main.MainActivityDeenSDK { *; }
+
+#GP Home
+
+-keep class com.deenislamic.sdk.views.gphome.GPHome { *; }
+
+
+
+# Dasboard
+-keep class com.deenislamic.sdk.views.dashboard.** {
+    public <init>(...);
+    public android.view.View onCreateView(...);
+    public void onViewCreated(android.view.View, android.os.Bundle);
+}
+-dontwarn com.deenislamic.sdk.views.dashboard.**
+-assumenosideeffects class com.deenislamic.sdk.views.dashboard.** {
+    *;
+}
+
+# Quran
+-keep class com.deenislamic.sdk.views.quran.QuranFragment {
+    public <init>(...);
+    public android.view.View onCreateView(...);
+    public void onViewCreated(android.view.View, android.os.Bundle);
+}
+-dontwarn com.deenislamic.sdk.views.quran.QuranFragment
+-assumenosideeffects class com.deenislamic.sdk.views.quran.QuranFragment {
+    *;
+}
+
+-keep class com.deenislamic.sdk.views.base.BaseFragment { *; }
+-keep class com.deenislamic.sdk.views.base.BaseRegularFragment { *; }
+
+# Blank Fragment
+-keep class com.deenislamic.sdk.views.start.BlankFragment { *; }
+
+-keep class com.deenislamic.sdk.views.base.BaseRegularFragment {
+    public *;
+}
+
+# Keep all lifecycle methods in fragments
+-keep class androidx.fragment.app.Fragment {
+    public void onAttach(android.content.Context);
+    public void onCreate(android.os.Bundle);
+    public  onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle);
+    public void onViewCreated(android.view.View, android.os.Bundle);
+    public void onActivityCreated(android.os.Bundle);
+    public void onDestroyView();
+    public void onDetach();
+}
+
+
+-keepattributes *Annotation*
+
+-keep @androidx.annotation.Keep class * { *; }
+-printmapping mapping.txt
+
 
 

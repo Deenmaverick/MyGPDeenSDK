@@ -6,7 +6,7 @@ import android.os.Build
 import androidx.appcompat.view.ContextThemeWrapper
 import java.util.Locale
 
-object LocaleUtil {
+internal object LocaleUtil {
 
     fun createLocaleContext(context: Context, locale: Locale): Context {
         val config = Configuration(context.resources.configuration)

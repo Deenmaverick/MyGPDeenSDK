@@ -25,6 +25,7 @@ import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.dp
 import com.deenislamic.sdk.utils.get9DigitRandom
+import com.deenislamic.sdk.utils.singleton.UserTracking
 import com.deenislamic.sdk.utils.tryCatch
 import com.deenislamic.sdk.viewmodels.Allah99NameViewModel
 import com.deenislamic.sdk.views.base.BaseRegularFragment
@@ -104,6 +105,16 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
                     trackingID = getTrackingID()
                 )
             }
+
+
+           /* UserTracking.track(
+                lifecycleScope = lifecycleScope,
+                userTrackViewModel = userTrackViewModel,
+                language = getLanguage(),
+                trackingID = getTrackingID(),
+                "asmaul_husna"
+            )*/
+
         }
 
 
@@ -233,6 +244,14 @@ internal class Allah99NamesFragment : BaseRegularFragment(), Allah99NameCallback
                     trackingID = getTrackingID()
                 )
             }
+
+           /* UserTracking.track(
+                lifecycleScope = lifecycleScope,
+                userTrackViewModel = userTrackViewModel,
+                language = getLanguage(),
+                trackingID = getTrackingID(),
+                "asmaul_husna"
+            )*/
         }
 
         tryCatch { super.onBackPress() }

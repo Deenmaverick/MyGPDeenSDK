@@ -45,7 +45,7 @@ internal class DashboardFakeFragment : BaseRegularFragment(),otherFagmentActionC
         actionbar = mainview.findViewById(R.id.actionbar)
         _viewPager = mainview.findViewById(R.id.viewPager)
 
-        setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,localContext.getString(R.string.ibadah),false,actionbar)
+        //setupActionForOtherFragment(R.drawable.ic_menu,0,this@DashboardFakeFragment,localContext.getString(R.string.ibadah),false,actionbar)
         btnBack = actionbar.findViewById(R.id.btnBack)
         btnBack.show()
 

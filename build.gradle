@@ -50,6 +50,10 @@ allprojects {
             dirs("libs")
         }*/
 
+        flatDir {
+            dirs 'libs'  // Replace with the correct path if your libs folder is elsewhere
+        }
+
         google()
         maven { url 'https://jitpack.io' }
         jcenter()

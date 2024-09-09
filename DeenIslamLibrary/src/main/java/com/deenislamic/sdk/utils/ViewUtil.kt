@@ -185,7 +185,7 @@ fun getFileExtension(fileName: String): String {
 }
 
 
-fun Context.getLocalContext(): Context {
+internal fun Context.getLocalContext(): Context {
 
     //val localContext: Context = LocaleUtil.createLocaleContext(this, Locale("bn"))
     val localContext: Context = if (DeenSDKCore.GetDeenLanguage() == "en") {
