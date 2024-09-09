@@ -114,25 +114,59 @@
 # Blank Fragment
 -keep class com.deenislamic.sdk.views.start.BlankFragment { *; }
 
--keep class com.deenislamic.sdk.views.base.BaseRegularFragment {
-    public *;
-}
-
-# Keep all lifecycle methods in fragments
--keep class androidx.fragment.app.Fragment {
-    public void onAttach(android.content.Context);
-    public void onCreate(android.os.Bundle);
-    public  onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle);
-    public void onViewCreated(android.view.View, android.os.Bundle);
-    public void onActivityCreated(android.os.Bundle);
-    public void onDestroyView();
-    public void onDetach();
-}
-
-
 -keepattributes *Annotation*
 
 -keep @androidx.annotation.Keep class * { *; }
+-keep class android.view.ContextThemeWrapper { *; }
+-keep class com.deenislamic.sdk.utils.LocaleUtil { *; }
+# Keep all activities, fragments, and Context-related methods
+-keep class android.content.Context { *; }
+-keepclassmembers class android.content.Context {
+    *** getResources();
+    *** getApplicationContext();
+}
+
+# Keep LayoutInflater methods to prevent ProGuard from stripping them
+-keep class android.view.LayoutInflater {
+    *;
+}
+
+# Prevent ProGuard from stripping out Context-related methods
+-keep class android.content.Context {
+    *;
+}
+
+# Keep the Fragment lifecycle methods intact
+-keep class * extends androidx.fragment.app.Fragment {
+    <methods>;
+}
+
+
+# Keep all cloneInContext methods and any usage of ContextThemeWrapper
+-keep class android.view.LayoutInflater {
+    public android.view.LayoutInflater cloneInContext(android.content.Context);
+}
+
+-keep class android.content.ContextWrapper {
+    *;
+}
+
+
+
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+  public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+  public static void checkNotNull(java.lang.Object);
+  public static void checkNotNull(java.lang.Object, java.lang.String);
+  public static void checkNotNullExpressionValue(java.lang.Object, java.lang.String);
+  public static void checkNotNullParameter(java.lang.Object, java.lang.String);
+  public static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+  public static void throwUninitializedPropertyAccessException(java.lang.String);
+}
+
 -printmapping mapping.txt
 
 

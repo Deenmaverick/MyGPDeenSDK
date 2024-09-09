@@ -20,6 +20,7 @@ internal object LocaleUtil {
             context
         }.let { localizedContext ->
             ContextThemeWrapper(localizedContext, context.theme)
+
         }
     }
 }

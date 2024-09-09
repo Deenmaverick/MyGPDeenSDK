@@ -69,13 +69,17 @@ internal abstract class BaseRegularFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         localContext = if (DeenSDKCore.GetDeenLanguage() == "en") {
             LocaleUtil.createLocaleContext(requireContext(), Locale("en"))
         } else {
             LocaleUtil.createLocaleContext(requireContext(), Locale("bn"))
         }
 
-       val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
+        Log.e("BaseRegFrag","First $localContext")
+
+        val themedContext = ContextThemeWrapper(localContext, R.style.DeenSDKTheme) // Replace with your theme
 
         localInflater = layoutInflater.cloneInContext(themedContext)
 

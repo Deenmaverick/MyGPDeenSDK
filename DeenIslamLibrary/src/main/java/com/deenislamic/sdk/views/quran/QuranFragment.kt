@@ -2,6 +2,7 @@ package com.deenislamic.sdk.views.quran
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,9 @@ internal class QuranFragment : BaseRegularFragment(), MaterialButtonHorizontalLi
         savedInstanceState: Bundle?
     ): View? {
 
-        val mainview = localInflater.inflate(R.layout.fragment_quran,container,false)
+        Log.e("BaseRegFrag","Second")
+
+        val mainview = layoutInflater.inflate(R.layout.fragment_quran,container,false)
 
         // init view
         actionbar = mainview.findViewById(R.id.actionbar)
