@@ -76,37 +76,42 @@
 #-keep class com.deenislamic.sdk.views.youtubevideo.* { *; }
 #-keep class com.deenislamic.sdk.views.zakat.* { *; }
 
-
 #Main
 -keep class com.deenislamic.sdk.views.main.MainActivityDeenSDK { *; }
 
 #GP Home
-
 -keep class com.deenislamic.sdk.views.gphome.GPHome { *; }
 
-
-
-# Dasboard
--keep class com.deenislamic.sdk.views.dashboard.** {
+# Keep all classes extending BaseFragment with all members and lifecycle methods
+-keep class * extends com.deenislamic.sdk.views.base.BaseFragment {
     public <init>(...);
     public android.view.View onCreateView(...);
     public void onViewCreated(android.view.View, android.os.Bundle);
-}
--dontwarn com.deenislamic.sdk.views.dashboard.**
--assumenosideeffects class com.deenislamic.sdk.views.dashboard.** {
-    *;
+    public void onCreate(android.os.Bundle);
+    public void onResume();
+    public void onPause();
+    public void onDestroy();
+    public void onActivityCreated(android.os.Bundle);
+    public void onStart();
+    public void onStop();
 }
 
-# Quran
--keep class com.deenislamic.sdk.views.quran.QuranFragment {
+# Keep all classes extending BaseRegularFragment with all members and lifecycle methods
+-keep class * extends com.deenislamic.sdk.views.base.BaseRegularFragment {
     public <init>(...);
     public android.view.View onCreateView(...);
     public void onViewCreated(android.view.View, android.os.Bundle);
+    public void onCreate(android.os.Bundle);
+    public void onResume();
+    public void onPause();
+    public void onDestroy();
+    public void onActivityCreated(android.os.Bundle);
+    public void onStart();
+    public void onStop();
 }
--dontwarn com.deenislamic.sdk.views.quran.QuranFragment
--assumenosideeffects class com.deenislamic.sdk.views.quran.QuranFragment {
-    *;
-}
+
+-dontwarn com.deenislamic.sdk.views.base.BaseFragment
+-dontwarn com.deenislamic.sdk.views.base.BaseRegularFragment
 
 -keep class com.deenislamic.sdk.views.base.BaseFragment { *; }
 -keep class com.deenislamic.sdk.views.base.BaseRegularFragment { *; }
@@ -114,21 +119,11 @@
 # Blank Fragment
 -keep class com.deenislamic.sdk.views.start.BlankFragment { *; }
 
-
-
--assumenosideeffects class kotlin.jvm.internal.Intrinsics {
-  public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
-  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String);
-  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
-  public static void checkNotNull(java.lang.Object);
-  public static void checkNotNull(java.lang.Object, java.lang.String);
-  public static void checkNotNullExpressionValue(java.lang.Object, java.lang.String);
-  public static void checkNotNullParameter(java.lang.Object, java.lang.String);
-  public static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
-  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String);
-  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
-  public static void throwUninitializedPropertyAccessException(java.lang.String);
-}
+-keep class androidx.* {*;}
+-keep class com.google.android.* {*;}
+-keep class androidx.core.app.CoreComponentFactory { *; }
+-keep class android.content.Context.*{*;}
+-keep class android.content.Intent.*{*;}
 
 -printmapping mapping.txt
 
