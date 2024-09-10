@@ -180,7 +180,7 @@ object DeenSDKCore {
             )
 
             token = authenticateRepository.authDeen(getmsisdn).toString().apply {
-                Log.e("authSDK", e.toString())
+                Log.e("authSDK", this)
                 try {
                     val decoded = JWTdecode(this)
                     msisdn = decoded.payload.name

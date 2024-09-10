@@ -110,7 +110,7 @@ internal class AuthenticateRepository(
                                 authenticateService?.userTrack(requestBody)
                             }
 
-
+                            Log.e("AUTH_DATA",Gson().toJson(it))
                             return it.JWT
                         }
                         else
@@ -129,6 +129,8 @@ internal class AuthenticateRepository(
     {
 
         val response =  login(msisdn)
+
+        Log.e("AUTHRes",Gson().toJson(response))
 
         val data = userPrefDao?.select()
 
