@@ -1,33 +1,10 @@
 <resources>
     <string name="app_name">Deen</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="oboarding_next">Next</string>
-    <string name="onboarding_arabic_lang">العربية</string>
-    <string name="oboarding_bangla_lang">বাংলা</string>
-    <string name="oboarding_location_txt">Location: Off</string>
-    <string name="onboarding_location_hint">Turn on location to get accurate information</string>
-    <string name="onboarding_location_titile">Location</string>
-    <string name="onboarding_language_title">Language (ভাষা)</string>
-    <string name="onboarding_language_select_hint">Select preferred language</string>
-    <string name="english">English</string>
     <string name="bangla">বাংলা</string>
-    <string name="arabic">العربية</string>
     <string name="select_location_option_name_onboarding">Select location</string>
-    <string name="favorite_features_title">Favorite Features</string>
-    <string name="onboarding_fav_menu_hint">Choose the favorite feature</string>
-    <string name="login_welcome_txt">Welcome to \n<b>Deen Islam</b></string>
-    <string name="mobile_number">Mobile number</string>
-    <string name="password">Password</string>
-    <string name="sign_in">Sign in</string>
-    <string name="remember">Remember</string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="create_an_account">Create an account</string>
-    <string name="privacy_policy_txt_login"><![CDATA[T&C • Privacy policy]]></string>
-    <string name="assalamu_alaikum">Assalamu Alaikum</string>
-    <string name="sign_in_to_your_account">Sign in to your account</string>
     <string name="ok_cap">OK</string>
     <string name="default_image">default_image</string>
-    <string name="enter_country_name">Enter country name</string>
     <string name="more">More</string>
     <string name="prayer_times">Prayer Times</string>
     <string name="nearest_mosque">Nearest Mosque</string>
@@ -51,13 +28,6 @@
     <string name="search">Search</string>
 
     <!--Counting-->
-    <string name="count1">01</string>
-    <string name="count2">02</string>
-    <string name="count3">03</string>
-    <string name="count4">04</string>
-    <string name="count5">05</string>
-    <string name="count6">06</string>
-    <string name="count7">07</string>
 
     <!--Zakat Calculator Nisab-->
     <string name="zakat_calculator_nisab_step1">Enter the Value of Nisab in your local currency. According to Sharia Law, Nisab is the minimum amount a person possesses for over a year in order to be obliged to pay Zakah. You can calculate nisab in terms of either Gold or Silver value. For Silver, the standard nisab is 21 ounces of silver (612.36 grams) or its equivalent in cash. For Gold, the standard nisab is 3 ounces of gold (87.48 grams) or its cash equivalent. (Note: check the value of gold and silver in your local currency)</string>
@@ -67,13 +37,6 @@
     <string name="zakat_calculator_nisab_step5">After completion of the steps above, a summary appears which tells you whether you are eligible to pay Zakat and, if you are, the zakat that you have to pay appears. The payable zakat is 2.5% of your overall possessions. You will also have the option to Save the summary to keep a record.</string>
 
     <string name="zakah_home_faq1_title">What is Zakat?</string>
-    <string name="zakah_home_faq1_content"></string>
-    <string name="zakah_home_faq2_title">What is Nisab?</string>
-    <string name="zakah_home_faq2_content"></string>
-    <string name="zakah_home_faq3_title">What are the conditions for Zakat?</string>
-    <string name="zakah_home_faq3_content"></string>
-    <string name="zakah_home_faq4_title">Zakat distribution sector</string>
-    <string name="zakah_home_faq4_content"></string>
     <string name="languageTxt">Language</string>
     <string name="setting_language_txt">English</string>
 
@@ -90,16 +53,13 @@
     <string name="today_s">Today\'s</string>
     <string name="zakat">Zakat</string>
     <string name="saved">Saved</string>
-    <string name="learn_about_zakat">Learn about Zakat</string>
     <string name="new_calculation">New Calculation</string>
     <string name="total_assets">Total assets</string>
     <string name="zakat_payable">Zakat Payable</string>
-    <string name="pay_zakat">Pay Zakat</string>
     <string name="nisab">Nisab</string>
     <string name="property">Property</string>
     <string name="liabilities">Liabilities</string>
     <string name="summery">Summery</string>
-    <string name="choose_nisab">Choose Nisab</string>
     <string name="gold">Gold</string>
     <string name="silver">Silver</string>
     <string name="bangladeshi_taka_bdt">Bangladeshi Taka (BDT)</string>
@@ -113,13 +73,7 @@
     <string name="debts_amp_liabilities"><![CDATA[Debts & Liabilities]]></string>
     <string name="payable_zakat_2_5">Payable Zakat (2.5%)</string>
     <string name="save_the_calculation">Save the Calculation</string>
-    <string name="donate_zakat">Donate Zakat</string>
-    <string name="target">TARGET</string>
-    <string name="tasbeeh_today_s">TODAY\'S:</string>
-    <string name="tasbeeh_total">TOTAL:</string>
-    <string name="none">None</string>
     <string name="recent_counts">Recent counts</string>
-    <string name="no_recent_count_available">No recent count available</string>
     <string name="the_distance_from_kaaba_is_unknown">The distance from Kaaba is unknown</string>
     <string name="calibrate_your_phone">Calibrate your phone</string>
     <string name="tilt_and_move_your_phone_3_times_like_this">Tilt and move your phone 3 times like this:</string>
@@ -137,21 +91,15 @@
     <string name="auto_scroll">Auto Scroll</string>
     <string name="auto_play_next">Auto Play Next</string>
     <string name="recitation">Recitation</string>
-    <string name="abdulbaset_abdulsamad">AbdulBaset AbdulSamad</string>
     <string name="font_size">Font Size</string>
     <string name="font__a">A-</string>
     <string name="font_a">A+</string>
     <string name="arabic_font">Arabic Font</string>
     <string name="transliteration">Transliteration</string>
-    <string name="translation_font_size">Translation Font Size</string>
     <string name="default_txt">Default</string>
-    <string name="translation_by">Translation by</string>
-    <string name="translation_language">Translation Language</string>
     <string name="monthly_calendar">Monthly Calendar</string>
-    <string name="uthmanic_script_hafs_regular">Uthmanic Script HAFS Regular</string>
     <string name="select_surah">Select Surah</string>
     <string name="select_juz_para">Select Juz (Para)</string>
-    <string name="search_surah">Search surah</string>
     <string name="other_prayers">Other Prayers</string>
     <string name="forbidden_time">Forbidden Time</string>
     <string name="prayer_calendar">Prayer Calendar</string>
@@ -205,9 +153,7 @@
     <string name="in_app_notification">In-App Notification</string>
     <string name="notification_sound">Notification Sound</string>
     <string name="sunrise">Sunrise</string>
-    <string name="tahajjud">Tahajjud</string>
     <string name="suhoor">Suhoor</string>
-    <string name="ishraq">Ishraq</string>
     <string name="iftaar">Iftaar</string>
     <string name="prayer_notification_title">Notification - %1$s</string>
     <string name="do_you_want_to_delete_the_count">Do you want to delete the count?</string>
@@ -228,18 +174,14 @@
     <string name="hadith_collection_adapter_total">%1$s Hadith</string>
     <string name="islamic_name_home_title">Find the Islamic names for Muslim babies</string>
     <string name="muslim_boys_names">Boys Names</string>
-    <string name="view_names">Names</string>
     <string name="muslim_girls_names">Girls Names</string>
     <string name="names">Names</string>
-    <string name="view_muslim_girls_names">View Muslim Girls Names</string>
-    <string name="view_muslim_boys_names">View Boys Names</string>
     <string name="see_all">See all</string>
     <string name="read_the_full_hadith">Read the full Hadith</string>
     <string name="calculate_zakat">Calculate Zakat</string>
     <string name="count_tasbeeh">Count Tasbeeh</string>
     <string name="read_the_full_surah">Read the full Surah</string>
     <string name="hadith_chapter_available_count">%1$s to %2$s</string>
-    <string name="mishari_rashid_al_afasy">Mishari Rashid al-`Afasy</string>
     <string name="hadith_preview_pos">Hadith-%1$s</string>
     <string name="setting">Setting</string>
     <string name="terms_of_use">Terms of use</string>
@@ -255,8 +197,6 @@
     <string name="failed_to_set_prayer_track">Failed to set prayer track</string>
     <string name="failed_to_remove_favorite_item">Failed to remove favorite item</string>
     <string name="favorite_list_updated_successful">Favorite list updated successful</string>
-    <string name="favorite_item_updated_successful">Favorite item updated successful</string>
-    <string name="failed_to_add_favorite_name">Failed to add favorite name</string>
     <string name="pt_notification_update_txt">Notification setting updated for %1$s prayer</string>
     <string name="pt_notification_expire_txt">%1$s prayer alarm was expired for selected date time</string>
     <string name="notification_setting_update_failed">Notification setting update failed!</string>
@@ -307,7 +247,6 @@
     <string name="payment_has_been_cancelled">Payment has been cancelled</string>
     <string name="choose_a_payment_method">Choose a payment method</string>
     <string name="i_agree_to_the_payment">I agree to the payment </string>
-    <string name="telco_payment">Telco Payment</string>
     <string name="bkash">bKash</string>
     <string name="debit_credit_card">Card Payment</string>
     <string name="payincAmount">Payment %1$s BDT</string>
@@ -363,7 +302,6 @@
     <string name="answer">Answer:</string>
     <string name="masail_answer_fixed_hint">Your friends and loved ones may have the same question, share the answer for the sake of Allah and participate in charity.</string>
     <string name="answered">Answered</string>
-    <string name="yearago">%1$s year%2$s ago</string>
     <string name="continue_read_normal">Continue reading</string>
     <string name="islami_masail">Islami Masail</string>
     <string name="all_questions">All Questions</string>
@@ -406,10 +344,7 @@
     <string name="want_to_download">Want to download?</string>
     <string name="quran_offline_download_hint">You can download Holy Quran Surahs offline. In this case, your additional data charges will be applicable. With this offline Quran download, you can listen to the recitation of the Holy Quran without the internet, Insha\'Allah!</string>
     <string name="indopak">IndoPak</string>
-    <string name="al_majeed">Al-Majeed</string>
-    <string name="demo_almajeed">"بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ "</string>
     <string name="demo_indopakTxt">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ ۟</string>
-    <string name="demoUthamaniTxt">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢</string>
     <string name="ramadan_remaining">Ramadan is left</string>
     <string name="my_downloads">My Downloads</string>
     <string name="my_favorites">My Favorites</string>
@@ -422,11 +357,7 @@
     <string name="t_amp_c_privacy_policy"><![CDATA[T&C • Privacy policy]]></string>
     <string name="select_a_plan">Select a plan</string>
     <string name="subscription">Subscription</string>
-    <string name="dailyPlanSubText">৳২.৬৭ • দৈনিক (অটো-রিনিউয়াল)</string>
-    <string name="weeklyPlanSubText">৳৭.৩৩ • প্রতি সপ্তাহে (অটো-রিনিউয়াল)</string>
-    <string name="monthlyPlanSubText">৳২০.০০ • প্রতি মাসে (অটো-রিনিউয়াল)</string>
     <string name="subStartBtnText">বিসমিল্লাহ, %1$s প্যাকেজ চালু করুন</string>
-    <string name="monthly_subscription">মাসিক প্যাকেজ</string>
     <string name="renew_plan">পুনরায় রিনিউ করুন</string>
     <string name="subs_info_txt">পরবর্তী চার্জ হবে %1$s</string>
     <string name="you_cancelled_the_subscription">আপনি প্যাকেজ রিনিউ বাতিল করেছেন</string>
@@ -449,18 +380,8 @@
     <string name="scholars">Scholars</string>
     <string name="boyan_video">Boyan Video</string>
     <string name="belief_in_allah">Belief in Allah</string>
-    <string name="ad_free_experience">Ad Free Experience</string>
-    <string name="no_ads_while_using_the_app">No ads while using the app</string>
-    <string name="offline_quran">Offline Quran</string>
-    <string name="listen_quran_offline">Listen Quran offline</string>
-    <string name="my_favorite">My Favorite</string>
-    <string name="access_all_your_favorites_in_one_place">Access all your favorites in one place</string>
-    <string name="check_out_the_exclusive_islamic_podcast">Check out the exclusive Islamic podcast</string>
-    <string name="tracker">Tracker</string>
-    <string name="premium_feature_ramadan_info">Track Ramadan</string>
     <string name="ramadan_dialog_important_note">* The start date of Ramadan may vary based on the moon.</string>
     <string name="prepare_ramadan_txt">Prepare for Ramadan</string>
-    <string name="direction">Direction</string>
     <string name="dua_amol">Dua Amol</string>
     <string name="do_you_want_to_cancel_the_subscription">Do you want to cancel the subscription?</string>
     <string name="yes">Yes</string>
@@ -479,11 +400,6 @@
     <string name="visit">Visit</string>
     <string name="online_haat">Online Haat</string>
     <string name="sunset">Sunset</string>
-    <string name="start_the_journey">Start the journey</string>
-    <string name="makkah_masjid_al_haram">Makkah - Masjid al-Haram</string>
-    <string name="hajj_map_start_details">The Hajj journey starts from Masjid Al-Haram and ends at Mina</string>
-    <string name="hajj_map">Hajj Map</string>
-    <string name="storage_permission_is_required_to_save_photo">Storage permission is required to save photos.</string>
     <string name="dua">Dua</string>
     <string name="prayer_calendar_footer_info">**Showing monthly calendar based on Islamic Foundation of Bangladesh.</string>
     <string name="unable_to_share_try_again">Unable to share. Try again</string>
@@ -591,7 +507,6 @@
     <string name="namaz_time_board">Namaz Time Board</string>
     <string name="new_btn_txt">New</string>
     <string name="prayer_track_success_txt">%1$s prayer completed. Stay blessed.</string>
-    <string name="new_icon_count">%1$s new</string>
     <string name="track_only_current_month_s_namaz">Track only current month Namaz</string>
     <string name="waktNotStartedToast">%1$s time has not started yet</string>
     <string name="prayerTrackToast">Alhamdulillah you have prayed %1$s.</string>
@@ -601,7 +516,6 @@
     <string name="app_name_deen">Deen</string>
     <string name="taka">Taka</string>
     <string name="donation">Donation</string>
-    <string name="donation_plan">Donation Plan</string>
     <string name="donate_any_amount">Donate any amount</string>
     <string name="enter_amount_money">Enter amount</string>
     <string name="donate">Donate</string>

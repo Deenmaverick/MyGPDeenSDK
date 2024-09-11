@@ -6,11 +6,6 @@
         <item name="android:color">@color/deen_txt_black</item>
     </style>
 
-    <style name="DeenTextAppearance.font40" parent="">
-        <item name="android:textSize">40sp</item>
-        <item name="android:color">@color/deen_txt_black</item>
-    </style>
-
     <style name="DeenTextAppearance.font48" parent="">
         <item name="android:textSize">48sp</item>
         <item name="android:color">@color/deen_txt_black</item>
@@ -53,19 +48,9 @@
         <item name="materialThemeOverlay">@style/DeenThemeOverlay.App.Switch</item>
     </style>-->
 
-    <style name="DeenThemeOverlay.App.Switch" parent="">
-        <item name="colorPrimary">@color/deen_primary</item><!--
-        <item name="colorSurfaceVariant">@color/deen_gray</item>-->
-    </style>
-
- <!--   <style name="DeenWidget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+    <!--   <style name="DeenWidget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
         <item name="materialThemeOverlay">@style/DeenThemeOverlay.App.RadioButton</item>
     </style>-->
-
-    <style name="DeenThemeOverlay.App.RadioButton" parent="">
-        <item name="colorOnSurface">@color/deen_white</item>
-        <item name="colorPrimary">@color/deen_white</item>
-    </style>
 
     <!--Material dialog without round corner-->
 
@@ -77,14 +62,6 @@
         <item name="cornerSize">@dimen/space_8</item>
     </style>
 
-    <style name="DeenApp.Nav.Indicator" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="android:color">@color/deen_card_bg</item>
-    </style>
-
-    <style name="DeenTasbeen.Nav.Indicator" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="android:color">@color/deen_txt_ash</item>
-    </style>
-
     <style name="DeenShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>
     </style>
@@ -92,11 +69,6 @@
     <style name="deen_tasbeeh_nav_fav">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
-    </style>
-
-    <style name="DeenRadioButtonNormal" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/deen_gray</item>
-        <item name="colorControlActivated">@color/deen_primary</item>
     </style>
 
     <declare-styleable name="DeenAspectRatioImageView">

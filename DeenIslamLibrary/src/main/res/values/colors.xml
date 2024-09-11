@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="deen_purple_200">#FFBB86FC</color>
-    <color name="deen_purple_500">#FF6200EE</color>
-    <color name="deen_purple_700">#FF3700B3</color>
     <color name="deen_teal_200">#FF03DAC5</color>
     <color name="deen_teal_700">#FF018786</color>
     <color name="deen_black">#FF000000</color>
@@ -28,8 +25,6 @@
     <color name="deen_txt_orange">#F5922F</color>
     <color name="deen_txt_gray">#656565</color>
     <color name="deen_brand_teal">#4B878B</color>
-    <color name="deen_stroke_card">#4EABE0</color>
-    <color name="deen_stroke_card1">#F99941</color>
     <color name="deen_brand_error">#E65645</color>
     <color name="deen_menu_bg">#EBEBEB</color>
     <color name="deen_button_tertiary">#A3DE7C</color>
@@ -38,10 +33,6 @@
     <color name="deen_backgroundAlt">#E2D5B5</color>
     <color name="deen_white_50">#80FFFFFF</color>
     <color name="deen_gray_secondary">#333333</color>
-    <color name="deen_red">#f90303</color>
-    <color name="deen_blue">#1650e4</color>
-    <color name="deen_green">#10e430</color>
-    <color name="deen_accent">#b117dc</color>
     <color name="deen_dark_bg_60">#991F1F1F</color>
     <color name="deen_black_33">#54000000</color>
     <color name="deen_video_player_overlay">#66000000</color>
@@ -65,7 +56,6 @@
     <color name="deen_gp_prayer_isharaq">#CD8F36</color>
     <color name="deen_gp_prayer_asr">#AE7624</color>
     <color name="deen_gp_prayer_maghrib">#967070</color>
-    <color name="deen_gp_prayer_green">#288D52</color>
     <color name="deen_gp_prayer_isha">#5770CB</color>
     <color name="deen_gp_blue_alt">#0D71CE</color>
 </resources>
