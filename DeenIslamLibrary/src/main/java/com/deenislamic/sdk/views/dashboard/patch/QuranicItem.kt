@@ -18,6 +18,7 @@ import com.deenislamic.sdk.utils.applyArabicFontTextView
 import com.deenislamic.sdk.utils.fixArabicComma
 import com.deenislamic.sdk.utils.hide
 import com.deenislamic.sdk.utils.imageLoad
+import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.show
 import com.deenislamic.sdk.utils.visible
 import com.google.android.material.button.MaterialButton
@@ -66,13 +67,8 @@ internal class QuranicItem(private val itemView: View) {
 
             icon?.show()
 
-            icon?.let {
-                it.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        it.context,
-                        R.drawable.ic_menu_quran
-                    )
-                )
+            icon?.apply {
+                imageLoad(url = BASE_CONTENT_URL_SGP + data.FeatureLogo, placeholder_1_1 = true)
             }
 
             itemTitle?.show()
@@ -139,13 +135,8 @@ internal class QuranicItem(private val itemView: View) {
 
             icon?.show()
 
-            icon?.let {
-                it.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        it.context,
-                        R.drawable.ic_menu_hadith
-                    )
-                )
+            icon?.apply {
+                imageLoad(url = BASE_CONTENT_URL_SGP + data.FeatureLogo, placeholder_1_1 = true)
             }
 
             itemTitle?.show()
@@ -204,13 +195,9 @@ internal class QuranicItem(private val itemView: View) {
 
             icon?.show()
 
-            icon?.let {
-                it.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        it.context,
-                        R.drawable.ic_menu_zakat
-                    )
-                )
+            icon?.apply {
+                imageLoad(url = BASE_CONTENT_URL_SGP + data.FeatureLogo, placeholder_1_1 = true)
+
             }
 
             itemTitle?.show()
@@ -243,13 +230,8 @@ internal class QuranicItem(private val itemView: View) {
 
             icon?.show()
 
-            icon?.let {
-                it.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        it.context,
-                        R.drawable.ic_menu_digital_tasbeeh
-                    )
-                )
+            icon?.apply {
+                imageLoad(url = BASE_CONTENT_URL_SGP + data.FeatureLogo, placeholder_1_1 = true)
             }
 
             itemTitle?.show()
@@ -282,13 +264,9 @@ internal class QuranicItem(private val itemView: View) {
 
             icon?.show()
 
-            icon?.let {
-                it.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        it.context,
-                        R.drawable.ic_menu_islamic_name
-                    )
-                )
+            icon?.apply {
+                imageLoad(url = BASE_CONTENT_URL_SGP + data.FeatureLogo, placeholder_1_1 = true)
+
             }
 
             itemTitle?.show()

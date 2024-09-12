@@ -3,6 +3,7 @@ package com.deenislamic.sdk.views.adapters.prayerlearning;
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
@@ -10,7 +11,9 @@ import com.deenislamic.sdk.service.callback.common.HorizontalCardListCallback
 import com.deenislamic.sdk.service.network.response.dashboard.Data
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.PATCH_COMMON_CARD_LIST
+import com.deenislamic.sdk.utils.getDrawable
 import com.deenislamic.sdk.utils.getLocalContext
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.views.base.BaseViewHolder
 import com.deenislamic.sdk.views.dashboard.patch.SingleCardList
 import com.deenislamic.sdk.views.prayerlearning.patch.GridMenuList
@@ -79,7 +82,7 @@ internal class PrayerLearningCatAdapter(private val data: List<Data>) : Recycler
 
         private val getPremiumTxt: AppCompatTextView by lazy { itemView.findViewById(R.id.getPremiumTxt) }
         private val premiumSub: AppCompatTextView by lazy { itemView.findViewById(R.id.premiumSub) }
-
+        private val ic_premium: AppCompatImageView by lazy { itemView.findViewById(R.id.ic_premium) }
         private val calcBtn: MaterialButton by lazy { itemView.findViewById(R.id.newCaculateBtn) }
 
 
@@ -106,6 +109,10 @@ internal class PrayerLearningCatAdapter(private val data: List<Data>) : Recycler
 
                         getPremiumTxt.text = getdata.Items.get(0)?.ArabicText
                         premiumSub.text = getdata.Items.get(0)?.Text
+                        ic_premium.imageLoad(
+                            url = "deen_ic_premiumv2.png".getDrawable(),
+                            placeholder_1_1 = true
+                        )
 
                         itemView.setOnClickListener {
                             callback = CallBackProvider.get<HorizontalCardListCallback>()

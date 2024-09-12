@@ -51,7 +51,6 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/deen_ic_ramadan_moon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 

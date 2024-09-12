@@ -27,5 +27,6 @@ fun String.getRCDestination():Int =
         "hajjandumrah" -> R.id.hajjAndUmrahFragment
         "islamic_calendar" -> R.id.islamicCalendarFragmentS
         "islamic_book" -> R.id.islamicBookViewPagerFragment
+        "monthly_prayer_tracker" -> R.id.prayerTrackerFragment
         else -> 0
     }

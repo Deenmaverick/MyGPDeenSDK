@@ -13,7 +13,6 @@
         android:layout_height="24dp"
         android:layout_marginStart="@dimen/space_16"
         app:layout_constraintEnd_toStartOf="@+id/itemTitle"
-        android:src="@drawable/ic_menu_digital_tasbeeh"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

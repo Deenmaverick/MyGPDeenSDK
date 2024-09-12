@@ -1,10 +1,21 @@
 package com.mygpdeen
 
+import android.os.Bundle
+import android.util.Log
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import com.deenislamic.sdk.DeenSDKCallback
+import com.deenislamic.sdk.DeenSDKCore
+import com.deenislamic.sdk.views.gphome.GPHome
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class DeenSDKActivity : AppCompatActivity() {
+class DeenSDKActivity : AppCompatActivity(),DeenSDKCallback {
 
-  /*  private lateinit var  gphome: GPHome
+    private lateinit var  gphome: GPHome
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -190,32 +201,7 @@ class DeenSDKActivity : AppCompatActivity() {
 
     }
 
-        *//* fun testcrash() {
-        val map: Map<String, Boolean>? = mapOf(
-            "key1" to true,
-            "key2" to false
-        )
 
-        val mutableMap: MutableMap<String, Boolean> = map // Error occurs here
-
-        // Attempting to assign a nullable Map to a non-nullable MutableMap
-    }*//*
-
-        fun setLocale(activity: Activity, languageCode: String) {
-            val locale = Locale(languageCode)
-            Locale.setDefault(locale)
-
-            val resources = activity.resources
-            val config = Configuration(resources.configuration)
-            config.setLocale(locale)
-            activity.createConfigurationContext(config)
-
-            resources.updateConfiguration(config, resources.displayMetrics)
-
-            //DeenSDKCore.SetDeenLanguage("en")
-            // Recreate the activity to see the effects
-            activity.recreate()
-        }
 
 
     override fun onDestroy() {
@@ -265,7 +251,6 @@ class DeenSDKActivity : AppCompatActivity() {
         if(this::gphome.isInitialized)
             gphome.changeLanguage(language)
     }
-*/
 }
 
 /*

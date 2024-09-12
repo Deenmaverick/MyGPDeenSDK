@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.deenislamic.sdk.DeenSDKCore
 import com.deenislamic.sdk.R
+import com.deenislamic.sdk.utils.BASE_CONTENT_URL_SGP
 import com.deenislamic.sdk.utils.PRIVACY_URL
 import com.deenislamic.sdk.utils.Subscription
 import com.deenislamic.sdk.utils.TERMS_URL
 import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.getDrawable
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.views.base.BaseRegularFragment
 import com.deenislamic.sdk.views.base.otherFagmentActionCallback
@@ -33,6 +37,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
     private lateinit var premiumSub:AppCompatTextView
     private lateinit var downloadLayout:MaterialCardView
     private lateinit var downloadCount:AppCompatTextView
+    private lateinit var ic_premium:AppCompatImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +59,7 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
         premiumSub = mainview.findViewById(R.id.premiumSub)
         downloadLayout = mainview.findViewById(R.id.downloadLayout)
         downloadCount = mainview.findViewById(R.id.downloadCount)
+        ic_premium = mainview.findViewById(R.id.ic_premium)
 
         setupActionForOtherFragment(
             action1 = R.drawable.deen_ic_close,
@@ -81,6 +87,11 @@ internal class MoreFragment : BaseRegularFragment(),otherFagmentActionCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ic_premium.imageLoad(
+            url = "deen_ic_premiumv2.png".getDrawable(),
+            placeholder_1_1 = true
+        )
 
         loadPage()
         /*view.postDelayed({

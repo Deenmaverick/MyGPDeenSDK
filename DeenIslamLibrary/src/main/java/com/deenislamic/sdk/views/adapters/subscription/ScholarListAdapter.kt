@@ -37,8 +37,7 @@ internal class ScholarListAdapter(private val scholars: List<Scholar>) : Recycle
 
             ivProfile.imageLoad(
                     url = BASE_CONTENT_URL_SGP+getdata.ImageUrl,
-                    placeholder_1_1 = true,
-                    custom_placeholder_1_1 = R.drawable.deen_ic_winner_first
+                    placeholder_1_1 = true
                 )
 
             tvName.text = getdata.Name

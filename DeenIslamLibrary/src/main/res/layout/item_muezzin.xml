@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/DeenShapeAppearanceOverlay.App.CornerSize50Percent"
-        app:srcCompat="@drawable/item_azan_default" />
+         />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"

@@ -26,7 +26,9 @@ import com.deenislamic.sdk.service.repository.PaymentRepository
 import com.deenislamic.sdk.utils.LoadingButton
 import com.deenislamic.sdk.utils.TERMS_URL
 import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.getDrawable
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
@@ -127,7 +129,10 @@ internal class PaymentListFragment : BaseRegularFragment() {
         cardPayIcMethod.load(R.drawable.deen_ic_card_payment)
         cardPayTitle.text = localContext.getString(R.string.debit_credit_card)
 
-        nagadIcMethod.load(R.drawable.deen_ic_nagad_payment)
+        nagadIcMethod.imageLoad(
+            url = "deen_ic_nagad_payment.webp".getDrawable(),
+            placeholder_1_1 = true
+        )
         nagadPayTitle.text = localContext.getString(R.string.nagad)
 
 

@@ -14,7 +14,6 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         app:layout_constraintEnd_toStartOf="@+id/itemTitle"
-        android:src="@drawable/ic_menu_quran"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/itemTitle"
         app:layout_constraintBottom_toBottomOf="@+id/itemTitle"/>

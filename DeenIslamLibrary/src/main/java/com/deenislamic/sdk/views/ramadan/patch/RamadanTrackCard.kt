@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.callback.RamadanCallback
@@ -11,6 +12,8 @@ import com.deenislamic.sdk.service.network.response.ramadan.FastTracker
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.dayNameLocale
 import com.deenislamic.sdk.utils.dp
+import com.deenislamic.sdk.utils.getDrawable
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.monthNameLocale
 import com.deenislamic.sdk.utils.numberLocale
 import com.google.android.material.card.MaterialCardView
@@ -28,6 +31,7 @@ internal class RamadanTrackCard(itemView: View, private val fastTracker: FastTra
     private val ramadan_complete_txt:AppCompatTextView = itemView.findViewById(R.id.ramadan_complete_txt)
     private val suhoorCardview:MaterialCardView = itemView.findViewById(R.id.suhoorCardview)
     private val iftarCardview:MaterialCardView = itemView.findViewById(R.id.iftarCardview)
+    private val ramadan_moon:AppCompatImageView = itemView.findViewById(R.id.ramadan_moon)
     private var callback = CallBackProvider.get<RamadanCallback>()
     private var isFasting = false
     private var fastCountBak = 0
@@ -44,7 +48,9 @@ internal class RamadanTrackCard(itemView: View, private val fastTracker: FastTra
         fastingProgress.progress = fastTracker.totalTracked
         fastCountBak = fastTracker.totalTracked
         ramadan_complete_txt.text = "${fastTracker.totalTracked}/${fastTracker.totalDays}".numberLocale()
-
+        ramadan_moon.imageLoad(
+            url = "deen_ic_ramadan_moon.png".getDrawable()
+        )
         isFasting = fastingCheck.isChecked
 
         fastingCheck.setOnClickListener {

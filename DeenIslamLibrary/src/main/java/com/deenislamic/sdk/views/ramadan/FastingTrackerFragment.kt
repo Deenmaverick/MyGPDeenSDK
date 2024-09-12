@@ -24,7 +24,9 @@ import com.deenislamic.sdk.service.repository.RamadanRepository
 import com.deenislamic.sdk.utils.CallBackProvider
 import com.deenislamic.sdk.utils.Subscription
 import com.deenislamic.sdk.utils.dayNameLocale
+import com.deenislamic.sdk.utils.getDrawable
 import com.deenislamic.sdk.utils.hide
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.monthNameLocale
 import com.deenislamic.sdk.utils.numberLocale
 import com.deenislamic.sdk.utils.show
@@ -57,6 +59,7 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
     private lateinit var yesBtn:MaterialButton
     private lateinit var noBtn:MaterialButton
     private lateinit var trackingCard:MaterialCardView
+    private lateinit var ramadan_moon:AppCompatImageView
 
     private var isFasting = false
     private lateinit var viewmodel: RamadanViewModel
@@ -105,6 +108,7 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
         yesBtn = mainview.findViewById(R.id.yesBtn)
         noBtn = mainview.findViewById(R.id.noBtn)
         trackingCard = mainview.findViewById(R.id.trackingCard)
+        ramadan_moon = mainview.findViewById(R.id.ramadan_moon)
 
         setupActionForOtherFragment(
             action1 = 0,
@@ -126,6 +130,9 @@ internal class FastingTrackerFragment : BaseRegularFragment(),RamadanCallback {
         super.onViewCreated(view, savedInstanceState)
         setupBackPressCallback(this)
 
+        ramadan_moon.imageLoad(
+            url = "deen_ic_ramadan_moon.png".getDrawable()
+        )
      /*   if (!isDetached) {
             view.postDelayed({
                 loadpage()

@@ -55,14 +55,7 @@ internal class DailyDua(private val view: View, private val data: Data) {
         }
 
 
-        icon?.let {
-
-            it.setImageDrawable(
-                AppCompatResources.getDrawable(
-                    it.context,
-                    R.drawable.ic_menu_dua
-                )
-            )
+        icon?.apply {
 
             titile?.text = data.Title
         }

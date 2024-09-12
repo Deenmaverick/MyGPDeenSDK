@@ -14,6 +14,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.deenislamic.sdk.R
 import com.deenislamic.sdk.service.models.prayerlearning.Rakat
+import com.deenislamic.sdk.utils.getDrawable
+import com.deenislamic.sdk.utils.imageLoad
 import com.deenislamic.sdk.utils.load
 import com.deenislamic.sdk.utils.shareView
 import com.deenislamic.sdk.views.adapters.prayerlearning.PrayerRakatAdapter
@@ -145,17 +147,35 @@ internal class PrayerRakatFragment : BaseRegularFragment(), otherFagmentActionCa
         ishaRakaIcon = ishaLayout.findViewById(R.id.icon)
 
         // Load image for fajrRakaIcon
-        fajrRakaIcon.load(R.drawable.deen_ic_pl_fajr)
+        fajrRakaIcon.imageLoad(
+            url = "deen_ic_pl_fajr.webp".getDrawable(),
+            placeholder_1_1 = true
+        )
 
-        dhuhrRakaIcon.load(R.drawable.deen_ic_pl_duhr)
+        dhuhrRakaIcon.imageLoad(
+            url = "deen_ic_pl_duhr.webp".getDrawable(),
+            placeholder_1_1 = true
+        )
 
-        jummaRakaIcon.load(R.drawable.deen_ic_pl_jummah)
+        jummaRakaIcon.imageLoad(
+            url = "deen_ic_pl_jummah.webp".getDrawable(),
+            placeholder_1_1 = true
+        )
 
-        asrRakaIcon.load(R.drawable.deen_ic_pl_asr)
+        asrRakaIcon.imageLoad(
+            url = "deen_ic_pl_asr.webp".getDrawable(),
+            placeholder_1_1 = true
+        )
 
-        maghribRakaIcon.load(R.drawable.deen_ic_pl_maghrib)
+        maghribRakaIcon.imageLoad(
+            url = "deen_ic_pl_maghrib.png".getDrawable(),
+            placeholder_1_1 = true
+        )
 
-        ishaRakaIcon.load(R.drawable.deen_ic_pl_isha)
+        ishaRakaIcon.imageLoad(
+            url = "deen_ic_pl_isha.webp".getDrawable(),
+            placeholder_1_1 = true
+        )
 
 
 
